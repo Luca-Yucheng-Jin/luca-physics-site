@@ -263,7 +263,7 @@ def parse_chain(chain, vertices, label_idx_by_chain):
     #          anchor.x + (i - anchor_idx) * dx; all on anchor.y.
     #   3. If no anchor: fall through to per-chain row counter — chain_y
     #      drops by 1 for each new chain so chains don't overlap.
-    DX, DY = 1.6, 1.4
+    DX, DY = 2.2, 1.6
     anchor_idx = -1
     for i, (full, base, label, existed) in enumerate(chain_entries):
         if existed:
@@ -551,18 +551,43 @@ def emit_tikz(vertices, edges):
             lines.append(f"  \\node ({v.name}) at ({v.x:.2f},{v.y:.2f}) {{${label}$}};")
         else:
             lines.append(f"  \\node ({v.name}) at ({v.x:.2f},{v.y:.2f}) {{}};")
-    # edges
+    # edges. For gluon/photon between two vertices that are co-linear on a
+    # row used by other edges, bend the line up so the wavy/dotted glyph
+    # doesn't overlap the straight fermion line below it.
     for a, style, b in edges:
         opts, lab, below, mom = style_to_tikz(style)
+        kind = _edge_kind(style)
+        bend = ""
+        if kind in ("photon", "gluon"):
+            va = vertices.get(a.split(".", 1)[0])
+            vb = vertices.get(b.split(".", 1)[0])
+            if va and vb and abs(va.y - vb.y) < 0.05:
+                # endpoints share a row; arc the boson over the top
+                bend = "bend left=45"
         node_part = ""
         if lab:
             anchor = "below" if below else "above"
             node_part = f" node[{anchor}, midway, font=\\footnotesize] {{${lab}$}}"
         elif mom:
             node_part = f" node[above, midway, font=\\footnotesize] {{${mom}$}}"
-        if opts:
-            lines.append(f"  \\draw[{opts}] ({a}) --{node_part} ({b});")
+        joined_opts = ", ".join(o for o in (opts, bend) if o)
+        path_op = "to" if bend else "--"
+        if joined_opts:
+            lines.append(f"  \\draw[{joined_opts}] ({a}) {path_op}{node_part} ({b});")
         else:
-            lines.append(f"  \\draw ({a}) --{node_part} ({b});")
+            lines.append(f"  \\draw ({a}) {path_op}{node_part} ({b});")
     lines.append("\\end{tikzpicture}")
     return "\n".join(lines)
+
+
+def _edge_kind(style):
+    """Just the kind classification used by emit_tikz; mirrors style_to_tikz."""
+    s = style.lower()
+    if "anti fermion" in s or "anti-fermion" in s: return "anti fermion"
+    if "charged scalar" in s: return "charged scalar"
+    if "fermion" in s: return "fermion"
+    if "gluon" in s: return "gluon"
+    if "photon" in s or "boson" in s: return "photon"
+    if "scalar" in s: return "scalar"
+    if "ghost" in s: return "ghost"
+    return "plain"

@@ -95,7 +95,7 @@ window.MathJax = {
 \begin{tikzpicture}[every node/.style={font=\small}]
   \node (a) at (0.00,0.00) {};
   \node (b) at (1.60,0.00) {};
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- node[above, midway, font=\footnotesize] {$p$} (b);
+  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt, bend left=45] (a) to node[above, midway, font=\footnotesize] {$p$} (b);
 \end{tikzpicture}
 </script></figure>
 
@@ -110,7 +110,7 @@ window.MathJax = {
 \begin{tikzpicture}[every node/.style={font=\small}]
   \node (a) at (0.00,0.00) {};
   \node (b) at (1.60,0.00) {};
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- node[above, midway, font=\footnotesize] {$p$} (b);
+  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt, bend left=45] (a) to node[above, midway, font=\footnotesize] {$p$} (b);
 \end{tikzpicture}
 </script></figure>
 
@@ -140,7 +140,7 @@ window.MathJax = {
 \begin{tikzpicture}[every node/.style={font=\small}]
   \node (a) at (0.00,0.00) {};
   \node (b) at (1.60,0.00) {};
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- (b);
+  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt, bend left=45] (a) to (b);
 \end{tikzpicture}
 </script></figure>
 
@@ -153,7 +153,7 @@ window.MathJax = {
 \begin{tikzpicture}[every node/.style={font=\small}]
   \node (a) at (0.00,0.00) {};
   \node (b) at (1.60,0.00) {};
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (b) -- (a);
+  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt, bend left=45] (b) to (a);
 \end{tikzpicture}
 </script></figure>
 
@@ -264,7 +264,7 @@ Note, unlike scalar QED, there is no derivative, and thus no factor of momentum.
   \node (b) at (-1.60,0.00) {};
   \node (c) at (-3.00,1.00) {};
   \node (d) at (-3.00,-1.00) {};
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- (b);
+  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt, bend left=45] (a) to (b);
   \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (d) -- (b);
   \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (b) -- (c);
 \end{tikzpicture}
@@ -281,7 +281,7 @@ Note, unlike scalar QED, there is no derivative, and thus no factor of momentum.
   \node (b) at (1.60,0.00) {};
   \node (c) at (3.00,1.00) {};
   \node (d) at (3.00,-1.00) {};
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- (b);
+  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt, bend left=45] (a) to (b);
   \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (b) -- (c);
   \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (b) -- (d);
 \end{tikzpicture}
@@ -328,10 +328,10 @@ If we tie the ends of the diagram together, we would get a loop. Thus, we must r
   \node (b) at (1.60,0.00) {};
   \node (c) at (3.20,0.00) {};
   \node (d) at (4.80,0.00) {};
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- node[above, midway, font=\footnotesize] {$q$} (b);
+  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt, bend left=45] (a) to node[above, midway, font=\footnotesize] {$q$} (b);
   \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (b) -- node[above, midway, font=\footnotesize] {$k$} (c);
   \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (c) -- node[above, midway, font=\footnotesize] {$k+q$} (b);
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (c) -- node[above, midway, font=\footnotesize] {$q$} (d);
+  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt, bend left=45] (c) to node[above, midway, font=\footnotesize] {$q$} (d);
 \end{tikzpicture}
 </script></figure>
 
@@ -425,10 +425,10 @@ In the above, we have assumed the $t$-channel to be positive, but we could also 
   \node (b) at (1.60,0.00) {};
   \node (c) at (3.20,0.00) {};
   \node (d) at (4.80,0.00) {};
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- (b);
+  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt, bend left=45] (a) to (b);
   \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (b) -- (c);
   \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (c) -- (b);
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (c) -- (d);
+  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt, bend left=45] (c) to (d);
 \end{tikzpicture}
 </script></figure>
 
@@ -493,11 +493,11 @@ Such method can be trivially applied to traces with more $\gamma$-matrices.</p>
 \usetikzlibrary{decorations.markings,arrows.meta}
 \begin{tikzpicture}[every node/.style={font=\small}]
   \node (i1) at (0.00,0.00) {$e^{+}$};
-  \node (a) at (1.60,0.00) {};
-  \node (i2) at (3.20,0.00) {$e^{-}$};
-  \node (b) at (1.60,-1.40) {};
-  \node (f1) at (0.00,-1.40) {$\mu^{-}$};
-  \node (f2) at (3.20,-1.40) {$\mu^{+}$};
+  \node (a) at (2.20,0.00) {};
+  \node (i2) at (4.40,0.00) {$e^{-}$};
+  \node (b) at (2.20,-1.60) {};
+  \node (f1) at (0.00,-1.60) {$\mu^{-}$};
+  \node (f2) at (4.40,-1.60) {$\mu^{+}$};
   \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (i1) -- (a);
   \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (a) -- (i2);
   \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- node[above, midway, font=\footnotesize] {$k$} (b);
@@ -649,11 +649,11 @@ where $p = \abs{\vec{p}_i} = \abs{\vec{p}_f}$ is the magnitude of the incoming e
 \usetikzlibrary{decorations.markings,arrows.meta}
 \begin{tikzpicture}[every node/.style={font=\small}]
   \node (i1) at (0.00,0.00) {$e^{-}$};
-  \node (a) at (1.60,0.00) {};
-  \node (f1) at (3.20,0.00) {$e^{-}$};
-  \node (b) at (1.60,-1.40) {};
-  \node (f2) at (0.00,-1.40) {$p^+$};
-  \node (i2) at (3.20,-1.40) {$p^+$};
+  \node (a) at (2.20,0.00) {};
+  \node (f1) at (4.40,0.00) {$e^{-}$};
+  \node (b) at (2.20,-1.60) {};
+  \node (f2) at (0.00,-1.60) {$p^+$};
+  \node (i2) at (4.40,-1.60) {$p^+$};
   \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (i1) -- (a);
   \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (a) -- (f1);
   \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- node[above, midway, font=\footnotesize] {$k$} (b);

@@ -520,8 +520,8 @@ We can read off the Feynman rules from the Lagrangian. The complex scalar propag
 \usetikzlibrary{decorations.markings,arrows.meta}
 \begin{tikzpicture}[every node/.style={font=\small}]
   \node (a) at (0.00,0.00) {};
-  \node (b) at (1.60,0.00) {};
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- node[above, midway, font=\footnotesize] {$p$} (b);
+  \node (b) at (2.20,0.00) {};
+  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt, bend left=45] (a) to node[above, midway, font=\footnotesize] {$p$} (b);
 \end{tikzpicture}
 </script></figure>
 
@@ -543,7 +543,7 @@ it always has one derivative on both $\phi$ and $\phi^*$. Each $p^\mu$ comes wit
   \node (f2) at (3.00,-1.00) {};
   \node (w0) at (4.40,0.00) {};
   \node (w) at (6.00,0.00) {};
-  \node (f1_a) at (3.20,0.00) {};
+  \node (f1_a) at (4.40,0.00) {};
   \draw (i) -- node[above, midway, font=\footnotesize] {$p_1$} (a);
   \draw (a) -- node[above, midway, font=\footnotesize] {$p_2$} (f1_a);
   \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (f1_a) -- (f2);
@@ -576,17 +576,17 @@ it always has one derivative on both $\phi$ and $\phi^*$. Each $p^\mu$ comes wit
 <figure class="tikz-figure"><script type="text/tikz">
 \usetikzlibrary{decorations.markings,arrows.meta}
 \begin{tikzpicture}[every node/.style={font=\small}]
-  \node (a) at (1.60,0.00) {};
-  \node (i1) at (0.20,1.00) {};
-  \node (i2) at (0.20,-1.00) {};
-  \node (f) at (3.20,0.00) {};
-  \node (w0) at (4.80,0.00) {};
-  \node (w) at (6.40,0.00) {};
+  \node (a) at (2.20,0.00) {};
+  \node (i1) at (0.80,1.00) {};
+  \node (i2) at (0.80,-1.00) {};
+  \node (f) at (3.80,0.00) {};
+  \node (w0) at (5.40,0.00) {};
+  \node (w) at (7.00,0.00) {};
   \draw (i1) -- (a);
   \draw (i1) -- (a);
   \draw (a) -- (i2);
   \draw (i2) -- (a);
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- (f);
+  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt, bend left=45] (a) to (f);
 \end{tikzpicture}
 </script></figure>
 
@@ -596,17 +596,17 @@ it always has one derivative on both $\phi$ and $\phi^*$. Each $p^\mu$ comes wit
 <figure class="tikz-figure"><script type="text/tikz">
 \usetikzlibrary{decorations.markings,arrows.meta}
 \begin{tikzpicture}[every node/.style={font=\small}]
-  \node (i) at (0.00,-1.40) {};
-  \node (a) at (1.60,-1.40) {};
-  \node (f1) at (3.00,-0.40) {};
-  \node (f2) at (3.00,-2.40) {};
-  \node (w0) at (4.40,-1.40) {};
-  \node (w) at (6.00,-1.40) {};
+  \node (i) at (0.00,-1.60) {};
+  \node (a) at (1.60,-1.60) {};
+  \node (f1) at (3.00,-0.60) {};
+  \node (f2) at (3.00,-2.60) {};
+  \node (w0) at (4.40,-1.60) {};
+  \node (w) at (6.00,-1.60) {};
   \draw (a) -- (f1);
   \draw (a) -- (f1);
   \draw (f2) -- (a);
   \draw (a) -- (f2);
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (i) -- (a);
+  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt, bend left=45] (i) to (a);
 \end{tikzpicture}
 </script></figure>
 
@@ -819,11 +819,11 @@ Since $\mathcal{M}$ is Lorentz-invariant, we must have</p>
 \begin{tikzpicture}[every node/.style={font=\small}]
   \node (a) at (0.00,0.00) {};
   \node (b) at (0.00,0.00) {};
-  \node (c) at (1.60,-1.40) {};
-  \node (d) at (1.60,-1.40) {};
+  \node (c) at (2.20,-1.60) {};
+  \node (d) at (2.20,-1.60) {};
   \node (eq) at (0.00,0.00) {};
-  \node (vertex) at (1.60,0.00) {};
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- node[above, midway, font=\footnotesize] {$q$} (vertex.north);
+  \node (vertex) at (2.20,0.00) {};
+  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt, bend left=45] (a) to node[above, midway, font=\footnotesize] {$q$} (vertex.north);
   \draw[dashed, postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (c) -- node[above, midway, font=\footnotesize] {$p$} (vertex.south west);
   \draw[dashed, postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (vertex.south east) -- node[above, midway, font=\footnotesize] {$p+q$} (d);
 \end{tikzpicture}
@@ -846,7 +846,7 @@ which we can now put this more general form into the above argument.</p>
   \node (d) at (3.00,-1.00) {};
   \node (M1) at (4.40,0.00) {};
   \node (M2) at (6.00,0.00) {};
-  \node (vertex) at (1.60,0.00) {};
+  \node (vertex) at (2.20,0.00) {};
   \draw (a1) -- node[above, midway, font=\footnotesize] {$p_i$} (vertex.west);
   \draw (vertex.north east) -- node[above, midway, font=\footnotesize] {$p_i-q$} (c);
   \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (vertex.south east) -- node[above, midway, font=\footnotesize] {$q$} (d);
@@ -878,11 +878,11 @@ where $\Lambda_\mu$ has to do with the specific way the Lorentz group acts. With
 \begin{tikzpicture}[every node/.style={font=\small}]
   \node (a) at (0.00,0.00) {};
   \node (b) at (0.00,0.00) {};
-  \node (c) at (1.60,-1.40) {};
-  \node (d) at (1.60,-1.40) {};
+  \node (c) at (2.20,-1.60) {};
+  \node (d) at (2.20,-1.60) {};
   \node (eq) at (0.00,0.00) {};
-  \node (vertex) at (1.60,0.00) {};
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- node[above, midway, font=\footnotesize] {$q$} (vertex.north);
+  \node (vertex) at (2.20,0.00) {};
+  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt, bend left=45] (a) to node[above, midway, font=\footnotesize] {$q$} (vertex.north);
   \draw[dashed, postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (c) -- node[above, midway, font=\footnotesize] {$p$} (vertex.south west);
   \draw[dashed, postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (vertex.south east) -- node[above, midway, font=\footnotesize] {$p+q$} (d);
 \end{tikzpicture}

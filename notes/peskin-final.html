@@ -92,11 +92,11 @@ First, let us compute the cross section at tree level. Consider the diagram,</p>
 \usetikzlibrary{decorations.markings,arrows.meta}
 \begin{tikzpicture}[every node/.style={font=\small}]
   \node (i1) at (0.00,0.00) {$e^{+}$};
-  \node (a) at (1.60,0.00) {};
-  \node (i2) at (3.20,0.00) {$e^{-}$};
-  \node (b) at (1.60,-1.40) {};
-  \node (f1) at (0.00,-1.40) {$q$};
-  \node (f2) at (3.20,-1.40) {$\overline{q}$};
+  \node (a) at (2.20,0.00) {};
+  \node (i2) at (4.40,0.00) {$e^{-}$};
+  \node (b) at (2.20,-1.60) {};
+  \node (f1) at (0.00,-1.60) {$q$};
+  \node (f2) at (4.40,-1.60) {$\overline{q}$};
   \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (i1) -- (a);
   \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (a) -- (i2);
   \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- node[above, midway, font=\footnotesize] {$k$} (b);
@@ -140,13 +140,13 @@ Then,
 \usetikzlibrary{decorations.markings,arrows.meta}
 \begin{tikzpicture}[every node/.style={font=\small}]
   \node (i1) at (0.00,0.00) {$e^{-}$};
-  \node (a) at (1.60,0.00) {};
-  \node (i2) at (3.20,0.00) {$e^{+}$};
-  \node (b) at (1.60,-1.40) {};
-  \node (f2) at (-1.60,-1.40) {$\overline{q}$};
-  \node (v2) at (0.00,-1.40) {};
-  \node (v1) at (3.20,-1.40) {};
-  \node (f1) at (4.80,-1.40) {$q$};
+  \node (a) at (2.20,0.00) {};
+  \node (i2) at (4.40,0.00) {$e^{+}$};
+  \node (b) at (2.20,-1.60) {};
+  \node (f2) at (-2.20,-1.60) {$\overline{q}$};
+  \node (v2) at (0.00,-1.60) {};
+  \node (v1) at (4.40,-1.60) {};
+  \node (f1) at (6.60,-1.60) {$q$};
   \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (i1) -- (a);
   \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (a) -- (i2);
   \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- node[above, midway, font=\footnotesize] {$q$} (b);
@@ -154,7 +154,7 @@ Then,
   \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (v2) -- node[above, midway, font=\footnotesize] {$k'$} (b);
   \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (b) -- node[above, midway, font=\footnotesize] {$k$} (v1);
   \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (v1) -- (f1);
-  \draw[loosely dotted, line width=1.4pt, line cap=round] (v1) -- node[above, midway, font=\footnotesize] {$p_3-k$} (v2);
+  \draw[loosely dotted, line width=1.4pt, line cap=round, bend left=45] (v1) to node[above, midway, font=\footnotesize] {$p_3-k$} (v2);
 \end{tikzpicture}
 </script></figure>
 
@@ -300,13 +300,13 @@ Then, the boundary of $x_2$ can be found with simple algebra:
 \usetikzlibrary{decorations.markings,arrows.meta}
 \begin{tikzpicture}[every node/.style={font=\small}]
   \node (i1) at (0.00,0.00) {$e^{+}$};
-  \node (a) at (1.60,0.00) {};
-  \node (i2) at (3.20,0.00) {$e^{-}$};
-  \node (b) at (1.60,-1.40) {};
-  \node (v1) at (3.20,-1.40) {};
-  \node (f1) at (4.80,-1.40) {$q$};
-  \node (f2) at (1.60,-2.80) {$\overline{q}$};
-  \node (g1) at (3.20,-2.80) {$g$};
+  \node (a) at (2.20,0.00) {};
+  \node (i2) at (4.40,0.00) {$e^{-}$};
+  \node (b) at (2.20,-1.60) {};
+  \node (v1) at (4.40,-1.60) {};
+  \node (f1) at (6.60,-1.60) {$q$};
+  \node (f2) at (2.20,-3.20) {$\overline{q}$};
+  \node (g1) at (4.40,-3.20) {$g$};
   \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (i1) -- (a);
   \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (a) -- (i2);
   \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- node[above, midway, font=\footnotesize] {$q$} (b);
@@ -324,13 +324,13 @@ Then, the boundary of $x_2$ can be found with simple algebra:
 \usetikzlibrary{decorations.markings,arrows.meta}
 \begin{tikzpicture}[every node/.style={font=\small}]
   \node (i1) at (0.00,0.00) {$e^{+}$};
-  \node (a) at (1.60,0.00) {};
-  \node (i2) at (3.20,0.00) {$e^{-}$};
-  \node (b) at (1.60,-1.40) {};
-  \node (v2) at (3.20,-1.40) {};
-  \node (f2) at (4.80,-1.40) {$\overline{q}$};
-  \node (f1) at (1.60,-2.80) {$q$};
-  \node (g2) at (3.20,-2.80) {$g$};
+  \node (a) at (2.20,0.00) {};
+  \node (i2) at (4.40,0.00) {$e^{-}$};
+  \node (b) at (2.20,-1.60) {};
+  \node (v2) at (4.40,-1.60) {};
+  \node (f2) at (6.60,-1.60) {$\overline{q}$};
+  \node (f1) at (2.20,-3.20) {$q$};
+  \node (g2) at (4.40,-3.20) {$g$};
   \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (i1) -- (a);
   \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (a) -- (i2);
   \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- node[above, midway, font=\footnotesize] {$q$} (b);

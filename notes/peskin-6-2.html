@@ -81,9 +81,9 @@ window.MathJax = {
 \usetikzlibrary{decorations.markings,arrows.meta}
 \begin{tikzpicture}[every node/.style={font=\small}]
   \node (i1) at (0.00,0.00) {$e^{-}$};
-  \node (a) at (1.60,0.00) {};
-  \node (i2) at (3.20,0.00) {$e^{-}$};
-  \node (b) at (1.60,-1.40) {};
+  \node (a) at (2.20,0.00) {};
+  \node (i2) at (4.40,0.00) {$e^{-}$};
+  \node (b) at (2.20,-1.60) {};
   \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (i1) -- node[above, midway, font=\footnotesize] {$p'$} (a);
   \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (a) -- node[above, midway, font=\footnotesize] {$p$} (i2);
   \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- node[above, midway, font=\footnotesize] {$q$} (b);

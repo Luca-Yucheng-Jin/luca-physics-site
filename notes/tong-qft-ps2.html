@@ -366,10 +366,10 @@ Compute the amplitude for</p>
 <figure class="tikz-figure"><script type="text/tikz">
 \usetikzlibrary{decorations.markings,arrows.meta}
 \begin{tikzpicture}[every node/.style={font=\small}]
-  \node (v) at (1.60,0.00) {};
-  \node (i1) at (0.20,1.00) {$\psi$};
-  \node (i2) at (0.20,-1.00) {$\overline{\psi}$};
-  \node (f1) at (3.20,0.00) {$\phi$};
+  \node (v) at (2.20,0.00) {};
+  \node (i1) at (0.80,1.00) {$\psi$};
+  \node (i2) at (0.80,-1.00) {$\overline{\psi}$};
+  \node (f1) at (3.80,0.00) {$\phi$};
   \draw[dashed, postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (i1) -- (v);
   \draw[dashed, postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (v) -- (i2);
   \draw[dashed] (v) -- (f1);
@@ -385,12 +385,12 @@ Compute the amplitude for</p>
 <figure class="tikz-figure"><script type="text/tikz">
 \usetikzlibrary{decorations.markings,arrows.meta}
 \begin{tikzpicture}[every node/.style={font=\small}]
-  \node (v1) at (1.60,0.00) {};
-  \node (v2) at (3.20,0.00) {};
-  \node (i1) at (0.20,1.00) {$\psi$};
-  \node (i2) at (0.20,-1.00) {$\phi$};
-  \node (f1) at (4.60,1.00) {$\psi$};
-  \node (f2) at (4.60,-1.00) {$\phi$};
+  \node (v1) at (2.20,0.00) {};
+  \node (v2) at (3.80,0.00) {};
+  \node (i1) at (0.80,1.00) {$\psi$};
+  \node (i2) at (0.80,-1.00) {$\phi$};
+  \node (f1) at (5.20,1.00) {$\psi$};
+  \node (f2) at (5.20,-1.00) {$\phi$};
   \draw[dashed, postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (i1) -- (v1);
   \draw[dashed] (i2) -- (v1);
   \draw[dashed, postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (v1) -- node[above, midway, font=\footnotesize] {$q$} (v2);

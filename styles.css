@@ -613,42 +613,35 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
   margin-top: 0.5rem;
 }
 
-/* TikZ figures (rendered by TikZJax). TikZJax sets `position: absolute`
-   inline on each SVG and gives it a small natural pt-based width; we
-   override the position and force a usable rendered size via the figure
-   wrapper. */
+/* TikZ figures rendered by TikZJax. We leave TikZJax's aspect-ratio
+   wrapper alone and use CSS `zoom` (non-standard but works in Chrome,
+   Safari, Firefox) to scale the whole figure including its layout box,
+   so the SVG never escapes the figure border and labels stay visible. */
 .note figure.tikz-figure {
   background: var(--paper);
-  padding: 1rem;
+  padding: 0.7rem 0.9rem;
   border: 1px solid var(--rule);
   border-radius: var(--rad);
   text-align: center;
-  overflow: hidden;
-  /* explicit width for the figure box so the SVG (which is sized at 100%
-     of the box) ends up at this size instead of TikZJax's tiny natural pt. */
-  width: clamp(280px, 36vw, 440px);
-  margin-left: auto;
-  margin-right: auto;
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  margin: 1.4rem auto;
+  overflow: visible;
+  zoom: 1.8;
 }
-/* TikZJax outputs SVGs at their natural pt size and uses an absolute-
-   positioned + padding-bottom-aspect wrapper. Rather than fight that,
-   we leave the wrapper alone and just visually up-scale the SVG with
-   `transform`. The figure's overflow is hidden on the sides but the
-   transform-scaled SVG still fits because we made the figure box wide
-   enough above. */
-.note figure.tikz-figure svg {
-  color: var(--ink);
-  transform: scale(1.8);
-  transform-origin: center center;
+.note figure.tikz-figure svg { color: var(--ink); }
+
+/* Inside an equation row the figure is a flex item; reduce zoom so the
+   row doesn't grow too tall but keep the SVG fully visible. */
+.equation-row figure.tikz-figure {
+  padding: 0.4rem 0.6rem;
+  border-style: dashed;
+  background: transparent;
+  flex: 0 0 auto;
+  zoom: 1.4;
+  margin: 0.4rem;
 }
-/* The transform scales visually but not layout, so the wrapper still has
-   its small natural height. Compensate with figure padding so the bigger
-   diagram has room to live. */
-.note figure.tikz-figure {
-  padding: 1.6rem 1rem 1.4rem;
-}
-.equation-row figure.tikz-figure svg { transform: scale(1.4); }
-.equation-row figure.tikz-figure { padding: 1rem 0.6rem; }
 
 /* Inside an equation row the diagram sits next to math chunks; keep it
    compact so the row doesn't break in awkward places. */
