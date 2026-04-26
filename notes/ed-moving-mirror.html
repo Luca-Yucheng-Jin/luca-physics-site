@@ -33,7 +33,11 @@ window.MathJax = {
       Tr: '\\operatorname{Tr}',
       slashed: ['{\\not{#1}}', 1],
       wick:    ['{\\overline{#1}}', 1],
-      c:       ['{#1}', 1]
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // tensor.sty: \tensor{base}{indices} — rendered as base + indices
+      tensor:  ['{#1{#2}}', 2]
     }
   },
   loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
@@ -92,7 +96,7 @@ moving with speed $v$ in the $x$-direction.</p>
 <p><u><strong>Solution</strong></u> It is clear to see that the electric field of this form has an ingoing part, $f(t_-)$, and an outgoing part, $f(t_+)$. The boundary condition at a perfect conductor is given by 
 \[\hat{\mathbf{x}}\cdot (\mathbf{E}_+- \mathbf{E}_-) = \frac{\sigma}{\varepsilon_0} = 0, \quad \text{and}\quad \hat{\mathbf{x}}\times(\mathbf{E}_+- \mathbf{E}_-) =0.\tag{3}\]
 It is clear to see that (1) satisfies the boundary condition. To find the magnetic field, let's first take the curl of the electric field, which gives
-\[\begin{aligned}\nabla \times \mathbf{E} &= -\hat{\mathbf{y}} \times[\nabla f(t_-) - \nabla f(t_+)] = \frac{\hat{\mathbf{y}}\times \hat{\mathbf{x}}}{c}[\dot{f}(t_-) + \dot{f}(t_+)]= -\frac{\hat{\mathbf{z}}}{c}[\dot{f}(t_-) + \dot{f}(t_+)].\end{aligned}\tag{10}\]
+\[\begin{aligned}\nabla \times \mathbf{E} &amp;= -\hat{\mathbf{y}} \times[\nabla f(t_-) - \nabla f(t_+)] = \frac{\hat{\mathbf{y}}\times \hat{\mathbf{x}}}{c}[\dot{f}(t_-) + \dot{f}(t_+)]= -\frac{\hat{\mathbf{z}}}{c}[\dot{f}(t_-) + \dot{f}(t_+)].\end{aligned}\tag{10}\]
 Hence, the magnetic field is given by
 \[\mathbf{B}(t,\mathbf{x}) = \frac{\hat{\mathbf{z}}}{c} [f(t_-) + f(t_+)].\tag{4}\]</p>
 

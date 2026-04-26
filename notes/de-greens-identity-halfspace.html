@@ -33,7 +33,11 @@ window.MathJax = {
       Tr: '\\operatorname{Tr}',
       slashed: ['{\\not{#1}}', 1],
       wick:    ['{\\overline{#1}}', 1],
-      c:       ['{#1}', 1]
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // tensor.sty: \tensor{base}{indices} — rendered as base + indices
+      tensor:  ['{#1{#2}}', 2]
     }
   },
   loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
@@ -77,17 +81,17 @@ three-dimensional domain $\mathcal{D}$ with boundary $\partial\mathcal{D}$,
 where $\mathbf{n}$ is the outward unit normal to $\partial\mathcal{D}$.</p>
 
 <p>Let $\psi(\mathbf{x})$ satisfy
-\[\nabla^2\psi = \delta(\mathbf{x}-\mathbf{x}_0) \quad \text{in } z>0,\tag{2}\]
+\[\nabla^2\psi = \delta(\mathbf{x}-\mathbf{x}_0) \quad \text{in } z&gt;0,\tag{2}\]
 with
 \[\psi = 0 \text{ on } z=0, \qquad \psi\to 0 \text{ as } |\mathbf{x}|\to\infty,\tag{3}\]
 in Cartesian coordinates $\mathbf{x}=(x,y,z)$. Use the method of images to
 determine $\psi(x,y,z)$.</p>
 
 <p>Now use the identity above to solve the equation
-\[\nabla^2\phi = 0 \quad \text{in } z>0, \qquad \phi\to 0 \text{ as }
+\[\nabla^2\phi = 0 \quad \text{in } z&gt;0, \qquad \phi\to 0 \text{ as }
   |\mathbf{x}|\to\infty,\tag{4}\]
-with $\phi=1$ on $z=0$, $x^2+y^2<1$, while $\phi=0$ on $z=0$,
-$x^2+y^2>1$, in terms of a surface integral. Find the closed-form
+with $\phi=1$ on $z=0$, $x^2+y^2&lt;1$, while $\phi=0$ on $z=0$,
+$x^2+y^2&gt;1$, in terms of a surface integral. Find the closed-form
 solution for $\phi(0,0,z)$.</p>
 
 <p><u><strong>Solution</strong></u></p>
@@ -120,7 +124,7 @@ identity to $\phi$ (harmonic) and $\psi$ ($\nabla^2\psi =
 The boundary has two parts: the plane $z=0$ and a sphere at infinity.
 The sphere at infinity contributes nothing since $\phi,\psi\to 0$. On
 $z=0$, $\psi=0$ so the $\psi\partial\phi/\partial n$ term vanishes. The outward
-normal from $z>0$ at $z=0$ is $\hat{\mathbf{n}}=-\hat{\mathbf{z}}$, so
+normal from $z&gt;0$ at $z=0$ is $\hat{\mathbf{n}}=-\hat{\mathbf{z}}$, so
 $\partial\psi/\partial n = -\partial\psi/\partial z\big|_{z=0}$. Computing (setting
 $x_0=y_0=0$ for $\phi(0,0,z_0)$):
 \[\frac{\partial\psi}{\partial z}\bigg|_{z=0}
@@ -129,18 +133,18 @@ $x_0=y_0=0$ for $\phi(0,0,z_0)$):
     +\frac{z+z_0}{|\mathbf{x}-\bar{\mathbf{x}}_0|^3}
   \right]_{z=0}
   = -\frac{z_0}{2\pi(x^2+y^2+z_0^2)^{3/2}},\tag{8}\]
-so $\partial\psi/\partial n\big|_{z=0} = z_0/2\pi(x^2+y^2+z_0^2)^{3/2} > 0$.
-Since $\phi=1$ on $x^2+y^2<1$ and zero otherwise:
-\[\phi(0,0,z_0) = \int_{x^2+y^2<1,\;z=0}
+so $\partial\psi/\partial n\big|_{z=0} = z_0/2\pi(x^2+y^2+z_0^2)^{3/2} &gt; 0$.
+Since $\phi=1$ on $x^2+y^2&lt;1$ and zero otherwise:
+\[\phi(0,0,z_0) = \int_{x^2+y^2&lt;1,\;z=0}
   \frac{z_0}{2\pi(x^2+y^2+z_0^2)^{3/2}}\,dS.\tag{9}\]</p>
 
 <p>Converting to polar coordinates
 $r^2=x^2+y^2$:
 \[\begin{aligned}\phi(0,0,z_0)
-  &= \int_0^{2\pi}d\theta\int_0^1
+  &amp;= \int_0^{2\pi}d\theta\int_0^1
     \frac{z_0}{2\pi(r^2+z_0^2)^{3/2}}\,r\,dr
    = z_0\int_0^1\frac{r\,dr}{(r^2+z_0^2)^{3/2}} \notag\\
-  &= z_0\left[-\frac{1}{\sqrt{r^2+z_0^2}}\right]_0^1
+  &amp;= z_0\left[-\frac{1}{\sqrt{r^2+z_0^2}}\right]_0^1
    = z_0\!\left(\frac{1}{z_0}-\frac{1}{\sqrt{1+z_0^2}}\right).\end{aligned}\tag{11}\]
 Hence:
 \[\boxed{\phi(0,0,z_0) = 1 - \frac{z_0}{\sqrt{1+z_0^2}}.}\tag{10}\]

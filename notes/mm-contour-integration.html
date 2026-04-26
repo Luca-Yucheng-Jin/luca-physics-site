@@ -33,7 +33,11 @@ window.MathJax = {
       Tr: '\\operatorname{Tr}',
       slashed: ['{\\not{#1}}', 1],
       wick:    ['{\\overline{#1}}', 1],
-      c:       ['{#1}', 1]
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // tensor.sty: \tensor{base}{indices} — rendered as base + indices
+      tensor:  ['{#1{#2}}', 2]
     }
   },
   loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
@@ -74,7 +78,7 @@ window.MathJax = {
   \[z^n (z - a)^{-1} (z - a^{-1})^{-1}\]
   around the unit circle and applying the residue theorem, evaluate
   \[\int_{0}^{2\pi} \frac{\cos n\theta}{1 - 2a\cos\theta + a^2}\, d\theta,\tag{1}\]
-  where $a$ is real, $a > 1$, and $n$ is a non-negative integer.</li>
+  where $a$ is real, $a &gt; 1$, and $n$ is a non-negative integer.</li>
   <li>Obtain the same result using Cauchy’s integral formula instead of the residue theorem.</li>
 </ol>
 

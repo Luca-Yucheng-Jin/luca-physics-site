@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Convolution of $e^{-|x| — Yucheng (Luca) Jin</title>
-<meta name="description" content="Convolution of $e^{-|x|. Source: J. E. Santos.">
+<title>Convolution of $e^{-|x|}$ and Fourier Representation — Yucheng (Luca) Jin</title>
+<meta name="description" content="Convolution of $e^{-|x|}$ and Fourier Representation. Source: J. E. Santos.">
 
 <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
 
@@ -33,7 +33,11 @@ window.MathJax = {
       Tr: '\\operatorname{Tr}',
       slashed: ['{\\not{#1}}', 1],
       wick:    ['{\\overline{#1}}', 1],
-      c:       ['{#1}', 1]
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // tensor.sty: \tensor{base}{indices} — rendered as base + indices
+      tensor:  ['{#1{#2}}', 2]
     }
   },
   loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
@@ -63,14 +67,12 @@ window.MathJax = {
     <a href="../notes.html">Notes</a> &nbsp;·&nbsp; Mathematical Methods · Santos PS3 Q2
   </div>
 
-  <h1 class="note__title">Convolution of $e^{-|x|</h1>
+  <h1 class="note__title">Convolution of $e^{-|x|}$ and Fourier Representation</h1>
   <p class="note__subtitle">Source: J. E. Santos, Cambridge Part IB Complex Methods, Problem Sheet 3, Question 2.</p>
 
   
 
   <article class="note__body">
-<p>$ and Fourier Representation (J. E. Santos Part 1B CM, PS3 Q2)}</p>
-
 <p><strong>2.</strong> Show that the convolution of the function $e^{-|x|}$ with itself
 is given by $f(x) = (1+|x|)e^{-|x|}$. Use the convolution theorem for Fourier
 transforms to show that
@@ -79,21 +81,21 @@ and verify this result by contour integration.</p>
 
 <p><u><strong>Solution</strong></u> The convolution of $g(x) = e^{-|x|}$ is given by 
 \[(g*g)(x) = \int dz\,e^{-|z|}e^{-|x-z|}.\tag{2}\]
-For $x>0$, the convolution becomes
+For $x&gt;0$, the convolution becomes
 \[(g*g)(x) = \int^\infty_xdz\,e^{-z}e^{-(z-x)} + \int^x_0dz\,e^{-z}e^{-(x-z)} + \int^0_{-\infty}dz\,e^ze^{-(x-z)} = (1+x)e^{-x}.\tag{3}\]
-Similarly, for $x<0$, we find
+Similarly, for $x&lt;0$, we find
 \[(g*g)(x) = (1-x)e^x.\tag{4}\]
 Hence, we find
 \[(g*g)(x) = (1+|x|)e^{-|x|}.\tag{5}\]</p>
 
 <p>Using the Fourier transform of $e^{-|x|}$, the convolution can be written as
-\[\begin{aligned}(g*g)(x) &= \frac{1}{\pi^2}\int dk\int dq \int dz\frac{e^{ikz}e^{iq(x-z)}}{(k^2+1)(q^2+1)} \notag\\
-    &= \frac{2}{\pi}\int dk\int dq\frac{e^{iqx}\delta(k-q)}{(k^2+1)(q^2+1)} \notag\\
-    &=\frac{2}{\pi}\int dk\frac{e^{ikx}}{(k^2+1)^2} =f(x).\end{aligned}\tag{7}\]</p>
+\[\begin{aligned}(g*g)(x) &amp;= \frac{1}{\pi^2}\int dk\int dq \int dz\frac{e^{ikz}e^{iq(x-z)}}{(k^2+1)(q^2+1)} \notag\\
+    &amp;= \frac{2}{\pi}\int dk\int dq\frac{e^{iqx}\delta(k-q)}{(k^2+1)(q^2+1)} \notag\\
+    &amp;=\frac{2}{\pi}\int dk\frac{e^{ikx}}{(k^2+1)^2} =f(x).\end{aligned}\tag{7}\]</p>
 
 <p>It is easy to see that the integrand has two poles of order 2 at $k=\pm i$. The corresponding residuals are given by
-\[\begin{aligned}\operatorname{Res}\left(\frac{e^{ikx}}{(k^2+1)^2}, \,k=\pm i\right) = \lim_{k\to \pm i}\frac{d}{dk}\left(\frac{e^{ikx}}{(k\pm i)^2}\right) &= \lim_{k\to \pm i}\frac{ixe^{ikx}(k\pm i) - 2e^{ikx}}{(k \pm i)^3} \notag\\&=\frac{1 \pm x}{4i}e^{\mp x}.\end{aligned}\tag{8}\]
-For $x>0$, we close the contour upward, while for $x<0$ we close the contour downward. By simple algebra, we recover the result
+\[\begin{aligned}\operatorname{Res}\left(\frac{e^{ikx}}{(k^2+1)^2}, \,k=\pm i\right) = \lim_{k\to \pm i}\frac{d}{dk}\left(\frac{e^{ikx}}{(k\pm i)^2}\right) &amp;= \lim_{k\to \pm i}\frac{ixe^{ikx}(k\pm i) - 2e^{ikx}}{(k \pm i)^3} \notag\\&amp;=\frac{1 \pm x}{4i}e^{\mp x}.\end{aligned}\tag{8}\]
+For $x&gt;0$, we close the contour upward, while for $x&lt;0$ we close the contour downward. By simple algebra, we recover the result
 \[(g*g)(x) = (1+|x|)e^{-|x|}.\tag{6}\]</p>
   </article>
 

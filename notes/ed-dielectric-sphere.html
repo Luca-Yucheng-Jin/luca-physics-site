@@ -33,7 +33,11 @@ window.MathJax = {
       Tr: '\\operatorname{Tr}',
       slashed: ['{\\not{#1}}', 1],
       wick:    ['{\\overline{#1}}', 1],
-      c:       ['{#1}', 1]
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // tensor.sty: \tensor{base}{indices} — rendered as base + indices
+      tensor:  ['{#1{#2}}', 2]
     }
   },
   loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
@@ -92,8 +96,8 @@ Since the problem is invariant under rotation about $\mathbf{E}_0$, which we wil
 \[\phi(r,\theta) =  \sum_{l=0}^\infty (A_lr^{l} + B_lr^{-(l+1)})P_l(\cos\theta).\tag{5}\]
 Inside the dielectric, we require regularity at the origin; we set $B_l =0$. Outside the dielectric, since there is a constant electric field at $\mathbf{E}_0 = E_0\cos\theta\hat{\mathbf{z}}$ $r\to\infty $, we take $A_l = -E_0\delta_{l1}$. So the general solution we are looking at is
 \[\phi(r,\theta)  = \begin{cases}
-        \displaystyle\sum_{l=0}^\infty A_lr^lP_l(\cos\theta),&r<a,\\
-        \\\displaystyle\sum_{l=0}^\infty D_lr^{-(l+1)}P_l(\cos\theta) -E_0r\cos\theta,&r>a.
+        \displaystyle\sum_{l=0}^\infty A_lr^lP_l(\cos\theta),&amp;r&lt;a,\\
+        \\\displaystyle\sum_{l=0}^\infty D_lr^{-(l+1)}P_l(\cos\theta) -E_0r\cos\theta,&amp;r&gt;a.
     \end{cases}\tag{6}\]
 The boundary condition at $r=a$ is given by
 \[\hat{\mathbf{r}}\times(\mathbf{E}(a\hat{\mathbf{r}}^+)-\mathbf{E}(a\hat{\mathbf{r}}^-)) = 0,\quad \text{and} \quad \hat{\mathbf{r}}\cdot(\varepsilon_0\mathbf{E}(a\hat{\mathbf{r}}^+)-\varepsilon\mathbf{E}(a\hat{\mathbf{r}}^-)) = 0,\tag{7}\]
@@ -107,8 +111,8 @@ Solving these two, we find
 \[A_l = -\frac{3}{2+\varepsilon_r}E_0 \delta_{l1}\quad\text{and} \quad D_1 = -\frac{1-\varepsilon_r}{2+\varepsilon_r}a^3E_0\delta_{l1}.\tag{11}\]
 Hence, the full potential is
 \[\phi(r,\theta) = \begin{cases}
-        -\dfrac{3}{2+\varepsilon_r}E_0r\cos\theta, & r<a,\\
-        -\dfrac{1-\varepsilon_r}{2+\varepsilon_r}\dfrac{a^3}{r^2}E_0\cos\theta-E_0r\cos\theta, & r>a.
+        -\dfrac{3}{2+\varepsilon_r}E_0r\cos\theta, &amp; r&lt;a,\\
+        -\dfrac{1-\varepsilon_r}{2+\varepsilon_r}\dfrac{a^3}{r^2}E_0\cos\theta-E_0r\cos\theta, &amp; r&gt;a.
     \end{cases}\tag{12}\]</p>
 
 <p>Therefore, the electric field inside the dielectric is

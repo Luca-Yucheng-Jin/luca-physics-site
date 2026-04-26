@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Laplace Transform of $t^{-1/2 — Yucheng (Luca) Jin</title>
-<meta name="description" content="Laplace Transform of $t^{-1/2. Source: J. E. Santos.">
+<title>Laplace Transform of $t^{-1/2}$ and Bromwich Contour — Yucheng (Luca) Jin</title>
+<meta name="description" content="Laplace Transform of $t^{-1/2}$ and Bromwich Contour. Source: J. E. Santos.">
 
 <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
 
@@ -33,7 +33,11 @@ window.MathJax = {
       Tr: '\\operatorname{Tr}',
       slashed: ['{\\not{#1}}', 1],
       wick:    ['{\\overline{#1}}', 1],
-      c:       ['{#1}', 1]
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // tensor.sty: \tensor{base}{indices} — rendered as base + indices
+      tensor:  ['{#1{#2}}', 2]
     }
   },
   loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
@@ -63,14 +67,12 @@ window.MathJax = {
     <a href="../notes.html">Notes</a> &nbsp;·&nbsp; Mathematical Methods · Santos PS3 Q12
   </div>
 
-  <h1 class="note__title">Laplace Transform of $t^{-1/2</h1>
+  <h1 class="note__title">Laplace Transform of $t^{-1/2}$ and Bromwich Contour</h1>
   <p class="note__subtitle">Source: J. E. Santos, Cambridge Part IB Complex Methods, Problem Sheet 3, Question 12.</p>
 
   
 
   <article class="note__body">
-<p>$ and Bromwich Contour (J. E. Santos Part 1B CM, PS3 Q12)}</p>
-
 <p>Using the equality $\int_0^\infty e^{-x^2}\,d x
 = \frac{1}{2}\sqrt{\pi}$, find the Laplace transform of $f(t) = t^{-1/2}$.
 By integrating around a Bromwich keyhole contour, verify the inversion formula

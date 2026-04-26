@@ -33,7 +33,11 @@ window.MathJax = {
       Tr: '\\operatorname{Tr}',
       slashed: ['{\\not{#1}}', 1],
       wick:    ['{\\overline{#1}}', 1],
-      c:       ['{#1}', 1]
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // tensor.sty: \tensor{base}{indices} — rendered as base + indices
+      tensor:  ['{#1{#2}}', 2]
     }
   },
   loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
@@ -69,7 +73,7 @@ window.MathJax = {
   
 
   <article class="note__body">
-<p><strong>Statement.</strong> Let $f(z) = e^{iaz}g(z)$ with $a > 0$. Show that if
+<p><strong>Statement.</strong> Let $f(z) = e^{iaz}g(z)$ with $a &gt; 0$. Show that if
 $g(z)\to 0$ uniformly on the upper half-plane as $|z|\to\infty$, i.e.
 \[\max_{\theta\in[0,\pi]}|g(Re^{i\theta})| \to 0 \quad \text{as } R\to\infty,
     \tag{1}\]
@@ -91,8 +95,8 @@ integral becomes
 Taking the absolute value and using $|e^{i\theta}|=1$ and
 $|e^{iaRe^{i\theta}}| = e^{-aR\sin\theta}$:
 \[\begin{aligned}\left|\int_{\mathcal{C}_R}f(z)\,dz\right|
-    &\leq R\int^\pi_0 |g(Re^{i\theta})|\,e^{-aR\sin\theta}\,d\theta \notag\\
-    &\leq M(R)\cdot R\int^\pi_0 e^{-aR\sin\theta}\,d\theta,\end{aligned}\tag{9}\]
+    &amp;\leq R\int^\pi_0 |g(Re^{i\theta})|\,e^{-aR\sin\theta}\,d\theta \notag\\
+    &amp;\leq M(R)\cdot R\int^\pi_0 e^{-aR\sin\theta}\,d\theta,\end{aligned}\tag{9}\]
 where $M(R)\equiv\max_{\theta\in[0,\pi]}|g(Re^{i\theta})|$. By symmetry of
 $\sin\theta$ about $\theta=\pi/2$:
 \[R\int^\pi_0 e^{-aR\sin\theta}\,d\theta

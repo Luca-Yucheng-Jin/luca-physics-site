@@ -5,3 +5,7 @@
 .claude/settings.local.json
 .vscode/
 .idea/
+
+# Python bytecode (build pipeline)
+__pycache__/
+*.pyc

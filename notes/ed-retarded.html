@@ -33,7 +33,11 @@ window.MathJax = {
       Tr: '\\operatorname{Tr}',
       slashed: ['{\\not{#1}}', 1],
       wick:    ['{\\overline{#1}}', 1],
-      c:       ['{#1}', 1]
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // tensor.sty: \tensor{base}{indices} — rendered as base + indices
+      tensor:  ['{#1{#2}}', 2]
     }
   },
   loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
@@ -93,10 +97,10 @@ in terms of the current density $\mathbf{J}$.</p>
 Setting $\hat{\mathbf{x}} = \mathbf{x}/|\mathbf{x}|$, show that the leading
 terms in the far-field expansion are
 \[\begin{aligned}\mathbf{E}(t,\mathbf{x})
-  &\approx \frac{\mu_0}{4\pi|\mathbf{x}|}\int d^3y
+  &amp;\approx \frac{\mu_0}{4\pi|\mathbf{x}|}\int d^3y
     \left(\hat{\mathbf{x}}c\dot{\rho}(t_{\mathrm{ret}},\mathbf{y})
     - \dot{\mathbf{J}}(t_{\mathrm{ret}},\mathbf{y})\right) \notag\\
-  &= \frac{\mu_0}{4\pi|\mathbf{x}|}\,\hat{\mathbf{x}}\times
+  &amp;= \frac{\mu_0}{4\pi|\mathbf{x}|}\,\hat{\mathbf{x}}\times
     \left(\hat{\mathbf{x}}\times\int d^3y\,
     \dot{\mathbf{J}}(t_{\mathrm{ret}},\mathbf{y})\right),\end{aligned}\tag{24}\]
 where conservation of current, integration by parts, and discarding of a
@@ -142,11 +146,11 @@ and
   + \frac{1}{cR}\dot{J_i}(t_{\mathrm{ret}},\mathbf{y})\right)\tag{14}\]</p>
 
 <p>In the far-field, we have $R\gg 1$ and $|\mathbf{x}|\approx R$, which gives
-\[\begin{aligned}\mathbf{E}(t,\mathbf{x}) &= -\nabla\phi(t,\mathbf{x})-\frac{\partial\mathbf{A}(t,\mathbf{x})}{\partial t}\\
-    &\approx\frac{1}{4\pi\varepsilon_0}\int d^3y\,\hat{\mathbf{x}}
+\[\begin{aligned}\mathbf{E}(t,\mathbf{x}) &amp;= -\nabla\phi(t,\mathbf{x})-\frac{\partial\mathbf{A}(t,\mathbf{x})}{\partial t}\\
+    &amp;\approx\frac{1}{4\pi\varepsilon_0}\int d^3y\,\hat{\mathbf{x}}
   \frac{1}{c|\mathbf{x}|}\dot{\rho}(t_{\mathrm{ret}},\mathbf{y}) - \frac{\mu_0}{4\pi}\int d^3y\,\hat{\mathbf{x}}
   \frac{1}{|\mathbf{x}|}\dot{J_i}(t_{\mathrm{ret}},\mathbf{y})\\
-  &=\frac{\mu_0}{4\pi|\mathbf{x}|}\int d^3y
+  &amp;=\frac{\mu_0}{4\pi|\mathbf{x}|}\int d^3y
     \left(\hat{\mathbf{x}}c\dot{\rho}(t_{\mathrm{ret}},\mathbf{y})
     - \dot{\mathbf{J}}(t_{\mathrm{ret}},\mathbf{y})\right).\end{aligned}\tag{25}\]</p>
 

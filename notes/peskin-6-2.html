@@ -33,7 +33,11 @@ window.MathJax = {
       Tr: '\\operatorname{Tr}',
       slashed: ['{\\not{#1}}', 1],
       wick:    ['{\\overline{#1}}', 1],
-      c:       ['{#1}', 1]
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // tensor.sty: \tensor{base}{indices} — rendered as base + indices
+      tensor:  ['{#1{#2}}', 2]
     }
   },
   loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
@@ -71,14 +75,20 @@ window.MathJax = {
   <article class="note__body">
 <p>Consider the process in which electrons of very high energy scatter from a target. In leading order in $\alpha$, the electron is connected to the target by one photon propagator:</p>
 
-<div class="equation-row"><span class="equation-part">$i\mathcal{M$</span>
+<div class="equation-row"><span class="equation-part">$i\mathcal{M} =$</span>
 
-<figure class="tikz-source"><pre class="tikz-feynman" aria-label="Feynman diagram (LaTeX source)">\begin{tikzpicture}[baseline={(0,-0.85)}]
-    \feynmandiagram [horizontal=a to b] {
-    i1 [particle=\(e^{-}\)] -- [anti fermion, edge label = $p'$] a -- [anti fermion, edge label = $p$] i2 [particle=\(e^{-}\)],
-    a -- [photon, momentum=\(q\)] b [blob],
-    };            
-    \end{tikzpicture}</pre><figcaption>Feynman diagram — rendered from the LaTeX source above.</figcaption></figure>
+<figure class="tikz-figure"><script type="text/tikz">
+\usetikzlibrary{decorations.markings,arrows.meta}
+\begin{tikzpicture}[every node/.style={font=\small}]
+  \node (i1) at (0.00,0.00) {$e^{-}$};
+  \node (a) at (1.60,0.00) {};
+  \node (i2) at (3.20,0.00) {$e^{-}$};
+  \node (b) at (1.60,-1.40) {};
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (i1) -- node[above, midway, font=\footnotesize] {$p'$} (a);
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (a) -- node[above, midway, font=\footnotesize] {$p$} (i2);
+  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- node[above, midway, font=\footnotesize] {$q$} (b);
+\end{tikzpicture}
+</script></figure>
 
 <p><span class="equation-num">(1)</span></div></p>
 
@@ -152,9 +162,9 @@ Thus, we find
 <p>Now, let us evaluate $\bar{u}(p')\vec{\gamma}\cdot\vec{\epsilon_i}u(p)$. With some algebra, one should find
 \[\boxed{
     \begin{aligned}
-        &\bar{u}_\pm(p')\vec{\gamma}\cdot\vec{\epsilon_1}u_\pm(p) = -\frac{E'+E}{\abs{E'-E}}\theta\sqrt{EE'} = C,\\
-        &\bar{u}_\pm(p')\vec{\gamma}\cdot\vec{\epsilon}_2u_\pm(p) = \pm\theta\sqrt{EE'} = D_\pm,\\
-        &\bar{u}_\pm(p')\vec{\gamma}\cdot\vec{\epsilon}_1u_\mp(p) = \bar{u}_\pm(p')\vec{\gamma}\cdot\vec{\epsilon}_2u_\mp(p) = 0.
+        &amp;\bar{u}_\pm(p')\vec{\gamma}\cdot\vec{\epsilon_1}u_\pm(p) = -\frac{E'+E}{\abs{E'-E}}\theta\sqrt{EE'} = C,\\
+        &amp;\bar{u}_\pm(p')\vec{\gamma}\cdot\vec{\epsilon}_2u_\pm(p) = \pm\theta\sqrt{EE'} = D_\pm,\\
+        &amp;\bar{u}_\pm(p')\vec{\gamma}\cdot\vec{\epsilon}_1u_\mp(p) = \bar{u}_\pm(p')\vec{\gamma}\cdot\vec{\epsilon}_2u_\mp(p) = 0.
     \end{aligned}}\tag{16}\]</p>
   </article>
 

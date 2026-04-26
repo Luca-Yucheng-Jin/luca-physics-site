@@ -33,7 +33,11 @@ window.MathJax = {
       Tr: '\\operatorname{Tr}',
       slashed: ['{\\not{#1}}', 1],
       wick:    ['{\\overline{#1}}', 1],
-      c:       ['{#1}', 1]
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // tensor.sty: \tensor{base}{indices} — rendered as base + indices
+      tensor:  ['{#1{#2}}', 2]
     }
   },
   loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
@@ -105,10 +109,10 @@ a sphere of radius $R$ subject to the homogeneous boundary condition at $r=R$:
 <p>In the Fourier domain, we have
 \[-|\mathbf{k}|^2\tilde{G}(\mathbf{k}) = 1.\tag{4}\]
 This implies
-\[\begin{aligned}G(\mathbf{x},0) &= -\int\frac{d^3\mathbf{k}}{(2\pi)^3} \frac{e^{-i\mathbf{k}\cdot\mathbf{x}}}{|\mathbf{k}|^2} \notag\\ 
-    & = -\frac{1}{4\pi^2}\int^\infty_0dk\int^1_{-1}d\cos\theta e^{-ikx\cos\theta} \notag\\
-    &=-\frac{1}{4\pi^2}\int^\infty_0 dk \frac{2\sin kx}{kx}\notag\\
-    &=-\frac{1}{4\pi|\mathbf{x}|},\end{aligned}\tag{11}\]
+\[\begin{aligned}G(\mathbf{x},0) &amp;= -\int\frac{d^3\mathbf{k}}{(2\pi)^3} \frac{e^{-i\mathbf{k}\cdot\mathbf{x}}}{|\mathbf{k}|^2} \notag\\ 
+    &amp; = -\frac{1}{4\pi^2}\int^\infty_0dk\int^1_{-1}d\cos\theta e^{-ikx\cos\theta} \notag\\
+    &amp;=-\frac{1}{4\pi^2}\int^\infty_0 dk \frac{2\sin kx}{kx}\notag\\
+    &amp;=-\frac{1}{4\pi|\mathbf{x}|},\end{aligned}\tag{11}\]
 and hence the more general form
 \[\boxed{G(\mathbf{x},\mathbf{z}) 
     =-\frac{1}{4\pi|\mathbf{x}-\mathbf{z}|}.}\tag{5}\]</p>
@@ -127,11 +131,11 @@ Solving them, we find
 where $\theta$ is the angle between $\hat{\mathbf{r}}$ and $\mathbf{z}$.</p>
 
 <p><strong>a.</strong> 
-\[\begin{aligned}u(r=0,\theta,\phi) &= -\frac{1}{4\pi}\int^\infty_0dr'\,r'^2\int^\pi_{0}d\theta'\sin\theta'\int^{2\pi}_0d\phi'\left(\frac{1}{r'} - \frac{1}{R}\right)\delta(r'-a)\delta(\theta')\delta(\phi') \notag\\&=0.\end{aligned}\tag{12}\]
+\[\begin{aligned}u(r=0,\theta,\phi) &amp;= -\frac{1}{4\pi}\int^\infty_0dr'\,r'^2\int^\pi_{0}d\theta'\sin\theta'\int^{2\pi}_0d\phi'\left(\frac{1}{r'} - \frac{1}{R}\right)\delta(r'-a)\delta(\theta')\delta(\phi') \notag\\&amp;=0.\end{aligned}\tag{12}\]
 This is the Faraday cage effect.</p>
 
 <p><strong>b.</strong> 
-\[\begin{aligned}u(r=0,\theta,\phi) &= -\frac{1}{4\pi}\int^\infty_0dr'\,r'^2\int^\pi_{0}d\theta'\sin\theta'\int^{2\pi}_0d\phi'\left(\frac{1}{r'} - \frac{1}{R}\right)\delta(r'-a)\notag\\&=- a + \frac{a^2}{R}.\end{aligned}\tag{13}\]</p>
+\[\begin{aligned}u(r=0,\theta,\phi) &amp;= -\frac{1}{4\pi}\int^\infty_0dr'\,r'^2\int^\pi_{0}d\theta'\sin\theta'\int^{2\pi}_0d\phi'\left(\frac{1}{r'} - \frac{1}{R}\right)\delta(r'-a)\notag\\&amp;=- a + \frac{a^2}{R}.\end{aligned}\tag{13}\]</p>
   </article>
 
   <hr class="ornament-rule">

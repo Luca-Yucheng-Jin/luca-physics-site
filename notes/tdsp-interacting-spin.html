@@ -33,7 +33,11 @@ window.MathJax = {
       Tr: '\\operatorname{Tr}',
       slashed: ['{\\not{#1}}', 1],
       wick:    ['{\\overline{#1}}', 1],
-      c:       ['{#1}', 1]
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // tensor.sty: \tensor{base}{indices} — rendered as base + indices
+      tensor:  ['{#1{#2}}', 2]
     }
   },
   loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
@@ -75,7 +79,7 @@ the $z$ axis, even in the absence of an external field. At high temperatures,
 the interactions become less important and spins can point in either
 $\pm\hat{z}$ direction. If the heat capacity takes the form
 \[C_V = C_{\max}\!\left(\frac{2T}{T_0}-1\right)
-  \quad\text{for } \frac{T_0}{2} < T < T_0
+  \quad\text{for } \frac{T_0}{2} &lt; T &lt; T_0
   \quad\text{and}\quad C_V = 0 \text{ otherwise},\tag{1}\]
 determine $C_{\max}$.</p>
 

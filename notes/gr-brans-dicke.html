@@ -33,7 +33,11 @@ window.MathJax = {
       Tr: '\\operatorname{Tr}',
       slashed: ['{\\not{#1}}', 1],
       wick:    ['{\\overline{#1}}', 1],
-      c:       ['{#1}', 1]
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // tensor.sty: \tensor{base}{indices} — rendered as base + indices
+      tensor:  ['{#1{#2}}', 2]
     }
   },
   loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
@@ -76,9 +80,12 @@ acts like a dynamical Newton constant. The action is given
 \[S = \frac{1}{16\pi G}\int d^4x\sqrt{-g}\left[R\phi - 
     \frac{\omega}{\phi}g^{\mu\nu}\partial_\mu\phi\partial_\nu\phi\right] + S_M\tag{1}\]
 where $\omega$ is a constant and $S_M$ is the action for matter fields. Derive 
-the resulting Einstein equation and the equation of motion for $\phi$.
-\begin{solution}
-    First, consider the variation of the action with respect to the change $\tensor{g}{^{\mu\nu}} \to \tensor{g}{^{\mu\nu}} + \delta\tensor{g}{^{\mu\nu}}$. The first term is given by
+the resulting Einstein equation and the equation of motion for $\phi$.</p>
+
+<aside class="solution">
+<div class="solution__label">Solution.</div>
+
+<p>First, consider the variation of the action with respect to the change $\tensor{g}{^{\mu\nu}} \to \tensor{g}{^{\mu\nu}} + \delta\tensor{g}{^{\mu\nu}}$. The first term is given by
     \[\delta(\sqrt{-g}R\phi) = \delta(\sqrt{-g})R\phi +\sqrt{-g}\delta R\phi +\sqrt{-g} R\delta\phi.\tag{2}\]
     Let us evaluate this term by term. For the first term, we use the identity 
     \[\ln \det A = \tr \ln A,
@@ -113,16 +120,16 @@ the resulting Einstein equation and the equation of motion for $\phi$.
     Hence, we have
     \[g^{\mu\nu}\delta R_{\mu\nu} = \nabla_\mu X^\mu \quad    \text{with} \quad X^\mu = g^{\nu\sigma} \delta\tensor{\Gamma}{^\mu_{\nu\sigma}} - g^{\mu\nu}\delta\tensor{\Gamma}{^\rho_{\nu\rho}}.\tag{14}\]
     Therefore, the variation of the first term in the Lagrangian is given by
-    \[\begin{aligned}\delta(\sqrt{-g}R\phi) &= -\frac{1}{2}\sqrt{-g}g_{\mu\nu}\delta g^{\mu\nu}R\phi+ \sqrt{-g}\delta g^{\mu\nu}R_{\mu\nu}\phi+\sqrt{-g}\nabla_\mu X^\mu \phi\notag\\ &= \sqrt{-g}(G_{\mu\nu}\phi\delta g^{\mu\nu}+\nabla_\mu( X^\mu \phi) -X^\mu \nabla_\mu\phi).\end{aligned}\tag{27}\]
+    \[\begin{aligned}\delta(\sqrt{-g}R\phi) &amp;= -\frac{1}{2}\sqrt{-g}g_{\mu\nu}\delta g^{\mu\nu}R\phi+ \sqrt{-g}\delta g^{\mu\nu}R_{\mu\nu}\phi+\sqrt{-g}\nabla_\mu X^\mu \phi\notag\\ &amp;= \sqrt{-g}(G_{\mu\nu}\phi\delta g^{\mu\nu}+\nabla_\mu( X^\mu \phi) -X^\mu \nabla_\mu\phi).\end{aligned}\tag{27}\]
     The last term needs a bit more of care, let us plug the variation of the Christoffel symbol:
     \[X^\mu \nabla_\mu \phi = (g^{\nu\sigma} \delta\tensor{\Gamma}{^\mu_{\nu\sigma}} - g^{\mu\nu}\delta\tensor{\Gamma}{^\rho_{\nu\rho}})\nabla_\mu\phi.\tag{15}\]
     Again, we consider the two terms separately; the first gives
-    \[\begin{aligned}g^{\nu\sigma} \delta\tensor{\Gamma}{^\mu_{\nu\sigma}}\nabla_\mu\phi &= \frac{1}{2}g^{\mu\rho}g^{\nu\sigma}(\nabla_\nu\delta g_{\rho\sigma} +\nabla_\sigma\delta g_{\rho\nu} - \nabla_\rho\delta g_{\nu\sigma})\nabla_\mu\phi \notag \\
-        &= \frac{1}{2}(2\nabla^\nu\delta g_{\rho\nu}-\nabla_\rho \delta \tensor{g}{^\nu_\nu})\nabla^\rho \phi\notag\\
-        &=\left(\nabla_\mu\nabla_\nu\phi - \frac{1}{2}\nabla^\rho\nabla_\rho\phi\right)\delta g^{\mu\nu}.\end{aligned}\tag{28}\]
+    \[\begin{aligned}g^{\nu\sigma} \delta\tensor{\Gamma}{^\mu_{\nu\sigma}}\nabla_\mu\phi &amp;= \frac{1}{2}g^{\mu\rho}g^{\nu\sigma}(\nabla_\nu\delta g_{\rho\sigma} +\nabla_\sigma\delta g_{\rho\nu} - \nabla_\rho\delta g_{\nu\sigma})\nabla_\mu\phi \notag \\
+        &amp;= \frac{1}{2}(2\nabla^\nu\delta g_{\rho\nu}-\nabla_\rho \delta \tensor{g}{^\nu_\nu})\nabla^\rho \phi\notag\\
+        &amp;=\left(\nabla_\mu\nabla_\nu\phi - \frac{1}{2}\nabla^\rho\nabla_\rho\phi\right)\delta g^{\mu\nu}.\end{aligned}\tag{28}\]
     And the second term:
-    \[\begin{aligned}g^{\mu\nu}\delta\tensor{\Gamma}{^\rho_{\nu\rho}}\nabla_\mu\nu &= \frac{1}{2}g^{\mu\nu}g^{\rho\sigma}(\nabla_\nu\delta g_{\sigma\rho} +\nabla_\rho\delta g_{\sigma\nu} - \nabla_\sigma\delta g_{\nu\rho})\nabla_\mu\phi\notag\\
-        &=\frac{1}{2}(\nabla^\rho\nabla_\rho\phi) g_{\mu\nu}\delta g^{\mu\nu}.\end{aligned}\tag{29}\]
+    \[\begin{aligned}g^{\mu\nu}\delta\tensor{\Gamma}{^\rho_{\nu\rho}}\nabla_\mu\nu &amp;= \frac{1}{2}g^{\mu\nu}g^{\rho\sigma}(\nabla_\nu\delta g_{\sigma\rho} +\nabla_\rho\delta g_{\sigma\nu} - \nabla_\sigma\delta g_{\nu\rho})\nabla_\mu\phi\notag\\
+        &amp;=\frac{1}{2}(\nabla^\rho\nabla_\rho\phi) g_{\mu\nu}\delta g^{\mu\nu}.\end{aligned}\tag{29}\]
     Now, putting everything together, we find
     \[\delta(\sqrt{-g}R\phi) = (G_{\mu\nu}\phi-\nabla_\mu\nabla_\nu \phi + g_{\mu\nu}\nabla^\rho\nabla_\rho\phi)\delta g^{\mu\nu} + \sqrt{-g}\nabla_\mu X^\mu.\tag{16}\]
     The last term is a total derivative, which vanishes in the action by the divergence theorem.</p>
@@ -151,7 +158,7 @@ the resulting Einstein equation and the equation of motion for $\phi$.
     \[\boxed{
         R - \frac{\omega}{\phi^2}g^{\mu\nu}\partial_\mu\phi\partial_\nu\phi +\frac{2\omega}{\phi}g^{\mu\nu}\nabla_\mu\nabla_\nu\phi = 0.}\tag{26}\]</p>
 
-<p>\end{solution}</p>
+</aside>
   </article>
 
   <hr class="ornament-rule">

@@ -33,7 +33,11 @@ window.MathJax = {
       Tr: '\\operatorname{Tr}',
       slashed: ['{\\not{#1}}', 1],
       wick:    ['{\\overline{#1}}', 1],
-      c:       ['{#1}', 1]
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // tensor.sty: \tensor{base}{indices} — rendered as base + indices
+      tensor:  ['{#1{#2}}', 2]
     }
   },
   loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
@@ -103,7 +107,7 @@ $\mathcal{E}=-1$ iff</p>
 <p><u><strong>Solution</strong></u></p>
 
 <p>The Hamiltonian can be written as
-\[\begin{aligned}H &= -\frac{\hbar^2}{2m}\frac{d^2}{dx^2} -\frac{\hbar^2}{m}\operatorname{sech}^2 x\\ &= \frac{\hbar^2}{2m}\left(-\frac{d^2}{dx^2}-2+\tanh^2x\right)\\ &= \frac{\hbar^2}{2m}\left(\frac{d}{dx}+\tanh x\right)\left(-\frac{d}{dx}+\tanh x\right)-\frac{\hbar^2}{m}.\end{aligned}\tag{12}\]
+\[\begin{aligned}H &amp;= -\frac{\hbar^2}{2m}\frac{d^2}{dx^2} -\frac{\hbar^2}{m}\operatorname{sech}^2 x\\ &amp;= \frac{\hbar^2}{2m}\left(-\frac{d^2}{dx^2}-2+\tanh^2x\right)\\ &amp;= \frac{\hbar^2}{2m}\left(\frac{d}{dx}+\tanh x\right)\left(-\frac{d}{dx}+\tanh x\right)-\frac{\hbar^2}{m}.\end{aligned}\tag{12}\]
 Thus, we have
 \[\hat{A}^\dagger \hat{A}\chi = (\mathcal{E}+1)\chi.\tag{6}\]
 Rather trivially following from integrating by part, we find

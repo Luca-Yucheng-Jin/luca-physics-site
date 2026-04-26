@@ -33,7 +33,11 @@ window.MathJax = {
       Tr: '\\operatorname{Tr}',
       slashed: ['{\\not{#1}}', 1],
       wick:    ['{\\overline{#1}}', 1],
-      c:       ['{#1}', 1]
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // tensor.sty: \tensor{base}{indices} — rendered as base + indices
+      tensor:  ['{#1{#2}}', 2]
     }
   },
   loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
@@ -87,14 +91,11 @@ window.MathJax = {
 <div class="equation-row">
 
 <figure class="tikz-figure"><script type="text/tikz">
-\begin{tikzpicture}[baseline={(0,-0.1)}]
-    \begin{feynman}
-        \vertex (a);
-        \vertex [right=3cm of a] (b);
-        \diagram* {
-            (a) -- [photon, momentum=\(p\), thick] (b)
-        };
-    \end{feynman}
+\usetikzlibrary{decorations.markings,arrows.meta}
+\begin{tikzpicture}[every node/.style={font=\small}]
+  \node (a) at (0.00,0.00) {};
+  \node (b) at (1.60,0.00) {};
+  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- node[above, midway, font=\footnotesize] {$p$} (b);
 \end{tikzpicture}
 </script></figure>
 
@@ -105,14 +106,11 @@ window.MathJax = {
 <div class="equation-row">
 
 <figure class="tikz-figure"><script type="text/tikz">
-\begin{tikzpicture}[baseline={(0,-0.1)}]
-    \begin{feynman}
-        \vertex (a);
-        \vertex [right=3cm of a] (b);
-        \diagram* {
-            (a) -- [photon, momentum=\(p\), thick] (b)
-        };
-    \end{feynman}
+\usetikzlibrary{decorations.markings,arrows.meta}
+\begin{tikzpicture}[every node/.style={font=\small}]
+  \node (a) at (0.00,0.00) {};
+  \node (b) at (1.60,0.00) {};
+  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- node[above, midway, font=\footnotesize] {$p$} (b);
 \end{tikzpicture}
 </script></figure>
 
@@ -123,14 +121,11 @@ window.MathJax = {
 <div class="equation-row">
 
 <figure class="tikz-figure"><script type="text/tikz">
-\begin{tikzpicture}[baseline={(0,-0.1)}]
-    \begin{feynman}
-        \vertex (a);
-        \vertex [right=3cm of a] (b);
-        \diagram* {
-            (a) -- [fermion, momentum=\(p\), thick] (b)
-        };
-    \end{feynman}
+\usetikzlibrary{decorations.markings,arrows.meta}
+\begin{tikzpicture}[every node/.style={font=\small}]
+  \node (a) at (0.00,0.00) {};
+  \node (b) at (1.60,0.00) {};
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (a) -- node[above, midway, font=\footnotesize] {$p$} (b);
 \end{tikzpicture}
 </script></figure>
 
@@ -141,14 +136,11 @@ window.MathJax = {
 <div class="equation-row">
 
 <figure class="tikz-figure"><script type="text/tikz">
-\begin{tikzpicture}[baseline={(0,-0.1)}]
-    \begin{feynman}
-        \vertex (a);
-        \vertex [right=3cm of a, blob] (b) {};
-        \diagram* {
-            (a) -- [photon, thick] (b)
-        };
-    \end{feynman}
+\usetikzlibrary{decorations.markings,arrows.meta}
+\begin{tikzpicture}[every node/.style={font=\small}]
+  \node (a) at (0.00,0.00) {};
+  \node (b) at (1.60,0.00) {};
+  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- (b);
 \end{tikzpicture}
 </script></figure>
 
@@ -157,14 +149,11 @@ window.MathJax = {
 <div class="equation-row">
 
 <figure class="tikz-figure"><script type="text/tikz">
-\begin{tikzpicture}[baseline={(0,-0.1)}]
-    \begin{feynman}
-        \vertex [blob] (a) {};
-        \vertex [right=3cm of a] (b) {};
-        \diagram* {
-            (b) -- [photon, thick] (a)
-        };
-    \end{feynman}
+\usetikzlibrary{decorations.markings,arrows.meta}
+\begin{tikzpicture}[every node/.style={font=\small}]
+  \node (a) at (0.00,0.00) {};
+  \node (b) at (1.60,0.00) {};
+  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (b) -- (a);
 \end{tikzpicture}
 </script></figure>
 
@@ -175,14 +164,11 @@ window.MathJax = {
 <div class="equation-row">
 
 <figure class="tikz-figure"><script type="text/tikz">
-\begin{tikzpicture}[baseline={(0,-0.1)}]
-    \begin{feynman}
-        \vertex (a);
-        \vertex [right=3cm of a, blob] (b) {};
-        \diagram* {
-            (a) -- [fermion] (b)
-        };
-    \end{feynman}
+\usetikzlibrary{decorations.markings,arrows.meta}
+\begin{tikzpicture}[every node/.style={font=\small}]
+  \node (a) at (0.00,0.00) {};
+  \node (b) at (1.60,0.00) {};
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (a) -- (b);
 \end{tikzpicture}
 </script></figure>
 
@@ -191,14 +177,11 @@ window.MathJax = {
 <div class="equation-row">
 
 <figure class="tikz-figure"><script type="text/tikz">
-\begin{tikzpicture}[baseline={(0,-0.1)}]
-    \begin{feynman}
-        \vertex [blob] (a) {};
-        \vertex [right=3cm of a] (b);
-        \diagram* {
-            (a) -- [fermion, thick] (b)
-        };
-    \end{feynman}
+\usetikzlibrary{decorations.markings,arrows.meta}
+\begin{tikzpicture}[every node/.style={font=\small}]
+  \node (a) at (0.00,0.00) {};
+  \node (b) at (1.60,0.00) {};
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (a) -- (b);
 \end{tikzpicture}
 </script></figure>
 
@@ -207,14 +190,11 @@ window.MathJax = {
 <div class="equation-row">
 
 <figure class="tikz-figure"><script type="text/tikz">
-\begin{tikzpicture}[baseline={(0,-0.1)}]
-    \begin{feynman}
-        \vertex (a) {};
-        \vertex [right=3cm of a, blob] (b) {};
-        \diagram* {
-            (a) -- [anti fermion, thick] (b)
-        };
-    \end{feynman}
+\usetikzlibrary{decorations.markings,arrows.meta}
+\begin{tikzpicture}[every node/.style={font=\small}]
+  \node (a) at (0.00,0.00) {};
+  \node (b) at (1.60,0.00) {};
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (a) -- (b);
 \end{tikzpicture}
 </script></figure>
 
@@ -223,14 +203,11 @@ window.MathJax = {
 <div class="equation-row">
 
 <figure class="tikz-figure"><script type="text/tikz">
-\begin{tikzpicture}[baseline={(0,-0.1)}]
-    \begin{feynman}
-        \vertex [blob] (a) {};
-        \vertex [right=3cm of a] (b);
-        \diagram* {
-            (a) -- [anti fermion, thick] (b)
-        };
-    \end{feynman}
+\usetikzlibrary{decorations.markings,arrows.meta}
+\begin{tikzpicture}[every node/.style={font=\small}]
+  \node (a) at (0.00,0.00) {};
+  \node (b) at (1.60,0.00) {};
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (a) -- (b);
 \end{tikzpicture}
 </script></figure>
 
@@ -244,81 +221,69 @@ window.MathJax = {
 \[\mathcal{L}_\text{int} = -e\bar{\psi}\gamma^\mu A_\mu \psi.\tag{12}\]
 Note, unlike scalar QED, there is no derivative, and thus no factor of momentum.</p>
 
-<div class="equation-row"><span class="equation-part">$\raisebox{0.1\height$</span>
+<div class="equation-row">
 
 <figure class="tikz-figure"><script type="text/tikz">
-\begin{tikzpicture}[baseline={(0,0)}]
-    \begin{feynman}
-        \vertex (a);
-        \vertex [right=1.5cm of a] (b);
-        \vertex [above right=1.5cm of b] (c);
-        \vertex [below right=1.5cm of b] (d);
-        \diagram* {
-            (a) -- [fermion] (b),
-            (b) -- [photon] (c),
-            (b) -- [fermion] (d),
-        };
-    \end{feynman}
+\usetikzlibrary{decorations.markings,arrows.meta}
+\begin{tikzpicture}[every node/.style={font=\small}]
+  \node (a) at (0.00,0.00) {};
+  \node (b) at (1.60,0.00) {};
+  \node (c) at (3.00,1.00) {};
+  \node (d) at (3.00,-1.00) {};
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (a) -- (b);
+  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (b) -- (c);
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (b) -- (d);
 \end{tikzpicture}
 </script></figure>
 
 <p><span class="equation-part">$= -ie\gamma^{\mu},$</span><span class="equation-num">(13)</span></div></p>
 
-<div class="equation-row"><span class="equation-part">$\raisebox{0.1\height$</span>
+<div class="equation-row">
 
 <figure class="tikz-figure"><script type="text/tikz">
-\begin{tikzpicture}[baseline={(0,0)}]
-    \begin{feynman}
-        \vertex (a);
-        \vertex [right=1.5cm of a] (b);
-        \vertex [above right=1.5cm of b] (c);
-        \vertex [below right=1.5cm of b] (d);
-        \diagram* {
-            (a) -- [anti fermion] (b),
-            (b) -- [photon] (c),
-            (b) -- [anti fermion] (d),
-        };
-    \end{feynman}
+\usetikzlibrary{decorations.markings,arrows.meta}
+\begin{tikzpicture}[every node/.style={font=\small}]
+  \node (a) at (0.00,0.00) {};
+  \node (b) at (1.60,0.00) {};
+  \node (c) at (3.00,1.00) {};
+  \node (d) at (3.00,-1.00) {};
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (a) -- (b);
+  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (b) -- (c);
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (b) -- (d);
 \end{tikzpicture}
 </script></figure>
 
 <p><span class="equation-part">$= -ie\gamma^{\mu},$</span><span class="equation-num">(14)</span></div></p>
 
-<div class="equation-row"><span class="equation-part">$\raisebox{0.1\height$</span>
+<div class="equation-row">
 
 <figure class="tikz-figure"><script type="text/tikz">
-\begin{tikzpicture}[baseline={(0,0)}]
-    \begin{feynman}
-        \vertex (a);
-        \vertex [left=1.5cm of a] (b);
-        \vertex [above left=1.5cm of b] (c);
-        \vertex [below left=1.5cm of b] (d);
-        \diagram* {
-            (a) -- [photon] (b),      % Incoming electron
-            (d) -- [anti fermion] (b), % Incoming positron
-            (b) -- [fermion] (c),       % Outgoing photon
-        };
-    \end{feynman}
+\usetikzlibrary{decorations.markings,arrows.meta}
+\begin{tikzpicture}[every node/.style={font=\small}]
+  \node (a) at (0.00,0.00) {};
+  \node (b) at (-1.60,0.00) {};
+  \node (c) at (-3.00,1.00) {};
+  \node (d) at (-3.00,-1.00) {};
+  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- (b);
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (d) -- (b);
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (b) -- (c);
 \end{tikzpicture}
 </script></figure>
 
 <p><span class="equation-part">$= -ie\gamma^{\mu},$</span><span class="equation-num">(15)</span></div></p>
 
-<div class="equation-row"><span class="equation-part">$\raisebox{0.1\height$</span>
+<div class="equation-row">
 
 <figure class="tikz-figure"><script type="text/tikz">
-\begin{tikzpicture}[baseline={(0,0)}]
-    \begin{feynman}
-        \vertex (a);
-        \vertex [right=1.5cm of a] (b);
-        \vertex [above right=1.5cm of b] (c);
-        \vertex [below right=1.5cm of b] (d);
-        \diagram* {
-            (a) -- [photon] (b),       % Incoming photon
-            (b) -- [fermion] (c),      % Outgoing electron
-            (b) -- [anti fermion] (d), % Outgoing positron
-        };
-    \end{feynman}
+\usetikzlibrary{decorations.markings,arrows.meta}
+\begin{tikzpicture}[every node/.style={font=\small}]
+  \node (a) at (0.00,0.00) {};
+  \node (b) at (1.60,0.00) {};
+  \node (c) at (3.00,1.00) {};
+  \node (d) at (3.00,-1.00) {};
+  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- (b);
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (b) -- (c);
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (b) -- (d);
 \end{tikzpicture}
 </script></figure>
 
@@ -331,24 +296,19 @@ Note, unlike scalar QED, there is no derivative, and thus no factor of momentum.
 <div class="equation-row">
 
 <figure class="tikz-figure"><script type="text/tikz">
-\begin{tikzpicture}[baseline={(-4,-0.1)}]
-    \begin{feynman}
-        \vertex (a);
-        \vertex [right=1.5cm of a, label=$\gamma^\nu$] (b);
-        \vertex [right=1.5cm of b, label=$\gamma^\mu$] (i);
-        \vertex [right=1.5cm of i] (c);
-        \vertex [below=1cm of b] (d);
-        \vertex [below=1cm of i] (e);
-        \diagram* {
-            (a) -- [fermion, edge label=\(p_1\)] (b),
-            (b) -- [fermion, edge label=\(p_2\)] (i),
-            (i) -- [fermion, edge label=\(p_3\)] (c),
-            (b) -- [photon, edge label=\(q_1\)] (d),
-            (i) -- [photon, edge label=\(q_2\)] (e),
-        };
-        \node[left] at (d) {\(\epsilon^\nu_1\)};
-        \node[right] at (e) {\(\epsilon^\mu_2\)};
-    \end{feynman}
+\usetikzlibrary{decorations.markings,arrows.meta}
+\begin{tikzpicture}[every node/.style={font=\small}]
+  \node (a) at (0.00,0.00) {};
+  \node (b) at (1.60,0.00) {};
+  \node (i) at (3.20,0.00) {};
+  \node (c) at (4.80,0.00) {};
+  \node (d) at (1.60,-1.40) {};
+  \node (e) at (3.20,-1.40) {};
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (a) -- node[above, midway, font=\footnotesize] {$p_1$} (b);
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (b) -- node[above, midway, font=\footnotesize] {$p_2$} (i);
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (i) -- node[above, midway, font=\footnotesize] {$p_3$} (c);
+  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (b) -- node[above, midway, font=\footnotesize] {$q_1$} (d);
+  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (i) -- node[above, midway, font=\footnotesize] {$q_2$} (e);
 \end{tikzpicture}
 </script></figure>
 
@@ -358,32 +318,24 @@ Note, unlike scalar QED, there is no derivative, and thus no factor of momentum.
 \[\bar{u}(p_{3})\gamma^{\mu}\frac{i(\slashed{p}_{2}+m)}{p_{2}^{2}-m^{2}+i\epsilon}\gamma^{\nu}u(p_{1}) = \bar{u}_{\alpha}(p_{3})\,\gamma^{\mu}_{\alpha\beta}\frac{i(\slashed{p}_{2}+m)_{\beta\gamma}}{p_{2}^{2}-m^{2}+i\epsilon}\gamma^{\nu}_{\gamma\delta}u_{\delta}(p_{1}).\tag{18}\]
 If we tie the ends of the diagram together, we would get a loop. Thus, we must replace the $u_\delta\bar{u}_\alpha$ by a propagator, which sums over all possible spins. We should also integrate over all momenta constrained by momentum conservation at each vertex. So the loop becomes</p>
 
-<div class="equation-row"><span class="equation-part">$\begin{aligned}
-i\mathcal{M}&$</span>
+<div class="equation-row"><span class="equation-part">$i\mathcal{M}
+=$</span>
 
 <figure class="tikz-figure"><script type="text/tikz">
-\begin{tikzpicture}[baseline={(-2,-0.1)}]
-    \begin{feynman}
-        \vertex (a);
-        \vertex [right=1.5cm of a] (b);
-        \vertex [right=1.5cm of b] (c);
-        \vertex [right=1.5cm of c] (d);
-        \diagram* {
-            (a) -- [photon, momentum=\(q\)] (b),
-            (b) -- [fermion, half left, momentum=\(k\)] (c),
-            (c) -- [fermion, half left, momentum=\(k+q\)] (b),
-            (c) -- [photon, momentum=\(q\)] (d),
-        };
-        \node[above] at (a) {\(\epsilon_\nu^1\)};
-        \node[above] at (d) {\(\epsilon_\mu^{2*}\)};
-    \end{feynman}
+\usetikzlibrary{decorations.markings,arrows.meta}
+\begin{tikzpicture}[every node/.style={font=\small}]
+  \node (a) at (0.00,0.00) {};
+  \node (b) at (1.60,0.00) {};
+  \node (c) at (3.20,0.00) {};
+  \node (d) at (4.80,0.00) {};
+  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- node[above, midway, font=\footnotesize] {$q$} (b);
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (b) -- node[above, midway, font=\footnotesize] {$k$} (c);
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (c) -- node[above, midway, font=\footnotesize] {$k+q$} (b);
+  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (c) -- node[above, midway, font=\footnotesize] {$q$} (d);
 \end{tikzpicture}
 </script></figure>
 
-<p><span class="equation-part">$\\
-&= -(-ie)^2 \int \frac{d^4k}{(2\pi)^4} e^{2*}_\mu (q) e^{1}_\nu (q) \left[ \gamma^\mu_{\alpha\beta} \frac{i(\slashed{k} + \slashed{q} + m)_{\beta\gamma}}{(k+q)^2 - m^2 + i\epsilon} \gamma^\nu_{\gamma\delta} \frac{i(\slashed{k} + m)_{\delta\alpha}}{k^2 - m^2 + i\epsilon} \right]\\
-&= e^2\epsilon_\mu^{2*}\epsilon_\nu^1\int \frac{d^4 k}{(2\pi)^4}\text{Tr}\left[\gamma^{\mu}\frac{i(\slashed{k}+\slashed{q}+m)}{(k+q)^2-m^2+i\epsilon}\gamma^{\nu}\frac{i(\slashed{k}+m)}{(k^2-m^2+i\epsilon)}\right].
-\end{aligned$</span><span class="equation-num">(19)</span></div></p>
+<p><span class="equation-part">$= -(-ie)^2 \int \frac{d^4k}{(2\pi)^4} e^{2*}_\mu (q) e^{1}_\nu (q) \left[ \gamma^\mu_{\alpha\beta} \frac{i(\slashed{k} + \slashed{q} + m)_{\beta\gamma}}{(k+q)^2 - m^2 + i\epsilon} \gamma^\nu_{\gamma\delta} \frac{i(\slashed{k} + m)_{\delta\alpha}}{k^2 - m^2 + i\epsilon} \right]$</span><span class="equation-part">$= e^2\epsilon_\mu^{2*}\epsilon_\nu^1\int \frac{d^4 k}{(2\pi)^4}\text{Tr}\left[\gamma^{\mu}\frac{i(\slashed{k}+\slashed{q}+m)}{(k+q)^2-m^2+i\epsilon}\gamma^{\nu}\frac{i(\slashed{k}+m)}{(k^2-m^2+i\epsilon)}\right].$</span><span class="equation-num">(19)</span></div></p>
 
 <p>A useful general rule is that the spinor matrices are always multiplied together in the direction opposite to the particle-flow arrow.</p>
 
@@ -393,53 +345,43 @@ i\mathcal{M}&$</span>
 \[T\{\cdots \psi(x)\psi(y) \cdots \} = - T\{\cdots \psi(y)\psi(x) \cdots \}.\tag{20}\]
 These minus signs would also appear in the Feynman rules. To see it, let us consider the Møller scattering ($e^-e^-\to e^-e^-$) at tree-level. Two possible Feynman diagrams contribute at tree-level, the $t$-channel diagram:</p>
 
-<div class="equation-row"><span class="equation-part">$i\mathcal{M}_{t} = 
-\raisebox{-1.5cm$</span>
+<div class="equation-row"><span class="equation-part">$i\mathcal{M}_{t} =$</span>
 
 <figure class="tikz-figure"><script type="text/tikz">
-\begin{tikzpicture}[baseline={(0,-3.5cm)}]
-    \begin{feynman}
-        \vertex (i1);
-        \vertex [below right=2cm of i1] (a);
-        \vertex [above right=2cm of a] (f1);
-        \vertex [below=1cm of a] (b);
-        \vertex [below right=2cm of b] (f2);
-        \vertex [below left=2cm of b] (i2);
-
-        \diagram* {
-        (i1) --[fermion, edge label = \(p_1\)] (a),
-        (i2) --[fermion, edge label' = \(p_2\)] (b),
-        (a) --[photon] (b),
-        (a) --[fermion, edge label = \(p_3\)] (f1),
-        (b) -- [fermion, edge label' = \(p_4\)](f2),
-        };
-    \end{feynman}
+\usetikzlibrary{decorations.markings,arrows.meta}
+\begin{tikzpicture}[every node/.style={font=\small}]
+  \node (i1) at (0.00,0.00) {};
+  \node (a) at (1.40,-1.00) {};
+  \node (f1) at (2.80,0.00) {};
+  \node (b) at (1.40,-2.40) {};
+  \node (f2) at (2.80,-3.40) {};
+  \node (i2) at (0.00,-3.40) {};
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (i1) -- node[above, midway, font=\footnotesize] {$p_1$} (a);
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (i2) -- node[below, midway, font=\footnotesize] {$p_2$} (b);
+  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- (b);
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (a) -- node[above, midway, font=\footnotesize] {$p_3$} (f1);
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (b) -- node[below, midway, font=\footnotesize] {$p_4$} (f2);
 \end{tikzpicture}
 </script></figure>
 
 <p><span class="equation-part">$= \pm(-ie)^2 \bar{u}(p_3)\gamma^\mu u(p_1)\frac{-ig_{\mu\nu}}{(p_1-p_3)^2}\bar{u}(p_4)\gamma^\nu u(p_2)$</span><span class="equation-num">(21)</span></div></p>
 
-<div class="equation-row"><span class="equation-part">$i\mathcal{M}_{u} = 
-\raisebox{-1.5cm$</span>
+<div class="equation-row"><span class="equation-part">$i\mathcal{M}_{u} =$</span>
 
 <figure class="tikz-figure"><script type="text/tikz">
-\begin{tikzpicture}[baseline={(0,-3.5cm)}]
-    \begin{feynman}
-        \vertex (i1);
-        \vertex [below right=2cm of i1] (a);
-        \vertex [above right=2cm of a] (f1);
-        \vertex [below=1cm of a] (b);
-        \vertex [below right=2cm of b] (f2);
-        \vertex [below left=2cm of b] (i2);
-
-        \diagram* {
-        (i1) --[fermion, edge label = \(p_1\)] (a),
-        (i2) --[fermion, edge label' = \(p_2\)] (b),
-        (a) --[photon] (b),
-        (a) --[fermion, edge label = \(p_4\)] (f2),
-        (b) -- [fermion, edge label' = \(p_3\)](f1),
-        };
-    \end{feynman}
+\usetikzlibrary{decorations.markings,arrows.meta}
+\begin{tikzpicture}[every node/.style={font=\small}]
+  \node (i1) at (0.00,0.00) {};
+  \node (a) at (1.40,-1.00) {};
+  \node (f1) at (2.80,0.00) {};
+  \node (b) at (1.40,-2.40) {};
+  \node (f2) at (2.80,-3.40) {};
+  \node (i2) at (0.00,-3.40) {};
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (i1) -- node[above, midway, font=\footnotesize] {$p_1$} (a);
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (i2) -- node[below, midway, font=\footnotesize] {$p_2$} (b);
+  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- (b);
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (a) -- node[above, midway, font=\footnotesize] {$p_4$} (f2);
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (b) -- node[below, midway, font=\footnotesize] {$p_3$} (f1);
 \end{tikzpicture}
 </script></figure>
 
@@ -449,10 +391,10 @@ These minus signs would also appear in the Feynman rules. To see it, let us cons
 
 <p>The sum of amplitudes of these two diagrams is given by the perturbation expansion at order $e^2$:
 \[\begin{aligned}
-&(-ie)^{2}\int d^{4}x\int d^{4}y\langle 0|T\left\{\psi(x_{1})\bar{\psi}(x_{3})\psi(x_{2})\bar{\psi}(x_{4})\Big{(}\bar{\psi}(x)A(x)\psi(x)\Big{)}\Big{(}\bar{\psi}(y)A(y)\psi(y)\Big{)}\right\}|0\rangle\\
-&=(-ie)^{2}\gamma^{\mu}_{\beta_{1}\beta_{2}}\gamma^{\nu}_{\beta_{3}\beta_{4}}\int d^{4}x\int d^{4}y
+&amp;(-ie)^{2}\int d^{4}x\int d^{4}y\langle 0|T\left\{\psi(x_{1})\bar{\psi}(x_{3})\psi(x_{2})\bar{\psi}(x_{4})\Big{(}\bar{\psi}(x)A(x)\psi(x)\Big{)}\Big{(}\bar{\psi}(y)A(y)\psi(y)\Big{)}\right\}|0\rangle\\
+&amp;=(-ie)^{2}\gamma^{\mu}_{\beta_{1}\beta_{2}}\gamma^{\nu}_{\beta_{3}\beta_{4}}\int d^{4}x\int d^{4}y
 \langle 0|T\Big{\{}\psi_{\alpha_{1}}(x_{1})\bar{\psi}_{\alpha_{3}}(x_{3})\psi_{\alpha_{2}}(x_{2})\bar{\psi}_{\alpha_{4}}(x_{4})\bar{\psi}_{\beta_{1}}(x)\\
-& \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad  \times A^{\mu}(x)\psi_{\beta_{2}}(x)\bar{\psi}_{\beta_{3}}(y)A^{\nu}(y)\psi_{\beta_{4}}(y)\Big{\}}|0\rangle.
+&amp; \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad  \times A^{\mu}(x)\psi_{\beta_{2}}(x)\bar{\psi}_{\beta_{3}}(y)A^{\nu}(y)\psi_{\beta_{4}}(y)\Big{\}}|0\rangle.
 \end{aligned}\tag{23}\]
 Recall Wick's theorem, which states that the vacuum matrix element of a time-ordered product is equal to all possible contractions in which all the fields are involved. For scalar field theory, a contraction is just a Feynman propagator:
 \[\wick{\c\phi(x_1)\c\phi(x_2)} = \bra{0}T\{\phi(x_1)\phi(x_2)\}\ket{0}.\tag{24}\]
@@ -460,13 +402,13 @@ The same thing also applies to spinors. Thus, the vacuum matrix element of a tim
 
 <p>For the above expansion, there are two possible contractions corresponding to the $t$- and $u$-channel. For the $t$-channel, the top electron line is created by $\bar{\psi}(x_3)$ annihilated by $\psi(x)$, created by $\bar{\psi}(x)$ annihilated by $\psi(x_1)$, and similarly for the bottom line. So we have
 \[\begin{aligned}
-&(-ie)^{2}\gamma^{\mu}_{\beta_{1}\beta_{2}}\gamma^{\nu}_{\beta_{3}\beta_{4}}\int d^{4}x\int d^{4}y \\
-& \times\langle 0|T\{A^{\mu}(x)A^{\nu}(y)\psi_{\alpha_{1}}(x_{1})\psi_{\beta_{1}}(x)\psi_{\beta_{2}}(x)\bar{\psi}_{\alpha_{3}}(x_{3})\psi_{\alpha_{2}}(x_{2})\bar{\psi}_{\beta_{3}}(y)\psi_{\beta_{4}}(y)\bar{\psi}_{\alpha_{4}}(x_{4})\}|0\rangle.
+&amp;(-ie)^{2}\gamma^{\mu}_{\beta_{1}\beta_{2}}\gamma^{\nu}_{\beta_{3}\beta_{4}}\int d^{4}x\int d^{4}y \\
+&amp; \times\langle 0|T\{A^{\mu}(x)A^{\nu}(y)\psi_{\alpha_{1}}(x_{1})\psi_{\beta_{1}}(x)\psi_{\beta_{2}}(x)\bar{\psi}_{\alpha_{3}}(x_{3})\psi_{\alpha_{2}}(x_{2})\bar{\psi}_{\beta_{3}}(y)\psi_{\beta_{4}}(y)\bar{\psi}_{\alpha_{4}}(x_{4})\}|0\rangle.
 \end{aligned}\tag{25}\]
 For $u$-channel, however, we need to swap $\bar{\psi}(x_3)$ and $\bar{\psi}(x_4)$, which gives an extra negative sign:
 \[\begin{aligned}
-&-(-ie)^{2}\gamma^{\mu}_{\beta_{1}\beta_{2}}\gamma^{\nu}_{\beta_{3}\beta_{4}}\int d^{4}x\int d^{4}y \\
-& \times\langle 0|T\{A^{\mu}(x)A^{\nu}(y)\psi_{\alpha_{1}}(x_{1})\psi_{\beta_{1}}(x)\psi_{\beta_{2}}(x)\bar{\psi}_{\alpha_{4}}(x_{4})\psi_{\alpha_{2}}(x_{2})\bar{\psi}_{\beta_{3}}(y)\psi_{\beta_{4}}(y)\bar{\psi}_{\alpha_{3}}(x_{3})\}|0\rangle.
+&amp;-(-ie)^{2}\gamma^{\mu}_{\beta_{1}\beta_{2}}\gamma^{\nu}_{\beta_{3}\beta_{4}}\int d^{4}x\int d^{4}y \\
+&amp; \times\langle 0|T\{A^{\mu}(x)A^{\nu}(y)\psi_{\alpha_{1}}(x_{1})\psi_{\beta_{1}}(x)\psi_{\beta_{2}}(x)\bar{\psi}_{\alpha_{4}}(x_{4})\psi_{\alpha_{2}}(x_{2})\bar{\psi}_{\beta_{3}}(y)\psi_{\beta_{4}}(y)\bar{\psi}_{\alpha_{3}}(x_{3})\}|0\rangle.
 \end{aligned}\tag{26}\]
 Thus the matrix element of Møller scattering at tree-level has the form
 \[\mathcal{M} = \mathcal{M}_t + \mathcal{M}_u = e^2\bigg\{ \frac{[\bar{u}(p_3)\gamma^\mu u(p_1)][\bar{u}(p_4)\gamma^\mu u(p_2)]}{(p_1-p_3)^2} - \frac{[\bar{u}(p_4)\gamma^\mu u(p_1)][\bar{u}(p_3)\gamma^\mu u(p_2)]}{(p_1-p_4)^2} \bigg\}.\tag{27}\]
@@ -477,23 +419,16 @@ In the above, we have assumed the $t$-channel to be positive, but we could also 
 <div class="equation-row">
 
 <figure class="tikz-figure"><script type="text/tikz">
-\begin{tikzpicture}[baseline={(0,0)}]
-    \begin{feynman}
-        \vertex (a);
-        \vertex [right=1.5cm of a] (b);
-        \vertex [right=1.5cm of b] (c);
-        \vertex [right=1.5cm of c] (d);
-        \diagram* {
-            (a) -- [photon] (b),
-            (b) -- [fermion, half left] (c),
-            (c) -- [fermion, half left] (b),
-            (c) -- [photon] (d),
-        };
-        \node[above] at (a) {\(x_1\)};
-        \node[above] at (d) {\(x_2\)};
-        \node[above left] at (b) {$x$};
-        \node[above right] at (c) {$y$};
-    \end{feynman}
+\usetikzlibrary{decorations.markings,arrows.meta}
+\begin{tikzpicture}[every node/.style={font=\small}]
+  \node (a) at (0.00,0.00) {};
+  \node (b) at (1.60,0.00) {};
+  \node (c) at (3.20,0.00) {};
+  \node (d) at (4.80,0.00) {};
+  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- (b);
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (b) -- (c);
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (c) -- (b);
+  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (c) -- (d);
 \end{tikzpicture}
 </script></figure>
 
@@ -517,184 +452,188 @@ To get the spinors into the order such that they are created then immediately de
 <h2 id="gamma-matrix-identities">$\gamma$-matrix Identities</h2>
 
 <p>Before doing any QED calculations, let us first derive some useful identities. We will often be dealing with traces of products of $\gamma$-matrices. These can often be simplified using the cyclic propety of traces:
-\[\Tr[AB\cdots C] = \Tr[B \cdots CA].\tag{30}\]</p>
+\[\Tr[AB\cdots C] = \Tr[B \cdots CA].\tag{1}\]</p>
 
 <p>Another useful thing to note is that
-\[\gamma_5^2 = 1, \quad \gamma_5\gamma_\mu = -\gamma_\mu\gamma_5.\tag{31}\]</p>
+\[\gamma_5^2 = 1, \quad \gamma_5\gamma_\mu = -\gamma_\mu\gamma_5.\tag{2}\]</p>
 
 <p>First, compute
-\[\Tr[g^{\mu\nu}] = \Tr[g^{\mu\nu}\mathds{1}] + g^{\mu\nu}\Tr[\mathds{1}] = 4g^{\mu\nu},\tag{32}\]
+\[\Tr[g^{\mu\nu}] = \Tr[g^{\mu\nu}\mathds{1}] + g^{\mu\nu}\Tr[\mathds{1}] = 4g^{\mu\nu},\tag{3}\]
 where we have used $\mathds{1}$ to denote the identity matrix of the spinor indices.</p>
 
 <p>Next, we evaluate
-\[\Tr[\gamma^\mu] = \Tr[\gamma^5\gamma^5\gamma^\mu] = -Tr[\gamma^5\gamma^\mu\gamma^5]  = -\Tr[\gamma^5\gamma^5\gamma^\mu] = -\Tr[\gamma^\mu] \implies \Tr[\gamma^\mu] = 0.\tag{33}\]</p>
+\[\Tr[\gamma^\mu] = \Tr[\gamma^5\gamma^5\gamma^\mu] = -Tr[\gamma^5\gamma^\mu\gamma^5]  = -\Tr[\gamma^5\gamma^5\gamma^\mu] = -\Tr[\gamma^\mu] \implies \Tr[\gamma^\mu] = 0.\tag{4}\]</p>
 
 <p>Then for the trace of a product of two $\gamma$-matrices, we find
-\[\Tr[\gamma^\mu\gamma^\nu] = \Tr[2g^{\mu\nu}-\gamma^\nu\gamma^\mu] = 8g^{\mu\nu} -\Tr[\gamma^\mu\gamma^\nu] \implies \Tr[\gamma^\mu\gamma^\nu] = 4g^{\mu\nu}.\tag{34}\]</p>
+\[\Tr[\gamma^\mu\gamma^\nu] = \Tr[2g^{\mu\nu}-\gamma^\nu\gamma^\mu] = 8g^{\mu\nu} -\Tr[\gamma^\mu\gamma^\nu] \implies \Tr[\gamma^\mu\gamma^\nu] = 4g^{\mu\nu}.\tag{5}\]</p>
 
 <p>For three $\gamma$-matrices, we have
-\[\Tr[\gamma^\mu\gamma^\nu\gamma^\alpha] = \Tr[\gamma^5\gamma^5\gamma^\mu\gamma^\nu\gamma^\alpha] = -\Tr [\gamma^5\gamma^\mu\gamma^\nu\gamma^\alpha\gamma^5] =  -\Tr[\gamma^\mu\gamma^\nu\gamma^\alpha] \implies \Tr[\gamma^\mu\gamma^\nu\gamma^\alpha] = 0.\tag{35}\]
+\[\Tr[\gamma^\mu\gamma^\nu\gamma^\alpha] = \Tr[\gamma^5\gamma^5\gamma^\mu\gamma^\nu\gamma^\alpha] = -\Tr [\gamma^5\gamma^\mu\gamma^\nu\gamma^\alpha\gamma^5] =  -\Tr[\gamma^\mu\gamma^\nu\gamma^\alpha] \implies \Tr[\gamma^\mu\gamma^\nu\gamma^\alpha] = 0.\tag{6}\]
 Since we can always do the same thing for traces of odd number of $\gamma$-matrices, they must be zero.</p>
 
 <p>Now, for four $\gamma$-matrices, we find
 \[\begin{aligned}
-        \Tr[\gamma^\alpha\gamma^\mu\gamma^\beta\gamma^\nu] &= \Tr[(2g^{\alpha\mu}-\gamma^\mu\gamma^\alpha)\gamma^\beta\gamma^\nu] \\
-        &= 2g^{\alpha\mu}\Tr[\gamma^\beta\gamma^\nu] - \Tr[\gamma^\mu\gamma^\alpha\gamma^\beta\gamma^\nu]\\
-        &= 8g^{\alpha\mu}g^{\beta\nu} - 2g^{\alpha\beta}\Tr[\gamma^\mu\gamma^\nu] +\Tr[\gamma^\mu\gamma^\beta\gamma^\alpha\gamma^\nu] \\
-        &= 8g^{\alpha\mu}g^{\beta\nu} - 8g^{\alpha\beta}g^{\mu\nu} +2g^{\alpha\nu}\Tr[\gamma^\mu\gamma^\beta] - \Tr[\gamma^\mu\gamma^\beta\gamma^\nu\gamma^\alpha]\\
-        &=  8g^{\alpha\mu}g^{\beta\nu} - 8g^{\alpha\beta}g^{\mu\nu} +8g^{\alpha\nu}g^{\beta\mu} -\Tr[\gamma^\alpha\gamma^\mu\gamma^\beta\gamma^\nu]\\
-        &\implies \Tr[\gamma^\alpha\gamma^\mu\gamma^\beta\gamma^\nu] = 4(g^{\alpha\mu}g^{\beta\nu} - g^{\alpha\beta}g^{\mu\nu} +g^{\alpha\nu}g^{\beta\mu}).
-\end{aligned}\tag{36}\]
+        \Tr[\gamma^\alpha\gamma^\mu\gamma^\beta\gamma^\nu] &amp;= \Tr[(2g^{\alpha\mu}-\gamma^\mu\gamma^\alpha)\gamma^\beta\gamma^\nu] \\
+        &amp;= 2g^{\alpha\mu}\Tr[\gamma^\beta\gamma^\nu] - \Tr[\gamma^\mu\gamma^\alpha\gamma^\beta\gamma^\nu]\\
+        &amp;= 8g^{\alpha\mu}g^{\beta\nu} - 2g^{\alpha\beta}\Tr[\gamma^\mu\gamma^\nu] +\Tr[\gamma^\mu\gamma^\beta\gamma^\alpha\gamma^\nu] \\
+        &amp;= 8g^{\alpha\mu}g^{\beta\nu} - 8g^{\alpha\beta}g^{\mu\nu} +2g^{\alpha\nu}\Tr[\gamma^\mu\gamma^\beta] - \Tr[\gamma^\mu\gamma^\beta\gamma^\nu\gamma^\alpha]\\
+        &amp;=  8g^{\alpha\mu}g^{\beta\nu} - 8g^{\alpha\beta}g^{\mu\nu} +8g^{\alpha\nu}g^{\beta\mu} -\Tr[\gamma^\alpha\gamma^\mu\gamma^\beta\gamma^\nu]\\
+        &amp;\implies \Tr[\gamma^\alpha\gamma^\mu\gamma^\beta\gamma^\nu] = 4(g^{\alpha\mu}g^{\beta\nu} - g^{\alpha\beta}g^{\mu\nu} +g^{\alpha\nu}g^{\beta\mu}).
+\end{aligned}\tag{7}\]
 Such method can be trivially applied to traces with more $\gamma$-matrices.</p>
 
 <h2 id="ee-to-mumu-">$e^+e^-\to \mu^+\mu^-$</h2>
 
 <p>As far as the QED is concerned, the muon, $\mu^-$, is a particle identical to the electron, except heavier. $e^+e^-\to\mu^+\mu^-$, is the simplest tree-level scattering process in QED. We will calculate at tree-level here and give the 1-loop correction later. The leading order contribution is</p>
 
-<div class="equation-row"><span class="equation-part">$\begin{aligned}
-        i\mathcal{M}
-        &$</span>
+<div class="equation-row"><span class="equation-part">$i\mathcal{M}
+        =$</span>
 
-<figure class="tikz-source"><pre class="tikz-feynman" aria-label="Feynman diagram (LaTeX source)">\begin{tikzpicture}[baseline={(0,0.5)}]
-        \feynmandiagram [horizontal=a to b] {
-        i1 [particle=\(e^{+}\)] -- [anti fermion] a -- [anti fermion] i2 [particle=\(e^{-}\)],
-        a -- [photon, edge label=\(k\)] b,
-        f1 [particle=\(\mu^{-}\)] -- [anti fermion] b -- [anti fermion] f2 [particle=\(\mu^{+}\)],
-        };            
-        \end{tikzpicture}</pre><figcaption>Feynman diagram — rendered from the LaTeX source above.</figcaption></figure>
+<figure class="tikz-figure"><script type="text/tikz">
+\usetikzlibrary{decorations.markings,arrows.meta}
+\begin{tikzpicture}[every node/.style={font=\small}]
+  \node (i1) at (0.00,0.00) {$e^{+}$};
+  \node (a) at (1.60,0.00) {};
+  \node (i2) at (3.20,0.00) {$e^{-}$};
+  \node (b) at (1.60,-1.40) {};
+  \node (f1) at (0.00,-2.80) {$\mu^{-}$};
+  \node (f2) at (3.20,-2.80) {$\mu^{+}$};
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (i1) -- (a);
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (a) -- (i2);
+  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- node[above, midway, font=\footnotesize] {$k$} (b);
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (f1) -- (b);
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (b) -- (f2);
+\end{tikzpicture}
+</script></figure>
 
-<p><span class="equation-part">$\\
-        \\
-        &= (-ie)\bar{v}_\alpha(p_2)\gamma^\mu_{\alpha\beta}u_\beta(p_1) \frac{-i\left[g_{\mu\nu} - (1-\xi)\frac{k_\mu k_\nu}{k^2} \right]}{k^2}(-ie)\bar{u}_\delta(p_3)\gamma^\nu_{\delta\tau}v_\tau(p_4),
-        
-    \end{aligned$</span><span class="equation-num">(37)</span></div></p>
+<p><span class="equation-part">$= (-ie)\bar{v}_\alpha(p_2)\gamma^\mu_{\alpha\beta}u_\beta(p_1) \frac{-i\left[g_{\mu\nu} - (1-\xi)\frac{k_\mu k_\nu}{k^2} \right]}{k^2}(-ie)\bar{u}_\delta(p_3)\gamma^\nu_{\delta\tau}v_\tau(p_4),$</span><span class="equation-num">(1)</span></div></p>
 
 <p>where $k^\mu = p_1^\mu + p_2^\mu = p_3^\mu + p_4^\mu$. The external spinors are forced to be on-shell, thus we can use the equations of motion $\slashed{p}_1u(p_1)=mu(p_1)$ and $\bar{v}(p)_2\slashed{p_2} = -m\bar{v}(p_2)$. Thus, 
 \[\begin{aligned}
-        \bar{v}_\alpha(p_2)\gamma^\mu_{\alpha\beta}u_\beta(p_1)k_\mu &= \bar{v}(p_2)\slashed{p}_1u(p_1) + \bar{v}(p_2)\slashed{p}_2u(p_1) \\
-        &= \bar{v}(p_2)mu(p_1) - \bar{v}(p_2)mu(p_1)  = 0.
-    \end{aligned}\tag{38}\]
-Similarly, for the other term contracted with $k^\nu$. Thus, the $k^\mu k^\nu$ term vanishes, which is expected by gauge invariance. Hence, (37) becomes
+        \bar{v}_\alpha(p_2)\gamma^\mu_{\alpha\beta}u_\beta(p_1)k_\mu &amp;= \bar{v}(p_2)\slashed{p}_1u(p_1) + \bar{v}(p_2)\slashed{p}_2u(p_1) \\
+        &amp;= \bar{v}(p_2)mu(p_1) - \bar{v}(p_2)mu(p_1)  = 0.
+    \end{aligned}\tag{2}\]
+Similarly, for the other term contracted with $k^\nu$. Thus, the $k^\mu k^\nu$ term vanishes, which is expected by gauge invariance. Hence, (1) becomes
 \[\mathcal{M} = \frac{e^2}{s}[\bar{v}(p_2)\gamma^\mu u(p_1)][\bar{u}(p_3)\gamma^\mu v(p_4)].
-    \tag{39}\]</p>
+    \tag{3}\]</p>
 
 <p>Now, we need to find the conjugate amplitude to calculate $\abs{\mathcal{M}}^2$. Using $\gamma^{0\dagger} = \gamma^0$ and $\gamma^{\mu^\dagger}\gamma^0 = \gamma^0 \gamma^\mu$, we find
-\[(\bar{\psi}_1\gamma^\mu\psi_2)^\dagger = \psi_2^\dagger\gamma^{\mu\dagger}\gamma^0\psi_1 = \psi_2^\dagger\gamma^0\gamma^{\mu}\psi_1 = \bar{\psi}_2 \gamma^\mu \psi_1,\tag{40}\]</p>
+\[(\bar{\psi}_1\gamma^\mu\psi_2)^\dagger = \psi_2^\dagger\gamma^{\mu\dagger}\gamma^0\psi_1 = \psi_2^\dagger\gamma^0\gamma^{\mu}\psi_1 = \bar{\psi}_2 \gamma^\mu \psi_1,\tag{4}\]</p>
 
-<p>Hence, the conjugate of (39) is given by
-\[\mathcal{M}^\dagger = \frac{e^2}{s}[\bar{v}(p_4)\gamma^\mu u(p_3)][\bar{u}(p_1)\gamma^\mu v(p_2)],\tag{41}\]
+<p>Hence, the conjugate of (3) is given by
+\[\mathcal{M}^\dagger = \frac{e^2}{s}[\bar{v}(p_4)\gamma^\mu u(p_3)][\bar{u}(p_1)\gamma^\mu v(p_2)],\tag{5}\]
 and thus
-\[\abs{\mathcal{M}}^2 = \frac{e^4}{s^2}[\bar{v}(p_2)\gamma^\mu u(p_1)][\bar{u}(p_3)\gamma^\mu v(p_4)][\bar{v}(p_4)\gamma^\nu u(p_3)][\bar{u}(p_1)\gamma^\nu v(p_2)].\tag{42}\]</p>
+\[\abs{\mathcal{M}}^2 = \frac{e^4}{s^2}[\bar{v}(p_2)\gamma^\mu u(p_1)][\bar{u}(p_3)\gamma^\mu v(p_4)][\bar{v}(p_4)\gamma^\nu u(p_3)][\bar{u}(p_1)\gamma^\nu v(p_2)].\tag{6}\]</p>
 
 <h4>Unpolarized Scattering</h4>
 
 <p>The easiest thing to calculate from this is the cross section for scattering, assuming the spin is not measured. Then the final cross section should be the sum of all possible spin outcomes, which is
 \[\begin{aligned}
-        \sum_{s,s'}\abs{\mathcal{M}}^2 &= \sum_{s,s'}\frac{e^4}{s^2}[\bar{v}^r(p_2)\gamma^\mu u^{r'}(p_1)][\bar{u}^{r'}(p_1)\gamma^\nu v^r(p_2)][\bar{u}^s(p_3)\gamma^\mu v^{s'}(p_4)][\bar{v}^{s'}(p_4)\gamma^\nu u^s(p_3)] \\
-        &= \frac{e^4}{s^2}[\bar{v}^r(p_2)\gamma^\mu u^{r'}(p_1)][\bar{u}^{r'}(p_1)\gamma^\nu v^r(p_2)]\sum_{s,s'}[\bar{u}_\alpha^s(p_3)\gamma^\mu_{\alpha\beta} v^{s'}_\beta(p_4)\bar{v}_\gamma^{s'}(p_4)\gamma^\nu_{\gamma\delta} u^s_\delta(p_3)] \\
-        &= \frac{e^4}{s^2}[\bar{v}^r(p_2)\gamma^\mu u^{r'}(p_1)][\bar{u}^{r'}(p_1)\gamma^\nu v^r(p_2)]\sum_{s}[\bar{u}_\alpha^s(p_3)\gamma^\mu_{\alpha\beta} (\slashed{p}_4-m_\mu)_{\beta\gamma}\gamma^\nu_{\gamma\delta} u^s_\delta(p_3)] \\
-        &= \frac{e^4}{s^2}[\bar{v}^r(p_2)\gamma^\mu u^{r'}(p_1)][\bar{u}^{r'}(p_1)\gamma^\nu v^r(p_2)][(\slashed{p}_3+m_\mu)_{\delta\alpha}\gamma^\mu_{\alpha\beta} (\slashed{p}_4-m_\mu)_{\beta\gamma}\gamma^\nu_{\gamma\delta}] \\
-        &= \frac{e^4}{s^2}[\bar{v}^r(p_2)\gamma^\mu u^{r'}(p_1)][\bar{u}^{r'}(p_1)\gamma^\nu v^r(p_2)]\Tr[(\slashed{p}_3+m_\mu)\gamma^\mu (\slashed{p}_4-m_\mu)\gamma^\nu],
-\end{aligned}\tag{43}\]
+        \sum_{s,s'}\abs{\mathcal{M}}^2 &amp;= \sum_{s,s'}\frac{e^4}{s^2}[\bar{v}^r(p_2)\gamma^\mu u^{r'}(p_1)][\bar{u}^{r'}(p_1)\gamma^\nu v^r(p_2)][\bar{u}^s(p_3)\gamma^\mu v^{s'}(p_4)][\bar{v}^{s'}(p_4)\gamma^\nu u^s(p_3)] \\
+        &amp;= \frac{e^4}{s^2}[\bar{v}^r(p_2)\gamma^\mu u^{r'}(p_1)][\bar{u}^{r'}(p_1)\gamma^\nu v^r(p_2)]\sum_{s,s'}[\bar{u}_\alpha^s(p_3)\gamma^\mu_{\alpha\beta} v^{s'}_\beta(p_4)\bar{v}_\gamma^{s'}(p_4)\gamma^\nu_{\gamma\delta} u^s_\delta(p_3)] \\
+        &amp;= \frac{e^4}{s^2}[\bar{v}^r(p_2)\gamma^\mu u^{r'}(p_1)][\bar{u}^{r'}(p_1)\gamma^\nu v^r(p_2)]\sum_{s}[\bar{u}_\alpha^s(p_3)\gamma^\mu_{\alpha\beta} (\slashed{p}_4-m_\mu)_{\beta\gamma}\gamma^\nu_{\gamma\delta} u^s_\delta(p_3)] \\
+        &amp;= \frac{e^4}{s^2}[\bar{v}^r(p_2)\gamma^\mu u^{r'}(p_1)][\bar{u}^{r'}(p_1)\gamma^\nu v^r(p_2)][(\slashed{p}_3+m_\mu)_{\delta\alpha}\gamma^\mu_{\alpha\beta} (\slashed{p}_4-m_\mu)_{\beta\gamma}\gamma^\nu_{\gamma\delta}] \\
+        &amp;= \frac{e^4}{s^2}[\bar{v}^r(p_2)\gamma^\mu u^{r'}(p_1)][\bar{u}^{r'}(p_1)\gamma^\nu v^r(p_2)]\Tr[(\slashed{p}_3+m_\mu)\gamma^\mu (\slashed{p}_4-m_\mu)\gamma^\nu],
+\end{aligned}\tag{7}\]
 where we have used
-\[\sum_s u_\alpha(p)\bar{u}_\beta(p) = \sum_s \bar{u}_\beta(p)u_\alpha(p) = (\slashed{p}+m)_{\alpha\beta}.\tag{44}\]</p>
+\[\sum_s u_\alpha(p)\bar{u}_\beta(p) = \sum_s \bar{u}_\beta(p)u_\alpha(p) = (\slashed{p}+m)_{\alpha\beta}.\tag{8}\]</p>
 
 <p>We shall also assume that we do not know the spins of the initial states. If we do the measurements for many times, we would get the average over each spin. Therefore, we shall take the average of the initial spins, which is
 \[\begin{aligned}
-        \frac{1}{4}\sum_{r,r'}\sum_{s,s'}\abs{\mathcal{M}}^2 &= \frac{1}{4}\sum_\text{spins}\abs{\mathcal{M}}^2\\
-        &= \frac{e^4}{4s^2}\Tr[(\slashed{p}_1 + m_e)\gamma^\nu(\slashed{p}_2-m_e)\gamma^\mu]\Tr[(\slashed{p}_3+m_\mu)\gamma^\mu (\slashed{p}_4-m_\mu)\gamma^\nu].
+        \frac{1}{4}\sum_{r,r'}\sum_{s,s'}\abs{\mathcal{M}}^2 &amp;= \frac{1}{4}\sum_\text{spins}\abs{\mathcal{M}}^2\\
+        &amp;= \frac{e^4}{4s^2}\Tr[(\slashed{p}_1 + m_e)\gamma^\nu(\slashed{p}_2-m_e)\gamma^\mu]\Tr[(\slashed{p}_3+m_\mu)\gamma^\mu (\slashed{p}_4-m_\mu)\gamma^\nu].
         
-    \end{aligned}\tag{45}\]
+    \end{aligned}\tag{9}\]
 The trace can be simplified as
 \[\begin{aligned}
-        \Tr[(\slashed{p}_3+m_\mu)\gamma^\mu (\slashed{p}_4-m_\mu)\gamma^\nu] &= p_3^\alpha p_4^\beta\Tr[\gamma^\alpha\gamma^\mu\gamma^\beta\gamma^\nu] - m_\mu^2\Tr[\gamma^\mu\gamma^\nu] \\
-        &= 4p_3^\alpha p_4^\beta(g^{\alpha\mu}g^{\beta\nu} - g^{\alpha\beta}g^{\mu\nu} +g^{\alpha\nu}g^{\beta\mu}) - 4m_\mu^2g^{\mu\nu}\\
-        &= 4p_3^\mu p_4^\nu - 4p_{34}g^{\mu\nu} + 4p_3^\nu p_4^\mu - 4m_\mu^2g^{\mu\nu}
-    \end{aligned}\tag{46}\]
+        \Tr[(\slashed{p}_3+m_\mu)\gamma^\mu (\slashed{p}_4-m_\mu)\gamma^\nu] &amp;= p_3^\alpha p_4^\beta\Tr[\gamma^\alpha\gamma^\mu\gamma^\beta\gamma^\nu] - m_\mu^2\Tr[\gamma^\mu\gamma^\nu] \\
+        &amp;= 4p_3^\alpha p_4^\beta(g^{\alpha\mu}g^{\beta\nu} - g^{\alpha\beta}g^{\mu\nu} +g^{\alpha\nu}g^{\beta\mu}) - 4m_\mu^2g^{\mu\nu}\\
+        &amp;= 4p_3^\mu p_4^\nu - 4p_{34}g^{\mu\nu} + 4p_3^\nu p_4^\mu - 4m_\mu^2g^{\mu\nu}
+    \end{aligned}\tag{10}\]
 with $p_{ij} \equiv p_i \cdot p_j$. Thus,
 \[\begin{aligned}
-        \frac{1}{4}\sum_\text{spins}\abs{\mathcal{M}}^2 &= \frac{e^4}{4s^2}[4p_1^\mu p_2^\nu - 4p_{12}g^{\mu\nu} + 4p_1^\nu p_2^\mu - 4m_e^2g^{\mu\nu}
+        \frac{1}{4}\sum_\text{spins}\abs{\mathcal{M}}^2 &amp;= \frac{e^4}{4s^2}[4p_1^\mu p_2^\nu - 4p_{12}g^{\mu\nu} + 4p_1^\nu p_2^\mu - 4m_e^2g^{\mu\nu}
         ][4p_3^\mu p_4^\nu - 4p_{34}g^{\mu\nu} + 4p_3^\nu p_4^\mu - 4m_\mu^2g^{\mu\nu}] \\
-        &= \frac{e^4}{4s^2}[4p_1^\mu p_2^\nu + 4p_1^\nu p_2^\mu - 4(p_{12} +m_e^2)g^{\mu\nu}
+        &amp;= \frac{e^4}{4s^2}[4p_1^\mu p_2^\nu + 4p_1^\nu p_2^\mu - 4(p_{12} +m_e^2)g^{\mu\nu}
         ][4p_3^\mu p_4^\nu  + 4p_3^\nu p_4^\mu - 4(p_{34} + m_\mu^2)g^{\mu\nu}]\\
-        &= \frac{4e^4}{s^2}[2p_{13}p_{24} + 2p_{14}p_{23} + 4(p_{12} +m_e^2)(p_{34} + m_\mu^2) - 2(p_{12} +m_e^2)p_{34} - 2(p_{34} + m_\mu^2)p_{12}] \\
-        &= \frac{8e^4}{s^2}(p_{13}p_{24} + p_{14}p_{23} + p_{12}m_\mu^2 + p_{34}m_e^2 + 2m_\mu^2m_e^2).
-    \end{aligned}\tag{47}\]
+        &amp;= \frac{4e^4}{s^2}[2p_{13}p_{24} + 2p_{14}p_{23} + 4(p_{12} +m_e^2)(p_{34} + m_\mu^2) - 2(p_{12} +m_e^2)p_{34} - 2(p_{34} + m_\mu^2)p_{12}] \\
+        &amp;= \frac{8e^4}{s^2}(p_{13}p_{24} + p_{14}p_{23} + p_{12}m_\mu^2 + p_{34}m_e^2 + 2m_\mu^2m_e^2).
+    \end{aligned}\tag{11}\]
 This can be written in terms of the Mandelstam variables:
 \[\begin{aligned}
-        s &= (p_{1} + p_{2})^{2} = (p_{3} + p_{4})^{2} = 2m_{e}^{2} + 2p_{12} = 2m_{\mu}^{2} + 2p_{34}, \\
-        t &= (p_{1} - p_{3})^{2} = (p_{2} - p_{4})^{2} = m_{e}^{2} + m_{\mu}^{2} - 2p_{13} = m_{e}^{2} + m_{\mu}^{2} - 2p_{24}, \\
-        u &= (p_{1} - p_{4})^{2} = (p_{2} - p_{3})^{2} = m_{e}^{2} + m_{\mu}^{2} - 2p_{14} = m_{e}^{2} + m_{\mu}^{2} - 2p_{23}. \\
-    \end{aligned}\tag{48}\]</p>
+        s &amp;= (p_{1} + p_{2})^{2} = (p_{3} + p_{4})^{2} = 2m_{e}^{2} + 2p_{12} = 2m_{\mu}^{2} + 2p_{34}, \\
+        t &amp;= (p_{1} - p_{3})^{2} = (p_{2} - p_{4})^{2} = m_{e}^{2} + m_{\mu}^{2} - 2p_{13} = m_{e}^{2} + m_{\mu}^{2} - 2p_{24}, \\
+        u &amp;= (p_{1} - p_{4})^{2} = (p_{2} - p_{3})^{2} = m_{e}^{2} + m_{\mu}^{2} - 2p_{14} = m_{e}^{2} + m_{\mu}^{2} - 2p_{23}. \\
+    \end{aligned}\tag{12}\]</p>
 
 <p>Plugging these in, we have
 \[\begin{aligned}
-        \frac{1}{4}\sum_\text{spins}\abs{\mathcal{M}}^2 &= \frac{8e^4}{s^2}\bigg[ \left(\frac{m_e^2+m_\mu^2-t}{2}\right)^2 + \left(\frac{m_e^2+m_\mu^2-u}{2}\right)^2 \\
-        &\qquad \qquad \qquad \qquad+ \left(\frac{s-2m_e^2}{2}\right)m_\mu^2 + \left(\frac{s-2m_\mu^2}{2}\right)m_e^2 + 2m_\mu^2m_e^2\bigg] \\
-        &= \frac{2e^4}{s^2}\bigg[ 2m_e^4 + 2m_\mu^4 + 4m_e^2m_\mu^2 -2t(m_e^2+m_\mu^2) -2u(m_e^2+m_\mu^2) \\
-        &\qquad \qquad \qquad \qquad+ t^2 + u^2 + 2s(m_e^2 + m_\mu^2) -8m_e^2m_\mu^2 + 8m_e^2m_\mu^2 \bigg] \\
-        &= \frac{2e^4}{s^2}\bigg[ t^2 + u^2 + 2(s-t-u)(m_e^2+m_\mu^2) + 2m_e^4 + 2m_\mu^4 \bigg].
-    \end{aligned}\tag{49}\]
+        \frac{1}{4}\sum_\text{spins}\abs{\mathcal{M}}^2 &amp;= \frac{8e^4}{s^2}\bigg[ \left(\frac{m_e^2+m_\mu^2-t}{2}\right)^2 + \left(\frac{m_e^2+m_\mu^2-u}{2}\right)^2 \\
+        &amp;\qquad \qquad \qquad \qquad+ \left(\frac{s-2m_e^2}{2}\right)m_\mu^2 + \left(\frac{s-2m_\mu^2}{2}\right)m_e^2 + 2m_\mu^2m_e^2\bigg] \\
+        &amp;= \frac{2e^4}{s^2}\bigg[ 2m_e^4 + 2m_\mu^4 + 4m_e^2m_\mu^2 -2t(m_e^2+m_\mu^2) -2u(m_e^2+m_\mu^2) \\
+        &amp;\qquad \qquad \qquad \qquad+ t^2 + u^2 + 2s(m_e^2 + m_\mu^2) -8m_e^2m_\mu^2 + 8m_e^2m_\mu^2 \bigg] \\
+        &amp;= \frac{2e^4}{s^2}\bigg[ t^2 + u^2 + 2(s-t-u)(m_e^2+m_\mu^2) + 2m_e^4 + 2m_\mu^4 \bigg].
+    \end{aligned}\tag{13}\]
 Also, note
 \[\begin{aligned}
-        s+u+t &= (2m_{e}^{2} + 2p_{12}) + (m_{e}^{2} + m_{\mu}^{2} - 2p_{13}) +( m_{e}^{2} + m_{\mu}^{2} - 2p_{14}) \\
-        &= 4m_e^2 + 2m_\mu^2 + 2p_1 \cdot (p_2-p_3-p_4) \\
-        &= 4m_e^2 + 2m_\mu^2 - 2p_1^2 \\
-        &= 2(m_e^2+m_\mu^2).
-    \end{aligned}\tag{50}\]
+        s+u+t &amp;= (2m_{e}^{2} + 2p_{12}) + (m_{e}^{2} + m_{\mu}^{2} - 2p_{13}) +( m_{e}^{2} + m_{\mu}^{2} - 2p_{14}) \\
+        &amp;= 4m_e^2 + 2m_\mu^2 + 2p_1 \cdot (p_2-p_3-p_4) \\
+        &amp;= 4m_e^2 + 2m_\mu^2 - 2p_1^2 \\
+        &amp;= 2(m_e^2+m_\mu^2).
+    \end{aligned}\tag{14}\]
 Thus, we have</p>
 
 <p>\[\frac{1}{4}\sum_\text{spins}\abs{\mathcal{M}}^2 = \frac{2e^4}{s^2}\bigg[ t^2 + u^2 + 4s(m_e^2+m_\mu^2) - 2(m_e^2+m_\mu^2)^2\bigg].
-        \tag{51}\]</p>
+        \tag{15}\]</p>
 
 <h4>Differential Cross Section</h4>
 
 <p>Now, let us compute the cross section in the centre of mass frame. Since the initial and final masses are different, the cross section is given by
-\[\frac{d\sigma}{d\Omega} = \frac{1}{64\pi^2E_{\text{CM}}^2}\frac{\abs{\vec{p_f}}}{\abs{\vec{p_i}}}\abs{\mathcal{M}}^2.\tag{52}\]</p>
+\[\frac{d\sigma}{d\Omega} = \frac{1}{64\pi^2E_{\text{CM}}^2}\frac{\abs{\vec{p_f}}}{\abs{\vec{p_i}}}\abs{\mathcal{M}}^2.\tag{16}\]</p>
 
 <p>In the centre of mass frame, let us define the energy of all the particles to be $E$ (by energy conservation), and define the momenta of the incoming particles to be $\vec{p}$, the momenta of the outgoing particles to be $\vec{q}$. So that
 \[\begin{aligned}
-        &p_1^\mu = (E, \vec{p}),\\
-        &p_2^\mu = (E, -\vec{p}),\\
-        &p_3^\mu = (E, \vec{q}),\\
-        &p_4^\mu = (E, -\vec{q}).\\
-    \end{aligned}\tag{53}\]
+        &amp;p_1^\mu = (E, \vec{p}),\\
+        &amp;p_2^\mu = (E, -\vec{p}),\\
+        &amp;p_3^\mu = (E, \vec{q}),\\
+        &amp;p_4^\mu = (E, -\vec{q}).\\
+    \end{aligned}\tag{17}\]
 The Mandelstam variables become,
 \[\begin{aligned}
-        s &= (p_{1} + p_{2})^{2} = 4E^2 = E_\text{CM}^2, \\
-        t &= (p_{1} - p_{3})^{2} = -(\vec{p}-\vec{q})^2 = -\vec{p}^2 - \vec{q}^2 +2\vec{p}\cdot\vec{q} =  -2E^2 + m_2^2 + m_\mu^2 + 2\vec{p}\cdot\vec{q}, \\
-        u &= (p_{1} - p_{4})^{2} = -(\vec{p}+\vec{q})^2 = -\vec{p}^2 - \vec{q}^2 -2\vec{p}\cdot\vec{q} = - 2E^2 + m_2^2 + m_\mu^2 -2\vec{p}\cdot\vec{q}. \\
-    \end{aligned}\tag{54}\]
-Thus, (51) becomes
+        s &amp;= (p_{1} + p_{2})^{2} = 4E^2 = E_\text{CM}^2, \\
+        t &amp;= (p_{1} - p_{3})^{2} = -(\vec{p}-\vec{q})^2 = -\vec{p}^2 - \vec{q}^2 +2\vec{p}\cdot\vec{q} =  -2E^2 + m_2^2 + m_\mu^2 + 2\vec{p}\cdot\vec{q}, \\
+        u &amp;= (p_{1} - p_{4})^{2} = -(\vec{p}+\vec{q})^2 = -\vec{p}^2 - \vec{q}^2 -2\vec{p}\cdot\vec{q} = - 2E^2 + m_2^2 + m_\mu^2 -2\vec{p}\cdot\vec{q}. \\
+    \end{aligned}\tag{18}\]
+Thus, (15) becomes
 \[\begin{aligned}
-        \frac{1}{4}\sum_\text{spins}\abs{\mathcal{M}}^2 &= \frac{2e^4}{s^2}\bigg[ (2E^2 - m_2^2 - m_\mu^2 -2\vec{p}\cdot\vec{q})^2 + (2E^2 - m_2^2 - m_\mu^2 +2\vec{p}\cdot\vec{q})^2 \\
-        &\qquad \qquad + 16E^2(m_e^2+m_\mu^2) - 2(m_e^2+m_\mu^2)^2\bigg] \\
-        &= \frac{2e^4}{s^2}\bigg[8E^4 + 8E^2(m_e^2+m_\mu^2) + 8(\vec{p}\cdot\vec{q})^2 \bigg].
-    \end{aligned}\tag{55}\]
+        \frac{1}{4}\sum_\text{spins}\abs{\mathcal{M}}^2 &amp;= \frac{2e^4}{s^2}\bigg[ (2E^2 - m_2^2 - m_\mu^2 -2\vec{p}\cdot\vec{q})^2 + (2E^2 - m_2^2 - m_\mu^2 +2\vec{p}\cdot\vec{q})^2 \\
+        &amp;\qquad \qquad + 16E^2(m_e^2+m_\mu^2) - 2(m_e^2+m_\mu^2)^2\bigg] \\
+        &amp;= \frac{2e^4}{s^2}\bigg[8E^4 + 8E^2(m_e^2+m_\mu^2) + 8(\vec{p}\cdot\vec{q})^2 \bigg].
+    \end{aligned}\tag{19}\]
 We define the angle between $\vec{p}$ and $\vec{q}$ to be $\theta$, so that
-\[\vec{p}\cdot\vec{q} = \abs{\vec{p}}\abs{\vec{q}}\cos\theta.\tag{56}\]
+\[\vec{p}\cdot\vec{q} = \abs{\vec{p}}\abs{\vec{q}}\cos\theta.\tag{20}\]
 The cross section then becomes
 \[\begin{aligned}
-        \frac{d\sigma}{d\Omega} &= \frac{e^4}{4\pi^2(4E^2)^3}\frac{\abs{\vec{p}}}{\abs{\vec{q}}}\bigg[E^4 + E^2(m_e^2+m_\mu^2) + \abs{\vec{p}}^2\abs{\vec{q}}^2\cos^2\theta \bigg] \\
-        &= \frac{\alpha^4}{16E^6}\frac{\sqrt{E^2-m_\mu^2}}{\sqrt{E^2-m_e^2}}\bigg[E^4 + E^2(m_e^2+m_\mu^2) + (E^2-m_e^2)(E^2-m_\mu^2)\cos^2\theta \bigg],
-    \end{aligned}\tag{57}\]
+        \frac{d\sigma}{d\Omega} &amp;= \frac{e^4}{4\pi^2(4E^2)^3}\frac{\abs{\vec{p}}}{\abs{\vec{q}}}\bigg[E^4 + E^2(m_e^2+m_\mu^2) + \abs{\vec{p}}^2\abs{\vec{q}}^2\cos^2\theta \bigg] \\
+        &amp;= \frac{\alpha^4}{16E^6}\frac{\sqrt{E^2-m_\mu^2}}{\sqrt{E^2-m_e^2}}\bigg[E^4 + E^2(m_e^2+m_\mu^2) + (E^2-m_e^2)(E^2-m_\mu^2)\cos^2\theta \bigg],
+    \end{aligned}\tag{21}\]
 where $\alpha=\frac{e^2}{4\pi}$ is the fine structure constant.</p>
 
 <p>For simplicity, take $m_e=0$, we find
 \[\begin{aligned}
         \frac{d\sigma}{d\Omega} 
-        &= \frac{\alpha^4}{16E^6}\sqrt{1-\frac{m_\mu^2}{E^2}}\bigg[E^4 + E^2m_\mu + E^2(E^2-m_\mu^2)\cos^2\theta \bigg] \\
-        &= \frac{\alpha^4}{4E_\text{CM}^2}\sqrt{1-\frac{m_\mu^2}{E^2}}\bigg[\left(1+\frac{m_\mu^2}{E^2}\right) + \left(1-\frac{m_\mu^2}{E^2}\right)\cos^2\theta  \bigg].
-    \end{aligned}\tag{58}\]</p>
+        &amp;= \frac{\alpha^4}{16E^6}\sqrt{1-\frac{m_\mu^2}{E^2}}\bigg[E^4 + E^2m_\mu + E^2(E^2-m_\mu^2)\cos^2\theta \bigg] \\
+        &amp;= \frac{\alpha^4}{4E_\text{CM}^2}\sqrt{1-\frac{m_\mu^2}{E^2}}\bigg[\left(1+\frac{m_\mu^2}{E^2}\right) + \left(1-\frac{m_\mu^2}{E^2}\right)\cos^2\theta  \bigg].
+    \end{aligned}\tag{22}\]</p>
 
 <p>Under the ultra-high-energy limit we can take $m_\mu=0$, which gives</p>
 
-<p>\[\frac{d\sigma}{d\Omega} = \frac{\alpha^4}{4E_\text{CM}^2}(1+\cos^2\theta).\tag{59}\]</p>
+<p>\[\frac{d\sigma}{d\Omega} = \frac{\alpha^4}{4E_\text{CM}^2}(1+\cos^2\theta).\tag{23}\]</p>
 
 <h2 id="rutherford-scattering-e-p-to-e-p">Rutherford Scattering $e^-p^+ \to e^-p^+$</h2>
 
 <p>The classical Rutherford scattering formula is
-\[\frac{d\sigma}{d\Omega} = \frac{m_e^2e^4}{4p^4\sin^4\frac{\theta}{2}},\tag{60}\]
+\[\frac{d\sigma}{d\Omega} = \frac{m_e^2e^4}{4p^4\sin^4\frac{\theta}{2}},\tag{1}\]
 where $p = \abs{\vec{p}_i} = \abs{\vec{p}_f}$ is the magnitude of the incoming electron momentum, which is the same as the magnitude of the outgoing electron.</p>
 
 <p>Here, we will do the calculation in QED, while neglecting any internal structure of the proton, treating it as a point-like particle.</p>
@@ -703,73 +642,80 @@ where $p = \abs{\vec{p}_i} = \abs{\vec{p}_f}$ is the magnitude of the incoming e
 
 <p>As far as QED is concerned, a proton and a muon are the same thing, up to a sign of the charge which gets squared anyway. Since the proton and the electron are distinguishable, the only contribution to the amplitude at tree-level is the $t$-channel:</p>
 
-<div class="equation-row"><span class="equation-part">$\begin{aligned}
-        i\mathcal{M$</span>
+<div class="equation-row"><span class="equation-part">$i\mathcal{M}
+        =$</span>
 
-<figure class="tikz-source"><pre class="tikz-feynman" aria-label="Feynman diagram (LaTeX source)">\begin{tikzpicture}[baseline={(0,-1.0)}]
-        \feynmandiagram [vertical=a to b] {
-        i1 [particle=\(e^{-}\)] -- [fermion] a -- [fermion] f1 [particle=\(e^{-}\)],
-        a -- [photon, edge label=\(k\)] b,
-        f2 [particle=\(p^+\)] -- [anti fermion] b -- [anti fermion] i2 [particle=\(p^+\)],
-        };            
-        \end{tikzpicture}</pre><figcaption>Feynman diagram — rendered from the LaTeX source above.</figcaption></figure>
+<figure class="tikz-figure"><script type="text/tikz">
+\usetikzlibrary{decorations.markings,arrows.meta}
+\begin{tikzpicture}[every node/.style={font=\small}]
+  \node (i1) at (0.00,0.00) {$e^{-}$};
+  \node (a) at (1.60,0.00) {};
+  \node (f1) at (3.20,0.00) {$e^{-}$};
+  \node (b) at (1.60,-1.40) {};
+  \node (f2) at (0.00,-2.80) {$p^+$};
+  \node (i2) at (3.20,-2.80) {$p^+$};
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (i1) -- (a);
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (a) -- (f1);
+  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- node[above, midway, font=\footnotesize] {$k$} (b);
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (f2) -- (b);
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (b) -- (i2);
+\end{tikzpicture}
+</script></figure>
 
-<p><span class="equation-part">$= (-ie)\bar{u}(p_3)\gamma^\mu u(p_1) \frac{-i\left[g_{\mu\nu} - (1-\xi)\frac{k_\mu k_\nu}{k^2} \right]}{k^2}(ie)\bar{u}(p_4)\gamma^\nu u(p_2).
-        
-    \end{aligned$</span><span class="equation-num">(61)</span></div></p>
+<p><span class="equation-part">$= (-ie)\bar{u}(p_3)\gamma^\mu u(p_1) \frac{-i\left[g_{\mu\nu} - (1-\xi)\frac{k_\mu k_\nu}{k^2} \right]}{k^2}(ie)\bar{u}(p_4)\gamma^\nu u(p_2).$</span><span class="equation-num">(2)</span></div></p>
 
 <p>This is almost identical to what we had before, and thus we can read off
-\[\abs{\mathcal{M}}^2 = \frac{e^2}{t}[\bar{u}(p_3)\gamma^\mu u(p_1)][\bar{u}(p_1)\gamma^\nu u(p_3)][\bar{u}(p_4)\gamma^\mu u(p_2)][\bar{u}(p_2)\gamma^\nu u(p_4)].\tag{62}\]
+\[\abs{\mathcal{M}}^2 = \frac{e^2}{t}[\bar{u}(p_3)\gamma^\mu u(p_1)][\bar{u}(p_1)\gamma^\nu u(p_3)][\bar{u}(p_4)\gamma^\mu u(p_2)][\bar{u}(p_2)\gamma^\nu u(p_4)].\tag{3}\]
 Assuming we do not have any knowledge of the initial spins and do not measure the final spins, we have
-\[\frac{1}{4}\sum _\text{spins}\abs{\mathcal{M}}^2 = \frac{e^4}{4t^2}\Tr[(\slashed{p}_3+m_e)\gamma^\mu(\slashed{p}_1+m_e)\gamma^\nu]\Tr[(\slashed{p}_4+m_p)\gamma^\mu(\slashed{p}_2+m_p)\gamma^\nu].\tag{63}\]
-Comparing this with (45), we find they are identical up to the masses after the replacement
-\[(p_1,p_2,p_3,p_4) \to (p_1, -p_3, p_4, -p_2).\tag{64}\]
+\[\frac{1}{4}\sum _\text{spins}\abs{\mathcal{M}}^2 = \frac{e^4}{4t^2}\Tr[(\slashed{p}_3+m_e)\gamma^\mu(\slashed{p}_1+m_e)\gamma^\nu]\Tr[(\slashed{p}_4+m_p)\gamma^\mu(\slashed{p}_2+m_p)\gamma^\nu].\tag{4}\]
+Comparing this with (9), we find they are identical up to the masses after the replacement
+\[(p_1,p_2,p_3,p_4) \to (p_1, -p_3, p_4, -p_2).\tag{5}\]
 These changes send
-\[s = (p_1+p_2)^2 \to (p_1-p_3)^2 = t,\tag{65}\]
-\[t = (p_1-p_3)^2 \to (p_1-p_4)^2 = u,\tag{66}\]
-\[u = (p_1 -p_4)^2 \to (p_1+p_2)^2 = s.\tag{67}\]
+\[s = (p_1+p_2)^2 \to (p_1-p_3)^2 = t,\tag{6}\]
+\[t = (p_1-p_3)^2 \to (p_1-p_4)^2 = u,\tag{7}\]
+\[u = (p_1 -p_4)^2 \to (p_1+p_2)^2 = s.\tag{8}\]
 Thus, we find
 \[\frac{1}{4}\sum_\text{spins}\abs{\mathcal{M}}^2 = \frac{2e^4}{t^2}\bigg[ u^2 + s^2 + 4t(m_e^2+m_p^2) - 2(m_e^2+m_p^2)^2\bigg].
-    \tag{68}\]</p>
+    \tag{9}\]</p>
 
 <h4>Cross Section</h4>
 
 <p>Now, let us take the $m_p \gg m_e$ limit to get the relativistic corrections to Rutherford's formula. Thus, the momenta are
-\[p_1^\mu = (E, \vec{p}_i), \quad p_2^\mu = (m_p,0), \quad p_3^\mu=(E, \vec{p}_f), \quad p_4^\mu=(m_p,0).\tag{69}\]
+\[p_1^\mu = (E, \vec{p}_i), \quad p_2^\mu = (m_p,0), \quad p_3^\mu=(E, \vec{p}_f), \quad p_4^\mu=(m_p,0).\tag{10}\]
 The scattering angle, $\theta$, is defined as
-\[\vec{p}_i\cdot\vec{p}_f = p^2\cos\theta,\tag{70}\]
+\[\vec{p}_i\cdot\vec{p}_f = p^2\cos\theta,\tag{11}\]
 where $p = \abs{\vec{p}_i} =\abs{\vec{p}_f}$.</p>
 
 <p>Using 
-\[v = \frac{p}{E} = \sqrt{1-\frac{m_e^2}{E^2}},\tag{71}\]
+\[v = \frac{p}{E} = \sqrt{1-\frac{m_e^2}{E^2}},\tag{12}\]
 the above becomes
-\[\vec{p}_i\cdot\vec{p}_f = p^2\cos\theta = v^2E^2\cos\theta.\tag{72}\]</p>
+\[\vec{p}_i\cdot\vec{p}_f = p^2\cos\theta = v^2E^2\cos\theta.\tag{13}\]</p>
 
 <p>In the limit $m_p \gg m_e$ is the electron's relativistic velocity, the relevant momentum products are:
-\[p_{13}=E^{2}(1-v^{2}\cos\theta),\tag{73}\]
-\[p_{12}=p_{23}=p_{34}=p_{14}=E m_{p},\tag{74}\]
-\[p_{24}=m_{p}^{2},\tag{75}\]
+\[p_{13}=E^{2}(1-v^{2}\cos\theta),\tag{14}\]
+\[p_{12}=p_{23}=p_{34}=p_{14}=E m_{p},\tag{15}\]
+\[p_{24}=m_{p}^{2},\tag{16}\]
 where $p_{ij}\equiv p_{i}^{\mu}p_{j\mu}$ and
-\[t=(p_{1}-p_{3})^{2}=-(\vec{p}_{i}-\vec{p}_{f})^{2}=-2p^{2}(1-\cos\theta),\tag{76}\]
+\[t=(p_{1}-p_{3})^{2}=-(\vec{p}_{i}-\vec{p}_{f})^{2}=-2p^{2}(1-\cos\theta),\tag{17}\]
 so that
 \[\begin{aligned}\frac{1}{4}\sum_{\text{spins}}|\mathcal{M}|^{2}
-&=\frac{8e^{4}}{t^{2}}[p_{14}p_{23}+p_{12}p_{34}-m_{p}^{2}p_{13}-m_{e}^{2}p_{24}+2m_{e}^{2}m_{p}^{2}] \nonumber \\
-&=\frac{8e^{4}}{4v^{4}E^{4}(1-\cos\theta)^{2}}[E^{2}m_{p}^{2}+E^{2}m_{p}^{2}v^{2}\cos\theta+m_{e}^{2}m_{p}^{2}] \nonumber \\
-&=\frac{2e^{4}m_{p}^{2}}{v^{4}E^{2}(1-\cos\theta)^{2}}[2-v^{2}(1-\cos\theta)] \nonumber \\
-&=\frac{e^{4}m_{p}^{2}}{v^{4}E^{2}\sin^{4}\frac{\theta}{2}}\left[1-v^{2}\sin^{2}\frac{\theta}{2}\right].\end{aligned}\tag{81}\]
+&amp;=\frac{8e^{4}}{t^{2}}[p_{14}p_{23}+p_{12}p_{34}-m_{p}^{2}p_{13}-m_{e}^{2}p_{24}+2m_{e}^{2}m_{p}^{2}] \nonumber \\
+&amp;=\frac{8e^{4}}{4v^{4}E^{4}(1-\cos\theta)^{2}}[E^{2}m_{p}^{2}+E^{2}m_{p}^{2}v^{2}\cos\theta+m_{e}^{2}m_{p}^{2}] \nonumber \\
+&amp;=\frac{2e^{4}m_{p}^{2}}{v^{4}E^{2}(1-\cos\theta)^{2}}[2-v^{2}(1-\cos\theta)] \nonumber \\
+&amp;=\frac{e^{4}m_{p}^{2}}{v^{4}E^{2}\sin^{4}\frac{\theta}{2}}\left[1-v^{2}\sin^{2}\frac{\theta}{2}\right].\end{aligned}\tag{22}\]
 Thus,</p>
 
-<p>\[\frac{d\sigma}{d\Omega}=\frac{e^{4}}{64\pi^{2}v^{2}p^{2}\sin^{4}\frac{\theta}{2}}\left(1-v^{2}\sin^{2}\frac{\theta}{2}\right), \qquad E\ll m_{p}.\tag{77}\]</p>
+<p>\[\frac{d\sigma}{d\Omega}=\frac{e^{4}}{64\pi^{2}v^{2}p^{2}\sin^{4}\frac{\theta}{2}}\left(1-v^{2}\sin^{2}\frac{\theta}{2}\right), \qquad E\ll m_{p}.\tag{18}\]</p>
 
 <p>This is known as the Mott formula. Note that the limit $m_{p}\rightarrow\infty$ exists: there is no dependence on the proton mass. For slow velocities we can use $v\ll 1$ and $p\ll E\sim m_{e}$ so $v\sim\frac{p}{m_{e}}$. Thus,
-\[\frac{d\sigma}{d\Omega}=\frac{e^{4}m_{e}^{2}}{64\pi^{2}p^{4}\sin^{4}\frac{\theta}{2}}, \qquad v\ll 1 \text{ and } E\ll m_{p}.\tag{78}\]
+\[\frac{d\sigma}{d\Omega}=\frac{e^{4}m_{e}^{2}}{64\pi^{2}p^{4}\sin^{4}\frac{\theta}{2}}, \qquad v\ll 1 \text{ and } E\ll m_{p}.\tag{19}\]
 which is the Rutherford formula. In particular, note that the normalization factors, $m_{e}^{2}$, worked out correctly.</p>
 
 <p>In the very high energy limit, $E\gg m_{e}$, one can no longer assume that the final state proton is also at rest. However, one can now neglect the electron mass, so that $v=1$. Then the momenta are
-\[p_{1}^{\mu}=(E,\vec{p}_{i}), \quad p_{2}^{\mu}=(m_{p},0), \quad p_{3}^{\mu}=(E^{\prime},\vec{p}_{f}), \quad p_{4}^{\mu}=p_{1}^{\mu}+p_{2}^{\mu}-p_{3}^{\mu}\tag{79}\]
+\[p_{1}^{\mu}=(E,\vec{p}_{i}), \quad p_{2}^{\mu}=(m_{p},0), \quad p_{3}^{\mu}=(E^{\prime},\vec{p}_{f}), \quad p_{4}^{\mu}=p_{1}^{\mu}+p_{2}^{\mu}-p_{3}^{\mu}\tag{20}\]
 with $|\vec{p}_{i}|=E$ and $|\vec{p}_{f}|=E^{\prime}$. For $m_{e}=0$ in the proton rest frame, following the same steps as above, we find the cross section:</p>
 
-<p>\[\frac{d\sigma}{d\Omega}=\frac{e^{4}}{64\pi^{2}E^{2}\sin ^{4}\frac{\theta}{2}}\frac{E^{\prime}}{E}\left(\cos ^{2}\frac{\theta}{2}+\frac{E-E^{\prime}}{m_{p}}\sin ^{2}\frac{\theta}{2}\right), \quad m_{e}\ll E.\tag{80}\]</p>
+<p>\[\frac{d\sigma}{d\Omega}=\frac{e^{4}}{64\pi^{2}E^{2}\sin ^{4}\frac{\theta}{2}}\frac{E^{\prime}}{E}\left(\cos ^{2}\frac{\theta}{2}+\frac{E-E^{\prime}}{m_{p}}\sin ^{2}\frac{\theta}{2}\right), \quad m_{e}\ll E.\tag{21}\]</p>
 
 <p>where $E^{\prime}$ is the final state electron's energy. As $m_{p}\rightarrow\infty$, $E\rightarrow E^{\prime}$ and this reduces to the $v\rightarrow 1$ limit of the Mott formula.</p>
 

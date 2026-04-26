@@ -33,7 +33,11 @@ window.MathJax = {
       Tr: '\\operatorname{Tr}',
       slashed: ['{\\not{#1}}', 1],
       wick:    ['{\\overline{#1}}', 1],
-      c:       ['{#1}', 1]
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // tensor.sty: \tensor{base}{indices} — rendered as base + indices
+      tensor:  ['{#1{#2}}', 2]
     }
   },
   loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
@@ -80,34 +84,43 @@ $G = dC$ where $C$ is a 3-form potential. The action governing these fields is
     - \frac{1}{6}\int C\wedge G\wedge G\right]\tag{1}\]</p>
 
 <ol>
-  <li>[label=<strong>\roman*)</strong>]</li>
   <li>Show that, up to surface terms, this action is gauge invariant under 
     $C\to C + d\Lambda$ where $\Lambda$ is a 2-form.
-    \begin{solution}
-    Under such a transformation, the 4-form $G \to G$, because of $d^2 = 0$. Therefore, the first integral in the action remains unchanged after the gauge transformation.
+
+<aside class="solution">
+<div class="solution__label">Solution.</div>
+
+<p>Under such a transformation, the 4-form $G \to G$, because of $d^2 = 0$. Therefore, the first integral in the action remains unchanged after the gauge transformation.</p>
 
 <p>The second integral requires a bit more treatment. Under the transformation, the integral becomes
     \[\int_M C \wedge G\wedge G \to \int_M C \wedge G\wedge G + \int_M d\Lambda \wedge G\wedge G.\tag{2}\]
     Now, using the Stoke's theorem, we find
     \[\int_M d\Lambda \wedge G\wedge G = \int_{\partial M} \Lambda \wedge G\wedge G-\int_M \Lambda\wedge d(G\wedge G) = 0,\tag{3}\]
-    where we have used the fact that the fields vanish at the boundary $\partial M$ and $dG = d^2C  =0$.
-    \end{solution}</li>
-  <li>Vary the metric to determine the Einstein equation for this theory.</p>
+    where we have used the fact that the fields vanish at the boundary $\partial M$ and $dG = d^2C  =0$.</p>
 
-<p>\begin{solution}
-        Let us consider the variation term by term. The first term gives the standard
+</aside></li>
+  <li>Vary the metric to determine the Einstein equation for this theory.
+
+<aside class="solution">
+<div class="solution__label">Solution.</div>
+
+<p>Let us consider the variation term by term. The first term gives the standard
         \[\delta(\sqrt{-g}R) = \sqrt{-g}G_{\mu\nu}\delta g^{\mu\nu}.\tag{4}\]
         The second term gives
         \[\frac{1}{96}\sqrt{-g}g_{\mu\nu}G_{\alpha\beta\rho\sigma}G^{\alpha\beta\rho\sigma}\delta g^{\mu\nu} - \frac{1}{12}G_{\mu\beta\rho\sigma}\tensor{G}{_\nu^{\beta\rho\sigma}}\delta g^{\mu\nu}.\tag{5}\]
     The last integral is a pure topological term, and has no metric dependence.</p>
 
 <p>Therefore, we find the Einstein equation to be
-    \[G_{\mu\nu} = \frac{1}{96}\left(8G_{\mu\beta\rho\sigma}\tensor{G}{_\nu^{\beta\rho\sigma}} - g_{\mu\nu}G_{\alpha\beta\rho\sigma}G^{\alpha\beta\rho\sigma}\right).\tag{6}\]
-    \end{solution}</li>
+    \[G_{\mu\nu} = \frac{1}{96}\left(8G_{\mu\beta\rho\sigma}\tensor{G}{_\nu^{\beta\rho\sigma}} - g_{\mu\nu}G_{\alpha\beta\rho\sigma}G^{\alpha\beta\rho\sigma}\right).\tag{6}\]</p>
+
+</aside></li>
   <li>Vary $C$ to obtain the equation of motion for the 4-form,
     \[d\star G = \frac{1}{2}G\wedge G.\tag{7}\]
-    \begin{solution}
-        Now, we vary the 3-form, $C\to C + \delta C$. Note that the $GG$ term can be written as 
+
+<aside class="solution">
+<div class="solution__label">Solution.</div>
+
+<p>Now, we vary the 3-form, $C\to C + \delta C$. Note that the $GG$ term can be written as 
         \[\int d^{11}x\sqrt{-g}G_{\mu\nu\rho\sigma}G^{\mu\nu\rho\sigma}=-4!\int G\wedge \star G.\tag{8}\]
         Therefore, the variation is given by
         \[-48\int_M d\delta C \wedge \star G = -48\int_{\partial M} \delta C \wedge \star G + 48\int_M\delta C\wedge d \star G.\tag{9}\]
@@ -121,9 +134,10 @@ $G = dC$ where $C$ is a 3-form potential. The action governing these fields is
         Therefore, the $CGG$ term becomes
         \[3\int G\wedge G \wedge  \delta C.\tag{12}\]
         putting the two terms together and set the variation to zero, we find
-        \[\frac{3}{6}\int G\wedge G \wedge  \delta C -\frac{48}{48}\int_M d \star G\wedge\delta C = 0 \implies d \star G = \frac{1}{2}G\wedge G.\tag{13}\]
-    \end{solution}</li>
-</ol></p>
+        \[\frac{3}{6}\int G\wedge G \wedge  \delta C -\frac{48}{48}\int_M d \star G\wedge\delta C = 0 \implies d \star G = \frac{1}{2}G\wedge G.\tag{13}\]</p>
+
+</aside></li>
+</ol>
   </article>
 
   <hr class="ornament-rule">

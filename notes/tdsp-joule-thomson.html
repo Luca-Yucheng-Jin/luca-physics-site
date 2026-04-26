@@ -33,7 +33,11 @@ window.MathJax = {
       Tr: '\\operatorname{Tr}',
       slashed: ['{\\not{#1}}', 1],
       wick:    ['{\\overline{#1}}', 1],
-      c:       ['{#1}', 1]
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // tensor.sty: \tensor{base}{indices} — rendered as base + indices
+      tensor:  ['{#1{#2}}', 2]
     }
   },
   loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
@@ -76,7 +80,7 @@ initially on the left-hand side of the pipe, is forced by a piston to go
 through the porous barrier using a constant pressure $P_1$. Assume the process
 can be treated quasistatically. As a result the gas flows to the right-hand
 side, resisted by another piston which applies a constant pressure $P_2$
-($P_2 < P_1$). Eventually all of the gas occupies a volume $V_2$ on the
+($P_2 &lt; P_1$). Eventually all of the gas occupies a volume $V_2$ on the
 right-hand side.</p>
 
 <ol>
@@ -107,7 +111,7 @@ Using Maxwell relations, we have
 <p>For ideal gas, 
 \[\left(\frac{\partial V}{\partial T}\right)_P = V \implies \eta_{\text{JT}}=0.\tag{4}\]</p>
 
-<p>Since $dP<0$, for a cooling process, $dT<0$, we require $\eta_{\text{JT}}>0$.</p>
+<p>Since $dP&lt;0$, for a cooling process, $dT&lt;0$, we require $\eta_{\text{JT}}&gt;0$.</p>
 
 <p>The van der Waals equation of state is
 \[\left(P + \frac{aN^2}{V^2}\right)(V-Nb) = NkT.\tag{5}\]
@@ -126,8 +130,8 @@ Substituting into the expression for $\eta_{\mathrm{JT}}$ and using $V \approx N
 Hence,
 \[\eta_{\mathrm{JT}} = \frac{N}{C_P}\left(\frac{2a}{kT} - b\right).
     \tag{11}\]
-The gas can be cooled ($\eta_{\mathrm{JT}}>0$) only below the <em>inversion temperature</em>,
-\[T < T_{\mathrm{inv}} \equiv \frac{2a}{kb}.\tag{12}\]</p>
+The gas can be cooled ($\eta_{\mathrm{JT}}&gt;0$) only below the <em>inversion temperature</em>,
+\[T &lt; T_{\mathrm{inv}} \equiv \frac{2a}{kb}.\tag{12}\]</p>
   </article>
 
   <hr class="ornament-rule">

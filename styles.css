@@ -727,6 +727,39 @@ hr.ornament-rule::after {
 .note aside.callout > :first-child { margin-top: 0; }
 .note aside.callout > :last-child  { margin-bottom: 0; }
 
+/* solution environments — same shape, oxblood accent */
+.note aside.solution {
+  background: #f1eadb;
+  border-left: 3px solid var(--accent);
+  border-radius: var(--rad);
+  padding: 0.9rem 1.3rem 1rem;
+  margin: 1.2rem 0;
+  color: var(--ink);
+}
+.note aside.solution > :first-child { margin-top: 0; }
+.note aside.solution > :last-child  { margin-bottom: 0; }
+.note .solution__label {
+  font-family: var(--display);
+  font-variant: small-caps;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  font-size: 0.78rem;
+  margin-bottom: 0.4rem;
+}
+
+/* tabular tables */
+.note table.note__table {
+  border-collapse: collapse;
+  margin: 1.2rem auto;
+  font-size: 0.95em;
+}
+.note table.note__table td,
+.note table.note__table th {
+  border: 1px solid var(--rule);
+  padding: 0.4rem 0.7rem;
+  text-align: left;
+}
+
 /* tikz-feynman source listings — TikZJax can't render these, so we show
    the LaTeX source styled like a code block. */
 .note figure.tikz-source {

@@ -33,7 +33,11 @@ window.MathJax = {
       Tr: '\\operatorname{Tr}',
       slashed: ['{\\not{#1}}', 1],
       wick:    ['{\\overline{#1}}', 1],
-      c:       ['{#1}', 1]
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // tensor.sty: \tensor{base}{indices} — rendered as base + indices
+      tensor:  ['{#1{#2}}', 2]
     }
   },
   loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
@@ -69,18 +73,18 @@ window.MathJax = {
   
 
   <article class="note__body">
-<p>Consider a square well potential with $U(x) = -U$ for $|x| < a$
+<p>Consider a square well potential with $U(x) = -U$ for $|x| &lt; a$
 and $U(x) = 0$ otherwise ($U$ is a positive constant). Show that there are no
 bound states (normalisable energy eigenfunctions) which satisfy
 $\chi(-x) = -\chi(x)$ (i.e.\ which have odd parity) if</p>
 
-<p>\[a^2 U < \frac{(\pi\hbar)^2}{8m}\,.
+<p>\[a^2 U &lt; \frac{(\pi\hbar)^2}{8m}\,.
   \tag{1}\]
-<u><strong>Solution</strong></u> For the state to be bounded, we require $-U<E<0$. Solving the TISE, we find
+<u><strong>Solution</strong></u> For the state to be bounded, we require $-U&lt;E&lt;0$. Solving the TISE, we find
 \[\chi(x) = \begin{cases}
-        Ae^{\kappa x} & x\leq-a,\\
-        C\sin(kx)+ D\cos(kx) & |x|<a,\\
-        Ee^{-\kappa x} & x\geq a,
+        Ae^{\kappa x} &amp; x\leq-a,\\
+        C\sin(kx)+ D\cos(kx) &amp; |x|&lt;a,\\
+        Ee^{-\kappa x} &amp; x\geq a,
     \end{cases}\tag{2}\]
 with
 \[\kappa = \frac{\sqrt{-2mE}}{\hbar} \qquad   \text{and} \qquad k = \frac{\sqrt{2m(U+E)}}{\hbar}.\tag{3}\]</p>
@@ -93,7 +97,7 @@ where
 \[\kappa^2 + k^2 = \frac{2mU}{\hbar^2}.\tag{6}\]</p>
 
 <p>Since $\cot$ has a greater magnitude of gradient than a circle; for a solution to exist, we require the radius of the circle to be greater than $ka=\pi/2$. That is,
-\[\frac{\sqrt{2mU}}{\hbar} > \frac{\pi}{2a} \implies Ua^2 > \frac{\pi^2\hbar^2}{8m}.\tag{7}\]</p>
+\[\frac{\sqrt{2mU}}{\hbar} &gt; \frac{\pi}{2a} \implies Ua^2 &gt; \frac{\pi^2\hbar^2}{8m}.\tag{7}\]</p>
   </article>
 
   <hr class="ornament-rule">

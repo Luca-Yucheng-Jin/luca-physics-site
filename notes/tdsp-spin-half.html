@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Partition Function and Thermodynamics of a Spin-$\frac{1 — Yucheng (Luca) Jin</title>
-<meta name="description" content="Partition Function and Thermodynamics of a Spin-$\frac{1. Source: D. Tong.">
+<title>Partition Function and Thermodynamics of a Spin-$\frac{1}{2}$ System — Yucheng (Luca) Jin</title>
+<meta name="description" content="Partition Function and Thermodynamics of a Spin-$\frac{1}{2}$ System. Source: D. Tong.">
 
 <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
 
@@ -33,7 +33,11 @@ window.MathJax = {
       Tr: '\\operatorname{Tr}',
       slashed: ['{\\not{#1}}', 1],
       wick:    ['{\\overline{#1}}', 1],
-      c:       ['{#1}', 1]
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // tensor.sty: \tensor{base}{indices} — rendered as base + indices
+      tensor:  ['{#1{#2}}', 2]
     }
   },
   loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
@@ -63,14 +67,12 @@ window.MathJax = {
     <a href="../notes.html">Notes</a> &nbsp;·&nbsp; Thermo &amp; Stat Phys · Tong SP PS1 Q3
   </div>
 
-  <h1 class="note__title">Partition Function and Thermodynamics of a Spin-$\frac{1</h1>
+  <h1 class="note__title">Partition Function and Thermodynamics of a Spin-$\frac{1}{2}$ System</h1>
   <p class="note__subtitle">Source: D. Tong, <em>Statistical Physics</em>, Problem Sheet 1, Question 3.</p>
 
   
 
   <article class="note__body">
-<p>{2}$ System (David Tong SP, PS1 Q3)}</p>
-
 <p>Consider a system consisting of $N$ spin-$\frac{1}{2}$ particles,
 each of which can be in one of two quantum states, &lsquo;up&rsquo; and &lsquo;down&rsquo;. In a
 magnetic field $B$, the energy of a spin in the up/down state is $\pm\mu B/2$

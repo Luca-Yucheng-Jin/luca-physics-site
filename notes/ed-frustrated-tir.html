@@ -33,7 +33,11 @@ window.MathJax = {
       Tr: '\\operatorname{Tr}',
       slashed: ['{\\not{#1}}', 1],
       wick:    ['{\\overline{#1}}', 1],
-      c:       ['{#1}', 1]
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // tensor.sty: \tensor{base}{indices} — rendered as base + indices
+      tensor:  ['{#1{#2}}', 2]
     }
   },
   loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
@@ -69,7 +73,7 @@ window.MathJax = {
   
 
   <article class="note__body">
-<p>Two plane, semi-infinite dielectric slabs with refractive index $n$ are separated by a vacuum region of width $d$. A plane wave of wavenumber $k$ is incident on the vacuum region from one of the slabs at an angle of incidence $\theta_I$ to the normal, with $n \sin \theta_I > 1$. The electric field of the incident radiation is normal to the plane of incidence (normal polarisation).</p>
+<p>Two plane, semi-infinite dielectric slabs with refractive index $n$ are separated by a vacuum region of width $d$. A plane wave of wavenumber $k$ is incident on the vacuum region from one of the slabs at an angle of incidence $\theta_I$ to the normal, with $n \sin \theta_I &gt; 1$. The electric field of the incident radiation is normal to the plane of incidence (normal polarisation).</p>
 
 <p>Show that some of the radiation is transmitted across the gap, and that the ratio of the amplitudes of the electric fields of the transmitted and incident waves satisfies:
 \[\left| \frac{E_T}{E_I} \right|^2 = \frac{1}{1 + \alpha^2 \sinh^2 \kappa d},\tag{1}\]
@@ -84,9 +88,9 @@ where
 <p><u><strong>Solution</strong></u> Let's take the first interface to be at $x=0$, and the incident electric field to be in the $y$-direction.
 The electric field of the whole setup can be written as
 \[\mathbf{E}(t, \mathbf{x}) = \hat{\mathbf{y}}\begin{cases}
-        E_{I0}e^{i\mathbf{k}_I\cdot \mathbf{x}-i\omega t } + E_{R0}e^{i\mathbf{k}_R\cdot \mathbf{x}-i\omega t },&x<0,\\
-        E_{+0}e^{i\mathbf{k}_+\cdot \mathbf{x}-i\omega t } + E_{-0}e^{i\mathbf{k}_-\cdot \mathbf{x}-i\omega t }, &0<x<d,\\
-        E_{T0}e^{i\mathbf{k}_T\cdot \mathbf{x}-i\omega t },&   x>d,
+        E_{I0}e^{i\mathbf{k}_I\cdot \mathbf{x}-i\omega t } + E_{R0}e^{i\mathbf{k}_R\cdot \mathbf{x}-i\omega t },&amp;x&lt;0,\\
+        E_{+0}e^{i\mathbf{k}_+\cdot \mathbf{x}-i\omega t } + E_{-0}e^{i\mathbf{k}_-\cdot \mathbf{x}-i\omega t }, &amp;0&lt;x&lt;d,\\
+        E_{T0}e^{i\mathbf{k}_T\cdot \mathbf{x}-i\omega t },&amp;   x&gt;d,
     \end{cases}\tag{3}\]
 where  we take 
 \[\mathbf{k}_I = (k\cos\theta_I,0,-k\sin\theta_I), \quad \mathbf{k}_R=(-k_R\cos\theta_R, 0, -k_R\sin\theta_R),\tag{4}\]
@@ -111,14 +115,14 @@ In the dielectric, we have
 \[\frac{ck}{n} = \frac{ck_R}{n} = \omega,\tag{13}\]
 which implies $k=k_R$ and $\theta_I = \theta_R$.
 Therefore,
-\[\begin{aligned}\frac{n\omega}{c}\sin\theta_I = k_\pm \sin\theta_\pm  \implies \mathbf{k}_\pm \cdot \hat{\mathbf{x}} &= \pm\sqrt{|\mathbf{k}_\pm|^2 -(\mathbf{k}_\pm \cdot \hat{\mathbf{z}})^2 } \notag\\&=\pm k\sqrt{1/n^2-\sin^2\theta_I} = \pm i\kappa,\end{aligned}\tag{22}\]
-which is the evanescent wave in the vacuum due to the total reflection ($n\sin\theta_I >1$).</p>
+\[\begin{aligned}\frac{n\omega}{c}\sin\theta_I = k_\pm \sin\theta_\pm  \implies \mathbf{k}_\pm \cdot \hat{\mathbf{x}} &amp;= \pm\sqrt{|\mathbf{k}_\pm|^2 -(\mathbf{k}_\pm \cdot \hat{\mathbf{z}})^2 } \notag\\&amp;=\pm k\sqrt{1/n^2-\sin^2\theta_I} = \pm i\kappa,\end{aligned}\tag{22}\]
+which is the evanescent wave in the vacuum due to the total reflection ($n\sin\theta_I &gt;1$).</p>
 
 <p>The electric field can be rewritten as 
 \[\mathbf{E}(\mathbf{x}) = \hat{\mathbf{y}}\begin{cases}
-        E_{I0}e^{i\mathbf{k}_I\cdot \mathbf{x} } + E_{R0}e^{i\mathbf{k}_R\cdot {\mathbf{x}} },&x<0,\\
-        E_{+0}e^{i\mathbf{k}_I\cdot \hat{\mathbf{z}} z}e^{-\kappa x} + E_{-0}e^{i\mathbf{k}_I\cdot \hat{\mathbf{z}}z }e^{+\kappa x}, &0<x<d,\\
-        E_{T0}e^{i\mathbf{k}_T\cdot \mathbf{x}},&   x>d,
+        E_{I0}e^{i\mathbf{k}_I\cdot \mathbf{x} } + E_{R0}e^{i\mathbf{k}_R\cdot {\mathbf{x}} },&amp;x&lt;0,\\
+        E_{+0}e^{i\mathbf{k}_I\cdot \hat{\mathbf{z}} z}e^{-\kappa x} + E_{-0}e^{i\mathbf{k}_I\cdot \hat{\mathbf{z}}z }e^{+\kappa x}, &amp;0&lt;x&lt;d,\\
+        E_{T0}e^{i\mathbf{k}_T\cdot \mathbf{x}},&amp;   x&gt;d,
     \end{cases}\tag{14}\]
 where we have hidden the time-dependence for convenience.
 By the same boundary condition at $x=d$, we find
@@ -130,14 +134,14 @@ By the same boundary condition at $x=d$, we find
 (-k_{Iz}\hat{\mathbf x} + k_{Ix}\hat{\mathbf z}) E_{I0} e^{i\mathbf{k}_I\cdot \mathbf{x}}
 +
 (-k_{Rz}\hat{\mathbf x} + k_{Rx}\hat{\mathbf z}) E_{R0} e^{i\mathbf{k}_R\cdot \mathbf{x}}
-\Big], & x<0, \\[6pt]
+\Big], &amp; x&lt;0, \\[6pt]
 \frac{1}{\omega}\Big[
 (-k_{Iz}\hat{\mathbf x} + i\kappa \hat{\mathbf z}) E_{+0} e^{i\mathbf{k}_I\cdot \hat{\mathbf z} z} e^{-\kappa x}
 +
 (-k_{Iz}\hat{\mathbf x} - i\kappa \hat{\mathbf z}) E_{-0} e^{i\mathbf{k}_I\cdot \hat{\mathbf z} z} e^{+\kappa x}
-\Big], & 0<x<d, \\[6pt]
+\Big], &amp; 0&lt;x&lt;d, \\[6pt]
 \frac{1}{\omega}
-(-k_{Tz}\hat{\mathbf x} + k_{Tx}\hat{\mathbf z}) E_{T0} e^{i\mathbf{k}_T\cdot \mathbf{x}}, & x>d.
+(-k_{Tz}\hat{\mathbf x} + k_{Tx}\hat{\mathbf z}) E_{T0} e^{i\mathbf{k}_T\cdot \mathbf{x}}, &amp; x&gt;d.
 \end{cases}\tag{16}\]</p>
 
 <p>Now, we are left to match the amplitude at the boundaries. By (7), we have

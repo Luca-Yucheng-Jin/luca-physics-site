@@ -42,16 +42,45 @@ Change them once and the whole site updates.
 
 ## How to view it
 
-This is plain static HTML — no build tools.
-
 ```bash
 # from the project root
-python3 -m http.server 8000
-# then open http://localhost:8000
+./build.sh --serve   # converts tex/ → notes/, then serves on :8000
 ```
 
-(or `npx serve`, or just open `index.html` in a browser — though MathJax wants
-a real http origin to render reliably).
+Or, for a one-shot build / live-rebuild on file changes:
+
+```bash
+./build.sh           # one-shot: convert all tex/*.tex → notes/*.html
+./build.sh --watch   # watch tex/ and rebuild on every change
+```
+
+The site itself is plain static HTML once built — drop a tex file in `tex/`,
+run `./build.sh`, and a matching `notes/<slug>.html` page is regenerated.
+
+## How the build works
+
+`build/tex_to_html.py` parses each `.tex` file and emits a fully-rendered
+HTML notes page:
+
+- **Math** is preserved and typeset by MathJax (loaded from a CDN). Custom
+  macros from common QFT preambles (`\slashed`, `\Tilde`, `\mathds`,
+  `\tensor`, `\wick`, `\Cdot`, `\Lagrangian`, …) are pre-registered.
+- **TikZ pictures** are emitted as `<script type="text/tikz">` blocks and
+  rendered client-side by [TikZJax](https://tikzjax.com).
+- **`tikz-feynman` diagrams** (`\begin{feynman}` / `\feynmandiagram`) — which
+  TikZJax can't compile — are auto-translated to plain TikZ by
+  `build/feynman_convert.py` (vertices with positions, edges with the
+  appropriate stroke style for fermion / photon / gluon / scalar).
+- **Equations** are numbered automatically; `\label{}` and `\eqref{}` resolve
+  to the same number; the counter restarts at every new topic so that each
+  problem sheet / chapter starts at (1) again.
+- **`\begin{solution}`, `\begin{tcolorbox}`, `\begin{tabular}`** etc. each
+  render as their HTML equivalent.
+
+Drop a new `<file>.tex` into `tex/` with a `\section{...}` and one or more
+`\subsection{...}` blocks; `./build.sh` will convert it on the next run.
+Map the new file to a slug + catalogue title by adding an entry to the
+`WHOLE_FILE_PAGES` list at the top of `build/tex_to_html.py`.
 
 ## Deployment
 

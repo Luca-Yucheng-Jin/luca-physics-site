@@ -33,7 +33,11 @@ window.MathJax = {
       Tr: '\\operatorname{Tr}',
       slashed: ['{\\not{#1}}', 1],
       wick:    ['{\\overline{#1}}', 1],
-      c:       ['{#1}', 1]
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // tensor.sty: \tensor{base}{indices} — rendered as base + indices
+      tensor:  ['{#1{#2}}', 2]
     }
   },
   loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
@@ -89,10 +93,10 @@ charge density vanishes in the rest-frame of the medium.</p>
 
 <p><u><strong>Solution</strong></u> It is easy to verify that 
 \[F_{\mu\nu}u^\nu = \gamma\begin{pmatrix}
-  0        &  E_x/c &  E_y/c &  E_z/c \\
-  -E_x/c  &  0     & -B_z   &  B_y   \\
-  -E_y/c  &  B_z   &  0     & -B_x   \\
-  -E_z/c  & -B_y   &  B_x   &  0
+  0        &amp;  E_x/c &amp;  E_y/c &amp;  E_z/c \\
+  -E_x/c  &amp;  0     &amp; -B_z   &amp;  B_y   \\
+  -E_y/c  &amp;  B_z   &amp;  0     &amp; -B_x   \\
+  -E_z/c  &amp; -B_y   &amp;  B_x   &amp;  0
 \end{pmatrix}
 \begin{pmatrix}
     c\\v_x\\v_y\\v_z
@@ -104,7 +108,7 @@ charge density vanishes in the rest-frame of the medium.</p>
 \[J^\mu + \frac{1}{c^2}(J^\nu u_\nu)u^\mu = \begin{pmatrix}
         \rho c\\\mathbf{J}
     \end{pmatrix}+\frac{1}{c^2}\begin{pmatrix}
-        -\rho c &\mathbf{J}
+        -\rho c &amp;\mathbf{J}
     \end{pmatrix}\cdot\begin{pmatrix}
         c\\0
     \end{pmatrix}\begin{pmatrix}
