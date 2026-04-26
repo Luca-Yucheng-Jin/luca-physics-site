@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>11-Dimensional Supergravity — Yucheng (Luca) Jin</title>
+<meta name="description" content="11-Dimensional Supergravity. Source: Perimeter Scholars International.">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../styles.css">
+
+<!-- MathJax with custom macros mirroring the original .tex preamble -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros']},
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      Q: '\\mathbb{Q}',
+      A: '\\mathcal{A}',
+      Lagrangian: '\\mathcal{L}',
+      Cdot: '\\boldsymbol{\\cdot}',
+      Tr: '\\operatorname{Tr}',
+      slashed: ['{\\not{#1}}', 1],
+      wick:    ['{\\overline{#1}}', 1],
+      c:       ['{#1}', 1]
+    }
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- TikZJax: renders <script type="text/tikz"> blocks into SVG client-side -->
+<link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
+<script src="https://tikzjax.com/v1/tikzjax.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="topbar__brand">Yucheng (Luca) Jin <small>MSci · Imperial</small></a>
+  <nav class="topbar__nav">
+    <a href="../index.html">About</a>
+    <a href="../notes.html" class="is-active">Notes</a>
+    <a href="../research.html">Research</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+  </nav>
+</header>
+
+<main class="note">
+
+  <div class="note__breadcrumb">
+    <a href="../notes.html">Notes</a> &nbsp;·&nbsp; General Relativity &amp; Beyond · PSI Strings PS1 Q3
+  </div>
+
+  <h1 class="note__title">11-Dimensional Supergravity</h1>
+  <p class="note__subtitle">Source: Perimeter Scholars International, Strings &amp; AdS/CFT, Problem Sheet 1, Question 3.</p>
+
+  
+
+  <article class="note__body">
+<h2 id="11-dimensional-supergravity">11-Dimensional Supergravity</h2>
+
+<p><em>M-theory</em> is a quantum theory of gravity in $d=11$ spacetime dimensions. 
+It arises from the strong coupling limit of string theory. At low-energies, it is 
+described by $d=11$ supergravity whose bosonic fields are the metric and a 4-form 
+$G = dC$ where $C$ is a 3-form potential. The action governing these fields is
+\[S = \frac{1}{2}M_{\mathrm{pl}}^9\left[\int d^{11}x\sqrt{-g}
+    \left(R - \frac{1}{48}G_{\mu\nu\rho\sigma}G^{\mu\nu\rho\sigma}\right)
+    - \frac{1}{6}\int C\wedge G\wedge G\right]\tag{1}\]</p>
+
+<ol>
+  <li>[label=<strong>\roman*)</strong>]</li>
+  <li>Show that, up to surface terms, this action is gauge invariant under 
+    $C\to C + d\Lambda$ where $\Lambda$ is a 2-form.
+    \begin{solution}
+    Under such a transformation, the 4-form $G \to G$, because of $d^2 = 0$. Therefore, the first integral in the action remains unchanged after the gauge transformation.
+
+<p>The second integral requires a bit more treatment. Under the transformation, the integral becomes
+    \[\int_M C \wedge G\wedge G \to \int_M C \wedge G\wedge G + \int_M d\Lambda \wedge G\wedge G.\tag{2}\]
+    Now, using the Stoke's theorem, we find
+    \[\int_M d\Lambda \wedge G\wedge G = \int_{\partial M} \Lambda \wedge G\wedge G-\int_M \Lambda\wedge d(G\wedge G) = 0,\tag{3}\]
+    where we have used the fact that the fields vanish at the boundary $\partial M$ and $dG = d^2C  =0$.
+    \end{solution}</li>
+  <li>Vary the metric to determine the Einstein equation for this theory.</p>
+
+<p>\begin{solution}
+        Let us consider the variation term by term. The first term gives the standard
+        \[\delta(\sqrt{-g}R) = \sqrt{-g}G_{\mu\nu}\delta g^{\mu\nu}.\tag{4}\]
+        The second term gives
+        \[\frac{1}{96}\sqrt{-g}g_{\mu\nu}G_{\alpha\beta\rho\sigma}G^{\alpha\beta\rho\sigma}\delta g^{\mu\nu} - \frac{1}{12}G_{\mu\beta\rho\sigma}\tensor{G}{_\nu^{\beta\rho\sigma}}\delta g^{\mu\nu}.\tag{5}\]
+    The last integral is a pure topological term, and has no metric dependence.</p>
+
+<p>Therefore, we find the Einstein equation to be
+    \[G_{\mu\nu} = \frac{1}{96}\left(8G_{\mu\beta\rho\sigma}\tensor{G}{_\nu^{\beta\rho\sigma}} - g_{\mu\nu}G_{\alpha\beta\rho\sigma}G^{\alpha\beta\rho\sigma}\right).\tag{6}\]
+    \end{solution}</li>
+  <li>Vary $C$ to obtain the equation of motion for the 4-form,
+    \[d\star G = \frac{1}{2}G\wedge G.\tag{7}\]
+    \begin{solution}
+        Now, we vary the 3-form, $C\to C + \delta C$. Note that the $GG$ term can be written as 
+        \[\int d^{11}x\sqrt{-g}G_{\mu\nu\rho\sigma}G^{\mu\nu\rho\sigma}=-4!\int G\wedge \star G.\tag{8}\]
+        Therefore, the variation is given by
+        \[-48\int_M d\delta C \wedge \star G = -48\int_{\partial M} \delta C \wedge \star G + 48\int_M\delta C\wedge d \star G.\tag{9}\]
+        Again, the boundary term vanishes.</p>
+
+<p>The $CGG$ term gives
+        \[\int\delta C\wedge G \wedge G + \int C\wedge \delta G \wedge G + \int C\wedge G \wedge \delta G.\tag{10}\]
+        Note that
+        \[\int C\wedge \delta G \wedge G = -\int d(C\wedge \delta C \wedge G)\ = \int d(C\wedge G)\ \wedge \delta C =  \int G\wedge G \wedge  \delta C,\tag{11}\]
+        where we have neglected the boundary terms implicitly.
+        Therefore, the $CGG$ term becomes
+        \[3\int G\wedge G \wedge  \delta C.\tag{12}\]
+        putting the two terms together and set the variation to zero, we find
+        \[\frac{3}{6}\int G\wedge G \wedge  \delta C -\frac{48}{48}\int_M d \star G\wedge\delta C = 0 \implies d \star G = \frac{1}{2}G\wedge G.\tag{13}\]
+    \end{solution}</li>
+</ol></p>
+  </article>
+
+  <hr class="ornament-rule">
+
+  <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
+    <a href="../notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="../index.html">About</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>

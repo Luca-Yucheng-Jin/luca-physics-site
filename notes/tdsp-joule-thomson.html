@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Joule-Thomson Process — Yucheng (Luca) Jin</title>
+<meta name="description" content="The Joule-Thomson Process. Source: D. Tong.">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../styles.css">
+
+<!-- MathJax with custom macros mirroring the original .tex preamble -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros']},
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      Q: '\\mathbb{Q}',
+      A: '\\mathcal{A}',
+      Lagrangian: '\\mathcal{L}',
+      Cdot: '\\boldsymbol{\\cdot}',
+      Tr: '\\operatorname{Tr}',
+      slashed: ['{\\not{#1}}', 1],
+      wick:    ['{\\overline{#1}}', 1],
+      c:       ['{#1}', 1]
+    }
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- TikZJax: renders <script type="text/tikz"> blocks into SVG client-side -->
+<link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
+<script src="https://tikzjax.com/v1/tikzjax.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="topbar__brand">Yucheng (Luca) Jin <small>MSci · Imperial</small></a>
+  <nav class="topbar__nav">
+    <a href="../index.html">About</a>
+    <a href="../notes.html" class="is-active">Notes</a>
+    <a href="../research.html">Research</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+  </nav>
+</header>
+
+<main class="note">
+
+  <div class="note__breadcrumb">
+    <a href="../notes.html">Notes</a> &nbsp;·&nbsp; Thermo &amp; Stat Phys · Tong SP PS4 Q4
+  </div>
+
+  <h1 class="note__title">The Joule-Thomson Process</h1>
+  <p class="note__subtitle">Source: D. Tong, <em>Statistical Physics</em>, Problem Sheet 4, Question 4.</p>
+
+  
+
+  <article class="note__body">
+<p>This question describes the Joule-Thomson process (also known as
+the Joule-Kelvin process). The figure shows a thermally insulated pipe which
+has a porous barrier separating two halves of the pipe. A gas of volume $V_1$,
+initially on the left-hand side of the pipe, is forced by a piston to go
+through the porous barrier using a constant pressure $P_1$. Assume the process
+can be treated quasistatically. As a result the gas flows to the right-hand
+side, resisted by another piston which applies a constant pressure $P_2$
+($P_2 < P_1$). Eventually all of the gas occupies a volume $V_2$ on the
+right-hand side.</p>
+
+<ol>
+  <li>Show that enthalpy, $H = E + PV$, is conserved.</li>
+  <li>Find the Joule-Thomson coefficient
+    $\mu_{\mathrm{JT}} \equiv \left(\dfrac{\partial T}{\partial P}\right)_{\!H}$
+    in terms of $T$, $V$, the heat capacity at constant pressure $C_P$,
+    and the volume coefficient of expansion
+    $\alpha \equiv \dfrac{1}{V}\!\left(\dfrac{\partial V}{\partial T}\right)_{\!P}$.
+    (Hint: You will need to use a Maxwell relation.)</li>
+  <li>What is $\mu_{\mathrm{JT}}$ for an ideal gas?</li>
+  <li>If we wish to use the Joule-Thomson process to cool a real (non-ideal)
+    gas, what must the sign of $\mu_{\mathrm{JT}}$ be?</li>
+  <li>Derive $\mu_{\mathrm{JT}}$ for a gas obeying the van der Waals equation
+    of state to leading order in the density $N/V$. For what values of
+    temperature $T$ can the gas be cooled?</li>
+</ol>
+
+<p><u><strong>Solution</strong></u> Label all quantities on the left by 1 and quantities on the right by 2. We have 
+\[dH = dH_1+ dH_2 = dE_1 + P_1dV_1 + V_1dP_1 + dE_2 + P_2dV_2 + V_2dP_2.\tag{1}\]
+Since the process is adiabatic, we have $dE_i = -\delta W_i = -P_idV_i$. Meanwhile, the pressure is constant; thus, all quantities on the left vanish. Hence, we have $dH=0$.</p>
+
+<p>Now, consider the temperature $T$ as a function of $H$ and $P$. The total derivative of $T$ is given by
+\[dT = \left(\frac{\partial T}{\partial H}\right)_P dH + \left(\frac{\partial T}{\partial P}\right)_H dP = \left(\frac{\partial T}{\partial P}\right)_H dP \equiv \eta_{\text{JT}}dP.\tag{2}\]
+Using Maxwell relations, we have
+\[\eta_{\text{JT}} = -\left(\frac{\partial T}{\partial H}\right)_P\left(\frac{\partial H}{\partial P}\right)_T = -\frac{1}{C_P}\left[T\left(\frac{\partial S}{\partial P}\right)_T + V\right] = \frac{1}{C_P}\left[T\left(\frac{\partial V}{\partial T}\right)_P - V\right].\tag{3}\]</p>
+
+<p>For ideal gas, 
+\[\left(\frac{\partial V}{\partial T}\right)_P = V \implies \eta_{\text{JT}}=0.\tag{4}\]</p>
+
+<p>Since $dP<0$, for a cooling process, $dT<0$, we require $\eta_{\text{JT}}>0$.</p>
+
+<p>The van der Waals equation of state is
+\[\left(P + \frac{aN^2}{V^2}\right)(V-Nb) = NkT.\tag{5}\]
+Expanding and dropping the $ab$ term as second order in the density $N/V$,
+\[PV - PNb + \frac{aN^2}{V} = NkT.\tag{6}\]
+Differentiating implicitly at constant $P$,
+\[P\left(\frac{\partial V}{\partial T}\right)_P - \frac{aN^2}{V^2}\left(\frac{\partial V}{\partial T}\right)_P = Nk,\tag{7}\]
+and so
+\[\left(\frac{\partial V}{\partial T}\right)_P = \frac{Nk}{P - aN^2/V^2} \approx \frac{Nk}{P}\left(1 + \frac{aN^2}{PV^2}\right).\tag{8}\]
+To leading order in $N/V$ we may replace $V \approx NkT/P$ in the correction term only, giving
+\[\left(\frac{\partial V}{\partial T}\right)_P \approx \frac{Nk}{P} + \frac{aN^2}{kT^2 V}.\tag{9}\]
+Substituting into the expression for $\eta_{\mathrm{JT}}$ and using $V \approx NkT/P + Nb - aN/kT$ to the same order,
+\[T\left(\frac{\partial V}{\partial T}\right)_P - V 
+    = \frac{NkT}{P} + \frac{aN}{kT} - \frac{NkT}{P} - Nb + \frac{aN}{kT}
+    = \frac{2aN}{kT} - Nb.\tag{10}\]
+Hence,
+\[\eta_{\mathrm{JT}} = \frac{N}{C_P}\left(\frac{2a}{kT} - b\right).
+    \tag{11}\]
+The gas can be cooled ($\eta_{\mathrm{JT}}>0$) only below the <em>inversion temperature</em>,
+\[T < T_{\mathrm{inv}} \equiv \frac{2a}{kb}.\tag{12}\]</p>
+  </article>
+
+  <hr class="ornament-rule">
+
+  <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
+    <a href="../notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="../index.html">About</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>

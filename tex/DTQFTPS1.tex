@@ -1,0 +1,348 @@
+\section{David Tong QFT PS1}
+\subsection{SO(3) Symmetry, Q4}
+Verify that the Lagrangian density
+\begin{equation}
+    \mathcal{L} = \frac{1}{2}\partial_\mu\phi_a\partial^\mu\phi_a - \frac{1}{2}m^2\phi_a\phi_a
+\end{equation}
+for a triplet of real fields $\phi_a$ ($a=1,2,3$) is invariant under the infinitesimal $SO(3)$ rotation by $\theta$
+\begin{equation}
+    \phi_a \rightarrow \phi_a + \theta\epsilon_{abc}n_b\phi_c
+\end{equation}
+where $n_a$ is a unit vector. Compute the Noether current $j^\mu$. Deduce that the three quantities
+\begin{equation}
+    Q_a = \int d^3x\; \epsilon_{abc}\,\dot{\phi}_b\phi_c
+\end{equation}
+are all conserved and verify this directly using the field equations satisfied by $\phi_a$.
+\begin{solution}
+    Under the SO(3) rotation, the $\phi\phi$ term transform as
+    \begin{equation}
+        \phi_a\phi_a \to \phi_a\phi_a + 2\theta\epsilon_{abc}\phi_an_b\phi_c + \order{\theta^2} = \phi_a\phi_a.
+    \end{equation}
+    Therefore, the Lagrangian is invariant under the transformation.
+
+    The corresponding conserved current is given by
+    \begin{equation}
+        j^\mu = \frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi_a)}\delta\phi_a = \partial^\mu \phi_a\epsilon_{abc}n_b\phi_c = -n_b J_b^\mu.
+    \end{equation}
+    Since the conservation law must hold for arbitrary unit vector, $n_a$, all three components of the current are conserved separetly.
+    Integrate the time component over the space, we find the conserved charge
+    \begin{equation}
+        Q_a = \int d^3x J^0_a = \int d^3x \epsilon_{abc}\dot{\phi}_b \phi_c.
+    \end{equation}
+
+    The equation of motion is given by
+    \begin{equation}
+        (\partial^2-m^2)\phi_a = 0.
+    \end{equation}
+    We use this to verify the charge conservation:
+    \begin{equation}
+        \frac{d Q_a}{dt} = \int d^3x \epsilon_{abc}(\ddot{\phi}_b\phi_c + \dot{\phi}_b\dot{\phi}_c) = \int d^3x \epsilon_{abc}\phi_c(\nabla^2 +m^2)\phi_b = \int d^3x \epsilon_{abc}(\nabla\phi_b) \cdot (\nabla\phi_c) = 0,
+    \end{equation}
+    where we have used the antisymmetric property of $\epsilon_{abc}$ consistently.
+\end{solution}
+
+\subsection{Infinitesimal Lorentz Transformation, Q5}
+A Lorentz transformation $x^\mu \to x'^\mu = \Lambda^\mu{}_\nu x^\nu$ is such that it preserves the Minkowski metric $\eta_{\mu\nu}$, meaning that $\eta_{\mu\nu}x^\mu x^\nu = \eta_{\mu\nu}x'^\mu x'^\nu$ for all $x$. Show that this implies that
+\begin{equation}
+    \eta_{\mu\nu} = \eta_{\sigma\tau}\Lambda^\sigma{}_\mu\Lambda^\tau{}_\nu.
+\end{equation}
+Use this result to show that an infinitesimal transformation of the form
+\begin{equation}
+    \Lambda^\mu{}_\nu = \delta^\mu{}_\nu + \omega^\mu{}_\nu
+\end{equation}
+is a Lorentz transformation when $\omega^{\mu\nu}$ is antisymmetric: i.e.\ $\omega^{\mu\nu} = -\omega^{\nu\mu}$.
+
+Write down the matrix form for $\omega^\mu{}_\nu$ that corresponds to a rotation through an infinitesimal angle $\theta$ about the $x^3$-axis. Do the same for a boost along the $x^1$-axis by an infinitesimal velocity $v$.
+\begin{solution}
+    Substitute the Lorentz transformation into the metric preserving statement, we find
+    \begin{equation}
+        \eta_{\mu\nu}x^\mu x^\nu = \eta_{\sigma\tau}\tensor{\Lambda}{^\sigma_\mu}\tensor{\Lambda}{^\tau_\nu}x^\mu x^\nu \implies \eta_{\mu\nu} = \eta_{\sigma\tau}\tensor{\Lambda}{^\sigma_\mu}\tensor{\Lambda}{^\tau_\nu}.
+    \end{equation}
+    For an infinitesimal transformation of the form, it needs to satisfy the above equality
+    \begin{equation}
+        \eta_{\mu\nu} = \eta_{\sigma\tau}(\delta^\sigma{}_\mu + \omega^\sigma{}_\mu)(\delta^\tau{}_\nu + \omega^\tau{}_\nu) = \eta_{\mu\nu} + \omega_{\nu\mu} + \omega_{\mu\nu} + \order{\omega^2}.
+    \end{equation}
+    Therefore, we require $\omega_{\mu\nu} + \omega_{\nu\mu} = 0$, i.e.\ $\omega^{\mu\nu} = -\omega^{\nu\mu}$.
+
+    For a rotation through an infinitesimal angle $\theta$ about the $x^3$-axis, the
+    coordinates transform as $x^1 \to x^1 + \theta x^2$ and $x^2 \to x^2 - \theta x^1$,
+    so $\omega^\mu{}_\nu$ takes the form
+    \begin{equation}
+        \omega^\mu{}_\nu =
+        \begin{pmatrix}
+            0 & 0 & 0 & 0 \\
+            0 & 0 & \theta & 0 \\
+            0 & -\theta & 0 & 0 \\
+            0 & 0 & 0 & 0
+        \end{pmatrix}.
+    \end{equation}
+    Lowering the first index with $\eta_{\mu\nu} = \mathrm{diag}(+1,-1,-1,-1)$ gives
+    \begin{equation}
+        \omega_{\mu\nu} =
+        \begin{pmatrix}
+            0 & 0 & 0 & 0 \\
+            0 & 0 & -\theta & 0 \\
+            0 & \theta & 0 & 0 \\
+            0 & 0 & 0 & 0
+        \end{pmatrix},
+    \end{equation}
+    which is manifestly antisymmetric.
+
+    For a boost along the $x^1$-axis by an infinitesimal velocity $v$, the coordinates
+    transform as $x^0 \to x^0 - v x^1$ and $x^1 \to x^1 - v x^0$, so
+    \begin{equation}
+        \omega^\mu{}_\nu =
+        \begin{pmatrix}
+            0 & -v & 0 & 0 \\
+            -v & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0
+        \end{pmatrix}.
+    \end{equation}
+    Lowering the first index gives
+    \begin{equation}
+        \omega_{\mu\nu} =
+        \begin{pmatrix}
+            0 & -v & 0 & 0 \\
+            v & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0
+        \end{pmatrix},
+    \end{equation}
+    which is again antisymmetric, as required.
+
+\end{solution}
+\subsection{Lorentz Invariance and the Energy-Momentum Tensor, Q6}
+Consider the infinitesimal form of the Lorentz transformation derived in the previous question: $x^\mu \to x^\mu + \omega^\mu{}_\nu x^\nu$. Show that a scalar field transforms as
+\begin{equation}
+    \phi(x) \to \phi'(x) = \phi(x) - \omega^\mu{}_\nu\, x^\nu\, \partial_\mu\phi(x)
+\end{equation}
+and hence show that the variation of the Lagrangian density is a total derivative
+\begin{equation}
+    \delta\mathcal{L} = -\partial_\mu(\omega^\mu{}_\nu\, x^\nu\, \mathcal{L}).
+\end{equation}
+Using Noether's theorem deduce the existence of the conserved current
+\begin{equation}
+    j^\mu = -\omega^\rho{}_\nu\left[T^\mu_\rho\, x^\nu\right]
+\end{equation}
+The three conserved charges arising from spatial rotational invariance define the \textit{total angular momentum} of the field. Show that these charges are given by,
+\begin{equation}
+    Q_i = \epsilon_{ijk}\int d^3x\;\left(x^j T^{0k} - x^k T^{0j}\right)
+\end{equation}
+Derive the conserved charges arising from invariance under Lorentz boosts. Show that they imply
+\begin{equation}
+    \frac{d}{dt}\int d^3x\;\left(x^i\, T^{00}\right) = \text{constant}
+\end{equation}
+and interpret this equation.
+\begin{solution}
+    Under an infinitesimal Lorentz transformation, the scalar field transforms as
+    \begin{equation}
+        \phi(x) \to \phi'(x) =  \phi(\Lambda^{-1}x) = \phi(x^\mu - \tensor{\omega}{^\mu_\nu}x^\nu) = \phi(x) - \tensor{\omega}{^\mu_\nu}x^\nu\partial_\nu\phi(x).
+    \end{equation}
+    Since the Lagrangian is a scalar, it must transform in the same way as the free scalar field, that is
+    \begin{equation}
+        \delta\mathcal{L} = -\partial_\mu(\omega^\mu{}_\nu\, x^\nu\, \mathcal{L}).
+    \end{equation}
+    For a Lorentz invariant Lagrangian, the conserved current is given by
+    \begin{equation}
+        j^\mu = \frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi)}\delta\phi - F^\mu = -\omega^\rho{}_\nu\left(\frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi)}\partial_\rho\phi  - \delta^\mu_\rho\mathcal{L}\right)x^\nu = - \omega^\rho{}_\nu T^\mu{}_\rho x^\nu\quad \text{with} \quad F^\mu = -\omega^\mu{}_\nu\, x^\nu\, \mathcal{L}.
+    \end{equation}
+    By the antisymmetric property of $\omega$, we find
+    \begin{equation}
+        \omega_{\rho\nu}\partial_\mu(T^{\mu\rho}x^\nu) = \frac{1}2{}\omega_{\rho\nu}\partial_\mu(T^{\mu\rho}x^\nu - T^{\mu\nu}x^\rho) = 0
+    \end{equation}
+    So, we have the following conservation equation
+    \begin{equation}
+        \partial_\mu(T^{\mu\rho}x^\nu - T^{\mu\nu}x^\rho) =0,
+    \end{equation}
+    which gives the conserved charges
+    \begin{equation}
+        Q^{\mu\nu} =  \int d^3x( T^{0\mu}x^\nu -T^{0\nu}x^\mu).
+    \end{equation}
+    The Lorentz group has six independent parameters: three rotations and three boosts.
+    For spatial rotations, we pick $\rho, \nu \in \{1,2,3\}$. The three angular momentum
+    charges are
+    \begin{equation}
+        Q^{jk} = \int d^3x\,(T^{0j}x^k - T^{0k}x^j),
+    \end{equation}
+    which we can package into a 3-vector using the Levi-Civita symbol,
+    \begin{equation}
+        Q_i = \frac{1}{2}\epsilon_{ijk}Q^{jk} = \epsilon_{ijk}\int d^3x\,(x^j T^{0k} - x^k T^{0j}).
+    \end{equation}
+   These are the components of the total angular momentum of
+    the field.
+
+    For Lorentz boosts, we pick $\rho = 0$ and $\nu = i \in \{1,2,3\}$, giving the three
+    boost charges
+    \begin{equation}
+        Q^{0i} = \int d^3x\,(T^{00}x^i - T^{0i}x^0) = \int d^3x\, T^{00}x^i - t\int d^3x\, T^{0i}.
+    \end{equation}
+    Conservation of $Q^{0i}$ states that
+    \begin{equation}
+        \frac{d}{dt}\int d^3x\,(T^{00}x^i - T^{0i}x^0) = 0 \implies \frac{d}{dt}\int d^3x\, x^i T^{00} = \int d^3x\, T^{0i} = P^i,
+    \end{equation}
+    where we used conservation of momentum $\dot{P}^i = 0$, by translational invariance. Since $P^i$ is constant, this
+    gives
+    \begin{equation}
+        \frac{d}{dt}\int d^3x\;(x^i\,T^{00}) = \text{constant}.
+    \end{equation}
+    This is the field-theoretic analogue of the statement that the centre of energy moves with constant velocity $P^i/E$, i.e.\ the centre of energy travels in a straight
+    line at constant speed, in direct analogy with Newton's first law for the centre of mass.    
+\end{solution}
+
+\subsection{Energy-Momentum Tensor of the Electromagnetic Field, Q7}
+Maxwell's Lagrangian for the electromagnetic field is
+\begin{equation}
+    \mathcal{L} = -\frac{1}{4}F_{\mu\nu}F^{\mu\nu}
+\end{equation}
+where $F_{\mu\nu} = \partial_\mu A_\nu - \partial_\nu A_\mu$ and $A_\mu$ is the 4-vector potential. Show that $\mathcal{L}$ is invariant under gauge transformations
+\begin{equation}
+    A_\mu \to A_\mu + \partial_\mu\xi
+\end{equation}
+where $\xi = \xi(x)$ is a scalar field with arbitrary (differentiable) dependence on $x$.
+
+Use Noether's theorem, and the spacetime translational invariance of the action, to construct the energy-momentum tensor $T^{\mu\nu}$ for the electromagnetic field. Show that the resulting object is neither symmetric nor gauge invariant. Consider a new tensor given by
+\begin{equation}
+    \Theta^{\mu\nu} = T^{\mu\nu} - F^{\rho\mu}\partial_\rho A^\nu
+\end{equation}
+Show that this object also defines four conserved currents. Moreover, show that it is symmetric, gauge invariant and traceless.
+
+\textbf{Comment:} $T^{\mu\nu}$ and $\Theta^{\mu\nu}$ are both equally good definitions of the energy-momentum tensor. However $\Theta^{\mu\nu}$ clearly has the nicer properties. Moreover, if you couple Maxwell's Lagrangian to general relativity then it is $\Theta^{\mu\nu}$ which appears in Einstein's equations.\
+
+\begin{solution}
+    It is trivial to see that the Lagrangian is invariant under gauge transformation. 
+
+    We now look at the conjugate momentum of the Lagrangian
+    \begin{equation}
+        \frac{\partial\mathcal{L}}{\partial(\partial_\mu A_\nu)}=-\frac{1}{2}(\delta_\alpha^\mu\delta_\beta^\nu - \delta_\alpha^\nu\delta_\beta^\mu)(\partial^\alpha A^\beta - \partial^\beta A^\alpha) = -\frac{1}{2}F^{\mu\nu} + \frac{1}{2}F^{\nu\mu} = - F^{\mu\nu}.
+        \label{eq:conjugateA}
+    \end{equation}
+    Now consider the translation, $x^\mu \to x^\mu + \epsilon^\mu$. The potential transform as
+    \begin{equation}
+        A^\mu \to A^\mu - \epsilon^\nu \partial_\nu A^\mu.
+    \end{equation}
+    The Lagrangian transform as
+    \begin{equation}
+        \mathcal{L} \to \mathcal{L} - \epsilon^\mu \partial_\mu \mathcal{L}.
+    \end{equation}
+    Now, we find
+    \begin{equation}
+        \delta\mathcal{L} =  \partial_\mu \left(\frac{\partial\mathcal{L}}{\partial(\partial_\mu A_\nu)}\delta A_\nu\right) \implies -\partial_\nu \mathcal{L} = \partial_\mu(F^{\mu\rho}\partial^\nu A_\rho),
+    \end{equation}
+    which gives the energy-momentum tensor
+    \begin{equation}
+        T^{\mu\nu} = -F^{\mu\rho}\partial^\nu A_\rho  -\eta^{\mu\nu}\mathcal{L}.
+    \end{equation}
+    It is clear that $F$ and $\mathcal{L}$ are invariant under gauge transformation. However, $\partial_\mu A_\nu$ itself is not invariant under the gauge transformation, so that the energy-momentum tensor is not invariant. It is also clear to see that the first term is not symmetric.
+
+    Defining the new object
+    \begin{equation}\boxed{
+        \Theta^{\mu\nu} = T^{\mu\nu} - F^{\rho\mu}\partial_\rho A^\nu = -F^{\mu\rho}\partial^\nu A_\rho - F^{\rho\mu}\partial_\rho A^\nu - \eta^{\mu\nu}\mathcal{L} = F^{\rho\mu}F^\nu{}_\rho - \eta^{\mu\nu}\mathcal{L},}
+    \end{equation}
+    which is clearly gauge invariant and symmetric. To see that the above quantity is also a conserved current, consider
+    \begin{equation}
+        \partial_\mu(F^{\mu\rho}\partial_\rho A_\nu) = \partial_\mu F^{\mu\rho}\partial_\rho A_\nu + F^{\mu\rho}\partial_\mu\partial_\rho A_\nu=0,
+    \end{equation}
+    where the first term vanishes by the equation of motion and the second term vanishes  by the antisymmetric property of $F^{\mu\nu}$. Therefore, 
+    \begin{equation}
+        \partial_\mu \Theta^{\mu\nu}=0.
+    \end{equation}
+    Now, consider the trace of the object, which is
+    \begin{equation}
+        \Theta^\mu{}_\mu = \eta_{\mu\nu}\Theta^{\mu\nu} = F^{\mu\rho}F_{\mu\rho} - \frac{1}{4}\delta^\mu{}_\mu\, F_{\rho\sigma}F^{\rho\sigma} = F^{\mu\rho}F_{\mu\rho} - F_{\rho\sigma}F^{\rho\sigma} = 0. 
+    \end{equation}
+\end{solution}
+
+\subsection{The Proca Field, Q8}
+
+The Lagrangian density for a massive vector field $C_\mu$ is given by
+\begin{equation}
+    \mathcal{L} = -\frac{1}{4}F_{\mu\nu}F^{\mu\nu} + \frac{1}{2}m^2 C_\mu C^\mu
+\end{equation}
+where $F_{\mu\nu} = \partial_\mu C_\nu - \partial_\nu C_\mu$. Derive the equations of motion and show that when $m \neq 0$ they imply
+\begin{equation}
+    \partial_\mu C^\mu = 0.
+\end{equation}
+Further show that $C_0$ can be eliminated completely in terms of the other fields by
+\begin{equation}
+    \partial_i\partial^i\, C_0 + m^2 C_0 = \partial^i\dot{C}_i.
+    \label{eq:C}
+\end{equation}
+Construct the canonical momenta $\Pi_i$ conjugate to $C_i$, $i = 1,2,3$ and show that the canonical momentum conjugate to $C_0$ is vanishing. Construct the Hamiltonian density $\mathcal{H}$ in terms of $C_0$, $C_i$ and $\Pi_i$. (Note: Do not be concerned that the canonical momentum for $C_0$ is vanishing. $C_0$ is non-dynamical --- it is determined entirely in terms of the other fields using equation (\ref{eq:C})).
+
+\begin{solution}
+    The equation of motion trivially follows from (\ref{eq:conjugateA}), that is
+    \begin{equation}
+        \partial_\mu F^{\mu\nu} + m ^2C^\nu =  0.
+    \end{equation}
+    For non-zero mass, take $\partial_\nu$ of the above and use the antisymmetric property of $F^{\mu\nu}$, we find
+    \begin{equation}
+        \partial_\mu C^\mu = 0.
+    \end{equation}
+    Therefore, we can write the following two equations
+    \begin{equation}
+        \partial_0 C^0 = \partial_i C^i,
+    \end{equation}
+    \begin{equation}
+        \partial_\mu \partial^\mu C_0 - \partial_0 \partial_\mu C^\mu + m^2 C_0 = \partial_\mu \partial^\mu C_0  + m^2 C_0 = 0.
+    \end{equation}
+    Together, we find
+    \begin{equation}
+        \partial_i \partial^i C_0 + m^2 C_0 = \partial^i \dot{C}_i.
+    \end{equation}
+    The conjugate momenta are given by 
+    \begin{equation}
+        \Pi_\mu = \frac{\partial\mathcal{L}}{\partial(\partial_0 A_\mu)}= -F^{0\mu}.
+    \end{equation}
+    For $\mu = 0$, the antisymmetric tensor vanishes, and thus $\Pi_0 = 0$. For $\mu = i$, we have $\Pi_i = F_{0i}$. The Hamiltonian density is given by
+    \begin{equation}
+        \mathcal{H} = \Pi_\mu \dot{C}^\mu - \mathcal{L}.
+    \end{equation}
+    Let's write the Lagrangian in terms of the conjugate momenta:
+    \begin{equation}
+        \mathcal{L} = \frac{1}{2}\Pi_i^2 -\frac{1}{4}F_{ij}^2 + \frac{1}{2}m^2(C_0^2 - C_i^2).
+    \end{equation}
+    The Hamiltonian density is 
+    \begin{equation}
+        \mathcal{H} = \Pi_i^2 + \Pi_i\partial_iC_0 - \mathcal{L} =  \frac{1}{2}\Pi_i^2 +\frac{1}{4}F_{ij}^2 - \frac{1}{2}m^2(C_0^2 - C_i^2) + \Pi_i\partial_iC_0.
+    \end{equation}
+\end{solution}
+
+\subsection{Scale Invariance and the Dilatation Current, Q9}
+
+A class of interesting theories are invariant under the scaling of all lengths by
+\begin{equation}
+    x^\mu \to (x')^\mu = \lambda x^\mu \quad \text{and} \quad \phi(x) \to \phi'(x) = \lambda^{-D}\phi(\lambda^{-1}x)
+\end{equation}
+Here $D$ is called the \textit{scaling dimension} of the field. Consider the action for a real scalar field given by
+\begin{equation}
+    S = \int d^4x\; \frac{1}{2}\partial_\mu\phi\,\partial^\mu\phi - \frac{1}{2}m^2\phi^2 - g\phi^p
+\end{equation}
+Find the scaling dimension $D$ such that the derivative terms remain invariant. For what values of $m$ and $p$ is the scaling (23) a symmetry of the theory. How do these conclusions change for a scalar field living in an $(n+1)$-dimensional spacetime instead of a $3+1$-dimensional spacetime?
+
+In $3+1$ dimensions, use Noether's theorem to construct the conserved current $D^\mu$ associated to scaling invariance.
+\begin{solution}
+    The derivative term transform as $\partial_\mu \to \lambda^{-1}\partial_\mu$, and the integral measure transforms as $d^4x \to\lambda^4d^4x$. For the dynamic term to be invariant, we need $\lambda^{4-2-2D} = 1$, which means $D=1$. For the mass term to be invariant, we require $m^2\lambda^{4-2D} = 1$, which implies $m=\lambda^{-2}$. For the interaction term, we need $\lambda^{4-pD}=1$, which gives $p = 4$. For an $(n+1)$-dimensional world, we would have $ D = (n-1)/2$, $m = \lambda^{-2}$, and $p = 2(n+1)/(n-1)$.
+    
+    Consider the infinitesimal scaling, $\lambda = 1+\epsilon$. To first order of $\epsilon$, we find
+    \begin{equation}
+        \phi(x) \to \phi(x) -D\epsilon\phi(x) -\epsilon x^\mu \partial_\mu \phi(x).
+    \end{equation}
+    The Lagrangian, on the other hand, must transform as
+    \begin{equation}
+        \mathcal{L} \to (1+\epsilon)^{-4}\mathcal{L} = \mathcal{L} -4\epsilon\mathcal{L}-\epsilon x^\mu \partial_\mu\mathcal{L} = \mathcal{L}-\epsilon\partial_\mu(x^\mu\mathcal{L}).
+    \end{equation}
+    Therefore, the conserved current
+    \begin{equation}
+        D^\mu = \frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi)}\delta\phi + x^\mu\mathcal{L} = -\partial^\mu \phi (D\phi +  x^\nu\partial_\nu \phi) + x^\mu\mathcal{L}.
+    \end{equation}
+    Recall the energy-momentum tensor,
+    \begin{equation}
+        T^{\mu\nu} = \partial^\mu\phi\partial^\nu\phi  -\eta^{\mu\nu}\mathcal{L}.
+    \end{equation}
+    The conserved current becomes
+    \begin{equation}
+        D^\mu =x_\nu T^{\mu\nu} - \phi\partial^\mu\phi.
+    \end{equation}
+    
+\end{solution}

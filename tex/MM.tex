@@ -1,0 +1,348 @@
+\section{Mathematical Methods}
+\subsection{Jordan's Lemma}
+
+\textbf{Statement.} Let $f(z) = e^{iaz}g(z)$ with $a > 0$. Show that if
+$g(z)\to 0$ uniformly on the upper half-plane as $|z|\to\infty$, i.e.
+\begin{equation}
+    \max_{\theta\in[0,\pi]}|g(Re^{i\theta})| \to 0 \quad \text{as } R\to\infty,
+    \label{eq:Jcondition}
+\end{equation}
+then the integral over the upper semicircular arc $\mathcal{C}_R =
+\{z = Re^{i\theta},\, \theta\in[0,\pi]\}$ vanishes:
+\begin{equation}
+    \lim_{R\to\infty}\int_{\mathcal{C}_R}f(z)\,dz = 0.
+\end{equation}
+Find an upper bound for $\left|\int_{\mathcal{C}_R}f(z)\,dz\right|$ and
+give an example of a class of functions $g$ satisfying \eqref{eq:Jcondition}.
+
+\noindent\underline{\textbf{Solution}} A typical example satisfying
+\eqref{eq:Jcondition} is any rational function $g(z) = P(z)/Q(z)$ with
+$\deg Q \geq \deg P + 1$, for which
+$\max|g(Re^{i\theta})| = \mathcal{O}(R^{-1})\to 0$.
+
+Parametrise $z = Re^{i\theta}$, so $dz = iRe^{i\theta}d\theta$. The
+integral becomes
+\begin{equation}
+    \int_{\mathcal{C}_R}f(z)\,dz
+    = iR\int^\pi_0 g(Re^{i\theta})\,e^{iaRe^{i\theta}}\,e^{i\theta}\,d\theta.
+\end{equation}
+Taking the absolute value and using $|e^{i\theta}|=1$ and
+$|e^{iaRe^{i\theta}}| = e^{-aR\sin\theta}$:
+\begin{align}
+    \left|\int_{\mathcal{C}_R}f(z)\,dz\right|
+    &\leq R\int^\pi_0 |g(Re^{i\theta})|\,e^{-aR\sin\theta}\,d\theta \notag\\
+    &\leq M(R)\cdot R\int^\pi_0 e^{-aR\sin\theta}\,d\theta,
+\end{align}
+where $M(R)\equiv\max_{\theta\in[0,\pi]}|g(Re^{i\theta})|$. By symmetry of
+$\sin\theta$ about $\theta=\pi/2$:
+\begin{equation}
+    R\int^\pi_0 e^{-aR\sin\theta}\,d\theta
+    = 2R\int^{\pi/2}_0 e^{-aR\sin\theta}\,d\theta.
+\end{equation}
+Since $\sin\theta$ is concave on $[0,\pi/2]$, it lies above the chord
+connecting $(0,0)$ and $(\pi/2,1)$:
+\begin{equation}
+    \sin\theta \geq \frac{2\theta}{\pi}, \qquad \theta\in\left[0,\tfrac{\pi}{2}\right].
+\end{equation}
+Therefore:
+\begin{equation}
+    2R\int^{\pi/2}_0 e^{-aR\sin\theta}\,d\theta
+    \leq 2R\int^{\pi/2}_0 e^{-2aR\theta/\pi}\,d\theta
+    = \frac{\pi}{a}\!\left(1-e^{-aR}\right)
+    \leq \frac{\pi}{a}.
+\end{equation}
+Combining, we obtain the bound
+\begin{equation}
+    \left|\int_{\mathcal{C}_R}f(z)\,dz\right| \leq \frac{\pi}{a}\,M(R).
+    \label{eq:jordan-bound}
+\end{equation}
+Taking $R\to\infty$: by assumption \eqref{eq:Jcondition}, $M(R)\to 0$, so
+the right-hand side of \eqref{eq:jordan-bound} vanishes by the squeeze
+theorem, and hence
+\begin{equation}
+    \lim_{R\to\infty}\int_{\mathcal{C}_R}f(z)\,d z = 0. 
+\end{equation}
+
+\subsection{Convolution of $e^{-|x|}$ and Fourier Representation (J. E. Santos Part 1B CM, PS3 Q2)}
+\label{sec:convolution}
+
+\textbf{2.} Show that the convolution of the function $e^{-|x|}$ with itself
+is given by $f(x) = (1+|x|)e^{-|x|}$. Use the convolution theorem for Fourier
+transforms to show that
+\begin{equation}
+  f(x) = \frac{2}{\pi}\int_{-\infty}^{\infty}\frac{e^{ikx}}{(1+k^2)^2}\,d k
+\end{equation}
+and verify this result by contour integration.
+
+\noindent\underline{\textbf{Solution}} The convolution of $g(x) = e^{-|x|}$ is given by 
+\begin{equation}
+    (g*g)(x) = \int dz\,e^{-|z|}e^{-|x-z|}.
+\end{equation}
+For $x>0$, the convolution becomes
+\begin{equation}
+     (g*g)(x) = \int^\infty_xdz\,e^{-z}e^{-(z-x)} + \int^x_0dz\,e^{-z}e^{-(x-z)} + \int^0_{-\infty}dz\,e^ze^{-(x-z)} = (1+x)e^{-x}.
+\end{equation}
+Similarly, for $x<0$, we find
+\begin{equation}
+    (g*g)(x) = (1-x)e^x.
+\end{equation}
+Hence, we find
+\begin{equation}
+    (g*g)(x) = (1+|x|)e^{-|x|}.
+\end{equation}
+
+Using the Fourier transform of $e^{-|x|}$, the convolution can be written as
+\begin{align}
+    (g*g)(x) &= \frac{1}{\pi^2}\int dk\int dq \int dz\frac{e^{ikz}e^{iq(x-z)}}{(k^2+1)(q^2+1)} \notag\\
+    &= \frac{2}{\pi}\int dk\int dq\frac{e^{iqx}\delta(k-q)}{(k^2+1)(q^2+1)} \notag\\
+    &=\frac{2}{\pi}\int dk\frac{e^{ikx}}{(k^2+1)^2} =f(x).
+\end{align}
+
+It is easy to see that the integrand has two poles of order 2 at $k=\pm i$. The corresponding residuals are given by
+\begin{align}
+    \operatorname{Res}\left(\frac{e^{ikx}}{(k^2+1)^2}, \,k=\pm i\right) = \lim_{k\to \pm i}\frac{d}{dk}\left(\frac{e^{ikx}}{(k\pm i)^2}\right) &= \lim_{k\to \pm i}\frac{ixe^{ikx}(k\pm i) - 2e^{ikx}}{(k \pm i)^3} \notag\\&=\frac{1 \pm x}{4i}e^{\mp x}.
+\end{align}
+For $x>0$, we close the contour upward, while for $x<0$ we close the contour downward. By simple algebra, we recover the result
+\begin{equation}
+    (g*g)(x) = (1+|x|)e^{-|x|}.
+\end{equation}
+
+\subsection{Residues at Simple Poles and Higher-Order Poles (J. E. Santos Part 1B CM, PS2 Q7)}
+\label{sec:residues}
+
+\begin{enumerate}
+  \item Show that if $f(z)$ and $g(z)$ are analytic, and $g$ has a simple zero
+    at $z=z_0$, the residue of $f(z)/g(z)$ at $z=z_0$ is $f(z_0)/g'(z_0)$.
+    In particular, show that $f(z)/(z-z_0)$ has residue $f(z_0)$.
+
+  \item Prove the formula for the residue of a function $f(z)$ that has a pole
+    of order $N$ at $z=z_0$:
+    \begin{equation}
+      \lim_{z\to z_0}\left\{
+        \frac{1}{(N-1)!}\frac{d^{N-1}}{d z^{N-1}}
+        \left((z-z_0)^N f(z)\right)
+      \right\}.
+    \end{equation}
+
+\end{enumerate}
+
+\noindent \underline{\textbf{Solution}} The residue is given by
+\begin{equation}
+    \operatorname{Res}\left(\frac{f(z)}{g(z)},\, z=z_0\right) = \lim_{z\to z_0}\frac{(z-z_0)f(z)}{g(z)} = \lim_{z\to z_0}\frac{f(z) + (z-z_0)f'(z)}{g'(z)}=\frac{f(z_0)}{g'(z_0)},
+\end{equation}
+where we have used the fact that $g(z_0)\neq0$ at the pole. Choosing $g(z) = z-z_0$, we find
+\begin{equation}
+    \operatorname{Res}\left(\frac{f(z)}{z-z_0},\, z=z_0\right) = f(z_0).
+\end{equation}
+
+For a function $f(z)$ that has  pole of order $N$ at $z=z_0$, it admits a Laurent expansion of the form
+\begin{equation}
+    f(z) = \sum_{n=1}^N\frac{b_n}{(z-z_0)^n} + \sum_{n=0}^\infty a_n(z-z_0)^n.
+\end{equation}
+Multiplying $f(z)$ by $(z-z_0)^N$, we find
+\begin{equation}
+    (z-z_0)^Nf(z) = \sum_{n=1}^N b_n (z-z_0)^{N-n} + \sum_{n=0}^\infty a_n(z-z_0)^{N+n}.
+\end{equation}
+It is therefore easy to see that
+\begin{equation}
+    \operatorname{Rez}\left(f(z), \, z=z_0\right) = \lim_{z\to z_0}\left\{
+        \frac{1}{(N-1)!}\frac{d^{N-1}}{d z^{N-1}}
+        \left((z-z_0)^N f(z)\right)
+      \right\}.
+\end{equation}
+
+\subsection{Contour Integration via Residue Theorem and Cauchy’s Integral Formula (J. E. Santos Part 1B CM, PS2 Q9)}
+\label{sec:contour_integration_cauchy}
+
+\begin{enumerate}
+  \item By integrating the function
+  \[
+    z^n (z - a)^{-1} (z - a^{-1})^{-1}
+  \]
+  around the unit circle and applying the residue theorem, evaluate
+  \begin{equation}
+    \int_{0}^{2\pi} \frac{\cos n\theta}{1 - 2a\cos\theta + a^2}\, d\theta,
+  \end{equation}
+  where $a$ is real, $a > 1$, and $n$ is a non-negative integer.
+
+  \item Obtain the same result using Cauchy’s integral formula instead of the residue theorem.
+
+\end{enumerate}
+
+\noindent \underline{\textbf{Solution}} Parametrise the integration by $z=e^{i\theta}$ with $\theta\in[0,2\pi)$. The integral becomes
+\begin{equation}
+    I = \int^{2\pi}_0d\theta\frac{aie^{in\theta}}{-1+2a\cos\theta-a^2}  =\int^{2\pi}_0d\theta\frac{aie^{-in\theta}}{-1+2a\cos\theta-a^2} = -2\pi i\frac{a^{-n+1}}{a^2-1}
+\end{equation}
+Therefore, 
+\begin{equation}
+    \int_{0}^{2\pi} \frac{\cos n\theta}{1 - 2a\cos\theta + a^2}\, d\theta = -\frac{I}{ai} = 2\pi\frac{a^{-n}}{a^2-1}.
+  \end{equation}
+
+
+
+  \subsection{Partial Fraction Summation via Contour Integration (J. E. Santos Part 1B CM, PS2 Q15)}
+\label{sec:partial-fraction-sums}
+
+By considering the integral of $(\cot z)/(z^2+\pi^2 a^2)$
+around a suitable large contour, prove that
+\begin{equation}
+  \sum_{n=-\infty}^{\infty}\frac{1}{n^2+a^2} = \frac{\pi}{a}\coth\pi a,
+\end{equation}
+provided that $ia$ is not an integer. By considering a similar integral prove
+also that, if $a$ is not an integer,
+\begin{equation}
+  \sum_{n=-\infty}^{\infty}\frac{1}{(n+a)^2} = \frac{\pi^2}{\sin^2\pi a}\,.
+\end{equation}
+Find an expression for $\displaystyle\sum_{n=1}^{\infty}\frac{1}{n^2+a^2}$
+and take the limit $a\to 0$ to deduce the value of
+$\displaystyle\sum_{n=1}^{\infty}\frac{1}{n^2}$.
+
+\noindent \underline{\textbf{Solution}} The function
+\begin{equation}
+    f(z) = \frac{\cot z}{z^2+\pi^2 a^2}
+\end{equation}
+has poles at $z_n=n\pi$ and $z_\pm = \pm i\pi a$.  These correspond to residues of 
+\begin{align}
+    \operatorname{Res}(f(z), \, z=z_n) = \lim_{z\to z_n}\frac{\cos z(z-z_n)}{(z^2+\pi^2a^2)\sin z} &=  \lim_{z\to z_n}\frac{\cos z}{(z^2+\pi^2a^2)\cos z}\notag\\ &= \frac{1}{\pi^2(n^2+a^2)},
+\end{align}
+and
+\begin{align}
+    \operatorname{Res}(g_\pm(z), \, z=z_\pm) = \lim_{z\to z_\pm}\frac{\cos z(z-z_\pm)}{(z^2+\pi^2a^2)\sin z} &= \lim_{z\to z_\pm}\frac{\cos z}{(z\pm i\pi a)\sin z}\notag\\ &= -\frac{\coth \pi a}{ 2\pi a}
+\end{align}
+
+Notice that $f$ is an odd function. Therefore, the principal value of the real integral 
+\begin{equation}
+    I = \operatorname{P}\int^\infty_{-\infty} dz \, f(z)=0.
+\end{equation}
+Now we shall evaluate the integral by contour integration. Note we can close the contour upward, and find
+\begin{equation}
+    I = \pi i\left[\sum_{n=-\infty}^{\infty}\frac{1}{\pi^2(n^2 + a ^2)} -\frac{\coth \pi a}{ \pi a}\right] = 0 \implies \sum_{n=-\infty}^{\infty}\frac{1}{n^2 + a ^2} = \frac{\pi}{a}\coth \pi a.
+\end{equation}
+The sum can be written as
+\begin{equation}
+    \sum_{n=-\infty}^{\infty}\frac{1}{n^2 + a ^2} = \frac{1}{a^2} + 2 \sum_{n=1}^{\infty}\frac{1}{n^2 + a ^2} \implies \sum_{n=1}^{\infty}\frac{1}{n^2 + a ^2}  = \frac{\pi}{2a}\coth\pi a - \frac{1}{2a^2} .
+\end{equation}
+The limit $a\to0$ is slightly tricky; we shall expand $\coth \pi a$ about $a =0$:
+\begin{align}
+    \coth \pi a  &= \frac{1+\displaystyle\sum_{n=0}^\infty\frac{1}{n!}(2\pi a)^n}{\displaystyle\sum_{n=1}^\infty\frac{1}{n!}(2\pi a)^n} = \frac{\dfrac{1}{\pi a}+1 + \pi a + \cdots}{1+\pi a + \dfrac{2}{3}\pi^2 a^2+\cdots} \notag\\
+    &=\left[\dfrac{1}{\pi a}+1 + \pi a + \cdots\right]\left[1-(\pi a + \dfrac{2}{3}\pi^2 a^2+\cdots) + (\pi a + \dfrac{2}{3}\pi^2 a^2+\cdots)^2 +\cdots\right]\notag\\ 
+    &= \frac{1}{\pi a} +\frac{1}{3}\pi a + \mathcal{O}(a^2).
+\end{align}
+Thus, we obtain
+\begin{equation}
+    \sum_{n=1}^{\infty}\frac{1}{n^2} =\frac{\pi^2}{6}.
+\end{equation}
+
+Now, consider the function
+\begin{equation}
+    g(z) = \frac{\cot z}{(z+a\pi)^2} + \frac{\cot z}{(z-a\pi)^2}
+\end{equation}
+with poles at $z= z_n = n\pi$ and $z_\pm  = \pm \pi a$ corresponding to residues of
+\begin{equation}
+    \operatorname{Res}(g(z), \, z=z_n) = \frac{1}{\pi^2(n^2+a^2)}+\frac{1}{\pi^2(n^2-a^2)},
+\end{equation}
+and
+\begin{equation}
+    \operatorname{Res}(g(z), \, z=z_\pm) = -\frac{1}{\sin^2 \pi a}.
+\end{equation}
+Similarly, since the function is odd, the principal integral along the real line vanishes. Thus, we find
+\begin{equation}
+    \pi i \left[\sum_{n=-\infty}^\infty\frac{2}{\pi^2(n+a)^2} - \frac{2}{\sin^2 \pi a}\right] =0 \implies \sum_{n=-\infty}^\infty\frac{1}{(n+a)^2} =\frac{\pi^2}{\sin^2 \pi a}.
+\end{equation}
+
+\subsection{Laplace Transform of $t^{-1/2}$ and Bromwich Contour (J. E. Santos Part 1B CM, PS3 Q12)}
+\label{sec:laplace-bromwich}
+
+Using the equality $\int_0^\infty e^{-x^2}\,d x
+= \frac{1}{2}\sqrt{\pi}$, find the Laplace transform of $f(t) = t^{-1/2}$.
+By integrating around a Bromwich keyhole contour, verify the inversion formula
+for $f(t)$. What is the Laplace transform of $t^{1/2}$?
+
+\noindent \underline{\textbf{Solution}} The integral can be evaluated easily by a change of variable $\tau^2 = t$:
+\begin{equation}
+    \hat{F}(s) = \mathcal{L}[f(t)] = \int^\infty _ 0 dt \,e^{-st}t^{-1/2} = \int^\infty_0 d\tau \, 2e^{-s\tau^2} = \sqrt{\frac{\pi}{s}}.
+\end{equation}
+
+Now, we shall verify the inverse Laplace transform of $\hat{F}(s)$. The function $\hat{F}(s)$ has a principal branch cut from $-\infty$ to $0$. To see that, write $s=re^{i\theta}$, and we find
+\begin{equation}
+    s^{-1/2} = r^{-1/2}e^{-i\theta/2}  = r^{-1/2}e^{-i\arg s/2} \quad \text{with} \quad    \arg s\in (-\pi, \pi).
+\end{equation}
+Therefore, just above the branch cut, we have $s^{-1/2} = -ir^{-1/2}$; just below the branch cut, we have $s^{-1/2} = ir^{-1/2}$.
+
+The inverse Laplace transform is given by
+\begin{equation}
+    f(t) = \frac{\sqrt{\pi}}{2\pi i}\int_{\mathcal{C}_\gamma}ds\,e^{st}s^{-1/2}= \frac{\sqrt{\pi}}{2\pi i}\int^{\gamma+i\infty}_{\gamma-\infty}ds\,e^{st}s^{-1/2}
+\end{equation}
+with $\gamma\to 0^+$. We can choose to integrate the Bromwich keyhole contour, $\mathcal{C}_B = \Gamma_+ \cup \Gamma_- \cup \mathcal{C}_\epsilon \cup \mathcal{C}_\gamma \cup \mathcal{C}_+\cup \mathcal{C}_-$, where
+\begin{equation}
+    \Gamma_\pm = \lim_{\epsilon\to 0}\{z\in(\pm i \epsilon -\infty, \pm i \epsilon]\}, \quad\mathcal{C}_\epsilon = \lim_{\epsilon\to0^+}\{z=\epsilon e^{i\theta}|\theta\in[-\pi/2, \pi/2]\},
+\end{equation}
+and the large arcs are given by
+\begin{equation}
+\mathcal{C}_\pm = \lim_{R\to\infty} \{ z = R e^{i\theta} | \theta \in [\pm \tfrac{\pi}{2}, \pm \pi] \}.
+\end{equation} 
+Since there are no poles enclosed by this contour, we have
+\begin{equation}
+    \oint_{\mathcal{C}_B}ds\,e^{st}s^{-1/2} = 0.
+\end{equation}
+
+It is easy to see that the integral along $\mathcal{C}_\pm$ and $\mathcal{C}_\epsilon$ vanishes. The integral along $\Gamma_\pm$ is given by
+\begin{equation}
+    I_\pm = \int_{\Gamma_\pm}ds\,e^{st}s^{-1/2} = \pm\int^0_{-\infty}dr\, r^{-1/2}e^{rt} = \mp i\int^\infty_0dr\,r^{-1/2}e^{-rt} = \mp i\sqrt{\frac{\pi}{t}}.
+\end{equation}
+Thus, we find (notice the direction of the contour integration)
+\begin{equation}
+    2\sqrt{\pi}if(t) +I_+ - I_- = 0 \implies f(t) = t^{-1/2}.
+\end{equation}
+
+\subsection{Variational Derivation of Euler's Equation for Inviscid Flow (Part II Variational Principles, PS2 Q9)}
+\label{sec:euler-fluid}
+
+The mass density $\rho(t,\mathbf{x})$ and velocity field
+$\mathbf{v}(t,\mathbf{x})$ of a compressible fluid are constrained by
+conservation of mass to satisfy the continuity equation
+\begin{equation}
+  \dot{\rho} + \nabla\cdot(\rho\mathbf{v}) = 0\,. \tag{$*$}
+  \label{eq:continuity}
+\end{equation}
+Given that the energy density of the fluid is $u(\rho)$, the action (for
+inviscid irrotational flow) is
+\begin{equation}
+  S[\rho,\mathbf{v},\phi] = \int d t\int d^3x\left\{
+    \tfrac{1}{2}\rho|\mathbf{v}|^2 - u(\rho)
+    + \phi\left[\dot{\rho}+\nabla\cdot(\rho\mathbf{v})\right]
+  \right\},
+\end{equation}
+where $\phi(t,\mathbf{x})$ is a Lagrange multiplier field imposing the
+continuity condition \eqref{eq:continuity}. Find the Euler--Lagrange equations
+for this action. Show that they imply $\mathbf{v}=\nabla\phi$ (so $\phi$ is
+the velocity potential). Given that the fluid pressure $P(t,\mathbf{x})$
+satisfies
+\begin{equation}
+  \nabla P = \rho\nabla h(t,\mathbf{x})\,, \qquad h = u'(\rho)\,,
+\end{equation}
+deduce Euler's equation for inviscid irrotational flow:
+\begin{equation}
+  \rho\left[\dot{\mathbf{v}} + (\mathbf{v}\cdot\nabla)\mathbf{v}\right]
+  = -\nabla P\,.
+\end{equation}
+
+\noindent \underline{\textbf{Solution}} First, we consider the equation of motion of $\mathbf{v}$:
+\begin{equation}
+    \frac{\partial \mathcal{L}}{\partial v_i} = -\rho v_i + \phi(\partial_i \rho), \quad \frac{\partial \mathcal{L}}{\partial (\partial_i v_j )} = \rho \phi \delta_{ij} \implies \nabla\phi = \mathbf{v}.
+\end{equation}
+Then, for the EoM with respect to $\rho$, we find
+\begin{equation}
+    \frac{\partial \mathcal{L}}{\partial \rho} = -\frac{1}{2}|\mathbf{v}|^2 - u'(\rho), \quad \frac{\partial \mathcal{L}}{\partial \dot{\rho}} = \phi
+ \implies \dot{\phi} = -\frac{1}{2}|\mathbf{v}|^2 - u'(\rho).
+ \end{equation}
+ Finally, the constraint is
+ \begin{equation}
+     \dot{\rho} + \nabla\cdot(\rho\mathbf{v}) = 0.
+ \end{equation}
+
+ Putting them together, one can easily find
+ \begin{equation}
+     \rho\left[\dot{\mathbf{v}} + (\mathbf{v}\cdot\nabla)\mathbf{v}\right]
+  = -\nabla P.
+ \end{equation}

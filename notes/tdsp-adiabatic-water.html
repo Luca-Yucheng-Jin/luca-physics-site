@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adiabatic Compression of Water Near the Triple Point — Yucheng (Luca) Jin</title>
+<meta name="description" content="Adiabatic Compression of Water Near the Triple Point. Source: Imperial College London.">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../styles.css">
+
+<!-- MathJax with custom macros mirroring the original .tex preamble -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros']},
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      Q: '\\mathbb{Q}',
+      A: '\\mathcal{A}',
+      Lagrangian: '\\mathcal{L}',
+      Cdot: '\\boldsymbol{\\cdot}',
+      Tr: '\\operatorname{Tr}',
+      slashed: ['{\\not{#1}}', 1],
+      wick:    ['{\\overline{#1}}', 1],
+      c:       ['{#1}', 1]
+    }
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- TikZJax: renders <script type="text/tikz"> blocks into SVG client-side -->
+<link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
+<script src="https://tikzjax.com/v1/tikzjax.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="topbar__brand">Yucheng (Luca) Jin <small>MSci · Imperial</small></a>
+  <nav class="topbar__nav">
+    <a href="../index.html">About</a>
+    <a href="../notes.html" class="is-active">Notes</a>
+    <a href="../research.html">Research</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+  </nav>
+</header>
+
+<main class="note">
+
+  <div class="note__breadcrumb">
+    <a href="../notes.html">Notes</a> &nbsp;·&nbsp; Thermo &amp; Stat Phys · Imperial 2023 TPSM Q3
+  </div>
+
+  <h1 class="note__title">Adiabatic Compression of Water Near the Triple Point</h1>
+  <p class="note__subtitle">Source: Imperial College London, 2023 Thermodynamics &amp; Properties of Matter exam, Question 3.</p>
+
+  
+
+  <article class="note__body">
+<p>One gram of pure solid water starts with a temperature and a
+pressure both slightly below the triple point of water. The water is compressed
+adiabatically to a pressure of 100\,atm. At 1\,atm, the water is found to lie
+on the solid--liquid coexistence curve.</p>
+
+<p>You may use the data given at the end of this question.</p>
+
+<ol>
+  <li>Explain what happens as the pressure increases from the starting point
+    to 100\,atm and sketch the process on a $PT$ diagram (phase diagram).
+    \hfill [8 marks]</li>
+  <li>Calculate the change in temperature as the pressure increases from
+    1\,atm to 100\,atm. \hfill [7 marks]</li>
+  <li>Writing entropy as a function of $T$ and $P$, show that for a single
+    phase,
+
+<p>\[d S = \frac{C_P}{T}\,d T - V\beta\,d P,\tag{1}\]</p>
+
+<p>where $C_P$ is the heat capacity at constant pressure and $\beta$ is the
+    thermal expansivity. Hence, for the adiabatic compression, estimate what
+    fraction of the water is in the liquid phase at 100\,atm. Comment on any
+    assumptions. \hfill [10 marks]</li>
+</ol></p>
+
+<p>You may assume the following for water:</p>
+
+<ul>
+  <li>The specific latent heat of fusion is $334\,\mathrm{J\,g^{-1}}$.</li>
+  <li>The specific heat capacity at constant pressure of the solid is
+    $2.11\,\mathrm{J\,K^{-1}\,g^{-1}}$.</li>
+  <li>The thermal expansivity of the solid is
+    $\beta = 1.65\times10^{-4}\,\mathrm{K^{-1}}$.</li>
+  <li>The density of the solid is $0.917\,\mathrm{g\,cm^{-3}}$ and the
+    liquid is $1.000\,\mathrm{g\,cm^{-3}}$.</li>
+  <li>The triple point of water is $0.01\,^{\circ}\mathrm{C}$,
+    $0.006\,\mathrm{atm}$.</li>
+</ul>
+
+<p>(Note: $1\,\mathrm{atm} = 1.01\times10^{5}\,\mathrm{Pa}$.)
+\hfill [Total 25 marks]</p>
+
+<p><u><strong>Solution</strong></u> The process first starts in the solid region just below the triple point. After an adiabatic thermal compression, it reaches the solid-liquid phase boundary at 1 atm. Then, the pressure further increases following the phase boundary, which means that the solid water turns into liquid water.</p>
+
+<p>Following the Clapeyron equation, we have
+\[\frac{dP}{dT} = \frac{l}{T\Delta v}\tag{2}\]
+on the solid-liquid boundary. Solving this, we find 
+\[\ln\frac{T_2}{T_1} = \frac{1}{l}\left(\frac{1}{\rho_l}-\frac{1}{\rho_l}\right)\Delta P \implies T_2 = T_1\exp\left[\frac{1}{l}\left(\frac{1}{\rho_l}-\frac{1}{\rho_l}\right)\Delta P\right] = 272.41 \si{K}.\tag{3}\]</p>
+
+<p>Now, we write the entropy as $S=S(T,P)$, taking the total derivative, we find
+\[dS = \left(\frac{\partial S}{\partial P}\right)_TdP + \left(\frac{\partial S}{\partial T}\right)_PdT.\tag{4}\]
+For solid, we can use the Maxwell relation to write the first term as
+\[\left(\frac{\partial S}{\partial P}\right)_T = -\left(\frac{\partial V}{\partial T}\right)_P = -V\beta.\tag{5}\]
+For the second term, by definition, we have
+\[\left(\frac{\partial S}{\partial T}\right)_P = \frac{C_p}{T}.\tag{6}\]
+Thus, we find
+\[dS = \frac{C_p}{T}dT - V\beta dP.
+    \tag{7}\]</p>
+
+<p>Since the whole process is adiabatic, the total change of entropy of the system is zero. Before reaching the phase boundary, the change of entropy is completely governed by (7). After reaching the phase boundary, the total entropy is given by
+\[dS = dS_s + dS_l=0,\tag{8}\]
+where 
+\[dS_s = \frac{C_p^s}{T}dT - V_s\beta dP \qquad \text{and} \qquad dS_l=\frac{l}{T}dm.\tag{9}\]
+Since the change of temperature just calculated was very small, we shall take it to be constant on the right-hand sideside. Then, by integration, we find
+\[(1-f)mc_p\ln\frac{T_2}{T_1}- \frac{(1-f)m}{\rho_s}\beta \Delta P = -\frac{fml}{T_2} \implies f= \frac{1}{1+\dfrac{l}{T_1}\left(\dfrac{\beta\Delta P}{\rho_s}-c_p\ln\dfrac{T_2}{T_1}\right)^{-1}} = 0.6\%,\tag{10}\]
+where $f$ is the fraction of liquid water.</p>
+  </article>
+
+  <hr class="ornament-rule">
+
+  <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
+    <a href="../notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="../index.html">About</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>

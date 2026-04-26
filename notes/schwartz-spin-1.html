@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spin 1, Gauge Invariance, Photon Propagator — Yucheng (Luca) Jin</title>
+<meta name="description" content="Spin 1, Gauge Invariance, Photon Propagator. Source: M. D. Schwartz.">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../styles.css">
+
+<!-- MathJax with custom macros mirroring the original .tex preamble -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros']},
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      Q: '\\mathbb{Q}',
+      A: '\\mathcal{A}',
+      Lagrangian: '\\mathcal{L}',
+      Cdot: '\\boldsymbol{\\cdot}',
+      Tr: '\\operatorname{Tr}',
+      slashed: ['{\\not{#1}}', 1],
+      wick:    ['{\\overline{#1}}', 1],
+      c:       ['{#1}', 1]
+    }
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- TikZJax: renders <script type="text/tikz"> blocks into SVG client-side -->
+<link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
+<script src="https://tikzjax.com/v1/tikzjax.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="topbar__brand">Yucheng (Luca) Jin <small>MSci · Imperial</small></a>
+  <nav class="topbar__nav">
+    <a href="../index.html">About</a>
+    <a href="../notes.html" class="is-active">Notes</a>
+    <a href="../research.html">Research</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+  </nav>
+</header>
+
+<main class="note">
+
+  <div class="note__breadcrumb">
+    <a href="../notes.html">Notes</a> &nbsp;·&nbsp; Quantum Field Theory · Schwartz Ch. 8–9
+  </div>
+
+  <h1 class="note__title">Spin 1, Gauge Invariance, Photon Propagator</h1>
+  <p class="note__subtitle">Source: M. D. Schwartz, <em>Quantum Field Theory and the Standard Model</em>, Chapters 8–9.</p>
+
+  <nav class="note__toc" aria-label="Contents">
+  <div class="note__toc-label">On this page</div>
+  <ol class="note__toc-list">
+    <li class="toc-h2"><a href="#unitary-representation-of-poincaré-group">Unitary Representation of Poincaré Group</a></li>
+    <li class="toc-h2"><a href="#embedding-particles-into-fields">Embedding Particles into Fields</a></li>
+    <li class="toc-h2"><a href="#covariant-derivatives">Covariant Derivatives</a></li>
+    <li class="toc-h2"><a href="#quantisation-and-the-ward-identity">Quantisation and the Ward Identity</a></li>
+    <li class="toc-h2"><a href="#the-photon-propagator">The Photon Propagator</a></li>
+    <li class="toc-h2"><a href="#quantizing-complex-scalar-fields">Quantizing Complex Scalar Fields</a></li>
+    <li class="toc-h2"><a href="#feynman-rules-for-scalar-qed">Feynman Rules for Scalar QED</a></li>
+    <li class="toc-h2"><a href="#scattering-in-scalar-qed">Scattering in Scalar QED</a></li>
+    <li class="toc-h2"><a href="#ward-identity-and-gauge-invariance">Ward Identity and Gauge Invariance</a></li>
+    <li class="toc-h2"><a href="#lorentz-invariance-and-charge-conservation">Lorentz Invariance and Charge Conservation</a></li>
+  </ol>
+</nav>
+
+  <article class="note__body">
+
+<h2 id="unitary-representation-of-poincaré-group">Unitary Representation of Poincaré Group</h2>
+
+<p>The group of translations and Lorentz transformations is called the Poincaré group, ISO(1,3) (the isometry group of Minkowski space).</p>
+
+<p>Our universe is filled with all different kinds of particles. Particles have mass and spin and all kinds of different quantum numbers. They also have values such as momentum and spin projection. If we perform a rotation or a boost, the momentum and spin projection would change, but the quantum numbers would not change. So a particle can be defined as a set of states that only mix with each other under the Poincaré transformations. We can write
+\[\ket{\psi}\rightarrow \mathcal{P}\ket{\psi},\tag{1}\]
+where $\mathcal{P}$ represents the Poincaré transformation. A set of objects $\psi$ that mix under a transformation is called a representation of the group. Generally, in a given representation there should be a basis for the states $\ket{\psi}$, call it $\{\ket{\psi_i}\}$, where $i$ can be either a discrete or a continuous index, so that
+\[\ket{\psi}\rightarrow \mathcal{P}_i\ket{\psi_{ij}},\tag{2}\]
+where the transformed states are expressible in the original basis. If there are no subsets of states that transform only among themselves, the representation is irreducible.</p>
+
+<p>We are interested in matrix elements in field theory, which is given by 
+\[\mathcal{M} = \braket{\psi_1}{\psi_2}.\tag{3}\]
+Under a Poincaré transformation, $\mathcal{M}$ transforms as 
+\[\mathcal{M} =  \braket{\psi_1}{\psi_2} \rightarrow  \bra{\psi_1}\mathcal{P}^\dagger\mathcal{P}\ket{\psi_2}.\tag{4}\]
+As matrix elements should be Poincaré invariant, we require $\mathcal{P}$ to be unitary, $\mathcal{P}^\dagger\mathcal{P} = 1$. The unitary representations of the Poincaré are only a small subset of all the representations of the Poincaré group. However, we can only compute the matrix elements with the unitary ones. Therefore, we need to know how to find them. Thus,</p>
+
+<p>Particles transform under irreducible unitary representations of the Poincaré group.</p>
+
+<p>This statement is sometimes seen as the definition of particles.</p>
+
+<p>We have already seen some representations of the Poincaré group, such as the constant tensors, $\phi, V_\mu, T_{\mu\nu}, \ldots$. These are finite-dimensional representations. However, they are not unitary representations. In fact, there are no finite-dimensional representations of the Poincaré group.</p>
+
+<p>The unitary irreducible representations of the Poincaré group were classified by Eugene Wigner in 1939. Wigner showed that irreducible unitary representations are uniquely classified by mass $m$ and spin $J$, where $m$ is a non-negative real number and $J$ is a non-negative half-integer. In addition, Wigner showed that, if $J>0$, for each value of the momentum with $p^2=m^2$ there are $2J+1$ independent states in the representation if $m>0$, and exactly 2 states for $m=0$.</p>
+
+<p>Now, we want to know how to construct a unitary interacting theory of particles in these representations. Thus, we would like to embed the irreducible representations into objects with space-time indices. In particular, we wish to squeeze states of spin 0, ${\frac{1}{2}}$, 1, $\frac{3}{2}$, \ldots into $\phi(x), V_\mu(x), T_{\mu\nu}(x),\ldots$. In this way, we can write out a neat and simple Lagrangian and develop a general way of computing them.</p>
+
+<h4>Unitarity Versus Lorentz Invariance</h4>
+
+<p>It is simple to see the conflict between unitarity and Lorentz invariance. In non-relativistic quantum mechanics, we can have a state, which is a linear combination of spin up $\ket{\uparrow}$ and spin down $\ket{\downarrow}$,
+\[\ket{\psi} = c_1 \ket{\uparrow} + c_2 \ket{\downarrow}.\tag{5}\]
+Such a state has a norm
+\[\braket{\psi}{\psi} = \abs{c_1}^2 + \abs{c_2}^2 > 0.\tag{6}\]</p>
+
+<p>The norm is invariant under rotations, which send
+\[\ket{\uparrow} \rightarrow \cos\theta\ket{\uparrow} + \sin\theta\ket{\downarrow}, \qquad
+    \ket{\downarrow} \rightarrow -\sin\theta\ket{\uparrow} + \cos\theta\ket{\downarrow}.\tag{7}\]
+(The norm is invariant under the larger group SU(2).)</p>
+
+<p>If we want to do the same thing with a basis of four states $\ket{V_\mu}$ which transform as a 4-vector, an arbitrary linear combination would be\
+\[\ket{\psi} = c_0\ket{V_0} + c_1\ket{V_1} + c_2\ket{V_2} + c_3\ket{V_3}.\tag{8}\]</p>
+
+<p>Then, the norm would be
+\[\braket{\psi}{\psi} = \abs{c_0}^2 + \abs{c_1}^2 +  \abs{c_2}^2 + \abs{c_3}^2 > 0.\tag{9}\]
+However, the norm is not Lorentz invariant.</p>
+
+<p>It is natural to modify the norm as
+\[\braket{\psi}{\psi} = \abs{c_0}^2 - \abs{c_1}^2 -  \abs{c_2}^2 - \abs{c_3}^2,\tag{10}\]
+which is indeed Lorentz invariant. However, it is no longer positive definite.</p>
+
+<p>In quantum mechanics, we interpret the norm as probability, which needs to be bounded. Suppose we have a positive norm, $\braket{a}{a}$, and a negative norm, $\braket{b}{b}$:
+\[\braket{a}{a} = \abs{a}^2, \quad
+    \braket{b}{b} = -\abs{b}^2, \quad
+    \braket{b}{a} = c, \quad
+    \braket{a}{b} = c^*.\tag{11}\]
+Applying Gram-Schmidt orthonormalization, we have
+\[\ket{-} = \frac{1}{\abs{b}}\ket{b}, \qquad \ket{+} = \frac{1}{\sqrt{\abs{a}^2 - 3\abs{c/b}^2}}\big(\ket{a} - \frac{c}{\abs{b}^2}\ket{b}\big),\tag{12}\]
+so that
+\[\braket{+}{+} = 1, \quad
+    \braket{-}{-} = -1, \quad
+    \braket{+}{-} =  \braket{-}{+} =0.\tag{13}\]
+A linear combination of $\ket{+}$ and $\ket{-}$ would be
+\[\ket{\psi} = c_+\ket{+} + c_-\ket{-}\tag{14}\]
+with a norm
+\[\braket{\psi}{\psi} = \abs{c_+}^2 - \abs{c_-}^2.\tag{15}\]
+Assume $\ket{\psi}$ is normalise, so that $\abs{\braket{\psi}{\psi}}^2 = 1$. Thus, 
+\[\abs{c_+}^2 - \abs{c_-}^2 = \pm 1.\tag{16}\]
+To have a probability interpretation, we require the probability of observing a certain state to be greater than 0 and smaller than 1. Thus, 
+\[\abs{\braket{+}{\psi}}^2 = \abs{c_+}^2 \quad \text{and} \quad \abs{\braket{-}{\psi}}^2 = \abs{c_-}^2 \implies 0 \leq \abs{c_+}^2, \abs{c_-}^2 \leq 1.\tag{17}\]
+If $\abs{c_+}^2 = 1 + \abs{c_-}^2$, then $\abs{c_-}^2$ must vanish. Thus, we are only left with the positive norm. Similarly, for $\abs{c_+}^2 = -1 + \abs{c_-}^2$, we are only left with negative norm. Therefore, for a probability interpretation to be valid, we require the norm to be positive (or negative) definite. As Lorentz transformations mix up positive and negative norms, we can no longer have a probability interpretation.</p>
+
+<p>How do we find a way out? We will first try to embed the right number of degrees of freedom for a particular mass and spin (irreducible representation of the Poincaré group) into tensors such as $A_\mu$.</p>
+
+<h2 id="embedding-particles-into-fields">Embedding Particles into Fields</h2>
+
+<p>We will start with classical field theory, where we cannot ask for unitarity (there is no classical norm) but we can ask for positive definite, or more generally, bounded from below. Having both positive and negative energy states classically causes disaster after quantisation. For example, if we have photons with both positive and negative energy, then the vacuum could decay into pairs of photons without violating energy and momentum conservation.</p>
+
+<h4>Spin 0</h4>
+
+<p>Spin 0 corresponds to $J=0$, which only has one degree of freedom. Thus, we can embed it into a scalar field $\phi(x)$. The Lagrangian would be
+\[\mathcal{L} = \frac{1}{2}(\partial_\mu\phi(x))^2 - \frac{1}{2}m^2\phi^2(x),\tag{18}\]
+which is Lorentz invariant. The equation of motion is 
+\[(\square + m^2)\phi(x) = 0.\tag{19}\]
+The energy density would be
+\[\mathcal{H} = \pi(x)\dot{\phi}(x) - \mathcal{L} = \frac{1}{2}(\partial_t\phi(x))^2 +\frac{1}{2}(\vec{\nabla}\phi(x))^2 +  \frac{1}{2}m^2\phi^2(x),\tag{20}\]
+which is positive definite.</p>
+
+<h4>Massive Spin 1</h4>
+
+<p>Spin 1 corresponds to $J=1$, which has $2\times1 + 1=3$ degrees of freedom when $m \neq 0$. However, the smallest tensor field that can fit in three degrees of freedom is $A_\mu(x)$, which has four degrees of freedom. Sometimes, we write $4=3\oplus1$ to indicate that the four-dimensional representation of the Lorentz group is the direct sum of spin-1 and spin-0 representations of the rotation group SO(3). In this chapter, we will be focusing on the physical approach, a more mathematical approach would be discussed later.</p>
+
+<p>A natural guess for the Lagrangian would be
+\[\mathcal{L} = -\frac{1}{2}\partial_\nu A_\mu\partial_\mu A_\nu + \frac{1}{2}m^2 A_\mu^2.\tag{21}\]
+The corresponding equation of motion is
+\[(\square+m^2)A_\mu = 0,\tag{22}\]
+which has four propagating modes. In fact, this Lagrangian is for four massive scalar fields, $A_0, A_1, A_2$ and $A_3$, which is not what we need. The energy density is 
+\[\mathcal{H} = \sum \pi_\mu(x)\dot{A}_\mu(x) - \mathcal{L} = -\frac{1}{2}\bigg[ (\partial_tA_0)^2 + (\vec{\nabla}A_0)^2 + m^2A_0^2 \bigg] + \bigg[ (\partial_t\vec{A})^2 + (\vec{\nabla}_iA_j)^2 + m^2\vec{A}^2 \bigg],\tag{23}\]
+which is not bounded. Hence, this Lagrangian does not produce a physical theory.</p>
+
+<p>Another Lorentz-invariant two-derivative (local) Lagrangian would be
+\[\mathcal{L} = \frac{a}{2}A_\mu\square A_\mu + \frac{b}{2}A_\mu \partial_\mu \partial_\nu A_\nu + \frac{1}{2}m^2A_\mu^2,\tag{24}\]
+where $a$ and $b$ are just numbers. As long as $b$ is non-zero, $\partial_\nu A_\nu$ forces $A_\nu$ to transform as a 4-vector to preserve Lorentz invariance. Thus, we should now have $4= 3\oplus1$ instead of $4= 1\oplus1\oplus1\oplus1$. The equation of motion is
+\[a\square A_\mu + b \partial_\mu \partial_\nu A_\nu + m^2 A_\mu = 0.\tag{25}\]
+Taking $\partial_\mu$ on both sides, we have
+\[[(a+b)\square + m^2](\partial_\mu A_\mu) = 0.\tag{26}\]
+If $a = -b$ and $m \neq 0$, this becomes $\partial_\mu A_\mu = 0$, which removes one degree of freedom. To preserve Lorentz invariance, a complete representation needs to be removed, which means the spin-0 component is removed. Taking $a=1$ and $b=-1$, we find
+\[\begin{aligned}
+        \mathcal{L} &= \frac{1}{2}A_\mu\square A_\mu - \frac{1}{2}A_\mu \partial_\mu \partial_\nu A_\nu + \frac{1}{2}m^2A_\mu^2\\
+        &= -\frac{1}{4}F_{\mu\nu}^2 + \frac{1}{2}m^2A_\mu^2,
+\end{aligned}\tag{27}\]
+which is called the Proca Lagrangian. The equations of motion now turn into $(\square + m^2)A_\mu=0$ and $\partial_\mu A_\mu$.</p>
+
+<p>The energy-momentum tensor is given by
+\[\mathcal{T}_{\mu\nu} = \frac{\partial\mathcal{L}}{\partial(\partial_\mu A_\alpha)}\partial_\nu A_\alpha -g_{\mu\nu}\mathcal{L} =  -F_{\mu\alpha}\partial_\nu A_\alpha - g_{\mu\nu}\mathcal{L}.\tag{28}\]
+Recall that
+\[-\frac{1}{4}F_{\mu\nu}^2 = \frac{1}{2}(\vec{E}^2-\vec{B}^2),\tag{29}\]
+where $\vec{E} = \partial_t\vec{A} - \vec{\nabla}A_0$ and $\vec{B} = \vec{\nabla} \times\vec{A}$.
+ Thus to calculate the energy density, we have
+ \[\begin{aligned}
+         \mathcal{T}^{00} &= -\partial_tA_\alpha F_{0\alpha} - \frac{1}{2}(\vec{E}^2-\vec{B}^2) - \frac{1}{2}m^2A_\mu^2\\
+         &= \frac{1}{2}(\vec{E}^2+\vec{B}^2) - \frac{1}{2}m^2A_\mu^2 -F_{0\alpha}\partial_\alpha A_0\\
+         &= \frac{1}{2}(\vec{E}^2+\vec{B}^2) - \frac{1}{2}m^2(A_0^2-\vec{A}^2) - \partial_tA_\alpha\partial_\alpha A_0 - A_0\square A_0\\
+         &= \frac{1}{2}(\vec{E}^2+\vec{B}^2) + \frac{1}{2}m^2(A_0^2+\vec{A}^2) - \cancelto{=0}{A_0(\square + m^2)A_0} + \cancelto{=0}{A_0\partial_t(\partial_\alpha A_\alpha)},
+     \end{aligned}\tag{30}\]
+where the last two terms vanished due to the equations of motion. Therefore, the total energy of the Proca Lagrangian is positive definite, as desired.</p>
+
+<p>Now, let us find explicit solution to the equations of motion. First, we perform a Fourier transform to $A_\mu$ and plugging into $(\square+m^2)A_\mu = 0$, we find
+\[(\square+m^2)\sum_i \int \frac{d^4p}{(2\pi)^4}\tilde{a}^i(\vec{p})\epsilon_\mu^i(p)e^{ipx} = 0,\tag{31}\]
+where $\epsilon_\mu^i(p)$ is some basis vector known as the polarization vectors.
+Thus, we have
+\[-p^2 + m^2 = 0 \implies \omega_p = p_0 = \sqrt{\vec{p}^2 + m^2}\tag{32}\]
+as usual. We could take $i=1,2,3,4$ and use four vectors $\epsilon_\mu^i(p) = \delta^i_\mu$. However, we want to choose a basis that forces $A_\mu(x)$ to satisfy $\partial_\mu A_\mu = 0$. Thus, we require $p_\mu \epsilon_\mu^i(p) = 0$. Remember, we also have $p^2 = m^2$. Hence, there are three independent solutions. Therefore, we only have to sum over $i=1,2,3$. Conventionally, we normalise the polarization vectors $\epsilon_\mu\epsilon_\mu^* = -1$.</p>
+
+<p>Explicitly, let us choose a canonical basis. Take $p^\mu$ to point in the $z$ direction,
+\[p^\mu = (E, 0, 0, p_z), \quad E^2 - p_z^2 = m^2,\tag{33}\]
+then two obvious vectors satisfying $p_\mu \epsilon_\mu = 0$ and $\epsilon_\mu^2 = -1$ are
+\[\epsilon^\mu_1 = (0,1,0,0), \quad \epsilon^\mu_2 = (0,0,1,0).\tag{34}\]
+These are called the transverse polarizations. The other one is 
+\[\epsilon^\mu_L = (\frac{p_z}{m},0,0,\frac{E}{m}),\tag{35}\]
+which is known as the longitudinal polarization. Check it also satisfies ($\epsilon^\mu_L)^2 = -1$ and $p_\mu\epsilon^\mu_L = 0$.</p>
+
+<p>These three polarization vectors generate the irreducible representation. The basis vector depends on $p_\mu$, since there are an infinite number of momenta, it is an infinite-dimensional unitary representation of the Poincaré group. The vector space generated by integrating these basis vectors against arbitrary Fourier components $\tilde{a}_i(p)$ is the space of fields satisfying the equations of motion.</p>
+
+<p>Also keep in mind the fact that the existence of spin-1 particle arises purely from the Lagrangian itself. We never imposed any additional constraints. We did not even talk about spin, or Lorentz invariance at all. This is the beauty of symmetry - it is always there even if we don not know about them.</p>
+
+<h4>Massless Spin 1</h4>
+
+<p>Now, we take the limit $m\rightarrow 0$, we find
+\[\mathcal{L} = -\frac{1}{4}F_{\mu\nu}^2,\tag{36}\]
+which is just the Lagrangian for electrodynamics. This means we are on the right track. However, the constraint equation $m^2(\partial_\mu A_\mu) = 0$ is already satisfied by $m=0$. Hence, the spin-0 mode comes back. Also, note that as $m\rightarrow0$,
+\[\epsilon^\mu_L = (\frac{p_z}{m},0,0,\frac{E}{m}) \rightarrow \infty.\tag{37}\]
+This is due to the normalisation, In the massless limit, we expect $p_z \rightarrow E$ and the momentum becomes light-like, that is,
+\[p_\mu \rightarrow (E, 0, 0, E).\tag{38}\]
+Hence, a better statement would be $\epsilon_\mu^L \rightarrow p_\mu$ up to a normalisation constant. Finally, we expect from representation theory that there should only be two polarizations for a massless spin-1 particle, so the spin-0 and the longitudinal mode should decouple from the physical system.</p>
+
+<p>Instead of trying to analyse what happens to the massive modes, let us just postulate the Lagrangian and start all over. To begin, we have
+\[\mathcal{L} = -\frac{1}{4}F_{\mu\nu}^2, \quad F_{\mu\nu} = (\partial_\mu A_\nu - \partial_\nu A_\mu),\tag{39}\]
+which has an important property that the massive Lagrangian does not have - gauge invariance. The gauge transformation bring 
+\[A_\mu(x) \rightarrow A_\mu(x) + \partial_\mu\alpha(x),\tag{40}\]
+where $\alpha(x)$ is an arbitrary scalar function. The equations of motion of the Lagrangian is
+\[\square A_\mu - \partial_\mu ( \partial_\nu A_\nu) = 0.\tag{41}\]
+Separate the spatial and time components, to get
+\[-\partial_j^2A_0 + \partial_t\partial_jA_j = 0,
+    \tag{42}\]
+\[\square A_i - \partial_i (\partial_t A_0 - \partial_j A_j) = 0.
+    \tag{43}\]
+To count the degrees of freedom, we use gauge invariance to impose constraints on $A_\mu$, a procedure known as gauge-fixing. Under a gauge transformation, we have
+\[\partial_jA_j \rightarrow \partial_jA_j + \partial_j^2\alpha.\tag{44}\]
+Thus, we can choose $\alpha$ so that $\partial_j A_j =0$. This is known as the Coulomb gauge. (42) becomes
+\[\partial_j^2A_0 = 0.
+    \tag{45}\]
+Now, note that the Coulomb gauge is preserved under any gauge transformation, as long as $\partial_i^2\alpha = 0$. Since $A_0 \rightarrow A_0 + \partial_t\alpha$ and we have $\partial_j^2A_0 = 0$ from (45), we can set $A_0 = 0$. This way, we have eliminated one degree of freedom.</p>
+
+<p>In Coulomb gauge, (43) becomes
+\[\square A_i = 0,\tag{46}\]
+which seems to propagate three modes. However, keep in mind that we also have $\partial_i A_i = 0$. Thus, we are only left with two degrees of freedom, which is exactly what we desired.</p>
+
+<p>In Fourier space, 
+\[A_\mu(x) = \int \frac{d^4p}{(2\pi)^4}\epsilon_\mu(p)e^{ipx}.\tag{47}\]
+And we have $p^2=0$ from the equations of motion, and $p_i\epsilon_i = 0$ and $\epsilon_0 = 0$ from the gauge choice. Choosing a frame, we can write the momentum as $p_\mu= (E, 0, 0, E)$. Then these equations have two solutions,
+\[\epsilon^\mu_1  = (0, 1, 0, 0), \quad \epsilon^\mu_2  = (0, 0, 1, 0),\tag{48}\]
+which represents linearly polarized light. Therefore, we have managed to construct a theory with only two degrees of freedom, which is appropriate for irreducible unitary representations of a massless spin-1 particle.</p>
+
+<p>Sometimes, we use another set of bases:
+\[\epsilon^\mu_R = \frac{1}{\sqrt{2}}(0, 1, i,0), \quad \epsilon^\mu_L = \frac{1}{\sqrt{2}}(0, 1, -i,0),\tag{49}\]
+which are known as the transverse polarizations.</p>
+
+<h4>Little Group</h4>
+
+<p>The representation of the full Poincaré group is induced by a representation of the subgroup of the Poincaré group that holds $p_\mu$ fixed, called the little group. The little group has finite-dimensional representations. For the massive case, the little group, holding for example $p_\mu = (m,0,0,0)$ fixed, is just the group of three-dimensional rotations, SO(3). SO(3) has finite-dimensional irreducible representations of spin $J$ with $2J+1$ degrees of freedom. For the massless case, the group that holds a massless 4-vector such as $(E, 0, 0, E)$ fixed is the group ISO(2) (the isometry group of the two-dimensional Euclidean plane), which has representations of spin $J$ with two degrees of freedom for each $J$. Studying representations of the little group is the easiest way to prove Wigner's classification.</p>
+
+<h2 id="covariant-derivatives">Covariant Derivatives</h2>
+
+<p>In order to not affect the degrees of freedom, the instructions must be gauge invariant. One educated guess might be to try
+\[\mathcal{L} = \cdots + A_\mu \phi\partial_\mu\phi.\tag{50}\]</p>
+
+<p>Under a gauge transformation
+\[A_\mu \phi\partial_\mu\phi \rightarrow A_\mu \phi\partial_\mu\phi + (\partial_\mu\alpha) \phi\partial_\mu\phi,\tag{51}\]
+which is not gauge invariance. We need the field that $A_\mu$ couples with to also transform under a gauge transformation, so that it cancels the $\partial_\mu\alpha$ term. Therefore, it is impossible to couple $A_\mu$ with a field with only one degree of freedom. We require at least two real scalar fields $\phi_1$ and $\phi_2$. For convenience, we will put them into a complex scalar field, $\phi = \phi_1 + i\phi_2$, and then work with $\phi$ and $\phi^*$.</p>
+
+<p>Under a gauge transformation, $\phi$ can transform as 
+\[\phi(x) \rightarrow e^{-i\alpha(x)}\phi(x),\tag{52}\]
+which makes $m^2\phi\phi^*$ gauge invariant. Also, note that $\abs{\partial_\mu\phi}^2$ is also gauge invariant.</p>
+
+<p>We can make the kinetic term gauge invariant by introducing a covariant derivative. Adding a conventional constant $e$ to the transformation of $A_\mu$, $A_\mu \rightarrow A_\mu + \frac{1}{e}\partial_\mu\alpha$, we find
+\[(\partial_\mu+ieA_\mu)\phi \rightarrow (\partial_\mu+ieA_\mu + i \partial_\mu\alpha)e^{-i\alpha}\phi = e^{-i\alpha}(\partial_\mu+ieA_\mu)\phi.\tag{53}\]
+Define the covariant derivative as
+\[D_\mu \phi \equiv (\partial_\mu+ieA_\mu)\phi \rightarrow e^{-i\alpha}D_\mu \phi,\tag{54}\]
+which transforms just as the complex scalar fields.</p>
+
+<p>Thus, we can write down a Lorentz-invariant Lagrangian:</p>
+
+<p>\[\mathcal{L} = -\frac{1}{4}F^2_{\mu\nu} + (D_\mu\phi)^*(D_\mu\phi) - m^2 \phi^*\phi,
+    \tag{55}\]</p>
+
+<p>which is the Lagrangian for scalar QED.</p>
+
+<p>More generally, different field $\phi_n$ can have different charges $Q_n$ and transform as $\phi_n \rightarrow e^{-iQ_n\alpha(x)} \phi_n$.</p>
+
+<h4>Gauge Symmetries and Conserved Current</h4>
+
+<p>Symmetries parametrised by a function such as $\alpha(x)$ are called gauge or local symmetries, while they are only symmetries for a constant $\alpha$ they are called global symmetry. A gauge symmetry automatically implies global symmetry, which in turn implies conserved currents by Noether's theorem.</p>
+
+<p>Let us see how the Noether current changes when the gauge field is included. Expand (55) to get
+\[\mathcal{L} = -\frac{1}{4}F^2_{\mu\nu} + (\partial_\mu\phi)^*(\partial_\mu\phi) + ieA_\mu(\phi\partial_\mu\phi^* - \phi^*\partial_\mu\phi) + e^2A_\mu^2\phi^*\phi - m^2 \phi^*\phi.\tag{56}\]
+The equations of motion are
+\[(\square + m^2)\phi = -2ieA_\mu\partial_\mu\phi + e^2A_\mu^2\phi,\tag{57}\]
+\[(\square + m^2)\phi^* = 2ieA_\mu\partial_\mu\phi^* + e^2A_\mu^2\phi^*.\tag{58}\]
+The Noether current associates with the global symmetry for which $\frac{\delta\phi}{\delta\alpha} = -i\phi$ and $\frac{\delta\phi^*}{\delta\alpha} = i\phi^*$ is
+\[J_\mu = \sum_n \frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi_n)}\frac{\delta\phi_n}{\delta\alpha} = -i(\phi\partial_\mu\phi^* - \phi^*\partial_\mu\phi) - 2eA_\mu\phi^*\phi.\tag{59}\]
+The first term on the right is the Noether current in the free theory (when $e=0$).</p>
+
+<p>One would notice that $-eA_\mu J_\mu$ is just the term linear to $A_\mu$ in the Lagrangian. To see why, take $\mathcal{L}_0$ as the limit of the original Lagrangian when $A_\mu=0$ (or equivalently $e=0$). $\mathcal{L}_0$ still has a global symmetry, since $A_\mu$ does not transform when $\alpha$ is constant. If we let $\alpha$ to be a function of $x$, the infinitesimal transformation is given by
+\[\delta\mathcal{L}_0 = (\partial_\mu\alpha)J_\mu + \mathcal{O}(\alpha^2)\tag{60}\]
+for some $J_\mu$. For example, in scalar QED with $e=0$, we find
+\[\delta\mathcal{L}_0 = (\partial_\mu\alpha)J_\mu + (\partial_\mu\alpha)^2\phi^*\phi\tag{61}\]
+with $J_\mu = -i(\phi\partial_\mu\phi^* - \phi^*\partial_\mu\phi)$. Back to the general theory, after integrating by parts, the linear term in $\alpha$ is $\delta\mathcal{L}_0=\alpha\partial_\mu J_\mu$. Since the variation of the Lagrangian vanishes on the equations of motion for any transformation, we must have $\partial_\mu J_\mu = -$ implying that $J_\mu$ is conserved. Thus, we have just rederived Noether's theorem in a different way. To make the Lagrangian invariant without using the equations of motion, we can add a field $A_\mu$ with $\delta A_\mu = \partial_\mu\alpha$ and define $\mathcal{L} = \mathcal{L}_0- A_\mu J_\mu$ so that 
+\[\delta \mathcal{L} = \delta \mathcal{L}_0- \delta A_\mu J_\mu = (\partial_\mu\alpha)J_\mu - (\partial_\mu\alpha)J_\mu = 0.\tag{62}\]
+Hence, the coupling $A_\mu J_\mu$ between a gauge field and a Noether current is generic and universal.</p>
+
+<h2 id="quantisation-and-the-ward-identity">Quantisation and the Ward Identity</h2>
+
+<h4>Massive Spin 1</h4>
+
+<p>To quantise fields with multiple degrees of freedom, we simply require a creation and an annihilation operator for each degree of freedom. In the case of the massive-spin 1 particle, we have
+\[A_\mu(x) = \int\frac{d^3p}{(2\pi)^3}\frac{1}{\sqrt{2\omega_p}}\sum_{j=1}^3(\epsilon_\mu^j(p)a_{p,j}e^{-ipx} + \epsilon_\mu^{j*}(p)a_{p,j}^\dagger e^{ipx}).\tag{63}\]
+There are separate creation and annihilation operators for each of the polarizations, and we sum over them. $\epsilon_\mu^j(p)$ represents a canonical set of basis vectors. The creation and annihilation operators have polarization indices. Also, we now require both the momentum and polarization to specify an asymptotic state, so
+\[a_{p,j}^\dagger\ket{0} = \frac{1}{\sqrt{2\omega_p}}\ket{p, \epsilon^j}\tag{64}\]
+up to normalisation. Thus,
+\[\bra{0}A_\mu(x)\ket{p, \epsilon^j} = \epsilon_\mu^je^{-ipx},\tag{65}\]
+so the field $A_\mu(x)$ creates a particle at position $x$ whose polarization can be projected out with the appropriate contraction.</p>
+
+<p>Recall that the basis has to depend on $p^{\mu}$ because there are no finite-dimensional unitary representations of the Lorentz group. To see it again, let us suppose instead that we tried to pick constants for our basis vectors. Say, $\epsilon^{1}_{\mu}=(0,1,0,0)$, $\epsilon^{2}_{\mu}=(0,0,1,0)$ and $\epsilon^{3}_{\mu}=(0,0,0,1)$. The immediate problem is that this basis is not complete, because under Lorentz transformations</p>
+
+<p>\[\epsilon^{i}_{\mu}\to\Lambda_{\mu\nu}\epsilon^{i}_{\nu},\tag{66}\]</p>
+
+<p>so that for boosts these will mix with the timelike polarization $(1,0,0,0)$.</p>
+
+<p>We saw from solving the classical equations of motion that we can choose a momentum-dependent basis $\epsilon^{1}_{\mu}(p)$, $\epsilon^{2}_{\mu}(p)$ and $\epsilon^{3}_{\mu}(p)$. For example, for the massive case, for $p_{\mu}$ pointing in the $z$ direction,
+\[p^{\mu}=(E,0,0,p_{z}),\tag{67}\]
+we can use the basis
+\[\epsilon^{\mu}_{1}(p)=(0,1,0,0),\quad\epsilon^{\mu}_{2}(p)=(0,0,1,0),\quad\epsilon^{\mu}_{L}(p)=\left(\frac{p_{z}}{m},0,0,\frac{E}{m}\right),\tag{68}\]
+which all satisfy $\epsilon^{i}_{\mu}\epsilon^{i*}_{\mu}=-1$ and $\epsilon^{i}_{\mu}p_{\mu}=0$.</p>
+
+<p>What happened to the fourth degree of freedom in the vector representation? The vector orthogonal to these is $\epsilon^{\mu}_{S}(p)=\frac{1}{m}p^{\mu}=\left(\frac{E}{m},0,0,\frac{p}{m}\right)$. In position space, this is $\epsilon^{S}_{\mu}=\frac{1}{m}\partial_{\mu}\alpha(x)$ for some scalar function $\alpha(x)$. So we do not want to include this spin-$0$ polarization $\epsilon^{S}_{\mu}(p)$ in the sum in Eq. (8.64). To see that the polarization based on the scalar $\alpha(x)$ does not mix with the other three is easy: If something is the divergence of a function $\alpha(x)$, under a Lorentz transformation it will still be the divergence of the same function, just in a different frame. So the polarizations in the spin-$1$ representation (the $\epsilon^{1}_{\mu}$'s) do not mix with the polarization in the spin-$0$ representation, $\epsilon^{S}_{\mu}$.</p>
+
+<p>Now, you may wonder, if we are redefining our basis with every boost, so that $\epsilon^{1}_{\mu}(p)\rightarrow\epsilon^{1}_{\mu}(p^{\prime})$, $\epsilon^{2}_{\mu}(p)\rightarrow\epsilon^{2}_{\mu}(p^{\prime})$, and $\epsilon^{L}_{\mu}(p)\rightarrow\epsilon^{L}_{\mu}(p^{\prime})$, when do the polarization vectors ever mix? Have we gone too far and just made four separate one-dimensional representations? The answer is that there are Lorentz transformations that leave $p_{\mu}$ alone, and therefore leave our basis alone. These are, by definition, the elements of the <em>little group</em>. For little-group transformations, we need to check that our basis vectors rotate into each other and form a complete representation. For example, suppose we go to the frame
+\[q^{\mu}=(m,0,0,0).\tag{69}\]
+Then we can choose our polarization basis vectors as
+\[\epsilon^{\mu}_{1}(q)=(0,1,0,0),\quad\epsilon^{\mu}_{2}(q)=(0,0,1,0),\quad\epsilon^{\mu}_{3}(q)=(0,0,0,1)\tag{70}\]
+and $\epsilon^{\mu}_{S}=(1,0,0,0)$. The little group which preserves $q_{\mu}$ in this case is simply the 3D rotation group SO(3). It is then easy to see that, under 3D rotations, the three $\epsilon^{i}_{\mu}$ polarizations will mix among each other, and $\epsilon^{\mu}_{S}=(1,0,0,0)$ stays fixed. If we boost, it looks like the $\epsilon^{i}_{\mu}$ will mix with $\epsilon^{S}_{\mu}$. However, we have to be careful, because the basis vectors will also change, for example to $\epsilon^{1}_{\mu}$, $\epsilon^{2}_{\mu}$ and $\epsilon^{L}_{\mu}$, above. The group that fixes $p^{\mu}=(E,0,0,p_{z})$ is also SO(3), although it is harder to see. And these SO(3) rotations will also only mix $\epsilon^{1}_{\mu},\epsilon^{2}_{\mu}$ and $\epsilon^{L}_{\mu}$, leaving $\epsilon^{S}_{\mu}$ fixed. So everything works. The non-trivial effect of Lorentz transformations is to mix up the polarization vectors at fixed $p_{\mu}$. So the spin-$1$ representation is characterized by this smaller group, the little group, which is the subgroup of the Lorentz group that leaves $p_{\mu}$ unchanged. This method of studying representations of the Lorentz group is called the method of induced representations.</p>
+
+<p>The little group also helps resolve the conflict between Lorentz invariance and unitarity. In quantum mechanics, we are interested in the norm. Let us fix the momentum $q^\mu$. Then, any physical polarization vector $\epsilon_\mu$ can be written as 
+\[\epsilon_\mu = c_j \epsilon_\mu^j(q),\tag{71}\]
+corresponding to the state $\ket{\epsilon} = c_j\ket{j}$. Since the basis states all have $\braket{j}{j} = 1$, we find
+\[\braket{\epsilon}{\epsilon} = \abs{c_1}^2 + \abs{c_2}^2 + \abs{c_3}^2.\tag{72}\]
+This inner product is rotation invariant, by the defining property of rotations, and boost invariant as well. Thus, $\braket{\epsilon}{\epsilon}$ is Lorentz invariant and positive definite!</p>
+
+<p>In quantum field theory, we want to know the matrix elements with the field $A_\mu$. Therefore, these matrix elements should depend on the polarization vectors, and thus have the form
+\[\mathcal{M} = \epsilon_\mu M_\mu,\tag{73}\]
+where $M_\mu$ is a 4-vector, and $\epsilon_\mu$ is a linear combination of the basis $\epsilon_\mu^j$. Suppose that we have $\epsilon_\mu = \epsilon_\mu^1$. Now we change frames, so $M_\mu \rightarrow M_\mu' = \Lambda_{\mu\nu}M_\nu$. As the matrix element is a scalar, it must be Lorentz-invariant:
+\[\mathcal{M} = \epsilon_\mu'(p')M_\mu',\tag{74}\]
+where $\epsilon_\mu'(p') = \Lambda_{\mu\nu}\epsilon_\nu(\Lambda_{\alpha\beta}p_\beta)$. This new polarization is still a physical state in our Hilbert space, since the basis is closed under the Lorentz group. This is rather trivial, but it will help us to understand the rather subtle property of the massless spin 1 case.</p>
+
+<h4>Massless Spin 1 Particle</h4>
+
+<p>Similarly, as for the massive case, we have
+\[A_\mu(x) = \int\frac{d^3p}{(2\pi)^3}\frac{1}{\sqrt{2\omega_p}}\sum_{j=1}^2(\epsilon_\mu^j(p)a_{p,j}e^{-ipx} + \epsilon_\mu^{j*}(p)a_{p,j}^\dagger e^{ipx}),\tag{75}\]
+where we only sum over two polarization vectors instead of three. For example, we can take $p^\mu$ to point in the $z$-direction. Then
+\[\epsilon^\mu_1 = (0,1,0,0), \quad \epsilon^\mu_2 = (0,0,1,0),\tag{76}\]
+which satisfy $(\epsilon^\mu_i)^2 = -1$ and $p_\mu \epsilon^\mu_i = 0$. There are two other polarizations orthogonal to them:
+\[\epsilon^\mu_f = (1, 0,0,1), \quad \epsilon^\mu_b = (1, 0,0,-1),\tag{77}\]
+where the $f$ and $b$ subscript denote forward and backwards polarizations, respectively.</p>
+
+<p>However, we now have a problem. Although, we have an irreducible unitary representation of the massless spin-1 particles involving only two polarizations, it is impossible to embed only these polarizations in vector fields such as $\epsilon_\mu$. To see the problem, recall that in the massive case we have seen that $\epsilon_\mu^1$ and $\epsilon_\mu^2$ also mixed with $\epsilon_\mu^L$ under a rotation (the little group SO(3) which preserves $p^\mu$). In the massless limit, the longitudinal mode $\epsilon_\mu^L$ becomes the forward polarization mode $\epsilon_\mu^f$ up to some constant. Whereas, the forward polarization mode is proportional to the momentum $p^\mu = (E, 0, 0, E)$. Additionally, the little group goes from SO(3) to ISO(2) in the massless case. The little group members $\epsilon_\mu^1$ and $\epsilon_\mu^1$ still mix with the other polarization $\epsilon_\mu^f$. Generally, under a rotation,
+\[\begin{aligned}
+        \epsilon_\mu^1 \rightarrow c_{11}(\Lambda)\epsilon_\mu^1 + c_{12}(\Lambda)\epsilon_\mu^2 + c_{13}(\Lambda)\epsilon_\mu^f,\\
+        \epsilon_\mu^2 \rightarrow c_{21}(\Lambda)\epsilon_\mu^1 + c_{22}(\Lambda)\epsilon_\mu^2 + c_{23}(\Lambda)\epsilon_\mu^f,
+\end{aligned}\tag{78}\]
+where $c_{ij}$ are numbers. Since $\epsilon_\mu^f \propto p_\mu$, we find
+\[\begin{aligned}
+        \epsilon_\mu^1 \rightarrow c_{11}(\Lambda)\epsilon_\mu^1 + c_{12}(\Lambda)\epsilon_\mu^2 + c_{13}(\Lambda)p_\mu,\\
+        \epsilon_\mu^2 \rightarrow c_{21}(\Lambda)\epsilon_\mu^1 + c_{22}(\Lambda)\epsilon_\mu^2 + c_{23}(\Lambda)p_\mu.
+\end{aligned}\tag{79}\]
+Now consider how the matrix element $\mathcal{M} = \epsilon_\mu M_\mu$, where $\epsilon_\mu$ is some linear combination of $\epsilon_\mu^1$ and $\epsilon_\mu^2$. Under a rotation, we find
+\[\mathcal{M} \rightarrow \epsilon_\mu'M_\mu' + c(\Lambda)p_\mu M_\mu'\tag{80}\]
+for some $c(\Lambda)$. For the matrix element to be Lorentz invariant, we must have $\mathcal{M} = \epsilon_\mu'M_\mu'$, which is only true when</p>
+
+<p>\[p_\mu M^\mu = 0.\tag{81}\]</p>
+
+<p>This equation is known as the Ward identity, which can be proven using path integrals.</p>
+
+<h2 id="the-photon-propagator">The Photon Propagator</h2>
+
+<p>In quantum field theory, we are interested in the propagator, $\Pi_{\mu\nu}$, of the photon. First, recall the Feynman propagator for scalar field
+\[D_F(x, y) = \int \frac{d^4p}{(2\pi)^4} \frac{i}{p^2-m^2+i\varepsilon}e^{ip(x-y)}.\tag{82}\]
+Note that the classical Green's function of the Klein-Gordon equation is given by $\Pi(p) = \frac{1}{p^2-m^2}$, in the momentum space. Therefore, we can conclude that the quantum field theory propagator is given by $i\Pi(p)$ with the additional $i\varepsilon$ in the denominator to reproduce time-ordering.</p>
+
+<p>Thus, we can define the photon propagator by
+\[\bra{0}T\{A_\mu(x)A_\nu(y)\}\ket{0} = i\int \frac{d^4k}{(2\pi)^4}e^{ik(x-y)}\Pi_{\mu\nu}(k).\tag{83}\]</p>
+
+<p>We will start by writing down the Lagrangian for the photon with the existence of a current:
+\[\mathcal{L} = -\frac{1}{4}F_{\mu\nu}^2 - J_\mu A_\mu.\tag{84}\]
+The corresponding equation of motion becomes
+\[\partial_\mu F_{\mu\nu} = J_\nu,\tag{85}\]
+so
+\[\square A_\nu - \partial_\mu \partial_ \nu A_\mu = (\square g_{\mu\nu} - \partial_\mu \partial_ \nu) A_\mu = J_\nu.\tag{86}\]
+In momentum space, this turns into
+\[(-p^2g_{\mu\nu} +p_\mu p_\nu)A_\mu = J_\nu.\tag{87}\]
+Recall the definition of the Green's function, $A_\mu = -\Pi_{\mu\nu}J_\nu$, so that $(-p^2g_{\mu\nu} +p_\mu p_\nu)\Pi_{\mu\alpha}J_\alpha = J_\nu$. Thus,
+\[(-p^2g_{\mu\nu} +p_\mu p_\nu)\Pi_{\mu\alpha} = g_{\nu\alpha}.\tag{88}\]
+However, the problem is that 
+\[(-p^2g_{\mu\nu} +p_\mu p_\nu)p_\mu = 0,\tag{89}\]
+which means $(-p^2g_{\mu\nu} +p_\mu p_\nu)$ has an eigenvector $p_\mu$ with an eigenvalue $0$. Therefore,
+\[\text{det}(-p^2g_{\mu\nu} +p_\mu p_\nu) = 0,\tag{90}\]
+which means $(-p^2g_{\mu\nu} +p_\mu p_\nu)$ is not invertible.</p>
+
+<p>To get through this, we can introduce a parameter $\xi$, which helps us to generate the constraints from the equation of motion. We modify the Lagrangian as
+\[\mathcal{L} = -\frac{1}{4}F_{\mu\nu}^2 - \frac{1}{2\xi}(\partial_\mu A_\mu)^2 - J_\mu A_\mu,\tag{91}\]
+where in the limit of very small $\xi$ we force $\partial_\mu A_\mu$ to approach zero. Thus $\xi=0$ would correspond to the Lorentz gauge. The equation of motion now becomes
+\[(-p^2g_{\mu\nu} + (1-\frac{1}{\xi})p_\mu p_\nu)A_\mu = J_\nu,\tag{92}\]
+and thus 
+\[(-p^2g_{\mu\nu} + (1-\frac{1}{\xi})p_\mu p_\nu)\Pi_{\mu\alpha} = g_{\nu\alpha}.
+    \tag{93}\]
+To solve this, one may notice that the only possible rank-2 tensor terms we can have are $g_{\mu\nu}$ and $p_\mu p_\nu$. Hence, we can write $\Pi_\mu\nu$ in the form
+\[\Pi_{\mu\alpha} = ag_{\mu\alpha} + bp_\mu p_\alpha,\tag{94}\]
+where $a$ and $b$ are numbers to be determined. Plugging this back into (93), we have
+\[-ap^2g_{\nu\alpha} + a(1-\frac{1}{\xi})p_\alpha p_\nu -bp^2p_\nu p_\alpha + b(1-\frac{1}{\xi})p^2p_\nu p_\alpha = g_{\nu\alpha}.\tag{95}\]
+Therefore, we find
+\[\begin{aligned}
+        \begin{cases}
+            a = -\frac{1}{p^2},\\
+            b = \frac{1-\xi}{p^4}.
+        \end{cases}
+    \end{aligned}\tag{96}\]
+Thus, we have
+\[\Pi_{\mu\nu} = -\frac{g_{\mu\nu} - (1-\xi)\frac{p_\mu p_\nu}{p^2}}{p^2},\tag{97}\]
+so the time-ordered Feynman propagator for a photon is given by</p>
+
+<p>\[i\Pi_{\mu\nu}(k) = \frac{-i}{p^2+i\varepsilon}\biggr[g_{\mu\nu} - (1-\xi)\frac{p_\mu p_\nu}{p^2}\biggl].\tag{98}\]</p>
+
+<p>This is the photon propagator in covariant or $\text{R}_\xi$-gauge. We did not prove the validity of simply adding in the $i\varepsilon$, which can be derived trivially using the path integral (proof using the canonical picture is also possible, but too complicated).</p>
+
+<h4>Covariant Gauges</h4>
+
+<p>In the covariant gauges, each choice of $\xi$ gives a different Lorentz-invariant gauge. Some useful gauges are:</p>
+
+<ol>
+  <li>Feynman--'t Hooft gauge $\xi = 1$:
+\[i\Pi^{\mu\nu}(p) = \frac{-i g^{\mu\nu}}{p^2 + i\epsilon}.
+\nonumber\tag{99}\]
+This is the gauge we will use for most calculations.</li>
+  <li>Lorenz gauge $\xi = 0$:
+\[i\Pi^{\mu\nu}(p) = -i \frac{ g^{\mu\nu} - \frac{p^{\mu} p^{\nu}}{p^2} }{p^2 + i\epsilon}.
+\nonumber\tag{100}\]
+We saw that $\xi \to 0$ forces $\partial_{\mu} A^{\mu} = 0$. Note that we could not set $\xi = 0$ and then invert the kinetic term, but we can invert and then set $\xi = 0$.</li>
+  <li>Unitary gauge $\xi \to \infty$. This gauge is useless for QED, since the propagator blows up. But it is extremely useful for the gauge theory of the weak interactions.</li>
+</ol>
+
+<p>The final answer should be gauge invariance, which means it should be independent of $\xi$. Thus, whatever we contract we $\Pi_{\mu\nu}$ should get 0 for the $p_\mu p_\nu$ term, which is very similar to the Ward identity.</p>
+
+<h2 id="quantizing-complex-scalar-fields">Quantizing Complex Scalar Fields</h2>
+
+<p>First, we write out the equations of motion of $\phi$ and $\phi^*$:
+\[(\square + m^2)\phi = i(-eA_\mu)\partial_\mu\phi + i\partial_\mu(-eA_\mu\phi)+(-eA_\mu)^2\phi,\tag{101}\]
+\[(\square + m^2)\phi^* = i(eA_\mu)\partial_\mu\phi^* + i\partial_\mu(eA_\mu\phi^*)+(eA_\mu)^2\phi^*.\tag{102}\]
+By observation, we see that $\phi$ and $\phi^*$ have the same mass, but opposite charge. Thus, $\phi$ and $\phi^*$ forms a particle-antiparticle pair. Although something having an equation of motion does not imply that it exists. In a second-quantized relativistic theory, the radiation process $\phi \rightarrow \phi \gamma$, automatically implies that $\gamma \rightarrow \phi\phi^*$ is also possible (as we will see). Thus, we must be able to produce these $\phi^*$ particles. In other words,  in a relativistic theory with a massless spin-1 field, antiparticles must exist, and we know how to produce them!</p>
+
+<p>Recall the quantization of the real scalar field is
+\[\phi(x) = \int \frac{d^3p}{(2\pi)^3}\frac{1}{\sqrt{2\omega_p}}(a_pe^{-ipx} + a_p^\dagger e^{ipx}).\tag{103}\]
+Since a complex scalar field must be different from its conjugate by definition, we have to have a more general form. Therefore, we need to introduce two sets of creation and annihilation operators, and thus
+\[\phi(x) =  \int \frac{d^3p}{(2\pi)^3}\frac{1}{\sqrt{2\omega_p}}(a_pe^{-ipx} + b_p^\dagger e^{ipx}).\tag{104}\]
+Then, its complex conjugate
+\[\phi^*(x) =  \int \frac{d^3p}{(2\pi)^3}\frac{1}{\sqrt{2\omega_p}}(a_p^\dagger e^{ipx} + b_p e^{-ipx}).\tag{105}\]
+Thus, we can conclude that $b_p$ annihilates particles of opposite charge and the same mass to what $a_p$ annihilates, which means $b_p$ annihilates the antiparticles. Keep in mind that in both cases $\omega_p = \sqrt{\vec{p}^2+m^2} > 0$.</p>
+
+<p>To conclude, a global symmetry under phase rotations implies charge, which in turn implies complex fields, which then implies antiparticles. That is,</p>
+
+<p>Matter coupled to massless spin-1 particles implies the existence of antiparticles.</p>
+
+<p>This is an inevitable consequence of relativity and quantum mechanics.</p>
+
+<h4>Holes and the Dirac Sea</h4>
+
+<p>Historically, it was the Dirac equation which led to the prediction of antiparticles. However, Dirac had written down
+\[\phi^*(x) = \phi(x) =  \int \frac{d^3p}{(2\pi)^3}\frac{1}{\sqrt{2\omega_p}}(a_p^\dagger e^{ipx} + b_p^\dagger e^{-ipx}),\tag{106}\]
+where $c_p^\dagger$ and $a_p^\dagger$ are both creation operators. Then $c_p^\dagger$ seems to be creating states of negative energy. This made sense to Dirac at the time, since the classical solutions to the Klein-Gordon equation involve negative energy. Therefore, Dirac interpreted the creation of negative energy as removing something of positive energy and creating an energy hole. An energy hole in what? His answer was that the universe is full of positive energy states. Then $c_p^\dagger$ creates a hole in this sea, which moves around like an independent citation. But why does this not collapse? Dirac invoked the Fermi exclusion principle.</p>
+
+<p>Dirac argued that positive charges can be seen as the absence of negative charges, and the universe is full of particles. Therefore, the negative energy states are the absence of the negative charges. However, this only works for fermions, not bosons.</p>
+
+<h2 id="feynman-rules-for-scalar-qed">Feynman Rules for Scalar QED</h2>
+
+<p>Expanding the Lagrangian for scalar QED
+\[\mathcal{L} = -\frac{1}{4}F_{\mu\nu}^2 -\phi^*(\square+m^2)\phi - ieA_\mu[\phi^*(\partial_\mu\phi) - (\partial_\mu\phi)^*] + e^2A_\mu^2\abs{\phi}^2.\tag{107}\]
+We can read off the Feynman rules from the Lagrangian. The complex scalar propagator is</p>
+
+<figure class="tikz-figure"><script type="text/tikz">
+\begin{tikzpicture}
+        \begin{feynman}
+            \vertex (a) at (0,0);
+            \vertex (b) at (3,0);
+            \draw [dashed, with arrow=0.5, thick, momentum'=$p$] (a) -- (b); % Dashed line with arrow
+            \node at (5,0) {$\displaystyle =\frac{i}{p^2 - m^2 + i\varepsilon}.$};
+        \end{feynman}
+    \end{tikzpicture}
+</script></figure>
+
+<p>This propagator propagates both $\phi$ and $\phi^*$, that is, both particles and antiparticles at the same time; they cannot be disentangled!</p>
+
+<p>The photon propagator was calculated in the last chapter:</p>
+
+<figure class="tikz-figure"><script type="text/tikz">
+\begin{tikzpicture}
+        \begin{feynman}
+            \vertex (a) at (0,0);
+            \vertex (b) at (3,0);
+            % Corrected momentum arrow syntax:
+            \diagram*{
+            (a) -- [boson, momentum={$p$}, thick] (b),
+            };
+            % Propagator equation with proper spacing
+            \node at (6.5,0) {$\displaystyle =\frac{-i}{p^2+ i\varepsilon}\left[g_{\mu\nu} -(1-\xi)\frac{p_\mu p_\nu}{p^2}\right]$};
+        \end{feynman}
+    \end{tikzpicture}
+</script></figure>
+
+<p>Notice that some of the interactions involve derivatives of $\phi, \phi^*$ and $A_\mu$, which will produce momentum factors. Recall that $\phi$ creates an antiparticle or destroys a particle, and $\phi^*$ creates a particle or destroys an antiparticle. When a derivative acts on these fields, we will have an extra factor of $\pm ip_\mu$.</p>
+
+<p>The interaction has the form
+\[-ieA_\mu [\phi^*(\partial_\mu\phi) - (\partial_\mu\phi^*)\phi],\tag{108}\]
+it always has one derivative on both $\phi$ and $\phi^*$. Each $p^\mu$ comes with an $i$, and the expansion of $\exp(i\mathcal{L}_\text{int})$ gives another $i$ for each vertex, so we always get an $(-ie)i^2 = ie$ multiplying the $\pm p^\mu$ factor coming from the derivative. We will now explore all four possible vertices (another four-point vertex will be discussed later):</p>
+
+<ol>
+  <li>Annihilate $e^-$ and create $e^-$: particle scattering
+
+<figure class="tikz-figure"><script type="text/tikz">
+\begin{tikzpicture}
+        \begin{feynman}
+            \vertex [label=$e^{-}$] (i); % Labeled initial electron
+            \vertex [right= of i] (a);
+            \vertex [above right= of a, label=$e^{-}$] (f1); % Labeled final electron
+            \vertex [below right= of a] (f2);
+            \vertex [above right= of f2] (w0);
+            \vertex [right= of w0] (w);
+
+            \diagram*{
+                (i) --[dashed, with arrow=0.5, momentum=$p_1$, thick] (a),
+                (a) --[dashed, with arrow=0.5, momentum=$p_2$, thick] (f1);
+                (a) --[photon, thick] (f2),
+            };
+
+            \node at (w) {$\displaystyle = ie(-p_\mu^1 - p_\mu^2)$};
+        \end{feynman}
+    \end{tikzpicture}
+</script></figure>
+
+<p>The $\phi^*(\partial_\mu\phi)$ annihilates an $e^-$, which gives a $-p_\mu^1$, and the $-(\partial_\mu\phi^*)\phi$ creates an $e^-$, which gives a $-(+p_\mu^2)$.</li>
+  <li>Annihilate $e^+$ and create $e^+$: antiparticle scattering</p>
+
+<figure class="tikz-figure"><script type="text/tikz">
+\begin{tikzpicture}
+        \begin{feynman}
+            \vertex [label=$e^{+}$] (i); % Labeled initial electron
+            \vertex [right= of i] (a);
+            \vertex [above right= of a, label=$e^{+}$] (f1); % Labeled final electron
+            \vertex [below right= of a] (f2);
+            \vertex [above right= of f2] (w0);
+            \vertex [right= of w0] (w);
+
+            \diagram*{
+                (a) --[dashed, with arrow=0.5, thick] (i),
+                (i) --[opacity=0, momentum'=$p_1$, thick] (a),
+                (f1) --[dashed, with arrow=0.5, thick] (a),
+                (a) --[opacity=0, momentum'=$p_2$, thick] (f1),
+                (a) --[photon, thick] (f2),
+            };
+            \node at (w) {$\displaystyle = ie(p_\mu^1 + p_\mu^2)$};
+        \end{feynman}
+    \end{tikzpicture}
+</script></figure>
+
+<p>The $-(\partial_\mu\phi^*)\phi$ annihilates an $e^+$, which gives a $-(-p_\mu^1)$, and the $\phi^*(\partial_\mu\phi)$ creates an $e^+$, which gives a $p_\mu^2$.</li>
+  <li>Annihilate $e^-$ and annihilate $e^+$: pair annihilation</p>
+
+<figure class="tikz-figure"><script type="text/tikz">
+\begin{tikzpicture}
+        \begin{feynman}
+            \vertex (a);
+            \vertex [above left= of a,label=$e^{-}$] (i1); % Labeled initial electron
+            \vertex [below left= of a, label=$e^{+}$] (i2); % Labeled final electron
+            \vertex [right= of a] (f);
+            \vertex [right= of f] (w0);
+            \vertex [right= of w0] (w);
+
+            \diagram*{
+                (i1) --[dashed, with arrow=0.5, thick] (a),
+                (i1) --[opacity=0, momentum'=$p_1$, thick] (a),
+                (a) --[dashed, with arrow=0.5, thick] (i2),
+                (i2) --[opacity=0, momentum'=$p_2$, thick] (a),
+                (a) --[photon, thick] (f),
+            };
+            \node at (w) {$\displaystyle = ie(-p_\mu^1 + p_\mu^2)$};
+        \end{feynman}
+    \end{tikzpicture}
+</script></figure>
+
+<p>The $-(\partial_\mu\phi^*)\phi$ annihilates an $e^+$, which gives a $-(-p_\mu^2)$, and the $\phi^*(\partial_\mu\phi)$ annihilates an $e^-$, which gives a $-p_\mu^1$.</li>
+  <li>Create $e^+$ and create $e^-$: pair production</p>
+
+<figure class="tikz-figure"><script type="text/tikz">
+\begin{tikzpicture}
+        \begin{feynman}
+            \vertex (i); % Labeled initial electron
+            \vertex [right= of i] (a);
+            \vertex [above right= of a, label=$e^{-}$] (f1); % Labeled final electron
+            \vertex [below right= of a, label=below:$e^{+}$] (f2);
+            \vertex [above right= of f2] (w0);
+            \vertex [right= of w0] (w);
+
+            \diagram*{
+                (a) --[dashed, with arrow=0.5, thick] (f1),
+                (a) --[opacity=0, momentum'=$p_1$, thick] (f1),
+                (f2) --[dashed, with arrow=0.5, thick] (a),
+                (a) --[opacity=0, momentum'=$p_2$, thick] (f2),
+                (i) --[photon, thick] (a),
+            };
+            \node at (w) {$\displaystyle = ie(-p_\mu^1 + p_\mu^2)$};
+        \end{feynman}
+    \end{tikzpicture}
+</script></figure>
+
+<p>The $-(\partial_\mu\phi^*)\phi$ creates an $e^-$, which gives a $-p_\mu^1$, and the $\phi^*(\partial_\mu\phi)$ creates an $e^+$, which gives a $p_\mu^2$.</li>
+</ol></p>
+
+<p>In the above diagrams, we have used particle-flow arrows to distinguish electrons and positrons, which points in the direction of momentum for electrons ($e^-$) and opposite to the direction of momentum for positrons ($e^+$). Historically, antiparticles are interpreted as particles going backward in time. We have inherited the notion of using a left-pointing particle-flow arrow in our diagrams.</p>
+
+<p>By observing all vertices, one would notice that if the momentum-flow arrow points to the right, the vertex gives $-iep_\mu$, if the particle-flow points to the left, the vertex gives $+iep_\mu$. Therefore, another Feynman rule for the scalar QED would be:</p>
+
+<p>A scalar QED vertex gives $-ie$ times the sum of the momentum of the particles whose particle-flow arrows point to the right minus the momentum of the particles whose arrows point to the left.</p>
+
+<p>Particle-flow arrows should always make a connected path through the Feynman diagram. The direction of the arrows is arbitrary for the internal lines; as long as the direction of the arrows is consistent with the particle-flow, the answer will come out the same.</p>
+
+<p>One should also notice, that there is another type of interaction in the scalar QED, the 4-point vertex:
+\[\mathcal{L}_\text{int} = e^2 A_\mu^2 \abs{\phi}^2 = e^2 g_{\mu\nu} A_\mu A_\nu \abs{\phi}^2\tag{109}\]
+which corresponds to the vertex</p>
+
+<figure class="tikz-figure"><script type="text/tikz">
+\begin{tikzpicture}
+        \begin{feynman}
+            \vertex [label = $\mu$] (i1);
+            \vertex [below right=of i1] (a);
+            \vertex [below left=of a, label = below:$e^-$] (i2);
+            \vertex [below right=of a, label = below:$e^-$] (f2);
+            \vertex [above right=of a, label = $\nu$] (f1);
+            \vertex [below right = of f1] (eq);
+
+            \diagram* {
+                (i1) --[photon, thick] (a),
+                (a) --[photon, thick] (f1),
+                (a) --[dashed, with arrow=0.5, thick] (f2),
+                (i2) --[dashed, with arrow=0.5, thick] (a),
+            };
+
+            \node at (eq) {$\displaystyle = 2ie^2g_{\mu\nu}.$};
+        \end{feynman}
+    \end{tikzpicture}
+</script></figure>
+
+<p>This is also known as the seagull vertex. The $i$ comes from the expansion of $\exp(i\mathcal{L}_\text{int})$ which we always have in the Feynman rules. The 2 comes from the symmetry factor for the two $A_\mu$ fields.</p>
+
+<h4>External Vertices</h4>
+
+<p>Now we know the vertex factors and propagators for the photon and the complex scalar field. We are left to handle the external vertices, so we have the complete set of Feynman rules. It is easy for the real scalar field, we simply get a factor of 1. The complex scalar field is just two real scalar fields. Thus, we also get a factor of 1. Things get a bit more subtle with the external photons,
+Recall the photon field is given by
+\[A_\mu(x) = \int\frac{d^3p}{(2\pi)^3}\frac{1}{\sqrt{2\omega_p}}\sum_{j=1}^2(\epsilon_\mu^j(p)a_{p,j}e^{-ipx} + \epsilon_\mu^{j*}(p)a_{p,j}^\dagger e^{ipx}),\tag{110}\]
+which is just a bunch of scalar fields integrated with the polarization vectors $\epsilon_\mu^i(p)$. Recall that external states with photons have momenta and polarizations, $\ket{k, \epsilon}$, so that $\bra{0}A_\mu(x)\ket{p, \epsilon_i} = \epsilon_\mu ^i(p) e^{-ipx}$. This leads to LSZ being modified only by adding a factor of the polarization for each external state: $\epsilon_\mu ^i(p)$ for incoming photons and $\epsilon_\mu ^{i*}(p)$ for outgoing photons.</p>
+
+<aside class="callout">
+
+<p>To see the above argument more explicitly, recall the key to proving the LSZ reduction formula is the identity:
+\[i\int d^4x e^{ipx}(\square+m^2)\phi(x) = \sqrt{2\omega_p}[a_p(\infty) - a_p(-\infty)].\tag{111}\]
+For the photon field, we should try to evaluate 
+\[i\int d^4x e^{ipx}\square A_\mu(x).\tag{112}\]
+Following the same steps from the real scalar field case, we would get
+\[i\int d^4x e^{ipx}\square A_\mu(x) = \partial_t \int dt e^{i\omega_pt} \int d^3x e^{-i\vec{p}\vec{x}}(i\partial_t+ \omega_p) A_\mu(x).\tag{113}\]
+Then, in the scalar field case, by expanding $\phi(x)$ in terms of creation and annihilation operators, we find
+\[\int d^3x e^{-i\vec{p}\vec{x}}(i\partial_t+ \omega_p) \phi(x) = \sqrt{2\omega_p}a_p(t)e^{-i\omega_pt}.\tag{114}\]
+However, for $A_\mu(x)$, the expansion includes polarization vectors, and thus
+\[\int d^3x e^{-i\vec{p}\vec{x}}(i\partial_t+ \omega_p) A_\mu(x) = \sqrt{2\omega_p} \sum_{j=1}^2 \epsilon_\mu^j(p) a_{p,j}(t)e^{-i\omega_pt}.\tag{115}\]
+Hence, 
+\[i\int d^4x e^{ipx}\square A_\mu(x) = \sqrt{2\omega_p} \sum_{j=1}^2 \epsilon_\mu^j(p) [a_{p,j}(\infty) - a_{p,j}(-\infty)].\tag{116}\]
+To get rid of the polarization vectors in the result, recall that $\epsilon_{i}^{\mu*}\epsilon_j^\mu = -\delta_{ij}$. Therefore, we can multiply $\epsilon_\mu^i$ on both sides to get
+\[i\epsilon_\mu^{i*}\int d^4x e^{ipx}\square A_\mu(x) = -\sqrt{2\omega_p} [a_{p,i}(\infty) - a_{p,i}(-\infty)].\tag{117}\]
+Taking the complex conjugate, we have
+\[i\epsilon_\mu^{i}\int d^4x e^{-ipx}\square A_\mu(x) = -\sqrt{2\omega_p} [a_{p,i}^\dagger(\infty) - a_{p,i}^\dagger(-\infty)].\tag{118}\]
+Thus, for photon fields, we get an extra factor of $\epsilon^{i*}_\mu$ for outgoing photons and $\epsilon^{i}_\mu$ for incoming photons. Note, as we will take the modulus square of the matrix element, so the extra minus sign does not matter.</p>
+
+</aside>
+
+<h2 id="scattering-in-scalar-qed">Scattering in Scalar QED</h2>
+
+<p>Let us calculate the cross section for Møller scattering, $e^-e^-\rightarrow e^-e^-$, in scalar QED. There are two diagrams that contribute to the tree-level. The $t$-channel diagram:</p>
+
+<figure class="tikz-figure"><script type="text/tikz">
+\begin{tikzpicture}
+        \usetikzlibrary{calc} % 启用坐标计算库
+        \begin{feynman}
+            \vertex (i1);
+            \vertex [below right=1.5cm of i1] (a); % 增加距离避免标签重叠
+            \vertex [below=1.5cm of a] (b);
+            \vertex [below left=1.5cm of b] (i2);
+            \vertex [above right=1.5cm of a] (f1);
+            \vertex [below right=1.5cm of b] (f2);
+            % 计算 a 和 b 的中点作为公式位置
+            \coordinate (midpoint) at ($(a)!0.5!(b)$);
+
+            \diagram* {
+            (i1) --[dashed, with arrow=0.5, thick, edge label=\(p_1\)] (a), % 调整位置
+            (i2) --[dashed, with arrow=0.5, thick, edge label=\(p_2\)] (b), % 调整位置
+            (b) --[photon, thick] (a),
+            (a) --[dashed, with arrow=0.5, thick, edge label=\(p_3\)] (f1),
+            (b) --[dashed, with arrow=0.5, thick, edge label=\(p_4\)] (f2),
+            };
+            % 将公式置于中轴线 (midpoint) 右侧
+            \node [right=1cm] at (midpoint) {\(\displaystyle=i\mathcal{M}_t.\)};
+        \end{feynman}
+    \end{tikzpicture}
+</script></figure>
+
+<p>Thus,
+\[i\mathcal{M}_t = (-ie)(p_1^\mu + p_3^\mu)\frac{-i\left[ g_{\mu\nu} - (1-\xi)\frac{k_\mu k_\nu}{k^2}\right]}{k^2}(-ie)(p_2^\nu + p_4^\nu),\tag{119}\]
+where $k^\mu = p_3^\mu - p_1^\mu$ according to momentum conservation. Therefore,
+\[k^\mu(p_1^\mu + p_3^\mu) = (p_3^\mu - p_1^\mu)(p_1^\mu + p_3^\mu) = m^2 - m^2 = 0.\tag{120}\]
+We find
+\[\mathcal{M}_t =\frac{e^2(p_1^\mu + p_3^\mu)(p_2^\mu + p_4^\mu)}{t},\tag{121}\]
+which is independent of $\xi$ as expected (gauge invariance).</p>
+
+<p>Another possible diagram would be the $u$-channel:</p>
+
+<figure class="tikz-figure"><script type="text/tikz">
+\begin{tikzpicture}
+        \usetikzlibrary{calc} % 启用坐标计算库
+        \begin{feynman}
+            \vertex (i1);
+            \vertex [below right=1.5cm of i1] (a); % 增加距离避免标签重叠
+            \vertex [below=1.5cm of a] (b);
+            \vertex [below left=1.5cm of b] (i2);
+            \vertex [above right=1.5cm of a] (f1);
+            \vertex [below right=1.5cm of b] (f2);
+            % 计算 a 和 b 的中点作为公式位置
+            \coordinate (midpoint) at ($(a)!0.5!(b)$);
+
+            \diagram* {
+            (i1) --[dashed, with arrow=0.5, thick, edge label=\(p_1\)] (a), % 调整位置
+            (i2) --[dashed, with arrow=0.5, thick, edge label=\(p_2\)] (b), % 调整位置
+            (b) --[photon, thick] (a),
+            (a) --[dashed, with arrow=0.5, thick, edge label=\(p_4\)] (f2),
+            (b) --[dashed, with arrow=0.5, thick, edge label=\(p_3\)] (f1),
+            };
+            % 将公式置于中轴线 (midpoint) 右侧
+            \node [right=1cm] at (midpoint) {\(\displaystyle=i\mathcal{M}_u,\)};
+        \end{feynman}
+    \end{tikzpicture}
+</script></figure>
+
+<p>which gives
+\[i\mathcal{M}_u = (-ie)(p_1^\mu + p_4^\mu)\frac{-i\left[ g_{\mu\nu} - (1-\xi)\frac{k_\mu k_\nu}{k^2}\right]}{k^2}(-ie)(p_2^\nu + p_3^\nu)\tag{122}\]
+with $k^\mu = p_4^\mu - p_1^\mu$. Similarly, we have
+\[k^\mu(p_1^\mu + p_4^\mu) = (p_4^\mu - p_1^\mu)(p_1^\mu + p_4^\mu) = m^2 - m^2 = 0.\tag{123}\]
+Thus, we have
+\[\mathcal{M}_u =\frac{e^2(p_1^\mu + p_4^\mu)(p_2^\mu + p_3^\mu)}{u}.\tag{124}\]
+Note that by simply interchanging $3 \leftrightarrow 4$, we can go from the $u$-channel to the $t$-channel.</p>
+
+<p>Now, putting everything together, the cross section of the Møller scattering at tree-level is
+\[\begin{aligned}
+        \frac{d\sigma(e^-e^- \rightarrow e^-e^-)}{d\Omega} &= \frac{e^4}{64\pi^2E_\text{CM}^2}\left[\frac{(p_1^\mu + p_4^\mu)(p_2^\mu + p_3^\mu)}{u} +  \frac{(p_1^\mu + p_3^\mu)(p_2^\mu + p_4^\mu)}{t}\right]^2\\
+        &= \frac{\alpha^2}{4s}\left[\frac{s-u}{u} +  \frac{s-t}{t}\right]^2,
+\end{aligned}\tag{125}\]
+where $\alpha= \frac{e^2}{4\pi}$ is the fine-structure constant.</p>
+
+<h2 id="ward-identity-and-gauge-invariance">Ward Identity and Gauge Invariance</h2>
+
+<p>In the previous example, we saw that the $\xi$ term vanishes, as expected by gauge invariance. A general matrix element involving a photon propagator would be $M_{\mu\nu}\Pi_{\mu\nu}$. So gauge invariance requires $M_{\mu\nu}p_\mu p_\nu$ to vanish, which is closely related to the Ward identity. The ward identity states that ,for a matrix element involving an on-shell photon $\epsilon_\mu M_\mu$, $p_\mu M_\mu = 0$. Both gauge invariance and Ward identity are tedious to prove in perturbation theory. The general proof would be given later using the path integral. The actual diagrammatic proof would be easier in the real QED, since there is no 4-point vertex involved.</p>
+
+<h2 id="lorentz-invariance-and-charge-conservation">Lorentz Invariance and Charge Conservation</h2>
+
+<p>There is a beautiful and direct connection between Lorentz invariance and charge conservation that bypasses gauge invariance completely. What we will now show is that a theory with a massless spin-1 particle automatically has an associated conserved charge. This profound result, due to Steven Weinberg, does not require a Lagrangian description: it only uses little-group invariance and the fact that for a massless field, one can take the soft limit (the soft photon theorem). The soft-photon theorem by Weinberg provides a mathematical framework for analysing the scattering of particles with soft photons, which are photons whose energy is taken to zero.</p>
+
+<p>We will start by considering a diagram with many external legs, loops and etc. Say the matrix element of this process is $\mathcal{M}_0$. Let us focus on an outgoing photon with momentum $q^\mu$ and polarization $\epsilon^{\mu*}$, which we will tack on an external incoming electron with index $i$:</p>
+
+<figure class="tikz-figure"><script type="text/tikz">
+\begin{tikzpicture}
+        \begin{feynman}
+            \vertex (i);
+            \vertex [right= of i, blob] (M) {};
+            \vertex [left = of i] (eq);
+            \vertex[right = of M] (a);
+            \vertex[right = of a] (a1);
+            \vertex[right = of a1] (b);
+            \vertex[above right = of b, blob] (c) {};
+            \vertex[below right = of b] (d);
+            \vertex[above right= of d] (M1);
+            \diagram* {
+            (i) --[dashed, with arrow=0.5, edge label = $p_i$, thick] (M),
+            (M) --[opacity=0] (a),
+            };
+            \node at (eq) {$\displaystyle i\mathcal{M}_0(p_i)=$};
+            \node at (a) {$\displaystyle\rightarrow$};
+            \diagram* {
+            (a1) --[dashed, with arrow=0.5, edge label = $p_i$, thick] (b),
+            (b) --[dashed, with arrow=0.5, edge label = $p_i-q$, thick] (c),
+            (b) --[photon, thick, edge label = $q$] (d),
+            };
+            \node at (M1) {$\displaystyle =i\mathcal{M}_i(p_i,q)$};
+        \end{feynman}
+        
+    \end{tikzpicture}
+</script></figure>
+
+<p>Thus the matrix element $\mathcal{M}_0$ is given by
+\[\mathcal{M}_0(p_i,q) = (-ie)\frac{i(2p_i^\mu-q^\mu)}{(p_i-q)^2 - m^2}\epsilon_\mu^*\mathcal{M}_0(p_i-q).\tag{126}\]
+Using $p_i^2 = m^2$ and $q^2=0$ $q \cdot \epsilon^*=0$ for on-shell photon, we find
+\[\mathcal{M}_0(p_i,q) = -e\frac{p_i \cdot \epsilon^*}{p_i \cdot q}\mathcal{M}_0(p_i-q).\tag{127}\]
+Now we can take the soft limit. To specify, by soft limit, we mean that $\abs{q\cdot p_i} \ll \abs{p_j \cdot p_k}$ for all external legs $p_i$. Then, we should have $\mathcal{M}_0(p_i) \approx \mathcal{M}_0(p_i-q)$, where $\approx$ is often used to denote the soft limit. Hence,
+\[\mathcal{M}_0(p_i,q) \approx -e\frac{p_i \cdot \epsilon^*}{p_i \cdot q}\mathcal{M}_0(p_i).\tag{128}\]
+Also, notice that the photon attached to loop momenta in the blob is subdominant. This is because these photons are off-shell, and thus $q^2 \neq 0$. This means that these photons cannot give factor of $\frac{1}{q\cdot p}$. Therefore, in the soft limit ($q\rightarrow 0$), the photons coming from the loops does not produce singularity. In conclusion, under the soft limit, the dominant effect comes from photons attached to external legs, and we should sum over all such diagrams.</p>
+
+<p>If the external leg is an incoming $e^+$ instead of $e^-$, we would get
+\[\mathcal{M}_0(p_i,q) \approx e\frac{p_i \cdot \epsilon^*}{p_i \cdot q}\mathcal{M}_0(p_i).\tag{129}\]</p>
+
+<p>If the external leg now becomes an outgoing $e^-$, the diagram becomes</p>
+
+<figure class="tikz-figure"><script type="text/tikz">
+\begin{tikzpicture}
+        \begin{feynman}
+            \vertex [blob] (i) {};
+            \vertex [right= of i] (M);
+            \vertex [left = of i] (eq);
+            \vertex[right = of M] (a);
+            \vertex[right = of a, blob] (a1) {};
+            \vertex[right = of a1] (b);
+            \vertex[above right = of b] (c);
+            \vertex[below right = of b] (d);
+            \vertex[above right= of d] (M1);
+            \diagram* {
+            (i) --[dashed, with arrow=0.5, edge label = $p_i$, thick] (M),
+            (M) --[opacity=0] (a),
+            };
+            \node at (a) {$\displaystyle\rightarrow$};
+            \diagram* {
+            (a1) --[dashed, with arrow=0.5, edge label = $p_i+q$, thick] (b),
+            (b) --[dashed, with arrow=0.5, edge label = $p_i$, thick] (c),
+            (b) --[photon, thick, edge label = $q$] (d),
+            };
+        \end{feynman}
+        
+    \end{tikzpicture}
+</script></figure>
+
+<p>and the amplitude is modified to be
+\[\mathcal{M}_0(p_i,q) = (-ie)\frac{i(2p_i^\mu+q^\mu)}{(p_i+q)^2 - m^2}\epsilon_\mu^*\mathcal{M}_0(p_i+q).\tag{130}\]
+Similarly, this can be simplified as
+\[\mathcal{M}_0(p_i,q) \approx e\frac{p_i \cdot \epsilon^*}{p_i \cdot q}\mathcal{M}_0(p_i).\tag{131}\]
+For an outgoing photon, we would have another sign flip, and thus
+\[\mathcal{M}_0(p_i,q) \approx -e\frac{p_i \cdot \epsilon^*}{p_i \cdot q}\mathcal{M}_0(p_i).\tag{132}\]</p>
+
+<p>If we had many charges with different charge $Q_i$, we would have
+\[\mathcal{M} \approx e\mathcal{M}_0\left[ \sum_\text{incoming}Q_i\frac{p_i \cdot \epsilon^*}{p_i \cdot q} - \sum_\text{outgoing}Q_i\frac{p_i \cdot \epsilon^*}{p_i \cdot q} \right].\tag{133}\]</p>
+
+<p>Now, we perform a Lorentz transformation, which takes $\mathcal{M}(p_i, \epsilon_i) \rightarrow \mathcal{M}(p_i', \epsilon_i')$. Recall that the polarization vector does not transform like a 4-vector. There are some little group transformations, which
+\[\epsilon_\mu \rightarrow \epsilon_\mu + q_\mu.\tag{134}\]
+Thus, 
+\[\mathcal{M} \rightarrow \mathcal{M} + e\mathcal{M}_0\left[ \sum_\text{incoming}Q_i - \sum_\text{outgoing}Q_i \right].\tag{135}\]
+Since $\mathcal{M}$ is Lorentz-invariant, we must have</p>
+
+<p>\[\sum_\text{incoming}Q_i = \sum_\text{outgoing}Q_i,\tag{136}\]</p>
+
+<p>which is precisely charge conservation. Since this process was completely arbitrary, we can conclude that charge must always be conserved.</p>
+
+<p>Although, the above derivation was completely based on the scalar QED, it is completely general. We can suppose the photon has an arbitrary interaction with $\phi$. Then the Feynman rule for the vertex would have an arbitrary dependence on momenta:</p>
+
+<figure class="tikz-figure"><script type="text/tikz">
+\begin{tikzpicture}[
+    triangle vertex/.style={
+        regular polygon, 
+        regular polygon sides=3,
+        minimum size=6mm,  % 增大尺寸确保覆盖
+        fill=white,        % 白色不透明底
+        pattern={Lines[angle=45,distance=2pt]},
+        pattern color=black!40,
+        draw=black,        % 黑色边框
+        line width=0.6pt
+    }
+]
+    \begin{feynman}
+        % 先定义顶点位置
+        \vertex (a) at (0, 0);
+        \vertex (b) at (0, -1.5);  % 明确指定位置
+        \vertex (c) at (-1, -2.5);
+        \vertex (d) at (1, -2.5);
+        \vertex (eq) at (3.5, -1.5) {$\displaystyle=-ie\Gamma_\mu(p,q).$};
+        
+        % 先绘制三角形顶点（在最上层）
+        \node at (b) [triangle vertex] (vertex) {};
+        
+        % 后绘制连线，连接到三角形边界
+        \diagram*{
+            (a) --[photon, thick, momentum = $q$] (vertex.north),  % 连接到上边界
+            (c) --[charged scalar, thick, edge label = $p$] (vertex.south west),  % 连接到左下角
+            (vertex.south east) --[charged scalar, thick, edge label = $p+q$] (d),  % 连接到右下角
+        };
+    \end{feynman}
+\end{tikzpicture}
+</script></figure>
+
+<p>The matrix element must be Lorentz-invariant, therefore the vertex must have a $\mu$ index to contract with the polarization. Meanwhile, also by Lorentz invariance, we can write $\Gamma^\mu$ as
+\[\Gamma^\mu (p,q) = 2p^\mu F(p^2,q^2,p\cdot q) + q^\mu G (p^2,q^2,p\cdot q),\tag{137}\]
+where $F$ and $G$ are known as the form factors. In scalar QED, $F=G=1$. As the photon is on-shell, we have $q_\mu\epsilon_\mu = 0$ just as before. Therefore, we can ignore $G$. Also, we have $q^2=0$ and $p^2 = m^2$. Thus, 
+\[\Gamma^\mu (p,q) = 2p^\mu F\left(\frac{p\cdot q}{m^2}\right),\tag{138}\]
+which we can now put this more general form into the above argument.</p>
+
+<p>Similarly, consider the diagram</p>
+
+<figure class="tikz-figure"><script type="text/tikz">
+\begin{tikzpicture}[
+    triangle vertex/.style={
+        regular polygon, 
+        regular polygon sides=3,
+        minimum size=6mm,  % 增大尺寸确保覆盖
+        fill=white,        % 白色不透明底
+        pattern={Lines[angle=45,distance=2pt]},
+        pattern color=black!40,
+        draw=black,        % 黑色边框
+        line width=0.6pt
+    }
+]
+        \begin{feynman}
+            \vertex (a1);
+            \vertex[right = of a1] (b);
+            \vertex[above right = of b, blob] (c) {};
+            \vertex[below right = of b] (d);
+            \vertex[above right= of d] (M1);
+            \vertex[right= of M1] (M2);
+            
+            \node at (b) [triangle vertex] (vertex) {};
+            
+            \diagram* {
+            (a1) --[dashed, with arrow=0.5, edge label = $p_i$, thick] (vertex.west),
+            (vertex.north east) --[dashed, with arrow=0.5, edge label = $p_i-q$, thick] (c),
+            (vertex.south east) --[photon, thick, edge label = $q$] (d),
+            };
+            \node at (M2) {$\displaystyle \approx -eF_i(0)\frac{p_i \cdot \epsilon^*}{p \cdot q}\mathcal{M}_0(p_i),$};
+        \end{feynman}
+        
+    \end{tikzpicture}
+</script></figure>
+
+<p>where we have taken the soft limit, so that $F_i\left(\frac{p\cdot q}{m^2}\right) \approx F_i(0)$. Note that we have added the index $i$ to indicate different particles. Although $F_i$ does not have to be an analytic function, it should be finite as $q \rightarrow 0$, otherwise the matrix element would diverge when emitting a soft photon. Then, to satisfy Lorentz invariance under the little group transformation, we must have
+\[\sum_\text{incoming}F_i(0) = \sum_\text{outgoing}F_i(0).\tag{139}\]
+Note, we have produced a more general definition for the charge $Q_i=-F_i(0)$.</p>
+
+<p>The above derivation was completely general. More specifically, the interaction between photon and any charged particle always has the form $\frac{p \cdot \epsilon^*}{p \cdot q}$. Therefore,</p>
+
+<p>Massless spin-1 particles imply charge conservation!</p>
+
+<p>Remember, the masslessness of the photon is crucial: there are only two polarizations, and we can take the soft limit with the photon on-shell.</p>
+
+<p>To repeat, this is a non-perturbative statement about the physical universe, not merely a statement about our computation methods, like gauge invariance and the Ward identities. Proofs of this nature are rare and extremely powerful.</p>
+
+<h4>Lorentz Invariance for Spin 2 and Higher</h4>
+
+<p>A massless spin-2 field has two polarizations $\epsilon_{\mu\nu}^i$, which rotate into each other under Lorentz transformations, and also into $q_\mu q_\nu$. There are little-group transformations that send
+\[\epsilon_{\mu\nu} \rightarrow \epsilon_{\mu\nu} + \Lambda_\mu q_\nu + \Lambda_\nu q_\mu + \Lambda q_\mu q_\nu,\tag{140}\]
+where $\Lambda_\mu$ has to do with the specific way the Lorentz group acts. With similar reasoning for massless spin-1 particle, a massless spin-2 particle should also satisfy the Ward identity: if we replace even one polarization tensor index by $q_\mu$, the matrix element should vanish. The spin-2 polarizations can be projected out of $\epsilon_{\mu\nu}$ as the transverse-traceless modes: $q_\mu \epsilon_{\mu\nu} = \epsilon_{\mu\mu} = 0$.</p>
+
+<p>We can write down the general interaction</p>
+
+<figure class="tikz-figure"><script type="text/tikz">
+\begin{tikzpicture}[
+    square vertex/.style={
+        regular polygon, 
+        regular polygon sides=4,
+        minimum size=6mm,  % 增大尺寸确保覆盖
+        fill=white,        % 白色不透明底
+        pattern={Lines[angle=45,distance=2pt]},
+        pattern color=black!40,
+        draw=black,        % 黑色边框
+        line width=0.6pt
+    }
+]
+    \begin{feynman}
+        % 先定义顶点位置
+        \vertex (a) at (0, 0);
+        \vertex (b) at (0, -1.5);  % 明确指定位置
+        \vertex (c) at (-1, -2.5);
+        \vertex (d) at (1, -2.5);
+        \vertex (eq) at (5, -1.5) {$\displaystyle=-i\Gamma^{\mu\nu}(p,q) = -2ip^\mu p^\nu \tilde{F}\left(\frac{p\cdot q}{m^2}\right),$};
+        
+        % 先绘制三角形顶点（在最上层）
+        \node at (b) [square vertex] (vertex) {};
+        
+        % 后绘制连线，连接到三角形边界
+        \diagram*{
+            (a) --[photon, thick, momentum = $q$] (vertex.north),  % 连接到上边界
+            (c) --[charged scalar, thick, edge label = $p$] (vertex.south west),  % 连接到左下角
+            (vertex.south east) --[charged scalar, thick, edge label = $p+q$] (d),  % 连接到右下角
+        };
+    \end{feynman}
+\end{tikzpicture}
+</script></figure>
+
+<p>where we required to tensor index to contract with $\epsilon_{\mu\nu}$.</p>
+
+<p>Now, taking the soft limit and adding up diagrams, we have
+\[\mathcal{M} = \mathcal{M}_0\left[ \sum_\text{incoming}\tilde{F}_i(0) \frac{p_i^\mu}{p_i\cdot q} \epsilon_{\mu\nu}p_i^\nu -  \sum_\text{outgoing}\tilde{F}_i(0) \frac{p_i^\mu}{p_i\cdot q} \epsilon_{\mu\nu}p_i^\nu \right].\tag{141}\]</p>
+
+<p>Now, under a little-group transformation which brings $\epsilon_{\mu\nu} \rightarrow \epsilon_{\mu\nu} + q_\mu \Lambda_\nu$, we find
+\[\mathcal{M} \rightarrow \mathcal{M} + \mathcal{M}_0\Lambda_\nu \left[ \sum_\text{incoming}\tilde{F}_i(0) p_i^\nu -  \sum_\text{outgoing}\tilde{F}_i(0) p_i^\nu \right].\tag{142}\]
+By Lorentz invariance, we require
+\[\sum_\text{incoming}\tilde{F}_i(0) p_i^\nu = \sum_\text{outgoing}\tilde{F}_i(0) p_i^\nu.\tag{143}\]
+This means $\tilde{F}_i(0) p_i^\nu$ is conserved, but we already knew that momentum itself is conserved. Therefore, we must have
+\[\tilde{F}_i(0) = \kappa \quad \forall i,\tag{144}\]
+where $\kappa$ is a constant. This is gravity! All particles gravitate with the same strength, $\kappa \equiv \frac{1}{M_\text{Pl}} = \sqrt{G_n}$. In other words, gravity is universal. So,</p>
+
+<p>Massless spin-2 particles imply that gravity is universal.</p>
+
+<p>What if we keep going? By analogy, for spin-3 we should have
+\[\sum_\text{incoming}\hat{F}_i(0) p_i^\nu p_i^\mu = \sum_\text{outgoing}\hat{F}_i(0) p_i^\nu p_i^\mu.\tag{145}\]
+For example, if we take $\mu=\nu=0$, we find
+\[\sum_\text{incoming}\hat{F}_i(0) E_i^2 = \sum_\text{outgoing}\hat{F}_i(0) E_i^2.\tag{146}\]
+The only way to satisfy this, is if all the charges are 0. Therefore,</p>
+
+<p>There are no interacting theories of massless particles of spin greater than 2.</p>
+  </article>
+
+  <hr class="ornament-rule">
+
+  <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
+    <a href="../notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="../index.html">About</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>

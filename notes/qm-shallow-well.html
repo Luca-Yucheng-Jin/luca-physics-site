@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Absence of Odd-Parity Bound States in a Shallow Square Well — Yucheng (Luca) Jin</title>
+<meta name="description" content="Absence of Odd-Parity Bound States in a Shallow Square Well. Source: D. Tong.">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../styles.css">
+
+<!-- MathJax with custom macros mirroring the original .tex preamble -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros']},
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      Q: '\\mathbb{Q}',
+      A: '\\mathcal{A}',
+      Lagrangian: '\\mathcal{L}',
+      Cdot: '\\boldsymbol{\\cdot}',
+      Tr: '\\operatorname{Tr}',
+      slashed: ['{\\not{#1}}', 1],
+      wick:    ['{\\overline{#1}}', 1],
+      c:       ['{#1}', 1]
+    }
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- TikZJax: renders <script type="text/tikz"> blocks into SVG client-side -->
+<link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
+<script src="https://tikzjax.com/v1/tikzjax.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="topbar__brand">Yucheng (Luca) Jin <small>MSci · Imperial</small></a>
+  <nav class="topbar__nav">
+    <a href="../index.html">About</a>
+    <a href="../notes.html" class="is-active">Notes</a>
+    <a href="../research.html">Research</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+  </nav>
+</header>
+
+<main class="note">
+
+  <div class="note__breadcrumb">
+    <a href="../notes.html">Notes</a> &nbsp;·&nbsp; Quantum Mechanics · Tong PS1 Q7
+  </div>
+
+  <h1 class="note__title">Absence of Odd-Parity Bound States in a Shallow Square Well</h1>
+  <p class="note__subtitle">Source: D. Tong, <em>Quantum Mechanics</em>, Problem Sheet 1, Question 7.</p>
+
+  
+
+  <article class="note__body">
+<p>Consider a square well potential with $U(x) = -U$ for $|x| < a$
+and $U(x) = 0$ otherwise ($U$ is a positive constant). Show that there are no
+bound states (normalisable energy eigenfunctions) which satisfy
+$\chi(-x) = -\chi(x)$ (i.e.\ which have odd parity) if</p>
+
+<p>\[a^2 U < \frac{(\pi\hbar)^2}{8m}\,.
+  \tag{1}\]
+<u><strong>Solution</strong></u> For the state to be bounded, we require $-U<E<0$. Solving the TISE, we find
+\[\chi(x) = \begin{cases}
+        Ae^{\kappa x} & x\leq-a,\\
+        C\sin(kx)+ D\cos(kx) & |x|<a,\\
+        Ee^{-\kappa x} & x\geq a,
+    \end{cases}\tag{2}\]
+with
+\[\kappa = \frac{\sqrt{-2mE}}{\hbar} \qquad   \text{and} \qquad k = \frac{\sqrt{2m(U+E)}}{\hbar}.\tag{3}\]</p>
+
+<p>For the wavefunction to be odd, we require $-A=E$ and $D=0$. Imposing the boundary conditions, we find
+\[\frac{\tan ka}{ka} = -\frac{1}{\kappa},\tag{4}\]
+which is an implicit transcendental equation for $E$. We can rewrite the equation as 
+\[k\cot ka = -\kappa(k),\tag{5}\]
+where
+\[\kappa^2 + k^2 = \frac{2mU}{\hbar^2}.\tag{6}\]</p>
+
+<p>Since $\cot$ has a greater magnitude of gradient than a circle; for a solution to exist, we require the radius of the circle to be greater than $ka=\pi/2$. That is,
+\[\frac{\sqrt{2mU}}{\hbar} > \frac{\pi}{2a} \implies Ua^2 > \frac{\pi^2\hbar^2}{8m}.\tag{7}\]</p>
+  </article>
+
+  <hr class="ornament-rule">
+
+  <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
+    <a href="../notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="../index.html">About</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>

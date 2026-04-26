@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gauge Transformation of a Plane Electromagnetic Wave — Yucheng (Luca) Jin</title>
+<meta name="description" content="Gauge Transformation of a Plane Electromagnetic Wave. Source: D. Tong.">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../styles.css">
+
+<!-- MathJax with custom macros mirroring the original .tex preamble -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros']},
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      Q: '\\mathbb{Q}',
+      A: '\\mathcal{A}',
+      Lagrangian: '\\mathcal{L}',
+      Cdot: '\\boldsymbol{\\cdot}',
+      Tr: '\\operatorname{Tr}',
+      slashed: ['{\\not{#1}}', 1],
+      wick:    ['{\\overline{#1}}', 1],
+      c:       ['{#1}', 1]
+    }
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- TikZJax: renders <script type="text/tikz"> blocks into SVG client-side -->
+<link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
+<script src="https://tikzjax.com/v1/tikzjax.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="topbar__brand">Yucheng (Luca) Jin <small>MSci · Imperial</small></a>
+  <nav class="topbar__nav">
+    <a href="../index.html">About</a>
+    <a href="../notes.html" class="is-active">Notes</a>
+    <a href="../research.html">Research</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+  </nav>
+</header>
+
+<main class="note">
+
+  <div class="note__breadcrumb">
+    <a href="../notes.html">Notes</a> &nbsp;·&nbsp; Electrodynamics · Tong EM PS3 Q5
+  </div>
+
+  <h1 class="note__title">Gauge Transformation of a Plane Electromagnetic Wave</h1>
+  <p class="note__subtitle">Source: D. Tong, <em>Electromagnetism</em>, Problem Sheet 3, Question 5.</p>
+
+  
+
+  <article class="note__body">
+<p>Consider a plane polarized electromagnetic wave described by the
+vector and scalar potentials,
+\[\mathbf{A}(\mathbf{r},t) = \mathbf{A}_0\,e^{i(\mathbf{k}\cdot\mathbf{r}-\omega t)}
+  \qquad\text{and}\qquad
+  \phi(\mathbf{r},t) = \phi_0\,e^{i(\mathbf{k}\cdot\mathbf{r}-\omega t)},\tag{1}\]
+with constant $\mathbf{A}_0$ and $\phi_0$. Use Maxwell's equations to find a
+relationship between $\mathbf{A}_0$ and $\phi_0$.</p>
+
+<p>Find a gauge transformation such that the new vector potential is
+&ldquo;transversely polarised&rdquo;, i.e.\ $\mathbf{A}_0\cdot\mathbf{k}=0$ (Coulomb
+gauge, $\nabla\cdot\mathbf{A}=0$). What is the scalar potential $\phi$ in
+this gauge?</p>
+
+<p><u><strong>Solution</strong></u> The Maxwell equations give
+\[\nabla^2\phi +\frac{\partial}{\partial t}\nabla\cdot \mathbf{A} =0,\tag{2}\]
+and
+\[\nabla\times(\nabla\times\mathbf{A}) = -\frac{1}{c^2}\left[\nabla\left(\frac{\partial \phi}{\partial t}\right) + \frac{\partial^2\mathbf{A}}{\partial t^2}\right] = \nabla(\nabla\cdot \mathbf{A})-\nabla^2\mathbf{A}.\tag{3}\]
+Then, we find
+\[\mathbf{k}^2 \phi_0 - \omega\mathbf{k}\cdot \mathbf{A}_0 = 0.\tag{4}\]</p>
+
+<p>If we set the Coulomb gauge, we find
+\[\phi_0 = 0.\tag{5}\]</p>
+  </article>
+
+  <hr class="ornament-rule">
+
+  <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
+    <a href="../notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="../index.html">About</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>

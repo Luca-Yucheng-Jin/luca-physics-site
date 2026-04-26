@@ -1,0 +1,354 @@
+\section{Differential Equations}
+\subsection{Green's Function for a Second-Order ODE with Heaviside Forcing (Imperial Carlo Contaldi DE, PS9 Q4)}
+\label{sec:greens-heaviside}
+
+
+Consider the following inhomogeneous ODE for $y(x)$:
+\begin{equation}
+  \hat{L}[y] = y'' + 3y' + 2y = \Theta(x - x_0)
+  \qquad (0 \leq x \leq 1),
+  \label{eq:ode-heaviside}
+\end{equation}
+with homogeneous BCs $y(0) = y(1) = 0$, where $0 \leq x \leq 1$ and
+$\Theta(x)$ is the Heaviside (unit) step function.
+
+\begin{enumerate}
+
+  \item Show that the Green's function for solving the above problem is
+    \begin{equation}
+      G(x,z) = \frac{e^{z-2x}}{e-1}
+      \begin{cases}
+        (e^x - e^0)(e^z - e^1) & x < z \\[4pt]
+        (e^x - e^1)(e^z - e^0) & x > z
+      \end{cases}
+    \end{equation}
+
+  \item Show that this Green's function is \textit{not} symmetrical.
+
+  \item Use the Green's function to find the solution to the above
+    inhomogeneous problem (i.e.\ formed from the inhomogeneous ODE with
+    the specified BCs), and show that it is
+    \begin{equation}
+      y(x) = \frac{e^{-2x}}{2(e-1)}
+      \left[(e-1)(e^x - e^{x_0})^2\Theta(x-x_0)
+      - (e^x - 1)(e - e^{x_0})^2\right].
+    \end{equation}
+    \textit{Hint: Consider the cases $x < x_0$ and $x > x_0$ separately.}
+
+\end{enumerate}
+
+\noindent \underline{\textbf{Solution}} The homogeneous equation $y''+3y'+2y=0$ holds everywhere except $x=z$, with characteristic equation
+\begin{equation}
+  \lambda^2+3\lambda+2=0 \implies \lambda=-2,-1.
+\end{equation}
+The Green's function therefore takes the piecewise form
+\begin{equation}
+  G(x,z)=\begin{cases}
+    A(z)e^{-2x}+B(z)e^{-x} & 0\leq x<z\\[4pt]
+    C(z)e^{-2x}+D(z)e^{-x} & z<x\leq 1.
+  \end{cases}
+\end{equation}
+Applying the homogeneous BCs $G(0,z)=G(1,z)=0$:
+\begin{equation}
+  A+B=0, \qquad Ce^{-2}+De^{-1}=0
+  \implies B=-A, \quad C=-De.
+\end{equation}
+Continuity of $G$ at $x=z$ (substituting $B=-A$, $C=-De$):
+\begin{equation}
+  Ae^{-2z}-Ae^{-z}=-Dee^{-2z}+De^{-z}
+  \implies A = D\,\frac{e^{-z}-e\,e^{-2z}}{e^{-2z}-e^{-z}}.
+  \label{eq:A-from-D}
+\end{equation}
+The jump condition $[\partial_x G]_{x=z^-}^{x=z^+}=1$ (coefficient of $y''$ is unity) gives:
+\begin{equation}
+  \underbrace{\left(2De\,e^{-2z}-De^{-z}\right)}_{G'(z^+)}
+  -\underbrace{\left(-2Ae^{-2z}+Ae^{-z}\right)}_{G'(z^-)}=1.
+  \label{eq:jump}
+\end{equation}
+Substituting \eqref{eq:A-from-D} into \eqref{eq:jump} and expanding the denominator:
+\begin{align}
+  &2e\,e^{-4z}-e^{-3z}-2e\,e^{-3z}+e^{-2z}
+   +2e^{-3z}-2e\,e^{-4z}-e^{-2z}+e\,e^{-3z}\notag\\
+  &\quad =e^{-3z}-e\,e^{-3z}=e^{-3z}(1-e).
+\end{align}
+Hence:
+\begin{equation}
+  D = \frac{e^{-2z}-e^{-z}}{e^{-3z}(1-e)}
+    = e^z\,\frac{e^0-e^z}{1-e}
+    = \frac{e^z(1-e^z)}{1-e},
+\end{equation}
+and from \eqref{eq:A-from-D}:
+\begin{equation}
+  A = \frac{e^z}{1-e}(e^z-e).
+\end{equation}
+Assembling $G$ for $x<z$ using $B=-A$:
+\begin{align}
+  G(x,z) &= A(e^{-2x}-e^{-x})
+   = \frac{e^z(e^z-e)}{1-e}(e^{-2x}-e^{-x})\notag\\
+  &= \frac{e^{z-2x}}{1-e}(e^z-e)(1-e^x)
+   = \frac{e^{z-2x}}{e-1}(e^x-e^0)(e^z-e^1).
+\end{align}
+Similarly, for $x>z$:
+\begin{equation}
+  G(x,z) = \frac{e^{z-2x}}{e-1}(e^x-e^1)(e^z-e^0).
+\end{equation}
+Combining them, we find
+\begin{equation}
+  \boxed{G(x,z)=\frac{e^{z-2x}}{e-1}\begin{cases}
+    (e^x-e^0)(e^z-e^1) & x<z\\[4pt]
+    (e^x-e^1)(e^z-e^0) & x>z.
+  \end{cases}}
+\end{equation}
+
+It is rather clear that the Green's function we obtained does not have symmetry. This is expected, since the differential operator is not self-adjoint. To see this, consider the two equations:
+\begin{equation}
+  \hat{L}_x G(x,z) = \delta(x-z), \qquad \hat{L}_x G(x,z') = \delta(x-z').
+\end{equation}
+Multiplying the first by $G(x,z')$, the second by $G(x,z)$, subtracting and integrating:
+\begin{equation}
+  \int_a^b \left[G(x,z')\hat{L}_x G(x,z) - G(x,z)\hat{L}_x G(x,z')\right]dx
+  = G(z',z) - G(z,z').
+  \label{eq:symmetry-identity}
+\end{equation}
+The left-hand side can be rewritten as:
+\begin{equation}
+  \int_a^b G(x,z')\left[\hat{L}_x - \hat{L}_x^\dagger\right]G(x,z)\,\dd x
+  + \text{boundary terms}.
+\end{equation}
+If $\hat{L}$ is self-adjoint ($\hat{L} = \hat{L}^\dagger$) and the boundary terms
+vanish under homogeneous BCs, the left-hand side of \eqref{eq:symmetry-identity}
+is zero, giving $G(z',z)=G(z,z')$.
+
+For the operator $\hat{L} = \partial_x^2 + 3\partial_x + 2$, integrating by parts shows:
+\begin{equation}
+  \hat{L}^\dagger = \partial_x^2 - 3\partial_x + 2 \neq \hat{L},
+\end{equation}
+since the odd-derivative term changes sign. Hence:
+\begin{equation}
+  \hat{L} - \hat{L}^\dagger = 6\partial_x \neq 0,
+\end{equation}
+and the left-hand side of \eqref{eq:symmetry-identity} does not vanish. 
+
+Now, we are ready to obtain the particular solution to the differential equation:
+\begin{equation}
+    y(x) = \int_0^1dzG(x,z)\Theta(z-x_0).
+\end{equation}
+
+For $x<x_0$, the discontinuity of the Green's function is to the left of $x_0$, and thus the integral becomes
+\begin{align}
+    y(x<x_0) &= \int_{x_0}^1dz\,G_{x<z}(x,z)= \frac{e^{-2x}(e^x-1)}{e-1}\left(-\frac{1}{2}e^2-\frac{1}{2}e^{2x_0}+ee^{x_0}\right) \notag\\
+    &=-\frac{e^{-2x}}{2(e-1)}(e^x-1)(e^{x_0}-e)^2.
+\end{align}
+
+For $x>x_0$, the integral becomes
+\begin{align}
+    y(x>x_0) &= \int_{x_0}^{x}dz\,G_{x>z}(x,z) + \int_{x}^1dz\,G_{x<z}(x,z) \notag\\
+    &= y(x\to x_0^-) + \frac{e^{-2x}(e^x-e)}{e-1}\left(\frac{1}{2}e^{2x_0}-e^{x_0}- \frac{1}{2}e^{2x} + e^x\right).
+\end{align}
+
+Putting them together, we find
+\begin{equation}
+      \boxed{y(x) = \frac{e^{-2x}}{2(e-1)}
+      \left[(e-1)(e^x - e^{x_0})^2\Theta(x-x_0)
+      - (e^x - 1)(e - e^{x_0})^2\right].}
+\end{equation}
+
+\subsection{Laplace Operator in 3D: Method of Images (Imperial Carlo Contaldi DE, PS9 Q5)}
+\label{sec:laplace-3d}
+
+This question concerns using the \textit{method of images} to find the Green's
+function for Poisson's equation $\nabla^2 u(\mathbf{x}) = f(\mathbf{x})$ within
+a sphere of radius $R$ subject to the homogeneous boundary condition at $r=R$:
+\begin{equation}
+  u(R,\theta,\phi) = 0.
+\end{equation}
+
+\begin{enumerate}
+
+  \item Take the Dirac delta function in $\nabla^2 G(\mathbf{x},\mathbf{z}) =
+    \delta(\mathbf{x}-\mathbf{z})$ to be located within the sphere. Label this
+    point as $D$. Assume the sphere is centred on the origin $O$. By symmetry,
+    assume that the image Green's function (position $\mathbf{z}'$) is located
+    outside the sphere, on the line joining $O$ and $D$, so that
+    $\mathbf{z}' = k\mathbf{z}$. The Green's function is then
+    \begin{equation}
+      G(\mathbf{x},\mathbf{z}) = F(\mathbf{x},\mathbf{z})
+      + \alpha F(\mathbf{x},\mathbf{z}'),
+    \end{equation}
+    where $F(\mathbf{x},\mathbf{z})$ is the appropriate fundamental Green's
+    function. Show that the values of $\alpha$ and $k$ that make
+    $G(\mathbf{x},\mathbf{z})$ meet the homogeneous BC at the intercepts of
+    line $OD$ with the sphere are
+    \begin{equation}
+      k = \frac{R^2}{|\mathbf{z}|^2}\,,\qquad \alpha = -\frac{R}{|\mathbf{z}|}\,.
+    \end{equation}
+
+  \item Show that this Green's function is zero on the entire sphere.
+
+  \item Find an expression for $u$ at the centre of the sphere, as a function
+    of $a$, for
+    \begin{enumerate}
+      \item $f(\mathbf{x}) = \delta(r-a)\delta(\theta)\delta(\phi)$
+        \quad (i.e.\ a point source a distance $a$ from $O$)
+      \item $f(\mathbf{x}) = \delta(r-a)$
+        \quad (i.e.\ a uniform infinitely thin shell)
+    \end{enumerate}
+
+\end{enumerate}
+
+\noindent \underline{\textbf{Solution}} We can identify the Green's function straight away from Coulomb's potential. However, for completeness, let us derive the Green's function for the Laplace equation. For simplicity, we will find the Green's function, $G(\mathbf{x},0)$. The general form, $G(\mathbf{x},\mathbf{z})$, follows simply by translational invariance.
+
+In the Fourier domain, we have
+\begin{equation}
+    -|\mathbf{k}|^2\tilde{G}(\mathbf{k}) = 1.
+\end{equation}
+This implies
+\begin{align}
+    G(\mathbf{x},0) &= -\int\frac{d^3\mathbf{k}}{(2\pi)^3} \frac{e^{-i\mathbf{k}\cdot\mathbf{x}}}{|\mathbf{k}|^2} \notag\\ 
+    & = -\frac{1}{4\pi^2}\int^\infty_0dk\int^1_{-1}d\cos\theta e^{-ikx\cos\theta} \notag\\
+    &=-\frac{1}{4\pi^2}\int^\infty_0 dk \frac{2\sin kx}{kx}\notag\\
+    &=-\frac{1}{4\pi|\mathbf{x}|},
+\end{align}
+and hence the more general form
+\begin{equation}
+    \boxed{G(\mathbf{x},\mathbf{z}) 
+    =-\frac{1}{4\pi|\mathbf{x}-\mathbf{z}|}.}
+\end{equation}
+
+Now for this boundary condition, the Green's function can be written as
+\begin{equation}
+    G(\mathbf{x},\mathbf{z}) =-\frac{1}{4\pi}\left(\frac{1}{|\mathbf{x}-\mathbf{z}|} + \frac{\alpha}{|\mathbf{x}-k\mathbf{z}|}\right).
+\end{equation}
+To satisfy the boundary condition, we require it to vanish everywhere on the sphere. Take the two points on $OD$ for convenience; we find
+\begin{equation}
+    \frac{1}{R-z}+\frac{\alpha}{kz-R} =0,
+\end{equation}
+and
+\begin{equation}
+    \frac{1}{R+z} + \frac{1}{R+kz} = 0.
+\end{equation}
+Solving them, we find
+\begin{equation}
+    k = \frac{R^2}{|\mathbf{z}|^2}\,,\qquad \alpha = -\frac{R}{|\mathbf{z}|}\,.
+\end{equation}
+
+Now, we shall verify that the Green's function indeed vanishes everywhere on the sphere:
+\begin{equation}
+    G(R\hat{\mathbf{r}},\mathbf{z}) =-\frac{1}{4\pi}\left(\frac{1}{\sqrt{R^2  +z^2 -2Rz\cos\theta}} - \frac{R/z}{\sqrt{R^2+R^4/z^2 -2R^3\cos\theta/z}}\right) = 0,
+\end{equation}
+where $\theta$ is the angle between $\hat{\mathbf{r}}$ and $\mathbf{z}$.
+
+\noindent \textbf{a.} 
+\begin{align}
+    u(r=0,\theta,\phi) &= -\frac{1}{4\pi}\int^\infty_0dr'\,r'^2\int^\pi_{0}d\theta'\sin\theta'\int^{2\pi}_0d\phi'\left(\frac{1}{r'} - \frac{1}{R}\right)\delta(r'-a)\delta(\theta')\delta(\phi') \notag\\&=0.
+\end{align}
+This is the Faraday cage effect.
+
+\noindent \textbf{b.} 
+\begin{align}
+    u(r=0,\theta,\phi) &= -\frac{1}{4\pi}\int^\infty_0dr'\,r'^2\int^\pi_{0}d\theta'\sin\theta'\int^{2\pi}_0d\phi'\left(\frac{1}{r'} - \frac{1}{R}\right)\delta(r'-a)\notag\\&=- a + \frac{a^2}{R}.
+\end{align}
+
+\subsection{Green's Identity and Method of Images for the Half-Space (Cambridge Part ib past paper, 2025 14D)}
+\label{sec:greens-images}
+
+Prove that, for scalar fields $\phi(\mathbf{x})$ and $\psi(\mathbf{x})$ in a
+three-dimensional domain $\mathcal{D}$ with boundary $\partial\mathcal{D}$,
+\begin{equation}
+  \int_{\mathcal{D}}(\phi\nabla^2\psi - \psi\nabla^2\phi)\,dV
+  \equiv \int_{\partial\mathcal{D}}
+  \!\left(\phi\frac{\partial\psi}{\partial n} - \psi\frac{\partial\phi}{\partial n}\right)dS,
+\end{equation}
+where $\mathbf{n}$ is the outward unit normal to $\partial\mathcal{D}$.
+
+Let $\psi(\mathbf{x})$ satisfy
+\begin{equation}
+  \nabla^2\psi = \delta(\mathbf{x}-\mathbf{x}_0) \quad \text{in } z>0,
+\end{equation}
+with
+\begin{equation}
+  \psi = 0 \text{ on } z=0, \qquad \psi\to 0 \text{ as } |\mathbf{x}|\to\infty,
+\end{equation}
+in Cartesian coordinates $\mathbf{x}=(x,y,z)$. Use the method of images to
+determine $\psi(x,y,z)$.
+
+Now use the identity above to solve the equation
+\begin{equation}
+  \nabla^2\phi = 0 \quad \text{in } z>0, \qquad \phi\to 0 \text{ as }
+  |\mathbf{x}|\to\infty,
+\end{equation}
+with $\phi=1$ on $z=0$, $x^2+y^2<1$, while $\phi=0$ on $z=0$,
+$x^2+y^2>1$, in terms of a surface integral. Find the closed-form
+solution for $\phi(0,0,z)$.
+
+\noindent\underline{\textbf{Solution}}
+
+Write the integrand as a divergence:
+\begin{equation}
+  \phi\nabla^2\psi - \psi\nabla^2\phi
+  = \nabla\cdot(\phi\nabla\psi) - \nabla\phi\cdot\nabla\psi
+  - \nabla\cdot(\psi\nabla\phi) + \nabla\psi\cdot\nabla\phi
+  = \nabla\cdot(\phi\nabla\psi - \psi\nabla\phi).
+\end{equation}
+Applying the divergence theorem immediately gives the result. 
+
+The free-space Green's function
+satisfying $\nabla^2 G = \delta(\mathbf{x}-\mathbf{x}_0)$ with $G\to 0$
+at infinity is $G = -1/4\pi|\mathbf{x}-\mathbf{x}_0|$. To impose $\psi=0$
+on $z=0$, place an image of opposite sign at the reflected point
+$\bar{\mathbf{x}}_0 = (x_0,y_0,-z_0)$:
+\begin{equation}
+  \psi(\mathbf{x}) = -\frac{1}{4\pi}\!\left(
+    \frac{1}{|\mathbf{x}-\mathbf{x}_0|}
+    - \frac{1}{|\mathbf{x}-\bar{\mathbf{x}}_0|}
+  \right).
+\end{equation}
+On $z=0$, $|\mathbf{x}-\mathbf{x}_0|=|\mathbf{x}-\bar{\mathbf{x}}_0|$
+so $\psi=0$. 
+
+Apply Green's
+identity to $\phi$ (harmonic) and $\psi$ ($\nabla^2\psi =
+\delta(\mathbf{x}-\mathbf{x}_0)$) over $z>0$:
+\begin{equation}
+  \phi(\mathbf{x}_0) = \int_{\partial\mathcal{D}}
+  \!\left(\phi\frac{\partial\psi}{\partial n}
+  - \psi\frac{\partial\phi}{\partial n}\right)dS.
+\end{equation}
+The boundary has two parts: the plane $z=0$ and a sphere at infinity.
+The sphere at infinity contributes nothing since $\phi,\psi\to 0$. On
+$z=0$, $\psi=0$ so the $\psi\partial\phi/\partial n$ term vanishes. The outward
+normal from $z>0$ at $z=0$ is $\hat{\mathbf{n}}=-\hat{\mathbf{z}}$, so
+$\partial\psi/\partial n = -\partial\psi/\partial z\big|_{z=0}$. Computing (setting
+$x_0=y_0=0$ for $\phi(0,0,z_0)$):
+\begin{equation}
+  \frac{\partial\psi}{\partial z}\bigg|_{z=0}
+  = -\frac{1}{4\pi}\!\left[
+    -\frac{z-z_0}{|\mathbf{x}-\mathbf{x}_0|^3}
+    +\frac{z+z_0}{|\mathbf{x}-\bar{\mathbf{x}}_0|^3}
+  \right]_{z=0}
+  = -\frac{z_0}{2\pi(x^2+y^2+z_0^2)^{3/2}},
+\end{equation}
+so $\partial\psi/\partial n\big|_{z=0} = z_0/2\pi(x^2+y^2+z_0^2)^{3/2} > 0$.
+Since $\phi=1$ on $x^2+y^2<1$ and zero otherwise:
+\begin{equation}
+  \phi(0,0,z_0) = \int_{x^2+y^2<1,\;z=0}
+  \frac{z_0}{2\pi(x^2+y^2+z_0^2)^{3/2}}\,dS.
+\end{equation}
+
+Converting to polar coordinates
+$r^2=x^2+y^2$:
+\begin{align}
+  \phi(0,0,z_0)
+  &= \int_0^{2\pi}d\theta\int_0^1
+    \frac{z_0}{2\pi(r^2+z_0^2)^{3/2}}\,r\,dr
+   = z_0\int_0^1\frac{r\,dr}{(r^2+z_0^2)^{3/2}} \notag\\
+  &= z_0\left[-\frac{1}{\sqrt{r^2+z_0^2}}\right]_0^1
+   = z_0\!\left(\frac{1}{z_0}-\frac{1}{\sqrt{1+z_0^2}}\right).
+\end{align}
+Hence:
+\begin{equation}
+  \boxed{\phi(0,0,z_0) = 1 - \frac{z_0}{\sqrt{1+z_0^2}}.}
+\end{equation}
+As $z_0\to 0^+$, $\phi\to 1$ (matches the BC on the unit disk). As
+$z_0\to\infty$, $\phi\to 0$ (matches the far-field BC). 
+

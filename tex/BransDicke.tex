@@ -1,0 +1,141 @@
+\section{Brans-Dicke Theory (David Tong GR, PS3 Q2)}
+
+The \textit{Brans-Dicke} theory of gravity has an extra scalar field $\phi$ which 
+acts like a dynamical Newton constant. The action is given
+\begin{equation}
+    S = \frac{1}{16\pi G}\int d^4x\sqrt{-g}\left[R\phi - 
+    \frac{\omega}{\phi}g^{\mu\nu}\partial_\mu\phi\partial_\nu\phi\right] + S_M
+\end{equation}
+where $\omega$ is a constant and $S_M$ is the action for matter fields. Derive 
+the resulting Einstein equation and the equation of motion for $\phi$.
+\begin{solution}
+    First, consider the variation of the action with respect to the change $\tensor{g}{^{\mu\nu}} \to \tensor{g}{^{\mu\nu}} + \delta\tensor{g}{^{\mu\nu}}$. The first term is given by
+    \begin{equation}
+        \delta(\sqrt{-g}R\phi) = \delta(\sqrt{-g})R\phi +\sqrt{-g}\delta R\phi +\sqrt{-g} R\delta\phi.
+    \end{equation}
+    Let us evaluate this term by term. For the first term, we use the identity 
+    \begin{equation}
+        \ln \det A = \tr \ln A,
+        \label{eq:detA}
+    \end{equation}
+    and find
+    \begin{equation}
+        \frac{\delta(\det A)}{\det A} = \tr (A^{-1}\delta A)\quad \implies\quad \delta\sqrt{-g} = \frac{1}{2}\frac{1}{\sqrt{-g}}(-g)\tensor{g}{^{\mu\nu}}\delta g_{\mu\nu}.
+    \end{equation}
+    Note that
+    \begin{equation}
+        0=\delta(g^{\mu\nu}g_{\mu\nu}) = \delta g^{\mu\nu}g_{\mu\nu} + g^{\mu\nu}\delta g_{\mu\nu},
+    \end{equation}
+    we find that
+    \begin{equation}
+        \delta\sqrt{-g} =  -\frac{1}{2}\sqrt{-g}g_{\mu\nu}\delta g^{\mu\nu}.
+    \end{equation}
+    The variation of the Ricci scalar is given by
+    \begin{equation}
+        \delta(g^{\mu\nu}R_{\mu\nu}) = \delta g^{\mu\nu}R_{\mu\nu} + g^{\mu\nu}\delta R_{\mu\nu}.
+    \end{equation}
+    The latter variation of the Ricci tensor is slightly trickier. Recall the definition of the Riemann tensor,
+    \begin{equation}
+        \tensor{R}{^\mu_{\nu\rho\sigma}} = \partial_\rho\tensor{\Gamma}{^\mu_{\nu\sigma}}
+    - \partial_\sigma\tensor{\Gamma}{^\mu_{\nu\rho}}
+    + \tensor{\Gamma}{^\mu_{\rho\lambda}}\tensor{\Gamma}{^\lambda_{\nu\sigma}}
+    - \tensor{\Gamma}{^\mu_{\sigma\lambda}}\tensor{\Gamma}{^\lambda_{\nu\rho}}.
+    \end{equation}
+    Consider the normal coordinate at point $p\in M$, the Riemann tensor becomes
+    \begin{equation}
+        \tensor{R}{^\mu_{\nu\rho\sigma}} = \partial_\rho\tensor{\Gamma}{^\mu_{\nu\sigma}}
+    - \partial_\sigma\tensor{\Gamma}{^\mu_{\nu\rho}}.
+    \end{equation}
+    Now consider the variation of the Christoffel symbol, 
+    \begin{equation}
+        \delta \tensor{\Gamma}{^\mu_{\nu\sigma}} = \frac{1}{2}g^{\mu\rho}(\partial_\nu\delta g_{\rho\sigma} +\partial_\sigma\delta g_{\rho\nu} - \partial_\rho\delta g_{\nu\sigma}),
+    \end{equation}
+    where the variation $\delta g^{\mu\rho}$ vanishes in the normal coordinates. Since, we are in the normal coordinate, we can interchange $\partial_\mu$ with $\nabla_\mu$ with no cost. Thus, we find
+    \begin{equation}
+        \delta \tensor{\Gamma}{^\mu_{\nu\sigma}} = \frac{1}{2}g^{\mu\rho}(\nabla_\nu\delta g_{\rho\sigma} +\nabla_\sigma\delta g_{\rho\nu} - \nabla_\rho\delta g_{\nu\sigma}).
+    \end{equation}
+    Notice that the right-hand side is a tensor, and hence the equality holds generally for any arbitrary point $p$. The same logic holds for the Ricci tensor, which gives
+    \begin{equation}
+        \tensor{R}{^\mu_{\nu\rho\sigma}} = \nabla_\rho\tensor{\Gamma}{^\mu_{\nu\sigma}}
+    - \nabla_\sigma\tensor{\Gamma}{^\mu_{\nu\rho}}.
+    \end{equation}
+    Therefore, the variation is given by
+    \begin{equation}
+        \delta\tensor{R}{^\mu_{\nu\rho\sigma}} = \nabla_\rho\delta\tensor{\Gamma}{^\mu_{\nu\sigma}}
+    - \nabla_\sigma\delta\tensor{\Gamma}{^\mu_{\nu\rho}} \quad\implies\quad \delta\tensor{R}{_{\nu\sigma}} = \nabla_\mu\delta\tensor{\Gamma}{^\mu_{\nu\sigma}}
+    - \nabla_\sigma\delta\tensor{\Gamma}{^\mu_{\nu\mu}}.
+    \end{equation}
+    Hence, we have
+    \begin{equation}
+        g^{\mu\nu}\delta R_{\mu\nu} = \nabla_\mu X^\mu \quad    \text{with} \quad X^\mu = g^{\nu\sigma} \delta\tensor{\Gamma}{^\mu_{\nu\sigma}} - g^{\mu\nu}\delta\tensor{\Gamma}{^\rho_{\nu\rho}}.
+    \end{equation}
+    Therefore, the variation of the first term in the Lagrangian is given by
+    \begin{align}
+        \delta(\sqrt{-g}R\phi) &= -\frac{1}{2}\sqrt{-g}g_{\mu\nu}\delta g^{\mu\nu}R\phi+ \sqrt{-g}\delta g^{\mu\nu}R_{\mu\nu}\phi+\sqrt{-g}\nabla_\mu X^\mu \phi\notag\\ &= \sqrt{-g}(G_{\mu\nu}\phi\delta g^{\mu\nu}+\nabla_\mu( X^\mu \phi) -X^\mu \nabla_\mu\phi).
+    \end{align}
+    The last term needs a bit more of care, let us plug the variation of the Christoffel symbol:
+    \begin{equation}
+        X^\mu \nabla_\mu \phi = (g^{\nu\sigma} \delta\tensor{\Gamma}{^\mu_{\nu\sigma}} - g^{\mu\nu}\delta\tensor{\Gamma}{^\rho_{\nu\rho}})\nabla_\mu\phi.
+    \end{equation}
+    Again, we consider the two terms separately; the first gives
+    \begin{align}
+        g^{\nu\sigma} \delta\tensor{\Gamma}{^\mu_{\nu\sigma}}\nabla_\mu\phi &= \frac{1}{2}g^{\mu\rho}g^{\nu\sigma}(\nabla_\nu\delta g_{\rho\sigma} +\nabla_\sigma\delta g_{\rho\nu} - \nabla_\rho\delta g_{\nu\sigma})\nabla_\mu\phi \notag \\
+        &= \frac{1}{2}(2\nabla^\nu\delta g_{\rho\nu}-\nabla_\rho \delta \tensor{g}{^\nu_\nu})\nabla^\rho \phi\notag\\
+        &=\left(\nabla_\mu\nabla_\nu\phi - \frac{1}{2}\nabla^\rho\nabla_\rho\phi\right)\delta g^{\mu\nu}.
+    \end{align}
+    And the second term:
+    \begin{align}
+        g^{\mu\nu}\delta\tensor{\Gamma}{^\rho_{\nu\rho}}\nabla_\mu\nu &= \frac{1}{2}g^{\mu\nu}g^{\rho\sigma}(\nabla_\nu\delta g_{\sigma\rho} +\nabla_\rho\delta g_{\sigma\nu} - \nabla_\sigma\delta g_{\nu\rho})\nabla_\mu\phi\notag\\
+        &=\frac{1}{2}(\nabla^\rho\nabla_\rho\phi) g_{\mu\nu}\delta g^{\mu\nu}.
+    \end{align}
+    Now, putting everything together, we find
+    \begin{equation}
+        \delta(\sqrt{-g}R\phi) = (G_{\mu\nu}\phi-\nabla_\mu\nabla_\nu \phi + g_{\mu\nu}\nabla^\rho\nabla_\rho\phi)\delta g^{\mu\nu} + \sqrt{-g}\nabla_\mu X^\mu.
+    \end{equation}
+    The last term is a total derivative, which vanishes in the action by the divergence theorem.
+
+    The second term of the action is straightforwardly given by
+    \begin{equation}
+        \delta\left(-\sqrt{-g}\frac{\omega}{\phi}g^{\mu\nu}\partial_\mu\phi\partial_\nu\phi\right) = \sqrt{-g}\left(\frac{1}{2}\frac{\omega}{\phi}g_{\mu\nu}\partial_\rho\phi\partial^\rho\phi - \frac{\omega}{\phi}\partial_\mu\phi\partial_\nu\phi\right)\delta g^{\mu\nu}.
+    \end{equation}
+    The Einstein equation is thus given by
+    \begin{equation}
+        \frac{\delta S}{\delta g^{\mu\nu}} =0 \implies \boxed{G_{\mu\nu} = \frac{8\pi G T_{\mu\nu} }{\phi} + \frac{1}{\phi}(\nabla_\mu\nabla_\nu\phi - g_{\mu\nu}\nabla^\rho\nabla_\rho\phi) + \frac{\omega}{\phi}\left(\partial_\mu\phi\partial_\nu\phi - \frac{1}{2}g_{\mu\nu}\partial_\rho\phi\partial^\rho\phi\right).}
+    \end{equation}
+
+    Now, we shall go on to derive the equation of motion for $\phi$. We vary the action with respect to the scalar field, $\phi \to \phi + \delta \phi$. The variation to the field equation is rather easy, which gives
+    \begin{equation}
+        \frac{1}{16\pi G}\left[\sqrt{-g}R +\sqrt{-g}\frac{\omega}{\phi^2}g^{\mu\nu}\partial_\mu\phi\partial_\nu\phi +\partial_\mu\left(\sqrt{-g}\frac{2\omega}{\phi}g^{\mu\nu}\partial_\nu\phi\right)\right]\delta\phi,
+    \end{equation}
+    where we have neglected the vanishing total derivative term under the integral. The last term in expression is slightly trickier to deal with; note that
+    it can be written in the form
+    \begin{equation}
+        \partial_\mu(\sqrt{-g}Y^\mu) \quad \text{with} \quad Y^\mu = \frac{2\omega}{\phi}g^{\mu\nu}\partial_\nu\phi,
+    \end{equation}
+    which gives 
+    \begin{equation}
+        \partial_\mu(\sqrt{-g})Y^\mu + \sqrt{-g}\partial_\mu Y^\mu.
+    \end{equation}
+    We wish to evaluate the derivative with respect to $\sqrt{-g}$, we find
+    \begin{equation}
+        \partial_\mu(\sqrt{-g}) = \frac{1}{2}\frac{1}{\sqrt{-g}}\partial_\mu(-g) = \frac{1}{2}\sqrt{-g}\partial_\mu\ln(-g) = \frac{1}{2}\sqrt{-g}\tr\partial_\mu\ln(-g) = \frac{1}{2}\sqrt{-g}\tr((-g)^{-1}\partial_\mu(-g)),
+    \end{equation}
+    where we have used (\ref{eq:detA}) in the last equality. Now, note that 
+    \begin{equation}
+        \tensor{\Gamma}{^\mu_{\mu\nu}}= \frac{1}{2}g^{\mu\rho}\partial_\nu g_{\rho\mu} = \frac{1}{2}\tr((-g)^{-1}\partial_\nu(-g)).
+    \end{equation}
+    Thus, we find
+    \begin{equation}
+        \partial_\mu(\sqrt{-g}Y^\mu) = \sqrt{-g}\partial_\mu Y^\mu + \sqrt{-g}\tensor{\Gamma}{^\nu_{\nu\mu}}Y^\mu = \sqrt{-g}\nabla_\mu Y^\mu.
+    \end{equation}
+    Now, note that the covariant derivative is equivalent to the normal derivative when acting on scalars and that the covariant derivative of the metric tensor vanishes for Riemannian (Lorentzian) geometry. Therefore, the variation of the field action is found to be
+    \begin{equation}
+        \frac{1}{16\pi G}\sqrt{-g}\left[R - \frac{\omega}{\phi^2}g^{\mu\nu}\partial_\mu\phi\partial_\nu\phi +\frac{2\omega}{\phi}g^{\mu\nu}\nabla_\mu\nabla_\nu\phi\right].
+    \end{equation}
+    Finally, setting the variation to zero, we find
+    \begin{equation}
+    \boxed{
+        R - \frac{\omega}{\phi^2}g^{\mu\nu}\partial_\mu\phi\partial_\nu\phi +\frac{2\omega}{\phi}g^{\mu\nu}\nabla_\mu\nabla_\nu\phi = 0.}
+    \end{equation}
+    
+\end{solution}

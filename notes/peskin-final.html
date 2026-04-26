@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Final Project: Radiation of Gluon Jets — Yucheng (Luca) Jin</title>
+<meta name="description" content="Final Project: Radiation of Gluon Jets. Source: Peskin & Schroeder.">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../styles.css">
+
+<!-- MathJax with custom macros mirroring the original .tex preamble -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros']},
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      Q: '\\mathbb{Q}',
+      A: '\\mathcal{A}',
+      Lagrangian: '\\mathcal{L}',
+      Cdot: '\\boldsymbol{\\cdot}',
+      Tr: '\\operatorname{Tr}',
+      slashed: ['{\\not{#1}}', 1],
+      wick:    ['{\\overline{#1}}', 1],
+      c:       ['{#1}', 1]
+    }
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- TikZJax: renders <script type="text/tikz"> blocks into SVG client-side -->
+<link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
+<script src="https://tikzjax.com/v1/tikzjax.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="topbar__brand">Yucheng (Luca) Jin <small>MSci · Imperial</small></a>
+  <nav class="topbar__nav">
+    <a href="../index.html">About</a>
+    <a href="../notes.html" class="is-active">Notes</a>
+    <a href="../research.html">Research</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+  </nav>
+</header>
+
+<main class="note">
+
+  <div class="note__breadcrumb">
+    <a href="../notes.html">Notes</a> &nbsp;·&nbsp; Quantum Field Theory · Peskin Final Project
+  </div>
+
+  <h1 class="note__title">Final Project: Radiation of Gluon Jets</h1>
+  <p class="note__subtitle">Source: Peskin &amp; Schroeder, <em>An Introduction to Quantum Field Theory</em>, end-of-book final project.</p>
+
+  
+
+  <article class="note__body">
+<p>In this question, we will compute one of the most important radiatively corrected cross sections – the production of strongly interacting particles through $e^+e^-$ annihilation.</p>
+
+<p>Let us represent the strong interactions by the simple model:
+\[\Delta H = \int d^3x g \bar{\psi}_{fi} \gamma^\mu \psi_{fi} B_\mu,\tag{1}\]
+where $B_\mu$ is a new massless vector particle, the gluon, the label $f$ labels the flavour of the quark ($u,d,s,c,$, etc) and $i=1,2,3$ labels the colour. The strong coupling constant $g$ is independent of flavour and colour. The electromagnetic coupling of quarks depends on the flavour, since $Q_f = \frac{2}{3}$ for the $u$ and $c$ quarks and $Q_f = -\frac{1}{3}$ for the $d$ and $s$ quarks. By analogy to $\alpha$, let us define 
+\[\alpha_g = \frac{g^2}{4\pi}.\tag{2}\]</p>
+
+<p>Throughout the computation, we shall ignore the masses of quarks and electrons, and also average over the electron and positron polarisations. To control infrared divergence, we shall give the gluon a small, nonzero mass $\mu$, which can be taken to zero only at the end of the calculations.</p>
+
+<p><strong>(a)</strong>
+First, let us compute the cross section at tree level. Consider the diagram,</p>
+
+<div class="equation-row"><span class="equation-part">$\begin{aligned}
+        i\mathcal{M}_0
+        &$</span>
+
+<figure class="tikz-source"><pre class="tikz-feynman" aria-label="Feynman diagram (LaTeX source)">\begin{tikzpicture}[baseline={(0,0.5)}]
+        \feynmandiagram [horizontal=a to b] {
+        i1 [particle=\(e^{+}\)] -- [anti fermion] a -- [anti fermion] i2 [particle=\(e^{-}\)],
+        a -- [photon, edge label=\(k\)] b,
+        f1 [particle=\(q\)] -- [anti fermion] b -- [anti fermion] f2 [particle=\(\bar{q}\)],
+        };            
+        \end{tikzpicture}</pre><figcaption>Feynman diagram — rendered from the LaTeX source above.</figcaption></figure>
+
+<p><span class="equation-part">$\\
+        \\
+        &= (-ie)\bar{v}(p_2)\gamma^\mu u(p_1) \frac{-ig_{\mu\nu}}{k^2}(-ieQ_f)\bar{u}(p_3)\gamma^\nu v(p_4)\\
+        &= -i\frac{(-ie)^2Q_f}{s}\bar{v}(p_2)\gamma^\mu u(p_1) \bar{u}(p_3)\gamma_\mu v(p_4).
+        
+    \end{aligned$</span><span class="equation-num">(3)</span></div></p>
+
+<p>Taking the hermitian conjugate of $\mathcal{M}_0$, we find
+\[\mathcal{M}_0^\dagger = \frac{e^2Q_f}{s}\bar{u}(p_1)\gamma^\mu v(p_2) \bar{v}(p_4)\gamma_\mu u(p_3).\tag{4}\]
+One should notice that in the above calculation, we have made the colour implicit. Since we do not measure the colour of the quarks, we should sum over the colours. Therefore, by averaging over the incoming spins and summing over the outgoing spins and colours, we have  
+\[\begin{aligned}
+        \frac{1}{4}\sum_\text{spins, colours}\mathcal{M}_0\mathcal{M}_0^\dagger &=  \sum_\text{spins, colours}\frac{e^4Q_f^2}{4s^2}[\bar{u}(p_1)\gamma^\nu v(p_2)][\bar{v}(p_2)\gamma^\mu u(p_1)] [\bar{u}_i(p_3)\gamma_\mu v_i(p_4)][\bar{v}_i(p_4)\gamma_\nu u_i(p_3)]\\
+        &= \frac{3e^4Q_f^2}{4s^2}\Tr{\slashed{p}_1 \gamma^\nu \slashed{p}_2 \gamma^\mu} \Tr{\slashed{p}_3 \gamma_\mu \slashed{p}_4 \gamma_\nu}\\
+        &= 3\frac{4e^4Q_f^2}{s^2} (p_1^\nu p_2^\mu - p_{12}g^{\mu\nu} + p_1^\mu p_2^\nu)(p_3^\nu p_4^\mu - p_{34}g^{\mu\nu} + p_3^\mu p_4^\nu)\\
+        &= 3\frac{4e^4Q_f^2}{s^2}(2p_{13}p_{24} + 2p_{14}p_{23})\\
+        &= 3\frac{2e^4Q_f^2}{s^2}(t^2+u^2).
+    \end{aligned}\tag{5}\]
+In the centre of mass frame, we have
+\[p_1 = (E, 0, 0, E), \quad p_2 = (E, 0, 0, -E), \quad p_3 = (E, E\sin\theta, 0, E\cos\theta), \quad p_4 (E, -E\sin\theta, 0, -E\cos\theta),\tag{6}\]
+which implies 
+\[t =  -2p_{13} = -2E^2(1-\cos\theta), \quad u = -2p_{14} = -2E^2(1+\cos\theta).\tag{7}\]
+Thus, the differential corss section becomes
+\[\begin{aligned}
+    \frac{d\sigma}{d\Omega} &= \frac{3e^4Q_f^2}{32\pi^2s^3}\left(\frac{s^2}{4}(1-\cos\theta)^2 + \frac{s^2}{4}(1+\cos\theta)^2\right)\\
+    &= \frac{3\alpha^2Q_f^2}{4s}(1+\cos^2\theta).
+\end{aligned}\tag{8}\]
+Then,
+\[\begin{aligned}
+        \sigma(e^+e^-\to\bar{q}q) &= 2\pi\frac{3\alpha^2Q_f^2}{4s}\int^1_{-1}d(\cos\theta)(1+\cos^2\theta)\\
+        &= \frac{4\alpha^2\pi}{3s}\cdot 3Q_f^2.
+\end{aligned}\tag{9}\]</p>
+
+<p>Now, let us consider the diagram involving one virtual gluon, which is the diagram</p>
+
+<div class="equation-row"><span class="equation-part">$\begin{aligned}
+i\delta\mathcal{M} &$</span>
+
+<figure class="tikz-figure"><script type="text/tikz">
+\begin{tikzpicture}[baseline={(0,-1.1)}]
+  \begin{feynman}
+    \diagram[horizontal=a to b]{
+      % incoming leptons: e- from left, e+ from right
+      i1 [particle=\(e^{-}\)] -- [fermion] a -- [fermion] i2 [particle=\(e^{+}\)],
+      % s-channel photon
+      a -- [photon, edge label=\(q\)] b,
+      % outgoing antiquark on left, quark on right
+      f2 [particle=\(\bar q\)] -- [fermion] v2 -- [fermion, edge label=$k'$] b -- [fermion, edge label=$k$] v1 -- [fermion] f1 [particle=\(q\)],
+      % virtual gluon between them
+      v1 -- [gluon, momentum=$p_3-k$] v2,
+    };
+  \end{feynman}
+\end{tikzpicture}
+</script></figure>
+
+<p><span class="equation-part">$\\[6pt]
+&= (-ie)\,\bar v(p_2)\gamma^\mu u(p_1)\;\frac{-ig_{\mu\nu}}{k^2}\;(-ieQ_f)\,
+   \Big[\bar u(p_3)\,\delta\Gamma^\nu(p_3,p_4)\,v(p_4)\Big] \\
+&= \frac{(-ie)^2 Q_f}{s}\,\bar v(p_2)\gamma^\mu u(p_1)\,
+   \Big[\bar u(p_3)\,\delta\Gamma_\mu(p_3,p_4)\,v(p_4)\Big].
+
+\end{aligned$</span><span class="equation-num">(10)</span></div></p>
+
+<p>We shall focus on evaluating $\bar u(p_3)\,\delta\Gamma_\mu(p_3,p_4)\,v(p_4)$, which gives
+\[\begin{aligned}
+        \bar u(p_3)\,\delta\Gamma_\mu(p_3,p_4)\,v(p_4) &= (-ig)^2\int \frac{d^4k}{(2\pi)^4}\bar{u}(p_3)\gamma^\alpha\frac{i\slashed{k}}{k^2 + i\varepsilon}\gamma_\mu\frac{i\slashed{k'}}{k'^2+i\varepsilon}\gamma^\beta v(p_4)\frac{-ig_{\alpha\beta}}{(p_3-k)^2-\mu^2+i\varepsilon}\\
+        &= -ig^2\int \frac{d^4k}{(2\pi)^4}\bar{u}(p_3)\frac{\gamma^\alpha\slashed{k}\gamma_\mu\slashed{k'}\gamma_\alpha}{(k^2+i\varepsilon)(k'^2+i\varepsilon)((p_3-k)^2-\mu^2+i\varepsilon)}v(p_4)\\
+        & = 2ig^2\int \frac{d^4k}{(2\pi)^4}\bar{u}(p_3)\frac{\slashed{k'}\gamma_\mu\slashed{k}}{(k^2+i\varepsilon)(k'^2+i\varepsilon)((p_3-k)^2-\mu^2+i\varepsilon)}v(p_4).
+    \end{aligned}\tag{11}\]</p>
+
+<p>Now, we can simplify this using the Feynman parameters:
+\[\frac{1}{ABC} = \int^1_0dxdydz\delta(x+y+z-1)\frac{2}{(xA+yB+zC)^3} = \int^1_0dxdydz\delta(x+y+z-1)\frac{2}{D^3}.\tag{12}\]
+Thus, the denominator of becomes
+\[\begin{aligned}
+    D  &= z(k^2+i\varepsilon) + y(k'^2+i\varepsilon)+ z((p_3-k)^2-\mu^2+i\varepsilon) \\
+    &= k^2 + yq^2 -2k\cdot (yq + zp_3)- z\mu^2 + i\varepsilon\\
+    &= (k-(yq+zp_3))^2 - (yq+zp_3)^2 + yq^2- z\mu^2 + i\varepsilon\\
+    &= (k-(yq+zp_3))^2 - 2zyq\cdot p_3 + y(1-y)q^2- z\mu^2 + i\varepsilon\\
+    &= (k-(yq+zp_3))^2 + zy(q-p_3)^2 -zyq^2 + y(1-y)q^2- z\mu^2 + i\varepsilon\\
+    &= (k-(yq+zp_3))^2  + y(1-y-z)q^2- z\mu^2 + i\varepsilon,
+\end{aligned}\tag{13}\]
+where we have used $k' = k-q$ and $x+y+z=1$. Now, substitute $l = k-yq-zp_3$, we find
+\[D = l^2 - \Delta + i\varepsilon,\tag{14}\]
+where
+\[\Delta \equiv - xyq^2 + z\mu^2.\tag{15}\]
+The numerator, $N^\mu$, now becomes
+\[\begin{aligned}
+        N_\mu &= \bar{u}(p_3)(\slashed{q} - \slashed{l}-y\slashed{q}-z\slashed{p}_3)\gamma_\mu(\slashed{l}+y\slashed{q}+z\slashed{p}_3)v(p_4)\\
+        &= \bar{u}(p_3)((1-y)\slashed{q} - \slashed{l})\gamma_\mu(\slashed{l}+y\slashed{q}+z\slashed{p}_3)v(p_4)\\
+        &= \bar{u}(p_3)((1-y)\slashed{q} - \slashed{l})[(-\slashed{l}-y\slashed{q}-z\slashed{p}_3)\gamma_\mu + 2l_\mu + 2yq_\mu + 2zp_{3\mu}]v(p_4).
+    \end{aligned}\tag{16}\]
+Recall that the integral involving only one $l^\mu$ vanishes:
+\[\int \frac{d^4l}{(2\pi)^4}\frac{l^\mu}{D^3} = 0.\tag{17}\]
+Also, recall
+\[\int \frac{d^4l}{(2\pi)^4}\frac{l^\mu l^\nu}{D^3} = \int \frac{d^4l}{(2\pi)^4}\frac{\frac{1}{4}g^{\mu\nu}l^2}{D^3}\tag{18}\]
+Thus, the above becomes
+\[\begin{aligned}
+        N_\mu &\to \bar{u}(p_3)[(-y(1-y)q^2 + -2z(1-y)q\cdot p_3 + l^2 )\gamma_\mu - \frac{1}{2}l^2\gamma_\mu]v(p_4) \\
+        &= \bar{u}(p_3)[(-y(1-y)q^2 + z(1-y)(q+p_3)^2 - z(1-y)q^2 + l^2 )\gamma_\mu - \frac{1}{2}l^2\gamma_\mu]v(p_4)\\
+        &= \bar{u}(p_3)(-(y+z)(1-y)q^2  + \frac{1}{2}l^2 )\gamma_\mu v(p_4).
+    \end{aligned}\tag{19}\]
+Thus, we see that the 1-loop correction is of the form 
+\[i\delta\mathcal{M} = i\mathcal{M}_0 \frac{\delta F_1(q^2)}{Q_f^2},\tag{20}\]
+where 
+\[\delta F_1(q^2) = 4ig^2Q_f^2\int^1_0dxdydz\int\frac{d^4l}{(2\pi)^4}\frac{-(y+z)(1-y)q^2  + \frac{1}{2}l^2}{D^3}\delta(x+y+z-1).\tag{21}\]
+Thus, our job now simplifies to evaluate $\delta F_1(q^2)$ and since it describes the modification of electric charge, we can then simply plug $F_1(q^2)$ instead of $Q_f$ into the cross section, which gives
+\[\sigma(e^+e^-\to\bar{q}q) = \frac{4\alpha^2\pi}{3s}\cdot 3\abs{F_1(s)}^2\tag{22}\]
+with 
+\[F_1(q^2) = Q_f^2 + \delta F_1(q^2)\tag{23}\]
+to first order of $\alpha_g$.</p>
+
+<p>Now, using Pauli-Villars regularization and Wick's rotation, we have
+\[\delta F_1(q^2) = \frac{\alpha_gQ_f^2}{2\pi} \int^1_0 dxdydz \left\{\ln\left(\frac{z\Lambda^2}{\Delta}\right) + \frac{(y+z)(1-y)q^2}{- xyq^2 + z\mu^2}\right\}\delta(x+y+z-1).\tag{24}\]</p>
+
+<p>On the other hand, to maintain the condition $F_1(0)= Q_f^2$, we should renormalize $\delta F_1(q^2)$ to be
+\[\delta F_1(q^2) - \delta F_1(0).\tag{25}\]</p>
+
+<p>Thus, the integral becomes
+\[\delta F_1(q^2) = \frac{\alpha_gQ_f^2}{2\pi} \int^1_0 dxdydz \left\{\ln\left(\frac{z\mu^2}{- xyq^2 + z\mu^2}\right) + \frac{(y+z)(1-y)q^2}{- xyq^2 + z\mu^2}\right\}\delta(x+y+z-1).\tag{26}\]</p>
+
+<p><strong>(b)</strong> Before we continue to compute the integral above, let us study the process of $e^-e^+ \to \bar{q}qg$. Let $q$ be the total 4-momentum of the process and $k_1,k_2,k_3$ be the 4-momentum of the quark, antiquark and the gluon, respectively.</p>
+
+<p>The Lorentz-invariant phase space integral is given by
+\[\int d\Pi_3 = (2\pi)^4\int \frac{d^3k_1}{(2\pi)^3}\frac{1}{2E_1}\frac{d^3k_2}{(2\pi)^3}\frac{1}{2E_2}\frac{d^3k_3}{(2\pi)^3}\frac{1}{2E_3}\delta^4(k_1+k_2+k_3-q).\tag{27}\]</p>
+
+<p>It is convenient to define $x_i$ as
+\[x_i = \frac{2k_i\cdot q}{q^2}.\tag{28}\]
+In the centre of mass frame,
+\[q = (E_\text{CM},0,0,0), \quad k_i = (E_i, \vec{k}_i).\tag{29}\]
+Thus, 
+\[x_i = \frac{2E_i}{E_\text{CM}},\tag{30}\]
+which is the ratio between the particle in the centre of mass frame to the total centre of mass energy.</p>
+
+<p><strong>(i)</strong> 
+\[\sum_ix_i = \frac{2\sum_ik_i\cdot q}{q^2} = 2.\tag{31}\]
+<strong>(ii)</strong> Now, we need to show that all the Lorentz scalars involving only the final state momenta can be expressed in terms of $x_i$. We only need to consider
+\[(k_1+k_2)^2 = (q-k_3)^2 = q^2 - q^2x_3 + m_3^2 =q^2(1-x_3) + m_3^2.\tag{32}\]
+The same thing applies to other combinations of $k_i$.</p>
+
+<p><strong>(iii)</strong> Now, we are ready to evaluate the phase space integral:
+\[\begin{aligned}
+        \int d\Pi_3&= (2\pi)^4\int\frac{d^3k_1d^3k_2}{(2\pi)^92E_12E_22E_3}\delta(E_1+E_2+E_3-E_\text{CM})\bigg|_{\vec{k}_3 = -\vec{k}_1-\vec{k}_2}
+    \end{aligned}\tag{33}\]
+The integral measure can be written as 
+\[d^3k_1d^3k_2 = k_1^2k_2^2dk_1dk_2d\Omega_1d\Omega_{12}\tag{34}\]
+with a slight ambiguity of notations (from now on we use $k_1=\abs{\vec{k}_1}$). $\Omega_1$ is the solid angle between $\vec{k}_1$ and $\vec{q}$ and $\Omega_{12}$ is the solid angle between $\vec{k}_1$ and $\vec{k}_2$. The delta function can be written as 
+\[\begin{aligned}
+    \delta(E_1+E_2+E_3-E_\text{CM}) &= \delta\left(E_1+E_2+\sqrt{\mu^2+(\vec{k}_1+\vec{k}_2)^2}-E_\text{CM}\right)\\
+    &= \delta\left(\sqrt{\mu^2+k_1^2+k_2^2+2k_1k_2\cos\theta_{12}}-(E_\text{CM}-E_1-E_2)\right)\\
+    &= \frac{E_3}{k_1k_2} \delta\left( \cos\theta_{12} - \frac{E_3^2-k_1^2-k_2^2-\mu^2}{2k_1k_2} \right).
+\end{aligned}\tag{35}\]</p>
+
+<p>Thus, the integral becomes
+\[\begin{aligned}
+        \int d\Pi_3&=\frac{2(2\pi)^2}{(2\pi)^5} \int^\infty_0dk_1dk_2\frac{k_1^2k_2^2}{2k_12k_22E_3}\int^1_{-1}d(\cos\theta_{12})\frac{E_3}{k_1k_2} \delta\left( \cos\theta_{12} - \frac{E_3^2-k_1^2-k_2^2-\mu^2}{2k_1k_2} \right)\\
+        &= \frac{1}{32\pi^3}\int dk_1dk_2\\
+        &= \frac{1}{32\pi^3}\int dE_1dE_2.
+    \end{aligned}\tag{36}\]
+Recall, in the centre of mass frame, we have 
+\[x_i = \frac{2E_i}{E_\text{CM}} \implies dx_i = \frac{2}{E_\text{CM}}dE_i.\tag{37}\]
+Therefore, the integral simplifies to 
+\[\int d\Pi_3 = \frac{q^2}{128\pi^3}\int dx_1dx_2.\tag{38}\]</p>
+
+<p>Now, let us find the region of integration. The integration variables are bounded by the curves
+\[E_\text{CM} = E_1 + E_2 + \sqrt{\mu^2 + (E_1+E_2)^2}, \quad \text{or} \quad E_\text{CM} = E_1 + E_2 + \sqrt{\mu^2 + (E_1-E_2)^2},\tag{39}\]
+which implies
+\[\begin{cases}
+        E_\text{CM}^2 - 2E_\text{CM}(E_1+E_2)-2E_1E_2 = \mu^2 + 2E_1E_2\\
+        E_\text{CM}^2 - 2E_\text{CM}(E_1+E_2)-2E_1E_2 = \mu^2  -2E_1E_2
+    \end{cases} 
+    \implies
+    \begin{cases}
+        (1-x_1)(1-x_2) =\mu^2/s\\
+        x_1+x_2 = 1-\mu^2/s.
+    \end{cases}\tag{40}\]
+Thus, the integral is bounded by these two curves. Specifically, $x_1$ is bounded by
+\[\begin{aligned}
+    &(1-x_1)(\frac{\mu^2}{s}+x_1) = \frac{\mu^2}{s} \\
+    \implies & x_1^2-\left(1-\frac{\mu^2}{s}\right)x_1 = 0 \\
+    \implies & x_1 = 1-\frac{\mu^2}{s}\\
+    \implies &0<x_1 < 1 - \frac{\mu^2}{s}.
+\end{aligned}\tag{41}\]
+Then, the boundary of $x_2$ can be found with simple algebra:
+\[\begin{aligned}
+        &\begin{cases}
+        x_2 = 1-\frac{\mu^2/s}{1-x_1}\\
+        x_2 = 1-x_1-\frac{\mu^2}{s}
+    \end{cases} \\
+        \implies & 
+        1-x_1-\frac{\mu^2}{s} < x_2 <1-\frac{\mu^2}{s(1-x_1)}.
+    \end{aligned}\tag{42}\]</p>
+
+<p><strong>(c)</strong> Now, let us consider the diagrams contributing to the process $e^+e^-\to\bar{q}qg$ of the leading order of $\alpha$ and $\alpha_g$. The two diagrams are</p>
+
+<div class="equation-row"><span class="equation-part">$\begin{aligned}
+i\mathcal{M} &=
+% ----------------- (A) Gluon emission from quark (quark on top) -----------------$</span>
+
+<figure class="tikz-figure"><script type="text/tikz">
+\begin{tikzpicture}[baseline={(0,0.8)}]
+  \begin{feynman}
+    \diagram[horizontal=a to b]{
+      % incoming leptons
+      i1 [particle={$e^{+}$}] -- [anti fermion] a -- [anti fermion] i2 [particle={$e^{-}$}],
+      % s-channel photon
+      a -- [photon, edge label={\(q\)}] b,
+      % final state: quark on top, antiquark on bottom
+      b -- [fermion, edge label'={$k_1{+}k_3$}] v1 -- [fermion, edge label'={$k_1$}] f1 [particle={$q$}],
+      b -- [anti fermion, edge label={$k_2$}] f2 [particle={$\bar q$}],
+      % gluon from quark line (top)
+      v1 -- [gluon, edge label={$k_3$}] g1 [particle={$g$}],
+    };
+  \end{feynman}
+\end{tikzpicture}
+</script></figure>
+
+<p><span class="equation-part">$\;+\;
+% ----------------- (B) Gluon emission from antiquark (antiquark on top) ----------$</span></p>
+
+<figure class="tikz-figure"><script type="text/tikz">
+\begin{tikzpicture}[baseline={(0,0.8)}]
+  \begin{feynman}
+    \diagram[horizontal=a to b]{
+      % incoming leptons
+      i1 [particle={$e^{+}$}] -- [anti fermion] a -- [anti fermion] i2 [particle={$e^{-}$}],
+      % s-channel photon
+      a -- [photon, edge label={\(q\)}] b,
+      % final state: antiquark on top, quark on bottom
+      b -- [anti fermion, edge label'={$k_2{+}k_3$}] v2 -- [anti fermion, edge label'={$k_2$}] f2 [particle={$\bar q$}],
+      b -- [fermion, edge label={$k_1$}] f1 [particle={$q$}],
+      % gluon from antiquark line (top)
+      v2 -- [gluon, edge label={$k_3$}] g2 [particle={$g$}],
+    };
+  \end{feynman}
+\end{tikzpicture}
+</script></figure>
+
+<p><span class="equation-part">$\\
+&= \frac{-ig_{\mu\nu}}{q^2+i\varepsilon}\bar{v}(p_2)(-ie)\gamma^\mu u(p_1)\bar{u}(k_1)(-ig)\gamma^\alpha\frac{i(\slashed{k}_2 + \slashed{k}_3)}{(k_2+k_3)^2+ i\varepsilon}(-ieQ_f)\gamma^\nu v(k_2)\epsilon_\alpha^*(k_3) \\
+&\qquad - \frac{-ig_{\mu\nu}}{q^2+i\varepsilon}\bar{v}(p_2)(-ie)\gamma^\mu u(p_1)\bar{u}(k_1)(-ieQ_f)\gamma^\nu \frac{i(\slashed{k}_1 + \slashed{k}_3)}{(k_1+k_3)^2+ i\varepsilon}(-ig)\gamma^\alpha v(k_2)\epsilon_\alpha^*(k_3)\\
+&= \frac{ie^2g Q_f}{s}\bar{v}(p_2)\gamma^\mu u(p_1)\bar{u}(k_1)\left[\gamma^\alpha\frac{(\slashed{k}_2 + \slashed{k}_3)}{(k_2+k_3)^2+ i\varepsilon}\gamma_\mu - \gamma_\mu\frac{(\slashed{k}_1 + \slashed{k}_3)}{(k_1+k_3)^2+ i\varepsilon}\gamma^\alpha \right]v(k_2)\epsilon_\alpha^*(k_3),
+\end{aligned$</span><span class="equation-num">(43)</span></div></p>
+
+<p>while the minus sign arises from the anticommutation relation between fermions. This can be seen by writing down the contractions individually.</p>
+
+<p>Then, summing over the spins, colours and polarisations, we have
+\[\begin{aligned}
+        \frac{1}{4}\sum_\text{s,c,p}\abs{\mathcal{M}}^2 &= \frac{3e^4g^2Q_f^2}{4s^2}\Tr[\slashed{p}_2\gamma^\mu\slashed{p}_1\gamma^\nu]\Tr\bigg\{\slashed{k}_1\left[\gamma^\alpha\frac{(\slashed{k}_2 + \slashed{k}_3)}{(k_2+k_3)^2+ i\varepsilon}\gamma_\mu - \gamma_\mu\frac{(\slashed{k}_1 + \slashed{k}_3)}{(k_1+k_3)^2+ i\varepsilon}\gamma^\alpha \right]\slashed{k}_2\\
+        &\qquad \qquad \qquad \qquad \qquad \qquad \qquad    \times\left[\gamma_\nu\frac{(\slashed{k}_2 + \slashed{k}_3)}{(k_2+k_3)^2+ i\varepsilon}\gamma^\beta - \gamma^\beta\frac{(\slashed{k}_1 + \slashed{k}_3)}{(k_1+k_3)^2+ i\varepsilon}\gamma_\nu \right]\bigg\}(-g_{\alpha\beta})\\
+        &= -\frac{3e^4g^2Q_f^2}{4s^2}\Tr[\slashed{p}_2\gamma^\mu\slashed{p}_1\gamma^\nu]\bigg\{  \frac{1}{(k_2+k_3)^4}\Tr[\slashed{k}_1\gamma^\alpha(\slashed{k}_2 + \slashed{k}_3)\gamma_\mu\slashed{k}_2\gamma_\nu(\slashed{k}_2 + \slashed{k}_3)\gamma_\alpha]\\
+        &\qquad \qquad \qquad \qquad \qquad \qquad+ \frac{1}{(k_1+k_3)^4}\Tr[\slashed{k}_1\gamma^\mu(\slashed{k}_1 + \slashed{k}_3)\gamma^\alpha\slashed{k}_2\gamma_\alpha(\slashed{k}_1 + \slashed{k}_3)\gamma_\nu]\\
+        &\qquad \qquad \qquad \qquad \qquad \qquad- \frac{1}{(k_1+k_3)^2(k_2+k_3)^2}\Tr[\slashed{k}_1\gamma^\alpha(\slashed{k}_2 + \slashed{k}_3)\gamma_\mu\slashed{k}_2\gamma_\alpha(\slashed{k}_1 + \slashed{k}_3)\gamma_\nu]\\
+        &\qquad \qquad \qquad \qquad \qquad \qquad - \frac{1}{(k_1+k_3)^2(k_2+k_3)^2}\Tr[\slashed{k}_1\gamma_\mu(\slashed{k}_1 + \slashed{k}_3)\gamma^\alpha\slashed{k}_2\gamma_\nu(\slashed{k}_2 + \slashed{k}_3)\gamma_\alpha]\bigg\}.
+    \end{aligned}\tag{44}\]
+To proceed, let us simplify the calculation by throwing away the correlation between the initial beam axis and the direction of the final particles. To do that, consider the structure of the matrix element yielded above; we should have
+\[\int d\Pi_3 \frac{1}{4}\sum \abs{\mathcal{M}}^2 = L_{\mu\nu}\int d\Pi_3 H^{\mu\nu},\tag{45}\]
+where $L_{\mu\nu}$ is the electron trace and $H^{\mu\nu}$ is the quark trace. Now, if we integrate over all parameters of the final state except $x_1$ adn $x_2$, the only preferred 4-vector characterising the final state is $q^\mu.$ On the other hand, by Ward-Takahashi, we have (can be checked explicitly)
+\[q_\mu H^{\mu\nu}=0.\tag{46}\]
+Since, after integrating over final-state vectors, $\int H^{\mu\nu}$ is only dependent on scalars ($x_1$ and $x_2$) and $q^\mu$. Thus, it must take the form
+\[\int d\Pi_3 H^{\mu\nu} = \left(g^{\mu\nu} - \frac{q^\mu q^\nu}{q^2}\right)\cdot H，\tag{47}\]
+where $H$ is a scalar. The minus sign is there to preserve Ward identity. $H$ can be evaluated by contracting the above with $g_{\mu\nu}$:
+\[\int d\Pi_3 g_{\mu\nu}H^{\mu\nu} = 3H \implies H = \frac{1}{3}\int d\Pi_3 g_{\mu\nu}H^{\mu\nu}.\tag{48}\]
+Thus, 
+\[L_{\mu\nu}\int d\Pi_3 H^{\mu\nu} = L_{\mu\nu}\left(g^{\mu\nu} - \frac{q^\mu q^\nu}{q^2}\right)\frac{1}{3}\int d\Pi_3 g_{\rho\sigma}H^{\rho\sigma} = \frac{1}{3}L_{\mu\nu}g^{\mu\nu}\int d\Pi_3 g_{\rho\sigma}H^{\rho\sigma},\tag{49}\]
+where we have used the Ward identity once again.</p>
+
+<p>Using this trick, we have
+\[\begin{aligned}
+        \int d\Pi_3 \frac{1}{4}\sum \abs{\mathcal{M}}^2 &= -\frac{e^4g^2Q_f^2}{4s^2}\Tr[\slashed{p}_2\gamma^\mu\slashed{p}_1\gamma_\mu]\int d\Pi_3\bigg\{  \frac{1}{(k_2+k_3)^4}\Tr[\slashed{k}_1\gamma^\nu(\slashed{k}_2 + \slashed{k}_3)\gamma^\alpha\slashed{k}_2\gamma_\alpha(\slashed{k}_2 + \slashed{k}_3)\gamma_\nu]\\
+        &\qquad \qquad \qquad \qquad \qquad \qquad+ \frac{1}{(k_1+k_3)^4}\Tr[\slashed{k}_1\gamma^\alpha(\slashed{k}_1 + \slashed{k}_3)\gamma^\alpha\slashed{k}_2\gamma_\nu(\slashed{k}_1 + \slashed{k}_3)\gamma_\alpha]\\
+        &\qquad \qquad \qquad \qquad \qquad \qquad- \frac{1}{(k_1+k_3)^2(k_2+k_3)^2}\Tr[\slashed{k}_1\gamma^\alpha(\slashed{k}_2 + \slashed{k}_3)\gamma^\nu\slashed{k}_2\gamma_\alpha(\slashed{k}_1 + \slashed{k}_3)\gamma_\nu]\\
+        &\qquad \qquad \qquad \qquad \qquad \qquad - \frac{1}{(k_1+k_3)^2(k_2+k_3)^2}\Tr[\slashed{k}_1\gamma^\nu(\slashed{k}_1 + \slashed{k}_3)\gamma^\alpha\slashed{k}_2\gamma_\nu(\slashed{k}_2 + \slashed{k}_3)\gamma_\alpha]\bigg\}.
+    \end{aligned}\tag{50}\]
+Now, let us compute the traces:
+\[\begin{aligned}
+        \Tr[\slashed{k}_1\gamma^\nu(\slashed{k}_2 + \slashed{k}_3)\gamma^\alpha\slashed{k}_2\gamma_\alpha(\slashed{k}_2 + \slashed{k}_3)\gamma_\nu] &= 4\Tr[\slashed{k}_1(\slashed{k}_2 + \slashed{k}_3)\slashed{k}_2(\slashed{k}_2 + \slashed{k}_3)]\\
+        &= 16[2k_1\cdot(k_2+k_3)k_2\cdot(k_2+k_3)-k_{12}(k_2+k_3)^2]\\
+        &= 16(2k_{13}k_{23}-\mu^2k_{12}).
+    \end{aligned}\tag{51}\]
+and, similarly,
+\[\Tr[\slashed{k}_1\gamma^\nu(\slashed{k}_1 + \slashed{k}_3)\gamma^\alpha\slashed{k}_2\gamma_\alpha(\slashed{k}_1 + \slashed{k}_3)\gamma_\nu] =16(2k_{13}k_{23}-\mu^2k_{12}).\tag{52}\]
+At the limit $\mu\to 0$, we have
+\[16(2k_{13}k_{23}-\mu^2k_{12}) \to 8s^2(1-x_1)(1-x_2).\tag{53}\]
+On the other hand, the &ldquo;cross" traces gives
+\[\begin{aligned}
+        &\Tr[\slashed{k}_1\gamma^\alpha(\slashed{k}_2 + \slashed{k}_3)\gamma^\nu\slashed{k}_2\gamma_\alpha(\slashed{k}_1 + \slashed{k}_3)\gamma_\nu]+ \Tr[\slashed{k}_1\gamma^\nu(\slashed{k}_1 + \slashed{k}_3)\gamma^\alpha\slashed{k}_2\gamma_\nu(\slashed{k}_2 + \slashed{k}_3)\gamma_\alpha] \\
+        &= -128k_{12}(k_1+k_3)\cdot(k_2+k_3)\\
+        &= -16[s(1-x_3)+\mu^2](\mu^2+s).
+    \end{aligned}\tag{54}\]
+Under the massless limit, it becomes
+\[-16[s(1-x_3)+\mu^2](\mu^2+s) \to -16s^2(1-x_3).\tag{55}\]
+Then (under the massless limit), we find
+\[\begin{aligned}
+        \int d\Pi_3 \frac{1}{4}\sum \abs{\mathcal{M}}^2 
+        &= -\frac{e^4g^2Q_f^2}{4s^2}(-8p_{12})\int d\Pi_3\bigg\{\frac{32(1-x_1)}{(1-x_2)} + \frac{32(1-x_2)}{(1-x_1)} + \frac{64(1-x_3)}{(1-x_1)(1-x_2)}\bigg\}\\
+        &=\frac{32e^4g^2Q_f^2}{s^2}\int d\Pi_3\frac{2-2(x_1+x_2+x_3)+x_1^2+x_2^2+2}{(1-x_1)(1-x_2)}\\
+        &=\frac{32e^4g^2Q_f^2}{s}\int d\Pi_3\frac{x_1^2 + x_2^2}{(1-x_1)(1-x_2)}.
+    \end{aligned}\tag{56}\]
+Thus, the differential cross section in the centre of mass frame is given by
+\[\begin{aligned}
+        \frac{d\sigma(e^+e^-\to\bar{q}qg)}{dx_1dx_2} &= \frac{s}{128\pi^2}\frac{1}{2E_12E_2\abs{\vec{v}_{p_1}-\vec{v}_{p_2}}}\frac{32e^4g^2Q_f^2}{s}\frac{x_1^2 + x_2^2}{(1-x_1)(1-x_2)}\\
+        &= (2\pi)^2(4\pi)\frac{s}{128\pi^2}\frac{16\alpha^2\alpha_gQ_f^2}{s^2}\frac{x_1^2 + x_2^2}{(1-x_1)(1-x_2)}\\
+        &= \frac{2\pi\alpha^2\alpha_gQ_f}{s}\frac{x_1^2 + x_2^2}{(1-x_1)(1-x_2)}\\
+        &= \frac{4\pi\alpha^2}{3s}\cdot 3Q_f \cdot \frac{\alpha_g}{2\pi}\frac{x_1^2 + x_2^2}{(1-x_1)(1-x_2)}.
+    \end{aligned}\tag{57}\]
+<strong>(d)</strong> Now, we shall no longer work under the massless limit, but assuming $\mu^2 \ll s$. The averaged squared matrix element then takes the form
+\[\frac{1}{4}\sum\abs{\mathcal{M}}^2 = \frac{e^4g^2Q_f^2}{s}F(x_1,x_2,\mu^2/s),\tag{58}\]
+where
+\[\begin{aligned}
+        F(x_1,x_2,\mu^2/s) &= 4\left(\frac{1}{s^2(1-x_1)^2} + \frac{1}{s^2(1-x_2)^2}\right)\cdot 16\left(2\frac{[s(1-x_2)-\mu^2][s(1-x_1)-\mu^2]}{4} - \mu^2\frac{s(1-x_3)+\mu^2}{2}\right)\\
+        &\qquad + 4\cdot16\frac{[s(1-x_3)+\mu^2](\mu^2+s)}{s^2(1-x_1)(1-x_2)}\\
+        &= 32\left(\frac{1}{(1-x_1)^2} +\frac{1}{(1-x_2)^2}\right) \left([(1-x_2)-\mu^2/s][(1-x_1)-\mu^2/s] - (1-x_3)\mu^2/s+\mu^4/s^2\right)\\
+        &\qquad + 64\frac{[x_1+x_2-1+\mu^2/s](\mu^2/s+1)}{(1-x_1)(1-x_2)}\\
+        &=32\left(\frac{1}{(1-x_1)^2} +\frac{1}{(1-x_2)^2}\right) \left((1-x_2)(1-x_1) - \mu^2/s\right) + 64\frac{[x_1+x_2-1+\mu^2/s](\mu^2/s+1)}{(1-x_1)(1-x_2)}.
+\end{aligned}\tag{59}\]
+Thus, we can redefine $F$ to be $F/32$, and then
+\[\frac{1}{4}\sum\abs{\mathcal{M}}^2 = \frac{32e^4g^2Q_f^2}{s}F(x_1,x_2,\mu^2/s)\tag{60}\]
+with
+\[F(x_1,x_2,\mu^2/s) = \left(\frac{1}{(1-x_1)^2} +\frac{1}{(1-x_2)^2}\right) \left((1-x_2)(1-x_1) - \mu^2/s\right) + 2\frac{[x_1+x_2-1+\mu^2/s](\mu^2/s+1)}{(1-x_1)(1-x_2)}.\tag{61}\]
+Now integrating over the region we defined in part (b):
+\[\begin{aligned}
+        \int_0^{1-\mu^2/s} dx_1\int_{1-x_1-\mu^2/s}^{1-\frac{\mu^2}{s(1-x_1)}}dx_2 F(x_1,x_2,\mu^2/s)= 5 \;+\; 3 \ln(\alpha) \;+\; \ln^{2}(\alpha) \;-\; \tfrac{\pi^{2}}{3}
+\;+\; \mathcal{O}(\alpha),
+    \end{aligned}\tag{62}\]
+ where we have used $\alpha= \mu^2/s$.
+Thus, the cross section is given by 
+\[\sigma(e^+e^-\to \bar{q}qg) = \frac{4\pi\alpha^2}{3s}\cdot 3Q_f \cdot \frac{\alpha_g}{2\pi}\left[\; 5 + 3 \ln(\mu^2/s) + \ln^{2}(\mu^2/s) - \frac{\pi^{2}}{3}+ \mathcal{O}(\mu^2/s)\right].\tag{63}\]</p>
+
+<p><strong>(e)</strong> Now, let us go back and evaluate the integral in part (a), again working in the limit $\mu^2\ll q^2 $:
+\[\begin{aligned}
+        \delta F_1(q^2) &= \frac{\alpha_gQ_f^2}{2\pi} \int^1_0dz\int^{1-z}_0 dy\left[\ln{\frac{z\mu^2}{z\mu^2-y(1-y-z)q^2}}+\frac{(y+z)(1-y)q^2}{z\mu^2-(1-y-z)yq^2}\right].
+    \end{aligned}\tag{64}\]
+Note that there are singularities in the region of integration. First, write $Q^2 =  -q^2$, and integrate for $Q^2>0$ (spacelike 4-momentum), which avoids the logarithm having a negative value in it. Thus, integral becomes
+\[\begin{aligned}
+        &\int^1_0dy\int^{1-y}_0 dz\left[\ln{\frac{z\mu^2}{z\mu^2+y(1-y-z)Q^2}}-\frac{(y+z)(1-y)Q^2}{z\mu^2+(1-y-z)yQ^2}\right]\\
+        &=\int^1_0dy\frac{Q^2(-1+y)\left[(-1+y)(Q^2y+\mu^2)+ y(Q^2(1+y)-2\mu^2)\ln\frac{Q^2y}{\mu^2}\right]}{(-Q^2y+\mu^2)^2}\\
+        &=
+            \frac{1}{12 Q^{4}}\Bigg\{
+            - (21 + 4\pi^{2}) Q^{4}
+            + 4 (3 + 2\pi^{2}) Q^{2}\mu^{2}
+            - 4\pi^{2}\mu^{4}\\
+            &\quad + 12 \ln\!\left(\frac{Q}{\mu}\right)\Big[
+            (3 - 4 i\pi) Q^{4}
+            + 2(-1 + 4 i\pi) Q^{2}\mu^{2}
+            - 4 i\pi \mu^{4}
+            + 2(Q^{2} - \mu^{2})^{2} \ln\!\left(\frac{Q\mu}{Q^{2} - \mu^{2}}\right)
+            \Big]\\
+            &\quad + 12 (Q^{2} - \mu^{2})^{2} \operatorname{Li}_{2}\!\left(\frac{\mu^{2}}{Q^{2}}\right)
+            \Bigg\}.
+\end{aligned}\tag{65}\]
+This result is analytic. Thus, it can be generalised into the whole complex plane, including $Q^2 = -q^2-i\varepsilon$. Since we are concerned with the limit $\mu^2\ll q^2$, let us first take the limit $Q^2 \ll \mu^2$, then extend the result analytically Thus, 
+\[\begin{aligned}
+        \delta F_1(Q^2) &= \frac{\alpha_g Q_f^{2}}{2\pi}\left[
+                    -\frac{7}{4}
+                    - \frac{\pi^{2}}{3}
+                    - \frac{3}{2}\,\ln\!\left(\frac{\mu^{2}}{Q^{2}}\right)
+                    + 2 i \pi \,\ln\!\left(\frac{\mu^{2}}{Q^{2}}\right)
+                    - \frac{1}{2}\,\ln^{2}\!\left(\frac{\mu^{2}}{Q^{2}}\right) + \order{\frac{\mu^2}{Q^2}}\right].
+    \end{aligned}\tag{66}\]
+Now, continue this result analytically to $Q^2 = -q^2-i\varepsilon$, the logrithm becoems
+\[\ln\frac{\mu^2}{Q^2} \to \ln \frac{\mu^2}{q^2} - i\pi.\tag{67}\]
+Thus, the form factor becomes
+\[F_1(q^2) = Q_f^2 - \frac{\alpha_g}{4\pi}\left[
+                    \ln^{2}\!\left(\frac{\mu^{2}}{q^{2}}\right)
+                    + 3\,\ln\!\left(\frac{\mu^{2}}{q^{2}}\right)
+                    + \frac{7}{2} - \frac{\pi^{2}}{3}
+                    + 2 i \pi \,\ln\!\left(\frac{\mu^{2}}{q^{2}}\right)
+                    + 3 i \pi \,\right].\tag{68}\]
+Since $F_1$ is the correction of electric charge, we can replace $Q_f^2$ in the cross section by it. Thus, we have
+\[\begin{aligned}
+    \sigma(e^+e^-\to\bar{q}q) &=\frac{4\alpha^2\pi}{3s}\cdot 3|F_1(q^2=s)|\\
+    &=\frac{4\alpha^2\pi}{3s}\cdot 3Q_f^2\left[1 - \frac{\alpha_g}{2\pi}\left(\frac{7}{2}
+                    - \frac{\pi^{2}}{3}
+                    + 3\,\ln\!\left(\frac{\mu^{2}}{s}\right)
+                    + \ln^{2}\!\left(\frac{\mu^{2}}{s}\right) + \order{\frac{\mu^2}{s}}\right)\right].
+\end{aligned}\tag{69}\]
+<strong>(e)</strong> Putting the two cross sections together, one would note that all the infrared divergence term vanishes. Thus, we have
+\[\boxed{
+    \sigma(e^+e^- \to \bar{q}q \text{ or }\bar{q}qg) = \frac{4\alpha^2\pi}{3s}\cdot 3Q_f^2\left(1+\frac{3\alpha_g}{4\pi}\right).}\tag{70}\]</p>
+  </article>
+
+  <hr class="ornament-rule">
+
+  <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
+    <a href="../notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="../index.html">About</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>

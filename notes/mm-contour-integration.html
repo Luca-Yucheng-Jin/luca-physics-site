@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contour Integration via Residue Theorem and Cauchy’s Integral Formula — Yucheng (Luca) Jin</title>
+<meta name="description" content="Contour Integration via Residue Theorem and Cauchy’s Integral Formula. Source: J. E. Santos.">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../styles.css">
+
+<!-- MathJax with custom macros mirroring the original .tex preamble -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros']},
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      Q: '\\mathbb{Q}',
+      A: '\\mathcal{A}',
+      Lagrangian: '\\mathcal{L}',
+      Cdot: '\\boldsymbol{\\cdot}',
+      Tr: '\\operatorname{Tr}',
+      slashed: ['{\\not{#1}}', 1],
+      wick:    ['{\\overline{#1}}', 1],
+      c:       ['{#1}', 1]
+    }
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- TikZJax: renders <script type="text/tikz"> blocks into SVG client-side -->
+<link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
+<script src="https://tikzjax.com/v1/tikzjax.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="topbar__brand">Yucheng (Luca) Jin <small>MSci · Imperial</small></a>
+  <nav class="topbar__nav">
+    <a href="../index.html">About</a>
+    <a href="../notes.html" class="is-active">Notes</a>
+    <a href="../research.html">Research</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+  </nav>
+</header>
+
+<main class="note">
+
+  <div class="note__breadcrumb">
+    <a href="../notes.html">Notes</a> &nbsp;·&nbsp; Mathematical Methods · Santos PS2 Q9
+  </div>
+
+  <h1 class="note__title">Contour Integration via Residue Theorem and Cauchy’s Integral Formula</h1>
+  <p class="note__subtitle">Source: J. E. Santos, Cambridge Part IB Complex Methods, Problem Sheet 2, Question 9.</p>
+
+  
+
+  <article class="note__body">
+<ol>
+  <li>By integrating the function
+  \[z^n (z - a)^{-1} (z - a^{-1})^{-1}\]
+  around the unit circle and applying the residue theorem, evaluate
+  \[\int_{0}^{2\pi} \frac{\cos n\theta}{1 - 2a\cos\theta + a^2}\, d\theta,\tag{1}\]
+  where $a$ is real, $a > 1$, and $n$ is a non-negative integer.</li>
+  <li>Obtain the same result using Cauchy’s integral formula instead of the residue theorem.</li>
+</ol>
+
+<p><u><strong>Solution</strong></u> Parametrise the integration by $z=e^{i\theta}$ with $\theta\in[0,2\pi)$. The integral becomes
+\[I = \int^{2\pi}_0d\theta\frac{aie^{in\theta}}{-1+2a\cos\theta-a^2}  =\int^{2\pi}_0d\theta\frac{aie^{-in\theta}}{-1+2a\cos\theta-a^2} = -2\pi i\frac{a^{-n+1}}{a^2-1}\tag{2}\]
+Therefore, 
+\[\int_{0}^{2\pi} \frac{\cos n\theta}{1 - 2a\cos\theta + a^2}\, d\theta = -\frac{I}{ai} = 2\pi\frac{a^{-n}}{a^2-1}.\tag{3}\]</p>
+  </article>
+
+  <hr class="ornament-rule">
+
+  <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
+    <a href="../notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="../index.html">About</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>

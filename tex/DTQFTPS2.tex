@@ -1,0 +1,423 @@
+\section{David Tong QFT PS2}
+
+\subsection{Quantization of a String, Q1}
+
+A string has classical Hamiltonian given by
+\begin{equation}
+    H = \sum_{n=1}^{\infty}\left(\frac{1}{2}p_n^2 + \frac{1}{2}\omega_n^2 q_n^2\right)
+\end{equation}
+where $\omega_n$ is the frequency of the $n$th mode. After quantization, $q_n$ and $p_n$ become operators satisfying
+\begin{equation}
+    [q_n, q_m] = [p_n, p_m] = 0 \quad \text{and} \quad [q_n, p_m] = i\delta_{nm}.
+\end{equation}
+Introduce creation and annihilation operators $a_n$ and $a_n^\dagger$,
+\begin{equation}
+    a_n = \sqrt{\frac{\omega_n}{2}}\,q_n + \frac{i}{\sqrt{2\omega_n}}\,p_n \quad \text{and} \quad a_n^\dagger = \sqrt{\frac{\omega_n}{2}}\,q_n - \frac{i}{\sqrt{2\omega_n}}\,p_n.
+\end{equation}
+Show that they satisfy the commutation relations
+\begin{equation}
+    [a_n, a_m] = [a_n^\dagger, a_m^\dagger] = 0 \quad \text{and} \quad [a_n, a_m^\dagger] = \delta_{nm}.
+\end{equation}
+Show that the Hamiltonian of the system can be written in the form
+\begin{equation}
+    H = \sum_{n=1}^{\infty} \frac{1}{2}\omega_n\left(a_n a_n^\dagger + a_n^\dagger a_n\right).
+\end{equation}
+Given the existence of a ground state $|0\rangle$ such that $a_n|0\rangle = 0$, explain how, after removing the vacuum energy, the Hamiltonian can be expressed as
+\begin{equation}
+    H = \sum_{n=1}^{\infty}\omega_n a_n^\dagger a_n.
+\end{equation}
+Show further that $[H, a_n^\dagger] = \omega_n\, a_n^\dagger$ and hence calculate the energy of the state
+\begin{equation}
+    |l_1, l_2, \ldots, l_N\rangle = \left(a_1^\dagger\right)^{l_1}\left(a_2^\dagger\right)^{l_2}\cdots\left(a_N^\dagger\right)^{l_N}|0\rangle.
+\end{equation}
+\begin{solution}
+    The commutation relation is trivial to verify. The Hamiltonian can be written as
+    \begin{equation}
+        H = \sum_{n=1}^\infty \left[-\frac{1}{4}\omega_n(a_n - a_n^\dagger)^2 + \frac{1}{4}\omega_n (a_n + a_n^\dagger)^2\right] = \sum_{n=1}^\infty\frac{1}{2}\omega_n(a_na_n^\dagger + a_n^\dagger a_n).
+    \end{equation}
+    The vacuum energy is given by 
+    \begin{equation}
+        H\ket{0} = E_0\ket{0} = \sum^\infty_{n=1}\frac{1}{2}\omega_n \ket{0}.
+    \end{equation}
+    Therefore, by taking the vacuum energy away, we find
+    \begin{equation}
+        H = \sum_{n=1}^\infty\frac{1}{2}\omega_n(a_na_n^\dagger + a_n^\dagger a_n -1) = \sum_{n=1}^\infty\omega_na_n^\dagger a_n.
+    \end{equation}
+    Then commutator between the Hamiltonian and the creation operator is given by
+    \begin{equation}
+        [H,a_n^\dagger] = \sum_{m=1}^\infty\omega_m [a_m^\dagger a_m, a_n^\dagger] = \omega_n a_n^\dagger.
+    \end{equation}
+    Then, we consider the commutator
+    \begin{equation}
+        [H, (a_n^\dagger)^{l_n}] = l_n\omega_n(a_n^\dagger)^{l_n}.
+    \end{equation}
+    Therefore, the energy of an excited states is given by
+    \begin{equation}
+        H\ket{l_1,l_2,\dots,l_N} = \sum_{n=1}^Nl_n\omega_n\ket{l_1,l_2,\dots,l_N}.
+    \end{equation}
+\end{solution}
+
+\subsection{Canonical Quantization of the Free Scalar Field, Q2}
+
+The Fourier decomposition of a real scalar field and its conjugate momentum in the Schrödinger picture is given by
+\begin{align}
+    \phi(\mathbf{x}) &= \int \frac{d^3p}{(2\pi)^3}\frac{1}{\sqrt{2E_{\mathbf{p}}}}\left[a_{\mathbf{p}}\,e^{i\mathbf{p}\cdot\mathbf{x}} + a_{\mathbf{p}}^\dagger\,e^{-i\mathbf{p}\cdot\mathbf{x}}\right] \\
+    \pi(\mathbf{x}) &= \int \frac{d^3p}{(2\pi)^3}(-i)\sqrt{\frac{E_{\mathbf{p}}}{2}}\left[a_{\mathbf{p}}\,e^{i\mathbf{p}\cdot\mathbf{x}} - a_{\mathbf{p}}^\dagger\,e^{-i\mathbf{p}\cdot\mathbf{x}}\right]
+\end{align}
+Show that the commutation relations
+\begin{equation}
+    [\phi(\mathbf{x}),\phi(\mathbf{y})] = [\pi(\mathbf{x}),\pi(\mathbf{y})] = 0 \quad \text{and} \quad [\phi(\mathbf{x}),\pi(\mathbf{y})] = i\delta^{(3)}(\mathbf{x}-\mathbf{y})
+\end{equation}
+imply that
+\begin{equation}
+    [a_{\mathbf{p}}, a_{\mathbf{q}}] = [a_{\mathbf{p}}^\dagger, a_{\mathbf{q}}^\dagger] = 0 \quad \text{and} \quad [a_{\mathbf{p}}, a_{\mathbf{q}}^\dagger] = (2\pi)^3\delta^{(3)}(\mathbf{p}-\mathbf{q}).
+\end{equation}
+\begin{solution}
+    Trivial.
+\end{solution}
+\subsection{Normal Ordering and the Four-Momentum Operator, Q3}
+Consider a real scalar field with the Lagrangian
+\begin{equation}
+    \mathcal{L} = \tfrac{1}{2}\partial_\mu\phi\,\partial^\mu\phi - \tfrac{1}{2}m^2\phi^2.
+\end{equation}
+Show that, after normal ordering, the conserved four-momentum $P^\mu = \int d^3x\, T^{0\mu}$ takes the operator form
+\begin{equation}
+    P^\mu = \int \frac{d^3p}{(2\pi)^3}\,p^\mu\, a_{\mathbf{p}}^\dagger a_{\mathbf{p}}
+\end{equation}
+where $p^0 = E_{\mathbf{p}}$ in this expression. From this expression for $P^\mu$ verify that if $\phi(x)$ is now in the Heisenberg picture, then
+\begin{equation}
+    [P^\mu, \phi(x)] = -i\partial^\mu\phi(x).
+\end{equation}
+\begin{solution}
+    The conserved four momentum is given by
+    \begin{equation}
+        P^\mu = \int d^3x \,\dot{\phi}(x)\partial^\mu\phi(x),
+    \end{equation}
+    where 
+    \begin{equation}
+        \phi(x) = \int\frac{d^3p}{(2\pi)^3}\frac{1}{\sqrt{2E_\mathbf{p}}}\left[a_{\mathbf{p}}\,e^{-ipx} + a_{\mathbf{p}}^\dagger\,e^{ipx}\right],
+    \end{equation}
+    and
+    \begin{equation}
+        \dot{\phi}(x) = \pi(x) =\int \frac{d^3p}{(2\pi)^3}(-i)\sqrt{\frac{E_{\mathbf{p}}}{2}}\left[a_{\mathbf{p}}\,e^{-ipx} - a_{\mathbf{p}}^\dagger\,e^{ipx}\right].
+    \end{equation}
+    Therefore, we find
+    \begin{equation}
+        \partial^\mu\phi(x) = \int\frac{d^3p}{(2\pi)^3}\frac{1}{\sqrt{2E_\mathbf{p}}}(-i)p^\mu\left[a_{\mathbf{p}}\,e^{-ipx} - a_{\mathbf{p}}^\dagger\,e^{ipx}\right].
+    \end{equation}
+    Then, the conserved four-momentum is given by
+    \begin{equation}
+    \begin{aligned}
+        P^\mu &= -\int d^3x\int\frac{d^3p}{(2\pi)^3}\frac{1}{\sqrt{2E_\mathbf{p}}}\int\frac{d^3q}{(2\pi)^3}\sqrt{\frac{E_{\mathbf{q}}}{2}}p^\mu\left[a_{\mathbf{p}}\,e^{-ipx} - a_{\mathbf{p}}^\dagger\,e^{ipx}\right]\left[a_{\mathbf{q}}\,e^{-iqx} - a_{\mathbf{q}}^\dagger\,e^{iqx}\right]\\
+        &=-\int\frac{d^3p}{(2\pi)^3}\frac{1}{\sqrt{2E_\mathbf{p}}}\int\frac{d^3q}{(2\pi)^3}\sqrt{\frac{E_{\mathbf{q}}}{2}}p^\mu\bigg[a_\mathbf{p}a_\mathbf{q}\delta^3(\mathbf{p}+\mathbf{q})e^{-i(E_\mathbf{p}+E_\mathbf{q})t} + a_\mathbf{p}^\dagger a_\mathbf{q}^\dagger\delta^3(\mathbf{p}+\mathbf{q})e^{i(E_\mathbf{p}+E_\mathbf{q})t}\\
+        &\qquad \qquad \qquad \qquad\qquad\qquad - a_\mathbf{p} a_\mathbf{q}^\dagger\delta^3(\mathbf{p}-\mathbf{q})e^{-i(E_\mathbf{p}-E_\mathbf{q})t} - a_\mathbf{p}^\dagger a_\mathbf{q}\delta^3(\mathbf{p}-\mathbf{q})e^{i(E_\mathbf{p}-E_\mathbf{q})t}\bigg]\\
+        &=\frac{1}{2}\int\frac{d^3p}{(2\pi)^3}\bigg[a_\mathbf{p}^\dagger a_\mathbf{p} + a_\mathbf{p} a_\mathbf{p}^\dagger - a_\mathbf{p}a_{-\mathbf{p}}e^{-2iE_\mathbf{p}t} -a_\mathbf{p}^\dagger a_{-\mathbf{p}}^\dagger e^{2iE_\mathbf{p}t}\bigg].
+    \end{aligned}
+    \end{equation}
+    The last two terms are odd, and therefore vanishes under the integral. By normal ordering, we find
+    \begin{equation}
+        P^\mu = \int\frac{d^3p}{(2\pi)^3}p^\mu a_\mathbf{p}^\dagger a_\mathbf{p}.
+    \end{equation}
+
+    Now, we evaluate the commutation relation
+    \begin{equation}
+        [P^\mu,\phi(x)] = \int\frac{d^3p}{(2\pi)^3}p^\mu \int\frac{d^3q}{(2\pi)^3}\frac{1}{\sqrt{2E_\mathbf{q}}}\left([a_\mathbf{p}^\dagger a_\mathbf{p},a_\mathbf{q}]e^{-iqx} + [a_\mathbf{p}^\dagger a_\mathbf{p},a_\mathbf{q}^\dagger]e^{iqx}\right).
+    \end{equation}
+    Using
+    \begin{equation}
+        [a_\mathbf{p}^\dagger a_\mathbf{p},a_\mathbf{q}] = a_\mathbf{p}^\dagger[ a_\mathbf{p},a_\mathbf{q}] + [ a_\mathbf{p}^\dagger,a_\mathbf{q}]a_\mathbf{p} = -(2\pi)^3\delta^3(\mathbf{p}-\mathbf{q})a_\mathbf{p},
+    \end{equation}
+    and
+    \begin{equation}
+        [a_\mathbf{p}^\dagger a_\mathbf{p},a_\mathbf{q}^\dagger] = a_\mathbf{p}^\dagger[ a_\mathbf{p},a_\mathbf{q}^\dagger] + [a_\mathbf{p}^\dagger ,a_\mathbf{q}^\dagger]a_\mathbf{p} = (2\pi)^3a_\mathbf{p}^\dagger\delta^3(\mathbf{p}-\mathbf{q}),
+    \end{equation}
+    we find
+    \begin{equation}
+        [P^\mu,\phi(x)] = -\int\frac{d^3p}{(2\pi)^3}\frac{1}{\sqrt{2E_\mathbf{p}}}p^\mu\left[a_{\mathbf{p}}\,e^{-ipx} - a_{\mathbf{p}}^\dagger\,e^{ipx}\right] = -i\partial^\mu\phi(x).
+    \end{equation}
+\end{solution}
+
+\subsection{Single-Particle States and the Field Operator, Q5}
+
+Let $\phi(x)$ be a real scalar field in the Heisenberg picture. Show that the relativistically normalized one-particle states $|p\rangle = \sqrt{2E_{\mathbf{p}}}\,a_{\mathbf{p}}^\dagger\,|0\rangle$ satisfy
+\begin{equation}
+    \langle 0|\,\phi(x)\,|p\rangle = e^{-ip\cdot x}.
+\end{equation}
+\begin{solution}
+    \begin{equation}
+        \bra{0}\phi(x)\ket{p} = \int\frac{d^3p}{(2\pi)^3}\sqrt{\frac{E_\mathbf{p}}{E_\mathbf{q}}}\braket{\mathbf{q}}{\mathbf{p}}e^{-iqx} = e^{ipx}.
+    \end{equation}
+    
+\end{solution}
+
+
+\subsection{Angular Momentum and Spin of the Scalar Field, Q6}
+
+In Example Sheet 1, you showed that the classical angular momentum of field is given by
+\begin{equation}
+    Q_i = \frac{1}{2}\epsilon_{ijk}\int d^3x\,(x^j T^{0k} - x^k T^{0j}).
+\end{equation}
+Write down the explicit form of the angular momentum for a free real scalar field. Show that, after normal ordering, the quantum operator $Q_i$ can be written as
+\begin{equation}
+    Q_i = \frac{i}{2}\epsilon_{ijk}\int\frac{d^3p}{(2\pi)^3}\,a_{\mathbf{p}}^\dagger\left(p^j\frac{\partial}{\partial p_k} - p^k\frac{\partial}{\partial p_j}\right)a_{\mathbf{p}}
+\end{equation}
+Hence confirm that the quanta of the scalar field have spin zero (i.e.\ a stationary one-particle state $|\mathbf{p}=0\rangle$ has zero angular momentum).
+
+\begin{solution}
+    The energy momentum tensor is given by 
+    \begin{equation}
+        T^{\mu\nu} = \partial^\mu\phi(x)\partial^\nu\phi(x) - \eta^{\mu\nu}\mathcal{L},
+    \end{equation}
+    which gives
+    \begin{equation}
+        T^{0i} = \dot{\phi}\partial_i\phi.
+    \end{equation}
+    So that the angular momentum operator is 
+    \begin{equation}
+    \begin{aligned}
+        Q_i &= \frac{1}{2}\epsilon_{ijk}\int d^3x \dot{\phi}(x^j\partial^k\phi - x^k\partial^j\phi)\\
+        &=\frac{1}{2}\epsilon_{ijk}\int d^3x \int\frac{d^3p}{(2\pi)^3}\frac{E_\mathbf{p}}{\sqrt{2E_\mathbf{p}}}\int\frac{d^3q}{(2\pi)^3}\frac{1}{\sqrt{2E_\mathbf{q}}}(x^jq^k- x^kq^j)\left[a_{\mathbf{p}}\,e^{-ipx} - a_{\mathbf{p}}^\dagger\,e^{ipx}\right]\left[a_{\mathbf{q}}\,e^{-iqx} - a_{\mathbf{q}}^\dagger\,e^{iqx}\right]\\
+        &=\frac{1}{2}\epsilon_{ijk}\int \frac{d^3p}{(2\pi)^3}\frac{E_\mathbf{p}}{\sqrt{2E_\mathbf{p}}}\int\frac{d^3q}{(2\pi)^3}\frac{1}{\sqrt{2E_\mathbf{q}}}\left[a_{\mathbf{p}}\,e^{-iE_\mathbf{p}t} - a_{\mathbf{p}}^\dagger\,e^{iE_\mathbf{p}t}\right]\\
+        &\qquad\qquad\times\left(q^k\!\left[-i\frac{\partial}{\partial q_j}(2\pi)^3\delta^{(3)}(\mathbf{p}-\mathbf{q})\right] - q^j\!\left[-i\frac{\partial}{\partial q_k}(2\pi)^3\delta^{(3)}(\mathbf{p}-\mathbf{q})\right]\right)\left[a_{\mathbf{q}}\,e^{-iE_\mathbf{q}t} - a_{\mathbf{q}}^\dagger\,e^{iE_\mathbf{q}t}\right]\\
+        &= \frac{i}{2}\epsilon_{ijk}\int \frac{d^3p}{(2\pi)^3}\frac{E_\mathbf{p}}{\sqrt{2E_\mathbf{p}}}\int\frac{d^3q}{(2\pi)^3}\frac{1}{\sqrt{2E_\mathbf{q}}}\left[a_{\mathbf{p}}\,e^{-iE_\mathbf{p}t} - a_{\mathbf{p}}^\dagger\,e^{iE_\mathbf{p}t}\right]\\
+        &\qquad\qquad \times \frac{\partial}{\partial q_j}\!\left(q^k\left[a_{\mathbf{q}}\,e^{-iE_\mathbf{q}t} - a_{\mathbf{q}}^\dagger\,e^{iE_\mathbf{q}t}\right]\right)(2\pi)^3\delta^{(3)}(\mathbf{p}-\mathbf{q}) - (j\leftrightarrow k)\\
+        &= \frac{i}{4}\epsilon_{ijk}\int\frac{d^3p}{(2\pi)^3}\left[-a_\mathbf{p}\frac{\partial}{\partial p_j}\!\left(p^k a^\dagger_\mathbf{p}\right) - a^\dagger_\mathbf{p}\frac{\partial}{\partial p_j}\!\left(p^k a_\mathbf{p}\right)\right] - (j\leftrightarrow k)\\
+        &= \frac{i}{4}\epsilon_{ijk}\int\frac{d^3p}{(2\pi)^3}\left[-a_\mathbf{p}\left(\delta^k_j a^\dagger_\mathbf{p}+ p^k\frac{\partial a^\dagger_\mathbf{p}}{\partial p_j}\right) - a^\dagger_\mathbf{p}\left(\delta^k_j a_\mathbf{p} + p^k\frac{\partial a_\mathbf{p}}{\partial p_j}\right)\right] - (j\leftrightarrow k)\\
+        &\xrightarrow{\text{normal order}} \frac{i}{2}\epsilon_{ijk}\int\frac{d^3p}{(2\pi)^3}\, a^\dagger_\mathbf{p}\left(p^j\frac{\partial}{\partial p_k} - p^k\frac{\partial}{\partial p_j}\right)a_\mathbf{p},
+    \end{aligned}
+    \end{equation}
+    where in the last step $\epsilon_{ijk}\delta^k_j = 0$ by antisymmetry, and after normal ordering the $a_\mathbf{p}\frac{\partial a^\dagger_\mathbf{p}}{\partial p_j}$ term combines with its conjugate.
+    Acting the angular momentum operator on the quanta of scalar field
+    \begin{equation}
+    \begin{aligned}
+        Q_i\ket{\mathbf{p}} &= \frac{i}{2}\epsilon_{ijk}\int\frac{d^3q}{(2\pi)^3}\, a^\dagger_\mathbf{q}\left(q^j\frac{\partial}{\partial q_k} - q^k\frac{\partial}{\partial q_j}\right)a_\mathbf{q}a_\mathbf{p}^\dagger\ket{0}\\
+        &=\frac{i}{2}\epsilon_{ijk}\int\frac{d^3q}{(2\pi)^3}\, a^\dagger_\mathbf{q}\left(q^j\frac{\partial}{\partial q_k} - q^k\frac{\partial}{\partial q_j}\right)(2\pi)^3\delta^{(3)}(\mathbf{p}-\mathbf{q})\ket{0}\\
+        &= -\frac{i}{2}\epsilon_{ijk}\int d^3q\,\frac{\partial}{\partial q_k}\!\left(q^j a^\dagger_\mathbf{q}\right)\delta^{(3)}(\mathbf{p}-\mathbf{q})\ket{0} + (j\leftrightarrow k)\\
+        &= -\frac{i}{2}\epsilon_{ijk}\int d^3q\left(\delta^j_k\, a^\dagger_\mathbf{q} + q^j\frac{\partial a^\dagger_\mathbf{q}}{\partial q_k}\right)\delta^{(3)}(\mathbf{p}-\mathbf{q})\ket{0} + (j\leftrightarrow k)\\
+        &= -\frac{i}{2}\epsilon_{ijk}\left(\delta^j_k - \delta^k_j\right)a^\dagger_\mathbf{p}\ket{0} - \frac{i}{2}\epsilon_{ijk}\left(p^j\frac{\partial a^\dagger_\mathbf{p}}{\partial p_k} - p^k\frac{\partial a^\dagger_\mathbf{p}}{\partial p_j}\right)\ket{0}.
+    \end{aligned}
+    \end{equation}
+    The first term vanishes by antisymmetry of $\epsilon_{ijk}$ and symmetry of $\delta^{jk}$. For the stationary state $\mathbf{p} = 0$, the second term also vanishes since $p^j = 0$. Therefore
+    \begin{equation}
+        Q_i\ket{\mathbf{p}=0} = 0,
+    \end{equation}
+    confirming that the quanta of the scalar field carry zero spin.
+\end{solution}
+
+\subsection{Non-Relativistic Quantum Field Theory, Q7}
+
+The purpose of this question is to introduce you to non-relativistic quantum field theory. This is the only place you will encounter such a thing in this course. Consider the Lagrangian for a complex scalar field $\psi$ given by
+\begin{equation}
+    \mathcal{L} = +i\psi^*\partial_0\psi - \frac{1}{2m}\nabla\psi^*\cdot\nabla\psi.
+\end{equation}
+Determine the equation of motion, the energy-momentum tensor and the conserved current arising from the symmetry $\psi\to e^{i\alpha}\psi$. Show that the momentum conjugate to $\psi$ is $i\psi^*$ and compute the classical Hamiltonian.
+
+We now wish to quantize this theory. We will work in the Schrödinger picture. Explain why the correct commutation relations are
+\begin{equation}
+    [\psi(\mathbf{x}),\psi(\mathbf{y})] = [\psi^\dagger(\mathbf{x}),\psi^\dagger(\mathbf{y})] = 0 \quad \text{and} \quad [\psi(\mathbf{x}),\psi^\dagger(\mathbf{y})] = \delta^{(3)}(\mathbf{x}-\mathbf{y}).
+\end{equation}
+Expand the fields in a Fourier decomposition as
+\begin{align}
+    \psi(\mathbf{x}) &= \int\frac{d^3p}{(2\pi)^3}\,a_{\mathbf{p}}\,e^{i\mathbf{p}\cdot\mathbf{x}}\\
+    \psi^\dagger(\mathbf{x}) &= \int\frac{d^3p}{(2\pi)^3}\,a_{\mathbf{p}}^\dagger\,e^{-i\mathbf{p}\cdot\mathbf{x}}.
+\end{align}
+Determine the commutation relations obeyed by $a_{\mathbf{p}}$ and $a_{\mathbf{p}}^\dagger$. Why do we have only a single set of creation and annihilation operators $a_{\mathbf{p}}$, $a_{\mathbf{p}}^\dagger$ even though $\psi$ is complex? What is the physical significance of this fact? Show that one particle states have the energy appropriate to a free non-relativistic particle of mass $m$.
+
+\begin{solution}
+    \begin{equation}
+        \pi = \frac{\partial\mathcal{L}}{\partial(\partial_0\psi)} = i\psi^*,\quad\frac{\partial\mathcal{L}}{\partial(\partial_i\psi)} =-\frac{1}{2m}\partial_i\psi^*.
+    \end{equation}
+    Therefore, the equation of motion is given by
+    \begin{equation}
+        i\partial_0\psi^* - \frac{1}{2m}\nabla^2\psi^* = 0.
+    \end{equation}
+    Taking, the complex conjugate, we find the second equation of motion,
+    \begin{equation}
+        i\partial_0\psi + \frac{1}{2m}\nabla^2\psi = 0.
+    \end{equation}
+
+    Now, consider the infinitesimal translation symmetry, $x^\mu \to x^\mu + \epsilon^\mu$. The scalar field and the Lagrangian transforms as
+    \begin{equation}
+        \psi(x) \to \psi'(x) = \psi(x) -\epsilon^\mu \partial_\mu\psi(x),\quad\mathcal{L} \to \mathcal{L}-\epsilon^\mu\partial_\mu\mathcal{L}.
+    \end{equation}
+    The energy-momentum tensor with respect to $\psi$, is given by
+    \begin{align}
+        &\delta\mathcal{L} = \partial_\mu\left(\frac{\partial\mathcal{L}}{\partial(\partial_\mu\psi)}\delta\psi\right) + \partial_\mu\left(\frac{\partial\mathcal{L}}{\partial(\partial_\mu\psi^*)}\delta\psi^*\right) \\\implies& 0 =\partial_\mu\left[\epsilon^\mu\mathcal{L} - \left(\frac{\partial\mathcal{L}}{\partial(\partial_\mu\psi)}\delta\psi\right)\epsilon^\nu\partial_\nu\psi+\left(\frac{\partial\mathcal{L}}{\partial(\partial_\mu\psi)}\delta\psi^*\right)\epsilon^\nu\partial_\nu\psi^*\right]\\
+        \implies& T^{\mu\nu} = \left(\frac{\partial\mathcal{L}}{\partial(\partial_\mu\psi)}\right)\partial^\nu\psi + \left(\frac{\partial\mathcal{L}}{\partial(\partial_\mu\psi^*)}\right)\partial^\nu\psi^*-\eta^{\mu\nu}\mathcal{L}.
+    \end{align}
+    Therefore,
+    \begin{equation}
+        T^{0\nu}  = i\psi^*\partial^\nu\psi -\eta^{0\nu}\mathcal{L},
+    \end{equation}
+    and
+    \begin{equation}
+        T^{i\nu} = -\frac{1}{2m}(\partial^i\psi^*\partial^\nu\psi + \partial^i\psi\partial^\nu\psi^* ) -\eta^{i\nu}\mathcal{L}.
+    \end{equation}
+    Now, consider the Noether current corresponding to the infinitesimal gauge transformation, $\psi\to(1+i\alpha)\psi$. The Lagrangian remains invariant, and therefore the conserved current is given by
+    \begin{equation}
+        j^0 = -\psi^*\psi,
+    \end{equation}
+    and
+    \begin{equation}
+        j^i = -\frac{i}{2m}(\psi\partial^i\psi^* - \psi^*\partial^i\psi).
+    \end{equation}
+    The classical Hamiltonian density is given by
+    \begin{equation}
+        \mathcal{H} = \pi\dot{\psi}-\pi\dot{\psi} +\frac{1}{2m}\nabla\psi^*\cdot\nabla\psi = \frac{1}{2m}\nabla\psi^*\cdot\nabla\psi.
+    \end{equation}
+    The trivial generalization of the canonical quantization for real scalar field would be
+    \begin{equation}
+        [\psi(\mathbf{x}),\pi(\mathbf{y})] = i\delta^3(\mathbf{x}-\mathbf{y}) \implies [\psi(\mathbf{x}),\psi^\dagger(\mathbf{y})] = \delta^3(\mathbf{x}-\mathbf{y}).
+    \end{equation}
+    Expand the fields in a Fourier decomposition as
+    \begin{align}
+        \psi(\mathbf{x}) &= \int\frac{d^3p}{(2\pi)^3}\,a_{\mathbf{p}}\,e^{i\mathbf{p}\cdot\mathbf{x}},\\
+        \psi^\dagger(\mathbf{x}) &= \int\frac{d^3p}{(2\pi)^3}\,a_{\mathbf{p}}^\dagger\,e^{-i\mathbf{p}\cdot\mathbf{x}}.
+    \end{align}
+    We find
+    \begin{equation}
+        [\psi(\mathbf{x}),\pi(\mathbf{y})] =\int\frac{d^3p}{(2\pi)^3}\int\frac{d^3q}{(2\pi)^3}e^{-i\mathbf{p}\cdot\mathbf{x}}e^{i\mathbf{q}\cdot\mathbf{y}}[a_\mathbf{p},a_\mathbf{q}^\dagger] = \delta^3(\mathbf{x}-\mathbf{y}),
+    \end{equation}
+    which means that 
+    \begin{equation}
+        [a_\mathbf{p},a_\mathbf{q}^\dagger] = (2\pi)^3\delta^3(\mathbf{p}-\mathbf{q}).
+    \end{equation}
+    The relativistic equations are generally second order in time, and therefore can take both positive and negative frequency, $\pm E_\mathbf{p} = \pm\sqrt{\mathbf{p}^2+m^2}$. Complex and Hermiticity then forces us to have two independent set of creation and annihilation operator. For the non-relativistic case, the frequency can only take either the positive or the negative value, which only requires one set of creation and annihilation operator. This means that there is no antiparticle in the non-relativistic theory.
+
+    The Hamiltonian operator is written as
+    \begin{equation}
+        \begin{aligned}
+            H &= \frac{1}{2m}\int d^3x \int \frac{d^3p}{(2\pi)^3}\int \frac{d^3q}{(2\pi)^3}\mathbf{p}\cdot\mathbf{q}a_\mathbf{q}^\dagger a_\mathbf{p} e^{-i(\mathbf{q}-\mathbf{p})\cdot\mathbf{x}}\\
+            &=\int \frac{d^3p}{(2\pi)^3}\frac{\mathbf{p}^2}{2m}a_\mathbf{p}^\dagger a_\mathbf{p}.
+        \end{aligned}
+    \end{equation}
+    Therefore, the energy of a single particle state is 
+    \begin{equation}
+        H\ket{\mathbf{p}} = \int \frac{d^3q}{(2\pi)^3}\frac{\mathbf{    q}^2}{2m}a_\mathbf{q}^\dagger a_\mathbf{q}a_\mathbf{p}^\dagger\ket{0} = \int \frac{d^3q}{(2\pi)^3}\frac{\mathbf{    q}^2}{2m}a_\mathbf{q}^\dagger (2\pi)^3\delta^3(\mathbf{p}-\mathbf{q})\ket{0} = \frac{\mathbf{p}^2}{2m}\ket{\mathbf{p}}.
+    \end{equation}
+\end{solution}
+
+\subsection{Symmetry of the Feynman Propagator, Q8}
+
+Show that the time ordered product $T\{\phi(x_1)\phi(x_2)\}$ and the normal ordered product $:\phi(x_1)\phi(x_2):$ are both symmetric under the interchange of $x_1$ and $x_2$. Deduce that the Feynman propagator $\Delta_F(x_1 - x_2)$ has the same symmetry property.
+
+\begin{solution}
+    The time ordered product is given by
+    \begin{equation}
+        T\{\phi(x_1)\phi(x_2)\} = \Theta(x_1^0-x_2^0)\phi(x_1)\phi(x_2) + \Theta(x_2^0-x_1^0)\phi(x_2)\phi(x_1),
+    \end{equation}
+    which is clearly symmetric under exchange.
+    The normal ordered product can be expanded as
+    \begin{equation}
+    \begin{aligned}
+        :\phi(x_1)\phi(x_2): \,&= :\int\frac{d^3p}{(2\pi)^3}\frac{1}{\sqrt{2E_\mathbf{p}}}\int\frac{d^3q}{(2\pi)^3}\frac{1}{\sqrt{2E_\mathbf{q}}}\left[a_{\mathbf{p}}\,e^{-ipx_1} + a_{\mathbf{p}}^\dagger\,e^{ipx_1}\right]\left[a_{\mathbf{q}}\,e^{-iqx_2} + a_{\mathbf{q}}^\dagger\,e^{iqx_2}\right]:\\
+        &=\int\frac{d^3p}{(2\pi)^3}\frac{1}{\sqrt{2E_\mathbf{p}}}\int\frac{d^3q}{(2\pi)^3}\frac{1}{\sqrt{2E_\mathbf{q}}}\bigg[a_{\mathbf{p}}a_{\mathbf{q}}e^{-ipx_1}e^{-iqx_2} \\
+        &\qquad\qquad\qquad\qquad\qquad+ a_{\mathbf{p}}^\dagger a_{\mathbf{q}}e^{ipx_1}e^{-iqx_2} + a_{\mathbf{q}}^\dagger a_{\mathbf{p}}e^{-ipx_1}e^{iqx_2}+ a_{\mathbf{p}}^\dagger a_{\mathbf{q}}^\dagger e^{ipx_1}e^{iqx_2}\bigg],
+    \end{aligned}
+    \end{equation}
+    which is also symmetric (remember that $\mathbf{p}$ and $\mathbf{q}$ are dummy variables). 
+    The Feynman propagator is defined as 
+    \begin{equation}
+        \Delta_F(x_1-x_2) = \bra{0}T\phi(x_1)\phi(x_2)\ket{0},
+    \end{equation}
+    which is clearly symmetric as well.
+\end{solution}
+
+\subsection{Wick's Theorem for Three Fields, Q9}
+
+Verify Wick's theorem for the case of three scalar fields:
+\begin{equation}
+\begin{aligned}
+    T\phi(x_1)\phi(x_2)\phi(x_3) &= \,:\!\phi(x_1)\phi(x_2)\phi(x_3)\!: +\phi(x_1)\Delta_F(x_2-x_3)\\
+    &\quad +\phi(x_2)\Delta_F(x_3-x_1) + \phi(x_3)\Delta_F(x_1-x_2).
+\end{aligned}
+\end{equation}
+
+\begin{solution}
+    Without loss of generality, assume $x_1^0 > x_2^0 > x_3^0$. We can write, 
+    \begin{equation}
+        T(\phi_1\phi_2\phi_3) = \phi_1\, T(\phi_2\phi_3) = \phi_1\left(:\phi_2\phi_3: + \Delta_F(x_2-x_3)\right)
+    \end{equation}
+    where we applied Wick's theorem for two fields. Splitting $\phi_1 = \phi_1^+ + \phi_1^-$
+    and moving it inside the normal ordering:
+    \begin{equation}
+        \phi_1:\phi_2\phi_3: = :\phi_1\phi_2\phi_3: + [\phi_1^+,\phi_2^-]:\phi_3: + [\phi_1^+,\phi_3^-]:\phi_2:
+    \end{equation}
+    where we used the fact that $\phi_1^-$ moves freely to the left inside normal ordering,
+    while $\phi_1^+$ generates a commutator with each $\phi_i^-$. Since $x_1^0 > x_2^0 > x_3^0$,
+    both commutators are Feynman propagators:
+    \begin{equation}
+        [\phi_1^+, \phi_2^-] = \Delta_F(x_1-x_2), \qquad [\phi_1^+,\phi_3^-] = \Delta_F(x_1-x_3).
+    \end{equation}
+    Substituting back:
+    \begin{equation}
+    \begin{aligned}
+        T(\phi_1\phi_2\phi_3) &= :\phi_1\phi_2\phi_3: + \Delta_F(x_1-x_2):\phi_3: + \Delta_F(x_1-x_3):\phi_2: + \phi_1\Delta_F(x_2-x_3)\\
+        &= :\phi(x_1)\phi(x_2)\phi(x_3): + \phi(x_1)\Delta_F(x_2-x_3)\\
+        &\quad + \phi(x_2)\Delta_F(x_3-x_1) + \phi(x_3)\Delta_F(x_1-x_2).
+    \end{aligned}
+    \end{equation}
+    This holds for any time ordering by symmetry of both sides under permutation
+    of $x_1, x_2, x_3$.
+\end{solution}
+
+\subsection{Scalar Yukawa Theory, Q10}
+
+Consider the scalar Yukawa theory given by the Lagrangian
+\begin{equation}
+    \mathcal{L} = \partial_\mu\psi^*\partial^\mu\psi + \frac{1}{2}\partial_\mu\phi\,\partial^\mu\phi - M^2\psi^*\psi - \frac{1}{2}m^2\phi^2 - g\psi^*\psi\phi.
+\end{equation}
+Compute the amplitude for
+\begin{itemize}
+    \item ``Nucleon-Anti-Nucleon'' annihilation $\psi + \bar{\psi} \to \phi$ at order $g$
+    \item ``Nucleon-Meson'' scattering $\phi + \psi \to \phi + \psi$ at order $g^2$
+\end{itemize}
+
+\begin{solution}
+    There is only one diagram for the $\psi+\bar{\psi}\to\phi$ amplitude to the first order. That is,
+    \begin{equation}
+    \vcenter{\hbox{
+    \begin{tikzpicture}
+        \begin{feynman}
+            \vertex (v);
+            \vertex [above left=of v] (i1) {$\psi$};
+            \vertex [below left=of v] (i2) {$\bar\psi$};
+            \vertex [right=of v] (f1) {$\phi$};
+            \diagram*{
+                (i1) -- [charged scalar] (v),
+                (v) -- [charged scalar] (i2),
+                (v) -- [scalar] (f1),
+            };
+        \end{feynman}
+    \end{tikzpicture}
+    }} = i\mathcal{M} = -ig.
+    \end{equation}
+
+    For the $\phi+\psi\to\phi+\psi$ amplitude, we need to take account for the three channels. Take the $s$-channel for example, we have
+    \begin{equation}
+    \vcenter{\hbox{
+    \begin{tikzpicture}
+        \begin{feynman}
+            \vertex (v1);
+            \vertex [right=of v1] (v2);
+            \vertex [above left=of v1] (i1) {$\psi$};
+            \vertex [below left=of v1] (i2) {$\phi$};
+            \vertex [above right=of v2] (f1) {$\psi$};
+            \vertex [below right=of v2] (f2) {$\phi$};
+            \diagram*{
+                (i1) -- [charged scalar] (v1),
+                (i2) -- [scalar] (v1),
+                (v1) -- [charged scalar, edge label=$q$] (v2),
+                (v2) -- [charged scalar] (f1),
+                (v2) -- [scalar] (f2),
+            };
+        \end{feynman}
+    \end{tikzpicture}
+    }}=i\mathcal{M} = (-ig)^2\frac{i}{s-M^2}= -g^2\frac{i}{s-M^2}.
+    \end{equation}
+    For the $t$- and $u$- channel, we simply replace $s$ by $t$ and $u$. Since $\phi$ and $\psi$ are distinguishable particles, $t$-channel does not contribute. Therefore, the total amplitude is given by
+    \begin{equation}
+        \mathcal{M} = -g^2\left(\frac{1}{s-M^2}+\frac{1}{t-M^2}\right).
+    \end{equation}
+    This can be further simplified using 
+\end{solution}

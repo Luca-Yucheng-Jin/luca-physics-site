@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Green's Function for a Second-Order ODE with Heaviside Forcing — Yucheng (Luca) Jin</title>
+<meta name="description" content="Green's Function for a Second-Order ODE with Heaviside Forcing. Source: Imperial College London.">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../styles.css">
+
+<!-- MathJax with custom macros mirroring the original .tex preamble -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros']},
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      Q: '\\mathbb{Q}',
+      A: '\\mathcal{A}',
+      Lagrangian: '\\mathcal{L}',
+      Cdot: '\\boldsymbol{\\cdot}',
+      Tr: '\\operatorname{Tr}',
+      slashed: ['{\\not{#1}}', 1],
+      wick:    ['{\\overline{#1}}', 1],
+      c:       ['{#1}', 1]
+    }
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- TikZJax: renders <script type="text/tikz"> blocks into SVG client-side -->
+<link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
+<script src="https://tikzjax.com/v1/tikzjax.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="topbar__brand">Yucheng (Luca) Jin <small>MSci · Imperial</small></a>
+  <nav class="topbar__nav">
+    <a href="../index.html">About</a>
+    <a href="../notes.html" class="is-active">Notes</a>
+    <a href="../research.html">Research</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+  </nav>
+</header>
+
+<main class="note">
+
+  <div class="note__breadcrumb">
+    <a href="../notes.html">Notes</a> &nbsp;·&nbsp; Differential Equations · Imperial Contaldi PS9 Q4
+  </div>
+
+  <h1 class="note__title">Green's Function for a Second-Order ODE with Heaviside Forcing</h1>
+  <p class="note__subtitle">Source: Imperial College London, Carlo Contaldi, Differential Equations, Problem Sheet 9, Question 4.</p>
+
+  
+
+  <article class="note__body">
+<p>Consider the following inhomogeneous ODE for $y(x)$:
+\[\hat{L}[y] = y'' + 3y' + 2y = \Theta(x - x_0)
+  \qquad (0 \leq x \leq 1),
+  \tag{1}\]
+with homogeneous BCs $y(0) = y(1) = 0$, where $0 \leq x \leq 1$ and
+$\Theta(x)$ is the Heaviside (unit) step function.</p>
+
+<ol>
+  <li>Show that the Green's function for solving the above problem is
+    \[G(x,z) = \frac{e^{z-2x}}{e-1}
+      \begin{cases}
+        (e^x - e^0)(e^z - e^1) & x < z \\[4pt]
+        (e^x - e^1)(e^z - e^0) & x > z
+      \end{cases}\tag{2}\]</li>
+  <li>Show that this Green's function is <em>not</em> symmetrical.</li>
+  <li>Use the Green's function to find the solution to the above
+    inhomogeneous problem (i.e.\ formed from the inhomogeneous ODE with
+    the specified BCs), and show that it is
+    \[y(x) = \frac{e^{-2x}}{2(e-1)}
+      \left[(e-1)(e^x - e^{x_0})^2\Theta(x-x_0)
+      - (e^x - 1)(e - e^{x_0})^2\right].\tag{3}\]
+    <em>Hint: Consider the cases $x < x_0$ and $x > x_0$ separately.</em></li>
+</ol>
+
+<p><u><strong>Solution</strong></u> The homogeneous equation $y''+3y'+2y=0$ holds everywhere except $x=z$, with characteristic equation
+\[\lambda^2+3\lambda+2=0 \implies \lambda=-2,-1.\tag{4}\]
+The Green's function therefore takes the piecewise form
+\[G(x,z)=\begin{cases}
+    A(z)e^{-2x}+B(z)e^{-x} & 0\leq x<z\\[4pt]
+    C(z)e^{-2x}+D(z)e^{-x} & z<x\leq 1.
+  \end{cases}\tag{5}\]
+Applying the homogeneous BCs $G(0,z)=G(1,z)=0$:
+\[A+B=0, \qquad Ce^{-2}+De^{-1}=0
+  \implies B=-A, \quad C=-De.\tag{6}\]
+Continuity of $G$ at $x=z$ (substituting $B=-A$, $C=-De$):
+\[Ae^{-2z}-Ae^{-z}=-Dee^{-2z}+De^{-z}
+  \implies A = D\,\frac{e^{-z}-e\,e^{-2z}}{e^{-2z}-e^{-z}}.
+  \tag{7}\]
+The jump condition $[\partial_x G]_{x=z^-}^{x=z^+}=1$ (coefficient of $y''$ is unity) gives:
+\[\underbrace{\left(2De\,e^{-2z}-De^{-z}\right)}_{G'(z^+)}
+  -\underbrace{\left(-2Ae^{-2z}+Ae^{-z}\right)}_{G'(z^-)}=1.
+  \tag{8}\]
+Substituting (7) into (8) and expanding the denominator:
+\[\begin{aligned}&2e\,e^{-4z}-e^{-3z}-2e\,e^{-3z}+e^{-2z}
+   +2e^{-3z}-2e\,e^{-4z}-e^{-2z}+e\,e^{-3z}\notag\\
+  &\quad =e^{-3z}-e\,e^{-3z}=e^{-3z}(1-e).\end{aligned}\tag{20}\]
+Hence:
+\[D = \frac{e^{-2z}-e^{-z}}{e^{-3z}(1-e)}
+    = e^z\,\frac{e^0-e^z}{1-e}
+    = \frac{e^z(1-e^z)}{1-e},\tag{9}\]
+and from (7):
+\[A = \frac{e^z}{1-e}(e^z-e).\tag{10}\]
+Assembling $G$ for $x<z$ using $B=-A$:
+\[\begin{aligned}G(x,z) &= A(e^{-2x}-e^{-x})
+   = \frac{e^z(e^z-e)}{1-e}(e^{-2x}-e^{-x})\notag\\
+  &= \frac{e^{z-2x}}{1-e}(e^z-e)(1-e^x)
+   = \frac{e^{z-2x}}{e-1}(e^x-e^0)(e^z-e^1).\end{aligned}\tag{21}\]
+Similarly, for $x>z$:
+\[G(x,z) = \frac{e^{z-2x}}{e-1}(e^x-e^1)(e^z-e^0).\tag{11}\]
+Combining them, we find
+\[\boxed{G(x,z)=\frac{e^{z-2x}}{e-1}\begin{cases}
+    (e^x-e^0)(e^z-e^1) & x<z\\[4pt]
+    (e^x-e^1)(e^z-e^0) & x>z.
+  \end{cases}}\tag{12}\]</p>
+
+<p>It is rather clear that the Green's function we obtained does not have symmetry. This is expected, since the differential operator is not self-adjoint. To see this, consider the two equations:
+\[\hat{L}_x G(x,z) = \delta(x-z), \qquad \hat{L}_x G(x,z') = \delta(x-z').\tag{13}\]
+Multiplying the first by $G(x,z')$, the second by $G(x,z)$, subtracting and integrating:
+\[\int_a^b \left[G(x,z')\hat{L}_x G(x,z) - G(x,z)\hat{L}_x G(x,z')\right]dx
+  = G(z',z) - G(z,z').
+  \tag{14}\]
+The left-hand side can be rewritten as:
+\[\int_a^b G(x,z')\left[\hat{L}_x - \hat{L}_x^\dagger\right]G(x,z)\,\dd x
+  + \text{boundary terms}.\tag{15}\]
+If $\hat{L}$ is self-adjoint ($\hat{L} = \hat{L}^\dagger$) and the boundary terms
+vanish under homogeneous BCs, the left-hand side of (14)
+is zero, giving $G(z',z)=G(z,z')$.</p>
+
+<p>For the operator $\hat{L} = \partial_x^2 + 3\partial_x + 2$, integrating by parts shows:
+\[\hat{L}^\dagger = \partial_x^2 - 3\partial_x + 2 \neq \hat{L},\tag{16}\]
+since the odd-derivative term changes sign. Hence:
+\[\hat{L} - \hat{L}^\dagger = 6\partial_x \neq 0,\tag{17}\]
+and the left-hand side of (14) does not vanish.</p>
+
+<p>Now, we are ready to obtain the particular solution to the differential equation:
+\[y(x) = \int_0^1dzG(x,z)\Theta(z-x_0).\tag{18}\]</p>
+
+<p>For $x<x_0$, the discontinuity of the Green's function is to the left of $x_0$, and thus the integral becomes
+\[\begin{aligned}y(x<x_0) &= \int_{x_0}^1dz\,G_{x<z}(x,z)= \frac{e^{-2x}(e^x-1)}{e-1}\left(-\frac{1}{2}e^2-\frac{1}{2}e^{2x_0}+ee^{x_0}\right) \notag\\
+    &=-\frac{e^{-2x}}{2(e-1)}(e^x-1)(e^{x_0}-e)^2.\end{aligned}\tag{22}\]</p>
+
+<p>For $x>x_0$, the integral becomes
+\[\begin{aligned}y(x>x_0) &= \int_{x_0}^{x}dz\,G_{x>z}(x,z) + \int_{x}^1dz\,G_{x<z}(x,z) \notag\\
+    &= y(x\to x_0^-) + \frac{e^{-2x}(e^x-e)}{e-1}\left(\frac{1}{2}e^{2x_0}-e^{x_0}- \frac{1}{2}e^{2x} + e^x\right).\end{aligned}\tag{23}\]</p>
+
+<p>Putting them together, we find
+\[\boxed{y(x) = \frac{e^{-2x}}{2(e-1)}
+      \left[(e-1)(e^x - e^{x_0})^2\Theta(x-x_0)
+      - (e^x - 1)(e - e^{x_0})^2\right].}\tag{19}\]</p>
+  </article>
+
+  <hr class="ornament-rule">
+
+  <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
+    <a href="../notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="../index.html">About</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>

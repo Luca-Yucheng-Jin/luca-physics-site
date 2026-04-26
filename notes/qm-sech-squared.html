@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Factorisation Method for the Sech-Squared Potential — Yucheng (Luca) Jin</title>
+<meta name="description" content="Factorisation Method for the Sech-Squared Potential. Source: D. Tong.">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../styles.css">
+
+<!-- MathJax with custom macros mirroring the original .tex preamble -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros']},
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      Q: '\\mathbb{Q}',
+      A: '\\mathcal{A}',
+      Lagrangian: '\\mathcal{L}',
+      Cdot: '\\boldsymbol{\\cdot}',
+      Tr: '\\operatorname{Tr}',
+      slashed: ['{\\not{#1}}', 1],
+      wick:    ['{\\overline{#1}}', 1],
+      c:       ['{#1}', 1]
+    }
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- TikZJax: renders <script type="text/tikz"> blocks into SVG client-side -->
+<link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
+<script src="https://tikzjax.com/v1/tikzjax.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="topbar__brand">Yucheng (Luca) Jin <small>MSci · Imperial</small></a>
+  <nav class="topbar__nav">
+    <a href="../index.html">About</a>
+    <a href="../notes.html" class="is-active">Notes</a>
+    <a href="../research.html">Research</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+  </nav>
+</header>
+
+<main class="note">
+
+  <div class="note__breadcrumb">
+    <a href="../notes.html">Notes</a> &nbsp;·&nbsp; Quantum Mechanics · Tong PS1 Q8
+  </div>
+
+  <h1 class="note__title">Factorisation Method for the Sech-Squared Potential</h1>
+  <p class="note__subtitle">Source: D. Tong, <em>Quantum Mechanics</em>, Problem Sheet 1, Question 8.</p>
+
+  
+
+  <article class="note__body">
+<p>Sketch the potential</p>
+
+<p>\[U(x) = -\frac{\hbar^2}{m}\operatorname{sech}^2 x\,.
+  \tag{1}\]</p>
+
+<p>Show that the time-independent Schr\"{o}dinger equation for a particle in this
+potential can be written</p>
+
+<p>\[\hat{A}^\dagger \hat{A}\,\chi = (\mathcal{E}+1)\,\chi\,,\tag{2}\]</p>
+
+<p>where $\mathcal{E} = 2mE/\hbar^2$ and</p>
+
+<p>\[\hat{A} = \frac{d}{d x} + \tanh x\,,
+  \qquad
+  \hat{A}^\dagger = -\frac{d}{d x} + \tanh x\,.\tag{3}\]</p>
+
+<p>Show, by integrating by parts, that for any normalised wavefunction $\chi$,</p>
+
+<p>\[\int_{-\infty}^{\infty} \chi^*\hat{A}^\dagger\hat{A}\,\chi\,dx
+  \;=\;
+  \int_{-\infty}^{\infty} (\hat{A}\chi)^*(\hat{A}\chi)\,dx\,,\tag{4}\]</p>
+
+<p>and deduce that the eigenvalues of $\hat{A}^\dagger\hat{A}$ are non-negative.
+Hence show that the ground state (with lowest energy) has $\mathcal{E}\geq -1$.
+Show that a wavefunction $\chi_0(x)$ is an energy eigenstate with
+$\mathcal{E}=-1$ iff</p>
+
+<p>\[\frac{d\chi_0}{d x} + \tanh x\,\chi_0 = 0\,.\tag{5}\]</p>
+
+<p>Find and sketch $\chi_0(x)$.</p>
+
+<p><u><strong>Solution</strong></u></p>
+
+<p>The Hamiltonian can be written as
+\[\begin{aligned}H &= -\frac{\hbar^2}{2m}\frac{d^2}{dx^2} -\frac{\hbar^2}{m}\operatorname{sech}^2 x\\ &= \frac{\hbar^2}{2m}\left(-\frac{d^2}{dx^2}-2+\tanh^2x\right)\\ &= \frac{\hbar^2}{2m}\left(\frac{d}{dx}+\tanh x\right)\left(-\frac{d}{dx}+\tanh x\right)-\frac{\hbar^2}{m}.\end{aligned}\tag{12}\]
+Thus, we have
+\[\hat{A}^\dagger \hat{A}\chi = (\mathcal{E}+1)\chi.\tag{6}\]
+Rather trivially following from integrating by part, we find
+\[\int dx \chi^*A^\dagger A\chi = \int dx (A\chi)^*(A\chi),\tag{7}\]
+justifying that $A^\dagger$ is indeed the Hermitian conjugate to $A$. Given an eigenstate of $A^\dagger A$, $|a\rangle$, with eigenvalue $a$. We have
+\[\langle a|A^\dagger A|a\rangle = a\langle a |a\rangle = ||A|a\rangle||^2 \geq 0 \implies a\geq0,\tag{8}\]
+which implies that $\mathcal{E}+1\geq0$.
+For the ground state with energy $\mathcal{E}=-1$, we have
+\[\hat{A}^\dagger \hat{A}\chi_0 = 0,\tag{9}\]
+Taking the inner product of the above with $\chi_0$, we find 
+\[\langle \chi_0|A^\dagger A|\chi_0\rangle  = ||A|\chi_0\rangle||^2 = 0 \implies A|\chi_0\rangle=0.\tag{10}\]
+Solving the above, we find
+\[\chi_0(x) = \frac{N}{\cosh x},\tag{11}\]
+where $N$ is a normalisation constant.</p>
+
+<p>\flushbottom</p>
+  </article>
+
+  <hr class="ornament-rule">
+
+  <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
+    <a href="../notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="../index.html">About</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>

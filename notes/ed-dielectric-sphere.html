@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dielectric Sphere in a Uniform Electric Field — Yucheng (Luca) Jin</title>
+<meta name="description" content="Dielectric Sphere in a Uniform Electric Field. Source: D. Tong.">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../styles.css">
+
+<!-- MathJax with custom macros mirroring the original .tex preamble -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros']},
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      Q: '\\mathbb{Q}',
+      A: '\\mathcal{A}',
+      Lagrangian: '\\mathcal{L}',
+      Cdot: '\\boldsymbol{\\cdot}',
+      Tr: '\\operatorname{Tr}',
+      slashed: ['{\\not{#1}}', 1],
+      wick:    ['{\\overline{#1}}', 1],
+      c:       ['{#1}', 1]
+    }
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- TikZJax: renders <script type="text/tikz"> blocks into SVG client-side -->
+<link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
+<script src="https://tikzjax.com/v1/tikzjax.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="topbar__brand">Yucheng (Luca) Jin <small>MSci · Imperial</small></a>
+  <nav class="topbar__nav">
+    <a href="../index.html">About</a>
+    <a href="../notes.html" class="is-active">Notes</a>
+    <a href="../research.html">Research</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+  </nav>
+</header>
+
+<main class="note">
+
+  <div class="note__breadcrumb">
+    <a href="../notes.html">Notes</a> &nbsp;·&nbsp; Electrodynamics · Tong EM PS8 Q1
+  </div>
+
+  <h1 class="note__title">Dielectric Sphere in a Uniform Electric Field</h1>
+  <p class="note__subtitle">Source: D. Tong, <em>Electromagnetism</em>, Problem Sheet 8, Question 1.</p>
+
+  
+
+  <article class="note__body">
+<p>A dielectric sphere of radius $a$ and permittivity $\varepsilon$ is
+placed at rest at the origin in a constant electric field which takes a uniform
+value $\mathbf{E}_0$ far from the origin. Show that Maxwell's equations with
+the appropriate boundary conditions are solved by an electric field which is
+uniform inside the sphere, with value:
+\[\mathbf{E}_{\mathrm{int}} = \frac{3}{2+\varepsilon_r}\mathbf{E}_0,\tag{1}\]
+where $\varepsilon_r = \varepsilon/\varepsilon_0$, and a field outside the
+sphere which is the superposition of $\mathbf{E}_0$ and the field
+\[\mathbf{E}(\mathbf{x}) = \frac{1}{4\pi\varepsilon_0}
+  \left(\frac{3(\mathbf{p}\cdot\hat{\mathbf{x}})\hat{\mathbf{x}}-\mathbf{p}}{|\mathbf{x}|^3}\right)\tag{2}\]
+of an electric dipole at the origin, with dipole moment
+\[\mathbf{p} = 4\pi\varepsilon_0\!\left(\frac{\varepsilon_r-1}{\varepsilon_r+2}\right)a^3\mathbf{E}_0.\tag{3}\]</p>
+
+<p>By considering the macroscopic polarisation $\mathbf{P}$ inside the sphere,
+calculate the bound surface charge density $\sigma$. Verify explicitly that
+the electric dipole moment of $\sigma$ is $\mathbf{p}$.</p>
+
+<p><u><strong>Solution</strong></u> Inside and outside the dielectric, the potential satisfies the Laplace equation,
+\[\nabla^2\phi = 0.\tag{4}\]
+Since the problem is invariant under rotation about $\mathbf{E}_0$, which we will take to be in the $z$-direction, the solution should have no $\phi$ dependence. Then, the general solution for the Laplace equation is 
+\[\phi(r,\theta) =  \sum_{l=0}^\infty (A_lr^{l} + B_lr^{-(l+1)})P_l(\cos\theta).\tag{5}\]
+Inside the dielectric, we require regularity at the origin; we set $B_l =0$. Outside the dielectric, since there is a constant electric field at $\mathbf{E}_0 = E_0\cos\theta\hat{\mathbf{z}}$ $r\to\infty $, we take $A_l = -E_0\delta_{l1}$. So the general solution we are looking at is
+\[\phi(r,\theta)  = \begin{cases}
+        \displaystyle\sum_{l=0}^\infty A_lr^lP_l(\cos\theta),&r<a,\\
+        \\\displaystyle\sum_{l=0}^\infty D_lr^{-(l+1)}P_l(\cos\theta) -E_0r\cos\theta,&r>a.
+    \end{cases}\tag{6}\]
+The boundary condition at $r=a$ is given by
+\[\hat{\mathbf{r}}\times(\mathbf{E}(a\hat{\mathbf{r}}^+)-\mathbf{E}(a\hat{\mathbf{r}}^-)) = 0,\quad \text{and} \quad \hat{\mathbf{r}}\cdot(\varepsilon_0\mathbf{E}(a\hat{\mathbf{r}}^+)-\varepsilon\mathbf{E}(a\hat{\mathbf{r}}^-)) = 0,\tag{7}\]
+which implies
+\[\partial_\theta\phi(a^+,\theta) = \partial_\theta\phi(a^-,\theta), \quad \text{and} \quad \varepsilon_0\partial_r\phi(a^+,\theta) = \varepsilon\partial_r\phi(a^-,\theta).\tag{8}\]
+The first BC gives
+\[A_la^l = D_la^{-(l+1)}-E_0a\delta_{l1},\tag{9}\]
+and the second BC gives
+\[\varepsilon_0lA_la^{l-1} =-\varepsilon(l+1)D_la^{-(l+2)}-\varepsilon E_0\delta_{l1}.\tag{10}\]
+Solving these two, we find
+\[A_l = -\frac{3}{2+\varepsilon_r}E_0 \delta_{l1}\quad\text{and} \quad D_1 = -\frac{1-\varepsilon_r}{2+\varepsilon_r}a^3E_0\delta_{l1}.\tag{11}\]
+Hence, the full potential is
+\[\phi(r,\theta) = \begin{cases}
+        -\dfrac{3}{2+\varepsilon_r}E_0r\cos\theta, & r<a,\\
+        -\dfrac{1-\varepsilon_r}{2+\varepsilon_r}\dfrac{a^3}{r^2}E_0\cos\theta-E_0r\cos\theta, & r>a.
+    \end{cases}\tag{12}\]</p>
+
+<p>Therefore, the electric field inside the dielectric is
+\[\mathbf{E}_{\text{int}} = \frac{3}{2+\varepsilon_r}E_0(\cos\theta\,\hat{\mathbf{r}} - \sin\theta\,\hat{\mathbf{\theta}}) = \frac{3}{2+\varepsilon_r}E_0\hat{\mathbf{x}}.\tag{13}\]
+The electric field outside is
+\[\mathbf{E}(\mathbf{x}) +\mathbf{E}_0 =\frac{1-\varepsilon_r}{2+\varepsilon_r}a^3\frac{(\mathbf{E}_0\cdot\hat{\mathbf{r}})\mathbf{r}-\mathbf{E}_0}{r^3} + \mathbf{E}_0 =\frac{1}{4\pi\varepsilon_0}
+  \left(\frac{3(\mathbf{p}\cdot\hat{\mathbf{x}})\hat{\mathbf{x}}-\mathbf{p}}{|\mathbf{x}|^3}\right) + \mathbf{E}_0\tag{14}\]
+with
+\[\mathbf{p} = 4\pi\varepsilon_0\!\left(\frac{\varepsilon_r-1}{\varepsilon_r+2}\right)a^3\mathbf{E}_0.\tag{15}\]
+A sketch of the electric field is shown in Fig. fig:dielectric-fieldlines.</p>
+
+<p>The polarisation vector is given by
+\[\mathbf{P} = (\varepsilon_r-1)\varepsilon_0\mathbf{E}_\text{int}.\tag{16}\]
+The bound charge density is simply given by
+\[\sigma(\theta)= \hat{\mathbf{r}}\cdot\mathbf{P} = \frac{3(\varepsilon_r-1)}{2+\varepsilon_r}\varepsilon_0E_0\cos\theta.\tag{17}\]
+The dipole due to the surface charge distribution is, therefore, given by
+\[\mathbf{p} =  \int_{-1}^1 d\cos\theta\,2\pi\sigma(\theta)a^2\cos\theta = 4\pi\varepsilon_0\!\left(\frac{\varepsilon_r-1}{\varepsilon_r+2}\right)a^3\mathbf{E}_0,\tag{18}\]
+which indeed matches what we obtained by solving the Laplace equation.</p>
+  </article>
+
+  <hr class="ornament-rule">
+
+  <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
+    <a href="../notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="../index.html">About</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>

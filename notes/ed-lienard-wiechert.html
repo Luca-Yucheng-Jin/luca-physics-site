@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liénard--Wiechert Potential and the Field Tensor — Yucheng (Luca) Jin</title>
+<meta name="description" content="Liénard--Wiechert Potential and the Field Tensor. Source: D. Tong.">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../styles.css">
+
+<!-- MathJax with custom macros mirroring the original .tex preamble -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros']},
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      Q: '\\mathbb{Q}',
+      A: '\\mathcal{A}',
+      Lagrangian: '\\mathcal{L}',
+      Cdot: '\\boldsymbol{\\cdot}',
+      Tr: '\\operatorname{Tr}',
+      slashed: ['{\\not{#1}}', 1],
+      wick:    ['{\\overline{#1}}', 1],
+      c:       ['{#1}', 1]
+    }
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- TikZJax: renders <script type="text/tikz"> blocks into SVG client-side -->
+<link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
+<script src="https://tikzjax.com/v1/tikzjax.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="topbar__brand">Yucheng (Luca) Jin <small>MSci · Imperial</small></a>
+  <nav class="topbar__nav">
+    <a href="../index.html">About</a>
+    <a href="../notes.html" class="is-active">Notes</a>
+    <a href="../research.html">Research</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+  </nav>
+</header>
+
+<main class="note">
+
+  <div class="note__breadcrumb">
+    <a href="../notes.html">Notes</a> &nbsp;·&nbsp; Electrodynamics · Tong EM PS7 Q6
+  </div>
+
+  <h1 class="note__title">Liénard--Wiechert Potential and the Field Tensor</h1>
+  <p class="note__subtitle">Source: D. Tong, <em>Electromagnetism</em>, Problem Sheet 7, Question 6.</p>
+
+  
+
+  <article class="note__body">
+<p>For a relativistic particle of charge $q$ on a trajectory
+$y^\mu(\tau)$, where $\tau$ is proper time, the current density 4-vector is
+\[J^\mu(x) = qc\int d\tau\,\delta^{(4)}(x-y(\tau))\dot{y}^\mu(\tau),\tag{1}\]
+with $\dot{y}^\mu\dot{y}_\mu = -c^2$ and $\dot{y}^0 > 0$. Show that the
+4-vector potential is given by
+\[\begin{aligned}A^\mu(x)
+  &= \frac{\mu_0}{2\pi}\int d^4z\,
+     \Theta(x^0-z^0)\,\delta\!\left(\eta_{\alpha\beta}
+     (x^\alpha-z^\alpha)(x^\beta-z^\beta)\right)J^\mu(z) \notag\\
+  &= -\frac{\mu_0 qc}{4\pi}
+     \frac{\dot{y}^\mu(\tau^*)}{R^\nu(\tau^*)\dot{y}_\nu(\tau^*)},\end{aligned}\tag{23}\]
+where $R^\nu(\tau) = x^\nu - y^\nu(\tau)$ and $\tau^*$ is determined by
+$R^\mu(\tau^*)R_\mu(\tau^*) = 0$ and $R^0(\tau^*) > 0$.</p>
+
+<p>Verify that the Lorenz gauge condition $\partial_\mu A^\mu = 0$ holds and
+show that
+\[F^{\mu\nu} = -\frac{\mu_0 qc}{4\pi}
+  \frac{1}{(R^\rho\dot{y}_\rho)^2}
+  \left(R^\mu S^\nu - R^\nu S^\mu\right),\tag{2}\]
+where
+\[S^\nu = \ddot{y}^\nu
+  - \frac{\dot{y}^\nu}{R^\rho\dot{y}_\rho}\!\left(c^2 + R^\tau\ddot{y}_\tau\right)\tag{3}\]
+and all quantities on the right are evaluated at $\tau_*$. Check this result
+for the case of a stationary charge at the origin.</p>
+
+<p><u><strong>Solution</strong></u> Given the 4-potential satisfies
+\[\square A^\mu(x) = -\mu_0J^\mu(x).\tag{4}\]
+To solve this, we shall first find the retarded Green's function of the d'Alembert equation, which satisfies
+\[\square G^{\mu\nu}(x,z) = \delta^{(4)}(x-z)\eta^{\mu\nu}.\tag{5}\]
+In the Fourier domain, we have
+\[-k^2\tilde{G}^{\mu\nu}(k) = \eta^{\mu\nu}.\tag{6}\]
+Implementing the retarded prescription, we have
+\[\begin{aligned}G^{\mu\nu}(x,0) &= -\eta^{\mu\nu}\int\frac{d^3\mathbf{k}}{(2\pi)^3}\int\frac{dk^0}{2\pi}\frac{e^{ik^0x^0-i\mathbf{k}\cdot \mathbf{x}}}{(k^0-i\epsilon)^2-|\mathbf{k}|^2}\\
+    &= -\eta^{\mu\nu}\Theta(x^0)\int\frac{d^3\mathbf{k}}{(2\pi)^3\cdot 2|\mathbf{k}|}ie^{-i\mathbf{k}\cdot \mathbf{x}}\left[e^{i|\mathbf{k}|x^0}-e^{-i|\mathbf{k}|x^0}\right]\\
+    &=\eta^{\mu\nu}\Theta(x^0)\int\frac{d^3\mathbf{k}}{(2\pi)^3|\mathbf{k}|}e^{-i\mathbf{k}\cdot \mathbf{x}}\sin\left(|\mathbf{k}|x^0\right)\\
+    &= \frac{\eta^{\mu\nu}}{2\pi^2|\mathbf{x}|}\Theta(x^0)\int^\infty_0d|\mathbf{k}|\sin\left(|\mathbf{k}|x^0\right)\sin\left(|\mathbf{k}||\mathbf{x}|\right)\\
+    &= \frac{\eta^{\mu\nu}}{4\pi^2|\mathbf{x}|}\Theta(x^0) \int^\infty_0d|\mathbf{k}|\left[\cos\!\left(|\mathbf{k}|(x^0 - |\mathbf{x}|)\right) - \cos\!\left(|\mathbf{k}|(x^0 + |\mathbf{x}|)\right)\right]\\
+    &= \frac{\eta^{\mu\nu}}{4\pi^2|\mathbf{x}|}\Theta(x^0)\cdot\pi\left[\delta(x^0 - |\mathbf{x}|) - \delta(x^0 + |\mathbf{x}|)\right]\\
+    &= \frac{\eta^{\mu\nu}}{4\pi|\mathbf{x}|}\Theta(x^0)\,\delta(x^0 - |\mathbf{x}|),\end{aligned}\tag{24}\]
+where we used $\int_0^\infty d|\mathbf{k}|\cos(|\mathbf{k}|a) = \pi\delta(a)$, and the second delta function vanishes under $\Theta(x^0)$ since $x^0 + |\mathbf{x}| > 0$ always. Using $\Theta(x^0)\delta(x^2) = \Theta(x^0)\delta(x^0-|\mathbf{x}|)/(2|\mathbf{x}|)$, we obtain
+\[\boxed{G^{\mu\nu}_{\mathrm{ret}}(x,0) = \frac{\eta^{\mu\nu}}{2\pi}\Theta(x^0)\,\delta(x^2).}\tag{7}\]
+Therefore, the covariant retarded potential can be written as
+\[A^\mu(x) =\frac{\mu_0}{2\pi}\int d^4z\,
+     \Theta(x^0-z^0)\,\delta\!\left(\eta_{\alpha\beta}
+     (x^\alpha-z^\alpha)(x^\beta-z^\beta)\right)J^\mu(z).\tag{8}\]
+Using the Dirac delta identities, we can simplify this:
+\[\begin{aligned}A^\mu(x) &= \frac{\mu_0qc}{2\pi}\int d\tau\int d^4z\,
+     \Theta(x^0-z^0)\,\delta\!\left(\eta_{\alpha\beta}
+     (x^\alpha-z^\alpha)(x^\beta-z^\beta)\right)\delta^{(4)}(z-y(\tau))\dot{y}^\mu(\tau) \notag \\
+     &=\frac{\mu_0qc}{2\pi}\int d\tau
+     \Theta(x^0-y^0(\tau))\,\delta\!\left(R^\nu(\tau)R_\nu(\tau)\right)\dot{y}^\mu(\tau) \notag\\
+     &=\frac{\mu_0qc}{4\pi}\int d\tau
+     \Theta(x^0-y^0(\tau))\sum_i\frac{\delta(\tau-\tau_i)}{|R^\nu(\tau_i)\dot{y}_\nu(\tau_i)|}\dot{y}^\mu(\tau),\end{aligned}\tag{25}\]
+where $\tau_i$ satisfy $R^\nu(\tau_i)R_\nu(\tau_i) = 0$. The Heaviside function discards all solutions in the future light cone of the point, $x^\mu$. Meanwhile, for any physical object ($v<c$), the trajectory can only cross the past light cone once. Thus, there is only one solution, $\tau_i = \tau^*$.</p>
+
+<p>Since $R^\nu(\tau^*)$ is light-like and $\dot{y}^\nu(\tau^*)$ is time-like, $R^\nu(\tau^*)\dot{y}_\nu(\tau^*)<0$. Therefore, we obtain
+\[A^\mu(x) = -\frac{\mu_0qc}{4\pi}\frac{\dot{y}^\mu(\tau^*)}{R^\nu(\tau^*)\dot{y}_\nu(\tau^*)}.\tag{9}\]</p>
+
+<p>Now, let us verify that the potential indeed satisfies the Lorenz gauge. First, recall that 
+\[R^\nu(\tau^*)R_\nu(\tau^*) = 0,\tag{10}\]
+which implies 
+\[\partial_\mu\left(R^\nu(\tau^*)R_\nu(\tau^*)\right) = 2R^\nu(\tau^*)\partial_\mu R_\nu(\tau^*) = 2R^\nu(\tau^*)(\eta_{\mu\nu} - \dot{y}_\nu(\tau^*)\partial_\mu\tau^*)=0.
+    \tag{11}\]
+Thus, we can write $\partial_\mu\tau^*$ in terms of $R$ and $\dot{y}$:
+\[\partial_\mu\tau^* = \frac{R_\mu(\tau^*)}{R^\nu(\tau^*)\dot{y}_\nu(\tau^*)}.
+    \tag{12}\]
+Then, consider
+\[\partial_\mu A^\mu(x) \propto \partial_\mu\left(\frac{\dot{y}^\mu(\tau^*)}{R^\nu(\tau^*)\dot{y}_\nu(\tau^*)}\right) = \frac{(\partial_\mu \dot{y}^\mu)R^\nu\dot{y}_\nu -  \dot{y}^\mu(\partial_\mu R^\nu)\dot{y}_\nu -  \dot{y}^\mu R^\nu(\partial_\mu\dot{y}_\nu)}{(R^\rho\dot{y}_\rho)^2},\tag{13}\]
+where we have been a bit sloppy with the notations and dropped the $\tau^*$ in the second equality. The first term in the numerator can be simplified using (12):
+\[(\partial_\mu \dot{y}^\mu)R^\nu\dot{y}_\nu = (\partial_\mu\tau^*)\ddot{y}^\mu R^\nu\dot{y}_\nu = \ddot{y}^\mu R_\mu.\tag{14}\]
+Similarly, the third term becomes
+\[-\dot{y}^\mu R^\nu(\partial_\mu\dot{y}_\nu) = - \ddot{y}^\mu R_\mu,\tag{15}\]
+which cancels the first term. We are left with the second term; using (11), we find
+\[-\dot{y}^\mu(\partial_\mu R^\nu)\dot{y}_\nu= \dot{y}^\mu(\delta_\mu^\nu - \dot{y}^\nu\partial_\mu\tau^*)\dot{y}_\nu = 0,\tag{16}\]
+where we have used $\dot{y}^\mu\dot{y}_\mu = -c^2$ in the last step. Since all of the terms in the numerator cancel, we have demonstrated that the potential indeed satisfies the Lorenz gauge.</p>
+
+<p>To evaluate the field strength tensor, we use the similar approach as above. Consider
+\[\begin{aligned}\partial^\mu A^\nu  &= -\frac{\mu_0 qc}{4\pi}\frac{1}{(R^\rho\dot{y}_\rho)^2}\left[(\partial^\mu \dot{y}^\nu)R^\tau\dot{y}_\tau -  \dot{y}^\nu(\partial^\mu R^\tau)\dot{y}_\tau -  \dot{y}^\nu R^\tau(\partial^\mu\dot{y}_\tau)\right] \notag
+    \\
+    &= -\frac{\mu_0 qc}{4\pi}\frac{1}{(R^\rho\dot{y}_\rho)^2}\left[\ddot{y}^\nu R^\mu -  \dot{y}^\nu\dot{y}^\mu - \frac{c^2\dot{y}^\nu  R^\mu}{R^\rho \dot{y}_\rho}-  \frac{\dot{y}^\nu R^\tau\ddot{y}_\tau R^\mu}{R^\rho \dot{y}_\rho}\right].\end{aligned}\tag{26}\]
+Thus, we have
+\[\begin{aligned}F^{\mu\nu} &= \partial^\mu A^\nu - \partial^\nu A^\mu= -\frac{\mu_0 qc}{4\pi}\frac{1}{(R^\rho\dot{y}_\rho)^2}\left[\ddot{y}^\nu - \frac{c^2\dot{y}^\nu }{R^\rho \dot{y}_\rho}-  \frac{\dot{y}^\nu R^\tau\ddot{y}_\tau }{R^\rho \dot{y}_\rho}\right]R^\mu - (\mu\leftrightarrow\nu)   \notag \\
+    &=-\frac{\mu_0 qc}{4\pi}
+  \frac{1}{(R^\rho\dot{y}_\rho)^2}
+  \left(R^\mu S^\nu - R^\nu S^\mu\right)\end{aligned}\tag{27}\]
+as expected.</p>
+
+<p>For a stationary charge at the origin, we have
+\[y^\mu(\tau) = (c\tau ,0,0,0), \quad \dot{y}^\mu=(c,0,0,0), \quad \text{and}\quad \ddot{y}^\mu = (0,0,0,0).\tag{17}\]
+Then, 
+\[R^\mu(\tau^*) = (x^0-c\tau^*,\mathbf{x}).\tag{18}\]
+Using $R^\mu(\tau^*)R_\mu(\tau^*)=0$, we find
+\[(x^0-c\tau^*)^2 = |\mathbf{x}|^2,\tag{19}\]
+which, in turn, gives
+\[R^\mu(\tau^*)\dot{y}_\mu(\tau^*) = -c|\mathbf{x}|, \quad \text{and} \quad S^\mu = -\left(\frac{c^2}{|\mathbf{x}|},0,0,0\right).\tag{20}\]
+Finally, we find
+\[\boxed{F^{\mu\nu}=\frac{\mu_0 qc^2}{4\pi |\mathbf{x}|^3}\begin{pmatrix}
+    0   & -^1 & -x^2 & -x^3 \\
+    x^1 & 0   & 0   & 0   \\
+    x^2 & 0   & 0   & 0   \\
+    x^3 & 0   & 0   & 0
+  \end{pmatrix} = \frac{1}{c}\begin{pmatrix}
+    0   & -E^1 & -E^2 & -E^3 \\
+    E^1 & 0   & 0   & 0   \\
+    E^2 & 0   & 0   & 0   \\
+    E^3 & 0   & 0   & 0
+  \end{pmatrix}}\tag{21}\]
+as expected for a stationary charge at the origin since the beginning of time, where
+\[\mathbf{E} = \frac{q\mathbf{x}}{4\pi \varepsilon_0|\mathbf{x}|^3}.\tag{22}\]</p>
+  </article>
+
+  <hr class="ornament-rule">
+
+  <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
+    <a href="../notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="../index.html">About</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>

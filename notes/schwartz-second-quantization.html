@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Second Quantization &amp; LSZ Reduction — Yucheng (Luca) Jin</title>
+<meta name="description" content="Second Quantization &amp; LSZ Reduction. Source: M. D. Schwartz.">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../styles.css">
+
+<!-- MathJax with custom macros mirroring the original .tex preamble -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros']},
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      Q: '\\mathbb{Q}',
+      A: '\\mathcal{A}',
+      Lagrangian: '\\mathcal{L}',
+      Cdot: '\\boldsymbol{\\cdot}',
+      Tr: '\\operatorname{Tr}',
+      slashed: ['{\\not{#1}}', 1],
+      wick:    ['{\\overline{#1}}', 1],
+      c:       ['{#1}', 1]
+    }
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- TikZJax: renders <script type="text/tikz"> blocks into SVG client-side -->
+<link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
+<script src="https://tikzjax.com/v1/tikzjax.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="topbar__brand">Yucheng (Luca) Jin <small>MSci · Imperial</small></a>
+  <nav class="topbar__nav">
+    <a href="../index.html">About</a>
+    <a href="../notes.html" class="is-active">Notes</a>
+    <a href="../research.html">Research</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+  </nav>
+</header>
+
+<main class="note">
+
+  <div class="note__breadcrumb">
+    <a href="../notes.html">Notes</a> &nbsp;·&nbsp; Quantum Field Theory · Schwartz Ch. 2–6
+  </div>
+
+  <h1 class="note__title">Second Quantization &amp; LSZ Reduction</h1>
+  <p class="note__subtitle">Source: M. D. Schwartz, <em>Quantum Field Theory and the Standard Model</em>, Chapters 2–6.</p>
+
+  <nav class="note__toc" aria-label="Contents">
+  <div class="note__toc-label">On this page</div>
+  <ol class="note__toc-list">
+    <li class="toc-h2"><a href="#quantum-mechanical-harmonic-oscillator">Quantum Mechanical Harmonic Oscillator</a></li>
+    <li class="toc-h2"><a href="#second-quantization">Second Quantization</a></li>
+    <li class="toc-h2"><a href="#s-matrix">$S$-matrix</a></li>
+    <li class="toc-h2"><a href="#cross-sections">Cross Sections</a></li>
+    <li class="toc-h2"><a href="#the-lsz-reduction-formula">The LSZ reduction Formula</a></li>
+    <li class="toc-h2"><a href="#the-feynman-propagator">The Feynman Propagator</a></li>
+    <li class="toc-h2"><a href="#lagrangian-derivation">Lagrangian Derivation</a></li>
+    <li class="toc-h2"><a href="#hamiltonian-derivation">Hamiltonian Derivation</a></li>
+    <li class="toc-h2"><a href="#momentum-space-feynman-rules">Momentum-Space Feynman Rules</a></li>
+    <li class="toc-h2"><a href="#lorentz-invariance-of-the-s-matrix">Lorentz Invariance of the $S$-matrix</a></li>
+  </ol>
+</nav>
+
+  <article class="note__body">
+
+<h2 id="quantum-mechanical-harmonic-oscillator">Quantum Mechanical Harmonic Oscillator</h2>
+
+<p>The classical Hamiltonian of a simple harmonic oscillator system is given by
+\[H = \frac{p^2}{2m} + \frac{1}{2}m\omega^2x^2
+    .\tag{1}\]
+To quantize a classical system, we introduce the commutation relation:
+\[[x, p] = i.
+    \tag{2}\]
+To simplify, we change the variables to 
+\[a = \sqrt{\frac{m\omega}{2}}(x + \frac{ip}{x\omega}), a^{\dagger} = \sqrt{\frac{m\omega}{2}}(x - \frac{ip}{x\omega}),
+    \tag{3}\]
+which satisfies
+\[[a, a^{\dagger}] = 1,\tag{4}\]
+and hence
+\[H = \omega(a^{\dagger}a + \frac{1}{2}).\tag{5}\]
+In the Heisenberg picture, the equation of motion is given by
+\[i\frac{d}{dt}a = [a, H] = \omega a,\tag{6}\]
+and the solution to this equation is 
+\[a(t) = ae^{-i\omega t}.\tag{7}\]
+Therefore, the position of the particle $x$ is given by
+\[x(t) = ae^{-i\omega t} + a^\dagger e^{i\omega t}.\tag{8}\]</p>
+
+<p>If we have $N$ such uncoupled oscillators, the Hamiltonian becomes
+\[H = \sum_i \frac{p_i^2}{2m_i} + \frac{1}{2}m\omega_i^2x_i^2.\tag{9}\]
+As the particles are not coupled, the commutation relation can be modified as
+\[[x_i, p_i] = i\delta_{ij},\tag{10}\]
+and hence
+\[[a_i, a_j^\dagger] = \delta_{ij}.
+    \tag{11}\]
+Following the steps above, the centre of mass of the system can be obtained to be
+\[x(t) = \sum_i  a_ie^{-i\omega t} + a_i^\dagger e^{i\omega t}.
+    \tag{12}\]</p>
+
+<h2 id="second-quantization">Second Quantization</h2>
+
+<h4>The Klein-Gordon Equation</h4>
+
+<p>To obtain a relativistic theory, we require the Hamiltonian to be Lorentz invariant. Recall the energy-momentum relation: 
+\[\omega^2 = m^2 + \vec{p}^2.\tag{13}\]
+By substituting $\vec{p} \rightarrow -i\vec{\nabla}$ and $E \rightarrow i\partial_t$, and multiplying both sides by a field $\phi$ (just as in quantum mechanics), we obtained a relativistic equation of motion known as the Klein-Gordon equation</p>
+
+<p>\[(\square + m^2)\phi(\vec{x}, t) = 0.\tag{14}\]</p>
+
+<p>To solve this equation, we first define $\tilde{\phi}(p)$ to be the Fourier transform of $\phi(x)$:
+\[\phi(\vec{x}, t) = \int \frac{d^3p}{(2\pi)^3} \tilde{\phi}(\vec{p}, t)e^{i\vec{p}  \vec{x}}.\tag{15}\]
+Thus,
+\[(\partial_t^2  + \vec{p}^2+m^2)\tilde{\phi}(\vec{p}, t)e^{i\vec{p}\vec{x}} = 0 \\
+    \implies \partial_t^2 \tilde{\phi}(\vec{p}, t) = -\omega^2.\tag{16}\]
+Hence, we have
+\[\tilde{\phi}(\vec{p}, t)  = a_pe^{-i\omega t}e^{-i\vec{p}\vec{x}} = a_pe^{-ipx}.\tag{17}\]
+Another solution would be
+\[\tilde{\phi}(\vec{p}, t)  = b_pe^{ipx}.\tag{18}\]
+Therefore, $\phi(x)$ should be the linear combination of them:
+\[\phi(x) = \int \frac{d^3p}{(2\pi)^3} (a_pe^{-ipx} + b_pe^{ipx}).\tag{19}\]
+If we force $\phi$ to be real, we need $b = a^*$, which gives
+\[\phi(x) = \int \frac{d^3p}{(2\pi)^3} (a_pe^{-ipx} + a_p^*e^{ipx}).
+    \tag{20}\]
+One would also notice that the Lagrangian
+\[L = \int d^3 x \left[-\frac{1}{2}\phi (\square + m^2)\phi \right] = \int d^3 x \left[\frac{1}{2}(\partial_\mu \phi)^2 - \frac{1}{2}m^2\phi^2 \right]\tag{21}\]
+reproduces the Klein-Gordon equation. Therefore, the Hamiltonian would be
+\[H = \int d^3x \left[\frac{1}{2}(\partial_t \phi)^2 + \frac{1}{2}\nabla^2\phi + \frac{1}{2}m^2\phi^2\right].\tag{22}\]</p>
+
+<h4>Quantizing Klein-Gordon Equation</h4>
+
+<p>In the last section, we have solved the Klein-Gordon equation classically. Now, we want to turn it into a quantum theory. One would observe that (20) is the continuum limit of (12). Therefore, it is natural to modify the commutation relation in (11) by turning the Kronecker delta $\delta_{ij}$ into the Dirac delta function $\delta^3(\vec{p}-\vec{q})$ up to a normalisation factor:
+\[[a_p, a_p^\dagger] = \mathcal{N}\delta^3(\vec{p}-\vec{q}).\tag{23}\]
+Just as in quantum mechanics, these operators create and annihilate particles with momentum $\vec{p}$:
+\[a_p^\dagger \ket{0} = \frac{1}{\sqrt{2\omega_p}}\ket{p}, a_p\ket{p} = \frac{1}{\sqrt{2\omega_p}}\ket{0},\tag{24}\]
+where $\omega_p = \sqrt{\vec{p}^2 + m^2}$ is the on-shell energy of the particle with momentum $\vec{p}$.
+To compute the normalisation, we start by defining 
+\[\braket{0}{0} =  1.\tag{25}\]
+Therefore,</p>
+
+<p>\[\braket{q}{p} = \sqrt{2\omega_p}\sqrt{2\omega_q}\bra{0}a_q a_p^\dagger\ket{0} = 2\omega_p (2\pi)^3\delta^3(\vec{p}-\vec{q}).\tag{26}\]</p>
+
+<p>The identity operator for a one-particle state is 
+\[\mathds{1} = \int \frac{d^3p}{(2\pi)^3} \frac{1}{\sqrt{2\omega_p}}\ket{p}\bra{p},\tag{27}\]
+which we can check by 
+\[\ket{k} = \int \frac{d^3p}{(2\pi)^3} \frac{1}{2\omega_p}\ket{p}\braket{p}{k} = \int d^3p   \delta^3(\vec{p}-\vec{q})\ket{p} = \ket{k}\tag{28}\]</p>
+
+<aside class="callout">
+
+<p>Let us investigate the Lorentz transformation property. First, note that 
+\[\int d^4k\tag{29}\]
+is Lorentz-invariant.
+One can also prove the following:</p>
+
+<p>\[\begin{aligned}\int dk^0 \delta(k^2 - m^2) \theta(k^0) & = \int dk^0 \delta((k^0)^2 - \omega_k^2) \theta(k^0) \\
+    & =\int^\infty_{-\infty} dk^0 \frac{1}{2\abs{\omega_k}}[\delta(k^0 + \omega_k) + \delta(k^0 - \omega_k)]\theta(k^0) \\
+    & =\int^\infty_0 dk^0 \frac{1}{2\abs{\omega_k}}[\delta(k^0 + \omega_k) + \delta(k^0 - \omega_k)] \\
+    & =\int^\infty_{-\infty} dk^0 \frac{1}{2\abs{\omega_k}}\delta(k^0 - \omega_k) \\
+    & = \frac{1}{2\omega_k}.\end{aligned}\]
+Hence,
+\[\int d^4k = \int \frac{d^3k}{2\omega_k}\tag{30}\]
+is Lorentz-invariant, where we have suppressed the additional factor $\delta(k^2 - m^2) \theta(k^0)$.</p>
+
+</aside>
+
+<p>Now, we will define the free scalar field operator $\phi_0(x)$ to be</p>
+
+<p>\[\phi_0(x) = \int \frac{d^3p}{(2\pi)^3} \frac{1}{\sqrt{2\omega_p}}(a_pe^{-ipx} + a_p^\dagger e^{ipx}).\tag{31}\]</p>
+
+<aside class="callout">
+
+<p>$\phi_0(x)$ can be rewritten as 
+\[\phi_0(x) = \int \frac{d^3p}{(2\pi)^3} \frac{1}{2\omega_p}(\sqrt{2\omega_p}a_pe^{-ipx} + \sqrt{2\omega_p}a_p^\dagger e^{ipx}).\tag{32}\]
+Recall that $\ket{p}=\sqrt{2\omega_p}a_p^\dagger\ket{0}$ and $\int \frac{d^3k}{2\omega_k}$ are Lorentz-invariant, and hence $\phi_0(x)$ is also Lorentz-invariant.</p>
+
+</aside>
+
+<p>To make sense of the free scalar field operator $\phi_0(x)$, we can act it on a vacuum state and project it onto a momentum component
+\[\begin{aligned}\bra{q}\phi_0(x)\ket{0} & = \int \frac{d^3p}{(2\pi)^3} \frac{1}{\sqrt{2\omega_p}}\bra{q}\frac{1}{\sqrt{2\omega_p}}e^{ipx}\ket{p} \\
+& = e^{iqx} \\
+& = \braket{q}{x}.\end{aligned}\]
+Therefore, the field operator creates a particle at a space-time position $x$.
+Occasionally, we would also need the equal-time commutation relations. The commutator of two fields at two different space-time positions is given by
+\[\begin{aligned}
+\left[\phi_0(x), \phi_0(y) \right] &= \int \frac{d^3p}{(2\pi)^3} \int \frac{d^3q}{(2\pi)^3} \frac{1}{\sqrt{2\omega_p 2\omega_q}} \biggl\{ \cancel{[a_p, a_q]e^{-i(px+qy)}} + [a_p, a_q^\dagger]e^{-i(px-qy)} \\
+&\qquad \qquad \qquad \qquad + [a_p^\dagger, a_q]e^{-i(-px+qy)} + \cancel{[a_p^\dagger, a_q^\dagger]e^{i(px+qy)}} \biggr\} \\
+&= \int \frac{d^3p}{(2\pi)^3} \int d^3q \, \frac{1}{\sqrt{2\omega_p 2\omega_q}}\delta^3(\vec{p}-\vec{q}) \biggl\{ e^{-i(px-qy)} - e^{-i(-px+qy)} \biggr\}.
+\end{aligned}\tag{33}\]
+For equal-time commutation relations, $x^0 = y^0$, and hence,</p>
+
+<p>\[\left[\phi_0(\vec{x}), \phi_0(\vec{y}) \right] = \int \frac{d^3p}{(2\pi)^3} \frac{1}{2\omega_p}\biggl\{e^{i\vec{p}(\vec{x}-\vec{y})} - e^{-i\vec{p}(\vec{x}-\vec{y})} \biggr\} = 0.\tag{34}\]</p>
+
+<p>Next, we define the time derivative operator (canonical momentum operator) $\pi$ to be
+\[\pi(x) = \partial_t\phi(x) = -i\int \frac{d^3p}{(2\pi)^3} \sqrt{\frac{\omega_p}{2}}(a_pe^{i\vec{p}\vec{x}} - a_p^\dagger e^{-i\vec{p}\vec{x}}).\tag{35}\]
+Now we compute
+\[\begin{aligned}
+    \left[\phi(x), \pi(y)\right] &= -i\int \frac{d^3p}{(2\pi)^3} \int \frac{d^3q}{(2\pi)^3} \frac{1}{2} \biggl\{ \cancel{[a_p, a_q]e^{-i(px+qy)}} + [a_p, a_q^\dagger]e^{-i(px-qy)} \\
+&\qquad \qquad \qquad \qquad - [a_p^\dagger, a_q]e^{-i(-px+qy)} - \cancel{[a_p^\dagger, a_q^\dagger]e^{i(px+qy)}} \biggr\} \\
+&= \frac{i}{2}\int \frac{d^3p}{(2\pi)^3}\delta^3(\vec{p}-\vec{q}) \biggl\{ e^{-i(px-qy)} + e^{-i(-px+qy)} \biggr\}.
+\end{aligned}\tag{36}\]
+Similarly, imposing the equal-time condition, we have,</p>
+
+<p>\[\left[\phi(\vec{x}), \pi(\vec{y})\right] = i\int \frac{d^3p}{(2\pi)^3} \biggl\{e^{i\vec{p}(\vec{x}-\vec{y})} + e^{-i\vec{p}(\vec{x}-\vec{y})} \biggr\} = i\delta^3(\vec{x}-\vec{y}).\tag{37}\]</p>
+
+<h2 id="s-matrix">$S$-matrix</h2>
+
+<p>The $S$-matrix or the scattering matrix is defined as
+\[\bra{f}S\ket{i}_{\text{Heisenberg}} = \braket{f;\infty}{i;\infty}_{\text{Schrödinger}}.\tag{38}\]
+The $S$-matrix is defined assuming that all of the things that change the state (the interactions) happen in a finite time interval, so that at asymptotic times, $t=\pm \infty$, the state is free of interactions. These free states at $t = \pm \infty$ is called the asymptotic states.</p>
+
+<h2 id="cross-sections">Cross Sections</h2>
+
+<p>A cross section is a natural quantity to measure. Classically, it is simply the cross-sectional area of a particle. For example, in the Rutherford gold foil experiment, he was interested in the radius of the nucleus. By colliding the gold foil with beams of $\alpha$-particles, he was able to measure the cross-sectional, $\sigma = \pi r^2$. Now, suppose there was just a single nucleus, then the cross-sectional area is given by
+\[\begin{aligned}
+    \sigma &= \frac{\text{number of particle scattered}}{\text{total number of particles}}\times\text{area}\\
+    &=\frac{\text{number of particle scattered}}{\text{time}\times\text{number density in the beam}\times\text{velocity of the beam}}\\
+    &=\frac{1}{T\Phi}N,
+\end{aligned}\tag{39}\]
+where $T$ is the time of the experiment, $N$ is the number of scattered particles, and $\Phi$ is the incoming flux (number density $\times$ velocity of the beam).</p>
+
+<p>It is also natural to measure the diffraction cross section, $\frac{d\sigma}{d\Omega}$, which gives the number of particles scattered in a certain solid angle.</p>
+
+<p>In quantum mechanics, we generalise the notion of cross-sectional area to cross section with a more abstract meaning as a measure of the interaction strength. In quantum mechanics, a particle has a probability to be scattered or not. Classically, the scatter probability can be written as $P = N/N_{inc}$, where $N_{inc}$ is the number of incoming particles. Therefore, the natural generalisation of this to quantum mechanics would be
+\[d\sigma = \frac{1}{T\Phi/N_{inc}}dP=\frac{1}{T\Phi'}dP,\tag{40}\]
+where $\Phi'=\Phi/N_{inc}$ is the normalised flux as if the beam has just one particle. From now on, we will be using $\Phi$ to denote the normalised flux.
+Now, let us relate the differential cross section to $S$-matrix elements. Practically, it is only possible for two particles to collide at a time. Thus, we will be focusing on the 2 $\rightarrow n$ process:
+\[p_1 + p_2 \rightarrow \{p_j\}.\tag{41}\]
+In the rest frame of one of the colliding particles, the flux is just the velocity of incoming particle divided by the total volume: $\Phi = \abs{\vec{v}}/V$. In the centre of mass frame, beams of particles come from both sides, and hence $\vec{v} \rightarrow \vec{v_1}- \vec{v_2}$ for $\Phi$. Thus, 
+\[d\sigma = \frac{V}{T\abs{\vec{v_1} - \vec{v_2}}} dP.\tag{42}\]
+Quantum field theory is essentially just quantum mechanics with an infinite number of fields. Then the  normalised differential probability is 
+\[dP = \frac{\abs{\bra{f}S\ket{i}}^2}{\braket{f}{f}\braket{i}{i}}d\Pi.\tag{43}\]
+Here, $d\Pi$ is the region of final state momenta at which we are looking. It is defined to be
+\[d\Pi = \prod_j \frac{V}{(2\pi)^3}d^3p_j,
+    \tag{44}\]
+so that $\int d\Pi = 1$, since $\int \frac{d^3p}{(2\pi)^3} = \frac{1}{V}$, which does not change the normalisation.
+Now, let us evaluate $\braket{f}{f}$ and $\braket{i}{i}$. First recall,
+\[\braket{p}{p}= (2\pi)^3(2\omega_p)\delta^3(0).\tag{45}\]
+$\delta^3(0)$ is infinite, but it can be understood by the following relation
+\[\delta^3(\vec{p})=\int \frac{d^3x}{(2\pi)^3} e^{i\vec{p}\vec{x}}.\tag{46}\]
+Hence,
+\[\delta^3(0)=\int \frac{d^3x}{(2\pi)^3} = \frac{V}{(2\pi)^3},\tag{47}\]
+and similarly,
+\[\delta^4(0) = \frac{TV}{(2\pi)^4}.\tag{48}\]
+Here, the total time for the process, $T$, and the total volume, $V$, are formally infinite, but we will first keep it in our calculations. Thus,
+\[\braket{p}{p}=2\omega_p V.\tag{49}\]
+Using $\ket{i} = \ket{p_1}\ket{p_2}$ and $\ket{f} = \prod_j\ket{p_j}$, we have
+\[\braket{i}{i} = (2\omega_{p_1}V)(2\omega_{p_2}V),\braket{f}{f} = \prod_j(2\omega_{p_j}V).\tag{50}\]
+Now let us turn to the $S$-matrix. Normally, we calculate the $S$-matrix elements perturbatively. In a free theory, the $S$-matrix would simply be the identity matrix $\mathds{1}$. Therefore, we can define a transform matrix $\mathcal{T}$, which describes the deviation from the free theory, as
+\[S \equiv \mathds{1} + i\mathcal{T}.\tag{51}\]
+From energy conservation, the $S$-matrix element must vanish unless the initial and final state have the same 4-momentum. Therefore, it would be convenient to write
+\[\mathcal{T} = (2\pi)^4\delta^4(\Sigma p)\mathcal{M},\tag{52}\]
+where $\mathcal{M}$ is often referred to as the matrix element in quantum field theory (we actually mean $\bra{f}\mathcal{M}\ket{i}$. Thus we have
+\[\bra{f}(S-\mathds{1})\ket{i} = i(2\pi)^4\delta^4(\Sigma p)\mathcal{M}.\tag{53}\]
+For the case$\ket{f}\neq\ket{i}$ (the case$\ket{f}=\ket{i}$ is trivial, since nothing happened),
+\[\begin{aligned}
+        \abs{\bra{f}S\ket{i}}^2 &=  (2\pi)^8(\delta^4(\Sigma p))^2\abs{\mathcal{M}}^2 \\
+        & =(2\pi)^8\delta^4(\Sigma p)\delta^4(0)\abs{\mathcal{M}}^2 \\
+        & =(2\pi)^4\delta^4(\Sigma p)TV\abs{\mathcal{M}}^2.
+\end{aligned}\tag{54}\]
+Hence,
+\[\begin{aligned}
+        dP &= \frac{(2\pi)^4\delta^4(\Sigma p)TV}{(2\omega_{p_1}V)(2\omega_{p_2}V)}\frac{1}{\prod_j(2\omega_{p_j}V)}\abs{\mathcal{M}}^2 \prod_j \frac{V}{(2\pi)^3}d^3p_j\\
+        &=\frac{T}{V}\frac{1}{(2\omega_{p_1})(2\omega_{p_1})}\abs{\mathcal{M}}^2d\Pi_{LIPS},
+\end{aligned}\tag{55}\]
+where
+\[d\Pi_{LIPS} = (2\pi)^4\delta^4(\Sigma p)\prod_{\text{final states }j } \frac{d^3p_j}{(2\pi)^3}\frac{1}{2\omega_{p_j}}\tag{56}\]
+is called the Lorentz-invariant phase space (LIPS).</p>
+
+<aside class="callout">
+
+<p>We have already verified that $\frac{d^3p_j}{(2\pi)^3}\frac{1}{2\omega_{p_j}}$ is Lorentz-invariant previously. Hence, we only need to prove $\delta^4(\Sigma p)$ is Lorentz -invariant. First, let us write 
+\[\delta^4(\Sigma p) = \int d^4x e^{i(\Sigma p)x}\tag{57}\]
+Now applying the Lorentz transformation
+\[\begin{aligned}\int d^4x\, e^{ip\cdot x} &\rightarrow \int d^4x'\, e^{ip'\cdot x'} \\
+&= \int \frac{d^4x}{|\det\Lambda|}\, \exp\left(ig_{\mu\nu}p^{\prime\mu}x^{\prime\nu}\right) \\
+&= \int d^4x\, \exp\left(ig_{\mu\nu}\Lambda^\mu_\rho p^\rho \Lambda^\nu_\sigma x^\sigma\right) \\
+&= \int d^4x\, \exp\left(ig_{\rho\sigma}p^\rho x^\sigma\right) \\
+&= \int d^4x\, e^{ip\cdot x} \\
+&= \delta^{(4)}(p).\end{aligned}\]
+As $\delta^4(p)$ is Lorentz-invariant, $\delta^4(\Sigma p)$ is also Lorentz-invariant. Hence, $d\Pi_{LIPS}$ is Lorentz-invariant.</p>
+
+</aside>
+
+<p>Putting everything together, we have</p>
+
+<p>\[d\sigma = \frac{1}{(2\omega_{p_1})(2\omega_{p_1})\abs{\vec{v_1} - \vec{v_2}}}\abs{\mathcal{M}}^2d\Pi_{LIPS}.
+        \tag{58}\]</p>
+
+<h4>Decay Rates</h4>
+
+<p>A decay is like a $1 \rightarrow n$ scattering process. The differential decay rate is the probability  that a one-particle state with momentum $p_1$ turns into a multi-particles state with momenta $\{p_j\}$ over a time $T$:
+\[d\Gamma = \frac{1}{T}dP.\tag{59}\]
+Following the same steps as above, the decay rate can be written as</p>
+
+<p>\[d\Gamma = \frac{1}{2\omega_{p_1}}\abs{\mathcal{M}}^2d\Pi_{LIPS}.\tag{60}\]</p>
+
+<p>Note this is the decay rate in the rest frame of the particle.</p>
+
+<h4>$2\rightarrow2$ Scattering</h4>
+
+<p>Practically, $2\rightarrow2$ scattering is the most common one we would encounter. In this section, we will be investigating the differential cross section of the $2 \rightarrow 2$ scattering in the centre of mass frame:
+\[p_1 + p_2 \rightarrow p_3 + p_4\tag{61}\]
+with $\vec{p_1} = -\vec{p_2}$, $\vec{p_3} = -\vec{p_4}$, and $E_1 +E_2 = E_3 + E_4 = E_{CM}$.
+Then,
+\[d\Pi_{LIPS} = \frac{d^3p_3}{(2\pi)^3}\frac{1}{2E_{3}}\frac{d^3p_4}{(2\pi)^3}\frac{1}{2E_{4}}(2\pi)^4\delta^4(p_1+p_2-p_3-p_4).\tag{62}\]
+We can now integrate over $\vec{p_4}$ to obtain
+\[d\Pi_{LIPS} = \frac{1}{16\pi^2} d\Omega \int dp_f \frac{p_f^2}{E_3E_4}\delta(E_3 + E_4 - E_{CM}),\tag{63}\]
+where $p_f = \abs{\vec{p_3}}= \abs{\vec{p_4}}$, $E_3 = \sqrt{m_3^2 + p_f^2}$, and $E_4 = \sqrt{m_4^2 + p_f^2}$. We can change variables to $x(p_f) = E_3(p_f) + E_4(p_f) - E_{CM}$. The Jacobian would then be
+\[\frac{dx}{dp_f} = \frac{p_f}{E_3} + \frac{p_f}{E_4} = \frac{E_3 + E_4}{E_3E_4}p_f.\tag{64}\]
+Hence,
+\[\begin{aligned}
+        d\Pi_{LIPS} &=  \frac{1}{16\pi^2} d\Omega \int^\infty_{m_3+m_4-E_{CM}} dx \frac{p_f}{E_{CM}}\delta(x) \\
+        &= \frac{1}{16\pi^2} d\Omega \frac{p_f}{E_{CM}} \theta(E_{CM}-m_3-m_4).
+\end{aligned}\tag{65}\]
+Now plugging this into (58), we have
+\[d\sigma = \frac{1}{(2\omega_{p_1})(2\omega_{p_1})\abs{\vec{v_1} - \vec{v_2}}}\abs{\mathcal{M}}^2\frac{1}{16\pi^2} d\Omega \frac{p_f}{E_{CM}} \theta(E_{CM}-m_3-m_4),\tag{66}\]
+and recall
+\[\abs{\vec{v_1}-\vec{v_2}} = \abs{\frac{\abs{\vec{p_1}}}{E_1} + \frac{\abs{\vec{p_2}}}{E_2}} = \abs{\vec{p_i}}\frac{E_{CM}}{E_1E_2},\tag{67}\]
+where $\vec{p_i} = \vec{p_1} = -\vec{p_2}$.
+Putting everything together, we have
+\[\frac{d\sigma}{d\Omega} = \frac{1}{64\pi^2E_{CM}^2}\frac{p_f}{p_i}\abs{\mathcal{M}}^2\theta(E_{CM}-m_3-m_4).\tag{68}\]
+If all the masses are equal then $p_i = p_f$, and then</p>
+
+<p>\[\frac{d\sigma}{d\Omega} = \frac{1}{64\pi^2E_{CM}^2}\abs{\mathcal{M}}^2.
+        \tag{69}\]</p>
+
+<h2 id="the-lsz-reduction-formula">The LSZ reduction Formula</h2>
+
+<p>Recall, the state $\ket{i}$ is the initial state at $t= -\infty$, and the state $\ket{f}$ is the final state at $t=+\infty$. Hence, we can write
+\[\ket{i} = \sqrt{2\omega_1}\sqrt{2\omega_2}a_{p_1}^\dagger(-\infty) a_{p_2}^\dagger(-\infty) \ket{\Omega},\tag{70}\]
+where $\ket{\Omega}$ is the ground state, with no particle, and
+\[\ket{f} = \sqrt{2\omega_3}\dots\sqrt{2\omega_n}a_{p_3}^\dagger(+\infty) \dots a_{p_n}^\dagger(+\infty) \ket{\Omega}.\tag{71}\]
+As before, assuming $\ket{f} \neq \ket{i}$, so that $\mathds{1}$ does not contributes. We have
+\[\bra{f}S\ket{i} = 2^{n/2} \sqrt{\omega_1 \dots \omega_n}\bra{\Omega}a_{p_3}(+\infty) \dots a_{p_n}(+\infty)a_{p_2}^\dagger(-\infty) a_{p_1}^\dagger(-\infty) \ket{\Omega}.
+    \tag{72}\]
+The key to deriving the LSZ reduction formula is the relation
+\[i\int d^4x e^{ipx}(\square+m^2)\phi(x) = \sqrt{2\omega_p}[a_p(\infty) - a_p(-\infty)].
+    \tag{73}\]
+To derive this, all we need is to assume that interactions only happens in a finite time interval, so that the theory is free at infinity. We also need to be careful with the boundary condition, but we can safely assume that the fields die off at $\vec{x} = \pm\infty$. Then,
+\[\begin{aligned}
+        i\int d^4x e^{ipx}(\square+m^2)\phi(x) &=i\int d^4x e^{ipx}(\partial_t^2 - \nabla^2 + m^2)\phi(x) \\
+        &=i\int d^4x e^{ipx}(\partial_t^2 + \omega_p^2)\phi(x). \\
+    \end{aligned}\tag{74}\]
+Also,
+\[\begin{aligned}
+        \partial_t[e^{ipx}(i\partial_t+\omega_p)\phi(x)] &= [i\omega_p(i\partial_t+\omega_p) + (i\partial_t^2+\omega_p\partial_t)]\phi(x) \\
+        &= i(\partial_t^2+\omega_p^2)\phi(x).
+    \end{aligned}\tag{75}\]
+Hence,
+\[\begin{aligned}
+        i\int d^4x e^{ipx}(\square+m^2)\phi(x) &= \partial_t\int d^4x e^{ipx}(i\partial_t+\omega_p)\phi(x) \\
+        &= \partial_t \int dt e^{i\omega_pt} \int d^3x e^{-i\vec{p}\vec{x}}(i\partial_t+\omega_p)\phi(x).
+    \end{aligned}\tag{76}\]
+We need to keep in mind, that until this point, the derivation is completely general for any field $\phi(x)$ (classical or quantum field). For the particular case of $\phi(x)$ being a quantum field, we can write
+\[\begin{aligned}
+        &\int d^3x e^{-i\vec{p}\vec{x}}(i\partial_t+\omega_p)\phi(x)\\
+        &=\int d^3x e^{-i\vec{p}\vec{x}}(i\partial_t+\omega_p) \int \frac{d^3k}{(2\pi)^3}\frac{1}{\sqrt{2\omega_k}}(a_k(t)e^{-ikx} + a_k^\dagger(t) e^{ikx})\\
+        &=\int \frac{d^3k}{(2\pi)^3} \int d^3x \biggr[ \frac{\omega_k+\omega_p}{\sqrt{2\omega_k}} a_k(t) e^{-ikx} e^{-i\vec{p}\vec{x}} + \frac{-\omega_k+\omega_p}{\sqrt{2\omega_k}} a_k^\dagger(t) e^{ikx} e^{-i\vec{p}\vec{x}} \biggr] \\
+        &=\int d^3k \biggr[ \frac{\omega_k+\omega_p}{\sqrt{2\omega_k}} a_k(t) e^{-i\omega_kt} \delta^3(\vec{k}-\vec{p}) + \frac{-\omega_k+\omega_p}{\sqrt{2\omega_k}} a_k^\dagger(t) e^{i\omega_kt} \delta^3(\vec{k}+\vec{p}) \biggr]\\
+        &=\sqrt{2\omega_p}a_p(t)e^{-i\omega_pt}.
+    \end{aligned}\tag{77}\]
+This implies
+\[\begin{aligned}
+    i\int d^4x e^{ipx}(\square+m^2)\phi(x) &= \partial_t \int dt e^{i\omega_pt}\sqrt{2\omega_p}a_p(t)e^{-i\omega_pt} \\
+    &= \sqrt{2\omega_p} [a_p(+\infty) - a_p(-\infty)],
+\end{aligned}\tag{78}\]
+which is exactly what we have been looking for. Similarly,
+\[-i\int d^4x e^{-ipx}(\square+m^2)\phi(x) = \sqrt{2\omega_p} [a_p^\dagger(+\infty) - a_p^\dagger(-\infty)].\tag{79}\]
+One could notice that (72) is already in time order, therefore we can write
+\[\bra{f}S\ket{i} = 2^{n/2} \sqrt{\omega_1 \dots \omega_n}\bra{\Omega}T\{a_{p_3}(+\infty) \dots a_{p_n}(+\infty)a_{p_2}^\dagger(-\infty) a_{p_1}^\dagger(-\infty) \}\ket{\Omega},\tag{80}\]
+where $T\{ \dots \}$ is the time-ordering operation. The property time-ordering product allows us to write
+\[\begin{aligned}
+        \bra{f}S\ket{i} = 2^{n/2} \sqrt{\omega_1 \dots \omega_n}\bra{\Omega}T\{[a_{p_3}(+\infty) - a_{p_3}(-\infty)] \dots [a_{p_n}(+\infty) - a_{p_n}(-\infty)]\\
+        \quad \times [a_{p_2}^\dagger(-\infty) - a_{p_2}^\dagger(+\infty)] [a_{p_1}^\dagger(-\infty) - a_{p_1}^\dagger(+\infty)] \}\ket{\Omega}.
+\end{aligned}\tag{81}\]
+Thus, we have</p>
+
+<p>\[\begin{aligned}
+                \bra{f}S\ket{i} = \biggr[ i\int d^4x_1e^{-ip_1x_1}(\square_1+m^2) \biggr] \cdots \biggr[ i\int d^4x_ne^{ip_nx_n}(\square_n+m^2) \biggr]\\
+                \times \bra{\Omega}T\{\phi(x_1) \dots \phi(x_n)\}\ket{\Omega},
+    \end{aligned}\tag{82}\]</p>
+
+<p>which is the LSZ reduction formula.</p>
+
+<h2 id="the-feynman-propagator">The Feynman Propagator</h2>
+
+<p>New, we need to find a way to evaluate these time-ordered products. We will start with computing a time-ordered product in the free theory. First, consider the inner product
+\[\begin{aligned}
+        \bra{0}\phi_0(x)\phi_0(y)\ket{0} &= \int\frac{d^3p}{(2\pi)^3}\frac{1}{\sqrt{2\omega_p}} \int\frac{d^3q}{(2\pi)^3}\frac{1}{\sqrt{2\omega_q}} \biggr[ \bra{0}a_pa_q^\dagger\ket{0}e^{-ipx}e^{iqy} + \cdots \biggr] \\
+        &= \int\frac{d^3p}{(2\pi)^3}\frac{1}{2\omega_p} e^{-ip(x-y)},
+        
+\end{aligned}\tag{83}\]
+where the $\cdots$ indicates other combinations of the creation and annihilation operators which will vanish.</p>
+
+<p>Now, we are interested in $\bra{0}T\{\phi_0(x)\phi_0(y)\}\ket{0}$. From the property of $T\{\cdots\}$, we have
+\[\bra{0}T\{\phi_0(x)\phi_0(y)\}\ket{0} = \bra{0}\phi_0(x)\phi_0(y)\ket{0}\theta(x^0-y^0) + \bra{0}\phi_0(y)\phi_0(x)\ket{0}\theta(y^0-x^0).\tag{84}\]
+Hence, (83) becomes
+\[\begin{aligned}
+    \bra{0}T\{\phi_0(x)\phi_0(y)\}\ket{0} &= \int\frac{d^3p}{(2\pi)^3}\frac{1}{2\omega_p}\biggr\{ e^{i\vec{p}(\vec{x}-\vec{y})} e^{-i\omega_p\tau} \theta(\tau) + e^{-i\vec{p}(\vec{x}-\vec{y})} e^{i\omega_p\tau} \theta(-\tau) \biggr\} \\
+    &= \int\frac{d^3p}{(2\pi)^3}\frac{1}{2\omega_p} e^{-i\vec{p}(\vec{x}-\vec{y})} \biggr\{ e^{-i\omega_p\tau} \theta(\tau) + e^{i\omega_p\tau} \theta(-\tau) \biggr\},
+    
+\end{aligned}\tag{85}\]
+where $\tau = x^0 - y^0$.</p>
+
+<p>To progress, we need to prove the useful mathematical identity
+\[e^{-i\omega_p\tau} \theta(\tau) + e^{i\omega_p\tau} \theta(-\tau) = \lim_{\epsilon \rightarrow 0} \frac{-2\omega_p}{2\pi i} \int^\infty_{-\infty} \frac{d\omega}{\omega^2 - \omega_p^2 +i\epsilon} e^{i\omega \tau}.
+    \tag{86}\]
+To derive this identity, we first use partial fraction to separate out the poles:
+\[\begin{aligned}
+        \frac{1}{\omega^2 - \omega_p^2 +i\epsilon} &= \frac{1}{[\omega - (\omega_p -i\epsilon)]} \frac{1}{[\omega - (-\omega_p + i\epsilon)]} \\
+        &= \frac{1}{2 \omega_p}\biggr\{ \frac{1}{[\omega - (\omega_p -i\epsilon)]} - \frac{1}{[\omega - (-\omega_p + i\epsilon)]} \biggr\},
+\end{aligned}\tag{87}\]
+where we have dropped terms of order $\epsilon^2$ and written $2\epsilon\omega_p$ as $\epsilon$, since it is a small quantity which we will eventually take to zero.</p>
+
+<p>For $\tau > 0$, we can evaluate the integral by closing the contour upward. Hence,
+\[\begin{aligned}
+        \lim_{\epsilon \rightarrow 0} \frac{-2\omega_p}{2\pi i} \int^\infty_{-\infty} \frac{d\omega}{\omega^2 - \omega_p^2 +i\epsilon} e^{i\omega \tau} &= \lim_{\epsilon \rightarrow 0} \frac{-2\omega_p}{2\pi i} \frac{-2\pi i}{2\omega_p} e^{i(-\omega_p+i\epsilon)\tau}\\
+        &= e^{-i\omega_p\tau} \qquad \qquad {(\tau >0)}.
+\end{aligned}\tag{88}\]
+Similarly, for $\tau < 0$, we have
+\[\begin{aligned}
+        \lim_{\epsilon \rightarrow 0} \frac{-2\omega_p}{2\pi i} \int^\infty_{-\infty} \frac{d\omega}{\omega^2 - \omega_p^2 +i\epsilon} e^{i\omega \tau} &= \lim_{\epsilon \rightarrow 0} \frac{-2\omega_p}{2\pi i} (-1) \frac{2\pi i}{2\omega_p} e^{i(\omega_p-i\epsilon)\tau}\\
+        &= e^{i\omega_p\tau} \qquad \qquad {(\tau < 0)},
+\end{aligned}\tag{89}\]
+where the $-1$ in the bracket comes from doing the contour integral clockwise.</p>
+
+<p>Combining them, we obtain exactly (86). Plug this back into (85) to get
+\[\lim_{\epsilon\rightarrow0} i\int \frac{d^3p d\omega}{(2\pi)^4} \frac{1}{\omega^2 - \omega_p^2 +i\epsilon} e^{-i\vec{p}(\vec{x}-\vec{y})} e^{i\omega(x^0-y^0)}.\tag{90}\]
+Now, by introducing a new variable $q=(\omega, -\vec{p})$, we have</p>
+
+<p>\[D_F(x, y) = \bra{0}T\{\phi_0(x)\phi_0(y)\}\ket{0} = \int \frac{d^4q }{(2\pi)^4} \frac{i}{q^2 - m^2 +i\epsilon} e^{iq(x-y)},\tag{91}\]</p>
+
+<p>where we let the limit to b explicit and used the identity $m^2 = \omega_p^2 - \vec{p}^2$. This Lorentz-invariant object is called the Feynman propagator. It is important to remember that $k_0^2 \neq m^2 + \vec{k}^2$ anymore. So the propagating field here is off-shell!</p>
+
+<h2 id="lagrangian-derivation">Lagrangian Derivation</h2>
+
+<p>In this section, we will derive the Feynman rules using the simpler Lagrangian approach, which has the advantage of being Lorentz-invariant from start to end.</p>
+
+<p>At this point, we only know how to calculate a time-ordered product in the free theory. We will start by proving an intermediate relation:
+\[(\square + m^2)\bra{\Omega}T\{\phi(x)\phi(x')\}\ket{\Omega} = \bra{\Omega}T\{(\square+m^2)\phi(x)\phi(x')\}\ket{\Omega} - i\hbar \delta^4(x-x').\tag{92}\]
+First, we will take time derivative to $\bra{\Omega}T\{\phi(x)\phi(x')\}\ket{\Omega}$:
+\[\begin{aligned}
+        &\partial_t\bra{\Omega}T\{\phi(x)\phi(x')\}\ket{\Omega}\\
+        &= \partial_t[\bra{\Omega}\phi_0(x)\phi_0(x')\ket{\Omega}\theta(x^0-(x')^0) + \bra{\Omega}\phi_0(x')\phi_0(x)\ket{\Omega}\theta((x')^0-x^0)]\\
+        &= \bra{\Omega}\partial_t\phi_0(x)\phi_0(x')\ket{\Omega} + \bra{\Omega}\partial_t\phi_0(x)\phi_0(x')\ket{\Omega}\partial
+        _t\theta(x^0-(x')^0)\\ 
+        & \qquad \qquad \qquad \qquad+\bra{\Omega}\phi_0(x')\phi_0(x)\ket{\Omega}\partial_t\theta((x')^0-x^0) \\
+        &=\bra{\Omega}\partial_t\phi_0(x)\phi_0(x')\ket{\Omega} + \bra{\Omega}[\phi(x),\phi(x')]\ket{\Omega}\delta(t-t').
+\end{aligned}\tag{93}\]
+Then, by taking another time derivative, we have
+\[\begin{aligned}
+    &\partial_t^2\bra{\Omega}T\{\phi(x)\phi(x')\}\ket{\Omega}\\
+    &=\bra{\Omega}\partial_t^2\phi_0(x)\phi_0(x')\ket{\Omega} + \cancelto{=-i\hbar\delta^3(\vec{x}-\vec{x}')}{\bra{\Omega}[\partial_t\phi(x),\phi(x')]\ket{\Omega}}\delta(t-t') +  \cancelto{=0}{\bra{\Omega}[\phi(x),\phi(x')]\ket{\Omega}}\partial_t\delta(t-t')\\
+    &=\bra{\Omega}\partial_t^2\phi_0(x)\phi_0(x')\ket{\Omega} -i\hbar\delta^4(x-x'),
+\end{aligned}\tag{94}\]
+where we have used the equal-time commutation relations. As the spatial derivative only acts on the field operators, we have
+\[(\square+m^2)\langle\phi(x)\phi(x')\rangle = \langle(\square+m^2)\phi(x)\phi(x')\rangle - i\hbar\delta^4(x-x'),\tag{95}\]
+where we have introduced the notation $\langle\cdots\rangle$ to represent $\bra{\Omega}T\{\cdots\}\ket{\Omega}$.</p>
+
+<p>Now, it is an easy generalisation to go from two fields at $x, x'$ to many fields at $x, \{x_j\}$, which generates a $\delta$-function for every $x_j$. Meanwhile, recall, for a free theory, $(\square+m^2)\phi(x)=\mathcal{L'}_{\text{int}}\phi(x)$, where $\mathcal{L}' = \frac{\delta\mathcal{L}_{\text{int}}}{\delta\phi}$. Thus,</p>
+
+<p>\[\begin{aligned}
+        (\square+m^2)\langle\phi(x)\phi(x_1)\cdots\phi(x_n)\rangle =& \langle\mathcal{L}'_{\text{int}}[\phi(x)]\phi(x_1)\cdots\phi(x_n)\rangle \\
+        &-i\hbar\sum_j\delta^4(x-x_j)\langle\phi(x)\phi(x_1)\cdots\phi(x_{j-1})\phi(x_{j+1}) \cdots \phi(x_n)\rangle.
+         \end{aligned}\tag{96}\]</p>
+
+<p>This equation is known as the Schwinger-Dyson equation. It demonstrates the difference between classical and quantum theories. In particular, the quantum theory is deviated from the classical theory by the last term, which is called the contact term or contact interactions. This contact term allows virtual particles to be created and destroyed.</p>
+
+<h4>Position-Space Feynman Rules</h4>
+
+<p>The Schwinger-Dyson equation is a non-perturbative relation. In this section, we will solve it perturbatively.</p>
+
+<p>For simplicity, we will use $\delta_{xi} = \delta^4(x-x_i)$ and $D_{ij}=D_{ji}=D_F(x_i,x_j)$. In addition, we will set $m=0$ and $\hbar=1$, while the $m \neq 0$ case is a trivial generalisation. Hence, the Green's function equation for the Feynman propagator can be written as
+\[\square_xD_{x1} = -i\delta_{x1}.\tag{97}\]
+This relation can be used to rewrite the correlation function into another form. For a 2-point function, we have
+\[\begin{aligned}
+        \langle\phi_1\phi_2\rangle &= \int d^4x \delta_{x2}\langle\phi_1\phi_x\rangle \\
+        &= i\int d^4x (\square_x D_{x2}) 
+        \langle\phi_1\phi_x\rangle \\
+        &= i\int d^4x  D_{x2}\square_x \langle\phi_1\phi_x\rangle \\
+        &= i \int d^4x D_{x2} [\langle \mathcal{L}'_{\text{int}}[\phi_x]\phi_1\rangle -i\delta_{1x}].
+        
+\end{aligned}\tag{98}\]
+In the case of free theory, $\mathcal{L}'_{\text{int}} = 0$, and hence
+\[\langle\phi_1\phi_2\rangle = i \int d^4x D_{x2}[-i\delta_{1x}] = D_{12},
+    \tag{99}\]
+which is exactly what we expected.</p>
+
+<p>For a 4-point function, the expression can be obtained similarly as before:
+\[\begin{aligned}
+        \langle\phi_1\phi_2\phi_3\phi_4\rangle &= i \int d^4x D_{x1}\square_x\langle\phi_x\phi_2\phi_3\phi_4\rangle\\
+        &= \int d^4x D_{x1}(\langle\phi_3\phi_4\rangle\delta_{x2} + \langle\phi_2\phi_4\rangle\delta_{x3} + \langle\phi_2\phi_3\rangle\delta_{x4})\\
+        &= D_{12}D_{34} + D_{13}D_{24} + D_{14}D_{23}
+        
+\end{aligned}\tag{100}\]</p>
+
+<p>Next, we will add interactions. Consider the Lagrangian $\mathcal{L} =  -\frac{1}{2}\phi\square\phi + \frac{g}{3!}\phi^3$. Then, (98) becomes
+\[\begin{aligned}
+        \langle\phi_1\phi_2\rangle &= i\int d^4x D_{x2}[\frac{g}{2}\langle\phi_x^2\phi_1\rangle -i\delta_{1x} ]\\
+        &= D_{12} + i\int d^4x \int d^4y \delta_{y1}D_{x2}\frac{g}{2}\langle\phi_x^2\phi_1\rangle\\
+        &= D_{12} - \int d^4x \int d^4yD_{y1}D_{x2}[\frac{g^2}{4}\langle\phi_x^2\phi_y^2\rangle - ig\delta_{xy}\langle\phi_x\rangle]\\
+        &=D_{12} + ig\int d^4 x D_{1x}D_{2x}\langle\phi_x\rangle -\frac{g^2}{4}\int d^4x \int d^4yD_{y1}D_{x2}\langle\phi_x^2\phi_y^2\rangle.
+\end{aligned}\tag{101}\]
+If we are only interested in order $g^2$, the $\langle\phi_x^2\phi_y^2\rangle$ can be simplified using (100) for the free theory
+\[\langle\phi_x^2\phi_y^2\rangle = 2D_{xy}^2 + D_{xx}D_{yy} +\order{g}.\tag{102}\]
+The $\langle\phi_x\rangle$ can be expanded using the Schwinger-Dyson equation once again, and hence
+\[\langle\phi_x\rangle = i\int d^4y D_{xy} \square_y\langle\phi_y\rangle = i\frac{g}{2}\int d^4y D_{xy} \langle\phi_y^2\rangle = i\frac{g}{2}\int d^4y D_{xy} D_{yy} + \order{g^2},\tag{103}\]
+where we have used (99).</p>
+
+<p>Thus, we have
+\[\begin{aligned}
+        \langle\phi_1\phi_2\rangle &= D_{12} - \frac{g^2}{2}\int d^4x \int d^4y D_{1x}D_{2x}D_{xy}D_{yy} -\frac{g^2}{4}\int d^4x \int d^4yD_{y1}D_{x2}[2D_{xy}^2 + D_{xx}D_{yy}]\\
+        &= D_{12} - g^2\int d^4x \int d^4y (\frac{1}{2}D_{1y}D_{yx}^2D_{x2} + \frac{1}{4}D_{1x}D_{2x}D_{xy}D_{yy} + \frac{1}{4}D_{1y}D_{2x}D_{xx}D_{yy}).
+        
+\end{aligned}\tag{104}\]
+The three new terms correspond to the diagrams</p>
+
+<figure class="tikz-figure"><script type="text/tikz">
+\begin{tikzpicture}[line width=1.5pt]
+    % First diagram
+    \draw (0:1) -- (0,0);
+    \draw (1,0) arc (180:0:0.5);
+    \draw (1,0) arc (-180:0:0.5);
+    \draw (2,0) -- (3,0);
+    \node at (4,0) {\large+};
+    \node at (0.8, 0.2) {$y$};
+    \node at (2.2, 0.2) {$x$};
+    
+    % Second diagram
+    \draw (5,0) -- (6,0);
+    \draw (6.6,0) arc (0:360:0.3);
+    \draw (8,0) arc (0:360:0.3);
+    \draw (8,0) -- (9,0);
+    \node at (10,0) {\large+};
+    \node at (5.8, 0.2) {$y$};
+    \node at (8.2, 0.2) {$x$};
+    
+    % Third diagram
+    \draw (11,0) -- (12.5,0);
+    \draw (12.5,0) -- (12.5,0.5);
+    \draw (12.8,0.8) arc (0:360:0.3);
+    \draw (12.5,0) -- (14,0);
+    \node at (12, 0.4) {$y$};
+    \node at (12.5, -0.2) {$x$};
+\end{tikzpicture}
+</script></figure>
+
+<p>These diagrams have new points, labelled $x$ an $y$, which are integrated over.</p>
+
+<p>From these examples, we can infer that the perturbative expansion will also work for higher-order terms or order interactions.</p>
+
+<ol>
+  <li>[leftmargin=*]</li>
+  <li>Start with (external) points $x_i$ for each position at which fields in the correlation function are evaluated. Draw a line from each point.</li>
+  <li>A line can then either contract to an existing line, giving a Feynman propagator connecting the endpoints of the two lines, or it can split, due to an interaction. A split gives a new (internal) vertex proportional to the coefficient of $\mathcal{L}_{\text{int}}[\phi]$ times $i$ and new lines corresponding to the fields in $\mathcal{L}_{\text{int}}[\phi]$.</li>
+  <li>At a given order in the perturbative couplings, the result is the sum of all diagrams with all the lines contracted, integrated over the positions of internal vertices.</li>
+  <li>Drop all $n!$ factors in the coefficient of interactions</li>
+</ol>
+
+<p>These are known as the position-space Feynman rules. The result is a set of diagrams. The original time-ordered product is given by a sum over integrals represented by the diagrams with an appropriate numerical factor. To determine the numerical factor, it is conventional to write interactions normalized by the number of permutations of identical fields, for example</p>
+
+<p>\[\mathcal{L}_{\text{int}} = \frac{\lambda}{4!} \phi^4, \quad \frac{g}{3!} \phi^3, \quad \frac{\kappa}{5!\,3!\,2!} \phi_1^5 \phi_2^3 \phi_3^2, \ldots
+\tag{7.24}\]</p>
+
+<p>Thus, when the derivative is taken to turn the interaction into a vertex, the prefactor becomes $\frac{1}{(n-1)!}$. This $(n-1)!$ is then cancelled by the number of permutations of the lines coming out of the vertex, not including the line coming in, which we already fixed. In this way, the $n!$ factors all cancel. The diagram is therefore associated with just the prefactor $\lambda$, $g$, $\kappa$, etc. from the interaction.</p>
+
+<p>In some cases, such as theories with real scalar fields, some of the permutations give the same amplitude. For example, if a line connects back to itself, then permuting the two legs gives the same integral. In this case, a factor of $\frac{1}{2}$ in the normalisation is not cancelled, so we must divide by 2 to get the prefactor for a diagram. So there is one more rule:</p>
+
+<ol>
+  <li>\setcounter{enumi}{3}</li>
+  <li>Drop all the $n!$ factors in the coefficient of the interaction, but then divide by the geometrical symmetry factor for each diagram.</li>
+</ol>
+
+<p>Symmetries are ways that a graph can be deformed so that it looks the same with the external points, labelled $x_i$, held fixed.</p>
+
+<h2 id="hamiltonian-derivation">Hamiltonian Derivation</h2>
+
+<p>In this section, we will reproduce the position-space Feynman rules with the Hamiltonian derivation. First, we will start by recalling the Heisenberg picture of quantum mechanics, in which operators must satisfy the equation of motion
+\[i\partial_t\phi(x) = [\phi, H].\tag{105}\]
+The solution to this equation is
+\[\phi(x) = S^\dagger(t,t_0)\phi(\vec{x})S(t,t_0),
+    \tag{106}\]
+where $S(t,t_0)$ is the time-evolution operator ($S$-matrix) that satisfies
+\[i\partial_tS(t,t_0) = H(t)S(t,t_0).
+    \tag{107}\]
+Also, all states are defined to be time-independent in the Heisenberg picture. Now consider a time-dependent Hamiltonian $H(t)$
+\[H(t) = H_0 + V(t),\tag{108}\]
+where $H_0$ is called the free Hamiltonian, which can be solved exactly, and $V$ is small compared to $H_0$ in some sense. Also, keep in mind that $\phi(x), H, H_0$ and $V$ are all in Heisenberg picture.</p>
+
+<p>Next, we need to switch to the interaction picture, in which field evolves with $H_0$. The interaction picture scalar fields are just the free fields
+\[\phi_0(x) = e^{iH_0(t-t_0)}\phi(\vec{x})e^{-iH_0(t-t_0)},\tag{109}\]
+where $\phi(\vec{x})$ is the Schrödinger picture field. Thus, the Schrödinger picture and interaction picture fields are equal at $t = t_0$.</p>
+
+<p>From (106), we can see that the interaction picture and the Heisenberg picture are related by
+\[\begin{aligned}
+        \phi(x) &= S^\dagger(t, t_0)e^{-iH_0(t-t_0)}\phi_0(x)e^{iH_0(t-t_0)}S(t,t_0)\\
+        &= U^\dagger(t,t_0)\phi_0(x)U(t,t_0),
+        
+\end{aligned}\tag{110}\]
+where $U(t,t_0) \equiv e^{iH_0(t-t_0)}S(t,t_0)$.</p>
+
+<p>We can obtain a differential equation for $U(t, t_0)$ with (107):
+\[\begin{aligned}
+        i\partial_tU(t,t_0) &= i\partial_t[e^{iH_0(t-t_0)}S(t,t_0)]\\
+        &=e^{iH_0(t-t_0)}[-H_0 + i\partial_tS(t,t_0)]\\
+        &=e^{iH_0(t-t_0)}[-H_0 + H(t)]S(t,t_0)\\
+        &=e^{iH_0(t-t_0)}[-H_0 + H(t)]e^{-iH_0(t-t_0)}e^{iH_0(t-t_0)}S(t,t_0)\\
+        &=V_I(t)U(t,t_0),
+    \end{aligned}\tag{111}\]
+where $V_I(t) = e^{iH_0(t-t_0)}V(t)e^{-iH_0(t-t_0)}$ is $V(t)$ in the interaction picture. If everything commuted in this equation, then the solution would simply be $U(t, t_0) = \text{exp}[-i\int^t_{t_0} dt' V_I(t') ]$. However, $V_I(t_1)$ does not necessarily commutes with $V_I(t_2)$, and hence the right solution would be</p>
+
+<p>\[U(t, t_0) = T\biggr\{\text{exp}\biggr[-i\int^t_{t_0} dt' V_I(t') \biggr]\biggr\}.
+        \tag{112}\]</p>
+
+<aside class="callout">
+
+<p>(112) can be proven with perturbation theory.</p>
+
+<p>For simplicity, we will remove the subscript of $V$, and thus
+    \[i\partial_tU(t,t_0)  = V(t)U(t,t_0).\tag{113}\]
+    Integrate over $t$ on both sides, we have
+    \[U(t, t_0) = 1 - i\int^t_{t_0} dt' V(t') U(t', t_0),\tag{114}\]
+    where we have chosen the boundary condition so that $U(t, t)=1$.</p>
+
+<p>To $\text{0}^{\text{th}}$ order of $V$, we have
+    \[U(t, t_0) = 1.\tag{115}\]
+    To first order in $V$, we find
+    \[U(t, t_0) = 1 - i\int^t_{t_0} dt' V(t') + \cdots.\tag{116}\]
+    To second order in $V$, we would obtain
+    \[\begin{aligned}
+                U(t, t_0) &= 1 - i\int^t_{t_0} dt' V(t') \biggr[ 1 - i\int^{t'}_{t_0} dt'' V(t'') + \cdots \biggr]\\
+                &= 1 - i\int^t_{t_0} dt' V(t') + (-i)^2\int^t_{t_0} dt'\int^{t'}_{t_0} dt''V(t')V(t'') + \cdots.
+    \end{aligned}\tag{117}\]
+    The second integral has $t_0<t''<t'<t$, thus
+    \[\int^t_{t_0} dt'\int^{t'}_{t_0} dt''V(t')V(t'') = \int^t_{t_0} dt'' \int^{t}_{t''} dt' V(t')V(t'').\tag{118}\]
+    Now, by interchanging $t'$ and $t''$, we have
+    \[\int^t_{t_0} dt'\int^{t'}_{t_0} dt''V(t')V(t'') = \int^t_{t_0} dt'\int^{t}_{t'} dt''V(t')V(t'').\tag{119}\]
+    Average these two terms:
+    \[\begin{aligned}
+             \int^t_{t_0} dt'\int^{t'}_{t_0} dt''V(t')V(t'') &= \frac{1}{2}  \int^t_{t_0} dt'\biggr[\int^{t'}_{t_0} dt''V(t')V(t'') + \int^{t}_{t'} dt''V(t')V(t'')\biggr]\\
+             &= \frac{1}{2}  \int^t_{t_0} dt'\biggr[\int^{t}_{t_0} dt''V(t')V(t'')\theta(t'-t'') + \int^{t}_{t_0} dt''V(t')V(t'')\theta(t'-t'') \biggr]\\
+             &= \frac{1}{2}  \int^t_{t_0} dt'\int^{t}_{t_0} dt'' T\{V(t')V(t'')\}.
+        \end{aligned}\tag{120}\]
+    Thus,
+    \[U(t,t_0) = 1 - i\int^t_{t_0} dt' V(t') + \frac{(-i)^2}{2}  \int^t_{t_0} dt'\int^{t}_{t_0} dt'' T\{V(t')V(t'')\} + \cdots.\tag{121}\]
+    And one can prove, by induction, that
+    \[U(t, t_0) = T\biggr\{\text{exp}\biggr[-i\int^t_{t_0} dt' V_I(t')\biggr]\biggr\}.\tag{122}\]</p>
+
+</aside>
+
+<h4>$U$ Relations</h4>
+
+<p>It is convenient to write
+\[U_{21} \equiv U(t_2, t_1) = T\biggr\{\text{exp}\biggr[-i\int^{t_2}_{t_1} dt' V_I(t')\biggr]\biggr\}.\tag{123}\]
+Thus, we have
+\[U_{21}U_{12} = 1,\tag{124}\]
+\[U_{21}^{-1} = U_{21}^\dagger = U_{12},\tag{125}\]
+and for $t_3 > t_2 > t_1$
+\[U_{32}U_{21} = U_{31}.\tag{126}\]
+Multiplying $U_{12}$ on both sides:
+\[U_{31}U_{12} = U_{32}.\tag{127}\]
+Finally, from (110), we can write
+\[\phi(x_1) = U_{10}^\dagger\phi_0(x_1)U_{10} = U_{01}\phi_0(x_1)U_{10}.\tag{128}\]</p>
+
+<h4>Vacuum Matrix Elements</h4>
+
+<p>In the LSZ reduction formula, we have used the vacuum state $\ket{\Omega}$, which behaves the same way as the state $\ket{0}$ in the free theory at $t= \pm \infty$. Hence, these two states must be proportional at $t= \pm \infty$. Since the free theory and the interacting theory are equivalent at $t = t_0$, (in the Schrödinger picture) $e^{-iH_0(t-t_0)}\ket{0}$ is proportional to $S(t,t_0)\ket{\Omega}$ at $t = \pm \infty$. Thus
+\[\ket{\Omega} = \mathcal{N}_i\lim_{t\rightarrow-\infty} S(t, t_0)^\dagger e^{-iH_0(t-t_0)}\ket{0} = \mathcal{N}_i U(t,t_0)^\dagger\ket{0} = \mathcal{N}_i U_{0-\infty}\ket{0},\tag{129}\]
+\[\bra{\Omega} = \mathcal{N}_f \bra{0}U_{\infty0},\tag{130}\]
+where $\mathcal{N}_i$ and $\mathcal{N}_f$ are constants to be determined.</p>
+
+<p>We are interested in the time-ordered product $\bra{\Omega}T\{\phi(x_1) \phi(x_2) \cdots  \phi(x_n)\}\ket{\Omega}$. We can assume $t_1 > t_2 > \cdots > t_n$ with no loss of generality. Hence,
+\[\begin{aligned}
+        \bra{\Omega}T\{\phi(x_1) \phi(x_2) \cdots  \phi(x_n)\}\ket{\Omega} &= \bra{\Omega}\phi(x_1) \phi(x_2) \cdots  \phi(x_n)\ket{\Omega}\\
+        &= \mathcal{N}_i \mathcal{N}_f \bra{0}U_{\infty0}\phi(x_1) \phi(x_2) \cdots  \phi(x_n)U_{0-\infty}\ket{0}\\
+        &=  \mathcal{N}_i \mathcal{N}_f \bra{0}U_{\infty0} U_{01} \phi_0(x_1) U_{10} U_{02}\phi_0(x_2) U_{20} \cdots U_{0n} \phi_0(x_n) U_{n0}U_{0-\infty}\ket{0}\\
+        &= \mathcal{N}_i \mathcal{N}_f \bra{0}U_{\infty1} \phi_0(x_1) U_{12} \phi_0(x_2) U_{23} \cdots U_{(n-1)n} \phi_0(x_n) U_{n-\infty}\ket{0}\\
+        &= \mathcal{N}_i \mathcal{N}_f \bra{0}T\{U_{\infty1} \phi_0(x_1) U_{12} \phi_0(x_2) U_{23} \cdots U_{(n-1)n} \phi_0(x_n) U_{n-\infty}\}\ket{0}\\
+        &= \mathcal{N}_i \mathcal{N}_f \bra{0}T\{\phi_0(x_1)\phi_0(x_2) \cdots \phi_0(x_n) U_{\infty-\infty}\}\ket{0},
+    \end{aligned}\tag{131}\]
+where we have put the time-order operator back in, which is legal because everything is in time-order.</p>
+
+<p>Next, we require the normalisation to be $\braket{\Omega}{\Omega} = 1$. Thus,
+\[\bra{\Omega}T\{\phi(x_1) \phi(x_2) \cdots  \phi(x_n)\}\ket{\Omega} = \frac{\bra{0}T\{\phi_0(x_1)\phi_0(x_2) \cdots \phi_0(x_n) U_{\infty-\infty}\}\ket{0}}{\ \bra{0}U_{\infty-\infty}\ket{0}}.\tag{132}\]
+Then, 
+\[\bra{\Omega}T\{\phi(x_1) \phi(x_2) \cdots  \phi(x_n)\}\ket{\Omega} = \frac{\bra{0}T\biggr\{\phi_0(x_1)\phi_0(x_2) \cdots \phi_0(x_n) \text{exp}\biggr[-i\int^{\infty}_{-\infty} dt V_I(t)\biggr]\biggr \}\ket{0}}{\ \bra{0}T\biggr \{ \text{exp}\biggr[-i\int^{\infty}_{-\infty} dt V_I(t)\biggr]\biggr\}\ket{0}}.
+    \tag{133}\]
+Now, recall
+\[V_I(t) = \int d^3x \mathcal{H}_{\text{int}}[\phi_0] = -\int d^3x \mathcal{L}_{\text{int}}[\phi_0].\tag{134}\]
+Here, $\mathcal{H}_{\text{int}}$ and $\mathcal{L}_{\text{int}}$ are functions of $\phi_0$ because we are in the interaction picture (operators only evolves with the free Hamiltonian). Thus, (133) becomes</p>
+
+<p>\[\bra{\Omega}T\{\phi(x_1) \phi(x_2) \cdots  \phi(x_n)\}\ket{\Omega} = \frac{\bra{0}T\biggr\{\phi_0(x_1)\phi_0(x_2) \cdots \phi_0(x_n) \text{exp}\biggr[i\int^{\infty}_{-\infty} d^4x \mathcal{L}_{\text{int}}[\phi_0]\biggr]\biggr \}\ket{0}}{\ \bra{0}T\biggr \{ \text{exp}\biggr[i\int^{\infty}_{-\infty} d^4x \mathcal{L}_{\text{int}}[\phi_0]\biggr]\biggr\}\ket{0}}.
+        \tag{135}\]</p>
+
+<p>Now consider the case, where
+\[\mathcal{L}_{\text{int}}[\phi] = \frac{g}{3!}\phi^3,\tag{136}\]
+and consider the 2-point correlation function $\bra{0}T\{\phi_0(x_1)\phi_0(x_2)\}\ket{0}$. The numerator of (135) can be expanded perturbatively as
+\[\begin{aligned}
+        \bra{0}T\biggr\{\phi_0(x_1)\phi_0(x_2) &\text{exp}\biggr[i\int^{\infty}_{-\infty} d^4x \frac{g}{3!}\phi_0^3\biggr]\biggr \}\ket{0} = \bra{0}T\{\phi_0(x_1)\phi_0(x_2)\}\ket{0}\\
+        &+ \frac{ig}{3!}\int d^4x \bra{0}T\{\phi_0(x_1)\phi_0(x_2)\phi_0(x)^3\}\ket{0}\\
+        &+ \biggr(\frac{ig}{3!}\biggr)^2\frac{1}{2}\int d^4x \int d^4y \bra{0}T\{\phi_0(x_1)\phi_0(x_2)\phi_0(x)^3\phi_0(y)^3\}\ket{0} + \cdots.
+    
+    \end{aligned}\tag{137}\]
+Hence, the problem we are left with is to evaluate $n$-point correlation function in the free theory.</p>
+
+<h4>Normal ordering and Wick's Theorem</h4>
+
+<p>The key to computing an $n$-point correlation function is to develop the Wick's theorem. First, we will write $\phi_0(x)$ as
+\[\phi_0(x) = \phi_0^+(x) + \phi_0^-(x),\tag{138}\]
+where
+\[\phi_0^+(x) \equiv \int \frac{d^3p}{(2\pi)^3} \frac{1}{2\omega_p} a_p e^{-ipx}, \quad \phi_0^-(x) \equiv \int \frac{d^3p}{(2\pi)^3} \frac{1}{2\omega_p} a_p^\dagger e^{ipx}.\tag{139}\]
+Now, consider $T\{\phi_0(x)\phi_0(y)\}$ with $x^0 > y^0$:
+\[\begin{aligned}
+    &T\{\phi_0(x)\phi_0(y)\}\\
+    &= \phi_0^+(x)\phi_0^+(y) + \phi_0^+(x)\phi_0^-(y) + \phi_0^-(x)\phi_0^+(y) + \phi_0^-(x)\phi_0^-(y)\\
+    &= \phi_0^+(x)\phi_0^+(y) + \phi_0^-(y)\phi_0^+(x) + \phi_0^-(x)\phi_0^+(y) + \phi_0^-(x)\phi_0^-(y) + [\phi_0^+(x), \phi_0^-(y)].
+    
+\end{aligned}\tag{140}\]
+Note, here all the annihilation operators $a$ are on the right except for the commutator. However, the commutator would generate a number, so the order does not matter. Such an expression is said to be normal ordered.</p>
+
+<p>Let us define a normal ordering operation, $:a_pa_q a_k^\dagger\ldots:$, such that place whatever operators it contains in normal order. For example,</p>
+
+<p>\[:a_pa_ka_q^\dagger: = a_q^\dagger a_pa_k.\tag{141}\]</p>
+
+<p>Hence, (140) becomes
+\[T\{\phi_0(x)\phi_0(y)\} = :\phi_0(x)\phi_0(y) + [\phi_0^+(x), \phi_0^-(y)]:, \qquad \qquad (x^0 > y^0).\tag{142}\]
+Similarly, for $x^0 < y^0$, we have
+\[\bra{0}T\{\phi_0(x)\phi_0(y)\}\ket{0} = :\phi_0(x)\phi_0(y) + [\phi_0^+(y), \phi_0^-(x)]:, \qquad \qquad (x^0 < y^0).\tag{143}\]
+Therefore, let us define another quantity called contraction of two fields, which is</p>
+
+<p>\[\begin{aligned}
+    \wick{\c\phi(x)\c\phi(y)} \equiv 
+    \begin{cases} 
+        \big[\phi^+(x), \phi^-(y)\big] & \text{for } x^0 > y^0; \\ 
+        \big[\phi^+(y), \phi^-(x)\big] & \text{for } y^0 > x^0,
+    \end{cases}
+\end{aligned}\tag{144}\]</p>
+
+<p>where we have made the subscript implicit, as contractions always involves interaction picture operators.
+Thus,
+\[T\{\phi_0(x)\phi_0(y)\} = :\phi_0(x)\phi_0(y) + \wick{\c\phi_0(x) \c\phi_0(y)}.\tag{145}\]
+Generally,</p>
+
+<p>\[T\{\phi_0(x_1)\phi_0(x_2) \cdots \phi_0(x_n)\} = :\phi_0(x_1)\phi_0(x_2) \cdots \phi_0(x_n)\ + (\text{all possible contractions}):.\tag{146}\]</p>
+
+<p>This is known as the Wick's theorem, which can be proven by induction. We have already shown it is true with $m=2$ fields. Now, let us prove: if this is true for $m=n$ fields, then it must also be true for $m=n+1$ fields. We will assume $x_1^0 > x_2^0 > \cdots > x_{n+1}^0$.
+\[\begin{aligned}
+        T\{\phi_1\phi_2 \dots \phi_{n+1}\}= :\phi_1\phi_2 \cdots \phi_n + (\text{all possible contractions without $\phi_{n+1}$}):(\phi^+_{n+1} + \phi^-_{n+1}).
+    \end{aligned}\tag{147}\]
+Then,
+\[\begin{aligned}
+        &:\phi_1\phi_2 \cdots \phi_n:\phi^-_{n+1} \\
+        &= :(\phi_1^+ + \phi_1^-)(\phi_2^+ + \phi_2^-) \cdots (\phi_n^+ + \phi_n^-):\phi^-_{n+1}\\
+        &= (\phi_1^+\phi_2^+ \dots \phi_n^+ + \phi_1^-\phi_2^+ \dots \phi_n^+ +
+        \phi_2^-\phi_1^+\phi_3^+ \dots \phi_n^+ + \cdots + \phi_1^-\phi_2^- \dots \phi_n^-)\phi^-_{n+1}\\
+        &= :\phi^-_{n+1}\phi_1\phi_2 \cdots \phi_n: + (\text{all possible contractions involving $\phi_{n+1}$}).
+\end{aligned}\tag{148}\]
+Hence, we have proven the Wick's theorem.</p>
+
+<h4>Position-Space Feynman Rules Revisited</h4>
+
+<p>With Wick's theorem, we can now evaluate the $n$-point correlation function:
+\[\begin{aligned}
+        \bra{0}T\{\phi(x_1)\phi(x_2) \cdots \phi(x_n)\}\ket{0} &= \bra{0}:\phi_0(x_1)\phi_0(x_2) \cdots \phi_0(x_n)\ + (\text{all possible contractions}):\ket{0}\\
+        &= \sum(\text{all possible contractions which all $\phi_i$ is involved}),
+        
+\end{aligned}\tag{149}\]
+where we have used the fact that $\bra{0}:\cdots:\ket{0} = 0$ as long as there is any operator in the normal ordering operator.</p>
+
+<p>Each contraction represents the creation and annihilation of a particle, with the the creation happening earlier than the annihilation. In particular,
+\[\begin{aligned}
+        \wick{\c\phi(x)\c\phi(y)}=\bra{0}\wick{\c\phi(x)\c\phi(y)}\ket{0}&=
+        \begin{cases} 
+        \bra{0}\big[\phi^+(x), \phi^-(y)\big]\ket{0} & \text{for } x^0 > y^0; \\ 
+        \bra{0}\big[\phi^+(y), \phi^-(x)\big]\ket{0} & \text{for } y^0 > x^0,
+    \end{cases}
+    \\
+    &=
+    \begin{cases}
+        \bra{0}\phi^+(x)\phi^-(y)\ket{0} & \text{for } x^0 > y^0; \\ 
+        \bra{0}\phi^+(y)\phi^-(x)\ket{0} & \text{for } y^0 > x^0,
+    \end{cases}
+\end{aligned}\tag{150}\]
+which is exactly the part contributing to the Feynman propagator. Hence, we can conclude that
+\[\wick{\c\phi(x)\c\phi(y)} = D_F(x, y) = \int \frac{d^4q }{(2\pi)^4} \frac{i}{q^2 - m^2 +i\epsilon} e^{iq(x-y)}.\tag{151}\]</p>
+
+<p>Then, we can apply (149) to (137). The second term of (137) gives zero, since there is an odd number of fields, which means there will always be an extra $\phi$ left outside the contractions annihilating the state $\ket{0}$.</p>
+
+<p>The third term of (137) involves eight fields, and there are multiple possible contractions:
+\[\begin{aligned}
+        &\bra{0}T\{\phi_0(x_1)\phi_0(x_2)\phi_0(x)\phi_0(x)\phi_0(x)\phi_0(y)\phi_0(y)\phi_0(y)\}\ket{0}.
+    \end{aligned}\tag{152}\]
+For example, one possible contraction would be
+\[\wick{\c1 \phi_0(x_1)\c2 \phi_0(x_2)\c1 \phi_0(x)\c3 \phi_0(x)\c4 \phi_0(x)\c2 \phi_0(y)\c3 \phi_0(y)\c4 \phi_0(y)} = D_{1x}D_{2y}D_{xy}^2.\tag{153}\]
+There are
+\[3 \times 3 \times 2 = 9\tag{154}\]
+numbers of permutations of this contraction. Including these permutation factors, (137) to second order of $g$ becomes
+\[\begin{aligned}
+        \bra{\Omega} T \{ \phi(x_1) \phi(x_2) \} \ket{\Omega} 
+&= \frac{1}{\bra{0} T \{ e^{i \int \mathcal{L}_{\text{int}} }\}  \ket{0}} 
+\bigg\{ D_{12} \\
+&\quad - g^2 \int d^4x \int d^4y \bigg[ 
+\frac{1}{8} D_{12} D_{xx} D_{xy} D_{yy} + \frac{1}{12} D_{12} D_{xy}^3 \\
+&\quad + \frac{1}{2} D_{1x} D_{2x} D_{xy} D_{yy} + \frac{1}{4} D_{1x} D_{xx} D_{yy} D_{y2} \\
+&\quad + \frac{1}{2} D_{1x} D_{xy}^2 D_{y2} \bigg] + \cdots \bigg\}.
+    \end{aligned}\tag{155}\]
+Comparing to (104), we note that they are identical, except the first second terms in the integration and the extra $\bra{0} T \{ e^{i \int \mathcal{L}_{\text{int}} }\}\ket{0}$ factor. The two new terms correspond to the diagrams</p>
+
+<figure class="tikz-figure"><script type="text/tikz">
+\begin{tikzpicture}[line width=1.5pt]
+    \draw (0,0) -- (4,0);
+    \draw (1.5,1) -- (2.5,1);
+    \draw (1.5,1) arc (360:0:0.3);
+    \draw (3.1,1) arc (360:0:0.3);
+    \node at (1.7, 0.8) {$x$};
+    \node at (2.3, 0.8) {$y$};
+    \node at (0,-0.2) {$x_1$};
+    \node at (4,-0.2) {$x_2$};
+
+    \node at (6,0) {and};
+
+    \draw (8,0) -- (12,0);
+    \draw (9.5,1) -- (10.5,1);
+    \draw (9.5,1) arc (180:0:0.5);
+    \draw (9.5,1) arc (-180:0:0.5);
+    \node at (9.3, 0.8) {$x$};
+    \node at (10.7, 0.8) {$y$};
+    \node at (8,-0.2) {$x_1$};
+    \node at (12,-0.2) {$x_2$};
+    
+\end{tikzpicture}
+</script></figure>
+
+<p>Note that these two diagrams both have bubbles, which are connected subgraphs not including any external points. Hopefully, the $\bra{0} T \{ e^{i \int \mathcal{L}_{\text{int}} }\}\ket{0}$ factor would cancel the bubbles exactly, so that we can recover position-space Feynman rules with the Hamiltonian approach. Let us try expanding the denominator in (137) up to order of $g^2$, we have
+\[\begin{aligned}
+        \bra{0} T \{ e^{i \int \mathcal{L}_{\text{int}} }\}\ket{0} &= 1 + \biggr(\frac{ig}{3!}\biggr)^2 \frac{1}{2} \int d^4x \int d^4y \bra{0}T\{\phi_0(x)^3 \phi_0(y)^3\} \ket{0} + \mathcal{O}(g^4) \\
+        &= 1 + \biggr(\frac{ig}{3!}\biggr)^2 \frac{1}{2} \int d^4x \int d^4y  [9D_{xx} D_{xy} D_{yy} + 6D_{xy}^3] + \mathcal{O}(g^4)\\
+        &= 1 -g^2 \int d^4x \int d^4y  [\frac{1}{8}D_{xx} D_{xy} D_{yy} + \frac{1}{12}D_{xy}^3] + \mathcal{O}(g^4)
+\end{aligned}\tag{156}\]</p>
+
+<p>Thus, including terms up to second order of $g$ in the denominator and numerator, we have
+\[\bra{\Omega} T \{ \phi(x_1) \phi(x_2) \} \ket{\Omega} = \frac{D_{12}-g^2 \int  [\frac{1}{8}D_{12}D_{xx} D_{xy} D_{yy} + \frac{1}{12}D_{12}D_{xy}^3 + \cdots] + \mathcal{O}(g^4)}{1 -g^2 \int  [\frac{1}{8}D_{xx} D_{xy} D_{yy} + \frac{1}{12}D_{xy}^3] + \mathcal{O}(g^4)}.\tag{157}\]
+ In perturbation theory, $\frac{1}{1+g^2x+\mathcal{O}(g^4)} =1-g^2x+\mathcal{O}(g^4)$, and hence the bubbles are cancelled exactly.</p>
+
+<p>More generally, the bubbles will always cancel. Since the integrals in the expansion of the numerator corresponding to the bubbles never involve any external point, they just factor out. The sum over all graphs, in the numerator, is then the sum over all graphs with no bubbles multiplying the sum over the bubbles. The sum over bubbles is exactly $ \bra{0} T \{ e^{i \int \mathcal{L}_{\text{int}} }\}\ket{0}$. So,
+\[\bra{\Omega}T\{\phi(x_1)\phi(x_2)\}\ket{0} =  \bra{0} T \{\phi_0(x_1)\phi_0(x_2) e^{i \int \mathcal{L}_{\text{int}} }\}\ket{0}_{\text{no bubbles}}.\tag{158}\]</p>
+
+<p>We have arrived at the same graphs and same factors with both derivations, and thus we have reproduced the position-space Feynman rules (to some extend).</p>
+
+<h2 id="momentum-space-feynman-rules">Momentum-Space Feynman Rules</h2>
+
+<p>Now, we will see how time-ordered products are simplified, when all the phase-space integrals over the propagators are performed.</p>
+
+<p>Consider the diagram</p>
+
+<figure class="tikz-figure"><script type="text/tikz">
+\begin{tikzpicture}[line width=1.5pt]
+    \node at (-2,0) {$\displaystyle\mathcal{T}_1=$};
+    
+    \draw (0,0) -- (2,0);
+    \draw (3,0) -- (5,0);
+    \draw (3,0) arc (-360:0:0.5);
+    \node at (1.8, -0.2) {$x$};
+    \node at (3.2, -0.2) {$y$};
+    \node at (0,-0.2) {$x_1$};
+    \node at (5,-0.2) {$x_2$};
+
+    \node at (9,0) {$\displaystyle=-\frac{g^2}{2}\int d^4x \int d^4y D_{1x}D_{xy}^2D_{y2}.$};
+\end{tikzpicture}
+</script></figure>
+
+<p>First, recall a propagator $D_{xy}$ is given by (take $m=0$ for simplicity)
+\[D_{xy} = \int \frac{d^4p}{(2\pi)^4} \frac{i}{p^2+i\epsilon}e^{ip(x-y)}.\tag{159}\]
+Hence,
+\[\begin{aligned}
+        \mathcal{T}_1 = -\frac{g^2}{2} \int d^4x \int d^4y &\int \frac{d^4p_1}{(2\pi)^4}\int \frac{d^4p_2}{(2\pi)^4}\int \frac{d^4p_3}{(2\pi)^4}\int \frac{d^4p_4}{(2\pi)^4} \\
+        &\times \frac{i}{p_1^2+i\epsilon}\frac{i}{p_2^2+i\epsilon}\frac{i}{p_3^2+i\epsilon}\frac{i}{p_4^2+i\epsilon} e^{ip_1(x_1-x)}e^{ip_2(y-x_2)}e^{ip_3(x-y)}e^{ip_4(x-y)}.
+\end{aligned}\tag{160}\]
+We can integrate over $x$ and $y$ to get $\delta^4(p_3+p_4-p_1)$ and $\delta^4(p_2-p_3-p_4)$. Thus
+\[\begin{aligned}
+        \mathcal{T}_1 &= -\frac{g^2}{2} \int \frac{d^4p_1}{(2\pi)^4}\int \frac{d^4p_2}{(2\pi)^4}\int d^4p_3\int d^4p_4 \\
+        &\qquad \qquad \times \frac{i}{p_1^2+i\epsilon}\frac{i}{p_2^2+i\epsilon}\frac{i}{p_3^2+i\epsilon}\frac{i}{p_4^2+i\epsilon} \delta^4(p_3+p_4-p_1) \delta^4(p_2-p_3-p_4) e^{ip_1x_1}e^{-ip_2x_2}\\
+        &= -\frac{g^2}{2} \int \frac{d^4p_1}{(2\pi)^4}\int \frac{d^4p_2}{(2\pi)^4}\int d^4p_4\frac{i}{p_1^2+i\epsilon}\frac{i}{p_2^2+i\epsilon}\frac{i}{(p_1-p_4)^2+i\epsilon}\frac{i} {p_4^2+i\epsilon}\delta^4(p_2-p_1) e^{ip_1x_1}e^{-ip_2x_2}\\
+    \end{aligned}\tag{161}\]
+Next, we plug this back into the LSZ reduction formula to get</p>
+
+<p>\[\begin{aligned}
+        \bra{f}S\ket{i} &= \biggr[ -i\int d^4x_1e^{-ip_ix_1}(p_i^2) \biggr]\biggr[ -i\int d^4x_2 e^{ip_fx_2}(p_f^2) \biggr] \bra{\Omega}T\{\phi(x_1)\phi(x_2)\}\ket{\Omega}\\
+        &= \frac{g^2}{2}\int d^4x_1 \int d^4x_2 \int \frac{d^4p_1}{(2\pi)^4}\int \frac{d^4p_2}{(2\pi)^4}\int d^4p_4 \\
+        &\qquad \qquad \times p_i^2 p_f^2\frac{i}{p_1^2+i\epsilon}\frac{i}{p_2^2+i\epsilon}\frac{i}{(p_1-p_4)^2+i\epsilon}\frac{i} {p_4^2+i\epsilon}\delta^4(p_2-p_1) e^{i(p_1-p_i)x_1}e^{-i(p_2-p_f)x_2} + \cdots\\
+        &= \frac{g^2}{2}\int d^4p_1\int d^4p_2\int d^4p_4 \\
+        &\qquad \qquad \times p_i^2 p_f^2\frac{i}{p_1^2+i\epsilon}\frac{i}{p_2^2+i\epsilon}\frac{i}{(p_1-p_4)^2+i\epsilon}\frac{i} {p_4^2+i\epsilon}\delta^4(p_2-p_1) \delta^4(p_1-p_i) \delta^4(p_2-p_f) + \cdots\\
+        &= \frac{g^2}{2} \int d^4p_4 \cancel{p_i^2 p_f^2}\cancel{\frac{i}{p_i^2+i\epsilon}}\cancel{\frac{i}{p_f^2+i\epsilon}}\frac{i}{(p_i-p_4)^2+i\epsilon}\frac{i} {p_4^2+i\epsilon}\delta^4(p_f-p_i) + \cdots\\
+        &= \frac{g^2}{2} \int d^4k\frac{i}{(p_i-k)^2+i\epsilon}\frac{i} {k^2+i\epsilon}\delta^4(p_f-p_i) + \cdots,
+\end{aligned}\tag{162}\]
+where we have relabelled $p_4$ as $k$ in the last line. Also, note how the two propagator factors in the beginning get cancelled. This always happens for external legs - remember the point of LSZ was to force the external lines to be on-shell one-particle states.</p>
+
+<p>Recall
+\[S = \mathds{1} + (2\pi)^4\delta^4(\Sigma p_i)i\mathcal{M},\tag{163}\]
+where $\delta^4(\Sigma p_i)$ in this case is just $\delta^4(p_f-p_i)$. Therefore, we have
+\[i\mathcal{M} = \frac{g^2}{2} \int \frac{d^4k}{(2\pi)^4} \frac{i}{(p_i-k)^2+i\epsilon}\frac{i} {k^2+i\epsilon} + \cdots.\tag{164}\]
+From this, we can summarise the momentum-space Feynman rules:</p>
+
+<ol>
+  <li>Internal lines (those not connected to external points) get propagators $\frac{i}{p^2-m^2+i\epsilon}$.</li>
+  <li>Vertices come from interactions in the Lagrangian. They get factors of the coupling constant times $i$.</li>
+  <li>Lines connected to external points do not get propagators (their propagators are cancelled by terms from the LSZ reduction formula).</li>
+  <li>Momentum is conserved at each vertex.</li>
+  <li>Integrate over undetermined 4-momenta.</li>
+  <li>Sum over all possible diagrams.</li>
+</ol>
+
+<h4>Disconnected Graphs</h4>
+
+<figure class="tikz-figure"><script type="text/tikz">
+\begin{tikzpicture}[baseline=(current bounding box.center)]
+  \begin{feynman}
+    \vertex (a);
+    \vertex [right=of a] (b);
+    \vertex [above right=of b] (f1);
+    \vertex [below right=of b] (c);
+    \vertex [above right=of c] (f2);
+    \vertex [below right=of c] (f3);
+    \vertex [above= of a] (a1);
+    \vertex [above= of a1] (a2);
+    \vertex [right=of a2] (b2);
+    \vertex [below right=of b2] (f12);
+    \vertex [above right=of b2] (c2);
+    \vertex [below right=of c2] (f22);
+    \vertex [above right=of c2] (f32);
+    \vertex [left= of a] (a0);
+    \vertex [left= of a2] (a02);
+
+    \diagram* {
+      (a0) --[fermion] (a) -- (b) -- [fermion] (f1),
+      (b) -- [boson] (c),
+      (c) -- [anti fermion] (f2),
+      (c) -- [fermion] (f3),
+      (a02) --[fermion] (a2) -- (b2) -- [fermion] (f12),
+      (b2) -- [boson] (c2),
+      (c2) -- [anti fermion] (f22),
+      (c2) -- [fermion] (f32),
+    };
+  \end{feynman}
+  \node[below] at (current bounding box.south) {Diagram 1};
+\end{tikzpicture}
+</script></figure>
+
+<figure class="tikz-figure"><script type="text/tikz">
+\begin{tikzpicture}[baseline=(current bounding box.center)]
+  \begin{feynman}
+    \vertex (a);
+    \vertex [right=of a] (b);
+    \vertex [above right=of b] (f1);
+    \vertex [below right=of b] (c);
+    \vertex [above right=of c] (f2);
+    \vertex [below right=of c] (f3);
+    \vertex [above= of a] (a1);
+    \vertex [above= of a1] (a2);
+    \vertex [right=of a2] (b2);
+    \vertex [below right=of b2] (f12);
+    \vertex [above right=of b2] (c2);
+    \vertex [below right=of c2] (f22);
+    \vertex [above right=of c2] (f32);
+    \vertex [left= of a] (a0);
+    \vertex [left= of a2] (a02);
+
+    \diagram* {
+      (a0) --[fermion] (a) -- (b) -- [fermion] (f1),
+      (b) -- [boson] (c),
+      (c) -- [anti fermion] (f2),
+      (c) -- [fermion] (f3),
+      (a02) --[fermion] (a2) -- (b2) -- [fermion] (f12),
+      (b2) -- [boson] (c2),
+      (c2) -- [anti fermion] (f22),
+      (c2) -- [fermion] (f32),
+      (a) -- [boson] (a2),
+    };
+  \end{feynman}
+  \node[below] at (current bounding box.south) {Diagram 2};
+\end{tikzpicture}
+</script></figure>
+
+<p>A lot of contractions will result in diagrams where some subset of external vertices connect to each other without interacting with the other subsets. How do we handle these graphs where subsets are independently connected?</p>
+
+<p>Consider an 8-point function shown in Diagram 1. Clearly, it contains two separated $1\rightarrow3$ scat-tering. The probability of the total $2\rightarrow6$ scattering is given by the product of the two $1\rightarrow3$ probabilities. Meanwhile, Diagram 2 describes the case where the two subdiagrams do interact.</p>
+
+<p>So, what if there could be interference between the two diagrams? However, this cannot be true. To see why, recall the definition of the matrix element that these time-ordered calculations produce has only a single $\delta$-function:
+\[S = \mathds{1} + i\delta^4(\Sigma p)\mathcal{M}.\tag{165}\]
+Disconnected matrix elements would have an extra $\delta$-function $\mathcal{M}_\text{disconnected} = \delta^4(\Sigma_\text{subset}p)(\cdots)$. However, connected matrix elements are just integrals over propagators, as given by the Feynman rules. Such integrals can only produce poles or possibly branch cuts, which are never as strong as the singularity produced by the $\delta$-function. Therefore, the disconnected amplitudes are always infinitely larger than the connected ones, and thus the interference vanishes.</p>
+
+<p>The fact that there can never be more than a single delta function coming from a connected diagram is called cluster decomposition, which is sometimes considered as an axiom of quantum field theory. The cluster decomposition says that experiments well-separated in space cannot influence each other (the connected $S$-matrix should vanish). Constructing local theories out of fields made from creation and annihilation operators guarantees cluster decomposition. However, we do not know if the logic is invertible, that is, if the only possible theories that satisfy cluster decomposition are local field theories constructed out of creation and annihilation operators.</p>
+
+<h4>Mandelstam Variables</h4>
+
+<p>There are three very common diagrams in $2 \rightarrow 2$ scattering.</p>
+
+<figure class="tikz-figure"><script type="text/tikz">
+\begin{tikzpicture}[baseline=(current bounding box.center)]
+        \begin{feynman}
+            \vertex (i1);
+            \vertex [below right= of i1] (a);
+            \vertex[below left= of a] (i2);
+            \vertex [right= of a] (b);
+            \vertex [below right= of b] (f2);
+            \vertex [above right= of b] (f1);
+
+            \diagram* {
+            (i1) -- (a),
+            (i2) -- (a),
+            (b) -- (a),
+            (f1) -- (b),
+            (f2) -- (b),
+            };
+        \end{feynman}
+        \node[below] at (current bounding box.south) {s-channel};
+    \end{tikzpicture}
+</script></figure>
+
+<figure class="tikz-figure"><script type="text/tikz">
+\begin{tikzpicture}[baseline=(current bounding box.center)]
+        \begin{feynman}
+            \vertex (i1);
+            \vertex [below right= of i1] (a);
+            \vertex [below= of a] (b);
+            \vertex[below left= of b] (i2);
+            \vertex [above right= of a] (f1);
+            \vertex [below right= of b] (f2);
+
+            \diagram* {
+            (i1) -- (a),
+            (i2) -- (b),
+            (b) -- (a),
+            (f1) -- (a),
+            (f2) -- (b),
+            };
+        \end{feynman}
+        \node[below] at (current bounding box.south) {t-channel};
+    \end{tikzpicture}
+</script></figure>
+
+<figure class="tikz-figure"><script type="text/tikz">
+\begin{tikzpicture}[baseline=(current bounding box.center)]
+        \begin{feynman}
+            \vertex (i1);
+            \vertex [below right= of i1] (a);
+            \vertex [below= of a] (b);
+            \vertex[below left= of b] (i2);
+            \vertex [above right= of a] (f1);
+            \vertex [below right= of b] (f2);
+
+            \diagram* {
+            (i1) -- (a),
+            (i2) -- (b),
+            (b) -- (a),
+            (f1) -- (b),
+            (f2) -- (a),
+            };
+        \end{feynman}
+        \node[below] at (current bounding box.south) {u-channel};
+    \end{tikzpicture}
+</script></figure>
+
+<p>These three diagrams are called the s-,u- and t- channel, respectively. Calculation of these diagrams can be simplified by introducing
+\[\begin{aligned}
+        s \equiv (p_1+p_2)^2 = (p_3+p_4)^2,\\
+        t \equiv (p_1-p_3)^2 = (p_2-p_4)^2,\\
+        u \equiv (p_1-p_4)^2 = (p_2-p_3)^2.
+    \end{aligned}\tag{166}\]
+These satisfy
+\[s + u + t = \sum m_j,\tag{167}\]
+where $m_j$ are the invariant masses of particles. These variables correspond to the momentum in the propagator, $p_\mu^2 = s, t$ or $u$, which is Lorentz-invariant.</p>
+
+<p>It turns out that $s$, $t$ and $u$ simplify calculations in many scenarios. As these variables are Lorentz-invariant, we can compute $\mathcal{M}(s,t,u)$ in centre of mass frame, and then we can easily transform into other frames.</p>
+
+<h4>Derivative Couplings</h4>
+
+<p>Suppose we have an interaction involving derivatives, such as
+\[\mathcal{L}_\text{int} = \lambda \phi_1 (\partial_\mu\phi_2)(\partial_
+\mu\phi_3).\tag{168}\]
+In momentum space, these derivatives simply give factors of $ip_\mu$ when a particle is created, and $-ip_\mu$ when a particle is annihilated. Therefore, we get a minus sign for incoming momentum and a plus sign for outgoing momentum.</p>
+
+<h4>Total Derivatives</h4>
+
+<p>We would also like to show that total derivatives does not contribute to the matrix element. Suppose we have
+\[\mathcal{L}_\text{int} = \partial_\mu(\phi_1\cdots\phi_n).\tag{169}\]
+Suppose each vertex would have given $V$ without the derivatives, adding the derivatives gives
+\[-i(\sum_\text{incoming} p^i_\mu - \sum_\text{outgoing}p^j_\mu) V.\tag{170}\]
+From Feynman rules, we know that the sum of incoming momenta is equal to the sum of outgoing momenta, and thus the above vanishes. Hence, we can conclude that total derivative does not contribute to the matrix elements.</p>
+
+<p>{\LARGE \bf Quantum Electrodynamic}</p>
+
+<h2 id="lorentz-invariance-of-the-s-matrix">Lorentz Invariance of the $S$-matrix</h2>
+
+<p>Lorentz invariance of the $S$-matrix is a sufficient condition for the spin-statistics theorem. The $S$-matrix is constructed from the time-ordered products, with the simplest non-trivial time-ordered product being the Feynman propagator.</p>
+
+<p>Time ordering must be defined differently for bosons and fermions. Since the fermionic creation and annihilation operators anticommute, we have
+\[T\{a_p(t)a_q(t')\} = -T\{a_q(t')a_p(t)\}.\tag{171}\]
+Thus, the definition, which says putting all the operators in time order, can no longer be used as a proper definition of the time-ordered product. Recall the formal definition of the time-ordered product for bosonic fields:
+\[T\{\phi_1(x)\phi_2(y)\} = \phi_1(x)\phi_2(y) \theta(x^0-y^0) + \phi_2(y)\phi_1(x) \theta(y^0-x^0).\tag{172}\]
+As the fermionic fields have anticommutation relations instead of commutation relations, an extra minus sign will arise from swapping the ordering of fields. Thus, for fermionic fields, we define the time-ordered product to be</p>
+
+<p>\[T\{\psi_1(x)\psi_2(y)\} = \psi_1(x)\psi_2(y) \theta(x^0-y^0) - \psi_2(y)\psi_1(x) \theta(y^0-x^0).\tag{173}\]</p>
+
+<h4>Spin 0</h4>
+
+<p>Before discussing the spinor fields, let us first recap how we derived the Feynman propagator for a scalar field (we will be dealing with the complex scalar fields here). The Feynman propagator is given by
+\[\bra{0}T\{\phi^*(x)\phi(0)\}\ket{0} = \int \frac{d^3p}{(2\pi)^3}\frac{1}{2\omega_p} [e^{i\vec{p}\vec{x}-i\omega_pt}\theta(t) + e^{-i\vec{p}\vec{x}+i\omega_pt}\theta(-t)].\tag{174}\]
+Note that the above is the only possible combination that would give a non-zero result. This can be easily checked both mathematically and physically. Take $\vec{p} \to -\vec{p}$ in the first term, we find
+\[\bra{0}T\{\phi^*(x)\phi(0)\}\ket{0} = \int \frac{d^3p}{(2\pi)^3}\frac{1}{2\omega_p} [e^{-i\vec{p}\vec{x}-i\omega_pt}\theta(t) + e^{-i\vec{p}\vec{x}+i\omega_pt}\theta(-t)].\tag{175}\]
+Then, recall the identities
+\[e^{-i\omega_pt}\theta(t) = \frac{-i}{2\pi}\int^\infty_{-\infty}\frac{d\omega}{\omega-(-\omega_p+i\varepsilon)}e^{i\omega t},
+    \tag{176}\]
+\[e^{i\omega_pt}\theta(-t) = \frac{i}{2\pi}\int^\infty_{-\infty}\frac{d\omega}{\omega-(\omega_p-i\varepsilon)}e^{i\omega t},
+    \tag{177}\]
+which give
+\[\begin{aligned}
+        \bra{0}T\{\phi^*(x)\phi(0)\}\ket{0} &= \int \frac{d^4p}{(2\pi)^4}\frac{i}{2\omega_p} e^{ipx}\left(-\frac{1}{\omega-(-\omega_p+i\varepsilon)} + \frac{1}{\omega-(\omega_p-i\varepsilon)} \right) \\
+        &= \int \frac{d^4p}{(2\pi)^4}\frac{i}{p^2-m^2+i\varepsilon}e^{ipx},
+\end{aligned}\tag{178}\]
+where $p_o \equiv \omega$  is an integration variable. This is a Lorentz-invariant quantity, which is exactly what we are looking for.</p>
+
+<p>Now, if we use the anticommutation relation instead, we would need to use the anti-time ordering. This gives
+\[\begin{aligned}
+        \bra{0}T\{\phi^*(x)\phi(0)\}\ket{0} &= \int \frac{d^3p}{(2\pi)^3}\frac{1}{2\omega_p} [e^{i\vec{p}\vec{x}-i\omega_pt}\theta(t) - e^{-i\vec{p}\vec{x}+i\omega_pt}\theta(-t)] \\
+        &= \int \frac{d^3p}{(2\pi)^3}\frac{1}{2\omega_p} [e^{-i\vec{p}\vec{x}-i\omega_pt}\theta(t) - e^{-i\vec{p}\vec{x}+i\omega_pt}\theta(-t)]\\
+        &= -\int \frac{d^4p}{(2\pi)^4}\frac{i}{2\omega_p} e^{ipx}\left(\frac{1}{\omega-(-\omega_p+i\varepsilon)} + \frac{1}{\omega-(\omega_p-i\varepsilon)} \right) \\
+        &= \int \frac{d^4p}{(2\pi)^4}\frac{\omega}{\sqrt{\vec{p}^2+m^2}}\frac{-i}{p^2-m^2+i\varepsilon}e^{ipx},
+    \end{aligned}\tag{179}\]
+which is no longer Lorentz-invariant. Therefore, the $S$-matrix for spin-0 particles is Lorentz invariant if and only if they are bosons.</p>
+
+<h4>Spinors</h4>
+
+<p>The same reasoning can be used for spinors. We start by computing the vacuum matrix element of a spinor field and its conjugate
+\[\begin{aligned}
+        \bra{0}\psi(0)\bar{\psi}(x)\ket{0} &=  \sum_{s}\sum_{s'}\int\frac{d^{3}p}{(2\pi)^{3}}\frac{d^{3}q}{(2\pi)^{3}}\frac{1}{\sqrt{2\omega_{p}}}\frac{1}{\sqrt{2\omega_{q}}}\bra{0}\left(a_{p}^{s}u_{p}^{s}+ b_{p}^{s\dagger}v_{p}^{s}\right)\left(a_{q}^{s'\dagger}\bar{u}_{q}^{s'}e^{iqx}+b_{q}^{s'}\bar{v}_{q}^{s'}e^{-iqx}\right)\ket{0} \\
+        &= \sum_{s}\sum_{s'}\int\frac{d^{3}p}{(2\pi)^{3}}\frac{d^{3}q}{(2\pi)^{3}}\frac{1}{\sqrt{2\omega_{p}}}\frac{1}{\sqrt{2\omega_{q}}}u_{p}^{s}\bar{u}_{q}^{s'}e^{iqx}\bra{0}a_{p}^{s}a_{q}^{s'\dagger}\ket{0} \\
+        &= \sum_{s}\sum_{s'}\int\frac{d^{3}p}{(2\pi)^{3}}\frac{d^{3}q}{(2\pi)^{3}}\frac{1}{\sqrt{2\omega_{p}}}\frac{1}{\sqrt{2\omega_{q}}}u_{p}^{s}\bar{u}_{q}^{s'}e^{iqx}(2\pi)^3\delta_{ss'}\delta^3({\vec{p}}) \\
+        &= \int\frac{d^{3}p}{(2\pi)^{3}}\frac{1}{2\omega_p}e^{ipx}\sum_{s}u_{p}^{s}\bar{u}_{p}^{s} \\
+        &= \int\frac{d^{3}p}{(2\pi)^{3}}\frac{1}{2\omega_p}(\slashed{p}+m)e^{ipx} \\
+        &= (-i\slashed{\partial}+m)\int\frac{d^{3}p}{(2\pi)^{3}}\frac{1}{2\omega_p}e^{ipx}.
+\end{aligned}\tag{180}\]
+Note, in the above derivation, we have assumed $\psi\bar{\psi} = \psi_\alpha\bar{\psi}_\beta$, which is an outer product. Therefore, when we are computing vacuum matrix element $\bra{0}\bar{\psi}(x)\psi(0)\ket{0}$, we meant the outer product $\bar{\psi}_\alpha\psi_\beta$ instead of the normal convention we used in the Lagrangian - $\bar{\psi}\psi = \bar{\psi}_\alpha\psi_\alpha$. Thus, we find
+\[\begin{aligned}
+        \bra{0}\bar{\psi}(x)\psi(0)\ket{0} &=  \sum_{s}\sum_{s'}\int\frac{d^{3}p}{(2\pi)^{3}}\frac{d^{3}q}{(2\pi)^{3}}\frac{1}{\sqrt{2\omega_{p}}}\frac{1}{\sqrt{2\omega_{q}}}\bra{0}\left(a_{q}^{s'\dagger}\bar{u}_{q}^{s'}e^{iqx}+b_{q}^{s'}\bar{v}_{q}^{s'}e^{-iqx}\right)\left(a_{p}^{s}u_{p}^{s}+ b_{p}^{s\dagger}v_{p}^{s}\right)\ket{0} \\
+        &= \sum_{s}\sum_{s'}\int\frac{d^{3}p}{(2\pi)^{3}}\frac{d^{3}q}{(2\pi)^{3}}\frac{1}{\sqrt{2\omega_{p}}}\frac{1}{\sqrt{2\omega_{q}}}u_{p}^{s}\bar{u}_{q}^{s'}e^{-iqx}\bra{0}b_{p}^{s}b_{q}^{s'\dagger}\ket{0} \\
+        &= \sum_{s}\sum_{s'}\int\frac{d^{3}p}{(2\pi)^{3}}\frac{d^{3}q}{(2\pi)^{3}}\frac{1}{\sqrt{2\omega_{p}}}\frac{1}{\sqrt{2\omega_{q}}}v_{p}^{s}\bar{v}_{q}^{s'}e^{-iqx}(2\pi)^3\delta_{ss'}\delta^3({\vec{p}}) \\
+        &= \int\frac{d^{3}p}{(2\pi)^{3}}\frac{1}{2\omega_p}e^{-ipx}\sum_{s}v_{p}^{s}\bar{v}_{p}^{s} \\
+        &= \int\frac{d^{3}p}{(2\pi)^{3}}\frac{1}{2\omega_p}(\slashed{p}-m)e^{-ipx} \\
+        &= (i\slashed{\partial}-m)\int\frac{d^{3}p}{(2\pi)^{3}}\frac{1}{2\omega_p}e^{-ipx}.
+    \end{aligned}\tag{181}\]
+Thus, the anti-time ordered product is
+\[\begin{aligned}
+    \bra{0}T\{\psi(0)\bar{\psi}(x)\}\ket{0} &= \bra{0}\bar{\psi}(x)\psi(0)\ket{0}\theta(t) - \bra{0}\psi(0)\bar{\psi}(x)\ket{0}\theta(-t)\\
+    &= (i\slashed{\partial}-m)\int\frac{d^{3}p}{(2\pi)^{3}}\frac{1}{2\omega_p}[e^{-ipx}\theta(t) + e^{ipx}\theta(-t)]\\
+    &= (i\slashed{\partial}-m)\int\frac{d^{3}p}{(2\pi)^{3}}\frac{1}{2\omega_p}e^{-i\vec{p}\vec{x}}[e^{-i\omega_pt}\theta(t) + e^{i\omega_pt}\theta(-t)].
+\end{aligned}\tag{182}\]
+Using (176) and (177), we find
+\[\begin{aligned}
+        \bra{0}T\{\psi(0)\bar{\psi}(x)\}\ket{0} &= (i\slashed{\partial}-m)\int\frac{d^{4}p}{(2\pi)^{4}}\frac{i}{2\omega_p}e^{ipx}\left(\frac{1}{\omega-(-\omega_p+i\varepsilon)} - \frac{1}{\omega-(\omega_p-i\varepsilon)}   \right).
+    \end{aligned}\tag{183}\]
+This is exactly the same integral we found in the spin-0 case. Hence,</p>
+
+<p>\[\bra{0}T\{\psi(0)\bar{\psi}(x)\}\ket{0} = \int\frac{d^{4}p}{(2\pi)^{4}}\frac{i(\slashed{p}+m)}{p^2-m^2+i\varepsilon}e^{ipx},\tag{184}\]</p>
+
+<p>which is a Lorentz invariant expression. This is the Feynman propagator for the spinors.</p>
+
+<p>Say, if we used the time-ordered product instead, we would obtain
+\[\begin{aligned}
+        \bra{0}T\{\psi(0)\bar{\psi}(x)\}\ket{0} &= (i\slashed{\partial}-m)\int\frac{d^{4}p}{(2\pi)^{4}}\frac{i}{2\omega_p}e^{ipx}\left(\frac{1}{\omega-(-\omega_p+i\varepsilon)} - \frac{1}{\omega-(\omega_p-i\varepsilon)}   \right) \\
+        &= (i\slashed{\partial}-m)\int \frac{d^4p}{(2\pi)^4}\frac{\omega}{\sqrt{\vec{p}^2+m^2}}\frac{i}{p^2-m^2+i\varepsilon}e^{ipx},
+    \end{aligned}\tag{185}\]
+which is not Lorentz invariant. Therefore, again, the $S$-matrix for spinors is Lorentz invariant if and only if they are fermions.</p>
+  </article>
+
+  <hr class="ornament-rule">
+
+  <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
+    <a href="../notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="../index.html">About</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+\section{11-Dimensional Supergravity (PS1 Q3)}
+
+\textit{M-theory} is a quantum theory of gravity in $d=11$ spacetime dimensions. 
+It arises from the strong coupling limit of string theory. At low-energies, it is 
+described by $d=11$ supergravity whose bosonic fields are the metric and a 4-form 
+$G = dC$ where $C$ is a 3-form potential. The action governing these fields is
+\begin{equation}
+    S = \frac{1}{2}M_{\mathrm{pl}}^9\left[\int d^{11}x\sqrt{-g}
+    \left(R - \frac{1}{48}G_{\mu\nu\rho\sigma}G^{\mu\nu\rho\sigma}\right)
+    - \frac{1}{6}\int C\wedge G\wedge G\right]
+\end{equation}
+
+\begin{enumerate}[label=\textbf{\roman*)}]
+    \item Show that, up to surface terms, this action is gauge invariant under 
+    $C\to C + d\Lambda$ where $\Lambda$ is a 2-form.
+    \begin{solution}
+    Under such a transformation, the 4-form $G \to G$, because of $d^2 = 0$. Therefore, the first integral in the action remains unchanged after the gauge transformation. 
+
+    The second integral requires a bit more treatment. Under the transformation, the integral becomes
+    \begin{equation}
+        \int_M C \wedge G\wedge G \to \int_M C \wedge G\wedge G + \int_M d\Lambda \wedge G\wedge G.
+    \end{equation}
+    Now, using the Stoke's theorem, we find
+    \begin{equation}
+        \int_M d\Lambda \wedge G\wedge G = \int_{\partial M} \Lambda \wedge G\wedge G-\int_M \Lambda\wedge d(G\wedge G) = 0,
+    \end{equation}
+    where we have used the fact that the fields vanish at the boundary $\partial M$ and $dG = d^2C  =0$.
+    \end{solution}
+
+    \item Vary the metric to determine the Einstein equation for this theory.
+    
+    \begin{solution}
+        Let us consider the variation term by term. The first term gives the standard
+        \begin{equation}
+            \delta(\sqrt{-g}R) = \sqrt{-g}G_{\mu\nu}\delta g^{\mu\nu}.
+        \end{equation}
+        The second term gives
+        \begin{equation}
+            \frac{1}{96}\sqrt{-g}g_{\mu\nu}G_{\alpha\beta\rho\sigma}G^{\alpha\beta\rho\sigma}\delta g^{\mu\nu} - \frac{1}{12}G_{\mu\beta\rho\sigma}\tensor{G}{_\nu^{\beta\rho\sigma}}\delta g^{\mu\nu}.
+        \end{equation}
+    The last integral is a pure topological term, and has no metric dependence.
+    
+    Therefore, we find the Einstein equation to be
+    \begin{equation}
+        G_{\mu\nu} = \frac{1}{96}\left(8G_{\mu\beta\rho\sigma}\tensor{G}{_\nu^{\beta\rho\sigma}} - g_{\mu\nu}G_{\alpha\beta\rho\sigma}G^{\alpha\beta\rho\sigma}\right).
+    \end{equation}
+    \end{solution}
+    
+    \item Vary $C$ to obtain the equation of motion for the 4-form,
+    \begin{equation}
+        d\star G = \frac{1}{2}G\wedge G.
+    \end{equation}
+    \begin{solution}
+        Now, we vary the 3-form, $C\to C + \delta C$. Note that the $GG$ term can be written as 
+        \begin{equation}
+            \int d^{11}x\sqrt{-g}G_{\mu\nu\rho\sigma}G^{\mu\nu\rho\sigma}=-4!\int G\wedge \star G.
+        \end{equation}
+        Therefore, the variation is given by
+        \begin{equation}
+            -48\int_M d\delta C \wedge \star G = -48\int_{\partial M} \delta C \wedge \star G + 48\int_M\delta C\wedge d \star G.
+        \end{equation}
+        Again, the boundary term vanishes.
+
+        The $CGG$ term gives
+        \begin{equation}
+            \int\delta C\wedge G \wedge G + \int C\wedge \delta G \wedge G + \int C\wedge G \wedge \delta G.
+        \end{equation}
+        Note that
+        \begin{equation}
+            \int C\wedge \delta G \wedge G = -\int d(C\wedge \delta C \wedge G)\ = \int d(C\wedge G)\ \wedge \delta C =  \int G\wedge G \wedge  \delta C,
+        \end{equation}
+        where we have neglected the boundary terms implicitly.
+        Therefore, the $CGG$ term becomes
+        \begin{equation}
+            3\int G\wedge G \wedge  \delta C.
+        \end{equation}
+        putting the two terms together and set the variation to zero, we find
+        \begin{equation}
+            \frac{3}{6}\int G\wedge G \wedge  \delta C -\frac{48}{48}\int_M d \star G\wedge\delta C = 0 \implies d \star G = \frac{1}{2}G\wedge G.
+        \end{equation}
+    \end{solution}
+\end{enumerate}

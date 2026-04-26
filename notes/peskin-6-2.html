@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6.2 Equivalent Photon Approximation — Yucheng (Luca) Jin</title>
+<meta name="description" content="6.2 Equivalent Photon Approximation. Source: Peskin &amp; Schroeder.">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../styles.css">
+
+<!-- MathJax with custom macros mirroring the original .tex preamble -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros']},
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      Q: '\\mathbb{Q}',
+      A: '\\mathcal{A}',
+      Lagrangian: '\\mathcal{L}',
+      Cdot: '\\boldsymbol{\\cdot}',
+      Tr: '\\operatorname{Tr}',
+      slashed: ['{\\not{#1}}', 1],
+      wick:    ['{\\overline{#1}}', 1],
+      c:       ['{#1}', 1]
+    }
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- TikZJax: renders <script type="text/tikz"> blocks into SVG client-side -->
+<link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
+<script src="https://tikzjax.com/v1/tikzjax.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="topbar__brand">Yucheng (Luca) Jin <small>MSci · Imperial</small></a>
+  <nav class="topbar__nav">
+    <a href="../index.html">About</a>
+    <a href="../notes.html" class="is-active">Notes</a>
+    <a href="../research.html">Research</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+  </nav>
+</header>
+
+<main class="note">
+
+  <div class="note__breadcrumb">
+    <a href="../notes.html">Notes</a> &nbsp;·&nbsp; Quantum Field Theory · Peskin Problem 6.2
+  </div>
+
+  <h1 class="note__title">6.2 Equivalent Photon Approximation</h1>
+  <p class="note__subtitle">Source: Peskin &amp; Schroeder, <em>An Introduction to Quantum Field Theory</em>, Problem 6.2.</p>
+
+  
+
+  <article class="note__body">
+<p>Consider the process in which electrons of very high energy scatter from a target. In leading order in $\alpha$, the electron is connected to the target by one photon propagator:</p>
+
+<div class="equation-row"><span class="equation-part">$i\mathcal{M$</span>
+
+<figure class="tikz-source"><pre class="tikz-feynman" aria-label="Feynman diagram (LaTeX source)">\begin{tikzpicture}[baseline={(0,-0.85)}]
+    \feynmandiagram [horizontal=a to b] {
+    i1 [particle=\(e^{-}\)] -- [anti fermion, edge label = $p'$] a -- [anti fermion, edge label = $p$] i2 [particle=\(e^{-}\)],
+    a -- [photon, momentum=\(q\)] b [blob],
+    };            
+    \end{tikzpicture}</pre><figcaption>Feynman diagram — rendered from the LaTeX source above.</figcaption></figure>
+
+<p><span class="equation-num">(1)</span></div></p>
+
+<p>where the blob is, in general, complicated coupling of the virtual photon to the target.</p>
+
+<p>If the initial and final energies of the electron are $E$ and $E'$. Under the high-energy limit, 
+\[p = (E, 0,0,E), \quad p'=(E',E'\sin\theta,0,E'\cos\theta),\tag{2}\]
+which implies
+\[q^2 = (p'-p)^2 = -2EE'(1-\cos\theta).\tag{3}\]
+In the limit of forward scattering, whatever the energy loss, the photon momentum approaches $q^2 = 0$; thus the reaction is highly peaked in the forward direction. It is tempting to guess that, in this limit, the virtual photon becomes a real photon. Let us investigate in what sense that is true.</p>
+
+<p><strong>(a)</strong> The matrix element of the above process is given by
+\[\mathcal{M} = (-ie)\bar{u}(p')\gamma^\mu u(p)\frac{-ig_{\mu\nu}}{q^2}\hat{\mathcal{M}}^\nu(q),\tag{4}\]
+where $\hat{\mathcal{M}}^\nu(q)$ represents the (in general, complicated) coupling of the virtual photon to the target. Let us analyse the structure of the piece $\bar{u}(p')\gamma^\mu u(p)$. Let $q = (q^0,\vec{q})$ and $\Tilde{q}=(q^0,-\vec{q})$. We can expand the spinor products as 
+\[\bar{u}(p')\gamma^\mu u(p) = Aq^\mu + B\Tilde{q}^\mu + C \epsilon_1^\mu + D\epsilon_2^\mu,\tag{5}\]
+where $A, B, C , D$ are functions of the scattering angle and energy loss and $\epsilon_1, \epsilon_2$ are two unit vectors transverse to $\vec{q}$. By dotting the expression with $q^\mu$, we find
+\[q_\mu \cdot [\bar{u}(p')\gamma^\mu u(p)] = Aq^2 + Bq\cdot \Tilde{q}.\tag{6}\]
+By Ward identity, we have $q_\mu \bar{u}(p')\gamma^\mu u(p)]=0$. Thus, we have
+\[B = -A\frac{q^2}{q\cdot \Tilde{q}} \approx A \frac{2EE'(1-\cos\theta)}{(q^0)^2 + \vec{q}^2} \sim \theta^2.\tag{7}\]
+Thus, $B$ can be ignored in the case of forward scattering.</p>
+
+<p>Again, by Ward identity, we have $q\cdot \hat{\mathcal{M}}(q) = 0$. Thus, $A$ can be ignored as well.</p>
+
+<p><strong>(b)</strong> In the frame where $p=(E,0,0,E)$, the spinor $u_s(p)$ is given by 
+\[u_s(p) = \begin{pmatrix}
+        \sqrt{p\cdot \sigma}\xi_s\\
+        \sqrt{p\cdot \bar{\sigma}}\xi_s,
+    \end{pmatrix}\tag{8}\]
+where
+\[\sigma^3\xi_\pm = \pm\xi_\pm \implies \xi_+ = \begin{pmatrix}
+        1\\0
+    \end{pmatrix}, \quad \xi_-=\begin{pmatrix}
+        0\\1
+    \end{pmatrix},\tag{9}\]
+and
+\[\sqrt{p\cdot \sigma} = \sqrt{E(1 - \sigma^3)}, \quad \sqrt{p\cdot \sigma} = \sqrt{E(1 + \sigma^3)}.\tag{10}\]
+Thus,
+\[\boxed{
+    u_+(p) = \sqrt{2E}\begin{pmatrix}
+        0\\0\\1\\0
+    \end{pmatrix},\quad u_-(p)=\begin{pmatrix}
+        0\\1\\0\\0
+    \end{pmatrix}.}\tag{11}\]</p>
+
+<p>Next, let us evaluate $u(p')$. Using $p' = (E', E'\sin\theta,0,E'\cos\theta)$, we find
+\[\hat{p}'\cdot \vec{\sigma} \xi_\pm = \pm \xi_\pm \implies \xi_+ = \begin{pmatrix}
+        \cos\frac{\theta}{2}\\\sin\frac{\theta}{2}
+    \end{pmatrix},\quad \xi_- = \sqrt{2E}\begin{pmatrix}
+        -\sin\frac{\theta}{2}\\\cos\frac{\theta}{2}
+    \end{pmatrix}\tag{12}\]
+and
+\[\sqrt{p\cdot \sigma} = \sqrt{E'(1-\hat{p}\cdot \vec{\sigma})}, \quad \sqrt{p\cdot \bar{\sigma}} = \sqrt{E'(1+\hat{p}\cdot \vec{\sigma}).}\tag{13}\]
+Thus, we find
+\[\boxed{
+    u_+(p') = \sqrt{2E'}\begin{pmatrix}
+        0\\0\\ \cos\frac{\theta}{2}\\\sin\frac{\theta}{2}
+    \end{pmatrix},\quad 
+    u_-(p') = \sqrt{2E'}\begin{pmatrix}
+        -\sin\frac{\theta}{2}\\\cos\frac{\theta}{2}\\0\\0
+    \end{pmatrix}
+    .}\tag{14}\]</p>
+
+<p>The polarisation vectors are defined to be parallel and horizontal to the scattering plane ($x-z$ plane). Thus,
+\[\boxed{
+    \epsilon_1^\mu = \frac{1}{\sqrt{E^2+E'^2-2EE'\cos\theta}}\begin{pmatrix}
+        0, E'\cos\theta-E, 0, -E'\sin\theta
+    \end{pmatrix},\quad
+    \epsilon_2^\mu = (0,0,1,0).
+    }\tag{15}\]</p>
+
+<p>Now, let us evaluate $\bar{u}(p')\vec{\gamma}\cdot\vec{\epsilon_i}u(p)$. With some algebra, one should find
+\[\boxed{
+    \begin{aligned}
+        &\bar{u}_\pm(p')\vec{\gamma}\cdot\vec{\epsilon_1}u_\pm(p) = -\frac{E'+E}{\abs{E'-E}}\theta\sqrt{EE'} = C,\\
+        &\bar{u}_\pm(p')\vec{\gamma}\cdot\vec{\epsilon}_2u_\pm(p) = \pm\theta\sqrt{EE'} = D_\pm,\\
+        &\bar{u}_\pm(p')\vec{\gamma}\cdot\vec{\epsilon}_1u_\mp(p) = \bar{u}_\pm(p')\vec{\gamma}\cdot\vec{\epsilon}_2u_\mp(p) = 0.
+    \end{aligned}}\tag{16}\]</p>
+  </article>
+
+  <hr class="ornament-rule">
+
+  <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
+    <a href="../notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="../index.html">About</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>

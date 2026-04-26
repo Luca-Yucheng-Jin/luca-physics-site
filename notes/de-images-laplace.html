@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laplace Operator in 3D: Method of Images — Yucheng (Luca) Jin</title>
+<meta name="description" content="Laplace Operator in 3D: Method of Images. Source: Imperial College London.">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../styles.css">
+
+<!-- MathJax with custom macros mirroring the original .tex preamble -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros']},
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      Q: '\\mathbb{Q}',
+      A: '\\mathcal{A}',
+      Lagrangian: '\\mathcal{L}',
+      Cdot: '\\boldsymbol{\\cdot}',
+      Tr: '\\operatorname{Tr}',
+      slashed: ['{\\not{#1}}', 1],
+      wick:    ['{\\overline{#1}}', 1],
+      c:       ['{#1}', 1]
+    }
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- TikZJax: renders <script type="text/tikz"> blocks into SVG client-side -->
+<link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
+<script src="https://tikzjax.com/v1/tikzjax.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="topbar__brand">Yucheng (Luca) Jin <small>MSci · Imperial</small></a>
+  <nav class="topbar__nav">
+    <a href="../index.html">About</a>
+    <a href="../notes.html" class="is-active">Notes</a>
+    <a href="../research.html">Research</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+  </nav>
+</header>
+
+<main class="note">
+
+  <div class="note__breadcrumb">
+    <a href="../notes.html">Notes</a> &nbsp;·&nbsp; Differential Equations · Imperial Contaldi PS9 Q5
+  </div>
+
+  <h1 class="note__title">Laplace Operator in 3D: Method of Images</h1>
+  <p class="note__subtitle">Source: Imperial College London, Carlo Contaldi, Differential Equations, Problem Sheet 9, Question 5.</p>
+
+  
+
+  <article class="note__body">
+<p>This question concerns using the <em>method of images</em> to find the Green's
+function for Poisson's equation $\nabla^2 u(\mathbf{x}) = f(\mathbf{x})$ within
+a sphere of radius $R$ subject to the homogeneous boundary condition at $r=R$:
+\[u(R,\theta,\phi) = 0.\tag{1}\]</p>
+
+<ol>
+  <li>Take the Dirac delta function in $\nabla^2 G(\mathbf{x},\mathbf{z}) =
+    \delta(\mathbf{x}-\mathbf{z})$ to be located within the sphere. Label this
+    point as $D$. Assume the sphere is centred on the origin $O$. By symmetry,
+    assume that the image Green's function (position $\mathbf{z}'$) is located
+    outside the sphere, on the line joining $O$ and $D$, so that
+    $\mathbf{z}' = k\mathbf{z}$. The Green's function is then
+    \[G(\mathbf{x},\mathbf{z}) = F(\mathbf{x},\mathbf{z})
+      + \alpha F(\mathbf{x},\mathbf{z}'),\tag{2}\]
+    where $F(\mathbf{x},\mathbf{z})$ is the appropriate fundamental Green's
+    function. Show that the values of $\alpha$ and $k$ that make
+    $G(\mathbf{x},\mathbf{z})$ meet the homogeneous BC at the intercepts of
+    line $OD$ with the sphere are
+    \[k = \frac{R^2}{|\mathbf{z}|^2}\,,\qquad \alpha = -\frac{R}{|\mathbf{z}|}\,.\tag{3}\]</li>
+  <li>Show that this Green's function is zero on the entire sphere.</li>
+  <li>Find an expression for $u$ at the centre of the sphere, as a function
+    of $a$, for
+    \begin{enumerate}</li>
+  <li>$f(\mathbf{x}) = \delta(r-a)\delta(\theta)\delta(\phi)$
+        \quad (i.e.\ a point source a distance $a$ from $O$)</li>
+  <li>$f(\mathbf{x}) = \delta(r-a)$
+        \quad (i.e.\ a uniform infinitely thin shell)</li>
+</ol>
+
+<p>\end{enumerate}</p>
+
+<p><u><strong>Solution</strong></u> We can identify the Green's function straight away from Coulomb's potential. However, for completeness, let us derive the Green's function for the Laplace equation. For simplicity, we will find the Green's function, $G(\mathbf{x},0)$. The general form, $G(\mathbf{x},\mathbf{z})$, follows simply by translational invariance.</p>
+
+<p>In the Fourier domain, we have
+\[-|\mathbf{k}|^2\tilde{G}(\mathbf{k}) = 1.\tag{4}\]
+This implies
+\[\begin{aligned}G(\mathbf{x},0) &= -\int\frac{d^3\mathbf{k}}{(2\pi)^3} \frac{e^{-i\mathbf{k}\cdot\mathbf{x}}}{|\mathbf{k}|^2} \notag\\ 
+    & = -\frac{1}{4\pi^2}\int^\infty_0dk\int^1_{-1}d\cos\theta e^{-ikx\cos\theta} \notag\\
+    &=-\frac{1}{4\pi^2}\int^\infty_0 dk \frac{2\sin kx}{kx}\notag\\
+    &=-\frac{1}{4\pi|\mathbf{x}|},\end{aligned}\tag{11}\]
+and hence the more general form
+\[\boxed{G(\mathbf{x},\mathbf{z}) 
+    =-\frac{1}{4\pi|\mathbf{x}-\mathbf{z}|}.}\tag{5}\]</p>
+
+<p>Now for this boundary condition, the Green's function can be written as
+\[G(\mathbf{x},\mathbf{z}) =-\frac{1}{4\pi}\left(\frac{1}{|\mathbf{x}-\mathbf{z}|} + \frac{\alpha}{|\mathbf{x}-k\mathbf{z}|}\right).\tag{6}\]
+To satisfy the boundary condition, we require it to vanish everywhere on the sphere. Take the two points on $OD$ for convenience; we find
+\[\frac{1}{R-z}+\frac{\alpha}{kz-R} =0,\tag{7}\]
+and
+\[\frac{1}{R+z} + \frac{1}{R+kz} = 0.\tag{8}\]
+Solving them, we find
+\[k = \frac{R^2}{|\mathbf{z}|^2}\,,\qquad \alpha = -\frac{R}{|\mathbf{z}|}\,.\tag{9}\]</p>
+
+<p>Now, we shall verify that the Green's function indeed vanishes everywhere on the sphere:
+\[G(R\hat{\mathbf{r}},\mathbf{z}) =-\frac{1}{4\pi}\left(\frac{1}{\sqrt{R^2  +z^2 -2Rz\cos\theta}} - \frac{R/z}{\sqrt{R^2+R^4/z^2 -2R^3\cos\theta/z}}\right) = 0,\tag{10}\]
+where $\theta$ is the angle between $\hat{\mathbf{r}}$ and $\mathbf{z}$.</p>
+
+<p><strong>a.</strong> 
+\[\begin{aligned}u(r=0,\theta,\phi) &= -\frac{1}{4\pi}\int^\infty_0dr'\,r'^2\int^\pi_{0}d\theta'\sin\theta'\int^{2\pi}_0d\phi'\left(\frac{1}{r'} - \frac{1}{R}\right)\delta(r'-a)\delta(\theta')\delta(\phi') \notag\\&=0.\end{aligned}\tag{12}\]
+This is the Faraday cage effect.</p>
+
+<p><strong>b.</strong> 
+\[\begin{aligned}u(r=0,\theta,\phi) &= -\frac{1}{4\pi}\int^\infty_0dr'\,r'^2\int^\pi_{0}d\theta'\sin\theta'\int^{2\pi}_0d\phi'\left(\frac{1}{r'} - \frac{1}{R}\right)\delta(r'-a)\notag\\&=- a + \frac{a^2}{R}.\end{aligned}\tag{13}\]</p>
+  </article>
+
+  <hr class="ornament-rule">
+
+  <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
+    <a href="../notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="../index.html">About</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>

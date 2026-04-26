@@ -1,0 +1,859 @@
+/* ================================================================
+   Luca Jin — Theoretical Physics
+   Aesthetic: Scholar's Notebook. Warm paper, classical serifs,
+   oxblood accent, generous margins, subtle physics ornament.
+   Designed for math-heavy reading on phone, tablet, laptop, desktop.
+   ================================================================ */
+
+:root {
+  /* palette — higher contrast for readability */
+  --paper:        #faf5e9;
+  --paper-deep:   #efe7d4;
+  --paper-shade:  #e8dec6;
+  --ink:          #14110d;
+  --ink-soft:     #2a241c;
+  --muted:        #6b6053;
+  --rule:         #cdc2a9;
+  --rule-soft:    #e3dac3;
+  --accent:       #6b1f1f;          /* oxblood */
+  --accent-soft:  #8a3030;
+  --highlight:    #b08732;          /* old gold */
+
+  /* type */
+  --display: 'Cormorant Garamond', 'EB Garamond', Garamond, serif;
+  --body:    'EB Garamond', Garamond, 'Times New Roman', serif;
+  --mono:    'JetBrains Mono', 'Courier New', monospace;
+
+  /* layout */
+  --measure: 92ch;
+  --measure-narrow: 60ch;
+  --measure-wide: 140ch;
+  --gutter: clamp(1rem, 3vw, 4rem);
+  --rad: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------- Reset / base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  font-size: clamp(16px, 1.6vw + 0.5rem, 19px);
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--body);
+  font-weight: 400;
+  font-size: 1.08rem;
+  line-height: 1.7;
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* ---------- Typography ---------- */
+h1, h2, h3, h4 {
+  font-family: var(--display);
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  color: var(--ink);
+  line-height: 1.18;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: clamp(2.4rem, 6vw, 4.4rem);
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.4rem;
+}
+
+h2 {
+  font-size: clamp(1.55rem, 3vw, 2.2rem);
+  font-weight: 500;
+  margin: 3.2rem 0 1rem;
+  position: relative;
+}
+
+h2::before {
+  content: "§";
+  color: var(--accent);
+  font-style: italic;
+  margin-right: 0.5rem;
+  font-weight: 400;
+  opacity: 0.85;
+}
+
+h3 {
+  font-size: clamp(1.15rem, 1.6vw, 1.3rem);
+  font-weight: 500;
+  margin: 1.8rem 0 0.5rem;
+  color: var(--ink-soft);
+}
+
+p {
+  margin: 0 0 1.1rem;
+  text-wrap: pretty;
+  hyphens: auto;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(107, 31, 31, 0.25);
+  transition: border-color 0.2s, color 0.2s;
+}
+a:hover, a:focus-visible {
+  color: var(--accent-soft);
+  border-bottom-color: var(--accent);
+}
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--rad);
+}
+
+em { font-style: italic; }
+strong { font-weight: 600; color: var(--ink); }
+small { font-size: 0.85em; color: var(--muted); }
+
+code, kbd {
+  font-family: var(--mono);
+  font-size: 0.88em;
+  background: var(--paper-deep);
+  padding: 0.1em 0.35em;
+  border-radius: var(--rad);
+  word-break: break-word;
+}
+
+img, svg { max-width: 100%; height: auto; }
+
+hr {
+  border: 0;
+  height: 1px;
+  background: var(--rule);
+  margin: 3rem auto;
+  width: 60%;
+}
+
+/* an oxblood ornamental rule with a vertex dot in the middle */
+hr.ornament-rule {
+  position: relative;
+  background: transparent;
+  height: 12px;
+  margin: 3rem auto;
+}
+hr.ornament-rule::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 50%;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--rule) 20%,
+    var(--rule) 80%,
+    transparent 100%);
+}
+hr.ornament-rule::after {
+  content: "✦";
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -55%);
+  background: var(--paper);
+  color: var(--accent);
+  padding: 0 0.6rem;
+  font-size: 0.75rem;
+}
+
+/* ---------- Layout ----------
+   The reading column grows with the viewport but stops at a comfortable
+   measure so lines don't become unreadably long on huge screens.            */
+.page {
+  width: min(var(--measure), calc(100vw - 2 * var(--gutter)));
+  margin: 0 auto;
+  padding: 3rem var(--gutter) 5rem;
+}
+
+.page--index  { width: min(var(--measure-wide),  calc(100vw - 2 * var(--gutter))); }
+.page--wide   { width: min(var(--measure-wide),  calc(100vw - 2 * var(--gutter))); }
+.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gutter))); }
+
+/* ---------- Top bar ----------
+   Full-viewport bar with internal content centered. This way the bar visibly
+   spans whatever width the tab is, regardless of the reading column width. */
+.topbar {
+  width: 100%;
+  padding: 1.2rem var(--gutter) 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  font-family: var(--display);
+  font-size: 0.95rem;
+}
+
+.topbar > * { flex-shrink: 1; min-width: 0; }
+
+.topbar__brand {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--ink);
+  border: none;
+  font-size: 1.1rem;
+}
+
+.topbar__brand small {
+  font-style: normal;
+  font-variant: small-caps;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin-left: 0.4rem;
+  font-size: 0.7rem;
+}
+
+.topbar__nav {
+  display: flex;
+  gap: clamp(0.9rem, 2.5vw, 1.8rem);
+  flex-wrap: wrap;
+}
+
+.topbar__nav a {
+  border: none;
+  color: var(--ink-soft);
+  font-variant: small-caps;
+  letter-spacing: 0.08em;
+  font-size: 0.85rem;
+}
+
+.topbar__nav a:hover, .topbar__nav a:focus-visible { color: var(--accent); }
+
+.topbar__nav a.is-active {
+  color: var(--accent);
+  border-bottom: 1px solid var(--accent);
+  padding-bottom: 2px;
+}
+
+/* ---------- Sub navigation (topic anchors) ---------- */
+.subnav {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  width: 100%;
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule);
+  padding: 0.55rem var(--gutter);
+  font-family: var(--display);
+  font-size: 0.82rem;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  background: color-mix(in srgb, var(--paper) 92%, transparent);
+}
+
+.subnav__inner {
+  width: min(var(--measure-wide), 100%);
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1.4rem;
+  align-items: baseline;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.subnav a {
+  border: none;
+  color: var(--ink-soft);
+  font-variant: small-caps;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  padding: 0.15rem 0;
+}
+
+.subnav a:hover, .subnav a:focus-visible {
+  color: var(--accent);
+}
+
+.subnav__label {
+  color: var(--muted);
+  font-style: italic;
+  margin-right: 0.4rem;
+  font-variant: normal;
+  letter-spacing: 0;
+}
+
+/* anchored sections need scroll-margin so they don't slip under the sticky bar */
+.section[id], h2[id] {
+  scroll-margin-top: 4.5rem;
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  padding-top: 2.2rem;
+  padding-bottom: 1.4rem;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 2.5rem;
+  position: relative;
+}
+
+.hero__eyebrow {
+  font-family: var(--display);
+  font-variant: small-caps;
+  letter-spacing: 0.18em;
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-bottom: 1.2rem;
+}
+
+.hero__lede {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  color: var(--ink-soft);
+  max-width: var(--measure-narrow);
+  line-height: 1.5;
+  margin: 0.6rem 0 1.6rem;
+}
+
+.hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem 2rem;
+  font-size: 0.92rem;
+  color: var(--muted);
+  margin-bottom: 0.6rem;
+}
+
+.hero__meta a { color: var(--ink-soft); border-bottom-color: var(--rule); }
+.hero__meta a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* drop cap on first paragraph after hero */
+.dropcap::first-letter {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 4.5rem;
+  line-height: 0.9;
+  float: left;
+  padding: 0.3rem 0.5rem 0 0;
+  color: var(--accent);
+}
+
+/* ---------- Sections ---------- */
+.section { margin-bottom: 1rem; }
+
+.entry {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.3rem;
+  padding: 1rem 0;
+  border-bottom: 1px dotted var(--rule);
+}
+
+.entry:last-child { border-bottom: none; }
+
+.entry__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.8rem;
+}
+
+.entry__title {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: clamp(1.05rem, 1.6vw, 1.18rem);
+  color: var(--ink);
+}
+
+.entry__date {
+  font-family: var(--display);
+  font-style: italic;
+  color: var(--muted);
+  font-size: 0.92rem;
+  white-space: nowrap;
+}
+
+.entry__sub {
+  font-style: italic;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.entry__body {
+  margin-top: 0.5rem;
+  color: var(--ink-soft);
+}
+
+.entry__body ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0.4rem 0;
+}
+
+.entry__body li {
+  padding-left: 1.2rem;
+  position: relative;
+  margin-bottom: 0.25rem;
+}
+
+.entry__body li::before {
+  content: "—";
+  color: var(--accent);
+  position: absolute;
+  left: 0;
+}
+
+/* ---------- Notes index (catalogue) ----------
+   2-col layout: [numeral][title + tag flowing inline]. Tag floats next to the
+   title at wide widths, drops below when there isn't room — no media query
+   needed.                                                                   */
+.catalogue {
+  list-style: none;
+  padding: 0;
+  margin: 1.2rem 0 0;
+  display: grid;
+  gap: 0.2rem;
+}
+
+.catalogue__item {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--rule);
+  display: grid;
+  grid-template-columns: minmax(2.2rem, 3rem) 1fr;
+  gap: 0.4rem 1rem;
+  align-items: baseline;
+}
+
+.catalogue__main { min-width: 0; }      /* lets long titles wrap inside grid */
+
+.catalogue__item:last-child { border-bottom: none; }
+
+.catalogue__num {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 1.4rem;
+  color: var(--accent);
+  font-feature-settings: "lnum";
+}
+
+.catalogue__main a {
+  border: none;
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: clamp(1.1rem, 1.6vw, 1.25rem);
+  font-weight: 500;
+}
+
+.catalogue__main a:hover { color: var(--accent); }
+
+/* draft entries: muted, no link affordance */
+.catalogue__main--draft {
+  color: var(--muted);
+  font-family: var(--display);
+  font-size: clamp(1.1rem, 1.6vw, 1.25rem);
+  font-weight: 500;
+  font-style: italic;
+}
+
+.catalogue__desc {
+  display: block;
+  color: var(--muted);
+  font-style: italic;
+  font-size: 0.95rem;
+  margin-top: 0.15rem;
+}
+
+.catalogue__tag {
+  font-family: var(--display);
+  font-variant: small-caps;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  font-size: 0.78rem;
+  grid-column: 2;
+  margin-top: 0.2rem;
+  white-space: nowrap;
+}
+
+.catalogue__tag--draft {
+  color: var(--highlight);
+  font-style: italic;
+}
+
+/* ---------- Tags / pills ---------- */
+.tags {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-top: 0.4rem;
+}
+
+.tag {
+  font-family: var(--display);
+  font-variant: small-caps;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  padding: 0.15rem 0.55rem;
+  border: 1px solid var(--rule);
+  color: var(--muted);
+  border-radius: var(--rad);
+}
+
+/* ---------- Footer ----------
+   Same full-bleed strategy as the topbar.                                  */
+.footer {
+  width: 100%;
+  padding: 2.5rem var(--gutter) 3rem;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.2rem;
+  font-size: 0.88rem;
+  color: var(--muted);
+  font-style: italic;
+  font-family: var(--display);
+}
+
+.footer a { color: var(--muted); border-bottom-color: var(--rule); }
+.footer a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* ---------- Notes page (math content) ---------- */
+.note {
+  width: min(var(--measure), calc(100vw - 2 * var(--gutter)));
+  margin: 0 auto;
+  padding: 2.5rem var(--gutter) 6rem;
+  overflow-wrap: break-word;
+}
+
+.note__breadcrumb {
+  font-family: var(--display);
+  font-variant: small-caps;
+  letter-spacing: 0.12em;
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-bottom: 1rem;
+}
+
+.note__breadcrumb a { border: none; color: var(--ink-soft); }
+
+.note__title {
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  margin: 0 0 0.3rem;
+  font-style: normal;
+}
+
+.note__subtitle {
+  font-style: italic;
+  color: var(--muted);
+  font-family: var(--display);
+  margin-bottom: 2.2rem;
+  font-size: clamp(1rem, 1.6vw, 1.1rem);
+}
+
+.note h2, .note h3 { margin-top: 2.2rem; }
+.note h2::before { content: ""; margin: 0; }
+.note h2 {
+  font-size: clamp(1.35rem, 2.2vw, 1.6rem);
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 0.3rem;
+}
+
+.note__problem,
+.note__abstract {
+  background: var(--paper-deep);
+  border-left: 3px solid var(--accent);
+  padding: 1rem 1.4rem;
+  margin: 1.5rem 0;
+  font-size: 0.98rem;
+  border-radius: 0 var(--rad) var(--rad) 0;
+}
+
+.note__problem-label,
+.note__abstract-label {
+  font-family: var(--display);
+  font-variant: small-caps;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  font-size: 0.78rem;
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.note figure {
+  margin: 1.8rem 0;
+  text-align: center;
+}
+.note figure img {
+  border: 1px solid var(--rule);
+  border-radius: var(--rad);
+  max-width: min(100%, 32rem);
+}
+.note figcaption {
+  font-family: var(--display);
+  font-style: italic;
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+/* TikZ figures (rendered by TikZJax) */
+.note figure.tikz-figure {
+  background: var(--paper);
+  padding: 1rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--rad);
+  overflow-x: auto;
+}
+.note figure.tikz-figure svg {
+  max-width: 100%;
+  height: auto;
+  color: var(--ink);
+}
+
+/* Equation rows that contain inline TikZ figures.  Visually presents the
+   equation parts and the diagram on a single (wrapping) row, with the
+   equation number floated to the right edge — like a numbered display
+   equation in a textbook. */
+.note .equation-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  margin: 1.6rem 0;
+  position: relative;
+  padding-right: 3rem;          /* room for the number */
+}
+.note .equation-row .equation-part {
+  display: inline-block;
+}
+.note .equation-row > figure.tikz-figure,
+.note .equation-row > figure.tikz-source {
+  margin: 0;
+  flex: 0 0 auto;
+}
+.note .equation-num {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--display);
+  font-style: italic;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+@media (max-width: 700px) {
+  .note .equation-row { padding-right: 0; }
+  .note .equation-num {
+    position: static;
+    transform: none;
+    display: block;
+    width: 100%;
+    text-align: right;
+    margin-top: 0.3rem;
+  }
+}
+
+/* Per-page table of contents */
+.note__toc {
+  margin: 1.5rem 0 2.5rem;
+  padding: 1rem 1.4rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--rad);
+  background: var(--paper-deep);
+  font-family: var(--display);
+  font-size: 0.95rem;
+}
+.note__toc-label {
+  font-variant: small-caps;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  font-size: 0.78rem;
+  margin-bottom: 0.5rem;
+}
+.note__toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  columns: 2;                   /* two-up on wide screens */
+  column-gap: 2rem;
+}
+.note__toc-list li {
+  break-inside: avoid;
+  padding: 0.12rem 0;
+}
+.note__toc-list li.toc-h2 {
+  font-weight: 500;
+}
+.note__toc-list li.toc-h3 {
+  padding-left: 1.2rem;
+  font-size: 0.9em;
+  color: var(--ink-soft);
+}
+.note__toc a {
+  border: none;
+  color: var(--ink-soft);
+}
+.note__toc a:hover { color: var(--accent); }
+
+@media (max-width: 720px) {
+  .note__toc-list { columns: 1; }
+}
+
+/* tcolorbox callouts — yellow-paper aside boxes for highlighted derivations */
+.note aside.callout {
+  background: #fdf5dc;
+  border-left: 3px solid var(--highlight);
+  border-radius: var(--rad);
+  padding: 1rem 1.4rem;
+  margin: 1.5rem 0;
+  color: var(--ink);
+}
+.note aside.callout > :first-child { margin-top: 0; }
+.note aside.callout > :last-child  { margin-bottom: 0; }
+
+/* tikz-feynman source listings — TikZJax can't render these, so we show
+   the LaTeX source styled like a code block. */
+.note figure.tikz-source {
+  text-align: left;
+  background: var(--paper-deep);
+  border: 1px dashed var(--rule);
+  border-radius: var(--rad);
+  padding: 1rem 1.2rem;
+  margin: 1.5rem 0;
+  font-family: var(--mono);
+  font-size: 0.85em;
+  overflow-x: auto;
+}
+.note figure.tikz-source pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--ink-soft);
+}
+.note figure.tikz-source figcaption {
+  text-align: center;
+  margin-top: 0.7rem;
+  font-size: 0.85rem;
+}
+
+/* MathJax tweaks: keep displays from overflowing on phones */
+mjx-container[display="true"] {
+  margin: 1.4rem 0 !important;
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+}
+
+/* ---------- Decorative Feynman ornaments ---------- */
+.ornament {
+  display: block;
+  margin: 2.5rem auto;
+  width: 60px;
+  height: 60px;
+  opacity: 0.55;
+}
+
+.ornament path,
+.ornament line,
+.ornament circle { stroke: var(--accent); stroke-width: 1.2; fill: none; }
+
+/* a corner-bound vertex used to mark the hero on wider screens */
+.hero__vertex {
+  position: absolute;
+  top: 1rem;
+  right: 0;
+  width: clamp(36px, 6vw, 56px);
+  height: clamp(36px, 6vw, 56px);
+  opacity: 0.4;
+  pointer-events: none;
+}
+.hero__vertex path,
+.hero__vertex line,
+.hero__vertex circle { stroke: var(--accent); stroke-width: 1; fill: none; }
+@media (max-width: 460px) {
+  .hero__vertex { display: none; }    /* avoid colliding with title on tiny screens */
+}
+
+/* ---------- Reveal animation on load ---------- */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero,
+.section {
+  animation: rise 0.7s ease-out both;
+}
+
+.section:nth-child(2) { animation-delay: 0.08s; }
+.section:nth-child(3) { animation-delay: 0.16s; }
+.section:nth-child(4) { animation-delay: 0.24s; }
+.section:nth-child(5) { animation-delay: 0.32s; }
+
+/* ---------- Responsive breakpoints ----------
+   Most sizing is fluid (clamp + ch-based measure); the rules below only
+   handle layout regrouping that fluid sizing can't do.                  */
+
+/* Phone (≤ 640px): stack the topbar, lighten paddings */
+@media (max-width: 640px) {
+  body { line-height: 1.62; }
+
+  .topbar {
+    padding-top: 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+  .topbar__brand small { display: block; margin-left: 0; margin-top: 0.1rem; }
+  .topbar__nav { gap: 0.8rem 1.1rem; width: 100%; }
+
+  .page  { padding: 1.6rem var(--gutter) 3.5rem; }
+  .note  { padding: 1.6rem var(--gutter) 4rem; }
+  .hero  { padding-top: 1.2rem; margin-bottom: 1.8rem; }
+
+  .catalogue__item { padding: 0.9rem 0; }
+  .entry { padding: 0.8rem 0; }
+  .entry__head { gap: 0.2rem; }
+  .entry__date { font-size: 0.85rem; }
+
+  .hero__meta { gap: 0.4rem 1rem; font-size: 0.9rem; }
+
+  .dropcap::first-letter { font-size: 3rem; padding-right: 0.4rem; }
+
+  .footer { flex-direction: column; align-items: flex-start; padding: 1.8rem var(--gutter) 2.2rem; }
+}
+
+/* Tablet (≥ 700px): a touch more breathing room */
+@media (min-width: 700px) {
+  .page { padding-top: 3rem; }
+}
+
+/* ---------- Print ---------- */
+@media print {
+  body {
+    background: white;
+    background-image: none;
+    font-size: 11pt;
+    line-height: 1.45;
+  }
+  .topbar, .footer, .ornament, .hero__vertex, .hero__formula { display: none; }
+  a { color: var(--ink); border: none; }
+  h1, h2, h3 { break-after: avoid-page; }
+  .note__problem, .note__abstract { break-inside: avoid; }
+}

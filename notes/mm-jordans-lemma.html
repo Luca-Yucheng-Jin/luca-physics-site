@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jordan's Lemma — Yucheng (Luca) Jin</title>
+<meta name="description" content="Jordan's Lemma. Source: Standard complex-analysis result; treatment follows J. E. Santos' Cambridge IB lectures..">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../styles.css">
+
+<!-- MathJax with custom macros mirroring the original .tex preamble -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros']},
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      Q: '\\mathbb{Q}',
+      A: '\\mathcal{A}',
+      Lagrangian: '\\mathcal{L}',
+      Cdot: '\\boldsymbol{\\cdot}',
+      Tr: '\\operatorname{Tr}',
+      slashed: ['{\\not{#1}}', 1],
+      wick:    ['{\\overline{#1}}', 1],
+      c:       ['{#1}', 1]
+    }
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- TikZJax: renders <script type="text/tikz"> blocks into SVG client-side -->
+<link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
+<script src="https://tikzjax.com/v1/tikzjax.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="topbar__brand">Yucheng (Luca) Jin <small>MSci · Imperial</small></a>
+  <nav class="topbar__nav">
+    <a href="../index.html">About</a>
+    <a href="../notes.html" class="is-active">Notes</a>
+    <a href="../research.html">Research</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+  </nav>
+</header>
+
+<main class="note">
+
+  <div class="note__breadcrumb">
+    <a href="../notes.html">Notes</a> &nbsp;·&nbsp; Mathematical Methods · Complex Analysis
+  </div>
+
+  <h1 class="note__title">Jordan's Lemma</h1>
+  <p class="note__subtitle">Source: Standard complex-analysis result; treatment follows J. E. Santos' Cambridge IB lectures.</p>
+
+  
+
+  <article class="note__body">
+<p><strong>Statement.</strong> Let $f(z) = e^{iaz}g(z)$ with $a > 0$. Show that if
+$g(z)\to 0$ uniformly on the upper half-plane as $|z|\to\infty$, i.e.
+\[\max_{\theta\in[0,\pi]}|g(Re^{i\theta})| \to 0 \quad \text{as } R\to\infty,
+    \tag{1}\]
+then the integral over the upper semicircular arc $\mathcal{C}_R =
+\{z = Re^{i\theta},\, \theta\in[0,\pi]\}$ vanishes:
+\[\lim_{R\to\infty}\int_{\mathcal{C}_R}f(z)\,dz = 0.\tag{2}\]
+Find an upper bound for $\left|\int_{\mathcal{C}_R}f(z)\,dz\right|$ and
+give an example of a class of functions $g$ satisfying (1).</p>
+
+<p><u><strong>Solution</strong></u> A typical example satisfying
+(1) is any rational function $g(z) = P(z)/Q(z)$ with
+$\deg Q \geq \deg P + 1$, for which
+$\max|g(Re^{i\theta})| = \mathcal{O}(R^{-1})\to 0$.</p>
+
+<p>Parametrise $z = Re^{i\theta}$, so $dz = iRe^{i\theta}d\theta$. The
+integral becomes
+\[\int_{\mathcal{C}_R}f(z)\,dz
+    = iR\int^\pi_0 g(Re^{i\theta})\,e^{iaRe^{i\theta}}\,e^{i\theta}\,d\theta.\tag{3}\]
+Taking the absolute value and using $|e^{i\theta}|=1$ and
+$|e^{iaRe^{i\theta}}| = e^{-aR\sin\theta}$:
+\[\begin{aligned}\left|\int_{\mathcal{C}_R}f(z)\,dz\right|
+    &\leq R\int^\pi_0 |g(Re^{i\theta})|\,e^{-aR\sin\theta}\,d\theta \notag\\
+    &\leq M(R)\cdot R\int^\pi_0 e^{-aR\sin\theta}\,d\theta,\end{aligned}\tag{9}\]
+where $M(R)\equiv\max_{\theta\in[0,\pi]}|g(Re^{i\theta})|$. By symmetry of
+$\sin\theta$ about $\theta=\pi/2$:
+\[R\int^\pi_0 e^{-aR\sin\theta}\,d\theta
+    = 2R\int^{\pi/2}_0 e^{-aR\sin\theta}\,d\theta.\tag{4}\]
+Since $\sin\theta$ is concave on $[0,\pi/2]$, it lies above the chord
+connecting $(0,0)$ and $(\pi/2,1)$:
+\[\sin\theta \geq \frac{2\theta}{\pi}, \qquad \theta\in\left[0,\tfrac{\pi}{2}\right].\tag{5}\]
+Therefore:
+\[2R\int^{\pi/2}_0 e^{-aR\sin\theta}\,d\theta
+    \leq 2R\int^{\pi/2}_0 e^{-2aR\theta/\pi}\,d\theta
+    = \frac{\pi}{a}\!\left(1-e^{-aR}\right)
+    \leq \frac{\pi}{a}.\tag{6}\]
+Combining, we obtain the bound
+\[\left|\int_{\mathcal{C}_R}f(z)\,dz\right| \leq \frac{\pi}{a}\,M(R).
+    \tag{7}\]
+Taking $R\to\infty$: by assumption (1), $M(R)\to 0$, so
+the right-hand side of (7) vanishes by the squeeze
+theorem, and hence
+\[\lim_{R\to\infty}\int_{\mathcal{C}_R}f(z)\,d z = 0.\tag{8}\]</p>
+  </article>
+
+  <hr class="ornament-rule">
+
+  <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
+    <a href="../notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="../index.html">About</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>

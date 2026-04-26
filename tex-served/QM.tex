@@ -1,0 +1,304 @@
+\section{Quantum Mechanics}
+\subsection{Non-Degeneracy and Reality of Bound States in 1D (David Tong QM, PS1 Q3)}
+\label{sec:bound-states}
+
+Consider a particle in one dimension in a potential $U(x)$ that tends to zero
+rapidly as $x \to \pm\infty$.
+
+\begin{enumerate}
+    \item Let $\chi_1(x)$ and $\chi_2(x)$ be normalisable energy eigenfunctions of the
+    Hamiltonian with the same energy eigenvalue $E$. By considering
+    $\chi_1 \chi_2' - \chi_2 \chi_1'$,
+    show that $\chi_1$ and $\chi_2$ must be proportional to one another.
+    What does this mean, physically?
+    
+
+  \item Can the wavefunction for a normalised energy eigenstate always be chosen to be
+    real?
+
+  \item Show that if $\chi(x)$ is any normalised energy eigenstate then
+    $\langle \hat{p} \rangle_\chi = 0$.
+\end{enumerate}
+\textbf{Solution:} Consider the Wronskian, 
+\begin{equation}
+    W(x) = \chi_1\chi_2'-\chi_2\chi_1'.
+\end{equation}
+Note that 
+\begin{equation}
+    W'(x) = \chi_1\chi_2''-\chi_2\chi_1''.
+\end{equation}
+Since both $\chi_1$ and $\chi_2$ satisfy the Schrödinger equation with the same eigenvalue, $W'(x)$ vanishes. Therefore, we have $W(x) = \text{const}$. Since the wavefunctions are normalisable, we can only have $W(x)=0$. Thus, the two wavefunctions are linearly dependent, which means they are the same eigenfunction to the Hamiltonian.
+
+Given that $\chi$ satisfies
+\begin{equation}
+    H\chi=E\chi,
+\end{equation}
+take the complex conjugate on both side, we find
+\begin{equation}
+    H\chi^*=E\chi^*.
+\end{equation}
+As we have shown that $\chi$ and $\chi^*$ are linearly dependent, we can always construct a real eigenfunction for the eigenvalue, $E$, namely
+\begin{equation}
+    \psi = \chi + \chi^*.
+\end{equation}
+
+The expectation value for the momentum operator is given by ($\chi$ taken to be real)
+\begin{equation}
+    \langle p\rangle = -i\hbar\int dx \chi\chi' = -\frac{i\hbar}{2}\int dx (\chi^2)' = -\frac{i\hbar}{2}[\chi^2(+\infty) - \chi^2(-\infty)],
+\end{equation}
+which must vanish for normalisable $\chi$.
+
+\subsection{Absence of Odd-Parity Bound States in a Shallow Square Well (David Tong QM, PS1 Q7)}
+\label{sec:square-well}
+
+Consider a square well potential with $U(x) = -U$ for $|x| < a$
+and $U(x) = 0$ otherwise ($U$ is a positive constant). Show that there are no
+bound states (normalisable energy eigenfunctions) which satisfy
+$\chi(-x) = -\chi(x)$ (i.e.\ which have odd parity) if
+%
+\begin{equation}
+  a^2 U < \frac{(\pi\hbar)^2}{8m}\,.
+  \label{eq:shallow-condition}
+\end{equation}
+\underline{\textbf{Solution}} For the state to be bounded, we require $-U<E<0$. Solving the TISE, we find
+\begin{equation}
+    \chi(x) = \begin{cases}
+        Ae^{\kappa x} & x\leq-a,\\
+        C\sin(kx)+ D\cos(kx) & |x|<a,\\
+        Ee^{-\kappa x} & x\geq a,
+    \end{cases}
+\end{equation}
+with
+\begin{equation}
+    \kappa = \frac{\sqrt{-2mE}}{\hbar} \qquad   \text{and} \qquad k = \frac{\sqrt{2m(U+E)}}{\hbar}.
+\end{equation}
+
+For the wavefunction to be odd, we require $-A=E$ and $D=0$. Imposing the boundary conditions, we find
+\begin{equation}
+    \frac{\tan ka}{ka} = -\frac{1}{\kappa},
+\end{equation}
+which is an implicit transcendental equation for $E$. We can rewrite the equation as 
+\begin{equation}
+    k\cot ka = -\kappa(k),
+\end{equation}
+where
+\begin{equation}
+    \kappa^2 + k^2 = \frac{2mU}{\hbar^2}.
+\end{equation}
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=12cm, height=12cm,
+  xmin=0, xmax=10,
+  ymin=-5, ymax=5,
+  xlabel={$k$},
+  axis lines=center,
+  xtick={1.5708, 3.1416, 4.7124, 6.2832, 7.8540, 9.4248},
+  xticklabels={
+    $\frac{\pi}{2a}$,
+    $\frac{\pi}{a}$,
+    $\frac{3\pi}{2a}$,
+    $\frac{2\pi}{a}$,
+    $\frac{5\pi}{2a}$,
+    $\frac{3\pi}{a}$},
+  ytick=\empty,
+  tick label style={font=\small},
+  legend style={
+    at={(0.98,0.03)},
+    anchor=south east,
+    draw=black,
+    font=\small,
+    fill=white},
+  clip=true,
+]
+
+%% ---- LHS: k cot(ka), a=1 ----
+%% Branch 1: (0, pi)
+\addplot[black, thick, domain=0.001:10, samples=4000,
+         restrict y to domain=-5:5]
+  {x * cos(deg(x)) / sin(deg(x))};
+\addlegendentry{$k \cot ka$}
+
+
+
+
+
+%% ---- RHS: -sqrt(U - k^2), two semicircles, a=hbar=1, 2m=1 ----
+%% Circle 1: U = 1.5 < (pi/2)^2 ~ 2.47  =>  no bound state
+\addplot[black, dashed, thick, domain=0:1.225, samples=200]
+  {-sqrt(1.5 - x^2)};
+\addlegendentry{$-\kappa(k)$, $U < U_c$}
+
+%% Circle 2: U = 6 > (pi/2)^2              =>  one bound state
+\addplot[black, thick, domain=0:2.449, samples=200]
+  {-sqrt(6.0 - x^2)};
+\addlegendentry{$-\kappa(k)$, $U > U_c$}
+
+%% ---- Mark the intersection of circle 2 with branch 1 ----
+%% Numerically: k*cot(k) = -sqrt(6-k^2)  gives k ~ 2.10
+\addplot[mark=*, mark size=2.5pt, black]
+  coordinates {(2.104, -2.280)};
+
+%% ---- Label threshold k = pi/2 on axis ----
+\addplot[gray!70, dotted, thin]
+  coordinates {(1.5708, 0)(1.5708,-4.5)};
+
+\end{axis}
+\end{tikzpicture}
+\caption{Graphical solution of the odd-parity bound-state equation
+$k\cot ka = -\kappa(k)$, where $\kappa = \sqrt{2mU/\hbar^2 - k^2}$.
+The dashed semicircle ($U < U_c$) does not intersect $k\cot ka$
+— no odd bound state exists.
+The solid semicircle ($U > U_c$) intersects the first branch (dot)
+— one odd bound state exists.
+The critical value is $U_c = \pi^2\hbar^2/8ma^2$,
+at which the circle just reaches $k = \pi/2a$ with $\kappa = 0$.}
+\label{fig:odd-parity}
+\end{figure}
+
+Since $\cot$ has a greater magnitude of gradient than a circle; for a solution to exist, we require the radius of the circle to be greater than $ka=\pi/2$. That is,
+\begin{equation}
+    \frac{\sqrt{2mU}}{\hbar} > \frac{\pi}{2a} \implies Ua^2 > \frac{\pi^2\hbar^2}{8m}.
+\end{equation}
+
+\subsection{Factorisation Method for the Sech-Squared Potential (David Tong QM, PS1 Q8)}
+\label{sec:sech-potential}
+
+Sketch the potential
+%
+\begin{equation}
+  U(x) = -\frac{\hbar^2}{m}\operatorname{sech}^2 x\,.
+  \label{eq:sech-pot}
+\end{equation}
+
+Show that the time-independent Schr\"{o}dinger equation for a particle in this
+potential can be written
+%
+\begin{equation}
+  \hat{A}^\dagger \hat{A}\,\chi = (\mathcal{E}+1)\,\chi\,,
+\end{equation}
+%
+where $\mathcal{E} = 2mE/\hbar^2$ and
+%
+\begin{equation}
+  \hat{A} = \frac{d}{d x} + \tanh x\,,
+  \qquad
+  \hat{A}^\dagger = -\frac{d}{d x} + \tanh x\,.
+\end{equation}
+
+Show, by integrating by parts, that for any normalised wavefunction $\chi$,
+%
+\begin{equation}
+  \int_{-\infty}^{\infty} \chi^*\hat{A}^\dagger\hat{A}\,\chi\,dx
+  \;=\;
+  \int_{-\infty}^{\infty} (\hat{A}\chi)^*(\hat{A}\chi)\,dx\,,
+\end{equation}
+%
+and deduce that the eigenvalues of $\hat{A}^\dagger\hat{A}$ are non-negative.
+Hence show that the ground state (with lowest energy) has $\mathcal{E}\geq -1$.
+Show that a wavefunction $\chi_0(x)$ is an energy eigenstate with
+$\mathcal{E}=-1$ iff
+%
+\begin{equation}
+  \frac{d\chi_0}{d x} + \tanh x\,\chi_0 = 0\,.
+\end{equation}
+
+Find and sketch $\chi_0(x)$.
+
+\noindent \underline{\textbf{Solution}}
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=9cm, height=6cm,
+  xmin=-4.5, xmax=4.5,
+  ymin=-1.4, ymax=0.4,
+  xlabel={$x$},
+  ylabel={$U(x)$},
+  axis lines=center,
+  xtick=\empty,
+  ytick={-1},
+  yticklabels={$-\dfrac{\hbar^2}{m}$},
+  tick label style={font=\small},
+  every axis x label/.style={at={(ticklabel* cs:1.02)}, anchor=west},
+  every axis y label/.style={at={(ticklabel* cs:1.05)}, anchor=south},
+  clip=false,
+]
+
+%% Potential curve
+\addplot[black, thick, domain=-4.5:4.5, samples=400]
+  {-1 / (cosh(x))^2};
+
+%% Minimum marker
+\addplot[gray!60, dashed, thin] coordinates {(0,-1)(0,0)};
+\addplot[mark=*, mark size=1.8pt, black] coordinates {(0,-1)};
+
+
+
+\end{axis}
+\end{tikzpicture}
+\caption{The sech-squared potential~\eqref{eq:sech-pot}, a reflectionless
+well of depth $\hbar^2/m$ centred at $x=0$, decaying rapidly as
+$x\to\pm\infty$.}
+\label{fig:sech-pot}
+\end{figure}
+The Hamiltonian can be written as
+\begin{align}
+    H &= -\frac{\hbar^2}{2m}\frac{d^2}{dx^2} -\frac{\hbar^2}{m}\operatorname{sech}^2 x\\ &= \frac{\hbar^2}{2m}\left(-\frac{d^2}{dx^2}-2+\tanh^2x\right)\\ &= \frac{\hbar^2}{2m}\left(\frac{d}{dx}+\tanh x\right)\left(-\frac{d}{dx}+\tanh x\right)-\frac{\hbar^2}{m}.
+\end{align}
+Thus, we have
+\begin{equation}
+  \hat{A}^\dagger \hat{A}\chi = (\mathcal{E}+1)\chi.
+\end{equation}
+Rather trivially following from integrating by part, we find
+\begin{equation}
+    \int dx \chi^*A^\dagger A\chi = \int dx (A\chi)^*(A\chi),
+\end{equation}
+justifying that $A^\dagger$ is indeed the Hermitian conjugate to $A$. Given an eigenstate of $A^\dagger A$, $|a\rangle$, with eigenvalue $a$. We have
+\begin{equation}
+    \langle a|A^\dagger A|a\rangle = a\langle a |a\rangle = ||A|a\rangle||^2 \geq 0 \implies a\geq0,
+\end{equation}
+which implies that $\mathcal{E}+1\geq0$.
+For the ground state with energy $\mathcal{E}=-1$, we have
+\begin{equation}
+    \hat{A}^\dagger \hat{A}\chi_0 = 0,
+\end{equation}
+Taking the inner product of the above with $\chi_0$, we find 
+\begin{equation}
+    \langle \chi_0|A^\dagger A|\chi_0\rangle  = ||A|\chi_0\rangle||^2 = 0 \implies A|\chi_0\rangle=0.
+\end{equation}
+Solving the above, we find
+\begin{equation}
+    \chi_0(x) = \frac{N}{\cosh x},
+\end{equation}
+where $N$ is a normalisation constant.
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=9cm, height=6cm,
+  xmin=-5, xmax=5,
+  ymin=-0.2, ymax=1.2,
+  xlabel={$x$},
+  ylabel={$\chi_0(x)$},
+  axis lines=center,
+  xtick=\empty,
+  ytick=\empty,
+  every axis x label/.style={at={(ticklabel* cs:1.02)}, anchor=west},
+  every axis y label/.style={at={(ticklabel* cs:1.05)}, anchor=south},
+  clip=false,
+]
+
+\addplot[black, thick, domain=-5:5, samples=300]
+  {1 / cosh(x)};
+
+
+
+\end{axis}
+\end{tikzpicture}
+\caption{Ground state wavefunction $\chi_0(x) = N\operatorname{sech}x$,
+peaked at the origin and decaying exponentially as $x\to\pm\infty$.}
+\label{fig:chi0}
+\end{figure}
+\flushbottom
