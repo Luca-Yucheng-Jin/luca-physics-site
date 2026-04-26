@@ -346,6 +346,10 @@ def strip_tex_only_constructs(text):
     # \raisebox{lift}{content} → keep only content
     for cmd in ("raisebox", "makebox", "framebox", "fbox", "parbox", "mbox"):
         text = _strip_two_arg_keep_second(text, cmd)
+    # Single-arg layout commands like \vcenter{...}, \hbox{...}, \text{...}
+    # used inline with math to wrap a tikzpicture. Keep the inner content.
+    for cmd in ("vcenter", "hbox", "vbox"):
+        text = _balanced_arg_replace(text, cmd, lambda a: a)
 
     # \shaded / \begin{shaded} etc. — keep the inner content as-is (it usually
     # wraps an equation we already display)
@@ -471,6 +475,37 @@ def stash_tikz(text, stash):
         return f"\x00TIKZ{idx}\x00"
     text = pat2.sub(fdiag_repl, text)
 
+    # Unwrap `$\vcenter{\hbox{TIKZ_PLACEHOLDER}}$` (and similar) — when a
+    # figure was embedded inline with math via TeX layout commands, the
+    # surrounding `$..$` would otherwise stash it as inline math and produce
+    # broken output. Strip those wrappers around bare tikz placeholders.
+    def _unwrap_tikz_in_math(t):
+        # Iteratively peel surrounding wrappers around a placeholder.
+        prev = None
+        while prev != t:
+            prev = t
+            # $ \vcenter { \hbox { TIKZ } } $   (with optional whitespace)
+            t = re.sub(
+                r"\$\s*(?:\\(?:vcenter|hbox|vbox|mbox|raisebox\{[^}]*\})\s*\{)+\s*"
+                r"(\x00TIKZ\d+\x00)"
+                r"\s*(?:\})+\s*\$",
+                r"\1",
+                t,
+            )
+            # \( \vcenter{\hbox{ TIKZ }} \)
+            t = re.sub(
+                r"\\\(\s*(?:\\(?:vcenter|hbox|vbox|mbox|raisebox\{[^}]*\})\s*\{)+\s*"
+                r"(\x00TIKZ\d+\x00)"
+                r"\s*(?:\})+\s*\\\)",
+                r"\1",
+                t,
+            )
+            # bare $TIKZ$ or \(TIKZ\)
+            t = re.sub(r"\$\s*(\x00TIKZ\d+\x00)\s*\$", r"\1", t)
+            t = re.sub(r"\\\(\s*(\x00TIKZ\d+\x00)\s*\\\)", r"\1", t)
+        return t
+    text = _unwrap_tikz_in_math(text)
+
     return text
 
 
@@ -555,13 +590,17 @@ def stash_math(text, stash):
                                 "",
                                 part,
                             )
+                        # Strip `\\[6pt]`-style row spacing that LaTeX uses
+                        # inside align — they leak to text otherwise.
+                        part = re.sub(r"\\\\\s*\[[^\]]*\]", "\\\\\\\\", part)
                         # Split by `\\` row separator so each row becomes its
                         # own inline math span; strip `&` alignment markers.
                         rows = re.split(r"\\\\", part)
                         for row in rows:
                             row = row.replace("&", "")
+                            # also strip leftover `[6pt]` etc.
+                            row = re.sub(r"^\s*\[[^\]]*\]\s*", "", row)
                             row = row.strip().strip("{}").strip()
-                            # discard empties / stray "=" / lone punctuation
                             if not row or row in ("=", ".", ",", ":", ";"):
                                 continue
                             fragments.append(

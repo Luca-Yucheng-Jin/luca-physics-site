@@ -60,12 +60,11 @@ def _extract_particle_label(attrs):
         if end < 0: end = len(attrs)
         raw = attrs[j:end].strip()
     raw = raw.strip()
-    # Strip surrounding math delimiters $...$ or \(...\) if present.
     if raw.startswith("$") and raw.endswith("$"):
         raw = raw[1:-1].strip()
     if raw.startswith("\\(") and raw.endswith("\\)"):
         raw = raw[2:-2].strip()
-    return raw
+    return _add_accent_braces(raw)
 
 
 def parse_pos_spec(spec):
@@ -124,6 +123,7 @@ def parse_explicit_vertices(src):
                     label = label[1:-1].strip()
                 if label.startswith("\\(") and label.endswith("\\)"):
                     label = label[2:-2].strip()
+                label = _add_accent_braces(label)
         out[name] = Vertex(name=name, label=label, pos_spec=pos)
     return out
 
@@ -226,57 +226,86 @@ def parse_chain(chain, vertices, label_idx_by_chain):
     while len(edge_styles) >= len(nodes) and len(edge_styles) > 0:
         edge_styles.pop()
 
-    # Process nodes — they may be `(name)` references or `name [particle=lbl]`
-    # declarations. Convert each to a vertex name and add to vertices if new.
-    node_names = []
-    chain_x = label_idx_by_chain[0]    # initial x cursor for THIS chain
-    chain_y = label_idx_by_chain[1]    # initial y cursor for THIS chain (y stays constant per chain)
-
-    def _ensure_vertex(name, label=None):
-        if name not in vertices:
-            vertices[name] = Vertex(name=name, label=label)
-        elif label and not vertices[name].label:
-            vertices[name].label = label
-        # If the vertex still has no position, place it on the chain cursor.
-        v = vertices[name]
-        if v.pos_spec is None and v.x is None:
-            v.x = chain_x * 1.6
-            v.y = chain_y * 1.4
-
+    # First pass: determine each chunk's (full_name, base_name, declared label)
+    # without assigning positions yet — we want to see the whole chain to make
+    # smart layout decisions (anchor on existing vertex, etc.).
+    chain_entries = []     # list of (full, base, label_or_None, exists_already)
     for n in nodes:
         n = n.strip()
-        # Pattern: `(name)` or `(name.anchor)` (e.g. `(vertex.north)`)
         m = re.match(r"^\(([^)]+)\)$", n)
         if m:
             full = m.group(1).strip()
             base = full.split(".", 1)[0].strip()
-            _ensure_vertex(base)
-            # keep the full anchor-spec for the edge endpoint, so TikZ can
-            # use \draw (a) -- (b.north) etc.
-            node_names.append(full)
+            label = None
         else:
-            # Pattern: `name [particle=lbl]` or just `name`
             m2 = re.match(r"^([A-Za-z0-9_]+)\s*(?:\[(.*)\])?$", n, re.DOTALL)
             if m2:
-                name = m2.group(1).strip()
+                base = m2.group(1).strip()
+                full = base
                 attrs = m2.group(2) or ""
                 label = _extract_particle_label(attrs)
-                _ensure_vertex(name, label)
-                node_names.append(name)
             else:
-                # fallback: treat the whole token as a name
-                name = re.sub(r"\W+", "_", n).strip("_") or f"v{len(vertices)}"
-                _ensure_vertex(name)
-                node_names.append(name)
-        chain_x += 1
+                base = re.sub(r"\W+", "_", n).strip("_") or f"v{len(vertices)}"
+                full = base
+                label = None
+        existed = base in vertices and vertices[base].x is not None
+        chain_entries.append((full, base, label, existed))
 
-    # advance shared cursor across chains: x rewinds, y drops one row
-    label_idx_by_chain[0] = 0
-    label_idx_by_chain[1] = chain_y - 1
+    node_names = [e[0] for e in chain_entries]
+
+    # Layout. Strategy:
+    #   1. Find an "anchor": the first chain entry whose base vertex already
+    #      has a position (x is not None). If none, we're a fresh chain.
+    #   2. If anchor exists:
+    #        - For a 2-vertex chain with one new vertex (typical vertical
+    #          exchange like a photon), place the new vertex BELOW the anchor.
+    #        - Otherwise lay out horizontally: position[i].x =
+    #          anchor.x + (i - anchor_idx) * dx; all on anchor.y.
+    #   3. If no anchor: fall through to per-chain row counter — chain_y
+    #      drops by 1 for each new chain so chains don't overlap.
+    DX, DY = 1.6, 1.4
+    anchor_idx = -1
+    for i, (full, base, label, existed) in enumerate(chain_entries):
+        if existed:
+            anchor_idx = i
+            break
+
+    if anchor_idx >= 0:
+        anchor_v = vertices[chain_entries[anchor_idx][1]]
+        new_count = sum(1 for e in chain_entries if not e[3])
+        is_vertical_exchange = (len(chain_entries) == 2 and new_count == 1)
+        for i, (full, base, label, existed) in enumerate(chain_entries):
+            if base not in vertices:
+                vertices[base] = Vertex(name=base, label=label)
+            elif label and not vertices[base].label:
+                vertices[base].label = label
+            v = vertices[base]
+            if v.x is None:
+                if is_vertical_exchange:
+                    # Place new vertex below the existing one
+                    v.x = anchor_v.x
+                    v.y = anchor_v.y - DY
+                else:
+                    v.x = anchor_v.x + (i - anchor_idx) * DX
+                    v.y = anchor_v.y
+    else:
+        # No anchor — first chain or fully fresh chain. Drop a new row.
+        chain_y = label_idx_by_chain[1]
+        for i, (full, base, label, existed) in enumerate(chain_entries):
+            if base not in vertices:
+                vertices[base] = Vertex(name=base, label=label)
+            elif label and not vertices[base].label:
+                vertices[base].label = label
+            v = vertices[base]
+            if v.x is None:
+                v.x = i * DX
+                v.y = chain_y * DY
+        label_idx_by_chain[1] = chain_y - 1
 
     # Build edges
     for i in range(len(node_names) - 1):
-        edges.append((node_names[i], edge_styles[i] if i < len(edge_styles) else "", node_names[i+1]))
+        style = edge_styles[i] if i < len(edge_styles) else ""
+        edges.append((node_names[i], style, node_names[i + 1]))
 
     return edges
 
@@ -339,17 +368,46 @@ def resolve_positions(vertices):
 
 def _normalize_label(s):
     """Strip $ \( \) and outer braces from a label so it can be safely
-    re-wrapped in $...$ on output."""
+    re-wrapped in $...$ on output. Also brace-wrap accent macro arguments
+    (\\bar\\psi → \\bar{\\psi}) since TikZJax's TeX engine reads them
+    differently from MathJax."""
     s = s.strip()
-    # Strip outer { }
     while s.startswith("{") and s.endswith("}"):
         s = s[1:-1].strip()
-    # Strip outer $...$ or \(...\)
     if s.startswith("$") and s.endswith("$"):
         s = s[1:-1].strip()
     if s.startswith("\\(") and s.endswith("\\)"):
         s = s[2:-2].strip()
+    s = _add_accent_braces(s)
     return s
+
+
+_ACCENT_CMDS = (
+    "bar", "hat", "tilde", "vec", "dot", "ddot", "acute", "grave",
+    "breve", "check", "mathring", "overline", "underline", "widehat",
+    "widetilde",
+)
+
+
+def _add_accent_braces(s):
+    """Convert `\\bar\\psi` → `\\overline{\\psi}` so TikZJax (which has a
+    flaky `\\bar` glyph) renders the accent reliably. Skip cases that
+    already have a braced arg."""
+    # Already-braced \bar{X} → \overline{X}
+    s = re.sub(r"\\bar\b\s*\{([^}]*)\}", r"\\overline{\1}", s)
+    pattern = re.compile(
+        r"\\(" + "|".join(_ACCENT_CMDS) + r")"
+        r"(?!\s*\{)"               # not already followed by {
+        r"\s*"
+        r"(\\[a-zA-Z]+|.)",         # next token: \cmd or single char
+    )
+    def repl(m):
+        cmd, arg = m.group(1), m.group(2)
+        # Prefer overline for bar — TikZJax draws \bar inconsistently
+        if cmd == "bar":
+            return f"\\overline{{{arg}}}"
+        return f"\\{cmd}{{{arg}}}"
+    return pattern.sub(repl, s)
 
 
 def style_to_tikz(style):

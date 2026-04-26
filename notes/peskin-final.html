@@ -95,8 +95,8 @@ First, let us compute the cross section at tree level. Consider the diagram,</p>
   \node (a) at (1.60,0.00) {};
   \node (i2) at (3.20,0.00) {$e^{-}$};
   \node (b) at (1.60,-1.40) {};
-  \node (f1) at (0.00,-2.80) {$q$};
-  \node (f2) at (3.20,-2.80) {$\bar{q}$};
+  \node (f1) at (0.00,-1.40) {$q$};
+  \node (f2) at (3.20,-1.40) {$\overline{q}$};
   \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (i1) -- (a);
   \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (a) -- (i2);
   \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- node[above, midway, font=\footnotesize] {$k$} (b);
@@ -143,10 +143,10 @@ Then,
   \node (a) at (1.60,0.00) {};
   \node (i2) at (3.20,0.00) {$e^{+}$};
   \node (b) at (1.60,-1.40) {};
-  \node (f2) at (0.00,-2.80) {$\bar q$};
-  \node (v2) at (1.60,-2.80) {};
-  \node (v1) at (4.80,-2.80) {};
-  \node (f1) at (6.40,-2.80) {$q$};
+  \node (f2) at (-1.60,-1.40) {$\overline{q}$};
+  \node (v2) at (0.00,-1.40) {};
+  \node (v1) at (3.20,-1.40) {};
+  \node (f1) at (4.80,-1.40) {$q$};
   \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (i1) -- (a);
   \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (a) -- (i2);
   \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- node[above, midway, font=\footnotesize] {$q$} (b);
@@ -158,8 +158,7 @@ Then,
 \end{tikzpicture}
 </script></figure>
 
-<p><span class="equation-part">$[6pt]
-= (-ie)\,\bar v(p_2)\gamma^\mu u(p_1)\;\frac{-ig_{\mu\nu}}{k^2}\;(-ieQ_f)\,
+<p><span class="equation-part">$= (-ie)\,\bar v(p_2)\gamma^\mu u(p_1)\;\frac{-ig_{\mu\nu}}{k^2}\;(-ieQ_f)\,
    \Big[\bar u(p_3)\,\delta\Gamma^\nu(p_3,p_4)\,v(p_4)\Big]$</span><span class="equation-part">$= \frac{(-ie)^2 Q_f}{s}\,\bar v(p_2)\gamma^\mu u(p_1)\,
    \Big[\bar u(p_3)\,\delta\Gamma_\mu(p_3,p_4)\,v(p_4)\Big].$</span><span class="equation-num">(10)</span></div></p>
 
@@ -304,10 +303,10 @@ Then, the boundary of $x_2$ can be found with simple algebra:
   \node (a) at (1.60,0.00) {};
   \node (i2) at (3.20,0.00) {$e^{-}$};
   \node (b) at (1.60,-1.40) {};
-  \node (v1) at (1.60,-2.80) {};
-  \node (f1) at (3.20,-2.80) {$q$};
-  \node (f2) at (1.60,-4.20) {$\bar q$};
-  \node (g1) at (1.60,-5.60) {$g$};
+  \node (v1) at (3.20,-1.40) {};
+  \node (f1) at (4.80,-1.40) {$q$};
+  \node (f2) at (1.60,-2.80) {$\overline{q}$};
+  \node (g1) at (3.20,-2.80) {$g$};
   \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (i1) -- (a);
   \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (a) -- (i2);
   \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- node[above, midway, font=\footnotesize] {$q$} (b);
@@ -328,10 +327,10 @@ Then, the boundary of $x_2$ can be found with simple algebra:
   \node (a) at (1.60,0.00) {};
   \node (i2) at (3.20,0.00) {$e^{-}$};
   \node (b) at (1.60,-1.40) {};
-  \node (v2) at (1.60,-2.80) {};
-  \node (f2) at (3.20,-2.80) {$\bar q$};
-  \node (f1) at (1.60,-4.20) {$q$};
-  \node (g2) at (1.60,-5.60) {$g$};
+  \node (v2) at (3.20,-1.40) {};
+  \node (f2) at (4.80,-1.40) {$\overline{q}$};
+  \node (f1) at (1.60,-2.80) {$q$};
+  \node (g2) at (3.20,-2.80) {$g$};
   \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (i1) -- (a);
   \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (a) -- (i2);
   \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- node[above, midway, font=\footnotesize] {$q$} (b);
