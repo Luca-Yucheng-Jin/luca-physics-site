@@ -100,7 +100,6 @@ window.MathJax = {
   <li>Why does this expression require $\tau_2 &gt; \tau_1$?
 
 <aside class="solution">
-<div class="solution__label">Solution.</div>
 
 <p>We shall first demonstrate the equivalence between the real time and Euclidean time propagator. The real time propagator can be written as a path integral 
         \[G(t_1,t_2) = \bra{0}T\mathbf{Q}(t_1)\mathbf{Q}(t_2)\ket{0} = \int\mathcal{D}q(t)q(t_1)q(t_2)e^{iS[q]/\hbar}.\tag{1.7}\]
@@ -144,7 +143,6 @@ window.MathJax = {
   <li>Write $G_E(\tau_2, \tau_1; \beta)$ as a Euclidean functional integral.
 
 <aside class="solution">
-<div class="solution__label">Solution.</div>
 
 <p>As already demonstrated above, we have
             \[G_E(\tau_2, \tau_1;\beta) =\frac{1}{Z} \oint\mathcal{D}q_E(\tau)q(-i\tau_1)q(-i\tau_2)e^{-S_E[q_E]/\hbar}\tag{1.14}\]</p>
@@ -153,7 +151,6 @@ window.MathJax = {
   <li>Explain why $G_E = G_E(\tau, \beta)$ is only a function of $\tau = \tau_2 - \tau_1$, and why it should be considered as a periodic function in $\tau$. What is this period $\tau_\beta$ and what is its limit when the temperature $T$ is taken to be zero?
 
 <aside class="solution">
-<div class="solution__label">Solution.</div>
 
 <p>As demonstrated above, $G_E$, can be written as a function of $\tau = \tau_2-\tau_1$. This is due to the fact that the Hamiltonian is invariant under time translation.</p>
 
@@ -170,7 +167,6 @@ window.MathJax = {
             \qquad 0 \leq \tau \leq \tau_\beta\tag{1.17}\]
 
 <aside class="solution">
-<div class="solution__label">Solution.</div>
 
 <p>For completeness, we shall first show that the propagator is indeed the Green's function of the differential operator given.</p>
 
@@ -206,7 +202,6 @@ window.MathJax = {
   <li>Compute the Fourier transform $\hat{G}_E(k)$ of $G_E(\tau)$.
 
 <aside class="solution">
-<div class="solution__label">Solution.</div>
 
 <p>Go back to the differential equation satisfied by $G_E$, we can immediately 
 obtain its Fourier transform, when $\tau_\beta \to \infty$:
@@ -221,7 +216,6 @@ obtain its Fourier transform, when $\tau_\beta \to \infty$:
   <li>Performing a Wick rotation $\tau = it$, give the explicit form of the Green function $G(t_2, t_1)$. Can you explain why it must be an even function $G(t)$ of $t = t_2 - t_1$?
 
 <aside class="solution">
-<div class="solution__label">Solution.</div>
 
 <p>Now, we go back to real time. Note that the Euclidean theory with $T=0$ is equivalent to the vacuum expectation value. Therefore, after wick rotation, we find
             \[G(t_2,t_1) = \frac{\hbar}{m}\frac{1}{2\omega_0}\exp(-i\omega_0|t|)\tag{1.30}\]
@@ -232,7 +226,6 @@ obtain its Fourier transform, when $\tau_\beta \to \infty$:
         \[\hat{G}(\omega) = \lim_{\epsilon \to 0^+} \frac{\hbar}{m}\,\frac{i}{\omega^2 - \omega_0^2 + i\epsilon}\tag{1.31}\]
 
 <aside class="solution">
-<div class="solution__label">Solution.</div>
 
 <p>We can write the Fourier transform as
     \[\hat{G}(\omega) = \frac{\hbar}{m}\frac{1}{2\omega_0}
@@ -265,7 +258,6 @@ obtain its Fourier transform, when $\tau_\beta \to \infty$:
   <li>Express $G_E(\tau;\beta)$ as an infinite sum of zero temperature Green's functions $G_E(\tau + n\tau_\beta)$.
 
 <aside class="solution">
-<div class="solution__label">Solution.</div>
 
 <p>The finite-temperature Green's function must be periodic with period $\tau_\beta$. 
     A natural way to construct a periodic function from a non-periodic one is the 
@@ -301,7 +293,6 @@ obtain its Fourier transform, when $\tau_\beta \to \infty$:
         \[\bar{\omega}_k = \frac{2\pi}{\tau_\beta}\,k, \qquad k \in \mathbb{Z}\tag{1.41}\]
 
 <aside class="solution">
-<div class="solution__label">Solution.</div>
 
 <p>Set $x = \tau$, $a = \tau_\beta$ in the Poisson summation formula so that 
     $f(x+an) = e^{-\omega_0|\tau+n\tau_\beta|}$. Using the Fourier transform result 
@@ -321,7 +312,6 @@ obtain its Fourier transform, when $\tau_\beta \to \infty$:
   <li>The $\omega_k = i\bar{\omega}_k$ can be considered imaginary frequencies. They are called the <em>Matsubara frequencies</em> and play an important role in thermal quantum field theory. How do they behave in the limit of zero and infinite temperature?
 
 <aside class="solution">
-<div class="solution__label">Solution.</div>
 
 <p>As $T \to 0^+$, $\omega_k \to i0^+$. As $T \to \infty$, $\omega_k \to i \infty$.</p>
 
@@ -335,7 +325,6 @@ obtain its Fourier transform, when $\tau_\beta \to \infty$:
   <li>Express $G(t_1, t_2;\beta)$ explicitly as a function of the time $t = t_2 - t_1$ and of the temperature $T$ or the Boltzmann factor $\beta$.
 
 <aside class="solution">
-<div class="solution__label">Solution.</div>
 
 <p>Performing a Wick rotation, we find
             \[G(t;\beta) = \frac{\hbar}{m}\,\frac{i}{2\omega_0}
@@ -346,7 +335,6 @@ obtain its Fourier transform, when $\tau_\beta \to \infty$:
   <li>Express its Fourier transform $\hat{G}(\omega;\beta)$ as a sum over Matsubara frequencies.
 
 <aside class="solution">
-<div class="solution__label">Solution.</div>
 
 <p>Using the result from part (i):
     \[G(t;\beta) = \frac{1}{m\beta}\sum_{k\in\mathbb{Z}}

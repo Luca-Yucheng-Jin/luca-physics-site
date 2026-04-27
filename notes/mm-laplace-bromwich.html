@@ -85,7 +85,9 @@ window.MathJax = {
 By integrating around a Bromwich keyhole contour, verify the inversion formula
 for $f(t)$. What is the Laplace transform of $t^{1/2}$?</p>
 
-<p><u><strong>Solution</strong></u> The integral can be evaluated easily by a change of variable $\tau^2 = t$:
+<aside class="solution">
+
+<p>The integral can be evaluated easily by a change of variable $\tau^2 = t$:
 \[\hat{F}(s) = \mathcal{L}[f(t)] = \int^\infty _ 0 dt \,e^{-st}t^{-1/2} = \int^\infty_0 d\tau \, 2e^{-s\tau^2} = \sqrt{\frac{\pi}{s}}.\tag{1.1}\]</p>
 
 <p>Now, we shall verify the inverse Laplace transform of $\hat{F}(s)$. The function $\hat{F}(s)$ has a principal branch cut from $-\infty$ to $0$. To see that, write $s=re^{i\theta}$, and we find
@@ -105,6 +107,8 @@ Since there are no poles enclosed by this contour, we have
 \[I_\pm = \int_{\Gamma_\pm}ds\,e^{st}s^{-1/2} = \pm\int^0_{-\infty}dr\, r^{-1/2}e^{rt} = \mp i\int^\infty_0dr\,r^{-1/2}e^{-rt} = \mp i\sqrt{\frac{\pi}{t}}.\tag{1.7}\]
 Thus, we find (notice the direction of the contour integration)
 \[2\sqrt{\pi}if(t) +I_+ - I_- = 0 \implies f(t) = t^{-1/2}.\tag{1.8}\]</p>
+
+</aside>
   </article>
 
   <hr class="ornament-rule">

@@ -415,10 +415,31 @@ def strip_tex_only_constructs(text):
     text = re.sub(r"\\end\{tcolorbox\}",
                   '\n\n</aside>\n\n', text)
 
-    # solution environments (used in PSI / Tong PS files) — styled aside with
-    # a "Solution." header.
+    # Solution markers come in three shapes across the .tex sources:
+    #   \begin{solution}...\end{solution}        (Tong PS files)
+    #   \underline{\textbf{Solution}} ...         (QM, DE, MM, TDSP, ED)
+    #   \textbf{Solution:} ...                    (same files, sometimes)
+    # Normalise the latter two into the env form so a single styled
+    # <aside class="solution"> covers all pages — matches the user's
+    # elegantphys.sty \begin{solution}{...}\end{solution} tcolorbox.
+    if r"\begin{solution}" not in text:
+        sol_pat = re.compile(
+            r"(?:\\noindent\s*)?"
+            r"(?:\\underline\s*\{\s*\\textbf\s*\{Solution[.:]?\}\s*\}"
+            r"|\\textbf\s*\{Solution[.:]?\})"
+        )
+        m = sol_pat.search(text)
+        if m:
+            text = (text[:m.start()]
+                    + r"\begin{solution}"
+                    + text[m.end():]
+                    + r"\end{solution}")
+
+    # \begin{solution}…\end{solution} → styled <aside>. The "Solution."
+    # label is rendered by CSS (::before) so it floats inline with the
+    # first paragraph rather than sitting on a line of its own.
     text = re.sub(r"\\begin\{solution\}",
-                  '\n\n<aside class="solution">\n<div class="solution__label">Solution.</div>\n\n',
+                  '\n\n<aside class="solution">\n\n',
                   text)
     text = re.sub(r"\\end\{solution\}",
                   '\n\n</aside>\n\n', text)

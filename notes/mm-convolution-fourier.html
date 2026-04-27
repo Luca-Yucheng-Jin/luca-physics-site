@@ -86,7 +86,9 @@ transforms to show that
 \[f(x) = \frac{2}{\pi}\int_{-\infty}^{\infty}\frac{e^{ikx}}{(1+k^2)^2}\,d k\tag{1.1}\]
 and verify this result by contour integration.</p>
 
-<p><u><strong>Solution</strong></u> The convolution of $g(x) = e^{-|x|}$ is given by 
+<aside class="solution">
+
+<p>The convolution of $g(x) = e^{-|x|}$ is given by 
 \[(g*g)(x) = \int dz\,e^{-|z|}e^{-|x-z|}.\tag{1.2}\]
 For $x&gt;0$, the convolution becomes
 \[(g*g)(x) = \int^\infty_xdz\,e^{-z}e^{-(z-x)} + \int^x_0dz\,e^{-z}e^{-(x-z)} + \int^0_{-\infty}dz\,e^ze^{-(x-z)} = (1+x)e^{-x}.\tag{1.3}\]
@@ -104,6 +106,8 @@ Hence, we find
 \[\begin{aligned}\operatorname{Res}\left(\frac{e^{ikx}}{(k^2+1)^2}, \,k=\pm i\right) = \lim_{k\to \pm i}\frac{d}{dk}\left(\frac{e^{ikx}}{(k\pm i)^2}\right) &amp;= \lim_{k\to \pm i}\frac{ixe^{ikx}(k\pm i) - 2e^{ikx}}{(k \pm i)^3} \notag\\&amp;=\frac{1 \pm x}{4i}e^{\mp x}.\end{aligned}\tag{1.7}\]
 For $x&gt;0$, we close the contour upward, while for $x&lt;0$ we close the contour downward. By simple algebra, we recover the result
 \[(g*g)(x) = (1+|x|)e^{-|x|}.\tag{1.8}\]</p>
+
+</aside>
   </article>
 
   <hr class="ornament-rule">
