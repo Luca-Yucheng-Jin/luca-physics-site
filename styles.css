@@ -305,6 +305,125 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
   padding-bottom: 2px;
 }
 
+/* ---------- Back to top ----------
+   Floating circular button, fades in once the user has scrolled past the
+   first viewport. Lives at body level (injected by theme.js) so it's
+   independent of the reading-column layout. */
+.back-to-top {
+  position: fixed;
+  right: clamp(16px, 2vw, 32px);
+  bottom: clamp(16px, 2vw, 32px);
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  border: 1px solid var(--rule);
+  color: var(--ink-soft);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  box-shadow: var(--shadow-soft);
+  transition: opacity 0.25s ease, transform 0.25s ease,
+              color 0.2s, border-color 0.2s, background-color 0.2s;
+  z-index: 10;
+}
+.back-to-top.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.back-to-top:hover,
+.back-to-top:focus-visible {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.back-to-top:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.back-to-top svg {
+  width: 17px;
+  height: 17px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- Note sidebar (chapter nav) ----------
+   Fixed-position panel in the left margin of note pages. Built by theme.js
+   from the note's <h2 id> / <h3 id> headings. Hidden on viewports too narrow
+   to comfortably accommodate the reading column plus a sidebar. */
+.note__sidebar {
+  display: none;
+  position: fixed;
+  top: 6.5rem;
+  left: var(--gutter);
+  width: 11rem;
+  max-height: calc(100vh - 9rem);
+  overflow-y: auto;
+  font-family: var(--display);
+  font-size: 0.85rem;
+  z-index: 4;
+  scrollbar-width: thin;
+}
+@media (min-width: 1280px) {
+  .note__sidebar { display: block; }
+  /* Hide the inline TOC where the sticky sidebar already shows the same nav. */
+  .note .note__toc { display: none; }
+}
+.note__sidebar-label {
+  font-variant: small-caps;
+  letter-spacing: 0.12em;
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-bottom: 0.6rem;
+  padding-left: 0.7rem;
+}
+.note__sidebar-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-left: 1px solid var(--rule-soft);
+}
+.note__sidebar-list li {
+  margin: 0;
+}
+.note__sidebar-list a {
+  display: block;
+  border: none;
+  color: var(--ink-soft);
+  padding: 0.28rem 0.7rem;
+  margin-left: -1px;
+  border-left: 2px solid transparent;
+  line-height: 1.35;
+  transition: color 0.15s, border-color 0.15s;
+}
+.note__sidebar-list a:hover,
+.note__sidebar-list a:focus-visible {
+  color: var(--accent);
+}
+.note__sidebar-list a.is-active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+}
+.note__sidebar-list .sidebar-h3 a {
+  padding-left: 1.4rem;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+.note__sidebar-list .sidebar-h3 a.is-active {
+  color: var(--accent);
+}
+
 /* ---------- Theme toggle ----------
    A small icon button at the right edge of the topbar nav. Houses two icons
    (sun / moon); CSS hides whichever doesn't match the current theme. */
@@ -687,6 +806,17 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
   margin: 0 auto;
   padding: 2.5rem var(--gutter) 6rem;
   overflow-wrap: break-word;
+}
+
+/* When the sticky sidebar shows, reserve room on the left so the body text
+   doesn't run under it. The column shifts right rather than staying centered. */
+@media (min-width: 1280px) {
+  .note {
+    margin-left: calc(11rem + var(--gutter) + 1.5rem);
+    margin-right: auto;
+    width: min(var(--measure),
+      calc(100vw - 11rem - 2 * var(--gutter) - 1.5rem));
+  }
 }
 
 .note__breadcrumb {
