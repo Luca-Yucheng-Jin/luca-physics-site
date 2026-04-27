@@ -183,10 +183,13 @@ def _compile(tex: str, key: str) -> str:
                 f"--- log tail ---\n{log}"
             )
 
-        # 2. dvisvgm --no-fonts → diag.svg
+        # 2. dvisvgm --no-fonts → diag.svg.
+        #    --bbox=preview uses the preview package's bbox info, which
+        #    captures simpler-wick contraction arcs that draw above the
+        #    math baseline. --exact-bbox would crop them off.
         env = {**os.environ, **DVISVGM_ENV}
         r = subprocess.run(
-            [DVISVGM, "--no-fonts", "--exact-bbox",
+            [DVISVGM, "--no-fonts", "--bbox=preview",
              "-o", "diag.svg", "diag.dvi"],
             cwd=tmp, capture_output=True, text=True, env=env, timeout=60,
         )

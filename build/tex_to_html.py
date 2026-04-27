@@ -432,7 +432,7 @@ def strip_tex_only_constructs(text):
 
 import sys as _sys, os as _os
 _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))
-from svg_render import render_or_fallback, KIND_TIKZ
+from svg_render import render_or_fallback, KIND_TIKZ, KIND_MATH
 
 
 def stash_tikz(text, stash):
@@ -829,6 +829,28 @@ def latex_to_html(body, stash=None):
                   body)
     body = transform_text(body, stash=stash)
     body = stash.restore(body)
+    # Equations containing \wick{...} can't be rendered live by MathJax —
+    # the simpler-wick package is LaTeX-only and the polyfill at best draws
+    # a single overbrace. Pre-render those whole equations to inline SVG
+    # via lualatex so multi-pair contraction arcs stay distinct.
+    def _wick_to_svg(m):
+        inner = m.group(1)
+        # stash.restore HTML-escaped < > & inside math; un-escape before
+        # handing the body to LaTeX.
+        for src, repl in (("&lt;", "<"), ("&gt;", ">"), ("&amp;", "&")):
+            inner = inner.replace(src, repl)
+        fallback = f'\\[{m.group(1)}\\]'    # leave it for MathJax to attempt
+        svg = render_or_fallback(inner, KIND_MATH, fallback)
+        if svg.startswith("\\["):
+            return svg
+        return f'<figure class="wick-figure">{svg}</figure>'
+    # Match \[...\\wick...\]. The body may contain literal `[X]` (e.g.
+    # commutators) — those are bare brackets, not display-math delimiters,
+    # so we use non-greedy `.*?` between \[ and \\] to skip over them.
+    body = re.sub(
+        r'\\\[((?:(?!\\\]).)*?\\wick(?:(?!\\\]).)*?)\\\]',
+        _wick_to_svg, body, flags=re.DOTALL,
+    )
     # Substitute tikz markers with the real figures. If the marker carries
     # a data-figcaption (set by _early_figure_repl when the diagram came
     # from a \begin{figure}...\caption{...}\end{figure} block), inject the

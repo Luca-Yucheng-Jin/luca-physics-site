@@ -922,6 +922,26 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
 .note figure.tikz-figure { --diagram-w: 28em; }
 .equation-row figure.tikz-figure { --diagram-w: 14em; }
 
+/* Wick-contraction equations are pre-rendered to SVG (simpler-wick is
+   not supported by MathJax). The figure sits in the document flow like
+   a numbered display equation. */
+.note figure.wick-figure {
+  display: block;
+  margin: 1.4rem auto;
+  text-align: center;
+  background: transparent;
+  border: none;
+  padding: 0.2rem 0;
+  max-width: 100%;
+  overflow-x: auto;
+}
+.note figure.wick-figure svg {
+  color: var(--ink);
+  width: var(--diagram-w, 32em);
+  max-width: 100%;
+  height: auto;
+}
+
 /* Inside an equation row the figure is a flex item — let the SVG's
    intrinsic dimensions drive sizing; no border, no padding override. */
 .equation-row figure.tikz-figure {
