@@ -9,3 +9,6 @@
 # Python bytecode (build pipeline)
 __pycache__/
 *.pyc
+
+# Worktrees
+.claude/worktrees/

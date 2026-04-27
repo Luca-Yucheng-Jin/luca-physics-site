@@ -179,13 +179,14 @@ def extract_subsection(text, needle):
 # while we transform the surrounding text, then restore them.
 
 class MathStash(dict):
-    """Holds math + tikz stashes, plus a per-page equation counter and a
-    label→number map so \\eqref resolves correctly."""
+    """Holds math + tikz stashes, plus a per-page equation counter, a
+    figure counter, and a label→number map so \\eqref / \\ref resolve."""
     def __init__(self):
         super().__init__()
         self.items = []
         self["tikz"] = []
         self["eq_counter"] = 0
+        self["fig_counter"] = 0
         self["labels"] = {}     # \label{...} → number string
 
     def next_eq_number(self):
@@ -339,7 +340,7 @@ def strip_tex_only_constructs(text):
     # spacing & layout commands with no semantic content
     text = re.sub(r"\\v(?:space|fill)\*?\{[^}]*\}", "", text)
     text = re.sub(r"\\h(?:space|fill)\*?\{[^}]*\}", " ", text)
-    text = re.sub(r"\\(?:newpage|clearpage|pagebreak|linebreak|nopagebreak)\b", "", text)
+    text = re.sub(r"\\(?:newpage|clearpage|pagebreak|linebreak|nopagebreak|flushbottom|raggedbottom|onehalfspacing|doublespacing|singlespacing)\b", "", text)
     text = re.sub(r"\\setlength\{[^}]+\}\{[^}]+\}", "", text)
     text = re.sub(r"\\addtolength\{[^}]+\}\{[^}]+\}", "", text)
     text = re.sub(r"\\baselineskip\b", "", text)
@@ -647,13 +648,48 @@ def stash_math(text, stash):
     return text
 
 
-def transform_text(text):
+def transform_text(text, stash=None):
     """Apply structural and formatting LaTeX → HTML transformations on the
     text segments (math regions are already stashed)."""
     # Strip percent-comments (TeX comments), preserving leading whitespace
     text = re.sub(r"(?m)(?<!\\)%.*$", "", text)
 
-    # \label{...} – drop
+    # ── EARLY: extract \begin{figure}…\end{figure} blocks BEFORE we strip
+    # \label{} so the figure handler can record figure-number labels for
+    # \ref{} resolution.
+    def _early_figure_repl(m):
+        body = m.group(1)
+        img = re.search(r"\\includegraphics(?:\[[^\]]*\])?\{([^}]+)\}", body)
+        cap = re.search(r"\\caption\{(.+?)\}\s*(?:\\label\{[^}]+\})?", body, re.DOTALL)
+        label_m = re.search(r"\\label\{([^}]+)\}", body)
+        if not img:
+            return ""
+        src = img.group(1).strip()
+        if stash is not None:
+            stash["fig_counter"] = stash.get("fig_counter", 0) + 1
+            if label_m:
+                stash["labels"][label_m.group(1)] = str(stash["fig_counter"])
+        FIG_MAP = {
+            "截屏2025-09-03 11.12.36.png": "../assets/path-integral-fig1-spacetime.png",
+            "截屏2025-09-03 11.12.36 (1).png": "../assets/path-integral-fig1-spacetime.png",
+            "截屏2025-12-06 22.06.22.png": "../assets/path-integral-fig2-slits.png",
+            "截屏2025-12-07 14.59.48.png": "../assets/path-integral-fig3-paths.png",
+            "截屏2025-12-07 21.55.01.png": "../assets/path-integral-fig4-wick.png",
+            "截屏2025-12-08 11.10.24.png": "../assets/path-integral-fig5-cylinder.png",
+        }
+        href = FIG_MAP.get(src, f"../assets/{src}")
+        caption_html = cap.group(1).strip() if cap else ""
+        alt = re.sub(r"\x00MATH\d+\x00", "", caption_html)
+        alt = re.sub(r"\s+", " ", alt).strip()[:120]
+        alt = alt.replace('"', "'")
+        if caption_html:
+            return (f'\n\n<figure><img src="{href}" alt="{alt}">'
+                    f'<figcaption>{caption_html}</figcaption></figure>\n\n')
+        return f'\n\n<figure><img src="{href}" alt=""></figure>\n\n'
+    text = re.sub(r"\\begin\{figure\}\*?(?:\[[^\]]*\])?\s*(.*?)\\end\{figure\}\*?",
+                  _early_figure_repl, text, flags=re.DOTALL)
+
+    # \label{...} – drop (handled separately above for figures)
     text = re.sub(r"\\label\{[^}]+\}", "", text)
 
     # \cite{...} – drop entirely (no bibliography on web)
@@ -707,38 +743,6 @@ def transform_text(text):
     # quote / quotation
     p, t = list_repl("quote", "blockquote"); text = p.sub(t, text)
 
-    # Figure environments — extract \includegraphics and \caption, render as
-    # <figure><img><figcaption>. The path is rewritten so PNGs in /assets are
-    # found from notes/<page>.html (relative ../assets/...).
-    def figure_repl(m):
-        body = m.group(1)
-        img = re.search(r"\\includegraphics(?:\[[^\]]*\])?\{([^}]+)\}", body)
-        cap = re.search(r"\\caption\{(.+?)\}\s*(?:\\label\{[^}]+\})?", body, re.DOTALL)
-        if not img:
-            return ""
-        src = img.group(1).strip()
-        # Map well-known Chinese-named PNGs (essay) to their renamed copies
-        FIG_MAP = {
-            "截屏2025-09-03 11.12.36.png": "../assets/path-integral-fig1-spacetime.png",
-            "截屏2025-09-03 11.12.36 (1).png": "../assets/path-integral-fig1-spacetime.png",
-            "截屏2025-12-06 22.06.22.png": "../assets/path-integral-fig2-slits.png",
-            "截屏2025-12-07 14.59.48.png": "../assets/path-integral-fig3-paths.png",
-            "截屏2025-12-07 21.55.01.png": "../assets/path-integral-fig4-wick.png",
-            "截屏2025-12-08 11.10.24.png": "../assets/path-integral-fig5-cylinder.png",
-        }
-        href = FIG_MAP.get(src, f"../assets/{src}")
-        caption_html = cap.group(1).strip() if cap else ""
-        # alt text: strip math placeholders + collapse whitespace + truncate
-        alt = re.sub(r"\x00MATH\d+\x00", "", caption_html)
-        alt = re.sub(r"\s+", " ", alt).strip()[:120]
-        alt = alt.replace('"', "'")
-        if caption_html:
-            return (f'\n\n<figure><img src="{href}" alt="{alt}">'
-                    f'<figcaption>{caption_html}</figcaption></figure>\n\n')
-        return f'\n\n<figure><img src="{href}" alt=""></figure>\n\n'
-
-    text = re.sub(r"\\begin\{figure\}\*?(?:\[[^\]]*\])?\s*(.*?)\\end\{figure\}\*?",
-                  figure_repl, text, flags=re.DOTALL)
     text = re.sub(r"\\begin\{table\}.*?\\end\{table\}", "", text, flags=re.DOTALL)
     text = re.sub(r"\\centering", "", text)
     # any leftover \includegraphics outside figure → standalone figure
@@ -811,7 +815,7 @@ def latex_to_html(body, stash=None):
     body = re.sub(r"\x00TIKZ(\d+)\x00",
                   r'\n\n<div class="tikz-marker" data-tikz="\1"></div>\n\n',
                   body)
-    body = transform_text(body)
+    body = transform_text(body, stash=stash)
     body = stash.restore(body)
     # Substitute tikz markers with the real figures.
     body = re.sub(
@@ -820,15 +824,19 @@ def latex_to_html(body, stash=None):
         body,
     )
     # Resolve \eqref{} / \ref{} sentinels using the labels map collected
-    # during equation processing.
+    # during equation / figure processing. Unknown labels: strip common
+    # `fig:`, `eq:`, `sec:` prefixes so they show as a clean fallback
+    # instead of leaking the raw key.
+    def _clean_unmapped(lab):
+        return re.sub(r"^(?:fig|eq|sec|tbl|tab|app|chap|ch):", "", lab)
     def eqref_repl(m):
         lab = m.group(1)
         n = stash["labels"].get(lab)
-        return f"({n})" if n else f"({lab})"
+        return f"({n})" if n else f"({_clean_unmapped(lab)})"
     def ref_repl(m):
         lab = m.group(1)
         n = stash["labels"].get(lab)
-        return n if n else lab
+        return n if n else _clean_unmapped(lab)
     body = re.sub(r"\x00EQREF\[([^\]]+)\]\x00", eqref_repl, body)
     body = re.sub(r"\x00REF\[([^\]]+)\]\x00",   ref_repl,   body)
     # tidy: collapse 3+ newlines

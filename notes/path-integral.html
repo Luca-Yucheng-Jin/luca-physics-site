@@ -181,7 +181,7 @@ in the last equality, where $H$ is the Hamiltonian operator.</p>
 <p>A lesson we have learnt from optics is that light always travels along the path that extremises the travel time from point $A$ to point $B$.
 This also seems to be true for all classical particles. A particle in free fall, without any barriers, will fall straight down instead of wiggling around. Thus, it is natural to assume such a principle and see what follows from it.</p>
 
-<p>Let us first consider a spacetime diagram of a particle travelling from $A(t_0,x_0)$ to $B(t_1,x_1)$ in $1+1$ dimensions, as shown in Fig. fig:1. Suppose that we have a quantity, action $S$, which describes the path of the particle. Since the coordinates always depend on time, we can write
+<p>Let us first consider a spacetime diagram of a particle travelling from $A(t_0,x_0)$ to $B(t_1,x_1)$ in $1+1$ dimensions, as shown in Fig. 1. Suppose that we have a quantity, action $S$, which describes the path of the particle. Since the coordinates always depend on time, we can write
 \[S = \int_{t_0}^{t_1} L\, dt.\tag{21}\]
 Here $L=L(x,\dot{x},t)$ is the Lagrangian. For simplicity, we assume $L$ to be independent of $t$.</p>
 
@@ -227,7 +227,7 @@ where $T$ and $V$ are the kinetic and potential energy of the system, respective
 
 <p>We start by considering the familiar double-slit experiment. To find the probability of detecting a particle at a given point, we add the quantum amplitudes associated with the two possible paths through the slits.</p>
 
-<p>Now imagine inserting several barriers, each containing many slits. The particle may travel through any allowed route in this sequence, and the total amplitude is obtained by summing over all of these possibilities, as shown in Fig.&nbsp;fig:slits.</p>
+<p>Now imagine inserting several barriers, each containing many slits. The particle may travel through any allowed route in this sequence, and the total amplitude is obtained by summing over all of these possibilities, as shown in Fig.&nbsp;2.</p>
 
 <figure><img src="../assets/path-integral-fig2-slits.png" alt="Multi-slit configuration showing the many possible trajectories a particle may take between the emitter and detector."><figcaption>Multi-slit configuration showing the many possible trajectories a particle may take between the emitter and detector.</figcaption></figure>
 
@@ -247,7 +247,7 @@ where the latter integrates over a set of functions; this is known as a function
 
 <p>Now, we need to find out what to use as the phase in (1). Note that the theory should be consistent with classical mechanics in the classical limit. Let us denote the classical trajectory by $x_c(t)$ and the phase by $\mathcal{A}[x(t)]$. The phase must be stationary around the classical path so that nearby contributions add constructively rather than cancelling out due to rapid oscillations. Thus, we require the first-order functional derivative (can be thought of as the normal derivative for our purpose) of the phase to vanish at the classical trajectory:
 \[\frac{\delta\mathcal{A}[x(t)]}{\delta x(t)}\bigg|_{x(t)=x_c(t)} = 0.\tag{3}\]
-From Section sec:LC, recall that the classical path satisfies the principle of least action, $\delta S = 0$. Therefore, it is reasonable to identify the phase as the classical action, $S$, up to a constant. By dimensional analysis, the only relevant constant with the same dimensions as $S$ would be $\hbar$. Hence, we can write
+From Section LC, recall that the classical path satisfies the principle of least action, $\delta S = 0$. Therefore, it is reasonable to identify the phase as the classical action, $S$, up to a constant. By dimensional analysis, the only relevant constant with the same dimensions as $S$ would be $\hbar$. Hence, we can write
 \[\bra{x_f}U(T)\ket{x_i} = \int \mathcal{D}x(t) e^{iS[x(t)]/\hbar}.
     \tag{4}\]
 Here, we have written down the elegant formula for the path integral formalism first proposed by Richard Feynman in 1948 .</p>
@@ -262,7 +262,7 @@ To do that, consider a quantum state, $\ket{\psi;0}$, at time $t=0$. As introduc
     \tag{5}\]
 Note that we will keep the limit, from $-\infty$ to $\infty$, of spatial integrations implicit.</p>
 
-<p>Using the time evolution operator introduced in Section sec:HS, at later time, $T$, the state evolves to
+<p>Using the time evolution operator introduced in Section HS, at later time, $T$, the state evolves to
 \[\ket{\psi;T} = \int dx \, \psi(x,0)U(T)\ket{x},\tag{6}\]
 and hence the wavefunction at a later time is given by
 \[\psi(x',T) = \int dx \, \psi(x,0)\bra{x'}U(T)\ket{x}.\tag{7}\]
@@ -272,7 +272,7 @@ The propagator evolves a state, $\ket{x}$, to a final state, $\ket{x'}$, after a
 \[i\hbar\frac{\partial}{\partial T}K(x,x';T) = HK(x,x';T).\tag{9}\]</p>
 
 <p>Note that the functional integral we obtained in (4) is exactly a propagator. Our task now is to show that the two propagators are exactly equivalent. That is, we derive one representation starting from the other.
-However, the functional integral measure $\mathcal{D}x$ is not well-defined. To evaluate the integral, we need to discretise time; we need to slice time into $n$ pieces with equal separations, $\epsilon$, as shown in Fig. fig:slice. Now, we can label time by an integer, $k$, as $t_k$, and hence we can write the position at time, $t_k$, as $x(t_k)=x_k$, where $x_0 = x_i$ and $x_n = x_f$. To integrate over all paths on this discrete lattice, we need to integrate over all space at a given time, with the two endpoints being fixed. Thus, we can define the integral measure as the $\epsilon \to 0$ limit of 
+However, the functional integral measure $\mathcal{D}x$ is not well-defined. To evaluate the integral, we need to discretise time; we need to slice time into $n$ pieces with equal separations, $\epsilon$, as shown in Fig. 3. Now, we can label time by an integer, $k$, as $t_k$, and hence we can write the position at time, $t_k$, as $x(t_k)=x_k$, where $x_0 = x_i$ and $x_n = x_f$. To integrate over all paths on this discrete lattice, we need to integrate over all space at a given time, with the two endpoints being fixed. Thus, we can define the integral measure as the $\epsilon \to 0$ limit of 
 \[\int\mathcal{D}(t) = \frac{1}{C}\int\frac{dx_1}{C}\int\frac{dx_2}{C} \cdots \int\frac{dx_{n-1}}{C} = \frac{1}{C}\prod_{k=1}^{n-1}\int\frac{dx_k}{C}, 
     \tag{10}\]
 where $C$ is a constant we attach to each slice of time.</p>
@@ -376,13 +376,13 @@ suggesting a deep relationship between quantum time evolution and thermal equili
 
 <p>This connection becomes precise once the time parameter is analytically continued into the complex plane via a Wick rotation,
 \[t \to -i\tau,\]
-where $\tau$ is called Euclidean time. As illustrated in Fig.&nbsp;fig:wick, this rotation maps real time to imaginary time and transforms the unitary time evolution operator into a decaying exponential,
+where $\tau$ is called Euclidean time. As illustrated in Fig.&nbsp;4, this rotation maps real time to imaginary time and transforms the unitary time evolution operator into a decaying exponential,
 \[e^{-iHt/\hbar} \;\longrightarrow\; e^{-H\tau/\hbar}.\tag{3}\]
 Identifying $\tau = \hbar\beta$, the Euclidean evolution operator becomes exactly the exponential in the trace of (1).</p>
 
 <figure><img src="../assets/path-integral-fig4-wick.png" alt="Wick rotation of real time into imaginary (Euclidean) time. The shaded region indicates the domain where evolution is no"><figcaption>Wick rotation of real time into imaginary (Euclidean) time. The shaded region indicates the domain where evolution is not defined, and the contour is rotated from real time $t$ to Euclidean time $t = -i\tau$.</figcaption></figure>
 
-<p>Under this transformation, the quantum propagator is reinterpreted as a Euclidean path integral weighted by the Euclidean action $S_E$ (see Appendix app:wick for derivation):
+<p>Under this transformation, the quantum propagator is reinterpreted as a Euclidean path integral weighted by the Euclidean action $S_E$ (see Appendix wick for derivation):
 \[K_E(x_i,x_f;\tau) = \int \mathcal{D}x_E(\tau) \, e^{-S_E[x_E(\tau)]/\hbar}.\tag{4}\]
 The partition function then corresponds to a sum over closed trajectories in imaginary time:
 \[Z = \int dx \bra{x} e^{-\beta H} \ket{x} 
@@ -391,7 +391,7 @@ The partition function then corresponds to a sum over closed trajectories in ima
 where the path integral is taken over all paths with $x_E(0) = x_E(\hbar\beta)$.</p>
 
 <p>An interesting viewpoint is that the boundary condition is equivalent to working with a periodic imaginary time with $\tau = \tau +\hbar\beta$.
-A visualisation of this idea is illustrated in Fig. fig:time.</p>
+A visualisation of this idea is illustrated in Fig. 5.</p>
 
 <figure><img src="../assets/path-integral-fig5-cylinder.png" alt="Periodic property of imaginary time, , illustrating the Euclidean time circle that arises in systems at finite temperatu"><figcaption>Periodic property of imaginary time, $\tau = \tau + \hbar\beta$, illustrating the Euclidean time circle that arises in systems at finite temperature.</figcaption></figure>
 
@@ -418,13 +418,13 @@ where we have shifted the time axis by a constant.</p>
 <p>To make this connection precise, we analytically continue the time parameter, $t$, into the complex plane. Then, we take the imaginary time, $t=i\tau$, with $\tau\in\mathbb{R}$ known as the Euclidean time, to be the entry of the time evolution operator
 \[\bra{x_f}e^{-H\tau/\hbar}\ket{x_i}.\tag{2}\]</p>
 
-<p>In other words, we have rotated the real time, $t$, to Euclidean time, $\tau$, as shown in Fig. fig:wick. This operation is known as the Wick rotation.
+<p>In other words, we have rotated the real time, $t$, to Euclidean time, $\tau$, as shown in Fig. 4. This operation is known as the Wick rotation.
 Let $\tau = \beta\hbar = \hbar/k_BT$, then the time evolution operator of Euclidean time becomes equivalent to the operator in the partition function, $e^{-\beta H}$.</p>
 
 <p>It is worth considering the domain where the time evolution operator is defined. 
 Recall that to have a probability interpretation, we require the quantum state to be bounded; that is, it remains normalisable under time evolution.
 Thus, if we have a complex time with a positive imaginary part, $\tau&lt;0$, a quantum state will diverge as it evolves. 
-Therefore, the evolution operator is not defined for any $t$ with a positive imaginary part, as shown in Fig. fig:wick. 
+Therefore, the evolution operator is not defined for any $t$ with a positive imaginary part, as shown in Fig. 4. 
 This tells us that $\tau \in (0,\infty)$, and since $\tau \propto 1/T$, the temperature $T$, must be positive and greater than zero.
 This agrees with the fact that we can never reach absolute zero.</p>
 
