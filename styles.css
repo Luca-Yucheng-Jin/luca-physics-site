@@ -728,6 +728,22 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
 }
 .note figure.tikz-figure svg { color: var(--ink); }
 
+/* Dark mode: TikZJax bakes literal #000 into stroke/fill attributes, so the
+   diagrams render as invisible black on dark paper. Recolor those exact
+   attributes; non-black colors (e.g. styled gluons) pass through untouched. */
+[data-theme="dark"] .note figure.tikz-figure svg [stroke="#000"],
+[data-theme="dark"] .note figure.tikz-figure svg [stroke="#000000"],
+[data-theme="dark"] .note figure.tikz-figure svg [stroke="black"] {
+  stroke: var(--ink);
+}
+[data-theme="dark"] .note figure.tikz-figure svg [fill="#000"],
+[data-theme="dark"] .note figure.tikz-figure svg [fill="#000000"],
+[data-theme="dark"] .note figure.tikz-figure svg [fill="black"] {
+  fill: var(--ink);
+}
+
+/* Inside an equation row the figure is a flex item; smaller zoom so the
+   row doesn't grow too tall but keep the SVG fully visible. */
 .equation-row figure.tikz-figure {
   padding: 0;
   background: transparent;
