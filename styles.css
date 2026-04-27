@@ -45,7 +45,14 @@
 *, *::before, *::after { box-sizing: border-box; }
 
 html {
-  font-size: clamp(16px, 1.6vw + 0.5rem, 19px);
+  /* Font scales linearly with viewport so the page keeps LaTeX/A4-like
+     proportions on every screen. Because --measure is in `ch` (and almost
+     everything else is in `rem`), font and column grow together — the text
+     column stays the same number of characters wide and the same fraction
+     of the viewport, exactly like a LaTeX-typeset A4 sheet rescaled to a
+     different physical size. The `vw` coefficient is chosen so the 92-ch
+     reading column hits ~70% of viewport (LaTeX A4 default is ~76%).      */
+  font-size: clamp(15px, 1.55vw, 40px);
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
 }
