@@ -37,6 +37,13 @@
   --measure-wide: 140ch;
   --gutter: clamp(1rem, 3vw, 4rem);
   --rad: 2px;
+
+  /* User-controlled multiplier on the root font-size, persisted in
+     localStorage by font-size.js. 1 is neutral; A−/A+ buttons in the
+     topbar step it in 0.1 increments between 0.7 and 1.5. Because
+     almost every size in the stylesheet is in `rem` or `ch`, this
+     scales the entire page (text, gutters, headings) uniformly. */
+  --font-scale: 1;
 }
 
 /* Dark "midnight study" theme — warm dark, terracotta accent */
@@ -79,10 +86,10 @@ html {
      everything else is in `rem`), font and column grow together — the text
      column stays the same number of characters wide and the same fraction
      of the viewport, exactly like a LaTeX-typeset A4 sheet rescaled to a
-     different physical size. The cap is kept modest (28px) so display-math
-     equations — whose `min-width` is set in `em` by MathJax — don't grow
-     past the column on large screens. */
-  font-size: clamp(15px, 1.25vw, 28px);
+     different physical size. The base scale is on the conservative side so
+     it suits dense math reading; users can bump it up via the A+ button.
+     The `--font-scale` multiplier is wired into the topbar A−/A+ control. */
+  font-size: calc(clamp(14px, 0.95vw, 22px) * var(--font-scale, 1));
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
 }
@@ -345,6 +352,43 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
 .theme-toggle .icon-moon { display: block; }
 [data-theme="dark"] .theme-toggle .icon-sun  { display: block; }
 [data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+
+/* ---------- Font-size control ----------
+   A−/A+ pair in the topbar that nudges the root font-size by 10% per
+   click. Visually pairs with .theme-toggle. */
+.font-toggle {
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  height: 2rem;
+  min-width: 2rem;
+  padding: 0 0.55rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-soft);
+  cursor: pointer;
+  font-family: var(--display);
+  font-size: 0.85rem;
+  font-weight: 500;
+  line-height: 1;
+  margin-left: 0.3rem;
+  transition: color 0.2s, border-color 0.2s, background-color 0.2s;
+}
+.font-toggle:hover,
+.font-toggle:focus-visible {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+.font-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.font-toggle__small { font-size: 0.7em; }
+.font-toggle__large { font-size: 1em; }
 
 /* ---------- Sub navigation (topic anchors) ---------- */
 .subnav {
@@ -632,13 +676,14 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
 .footer a:hover { color: var(--accent); border-bottom-color: var(--accent); }
 
 /* ---------- Notes page (math content) ----------
-   Math notes use a wider measure than ordinary prose because MathJax
-   sets `min-width` on display equations in `em` — long integrals can
-   need 45+ em, which spills past a 92-ch column at any font size.
-   Setting it in ch (rather than a fixed px value) keeps the A4-like
-   "constant chars per line" behavior; only the count is bumped.       */
+   Math notes use --measure-wide (140 ch) rather than the prose --measure
+   so display equations and TikZ diagrams have room. MathJax sets
+   `min-width` on display equations in `em` — long integrals can need
+   45–50 em, and with a smaller font cap that still spills past a 92-ch
+   column. Keeping the limit in ch preserves the A4-like "constant
+   chars per line" behavior; only the count is bumped.                  */
 .note {
-  width: min(115ch, calc(100vw - 2 * var(--gutter)));
+  width: min(var(--measure-wide), calc(100vw - 2 * var(--gutter)));
   margin: 0 auto;
   padding: 2.5rem var(--gutter) 6rem;
   overflow-wrap: break-word;

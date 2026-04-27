@@ -18,9 +18,11 @@
    with the surrounding text — the page keeps its A4-like proportions
    at every viewport. */
 (function () {
-  var BASE_FONT = 16;            // baseline px; matches the floor of the html font-size clamp
-  var STANDALONE_BASE = 2.0;
-  var EQ_ROW_BASE = 1.5;
+  var BASE_FONT = 16;            // px reference for the scale multiplier
+  var STANDALONE_BASE = 3.0;     // larger than text growth so small diagrams read clearly
+  var EQ_ROW_BASE = 2.0;
+  var PX_PER_PT = 4 / 3;         // CSS standard: 1pt = 4/3 px
+  var FIT_MARGIN = 0.98;         // leave 2% slack so the wrapper doesn't kiss the column edge
 
   function currentScale(inEqRow) {
     var root = parseFloat(getComputedStyle(document.documentElement).fontSize) || BASE_FONT;
@@ -46,6 +48,14 @@
     if (!isFinite(w) || !isFinite(h) || w <= 0) return;
     var inEqRow = !!figure.closest('.equation-row');
     var scale = currentScale(inEqRow);
+    // Cap by available column width so a large diagram doesn't push the
+    // page into horizontal overflow. Smaller diagrams get the full base
+    // scale; only ones that would exceed the column are clamped to fit.
+    var availPx = figure.parentElement.getBoundingClientRect().width;
+    if (availPx > 0) {
+      var maxScale = (availPx * FIT_MARGIN) / (w * PX_PER_PT);
+      if (scale > maxScale) scale = maxScale;
+    }
     var newW = (w * scale).toFixed(4) + 'pt';
     var newH = (h * scale).toFixed(4) + 'pt';
     var newStyle = style
