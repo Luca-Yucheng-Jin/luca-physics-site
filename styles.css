@@ -79,9 +79,10 @@ html {
      everything else is in `rem`), font and column grow together — the text
      column stays the same number of characters wide and the same fraction
      of the viewport, exactly like a LaTeX-typeset A4 sheet rescaled to a
-     different physical size. The `vw` coefficient is chosen so the 92-ch
-     reading column hits ~70% of viewport (LaTeX A4 default is ~76%).      */
-  font-size: clamp(15px, 1.55vw, 40px);
+     different physical size. The cap is kept modest (28px) so display-math
+     equations — whose `min-width` is set in `em` by MathJax — don't grow
+     past the column on large screens. */
+  font-size: clamp(15px, 1.25vw, 28px);
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
 }
@@ -630,9 +631,14 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
 .footer a { color: var(--muted); border-bottom-color: var(--rule); }
 .footer a:hover { color: var(--accent); border-bottom-color: var(--accent); }
 
-/* ---------- Notes page (math content) ---------- */
+/* ---------- Notes page (math content) ----------
+   Math notes use a wider measure than ordinary prose because MathJax
+   sets `min-width` on display equations in `em` — long integrals can
+   need 45+ em, which spills past a 92-ch column at any font size.
+   Setting it in ch (rather than a fixed px value) keeps the A4-like
+   "constant chars per line" behavior; only the count is bumped.       */
 .note {
-  width: min(var(--measure), calc(100vw - 2 * var(--gutter)));
+  width: min(115ch, calc(100vw - 2 * var(--gutter)));
   margin: 0 auto;
   padding: 2.5rem var(--gutter) 6rem;
   overflow-wrap: break-word;
