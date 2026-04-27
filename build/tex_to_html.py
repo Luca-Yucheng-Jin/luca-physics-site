@@ -178,6 +178,43 @@ def extract_subsection(text, needle):
 # Math placeholders: we extract math regions and replace them with sentinels
 # while we transform the surrounding text, then restore them.
 
+
+def _rewrite_tr_curly(body):
+    """Rewrite \\Tr{X} → \\operatorname{Tr}\\!\\left(X\\right) (auto-sized
+    parens). Only the curly form is rewritten — the bracket form
+    \\Tr[X] is intentional notation for literal Tr[X] in the source
+    and is left alone (the runtime macro `\\Tr` → `\\operatorname{Tr}`
+    handles those, rendering them as Tr[X]).
+
+    Done with balanced-brace matching so nested {} inside the argument
+    survive (e.g. \\Tr{\\gamma^\\mu \\gamma^\\nu \\frac{1}{p^2}} →
+    Tr(...) including the \\frac arg)."""
+    out = []
+    i = 0
+    pat = re.compile(r"\\Tr(?![A-Za-z])\s*\{")
+    while i < len(body):
+        m = pat.search(body, i)
+        if not m:
+            out.append(body[i:])
+            break
+        out.append(body[i:m.start()])
+        depth = 1
+        j = m.end()
+        start = j
+        while j < len(body) and depth > 0:
+            if body[j] == "{":
+                depth += 1
+            elif body[j] == "}":
+                depth -= 1
+                if depth == 0:
+                    break
+            j += 1
+        arg = body[start:j]
+        out.append(f"\\operatorname{{Tr}}\\!\\left({arg}\\right)")
+        i = j + 1
+    return "".join(out)
+
+
 class MathStash(dict):
     """Holds math + tikz stashes, plus a per-page equation counter, a
     figure counter, and a label→number map so \\eqref / \\ref resolve.
@@ -213,6 +250,7 @@ class MathStash(dict):
     reset_eq_counter = begin_section
 
     def stash(self, body, display):
+        body = _rewrite_tr_curly(body)
         idx = len(self.items)
         self.items.append((body, display))
         return f"\x00MATH{idx}\x00"
@@ -1017,7 +1055,7 @@ window.MathJax = {
   tex: {
     inlineMath: [['$', '$'], ['\\(', '\\)']],
     displayMath: [['$$', '$$'], ['\\[', '\\]']],
-    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros']},
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros', 'mathtools']},
     macros: {
       R: '\\mathbb{R}',
       C: '\\mathbb{C}',
@@ -1039,7 +1077,7 @@ window.MathJax = {
       tensor:  ['{#1{#2}}', 2]
     }
   },
-  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
 };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>

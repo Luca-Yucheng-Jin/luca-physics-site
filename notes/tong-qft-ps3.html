@@ -23,7 +23,7 @@ window.MathJax = {
   tex: {
     inlineMath: [['$', '$'], ['\\(', '\\)']],
     displayMath: [['$$', '$$'], ['\\[', '\\]']],
-    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros']},
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros', 'mathtools']},
     macros: {
       R: '\\mathbb{R}',
       C: '\\mathbb{C}',
@@ -45,7 +45,7 @@ window.MathJax = {
       tensor:  ['{#1{#2}}', 2]
     }
   },
-  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
 };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -200,32 +200,32 @@ Show further that $S^{\mu\nu} \equiv \frac{1}{4}[\gamma^\mu, \gamma^\nu] = \frac
 
 <ol>
   <li>Trivial.</li>
-  <li>\[\Tr{\gamma^\mu\gamma^\nu} = 2\eta^{\mu\nu}\Tr{\mathbf{1}} -\Tr{\gamma^\nu\gamma^\mu}\implies\Tr{\gamma^\mu\gamma^\nu} = d\eta^{\mu\nu}.\tag{3.1}\]</li>
-  <li>\[\Tr{\gamma^\mu\gamma^\nu\gamma^\rho} = -\Tr{\gamma^\nu\gamma^\mu\gamma^\rho} =\Tr{\gamma^\nu\gamma^\rho\gamma^\mu} = -\Tr{\gamma^\rho\gamma^\nu\gamma^\mu} =0.\tag{3.2}\]</li>
+  <li>\[\operatorname{Tr}\!\left(\gamma^\mu\gamma^\nu\right) = 2\eta^{\mu\nu}\operatorname{Tr}\!\left(\mathbf{1}\right) -\operatorname{Tr}\!\left(\gamma^\nu\gamma^\mu\right)\implies\operatorname{Tr}\!\left(\gamma^\mu\gamma^\nu\right) = d\eta^{\mu\nu}.\tag{3.1}\]</li>
+  <li>\[\operatorname{Tr}\!\left(\gamma^\mu\gamma^\nu\gamma^\rho\right) = -\operatorname{Tr}\!\left(\gamma^\nu\gamma^\mu\gamma^\rho\right) =\operatorname{Tr}\!\left(\gamma^\nu\gamma^\rho\gamma^\mu\right) = -\operatorname{Tr}\!\left(\gamma^\rho\gamma^\nu\gamma^\mu\right) =0.\tag{3.2}\]</li>
   <li>\[(\gamma^5)^2 = -\gamma^0\gamma^1\gamma^2\gamma^3\gamma^0\gamma^1\gamma^2\gamma^3=-\gamma^1\gamma^2\gamma^3\gamma^1\gamma^2\gamma^3 =-\gamma^2\gamma^3\gamma^2\gamma^3 =\mathbf{1}.\tag{3.3}\]</li>
   <li>Will turn out to be trivial using the general trace of for $\gamma$-matrices.</li>
   <li>\[\slashed{p}\slashed{q} = p_\mu q_\nu(2\eta^{\mu\nu}-\gamma^\nu\gamma^\mu) = 2p\cdot q - \slashed{q}\slashed{p} = p_\mu q_\nu(\eta^{\mu\nu}+2S^{\mu\nu}) = p\cdot q + 2S^{\mu\nu}p_\mu q_\nu.\tag{3.4}\]</li>
-  <li>\[\Tr{\slashed{p}\slashed{q}} = d\,p\cdot q.\tag{3.5}\]</li>
+  <li>\[\operatorname{Tr}\!\left(\slashed{p}\slashed{q}\right) = d\,p\cdot q.\tag{3.5}\]</li>
   <li>Follows from iii by induction.</li>
   <li>\[\begin{aligned}
-            &amp;\Tr{\gamma^\mu\gamma^\nu\gamma^\rho\gamma^\lambda} = 2(\eta^{\mu\nu}\Tr{\gamma^\rho\gamma^\lambda}-\eta^{\mu\rho}\Tr{\gamma^\nu\gamma^\lambda}+\eta^{\mu\lambda}\Tr{\gamma^\nu\gamma^\rho}) -\Tr{\gamma^\nu\gamma^\rho\gamma^\lambda\gamma^\mu}\\
-            \implies&amp; \Tr{\gamma^\mu\gamma^\nu\gamma^\rho\gamma^\lambda} = d(\eta^{\mu\nu}\eta^{\rho\lambda}-\eta^{\mu\rho}\eta^{\nu\lambda}+\eta^{\mu\lambda}\eta^{\nu\rho})\\
-            \implies &amp;\Tr{\slashed{p}_1\slashed{p}_2\slashed{p}_3\slashed{p}_4} = d\left[(p_1\cdot p_2)(p_3\cdot p_4) + (p_1\cdot p_4)(p_2\cdot p_3) - (p_1\cdot p_3)(p_2\cdot p_4)\right].
+            &amp;\operatorname{Tr}\!\left(\gamma^\mu\gamma^\nu\gamma^\rho\gamma^\lambda\right) = 2(\eta^{\mu\nu}\operatorname{Tr}\!\left(\gamma^\rho\gamma^\lambda\right)-\eta^{\mu\rho}\operatorname{Tr}\!\left(\gamma^\nu\gamma^\lambda\right)+\eta^{\mu\lambda}\operatorname{Tr}\!\left(\gamma^\nu\gamma^\rho\right)) -\operatorname{Tr}\!\left(\gamma^\nu\gamma^\rho\gamma^\lambda\gamma^\mu\right)\\
+            \implies&amp; \operatorname{Tr}\!\left(\gamma^\mu\gamma^\nu\gamma^\rho\gamma^\lambda\right) = d(\eta^{\mu\nu}\eta^{\rho\lambda}-\eta^{\mu\rho}\eta^{\nu\lambda}+\eta^{\mu\lambda}\eta^{\nu\rho})\\
+            \implies &amp;\operatorname{Tr}\!\left(\slashed{p}_1\slashed{p}_2\slashed{p}_3\slashed{p}_4\right) = d\left[(p_1\cdot p_2)(p_3\cdot p_4) + (p_1\cdot p_4)(p_2\cdot p_3) - (p_1\cdot p_3)(p_2\cdot p_4)\right].
         \end{aligned}\tag{3.6}\]</li>
   <li>A cleaner argument: by anticommutation of $\gamma^5$ with all $\gamma^\mu$, the trace is totally antisymmetric in $(\mu, \nu)$. The only available rank-2 tensor in 4d is $\eta^{\mu\nu}$, which is symmetric. Hence the trace must vanish:
-    \[\Tr{\gamma^5\slashed{p}_1\slashed{p}_2} = 0.\tag{3.7}\]</li>
+    \[\operatorname{Tr}\!\left(\gamma^5\slashed{p}_1\slashed{p}_2\right) = 0.\tag{3.7}\]</li>
   <li>Insert $\eta_{\mu\nu}\gamma^\mu\gamma^\nu = d\,\mathbf{1}$ and use $\{\gamma^\mu, \gamma^\nu\} = 2\eta^{\mu\nu}$:
     \[\gamma_\mu\slashed{p}\gamma^\mu = p_\nu\gamma_\mu\gamma^\nu\gamma^\mu = p_\nu(2\eta^\nu_\mu - \gamma^\nu\gamma_\mu)\gamma^\mu = 2\slashed{p} - d\slashed{p} = (2-d)\slashed{p} = -2\slashed{p}.\tag{3.8}\]</li>
   <li>Apply the previous result twice. Using $\gamma_\mu\gamma^\nu\gamma^\rho\gamma^\mu = 4\eta^{\nu\rho}$ (proved similarly):
     \[\gamma_\mu\slashed{p}_1\slashed{p}_2\gamma^\mu = p_{1\nu}p_{2\rho}\gamma_\mu\gamma^\nu\gamma^\rho\gamma^\mu = 4 p_{1\nu}p_{2\rho}\eta^{\nu\rho} = 4 p_1\cdot p_2.\tag{3.9}\]</li>
   <li>Similarly $\gamma_\mu\gamma^\nu\gamma^\rho\gamma^\sigma\gamma^\mu = -2\gamma^\sigma\gamma^\rho\gamma^\nu$, hence
     \[\gamma_\mu\slashed{p}_1\slashed{p}_2\slashed{p}_3\gamma^\mu = -2\slashed{p}_3\slashed{p}_2\slashed{p}_1.\tag{3.10}\]</li>
-  <li>By the same antisymmetry argument as in (x), the trace $\Tr{\gamma^5\slashed{p}_1\slashed{p}_2\slashed{p}_3\slashed{p}_4}$ must be totally antisymmetric in the four momentum indices. The only such rank-4 tensor in 4d is $\epsilon^{\mu\nu\rho\sigma}$, so
-    \[\Tr{\gamma^5\gamma^\mu\gamma^\nu\gamma^\rho\gamma^\sigma} = c\,\epsilon^{\mu\nu\rho\sigma}.\tag{3.11}\]
+  <li>By the same antisymmetry argument as in (x), the trace $\operatorname{Tr}\!\left(\gamma^5\slashed{p}_1\slashed{p}_2\slashed{p}_3\slashed{p}_4\right)$ must be totally antisymmetric in the four momentum indices. The only such rank-4 tensor in 4d is $\epsilon^{\mu\nu\rho\sigma}$, so
+    \[\operatorname{Tr}\!\left(\gamma^5\gamma^\mu\gamma^\nu\gamma^\rho\gamma^\sigma\right) = c\,\epsilon^{\mu\nu\rho\sigma}.\tag{3.11}\]
     The constant $c$ is fixed by setting $(\mu,\nu,\rho,\sigma) = (0,1,2,3)$:
-    \[\Tr{\gamma^5\gamma^0\gamma^1\gamma^2\gamma^3} = i\Tr{\gamma^5\gamma^5} = 4i,\tag{3.12}\]
+    \[\operatorname{Tr}\!\left(\gamma^5\gamma^0\gamma^1\gamma^2\gamma^3\right) = i\operatorname{Tr}\!\left(\gamma^5\gamma^5\right) = 4i,\tag{3.12}\]
     using $\gamma^5 = -i\gamma^0\gamma^1\gamma^2\gamma^3$ and $(\gamma^5)^2 = \mathbf{1}$. With $\epsilon^{0123} = -\epsilon_{0123} = -1$, we find $c = -4i$, giving
-    \[\Tr{\gamma^5\slashed{p}_1\slashed{p}_2\slashed{p}_3\slashed{p}_4} = -4i\,\epsilon_{\mu\nu\rho\sigma}\,p_1^\mu p_2^\nu p_3^\rho p_4^\sigma.\tag{3.13}\]</li>
+    \[\operatorname{Tr}\!\left(\gamma^5\slashed{p}_1\slashed{p}_2\slashed{p}_3\slashed{p}_4\right) = -4i\,\epsilon_{\mu\nu\rho\sigma}\,p_1^\mu p_2^\nu p_3^\rho p_4^\sigma.\tag{3.13}\]</li>
 </ol>
 
 </aside>
