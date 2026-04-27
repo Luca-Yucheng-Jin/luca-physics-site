@@ -639,35 +639,65 @@ def transform_text(text, stash=None):
     # ── EARLY: extract \begin{figure}…\end{figure} blocks BEFORE we strip
     # \label{} so the figure handler can record figure-number labels for
     # \ref{} resolution.
+    #
+    # Two cases: figure body contains an \includegraphics (image asset),
+    # or it contains a stashed TikZ block (\x00TIKZ%d\x00) — pgfplots,
+    # tikz-feynman, or plain tikz wrapped in \begin{figure}. In the
+    # second case we keep the placeholder so the tikz-marker pass later
+    # turns it into an inline SVG.
     def _early_figure_repl(m):
         body = m.group(1)
         img = re.search(r"\\includegraphics(?:\[[^\]]*\])?\{([^}]+)\}", body)
+        # By the time _early_figure_repl runs, latex_to_html() has already
+        # converted \x00TIKZ%d\x00 into <div class="tikz-marker" data-tikz="N"></div>
+        # markers; match that form.
+        tikz_marker = re.search(
+            r'<div class="tikz-marker" data-tikz="\d+"></div>', body)
         cap = re.search(r"\\caption\{(.+?)\}\s*(?:\\label\{[^}]+\})?", body, re.DOTALL)
         label_m = re.search(r"\\label\{([^}]+)\}", body)
-        if not img:
+        if not img and not tikz_marker:
             return ""
-        src = img.group(1).strip()
+        # Bump the figure counter and capture the label → number mapping
+        # so \ref{} / \eqref{} resolve correctly later.
         if stash is not None:
             stash["fig_counter"] = stash.get("fig_counter", 0) + 1
             if label_m:
                 stash["labels"][label_m.group(1)] = str(stash["fig_counter"])
-        FIG_MAP = {
-            "截屏2025-09-03 11.12.36.png": "../assets/path-integral-fig1-spacetime.png",
-            "截屏2025-09-03 11.12.36 (1).png": "../assets/path-integral-fig1-spacetime.png",
-            "截屏2025-12-06 22.06.22.png": "../assets/path-integral-fig2-slits.png",
-            "截屏2025-12-07 14.59.48.png": "../assets/path-integral-fig3-paths.png",
-            "截屏2025-12-07 21.55.01.png": "../assets/path-integral-fig4-wick.png",
-            "截屏2025-12-08 11.10.24.png": "../assets/path-integral-fig5-cylinder.png",
-        }
-        href = FIG_MAP.get(src, f"../assets/{src}")
         caption_html = cap.group(1).strip() if cap else ""
         alt = re.sub(r"\x00MATH\d+\x00", "", caption_html)
         alt = re.sub(r"\s+", " ", alt).strip()[:120]
         alt = alt.replace('"', "'")
+
+        if img:
+            FIG_MAP = {
+                "截屏2025-09-03 11.12.36.png": "../assets/path-integral-fig1-spacetime.png",
+                "截屏2025-09-03 11.12.36 (1).png": "../assets/path-integral-fig1-spacetime.png",
+                "截屏2025-12-06 22.06.22.png": "../assets/path-integral-fig2-slits.png",
+                "截屏2025-12-07 14.59.48.png": "../assets/path-integral-fig3-paths.png",
+                "截屏2025-12-07 21.55.01.png": "../assets/path-integral-fig4-wick.png",
+                "截屏2025-12-08 11.10.24.png": "../assets/path-integral-fig5-cylinder.png",
+            }
+            src = img.group(1).strip()
+            href = FIG_MAP.get(src, f"../assets/{src}")
+            inner = f'<img src="{href}" alt="{alt}">'
+            if caption_html:
+                return f'\n\n<figure>{inner}<figcaption>{caption_html}</figcaption></figure>\n\n'
+            return f'\n\n<figure>{inner}</figure>\n\n'
+
+        # tikz-only figure: rewrite the marker to carry the caption as a
+        # data attribute. The tikz-marker substitution later reads it and
+        # injects a <figcaption> inside the tikz-figure (no nested figures).
         if caption_html:
-            return (f'\n\n<figure><img src="{href}" alt="{alt}">'
-                    f'<figcaption>{caption_html}</figcaption></figure>\n\n')
-        return f'\n\n<figure><img src="{href}" alt=""></figure>\n\n'
+            # base64-ish encode the caption so it survives quote conflicts:
+            # we just escape `&`, `"`, and \n and stash it as a data attr.
+            cap_attr = (caption_html
+                        .replace("&", "&amp;")
+                        .replace('"', "&quot;")
+                        .replace("\n", " "))
+            return tikz_marker.group(0).replace(
+                'data-tikz="', f'data-figcaption="{cap_attr}" data-tikz="'
+            )
+        return tikz_marker.group(0)
     text = re.sub(r"\\begin\{figure\}\*?(?:\[[^\]]*\])?\s*(.*?)\\end\{figure\}\*?",
                   _early_figure_repl, text, flags=re.DOTALL)
 
@@ -799,10 +829,24 @@ def latex_to_html(body, stash=None):
                   body)
     body = transform_text(body, stash=stash)
     body = stash.restore(body)
-    # Substitute tikz markers with the real figures.
+    # Substitute tikz markers with the real figures. If the marker carries
+    # a data-figcaption (set by _early_figure_repl when the diagram came
+    # from a \begin{figure}...\caption{...}\end{figure} block), inject the
+    # caption inside the rendered tikz-figure rather than as a sibling.
+    def _tikz_marker_repl(m):
+        idx = int(m.group("idx"))
+        cap = m.group("cap")
+        figure_html = render_tikz_one(stash, idx)
+        if cap:
+            cap = (cap.replace("&quot;", '"').replace("&amp;", "&"))
+            figure_html = figure_html.replace(
+                "</figure>", f"<figcaption>{cap}</figcaption></figure>", 1)
+        return figure_html
     body = re.sub(
-        r'<div class="tikz-marker" data-tikz="(\d+)"></div>',
-        lambda m: render_tikz_one(stash, int(m.group(1))),
+        r'<div class="tikz-marker"'
+        r'(?: data-figcaption="(?P<cap>[^"]*)")?'
+        r' data-tikz="(?P<idx>\d+)"></div>',
+        _tikz_marker_repl,
         body,
     )
     # Resolve \eqref{} / \ref{} sentinels using the labels map collected
