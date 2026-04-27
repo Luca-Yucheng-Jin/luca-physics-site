@@ -84,15 +84,15 @@ window.MathJax = {
   <li>By integrating the function
   \[z^n (z - a)^{-1} (z - a^{-1})^{-1}\]
   around the unit circle and applying the residue theorem, evaluate
-  \[\int_{0}^{2\pi} \frac{\cos n\theta}{1 - 2a\cos\theta + a^2}\, d\theta,\tag{1}\]
+  \[\int_{0}^{2\pi} \frac{\cos n\theta}{1 - 2a\cos\theta + a^2}\, d\theta,\tag{1.1}\]
   where $a$ is real, $a &gt; 1$, and $n$ is a non-negative integer.</li>
   <li>Obtain the same result using Cauchy’s integral formula instead of the residue theorem.</li>
 </ol>
 
 <p><u><strong>Solution</strong></u> Parametrise the integration by $z=e^{i\theta}$ with $\theta\in[0,2\pi)$. The integral becomes
-\[I = \int^{2\pi}_0d\theta\frac{aie^{in\theta}}{-1+2a\cos\theta-a^2}  =\int^{2\pi}_0d\theta\frac{aie^{-in\theta}}{-1+2a\cos\theta-a^2} = -2\pi i\frac{a^{-n+1}}{a^2-1}\tag{2}\]
+\[I = \int^{2\pi}_0d\theta\frac{aie^{in\theta}}{-1+2a\cos\theta-a^2}  =\int^{2\pi}_0d\theta\frac{aie^{-in\theta}}{-1+2a\cos\theta-a^2} = -2\pi i\frac{a^{-n+1}}{a^2-1}\tag{1.2}\]
 Therefore, 
-\[\int_{0}^{2\pi} \frac{\cos n\theta}{1 - 2a\cos\theta + a^2}\, d\theta = -\frac{I}{ai} = 2\pi\frac{a^{-n}}{a^2-1}.\tag{3}\]</p>
+\[\int_{0}^{2\pi} \frac{\cos n\theta}{1 - 2a\cos\theta + a^2}\, d\theta = -\frac{I}{ai} = 2\pi\frac{a^{-n}}{a^2-1}.\tag{1.3}\]</p>
   </article>
 
   <hr class="ornament-rule">

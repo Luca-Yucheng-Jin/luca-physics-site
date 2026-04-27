@@ -83,46 +83,46 @@ window.MathJax = {
 <p><strong>Statement.</strong> Let $f(z) = e^{iaz}g(z)$ with $a &gt; 0$. Show that if
 $g(z)\to 0$ uniformly on the upper half-plane as $|z|\to\infty$, i.e.
 \[\max_{\theta\in[0,\pi]}|g(Re^{i\theta})| \to 0 \quad \text{as } R\to\infty,
-    \tag{1}\]
+    \tag{1.1}\]
 then the integral over the upper semicircular arc $\mathcal{C}_R =
 \{z = Re^{i\theta},\, \theta\in[0,\pi]\}$ vanishes:
-\[\lim_{R\to\infty}\int_{\mathcal{C}_R}f(z)\,dz = 0.\tag{2}\]
+\[\lim_{R\to\infty}\int_{\mathcal{C}_R}f(z)\,dz = 0.\tag{1.2}\]
 Find an upper bound for $\left|\int_{\mathcal{C}_R}f(z)\,dz\right|$ and
-give an example of a class of functions $g$ satisfying (1).</p>
+give an example of a class of functions $g$ satisfying (1.1).</p>
 
 <p><u><strong>Solution</strong></u> A typical example satisfying
-(1) is any rational function $g(z) = P(z)/Q(z)$ with
+(1.1) is any rational function $g(z) = P(z)/Q(z)$ with
 $\deg Q \geq \deg P + 1$, for which
 $\max|g(Re^{i\theta})| = \mathcal{O}(R^{-1})\to 0$.</p>
 
 <p>Parametrise $z = Re^{i\theta}$, so $dz = iRe^{i\theta}d\theta$. The
 integral becomes
 \[\int_{\mathcal{C}_R}f(z)\,dz
-    = iR\int^\pi_0 g(Re^{i\theta})\,e^{iaRe^{i\theta}}\,e^{i\theta}\,d\theta.\tag{3}\]
+    = iR\int^\pi_0 g(Re^{i\theta})\,e^{iaRe^{i\theta}}\,e^{i\theta}\,d\theta.\tag{1.3}\]
 Taking the absolute value and using $|e^{i\theta}|=1$ and
 $|e^{iaRe^{i\theta}}| = e^{-aR\sin\theta}$:
 \[\begin{aligned}\left|\int_{\mathcal{C}_R}f(z)\,dz\right|
     &amp;\leq R\int^\pi_0 |g(Re^{i\theta})|\,e^{-aR\sin\theta}\,d\theta \notag\\
-    &amp;\leq M(R)\cdot R\int^\pi_0 e^{-aR\sin\theta}\,d\theta,\end{aligned}\tag{9}\]
+    &amp;\leq M(R)\cdot R\int^\pi_0 e^{-aR\sin\theta}\,d\theta,\end{aligned}\tag{1.4}\]
 where $M(R)\equiv\max_{\theta\in[0,\pi]}|g(Re^{i\theta})|$. By symmetry of
 $\sin\theta$ about $\theta=\pi/2$:
 \[R\int^\pi_0 e^{-aR\sin\theta}\,d\theta
-    = 2R\int^{\pi/2}_0 e^{-aR\sin\theta}\,d\theta.\tag{4}\]
+    = 2R\int^{\pi/2}_0 e^{-aR\sin\theta}\,d\theta.\tag{1.5}\]
 Since $\sin\theta$ is concave on $[0,\pi/2]$, it lies above the chord
 connecting $(0,0)$ and $(\pi/2,1)$:
-\[\sin\theta \geq \frac{2\theta}{\pi}, \qquad \theta\in\left[0,\tfrac{\pi}{2}\right].\tag{5}\]
+\[\sin\theta \geq \frac{2\theta}{\pi}, \qquad \theta\in\left[0,\tfrac{\pi}{2}\right].\tag{1.6}\]
 Therefore:
 \[2R\int^{\pi/2}_0 e^{-aR\sin\theta}\,d\theta
     \leq 2R\int^{\pi/2}_0 e^{-2aR\theta/\pi}\,d\theta
     = \frac{\pi}{a}\!\left(1-e^{-aR}\right)
-    \leq \frac{\pi}{a}.\tag{6}\]
+    \leq \frac{\pi}{a}.\tag{1.7}\]
 Combining, we obtain the bound
 \[\left|\int_{\mathcal{C}_R}f(z)\,dz\right| \leq \frac{\pi}{a}\,M(R).
-    \tag{7}\]
-Taking $R\to\infty$: by assumption (1), $M(R)\to 0$, so
-the right-hand side of (7) vanishes by the squeeze
+    \tag{1.8}\]
+Taking $R\to\infty$: by assumption (1.1), $M(R)\to 0$, so
+the right-hand side of (1.8) vanishes by the squeeze
 theorem, and hence
-\[\lim_{R\to\infty}\int_{\mathcal{C}_R}f(z)\,d z = 0.\tag{8}\]</p>
+\[\lim_{R\to\infty}\int_{\mathcal{C}_R}f(z)\,d z = 0.\tag{1.9}\]</p>
   </article>
 
   <hr class="ornament-rule">

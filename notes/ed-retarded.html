@@ -82,20 +82,20 @@ window.MathJax = {
   <article class="note__body">
 <p>Let $\phi$ be the retarded scalar potential given by
 \[\phi(t,\mathbf{x}) = \frac{1}{4\pi\varepsilon_0}\int d^3y\,
-  \frac{\rho(t_{\mathrm{ret}},\mathbf{y})}{R},\tag{1}\]
+  \frac{\rho(t_{\mathrm{ret}},\mathbf{y})}{R},\tag{1.1}\]
 where $R = |\mathbf{x}-\mathbf{y}|$, $t_{\mathrm{ret}} = t - R/c$, and
 $\hat{\mathbf{R}} = (\mathbf{x}-\mathbf{y})/R$. Show that
 \[\frac{\partial}{\partial t}\phi(t,\mathbf{x})
   = \frac{1}{4\pi\varepsilon_0}\int d^3y\,
-  \frac{\dot{\rho}(t_{\mathrm{ret}},\mathbf{y})}{R},\tag{2}\]
+  \frac{\dot{\rho}(t_{\mathrm{ret}},\mathbf{y})}{R},\tag{1.2}\]
 where $\dot{\rho}(t_{\mathrm{ret}},\mathbf{y})$ is $\partial\rho(t,\mathbf{y})/\partial t$
 evaluated at $t_{\mathrm{ret}}$. Show further that
 \[\nabla\phi(t,\mathbf{x}) = -\frac{1}{4\pi\varepsilon_0}\int d^3y\,\hat{\mathbf{R}}
   \left(\frac{1}{R^2}\rho(t_{\mathrm{ret}},\mathbf{y})
-  + \frac{1}{cR}\dot{\rho}(t_{\mathrm{ret}},\mathbf{y})\right).\tag{3}\]
+  + \frac{1}{cR}\dot{\rho}(t_{\mathrm{ret}},\mathbf{y})\right).\tag{1.3}\]
 Hence verify, using $\nabla^2(1/R) = -4\pi\delta^{(3)}(\mathbf{x}-\mathbf{y})$,
 that $\phi$ satisfies the wave equation:
-\[\Box\,\phi(t,\mathbf{x}) = -\frac{1}{\varepsilon_0}\rho(t,\mathbf{x}).\tag{4}\]</p>
+\[\Box\,\phi(t,\mathbf{x}) = -\frac{1}{\varepsilon_0}\rho(t,\mathbf{x}).\tag{1.4}\]</p>
 
 <p>Write down a similar retarded solution for the vector potential $\mathbf{A}$
 in terms of the current density $\mathbf{J}$.</p>
@@ -109,12 +109,12 @@ terms in the far-field expansion are
     - \dot{\mathbf{J}}(t_{\mathrm{ret}},\mathbf{y})\right) \notag\\
   &amp;= \frac{\mu_0}{4\pi|\mathbf{x}|}\,\hat{\mathbf{x}}\times
     \left(\hat{\mathbf{x}}\times\int d^3y\,
-    \dot{\mathbf{J}}(t_{\mathrm{ret}},\mathbf{y})\right),\end{aligned}\tag{24}\]
+    \dot{\mathbf{J}}(t_{\mathrm{ret}},\mathbf{y})\right),\end{aligned}\tag{1.5}\]
 where conservation of current, integration by parts, and discarding of a
 surface integral have all been used, and
 \[\mathbf{B}(t,\mathbf{x}) \approx -\frac{\mu_0}{4\pi c|\mathbf{x}|}\,
   \hat{\mathbf{x}}\times\int d^3y\,\dot{\mathbf{J}}(t_{\mathrm{ret}},\mathbf{y})
-  = \frac{1}{c}\hat{\mathbf{x}}\times\mathbf{E}(t,\mathbf{x}).\tag{5}\]
+  = \frac{1}{c}\hat{\mathbf{x}}\times\mathbf{E}(t,\mathbf{x}).\tag{1.6}\]
 (Note that these results do not assume the dipole approximation.)
 Determine the Poynting vector.</p>
 
@@ -124,33 +124,33 @@ Determine the Poynting vector.</p>
 Following from the retarded potential, we have, trivially, 
 \[\frac{\partial}{\partial t}\phi(t,\mathbf{x})
   = \frac{1}{4\pi\varepsilon_0}\int d^3y\,
-  \frac{\dot{\rho}(t_{\mathrm{ret}},\mathbf{y})}{R}.\tag{6}\]
+  \frac{\dot{\rho}(t_{\mathrm{ret}},\mathbf{y})}{R}.\tag{1.7}\]
 Then, note that 
-\[\nabla\left(\frac{1}{R}\right) = -\frac{\hat{\mathbf{R}}}{R^2} \qquad \text{and} \qquad \nabla \rho(t_\text{ret},\mathbf{y}) = \frac{\partial\rho(t_\text{ret},\mathbf{y})}{\partial R} = -\frac{1}{c}\dot{\rho}(t_{\mathrm{ret}},\mathbf{y})\hat{\mathbf{R}}.\tag{7}\]
+\[\nabla\left(\frac{1}{R}\right) = -\frac{\hat{\mathbf{R}}}{R^2} \qquad \text{and} \qquad \nabla \rho(t_\text{ret},\mathbf{y}) = \frac{\partial\rho(t_\text{ret},\mathbf{y})}{\partial R} = -\frac{1}{c}\dot{\rho}(t_{\mathrm{ret}},\mathbf{y})\hat{\mathbf{R}}.\tag{1.8}\]
 Thus, we have
 \[\nabla\phi(t,\mathbf{x}) = -\frac{1}{4\pi\varepsilon_0}\int d^3y\,\hat{\mathbf{R}}
   \left(\frac{1}{R^2}\rho(t_{\mathrm{ret}},\mathbf{y})
-  + \frac{1}{cR}\dot{\rho}(t_{\mathrm{ret}},\mathbf{y})\right).\tag{8}\].</p>
+  + \frac{1}{cR}\dot{\rho}(t_{\mathrm{ret}},\mathbf{y})\right).\tag{1.9}\].</p>
 
 <p>Now, first consider the second-order time derivative, which is simply given by
 \[\frac{\partial^2}{\partial t^2}\phi(t,\mathbf{x})
   = \frac{1}{4\pi\varepsilon_0}\int d^3y\,
-  \frac{\ddot{\rho}(t_{\mathrm{ret}},\mathbf{y})}{R}.\tag{9}\]
+  \frac{\ddot{\rho}(t_{\mathrm{ret}},\mathbf{y})}{R}.\tag{1.10}\]
 For the Laplacian, it is slightly trickier; we find
 \[\nabla^2\phi(t,\mathbf{x}) = -\frac{1}{\varepsilon_0}\rho(t,\mathbf{x}) +\frac{1}{4\pi\varepsilon_0c^2}\int d^3y\,
-  \frac{\ddot{\rho}(t_{\mathrm{ret}},\mathbf{y})}{R}.\tag{10}\]
+  \frac{\ddot{\rho}(t_{\mathrm{ret}},\mathbf{y})}{R}.\tag{1.11}\]
 Putting them together, we obtain
-\[\square\phi(t,\mathbf{x}) = -\frac{1}{\varepsilon_0}\rho(t,\mathbf{x}).\tag{11}\]</p>
+\[\square\phi(t,\mathbf{x}) = -\frac{1}{\varepsilon_0}\rho(t,\mathbf{x}).\tag{1.12}\]</p>
 
 <p>By simple analogy, we have
-\[\square\mathbf{A}(t,\mathbf{x}) = -\mu_0\mathbf{J}(t,\mathbf{x}),\tag{12}\]
+\[\square\mathbf{A}(t,\mathbf{x}) = -\mu_0\mathbf{J}(t,\mathbf{x}),\tag{1.13}\]
 \[\frac{\partial}{\partial t}\mathbf{A}(t,\mathbf{x})
   = \frac{\mu_0}{4\pi}\int d^3y\,
-  \frac{\dot{\mathbf{J}}(t_{\mathrm{ret}},\mathbf{y})}{R},\tag{13}\]
+  \frac{\dot{\mathbf{J}}(t_{\mathrm{ret}},\mathbf{y})}{R},\tag{1.14}\]
 and
 \[\nabla A_i(t,\mathbf{x}) = -\frac{\mu_0}{4\pi}\int d^3y\,\hat{\mathbf{R}}
   \left(\frac{1}{R^2}J_i(t_{\mathrm{ret}},\mathbf{y})
-  + \frac{1}{cR}\dot{J_i}(t_{\mathrm{ret}},\mathbf{y})\right)\tag{14}\]</p>
+  + \frac{1}{cR}\dot{J_i}(t_{\mathrm{ret}},\mathbf{y})\right)\tag{1.15}\]</p>
 
 <p>In the far-field, we have $R\gg 1$ and $|\mathbf{x}|\approx R$, which gives
 \[\begin{aligned}\mathbf{E}(t,\mathbf{x}) &amp;= -\nabla\phi(t,\mathbf{x})-\frac{\partial\mathbf{A}(t,\mathbf{x})}{\partial t}\\
@@ -159,34 +159,34 @@ and
   \frac{1}{|\mathbf{x}|}\dot{J_i}(t_{\mathrm{ret}},\mathbf{y})\\
   &amp;=\frac{\mu_0}{4\pi|\mathbf{x}|}\int d^3y
     \left(\hat{\mathbf{x}}c\dot{\rho}(t_{\mathrm{ret}},\mathbf{y})
-    - \dot{\mathbf{J}}(t_{\mathrm{ret}},\mathbf{y})\right).\end{aligned}\tag{25}\]</p>
+    - \dot{\mathbf{J}}(t_{\mathrm{ret}},\mathbf{y})\right).\end{aligned}\tag{1.16}\]</p>
 
 <p>To simplify the first term, consider the continuity equation,
-\[\dot{\rho}(t_\textbf{ret},\mathbf{y}) + \nabla_y\cdot \mathbf{J}(t,\mathbf{y})\bigg|_{t=t_\text{ret}}=0.\tag{15}\]
+\[\dot{\rho}(t_\textbf{ret},\mathbf{y}) + \nabla_y\cdot \mathbf{J}(t,\mathbf{y})\bigg|_{t=t_\text{ret}}=0.\tag{1.17}\]
 However, to perform an integration by parts, we need
-\[\nabla_y\cdot\mathbf{J}(t_\text{ret},\mathbf{y}) = \nabla_y\cdot \mathbf{J}(t,\mathbf{y})\bigg|_{t=t_\text{ret}} + \dot{\mathbf{J}}(t_\text{ret},\mathbf{y})\cdot\nabla t_\text{ret} = \nabla_y\cdot \mathbf{J}(t,\mathbf{y})\bigg|_{t=t_\text{ret}} + \dot{\mathbf{J}}(t_\text{ret},\mathbf{y})\cdot\frac{\hat{\mathbf{R}}}{c}.\tag{16}\]
+\[\nabla_y\cdot\mathbf{J}(t_\text{ret},\mathbf{y}) = \nabla_y\cdot \mathbf{J}(t,\mathbf{y})\bigg|_{t=t_\text{ret}} + \dot{\mathbf{J}}(t_\text{ret},\mathbf{y})\cdot\nabla t_\text{ret} = \nabla_y\cdot \mathbf{J}(t,\mathbf{y})\bigg|_{t=t_\text{ret}} + \dot{\mathbf{J}}(t_\text{ret},\mathbf{y})\cdot\frac{\hat{\mathbf{R}}}{c}.\tag{1.18}\]
 Thus, the first term integral becomes
 \[\frac{\mu_0}{4\pi|\mathbf{x}|}\int d^3y\,
-    \hat{\mathbf{x}}\dot{\mathbf{J}}(t_\text{ret},\mathbf{y})\cdot\hat{\mathbf{R}} - \frac{\mu_0}{4\pi|\mathbf{x}|}\oint d^2y\,\mathbf{J}(t_\text{ret},\mathbf{y})\cdot \hat{\mathbf{n}}.\tag{17}\]
+    \hat{\mathbf{x}}\dot{\mathbf{J}}(t_\text{ret},\mathbf{y})\cdot\hat{\mathbf{R}} - \frac{\mu_0}{4\pi|\mathbf{x}|}\oint d^2y\,\mathbf{J}(t_\text{ret},\mathbf{y})\cdot \hat{\mathbf{n}}.\tag{1.19}\]
 Since $\mathbf{J}$ is bounded, the surface integral vanishes. Therefore, we can write
-\[E(t, \mathbf{x}) \approx \frac{\mu_0}{4\pi|\mathbf{x}|}\int d^3y \left(\hat{\mathbf{x}}(\dot{\mathbf{J}}(t_\text{ret},\mathbf{y})\cdot\hat{\mathbf{R}}) - \dot{\mathbf{J}}(t_\text{ret},\mathbf{y})\right),\tag{18}\]
+\[E(t, \mathbf{x}) \approx \frac{\mu_0}{4\pi|\mathbf{x}|}\int d^3y \left(\hat{\mathbf{x}}(\dot{\mathbf{J}}(t_\text{ret},\mathbf{y})\cdot\hat{\mathbf{R}}) - \dot{\mathbf{J}}(t_\text{ret},\mathbf{y})\right),\tag{1.20}\]
 Again, for far-field, we have $\hat{\mathbf{R}} \approx \hat{\mathbf{x}}$. Finally, using the vector identity, we find
 \[\mathbf{E}(t,\mathbf{x})
   \approx \frac{\mu_0}{4\pi|\mathbf{x}|}\,\hat{\mathbf{x}}\times
     \left(\hat{\mathbf{x}}\times\int d^3y\,
-    \dot{\mathbf{J}}(t_{\mathrm{ret}},\mathbf{y})\right).\tag{19}\]</p>
+    \dot{\mathbf{J}}(t_{\mathrm{ret}},\mathbf{y})\right).\tag{1.21}\]</p>
 
 <p>For the magnetic field, we have
-\[B_i(t,\mathbf{x}) = \epsilon_{ijk}\partial_jA_k \approx -\frac{\mu_0}{4\pi c|\mathbf{x}|}\epsilon_{ijk}\int d^3y\,\hat{\mathbf{x}}_j\dot{J}_k(t,\mathbf{x}),\tag{20}\]
+\[B_i(t,\mathbf{x}) = \epsilon_{ijk}\partial_jA_k \approx -\frac{\mu_0}{4\pi c|\mathbf{x}|}\epsilon_{ijk}\int d^3y\,\hat{\mathbf{x}}_j\dot{J}_k(t,\mathbf{x}),\tag{1.22}\]
 where we have made a far-field approximation again. Therefore, we find
 \[\mathbf{B}(t,\mathbf{x}) \approx -\frac{\mu_0}{4\pi c|\mathbf{x}|}\,
   \hat{\mathbf{x}}\times\int d^3y\,\dot{\mathbf{J}}(t_{\mathrm{ret}},\mathbf{y})
-  = \frac{1}{c}\hat{\mathbf{x}}\times\mathbf{E}(t,\mathbf{x}).\tag{21}\]</p>
+  = \frac{1}{c}\hat{\mathbf{x}}\times\mathbf{E}(t,\mathbf{x}).\tag{1.23}\]</p>
 
 <p>The Poynting vector of the radiation is, therefore, given by
-\[\mathbf{S(t,\mathbf{x})} = \frac{1}{\mu_0 c}\mathbf{E}(t,\mathbf{x})\times\left(\hat{\mathbf{x}}\times\mathbf{E}(t,\mathbf{x})\right) = \frac{1}{\mu_0c}[\hat{\mathbf{x}}|\mathbf{E}(t,\mathbf{x})|^2 - \mathbf{E}(t,\mathbf{x})(\hat{\mathbf{x}}\cdot\mathbf{E}(t,\mathbf{x}))].\tag{22}\]
+\[\mathbf{S(t,\mathbf{x})} = \frac{1}{\mu_0 c}\mathbf{E}(t,\mathbf{x})\times\left(\hat{\mathbf{x}}\times\mathbf{E}(t,\mathbf{x})\right) = \frac{1}{\mu_0c}[\hat{\mathbf{x}}|\mathbf{E}(t,\mathbf{x})|^2 - \mathbf{E}(t,\mathbf{x})(\hat{\mathbf{x}}\cdot\mathbf{E}(t,\mathbf{x}))].\tag{1.24}\]
 Note that $\hat{\mathbf{x}}\cdot\mathbf{E}=0$, and hence we have
-\[\mathbf{S(t,\mathbf{x})}=\frac{\mu_0}{16\pi^2c|\hat{\mathbf{x}}|^2}\left|\int d^3y\dot{\mathbf{J}}(t_{\mathrm{ret}},\mathbf{y})\right|^2\sin^2\theta \,\hat{\mathbf{x}},\tag{23}\]
+\[\mathbf{S(t,\mathbf{x})}=\frac{\mu_0}{16\pi^2c|\hat{\mathbf{x}}|^2}\left|\int d^3y\dot{\mathbf{J}}(t_{\mathrm{ret}},\mathbf{y})\right|^2\sin^2\theta \,\hat{\mathbf{x}},\tag{1.25}\]
 where $\theta$ is the angle between the integral and $\hat{\mathbf{x}}$.</p>
   </article>
 

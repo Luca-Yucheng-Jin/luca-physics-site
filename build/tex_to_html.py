@@ -180,23 +180,37 @@ def extract_subsection(text, needle):
 
 class MathStash(dict):
     """Holds math + tikz stashes, plus a per-page equation counter, a
-    figure counter, and a label→number map so \\eqref / \\ref resolve."""
+    figure counter, and a label→number map so \\eqref / \\ref resolve.
+
+    Equation numbers are formatted (n.eq) where n is the index of the
+    current `<h2>` topic on the page (1-indexed) and eq resets at every
+    new topic. This mirrors `\\numberwithin{equation}{section}` in the
+    user's elegantphys.sty preamble."""
     def __init__(self):
         super().__init__()
         self.items = []
         self["tikz"] = []
+        self["sec_counter"] = 1   # default for single-section pages
         self["eq_counter"] = 0
         self["fig_counter"] = 0
-        self["labels"] = {}     # \label{...} → number string
+        self["labels"] = {}       # \label{...} → number string
+        self._section_started = False
 
     def next_eq_number(self):
         self["eq_counter"] += 1
-        return str(self["eq_counter"])
+        return f"{self['sec_counter']}.{self['eq_counter']}"
 
-    def reset_eq_counter(self):
-        """Reset the equation counter — call this at every new topic boundary
-        so equations restart from (1) per-section."""
+    def begin_section(self):
+        """Mark the start of a new <h2> topic. Resets the equation counter,
+        and on every call AFTER the first, increments the section counter
+        so the new equation tags read (n+1.1), (n+1.2), …"""
+        if self._section_started:
+            self["sec_counter"] += 1
         self["eq_counter"] = 0
+        self._section_started = True
+
+    # Backwards-compat shim for callers that still use the old name.
+    reset_eq_counter = begin_section
 
     def stash(self, body, display):
         idx = len(self.items)
@@ -531,80 +545,86 @@ def stash_math(text, stash):
     # 1. Pre-strip TeX-only artefacts that don't translate
     text = strip_tex_only_constructs(text)
 
-    # 2. Display environments.
-    for env in DISPLAY_ENVS:
-        pattern = re.compile(r"\\begin\{" + re.escape(env) + r"\}(.*?)\\end\{" + re.escape(env) + r"\}",
-                             re.DOTALL)
+    # 2. Display environments — walk in source order so equation numbers
+    #    come out monotonically.  Previously the env-type loop processed
+    #    all `equation` envs first, then `align`, etc., which left mixed
+    #    pages with numbering like (1, 23, 2, 3, …).
+    env_alt = "|".join(re.escape(e) for e in DISPLAY_ENVS)
+    env_pattern = re.compile(
+        r"\\begin\{(" + env_alt + r")\}(.*?)\\end\{\1\}",
+        re.DOTALL,
+    )
+    def repl(m):
+        env = m.group(1)
+        body = m.group(2).strip()
         starred = env.endswith("*")
-        def repl(m, env=env, starred=starred):
-            body = m.group(1).strip()
-            # Extract any \label{...} BEFORE we strip them (so we can number)
-            label_match = re.search(r"\\label\{([^}]+)\}", body)
-            label = label_match.group(1) if label_match else None
-            body = re.sub(r"\\label\{[^}]+\}", "", body)
+        # Extract any \label{...} BEFORE we strip them (so we can number)
+        label_match = re.search(r"\\label\{([^}]+)\}", body)
+        label = label_match.group(1) if label_match else None
+        body = re.sub(r"\\label\{[^}]+\}", "", body)
 
-            # Assign a number unless the env is starred (LaTeX convention)
-            number = None
-            if not starred:
-                number = stash.next_eq_number()
-                if label:
-                    stash["labels"][label] = number
+        # Assign a number unless the env is starred (LaTeX convention)
+        number = None
+        if not starred:
+            number = stash.next_eq_number()
+            if label:
+                stash["labels"][label] = number
 
-            if env.startswith("align"):
-                wrap = ("\\begin{aligned}", "\\end{aligned}")
-            elif env.startswith("gather"):
-                wrap = ("\\begin{gathered}", "\\end{gathered}")
-            else:
-                wrap = ("", "")
+        if env.startswith("align"):
+            wrap = ("\\begin{aligned}", "\\end{aligned}")
+        elif env.startswith("gather"):
+            wrap = ("\\begin{gathered}", "\\end{gathered}")
+        else:
+            wrap = ("", "")
 
-            # ----- Equation containing a TikZ figure: render as flex row -----
-            if "\x00TIKZ" in body:
-                parts = re.split(r"(\x00TIKZ\d+\x00)", body)
-                fragments = []
-                for i, part in enumerate(parts):
-                    if i % 2 == 0:
-                        # Strip nested aligned/align/gather wrappers — they
-                        # would leak as unmatched \begin / \end into chunks.
-                        for env_name in ("aligned", "align", "align*", "gather",
-                                          "gathered", "multline", "multline*",
-                                          "split"):
-                            part = re.sub(
-                                r"\\(?:begin|end)\{" + re.escape(env_name) + r"\}",
-                                "",
-                                part,
-                            )
-                        # Strip `\\[6pt]`-style row spacing that LaTeX uses
-                        # inside align — they leak to text otherwise.
-                        part = re.sub(r"\\\\\s*\[[^\]]*\]", "\\\\\\\\", part)
-                        # Split by `\\` row separator so each row becomes its
-                        # own inline math span; strip `&` alignment markers.
-                        rows = re.split(r"\\\\", part)
-                        for row in rows:
-                            row = row.replace("&", "")
-                            # also strip leftover `[6pt]` etc.
-                            row = re.sub(r"^\s*\[[^\]]*\]\s*", "", row)
-                            row = row.strip().strip("{}").strip()
-                            if not row or row in ("=", ".", ",", ":", ";"):
-                                continue
-                            fragments.append(
-                                f'<span class="equation-part">\\({row}\\)</span>'
-                            )
-                    else:
-                        # tikz placeholder; will be restored later
-                        fragments.append(part)
-                row = '\n\n<div class="equation-row">' + "".join(fragments)
-                if number is not None:
-                    row += f'<span class="equation-num">({number})</span>'
-                row += '</div>\n\n'
-                return row
-
-            # ----- Pure equation: emit \[ ... \tag{N} \] -----
-            tag_part = ""
+        # ----- Equation containing a TikZ figure: render as flex row -----
+        if "\x00TIKZ" in body:
+            parts = re.split(r"(\x00TIKZ\d+\x00)", body)
+            fragments = []
+            for i, part in enumerate(parts):
+                if i % 2 == 0:
+                    # Strip nested aligned/align/gather wrappers — they
+                    # would leak as unmatched \begin / \end into chunks.
+                    for env_name in ("aligned", "align", "align*", "gather",
+                                      "gathered", "multline", "multline*",
+                                      "split"):
+                        part = re.sub(
+                            r"\\(?:begin|end)\{" + re.escape(env_name) + r"\}",
+                            "",
+                            part,
+                        )
+                    # Strip `\\[6pt]`-style row spacing that LaTeX uses
+                    # inside align — they leak to text otherwise.
+                    part = re.sub(r"\\\\\s*\[[^\]]*\]", "\\\\\\\\", part)
+                    # Split by `\\` row separator so each row becomes its
+                    # own inline math span; strip `&` alignment markers.
+                    rows = re.split(r"\\\\", part)
+                    for row in rows:
+                        row = row.replace("&", "")
+                        # also strip leftover `[6pt]` etc.
+                        row = re.sub(r"^\s*\[[^\]]*\]\s*", "", row)
+                        row = row.strip().strip("{}").strip()
+                        if not row or row in ("=", ".", ",", ":", ";"):
+                            continue
+                        fragments.append(
+                            f'<span class="equation-part">\\({row}\\)</span>'
+                        )
+                else:
+                    # tikz placeholder; will be restored later
+                    fragments.append(part)
+            row = '\n\n<div class="equation-row">' + "".join(fragments)
             if number is not None:
-                tag_part = f"\\tag{{{number}}}"
-            full = wrap[0] + body + wrap[1] + tag_part
-            return stash.stash(full, display=True)
-        text = pattern.sub(repl, text)
+                row += f'<span class="equation-num">({number})</span>'
+            row += '</div>\n\n'
+            return row
+
+        # ----- Pure equation: emit \[ ... \tag{N} \] -----
+        tag_part = ""
+        if number is not None:
+            tag_part = f"\\tag{{{number}}}"
+        full = wrap[0] + body + wrap[1] + tag_part
+        return stash.stash(full, display=True)
+    text = env_pattern.sub(repl, text)
 
     # 2. \[ ... \]
     text = re.sub(r"\\\[(.+?)\\\]",

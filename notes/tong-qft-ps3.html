@@ -96,10 +96,10 @@ window.MathJax = {
 
 <p>The Weyl representation of the Clifford algebra is given by
 \[\gamma^0 = \begin{pmatrix} 0 &amp; \mathbf{1} \\ \mathbf{1} &amp; 0 \end{pmatrix}, \qquad
-    \gamma^i = \begin{pmatrix} 0 &amp; \sigma^i \\ -\sigma^i &amp; 0 \end{pmatrix}\tag{1}\]
+    \gamma^i = \begin{pmatrix} 0 &amp; \sigma^i \\ -\sigma^i &amp; 0 \end{pmatrix}\tag{1.1}\]
 Show that these indeed satisfy $\{\gamma^\mu, \gamma^\nu\} = 2\eta^{\mu\nu}$, where $\mathbf{1}$ comes with an implicit $4\times 4$ unit matrix. Find a unitary matrix $U$ such that $(\gamma')^\mu = U\gamma^\mu U^\dagger$, where $(\gamma')^\mu$ form the Dirac representation of the Clifford algebra
 \[(\gamma')^0 = \begin{pmatrix} \mathbf{1} &amp; 0 \\ 0 &amp; -\mathbf{1} \end{pmatrix}, \qquad
-    (\gamma')^i = \begin{pmatrix} 0 &amp; \sigma^i \\ -\sigma^i &amp; 0 \end{pmatrix}.\tag{2}\]</p>
+    (\gamma')^i = \begin{pmatrix} 0 &amp; \sigma^i \\ -\sigma^i &amp; 0 \end{pmatrix}.\tag{1.2}\]</p>
 
 <aside class="solution">
 <div class="solution__label">Solution.</div>
@@ -124,42 +124,42 @@ Show that these indeed satisfy $\{\gamma^\mu, \gamma^\nu\} = 2\eta^{\mu\nu}$, wh
             0&amp;\bar{\sigma}^\mu\sigma^\nu + \bar{\sigma}^\nu\sigma^\mu
         \end{pmatrix}
         \\&amp;=2\eta^{\mu\nu}\mathbf{1}.
-    \end{aligned}\tag{3}\]
+    \end{aligned}\tag{1.3}\]
     $U$ diagnolise $\gamma^0$, and left the rest unchanged. Therefore, we find
     \[U = \frac{1}{\sqrt{2}}\begin{pmatrix}
             \mathbf{1}&amp;\mathbf{1}\\
             \mathbf{1}&amp;-\mathbf{1}
-        \end{pmatrix}.\tag{4}\]</p>
+        \end{pmatrix}.\tag{1.4}\]</p>
 
 </aside>
 
 <h2 id="the-lorentz-algebra-from-gamma-matrices-q2">The Lorentz Algebra from Gamma Matrices, Q2</h2>
 
 <p>Show that if $\{\gamma^\mu, \gamma^\nu\} = 2\eta^{\mu\nu}$, then
-\[[\gamma^\kappa\gamma^\lambda, \gamma^\mu\gamma^\nu] = 2\eta^{\lambda\mu}\gamma^\kappa\gamma^\nu - 2\eta^{\kappa\mu}\gamma^\lambda\gamma^\nu + 2\eta^{\lambda\nu}\gamma^\mu\gamma^\kappa - 2\eta^{\kappa\nu}\gamma^\mu\gamma^\lambda.\tag{1}\]
+\[[\gamma^\kappa\gamma^\lambda, \gamma^\mu\gamma^\nu] = 2\eta^{\lambda\mu}\gamma^\kappa\gamma^\nu - 2\eta^{\kappa\mu}\gamma^\lambda\gamma^\nu + 2\eta^{\lambda\nu}\gamma^\mu\gamma^\kappa - 2\eta^{\kappa\nu}\gamma^\mu\gamma^\lambda.\tag{2.1}\]
 Show further that $S^{\mu\nu} \equiv \frac{1}{4}[\gamma^\mu, \gamma^\nu] = \frac{1}{2}(\gamma^\mu\gamma^\nu - \eta^{\mu\nu})$. Use this to confirm that the matrices $S^{\mu\nu}$ form a representation of the Lie algebra of the Lorentz group.</p>
 
 <aside class="solution">
 <div class="solution__label">Solution.</div>
 
 <p>Note that
-    \[[\gamma^\kappa\gamma^\lambda,\gamma^\mu\gamma^\nu] = \gamma^\kappa\gamma^\lambda\gamma^\mu\gamma^\nu - \gamma^\mu\gamma^\nu\gamma^\kappa\gamma^\lambda.\tag{2}\]
+    \[[\gamma^\kappa\gamma^\lambda,\gamma^\mu\gamma^\nu] = \gamma^\kappa\gamma^\lambda\gamma^\mu\gamma^\nu - \gamma^\mu\gamma^\nu\gamma^\kappa\gamma^\lambda.\tag{2.2}\]
     Then, 
     Hence, we find
     \[\begin{aligned}
             \gamma^\kappa\gamma^\lambda\gamma^\mu\gamma^\nu &amp;= 2\eta^{\lambda\mu}\gamma^\kappa\gamma^\nu -   \gamma^\kappa\gamma^\mu\gamma^\lambda\gamma^\nu \\
             &amp;=2\eta^{\lambda\mu}\gamma^\kappa\gamma^\nu -2\eta^{\lambda\nu}\gamma^\kappa\gamma^\mu + \gamma^\kappa\gamma^\mu\gamma^\nu\gamma^\lambda\\
             &amp;=2\eta^{\lambda\mu}\gamma^\kappa\gamma^\nu -2\eta^{\lambda\nu}\gamma^\kappa\gamma^\mu +2\eta^{\kappa\mu}\gamma^\nu\gamma^\lambda -2\eta^{\lambda\nu}\gamma^\mu\gamma^\lambda + \gamma^\mu\gamma^\nu\gamma^\kappa\gamma^\lambda.
-            \end{aligned}\tag{3}\]
+            \end{aligned}\tag{2.3}\]
     Hence, we find
-    \[[\gamma^\kappa\gamma^\lambda, \gamma^\mu\gamma^\nu] = 2\eta^{\lambda\mu}\gamma^\kappa\gamma^\nu - 2\eta^{\kappa\mu}\gamma^\lambda\gamma^\nu + 2\eta^{\lambda\nu}\gamma^\mu\gamma^\kappa - 2\eta^{\kappa\nu}\gamma^\mu\gamma^\lambda.\tag{4}\]</p>
+    \[[\gamma^\kappa\gamma^\lambda, \gamma^\mu\gamma^\nu] = 2\eta^{\lambda\mu}\gamma^\kappa\gamma^\nu - 2\eta^{\kappa\mu}\gamma^\lambda\gamma^\nu + 2\eta^{\lambda\nu}\gamma^\mu\gamma^\kappa - 2\eta^{\kappa\nu}\gamma^\mu\gamma^\lambda.\tag{2.4}\]</p>
 
 <p>Similarly,
     \[\begin{aligned}
             S^{\mu\nu} &amp;= \frac{1}{4}(\gamma^\mu\gamma^\nu -\gamma^\nu\gamma ^\mu  )\\
             &amp;=\frac{1}{4}(2\gamma^\mu\gamma^\nu - 2\eta^{\mu\nu})\\
             &amp;=\frac{1}{2}(\gamma^\mu\gamma^\nu - \eta^{\mu\nu}).
-        \end{aligned}\tag{5}\]
+        \end{aligned}\tag{2.5}\]
     The Lie algebra is given by
         \[\begin{aligned}
         [S^{\kappa\lambda},S^{\mu\nu}] &amp;= \frac{1}{4}(\gamma^\kappa\gamma^\lambda\gamma^\mu\gamma^\nu -\eta^{\kappa\lambda}\gamma^\mu\gamma^\nu-\eta^{\mu\nu}\gamma^\kappa\gamma^\lambda - \gamma^\mu\gamma^\nu\gamma^\kappa\gamma^\lambda+\eta^{\kappa\lambda}\gamma^\mu\gamma^\nu+\eta^{\mu\nu}\gamma^\kappa\gamma^\lambda)\\
@@ -168,7 +168,7 @@ Show further that $S^{\mu\nu} \equiv \frac{1}{4}[\gamma^\mu, \gamma^\nu] = \frac
         &amp;=\frac{1}{2}\left(\eta^{\lambda\mu}\gamma^\kappa\gamma^\nu - \eta^{\kappa\mu}\gamma^\lambda\gamma^\nu + \eta^{\lambda\nu}\gamma^\mu\gamma^\kappa - \eta^{\kappa\nu}\gamma^\mu\gamma^\lambda\right)\\
         &amp;=\eta^{\lambda\mu}\left(S^{\kappa\nu}+\tfrac{1}{2}\eta^{\kappa\nu}\right) - \eta^{\kappa\mu}\left(S^{\lambda\nu}+\tfrac{1}{2}\eta^{\lambda\nu}\right) + \eta^{\lambda\nu}\left(S^{\mu\kappa}+\tfrac{1}{2}\eta^{\mu\kappa}\right) - \eta^{\kappa\nu}\left(S^{\mu\lambda}+\tfrac{1}{2}\eta^{\mu\lambda}\right)\\
         &amp;= \eta^{\lambda\mu}S^{\kappa\nu} - \eta^{\kappa\mu}S^{\lambda\nu} + \eta^{\lambda\nu}S^{\mu\kappa} - \eta^{\kappa\nu}S^{\mu\lambda}.
-    \end{aligned}\tag{6}\]</p>
+    \end{aligned}\tag{2.6}\]</p>
 
 </aside>
 
@@ -200,32 +200,32 @@ Show further that $S^{\mu\nu} \equiv \frac{1}{4}[\gamma^\mu, \gamma^\nu] = \frac
 
 <ol>
   <li>Trivial.</li>
-  <li>\[\Tr{\gamma^\mu\gamma^\nu} = 2\eta^{\mu\nu}\Tr{\mathbf{1}} -\Tr{\gamma^\nu\gamma^\mu}\implies\Tr{\gamma^\mu\gamma^\nu} = d\eta^{\mu\nu}.\tag{1}\]</li>
-  <li>\[\Tr{\gamma^\mu\gamma^\nu\gamma^\rho} = -\Tr{\gamma^\nu\gamma^\mu\gamma^\rho} =\Tr{\gamma^\nu\gamma^\rho\gamma^\mu} = -\Tr{\gamma^\rho\gamma^\nu\gamma^\mu} =0.\tag{2}\]</li>
-  <li>\[(\gamma^5)^2 = -\gamma^0\gamma^1\gamma^2\gamma^3\gamma^0\gamma^1\gamma^2\gamma^3=-\gamma^1\gamma^2\gamma^3\gamma^1\gamma^2\gamma^3 =-\gamma^2\gamma^3\gamma^2\gamma^3 =\mathbf{1}.\tag{3}\]</li>
+  <li>\[\Tr{\gamma^\mu\gamma^\nu} = 2\eta^{\mu\nu}\Tr{\mathbf{1}} -\Tr{\gamma^\nu\gamma^\mu}\implies\Tr{\gamma^\mu\gamma^\nu} = d\eta^{\mu\nu}.\tag{3.1}\]</li>
+  <li>\[\Tr{\gamma^\mu\gamma^\nu\gamma^\rho} = -\Tr{\gamma^\nu\gamma^\mu\gamma^\rho} =\Tr{\gamma^\nu\gamma^\rho\gamma^\mu} = -\Tr{\gamma^\rho\gamma^\nu\gamma^\mu} =0.\tag{3.2}\]</li>
+  <li>\[(\gamma^5)^2 = -\gamma^0\gamma^1\gamma^2\gamma^3\gamma^0\gamma^1\gamma^2\gamma^3=-\gamma^1\gamma^2\gamma^3\gamma^1\gamma^2\gamma^3 =-\gamma^2\gamma^3\gamma^2\gamma^3 =\mathbf{1}.\tag{3.3}\]</li>
   <li>Will turn out to be trivial using the general trace of for $\gamma$-matrices.</li>
-  <li>\[\slashed{p}\slashed{q} = p_\mu q_\nu(2\eta^{\mu\nu}-\gamma^\nu\gamma^\mu) = 2p\cdot q - \slashed{q}\slashed{p} = p_\mu q_\nu(\eta^{\mu\nu}+2S^{\mu\nu}) = p\cdot q + 2S^{\mu\nu}p_\mu q_\nu.\tag{4}\]</li>
-  <li>\[\Tr{\slashed{p}\slashed{q}} = d\,p\cdot q.\tag{5}\]</li>
+  <li>\[\slashed{p}\slashed{q} = p_\mu q_\nu(2\eta^{\mu\nu}-\gamma^\nu\gamma^\mu) = 2p\cdot q - \slashed{q}\slashed{p} = p_\mu q_\nu(\eta^{\mu\nu}+2S^{\mu\nu}) = p\cdot q + 2S^{\mu\nu}p_\mu q_\nu.\tag{3.4}\]</li>
+  <li>\[\Tr{\slashed{p}\slashed{q}} = d\,p\cdot q.\tag{3.5}\]</li>
   <li>Follows from iii by induction.</li>
   <li>\[\begin{aligned}
             &amp;\Tr{\gamma^\mu\gamma^\nu\gamma^\rho\gamma^\lambda} = 2(\eta^{\mu\nu}\Tr{\gamma^\rho\gamma^\lambda}-\eta^{\mu\rho}\Tr{\gamma^\nu\gamma^\lambda}+\eta^{\mu\lambda}\Tr{\gamma^\nu\gamma^\rho}) -\Tr{\gamma^\nu\gamma^\rho\gamma^\lambda\gamma^\mu}\\
             \implies&amp; \Tr{\gamma^\mu\gamma^\nu\gamma^\rho\gamma^\lambda} = d(\eta^{\mu\nu}\eta^{\rho\lambda}-\eta^{\mu\rho}\eta^{\nu\lambda}+\eta^{\mu\lambda}\eta^{\nu\rho})\\
             \implies &amp;\Tr{\slashed{p}_1\slashed{p}_2\slashed{p}_3\slashed{p}_4} = d\left[(p_1\cdot p_2)(p_3\cdot p_4) + (p_1\cdot p_4)(p_2\cdot p_3) - (p_1\cdot p_3)(p_2\cdot p_4)\right].
-        \end{aligned}\tag{6}\]</li>
+        \end{aligned}\tag{3.6}\]</li>
   <li>A cleaner argument: by anticommutation of $\gamma^5$ with all $\gamma^\mu$, the trace is totally antisymmetric in $(\mu, \nu)$. The only available rank-2 tensor in 4d is $\eta^{\mu\nu}$, which is symmetric. Hence the trace must vanish:
-    \[\Tr{\gamma^5\slashed{p}_1\slashed{p}_2} = 0.\tag{7}\]</li>
+    \[\Tr{\gamma^5\slashed{p}_1\slashed{p}_2} = 0.\tag{3.7}\]</li>
   <li>Insert $\eta_{\mu\nu}\gamma^\mu\gamma^\nu = d\,\mathbf{1}$ and use $\{\gamma^\mu, \gamma^\nu\} = 2\eta^{\mu\nu}$:
-    \[\gamma_\mu\slashed{p}\gamma^\mu = p_\nu\gamma_\mu\gamma^\nu\gamma^\mu = p_\nu(2\eta^\nu_\mu - \gamma^\nu\gamma_\mu)\gamma^\mu = 2\slashed{p} - d\slashed{p} = (2-d)\slashed{p} = -2\slashed{p}.\tag{8}\]</li>
+    \[\gamma_\mu\slashed{p}\gamma^\mu = p_\nu\gamma_\mu\gamma^\nu\gamma^\mu = p_\nu(2\eta^\nu_\mu - \gamma^\nu\gamma_\mu)\gamma^\mu = 2\slashed{p} - d\slashed{p} = (2-d)\slashed{p} = -2\slashed{p}.\tag{3.8}\]</li>
   <li>Apply the previous result twice. Using $\gamma_\mu\gamma^\nu\gamma^\rho\gamma^\mu = 4\eta^{\nu\rho}$ (proved similarly):
-    \[\gamma_\mu\slashed{p}_1\slashed{p}_2\gamma^\mu = p_{1\nu}p_{2\rho}\gamma_\mu\gamma^\nu\gamma^\rho\gamma^\mu = 4 p_{1\nu}p_{2\rho}\eta^{\nu\rho} = 4 p_1\cdot p_2.\tag{9}\]</li>
+    \[\gamma_\mu\slashed{p}_1\slashed{p}_2\gamma^\mu = p_{1\nu}p_{2\rho}\gamma_\mu\gamma^\nu\gamma^\rho\gamma^\mu = 4 p_{1\nu}p_{2\rho}\eta^{\nu\rho} = 4 p_1\cdot p_2.\tag{3.9}\]</li>
   <li>Similarly $\gamma_\mu\gamma^\nu\gamma^\rho\gamma^\sigma\gamma^\mu = -2\gamma^\sigma\gamma^\rho\gamma^\nu$, hence
-    \[\gamma_\mu\slashed{p}_1\slashed{p}_2\slashed{p}_3\gamma^\mu = -2\slashed{p}_3\slashed{p}_2\slashed{p}_1.\tag{10}\]</li>
+    \[\gamma_\mu\slashed{p}_1\slashed{p}_2\slashed{p}_3\gamma^\mu = -2\slashed{p}_3\slashed{p}_2\slashed{p}_1.\tag{3.10}\]</li>
   <li>By the same antisymmetry argument as in (x), the trace $\Tr{\gamma^5\slashed{p}_1\slashed{p}_2\slashed{p}_3\slashed{p}_4}$ must be totally antisymmetric in the four momentum indices. The only such rank-4 tensor in 4d is $\epsilon^{\mu\nu\rho\sigma}$, so
-    \[\Tr{\gamma^5\gamma^\mu\gamma^\nu\gamma^\rho\gamma^\sigma} = c\,\epsilon^{\mu\nu\rho\sigma}.\tag{11}\]
+    \[\Tr{\gamma^5\gamma^\mu\gamma^\nu\gamma^\rho\gamma^\sigma} = c\,\epsilon^{\mu\nu\rho\sigma}.\tag{3.11}\]
     The constant $c$ is fixed by setting $(\mu,\nu,\rho,\sigma) = (0,1,2,3)$:
-    \[\Tr{\gamma^5\gamma^0\gamma^1\gamma^2\gamma^3} = i\Tr{\gamma^5\gamma^5} = 4i,\tag{12}\]
+    \[\Tr{\gamma^5\gamma^0\gamma^1\gamma^2\gamma^3} = i\Tr{\gamma^5\gamma^5} = 4i,\tag{3.12}\]
     using $\gamma^5 = -i\gamma^0\gamma^1\gamma^2\gamma^3$ and $(\gamma^5)^2 = \mathbf{1}$. With $\epsilon^{0123} = -\epsilon_{0123} = -1$, we find $c = -4i$, giving
-    \[\Tr{\gamma^5\slashed{p}_1\slashed{p}_2\slashed{p}_3\slashed{p}_4} = -4i\,\epsilon_{\mu\nu\rho\sigma}\,p_1^\mu p_2^\nu p_3^\rho p_4^\sigma.\tag{13}\]</li>
+    \[\Tr{\gamma^5\slashed{p}_1\slashed{p}_2\slashed{p}_3\slashed{p}_4} = -4i\,\epsilon_{\mu\nu\rho\sigma}\,p_1^\mu p_2^\nu p_3^\rho p_4^\sigma.\tag{3.13}\]</li>
 </ol>
 
 </aside>
@@ -233,17 +233,17 @@ Show further that $S^{\mu\nu} \equiv \frac{1}{4}[\gamma^\mu, \gamma^\nu] = \frac
 <h2 id="plane-wave-spinor-solutions-and-orthogonality-q4">Plane-Wave Spinor Solutions and Orthogonality, Q4</h2>
 
 <p>The plane-wave solutions to the Dirac equation are
-\[u^s(\mathbf{p}) = \begin{pmatrix}\sqrt{p\cdot\sigma}\,\xi^s \\ \sqrt{p\cdot\bar\sigma}\,\xi^s\end{pmatrix} \quad \text{and} \quad v^s(\mathbf{p}) = \begin{pmatrix}\sqrt{p\cdot\sigma}\,\xi^s \\ -\sqrt{p\cdot\bar\sigma}\,\xi^s\end{pmatrix}\tag{1}\]
+\[u^s(\mathbf{p}) = \begin{pmatrix}\sqrt{p\cdot\sigma}\,\xi^s \\ \sqrt{p\cdot\bar\sigma}\,\xi^s\end{pmatrix} \quad \text{and} \quad v^s(\mathbf{p}) = \begin{pmatrix}\sqrt{p\cdot\sigma}\,\xi^s \\ -\sqrt{p\cdot\bar\sigma}\,\xi^s\end{pmatrix}\tag{4.1}\]
 where $\sigma^\mu = (1, \mathbf{\sigma}^i)$ and $\bar\sigma^\mu = (1, -\mathbf{\sigma}^i)$ and $\xi^s$, with $s=1,2$, is a basis of orthonormal two-component spinors, satisfying $(\xi^r)^\dagger\cdot\xi^s = \delta^{rs}$. Show that
 \[\begin{aligned}u^r(\mathbf{p})^\dagger\cdot u^s(\mathbf{p}) &amp;= 2p_0\delta^{rs}\\
-    \bar{u}^r(\mathbf{p})\cdot u^s(\mathbf{p}) &amp;= 2m\delta^{rs}\end{aligned}\tag{9}\]
+    \bar{u}^r(\mathbf{p})\cdot u^s(\mathbf{p}) &amp;= 2m\delta^{rs}\end{aligned}\tag{4.2}\]
 and similarly,
 \[\begin{aligned}v^r(\mathbf{p})^\dagger\cdot v^s(\mathbf{p}) &amp;= 2p_0\delta^{rs}\\
-    \bar{v}^r(\mathbf{p})\cdot v^s(\mathbf{p}) &amp;= -2m\delta^{rs}\end{aligned}\tag{10}\]
+    \bar{v}^r(\mathbf{p})\cdot v^s(\mathbf{p}) &amp;= -2m\delta^{rs}\end{aligned}\tag{4.3}\]
 Show also that the orthonality condition between $u$ and $v$ is
-\[\bar{u}^s(\mathbf{p})\cdot v^r(\mathbf{p}) = 0\tag{2}\]
+\[\bar{u}^s(\mathbf{p})\cdot v^r(\mathbf{p}) = 0\tag{4.4}\]
 while taking the inner product using $\dagger$ requires an extra minus sign
-\[u^r(\mathbf{p})^\dagger\cdot v^s(-\mathbf{p}) = 0.\tag{3}\]</p>
+\[u^r(\mathbf{p})^\dagger\cdot v^s(-\mathbf{p}) = 0.\tag{4.5}\]</p>
 
 <aside class="solution">
 <div class="solution__label">Solution.</div>
@@ -257,9 +257,9 @@ while taking the inner product using $\dagger$ requires an extra minus sign
      \end{pmatrix}\\
      &amp;=\delta^{rs}\left[\sqrt{(p\cdot\sigma)(p\cdot\sigma^\dagger)} + \sqrt{(p\cdot\bar\sigma)(p\cdot\bar\sigma^\dagger)}\right]\\
      &amp;=2\delta^{rs}\sqrt{(p\cdot\sigma)(p\cdot\sigma^\dagger)},
-    \end{aligned}\tag{4}\]    
+    \end{aligned}\tag{4.6}\]    
     Since the Pauli matrices are Hermitian, we find
-    \[u^r(\mathbf{p})^\dagger\cdot u^s(\mathbf{p}) = 2\delta^{rs}(p\cdot\sigma +p\cdot\bar\sigma ) = 2p_0\delta^{rs}.\tag{5}\]
+    \[u^r(\mathbf{p})^\dagger\cdot u^s(\mathbf{p}) = 2\delta^{rs}(p\cdot\sigma +p\cdot\bar\sigma ) = 2p_0\delta^{rs}.\tag{4.7}\]
     Similarly, we find
     \[\begin{aligned}
         \bar u^r(\mathbf{p})\cdot u^s(\mathbf{p}) &amp;= \begin{pmatrix}
@@ -271,12 +271,12 @@ while taking the inner product using $\dagger$ requires an extra minus sign
      &amp;=\delta^{rs}\left[\sqrt{(p\cdot\sigma)(p\cdot\bar\sigma^\dagger)} + \sqrt{(p\cdot\bar\sigma)(p\cdot\sigma^\dagger)}\right]\\
      &amp;=2\delta^{rs}\sqrt{(p\cdot\sigma)(p\cdot\bar\sigma)}\\
      &amp;=2m\delta^{rs},
-    \end{aligned}\tag{6}\]
+    \end{aligned}\tag{4.8}\]
     where we have expanded $p\cdot\sigma$ and $p\cdot\bar\sigma$ and evaluated them explicitly.</p>
 
 <p>Similarly, one can easily obtain
     \[\begin{aligned}v^r(\mathbf{p})^\dagger\cdot v^s(\mathbf{p}) &amp;= 2p_0\delta^{rs}\\
-    \bar{v}^r(\mathbf{p})\cdot v^s(\mathbf{p}) &amp;= -2m\delta^{rs}.\end{aligned}\tag{11}\]</p>
+    \bar{v}^r(\mathbf{p})\cdot v^s(\mathbf{p}) &amp;= -2m\delta^{rs}.\end{aligned}\tag{4.9}\]</p>
 
 <p>Now, we demonstrate the orthogonality condition,
     \[\begin{aligned}
@@ -286,14 +286,14 @@ while taking the inner product using $\dagger$ requires an extra minus sign
      \begin{pmatrix}
          \sqrt{p\cdot \sigma}\xi^s\\-\sqrt{p\cdot\bar{\sigma}}\xi^s
      \end{pmatrix}=0,
-    \end{aligned}\tag{7}\]
+    \end{aligned}\tag{4.10}\]
     by Hermiticity of Pauli matrices. Similarly,
     \[u^r(\mathbf{p})^\dagger\cdot v^s(-\mathbf{p}) = \begin{pmatrix}
          \sqrt{p\cdot \sigma^\dagger}\xi^{\dagger r}&amp;\sqrt{p\cdot\bar{\sigma}^\dagger}\xi^{\dagger r}
      \end{pmatrix}
      \begin{pmatrix}
          \sqrt{ \tilde p\cdot \sigma}\xi^s\\-\sqrt{\tilde p\cdot\bar{\sigma}}\xi^s
-     \end{pmatrix},\tag{8}\]
+     \end{pmatrix},\tag{4.11}\]
     where $\tilde p^\mu = (p_0,-\mathbf{p})$. Now, note that $\tilde p\cdot \sigma = p\cdot \bar\sigma$, we see that the above inner product vanishes.</p>
 
 </aside>
@@ -302,7 +302,7 @@ while taking the inner product using $\dagger$ requires an extra minus sign
 
 <p>Using the same notation as Question 4 show that
 \[\begin{aligned}\sum_{s=1}^{2} u^s(\mathbf{p})\bar{u}^s(\mathbf{p}) &amp;= \slashed{p} + m \\
-    \sum_{s=1}^{2} v^s(\mathbf{p})\bar{v}^s(\mathbf{p}) &amp;= \slashed{p} - m \end{aligned}\tag{5}\]
+    \sum_{s=1}^{2} v^s(\mathbf{p})\bar{v}^s(\mathbf{p}) &amp;= \slashed{p} - m \end{aligned}\tag{5.1}\]
 where, rather than being contracted, the two spinors on the left-hand side are placed back to back to form a $4\times 4$ matrix.</p>
 
 <aside class="solution">
@@ -320,13 +320,13 @@ where, rather than being contracted, the two spinors on the left-hand side are p
          m&amp;p\cdot\sigma\\
          p\cdot \bar\sigma&amp;m
      \end{pmatrix}\sum_{s=1}^2\xi^s\xi^{\dagger s}.
-        \end{aligned}\tag{1}\]
+        \end{aligned}\tag{5.2}\]
     The latter sum can be obtained by considering
-    \[\sum_{s=1}^2\delta^{sa}\delta^{sb} = \delta^{ab}\implies \sum   _{s=1}^2(\xi ^{\dagger s}\cdot\xi^a)(\xi ^{\dagger b}\cdot\xi^s)  =\xi^{\dagger b}\cdot\xi^a \implies \sum_{s=1}^2\xi^s_\alpha\xi^{\dagger s}_\beta = \delta_{\alpha\beta}.\tag{2}\]
+    \[\sum_{s=1}^2\delta^{sa}\delta^{sb} = \delta^{ab}\implies \sum   _{s=1}^2(\xi ^{\dagger s}\cdot\xi^a)(\xi ^{\dagger b}\cdot\xi^s)  =\xi^{\dagger b}\cdot\xi^a \implies \sum_{s=1}^2\xi^s_\alpha\xi^{\dagger s}_\beta = \delta_{\alpha\beta}.\tag{5.3}\]
     Therefore, we find
-    \[\sum_{s=1}^{2} u^s(\mathbf{p})\bar{u}^s(\mathbf{p})  = \slashed{p} +m.\tag{3}\]
+    \[\sum_{s=1}^{2} u^s(\mathbf{p})\bar{u}^s(\mathbf{p})  = \slashed{p} +m.\tag{5.4}\]
     Almost identically, we find
-    \[\sum_{s=1}^{2} v^s(\mathbf{p})\bar{v}^s(\mathbf{p}) = \slashed{p} - m.\tag{4}\]</p>
+    \[\sum_{s=1}^{2} v^s(\mathbf{p})\bar{v}^s(\mathbf{p}) = \slashed{p} - m.\tag{5.5}\]</p>
 
 </aside>
 
@@ -334,16 +334,16 @@ where, rather than being contracted, the two spinors on the left-hand side are p
 
 <p>The Fourier decomposition of the Dirac operator $\psi(\mathbf{x})$ and the conjugate field $\psi^\dagger(\mathbf{x})$ is given by
 \[\begin{aligned}\psi(\mathbf{x}) &amp;= \sum_{s=1}^{2}\int\frac{d^3p}{(2\pi)^3}\frac{1}{\sqrt{2E_{\mathbf{p}}}}\left[b^s_{\mathbf{p}}\,u^s(\mathbf{p})e^{+i\mathbf{p}\cdot\mathbf{x}} + c^{s\dagger}_{\mathbf{p}}\,v^s(\mathbf{p})e^{-i\mathbf{p}\cdot\mathbf{x}}\right]\\
-    \psi^\dagger(\mathbf{x}) &amp;= \sum_{s=1}^{2}\int\frac{d^3p}{(2\pi)^3}\frac{1}{\sqrt{2E_{\mathbf{p}}}}\left[b^{s\dagger}_{\mathbf{p}}\,u^s(\mathbf{p})^\dagger e^{-i\mathbf{p}\cdot\mathbf{x}} + c^s_{\mathbf{p}}\,v^s(\mathbf{p})^\dagger e^{+i\mathbf{p}\cdot\mathbf{x}}\right]\end{aligned}\tag{7}\]
+    \psi^\dagger(\mathbf{x}) &amp;= \sum_{s=1}^{2}\int\frac{d^3p}{(2\pi)^3}\frac{1}{\sqrt{2E_{\mathbf{p}}}}\left[b^{s\dagger}_{\mathbf{p}}\,u^s(\mathbf{p})^\dagger e^{-i\mathbf{p}\cdot\mathbf{x}} + c^s_{\mathbf{p}}\,v^s(\mathbf{p})^\dagger e^{+i\mathbf{p}\cdot\mathbf{x}}\right]\end{aligned}\tag{6.1}\]
 The creation and annihilation operators are taken to satisfy
 \[\begin{aligned}\{b^r_{\mathbf{p}}, b^{s\dagger}_{\mathbf{q}}\} &amp;= (2\pi)^3\delta^{rs}\,\delta^{(3)}(\mathbf{p}-\mathbf{q})\\
-    \{c^r_{\mathbf{p}}, c^{s\dagger}_{\mathbf{q}}\} &amp;= (2\pi)^3\delta^{rs}\,\delta^{(3)}(\mathbf{p}-\mathbf{q})\end{aligned}\tag{8}\]
+    \{c^r_{\mathbf{p}}, c^{s\dagger}_{\mathbf{q}}\} &amp;= (2\pi)^3\delta^{rs}\,\delta^{(3)}(\mathbf{p}-\mathbf{q})\end{aligned}\tag{6.2}\]
 with all other anti-commutators vanishing,
-\[\{b^r_{\mathbf{p}}, b^s_{\mathbf{q}}\} = \{c^r_{\mathbf{p}}, c^s_{\mathbf{q}}\} = \{b^r_{\mathbf{p}}, c^{s\dagger}_{\mathbf{q}}\} = \{b^r_{\mathbf{p}}, c^s_{\mathbf{q}}\} = \ldots = 0.\tag{1}\]
+\[\{b^r_{\mathbf{p}}, b^s_{\mathbf{q}}\} = \{c^r_{\mathbf{p}}, c^s_{\mathbf{q}}\} = \{b^r_{\mathbf{p}}, c^{s\dagger}_{\mathbf{q}}\} = \{b^r_{\mathbf{p}}, c^s_{\mathbf{q}}\} = \ldots = 0.\tag{6.3}\]
 Show that these imply that the field and its conjugate momenta satisfy the anti-commutation relations,
 \[\begin{aligned}\{\psi_\alpha(\mathbf{x}), \psi_\beta(\mathbf{y})\} &amp;= \{\psi^\dagger_\alpha(\mathbf{x}), \psi^\dagger_\beta(\mathbf{y})\} = 0\\
-    \{\psi_\alpha(\mathbf{x}), \psi^\dagger_\beta(\mathbf{y})\} &amp;= \delta_{\alpha\beta}\,\delta^{(3)}(\mathbf{x}-\mathbf{y}).\end{aligned}\tag{9}\]
-(Note: The calculation is very similar to that for the bosonic field, but at some point you will need to make use of the identities (5) and (vouter)).</p>
+    \{\psi_\alpha(\mathbf{x}), \psi^\dagger_\beta(\mathbf{y})\} &amp;= \delta_{\alpha\beta}\,\delta^{(3)}(\mathbf{x}-\mathbf{y}).\end{aligned}\tag{6.4}\]
+(Note: The calculation is very similar to that for the bosonic field, but at some point you will need to make use of the identities (5.1) and (vouter)).</p>
 
 <aside class="solution">
 <div class="solution__label">Solution.</div>
@@ -353,22 +353,22 @@ Show that these imply that the field and its conjugate momenta satisfy the anti-
         \{\psi_\alpha(\mathbf{x}), \psi^\dagger_\beta(\mathbf{y})\} &amp;= \sum_{r,s}\int\frac{d^3p}{(2\pi)^3}\frac{1}{\sqrt{2E_\mathbf{p}}}\int\frac{d^3q}{(2\pi)^3}\frac{1}{\sqrt{2E_\mathbf{q}}}\\
         &amp;\quad\times\bigg[\{b^r_\mathbf{p}, b^{s\dagger}_\mathbf{q}\}u^r_\alpha(\mathbf{p})u^{s\dagger}_\beta(\mathbf{q})e^{i\mathbf{p}\cdot\mathbf{x}-i\mathbf{q}\cdot\mathbf{y}}\\
         &amp;\qquad + \{c^{r\dagger}_\mathbf{p}, c^s_\mathbf{q}\}v^r_\alpha(\mathbf{p})v^{s\dagger}_\beta(\mathbf{q})e^{-i\mathbf{p}\cdot\mathbf{x}+i\mathbf{q}\cdot\mathbf{y}}\bigg]
-    \end{aligned}\tag{2}\]
+    \end{aligned}\tag{6.5}\]
     where all cross terms $\{b,c\}$ and $\{b,c^\dagger\}$ vanish. Then,
     \[\begin{aligned}
         \{\psi_\alpha(\mathbf{x}), \psi^\dagger_\beta(\mathbf{y})\} &amp;= \int\frac{d^3p}{(2\pi)^3}\frac{1}{2E_\mathbf{p}}\sum_s\left[u^s_\alpha(\mathbf{p})u^{s\dagger}_\beta(\mathbf{p})e^{i\mathbf{p}\cdot(\mathbf{x}-\mathbf{y})} + v^s_\alpha(\mathbf{p})v^{s\dagger}_\beta(\mathbf{p})e^{-i\mathbf{p}\cdot(\mathbf{x}-\mathbf{y})}\right].
-    \end{aligned}\tag{3}\]
+    \end{aligned}\tag{6.6}\]
     Now we use the spin sum identities. Note that $\bar{u} = u^\dagger\gamma^0$ so $u^\dagger = \bar{u}\gamma^0$, giving
-    \[\sum_s u^s u^{s\dagger} = \sum_s u^s\bar{u}^s\gamma^0 = (\slashed{p}+m)\gamma^0, \qquad \sum_s v^s v^{s\dagger} = (\slashed{p}-m)\gamma^0.\tag{4}\]
+    \[\sum_s u^s u^{s\dagger} = \sum_s u^s\bar{u}^s\gamma^0 = (\slashed{p}+m)\gamma^0, \qquad \sum_s v^s v^{s\dagger} = (\slashed{p}-m)\gamma^0.\tag{6.7}\]
     Substituting back,
     \[\begin{aligned}
         \{\psi_\alpha(\mathbf{x}), \psi^\dagger_\beta(\mathbf{y})\} &amp;= \int\frac{d^3p}{(2\pi)^3}\frac{1}{2E_\mathbf{p}}\left[(\slashed{p}+m)_{\alpha\dot\beta}(\gamma^0)_{\dot\beta\beta}e^{i\mathbf{p}\cdot(\mathbf{x}-\mathbf{y})} + (\slashed{p}-m)_{\alpha\dot\beta}(\gamma^0)_{\dot\beta\beta}e^{-i\mathbf{p}\cdot(\mathbf{x}-\mathbf{y})}\right].
-    \end{aligned}\tag{5}\]
+    \end{aligned}\tag{6.8}\]
     Expanding $\slashed{p} = p_0\gamma^0 - p_i\gamma^i$ and using $(\gamma^0)^2 = \mathbf{1}$, the $m$ terms cancel between the two exponentials after relabelling $\mathbf{p}\to-\mathbf{p}$ in the second integral, and the $p_i\gamma^i\gamma^0$ terms also cancel by the same relabelling. What remains is
     \[\begin{aligned}
         \{\psi_\alpha(\mathbf{x}), \psi^\dagger_\beta(\mathbf{y})\} &amp;= \int\frac{d^3p}{(2\pi)^3}\frac{2p_0}{2E_\mathbf{p}}(\gamma^0\gamma^0)_{\alpha\beta}e^{i\mathbf{p}\cdot(\mathbf{x}-\mathbf{y})}\\
         &amp;= \delta_{\alpha\beta}\int\frac{d^3p}{(2\pi)^3}e^{i\mathbf{p}\cdot(\mathbf{x}-\mathbf{y})} = \delta_{\alpha\beta}\,\delta^{(3)}( {x}-\mathbf{y}).
-    \end{aligned}\tag{6}\]
+    \end{aligned}\tag{6.9}\]
     The vanishing of $\{\psi_\alpha(\mathbf{x}),\psi_\beta(\mathbf{y})\}$ follows similarly, since the cross terms $\{b^r_\mathbf{p}, c^{s\dagger}_\mathbf{q}\} = 0$ and the surviving terms $\{b,b\} = \{c^\dagger, c^\dagger\} = 0$ all vanish.</p>
 
 </aside>
@@ -376,9 +376,9 @@ Show that these imply that the field and its conjugate momenta satisfy the anti-
 <h2 id="the-dirac-hamiltonian-q7">The Dirac Hamiltonian, Q7</h2>
 
 <p>Using the results of Question 6, show that the quantum Hamiltonian
-\[H = \int d^3x\; \bar\psi(-i\gamma^i\partial_i + m)\psi\tag{1}\]
+\[H = \int d^3x\; \bar\psi(-i\gamma^i\partial_i + m)\psi\tag{7.1}\]
 can be written, after normal ordering, as
-\[H = \int\frac{d^3p}{(2\pi)^3}\,E_{\mathbf{p}}\sum_{s=1}^{2}\left[b^{s\dagger}_{\mathbf{p}}b^s_{\mathbf{p}} + c^{s\dagger}_{\mathbf{p}}c^s_{\mathbf{p}}\right].\tag{2}\]
+\[H = \int\frac{d^3p}{(2\pi)^3}\,E_{\mathbf{p}}\sum_{s=1}^{2}\left[b^{s\dagger}_{\mathbf{p}}b^s_{\mathbf{p}} + c^{s\dagger}_{\mathbf{p}}c^s_{\mathbf{p}}\right].\tag{7.2}\]
 (Note: Again, the calculation is very similar to that for the bosonic field. This time you will need to make use of the identities derived in Questions 4 and 5).</p>
 
 <aside class="solution">
@@ -388,19 +388,19 @@ can be written, after normal ordering, as
     \[\begin{aligned}
         H &amp;= \sum_{r,s}\int d^3x\int\frac{d^3p}{(2\pi)^3}\frac{E_\mathbf{p}}{\sqrt{2E_\mathbf{p}}}\int\frac{d^3q}{(2\pi)^3}\frac{1}{\sqrt{2E_\mathbf{q}}}\\
         &amp;\quad\times\left[b^{r\dagger}_\mathbf{q} u^r(\mathbf{q})^\dagger e^{-i\mathbf{q}\cdot\mathbf{x}} + c^r_\mathbf{q} v^r(\mathbf{q})^\dagger e^{+i\mathbf{q}\cdot\mathbf{x}}\right]\left[b^s_\mathbf{p} u^s(\mathbf{p})e^{+i\mathbf{p}\cdot\mathbf{x}} - c^{s\dagger}_\mathbf{p} v^s(\mathbf{p})e^{-i\mathbf{p}\cdot\mathbf{x}}\right]
-    \end{aligned}\tag{3}\]
+    \end{aligned}\tag{7.3}\]
     where we applied $(-i\gamma^i\partial_i + m)u^s(\mathbf{p})e^{i\mathbf{p}\cdot\mathbf{x}} = E_\mathbf{p}\gamma^0 u^s e^{i\mathbf{p}\cdot\mathbf{x}}$ and $(-i\gamma^i\partial_i+m)v^s e^{-i\mathbf{p}\cdot\mathbf{x}} = -E_\mathbf{p}\gamma^0 v^s e^{-i\mathbf{p}\cdot\mathbf{x}}$ from the Dirac equation, and used $(\gamma^0)^2 = \mathbf{1}$ to cancel the $\gamma^0$ from $\bar\psi = \psi^\dagger\gamma^0$. Integrating over $d^3x$ gives delta functions, setting $\mathbf{q}=\mathbf{p}$ for diagonal terms and $\mathbf{q}=-\mathbf{p}$ for cross terms:
     \[\begin{aligned}
         H &amp;= \sum_{r,s}\int\frac{d^3p}{(2\pi)^3}\frac{E_\mathbf{p}}{2E_\mathbf{p}}\bigg[u^r(\mathbf{p})^\dagger u^s(\mathbf{p})\,b^{r\dagger}_\mathbf{p} b^s_\mathbf{p} - v^r(\mathbf{p})^\dagger v^s(\mathbf{p})\,c^r_\mathbf{p} c^{s\dagger}_\mathbf{p}\\
         &amp;\qquad\qquad\qquad + u^r(-\mathbf{p})^\dagger(-v^s(\mathbf{p}))\,b^{r\dagger}_{-\mathbf{p}}c^{s\dagger}_\mathbf{p} + v^r(-\mathbf{p})^\dagger u^s(\mathbf{p})\,c^r_{-\mathbf{p}}b^s_\mathbf{p}\bigg].
-    \end{aligned}\tag{4}\]
+    \end{aligned}\tag{7.4}\]
     The cross terms vanish by the orthogonality relation $u^r(-\mathbf{p})^\dagger v^s(\mathbf{p}) = 0$. Applying the normalisation $u^r(\mathbf{p})^\dagger u^s(\mathbf{p}) = v^r(\mathbf{p})^\dagger v^s(\mathbf{p}) = 2E_\mathbf{p}\delta^{rs}$ from (5) and (6),
     \[\begin{aligned}
         H &amp;= \sum_s\int\frac{d^3p}{(2\pi)^3}E_\mathbf{p}\left[b^{s\dagger}_\mathbf{p} b^s_\mathbf{p} - c^s_\mathbf{p} c^{s\dagger}_\mathbf{p}\right]\\
         &amp;= \sum_s\int\frac{d^3p}{(2\pi)^3}E_\mathbf{p}\left[b^{s\dagger}_\mathbf{p} b^s_\mathbf{p} - \left(-c^{s\dagger}_\mathbf{p} c^s_\mathbf{p} + (2\pi)^3\delta^{(3)}(0)\right)\right].
-    \end{aligned}\tag{5}\]
+    \end{aligned}\tag{7.5}\]
     After normal ordering, the vacuum contribution $\delta^{(3)}(0)$ is discarded and the sign of the $c$ term flips, giving
-    \[H = \int\frac{d^3p}{(2\pi)^3}\,E_\mathbf{p}\sum_{s=1}^2\left[b^{s\dagger}_\mathbf{p} b^s_\mathbf{p} + c^{s\dagger}_\mathbf{p} c^s_\mathbf{p}\right].\tag{6}\]
+    \[H = \int\frac{d^3p}{(2\pi)^3}\,E_\mathbf{p}\sum_{s=1}^2\left[b^{s\dagger}_\mathbf{p} b^s_\mathbf{p} + c^{s\dagger}_\mathbf{p} c^s_\mathbf{p}\right].\tag{7.6}\]
     Note the crucial sign difference from the bosonic case: here normal ordering the anticommuting $c^s_\mathbf{p} c^{s\dagger}_\mathbf{p}$ flips the sign to give a positive contribution, whereas for bosons it produces an infinite additive constant.</p>
 
 </aside>
@@ -409,12 +409,12 @@ can be written, after normal ordering, as
 
 <p>The purpose of this question is to give you a glimpse into the spin-statistics theorem. This theorem roughly says that if you try to quantize a field with the wrong statistics, bad things will happen. Here we'll see what goes wrong if you try to quantize a spin $1/2$ field as a boson. We start with the usual decomposition (11). This time we choose bosonic commutation relations for the annihilation and creation operators,
 \[\begin{aligned}[b^r_{\mathbf{p}}, b^{s\dagger}_{\mathbf{q}}] &amp;= (2\pi)^3\delta^{rs}\,\delta^{(3)}(\mathbf{p}-\mathbf{q})\\
-    [c^r_{\mathbf{p}}, c^{s\dagger}_{\mathbf{q}}] &amp;= -(2\pi)^3\delta^{rs}\,\delta^{(3)}(\mathbf{p}-\mathbf{q})\end{aligned}\tag{5}\]
+    [c^r_{\mathbf{p}}, c^{s\dagger}_{\mathbf{q}}] &amp;= -(2\pi)^3\delta^{rs}\,\delta^{(3)}(\mathbf{p}-\mathbf{q})\end{aligned}\tag{8.1}\]
 with all other commutators vanishing. Note the strange minus sign for the $c$ operators. Repeat the calculation of Question 6 to show that these are equivalent to the commutation relations,
 \[\begin{aligned}[\psi_\alpha(\mathbf{x}), \psi_\beta(\mathbf{y})] &amp;= [\psi^\dagger_\alpha(\mathbf{x}), \psi^\dagger_\beta(\mathbf{y})] = 0\\
-    [\psi_\alpha(\mathbf{x}), \psi^\dagger_\beta(\mathbf{y})] &amp;= \delta_{\alpha\beta}\,\delta^{(3)}(\mathbf{x}-\mathbf{y}).\end{aligned}\tag{6}\]
+    [\psi_\alpha(\mathbf{x}), \psi^\dagger_\beta(\mathbf{y})] &amp;= \delta_{\alpha\beta}\,\delta^{(3)}(\mathbf{x}-\mathbf{y}).\end{aligned}\tag{8.2}\]
 Now repeat the calculation of Question 7, to show that, after normal ordering, the Hamiltonian is given by
-\[H = \int\frac{d^3p}{(2\pi)^3}\,E_{\mathbf{p}}\sum_{s=1}^{2}\left[b^{s\dagger}_{\mathbf{p}}b^s_{\mathbf{p}} - c^{s\dagger}_{\mathbf{p}}c^s_{\mathbf{p}}\right].\tag{1}\]
+\[H = \int\frac{d^3p}{(2\pi)^3}\,E_{\mathbf{p}}\sum_{s=1}^{2}\left[b^{s\dagger}_{\mathbf{p}}b^s_{\mathbf{p}} - c^{s\dagger}_{\mathbf{p}}c^s_{\mathbf{p}}\right].\tag{8.3}\]
 This Hamiltonian is not bounded below: you can lower the energy indefinitely by creating more and more $c$ particles. This is the reason a theory of bosonic spin $1/2$ particles is sick.</p>
 
 <aside class="solution">
@@ -425,14 +425,14 @@ This Hamiltonian is not bounded below: you can lower the energy indefinitely by 
         [\psi_\alpha(\mathbf{x}), \psi^\dagger_\beta(\mathbf{y})] &amp;= \int\frac{d^3p}{(2\pi)^3}\frac{1}{2E_\mathbf{p}}\sum_s\left[u^s_\alpha(\mathbf{p})u^{s\dagger}_\beta(\mathbf{p})e^{i\mathbf{p}\cdot(\mathbf{x}-\mathbf{y})} - v^s_\alpha(\mathbf{p})v^{s\dagger}_\beta(\mathbf{p})e^{-i\mathbf{p}\cdot(\mathbf{x}-\mathbf{y})}\right]\\
         &amp;= \int\frac{d^3p}{(2\pi)^3}\frac{1}{2E_\mathbf{p}}\left[(\slashed{p}+m)\gamma^0 e^{i\mathbf{p}\cdot(\mathbf{x}-\mathbf{y})} - (\slashed{p}-m)\gamma^0 e^{-i\mathbf{p}\cdot(\mathbf{x}-\mathbf{y})}\right]_{\alpha\beta}\\
         &amp;= \delta_{\alpha\beta}\,\delta^{(3)}(\mathbf{x}-\mathbf{y})
-    \end{aligned}\tag{2}\]
+    \end{aligned}\tag{8.4}\]
     where the minus sign from $[c,c^\dagger] = -(2\pi)^3\delta^{(3)}$ cancels the minus sign in the $v\bar{v}$ spin sum, reproducing the same result as the fermionic case. For the Hamiltonian,
     \[\begin{aligned}
         H &amp;= \sum_s\int\frac{d^3p}{(2\pi)^3}E_\mathbf{p}\left[b^{s\dagger}_\mathbf{p} b^s_\mathbf{p} + c^s_\mathbf{p} c^{s\dagger}_\mathbf{p}\right]\\
         &amp;= \sum_s\int\frac{d^3p}{(2\pi)^3}E_\mathbf{p}\left[b^{s\dagger}_\mathbf{p} b^s_\mathbf{p} + c^{s\dagger}_\mathbf{p} c^s_\mathbf{p} + (2\pi)^3\delta^{(3)}(0)\right].
-    \end{aligned}\tag{3}\]
+    \end{aligned}\tag{8.5}\]
     Note that now $c^s_\mathbf{p} c^{s\dagger}_\mathbf{p} = c^{s\dagger}_\mathbf{p} c^s_\mathbf{p} + (2\pi)^3\delta^{(3)}(0)$ since these are bosonic operators. After normal ordering,
-    \[H = \int\frac{d^3p}{(2\pi)^3}\,E_\mathbf{p}\sum_{s=1}^2\left[b^{s\dagger}_\mathbf{p} b^s_\mathbf{p} - c^{s\dagger}_\mathbf{p} c^s_\mathbf{p}\right]\tag{4}\]
+    \[H = \int\frac{d^3p}{(2\pi)^3}\,E_\mathbf{p}\sum_{s=1}^2\left[b^{s\dagger}_\mathbf{p} b^s_\mathbf{p} - c^{s\dagger}_\mathbf{p} c^s_\mathbf{p}\right]\tag{8.6}\]
     where the minus sign arises from the $[c,c^\dagger]=-(2\pi)^3\delta^{(3)}$ relation flipping the sign under normal ordering.</p>
 
 </aside>

@@ -84,19 +84,19 @@ window.MathJax = {
 three-dimensional domain $\mathcal{D}$ with boundary $\partial\mathcal{D}$,
 \[\int_{\mathcal{D}}(\phi\nabla^2\psi - \psi\nabla^2\phi)\,dV
   \equiv \int_{\partial\mathcal{D}}
-  \!\left(\phi\frac{\partial\psi}{\partial n} - \psi\frac{\partial\phi}{\partial n}\right)dS,\tag{1}\]
+  \!\left(\phi\frac{\partial\psi}{\partial n} - \psi\frac{\partial\phi}{\partial n}\right)dS,\tag{1.1}\]
 where $\mathbf{n}$ is the outward unit normal to $\partial\mathcal{D}$.</p>
 
 <p>Let $\psi(\mathbf{x})$ satisfy
-\[\nabla^2\psi = \delta(\mathbf{x}-\mathbf{x}_0) \quad \text{in } z&gt;0,\tag{2}\]
+\[\nabla^2\psi = \delta(\mathbf{x}-\mathbf{x}_0) \quad \text{in } z&gt;0,\tag{1.2}\]
 with
-\[\psi = 0 \text{ on } z=0, \qquad \psi\to 0 \text{ as } |\mathbf{x}|\to\infty,\tag{3}\]
+\[\psi = 0 \text{ on } z=0, \qquad \psi\to 0 \text{ as } |\mathbf{x}|\to\infty,\tag{1.3}\]
 in Cartesian coordinates $\mathbf{x}=(x,y,z)$. Use the method of images to
 determine $\psi(x,y,z)$.</p>
 
 <p>Now use the identity above to solve the equation
 \[\nabla^2\phi = 0 \quad \text{in } z&gt;0, \qquad \phi\to 0 \text{ as }
-  |\mathbf{x}|\to\infty,\tag{4}\]
+  |\mathbf{x}|\to\infty,\tag{1.4}\]
 with $\phi=1$ on $z=0$, $x^2+y^2&lt;1$, while $\phi=0$ on $z=0$,
 $x^2+y^2&gt;1$, in terms of a surface integral. Find the closed-form
 solution for $\phi(0,0,z)$.</p>
@@ -107,7 +107,7 @@ solution for $\phi(0,0,z)$.</p>
 \[\phi\nabla^2\psi - \psi\nabla^2\phi
   = \nabla\cdot(\phi\nabla\psi) - \nabla\phi\cdot\nabla\psi
   - \nabla\cdot(\psi\nabla\phi) + \nabla\psi\cdot\nabla\phi
-  = \nabla\cdot(\phi\nabla\psi - \psi\nabla\phi).\tag{5}\]
+  = \nabla\cdot(\phi\nabla\psi - \psi\nabla\phi).\tag{1.5}\]
 Applying the divergence theorem immediately gives the result.</p>
 
 <p>The free-space Green's function
@@ -118,7 +118,7 @@ $\bar{\mathbf{x}}_0 = (x_0,y_0,-z_0)$:
 \[\psi(\mathbf{x}) = -\frac{1}{4\pi}\!\left(
     \frac{1}{|\mathbf{x}-\mathbf{x}_0|}
     - \frac{1}{|\mathbf{x}-\bar{\mathbf{x}}_0|}
-  \right).\tag{6}\]
+  \right).\tag{1.6}\]
 On $z=0$, $|\mathbf{x}-\mathbf{x}_0|=|\mathbf{x}-\bar{\mathbf{x}}_0|$
 so $\psi=0$.</p>
 
@@ -127,7 +127,7 @@ identity to $\phi$ (harmonic) and $\psi$ ($\nabla^2\psi =
 \delta(\mathbf{x}-\mathbf{x}_0)$) over $z>0$:
 \[\phi(\mathbf{x}_0) = \int_{\partial\mathcal{D}}
   \!\left(\phi\frac{\partial\psi}{\partial n}
-  - \psi\frac{\partial\phi}{\partial n}\right)dS.\tag{7}\]
+  - \psi\frac{\partial\phi}{\partial n}\right)dS.\tag{1.7}\]
 The boundary has two parts: the plane $z=0$ and a sphere at infinity.
 The sphere at infinity contributes nothing since $\phi,\psi\to 0$. On
 $z=0$, $\psi=0$ so the $\psi\partial\phi/\partial n$ term vanishes. The outward
@@ -139,11 +139,11 @@ $x_0=y_0=0$ for $\phi(0,0,z_0)$):
     -\frac{z-z_0}{|\mathbf{x}-\mathbf{x}_0|^3}
     +\frac{z+z_0}{|\mathbf{x}-\bar{\mathbf{x}}_0|^3}
   \right]_{z=0}
-  = -\frac{z_0}{2\pi(x^2+y^2+z_0^2)^{3/2}},\tag{8}\]
+  = -\frac{z_0}{2\pi(x^2+y^2+z_0^2)^{3/2}},\tag{1.8}\]
 so $\partial\psi/\partial n\big|_{z=0} = z_0/2\pi(x^2+y^2+z_0^2)^{3/2} &gt; 0$.
 Since $\phi=1$ on $x^2+y^2&lt;1$ and zero otherwise:
 \[\phi(0,0,z_0) = \int_{x^2+y^2&lt;1,\;z=0}
-  \frac{z_0}{2\pi(x^2+y^2+z_0^2)^{3/2}}\,dS.\tag{9}\]</p>
+  \frac{z_0}{2\pi(x^2+y^2+z_0^2)^{3/2}}\,dS.\tag{1.9}\]</p>
 
 <p>Converting to polar coordinates
 $r^2=x^2+y^2$:
@@ -152,9 +152,9 @@ $r^2=x^2+y^2$:
     \frac{z_0}{2\pi(r^2+z_0^2)^{3/2}}\,r\,dr
    = z_0\int_0^1\frac{r\,dr}{(r^2+z_0^2)^{3/2}} \notag\\
   &amp;= z_0\left[-\frac{1}{\sqrt{r^2+z_0^2}}\right]_0^1
-   = z_0\!\left(\frac{1}{z_0}-\frac{1}{\sqrt{1+z_0^2}}\right).\end{aligned}\tag{11}\]
+   = z_0\!\left(\frac{1}{z_0}-\frac{1}{\sqrt{1+z_0^2}}\right).\end{aligned}\tag{1.10}\]
 Hence:
-\[\boxed{\phi(0,0,z_0) = 1 - \frac{z_0}{\sqrt{1+z_0^2}}.}\tag{10}\]
+\[\boxed{\phi(0,0,z_0) = 1 - \frac{z_0}{\sqrt{1+z_0^2}}.}\tag{1.11}\]
 As $z_0\to 0^+$, $\phi\to 1$ (matches the BC on the unit disk). As
 $z_0\to\infty$, $\phi\to 0$ (matches the far-field BC).</p>
   </article>

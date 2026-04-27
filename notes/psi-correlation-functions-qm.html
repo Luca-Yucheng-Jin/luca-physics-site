@@ -83,17 +83,17 @@ window.MathJax = {
 <h2 id="correlation-functions-in-qm">Correlation functions in QM</h2>
 
 <p>Consider a 1-dimensional harmonic oscillator with Hamiltonian
-    \[\mathbf{H} = \frac{\mathbf{P}^2}{2m} + \frac{m\omega_0^2}{2}\mathbf{Q}^2\tag{1}\]
+    \[\mathbf{H} = \frac{\mathbf{P}^2}{2m} + \frac{m\omega_0^2}{2}\mathbf{Q}^2\tag{1.1}\]
     We can write the propagator in real time
-    \[K(q_2, q_1; t) = \langle q_2 | U(t) | q_1 \rangle\tag{2}\]
+    \[K(q_2, q_1; t) = \langle q_2 | U(t) | q_1 \rangle\tag{1.2}\]
     and the &ldquo;Euclidean&rdquo; propagator
-    \[K_E(q_2, q_1; \tau) = \langle q_2 | U(-i\tau) | q_1 \rangle\tag{3}\]
+    \[K_E(q_2, q_1; \tau) = \langle q_2 | U(-i\tau) | q_1 \rangle\tag{1.3}\]
     using the time evolution operator
-    \[U(t) = \exp\!\left(\frac{t}{i\hbar}\mathbf{H}\right).\tag{4}\]
+    \[U(t) = \exp\!\left(\frac{t}{i\hbar}\mathbf{H}\right).\tag{1.4}\]
     We want to compute the &ldquo;Green's function&rdquo; or correlation function (also known as the propagator):
-    \[G(t_1, t_2) = \langle 0 | T(\mathbf{Q}(t_1)\mathbf{Q}(t_2)) | 0 \rangle\tag{5}\]
+    \[G(t_1, t_2) = \langle 0 | T(\mathbf{Q}(t_1)\mathbf{Q}(t_2)) | 0 \rangle\tag{1.5}\]
     $|0\rangle$ is the ground state of the harmonic oscillator and $T$ denotes the time-ordered product of the operators $\mathbf{Q}(t) = U(-t)\mathbf{Q}U(t)$ (in the Heisenberg picture). We start from the Euclidean Green's function at finite temperature
-    \[G_E(\tau_2, \tau_1; \beta) = \mathrm{Tr}\!\left(\boldsymbol{\rho}(\beta)\,\mathbf{Q}(-i\tau_2)\,\mathbf{Q}(-i\tau_1)\right)\tag{6}\]
+    \[G_E(\tau_2, \tau_1; \beta) = \mathrm{Tr}\!\left(\boldsymbol{\rho}(\beta)\,\mathbf{Q}(-i\tau_2)\,\mathbf{Q}(-i\tau_1)\right)\tag{1.6}\]
     Here $\boldsymbol{\rho}(\beta)$ is the density matrix of the harmonic oscillator at temperature $T$ and $\beta = \frac{1}{k_B T}$.</p>
 
 <ol>
@@ -103,13 +103,13 @@ window.MathJax = {
 <div class="solution__label">Solution.</div>
 
 <p>We shall first demonstrate the equivalence between the real time and Euclidean time propagator. The real time propagator can be written as a path integral 
-        \[G(t_1,t_2) = \bra{0}T\mathbf{Q}(t_1)\mathbf{Q}(t_2)\ket{0} = \int\mathcal{D}q(t)q(t_1)q(t_2)e^{iS[q]/\hbar}.\tag{7}\]
+        \[G(t_1,t_2) = \bra{0}T\mathbf{Q}(t_1)\mathbf{Q}(t_2)\ket{0} = \int\mathcal{D}q(t)q(t_1)q(t_2)e^{iS[q]/\hbar}.\tag{1.7}\]
         Since the time in the action $S[x]$ is merely an integration variable, we can perform a Wick rotation, and obtain
-        \[G(t_1,t_2) = \int\mathcal{D}q_E(\tau)q(-i\tau_1)q(-i\tau_2)e^{-S_E[q_E]/\hbar}.\tag{8}\]
+        \[G(t_1,t_2) = \int\mathcal{D}q_E(\tau)q(-i\tau_1)q(-i\tau_2)e^{-S_E[q_E]/\hbar}.\tag{1.8}\]
        If we choose a periodic boundary condition, the propagator becomes an expectation value in the context of finite temperature statistical mechanics:
-        \[G_E(\tau_2, \tau_1;\beta) =\frac{1}{Z} \oint\mathcal{D}q_E(\tau)q(-i\tau_1)q(-i\tau_2)e^{-S_E[q_E]/\hbar} = \mathrm{Tr}\!\left(\boldsymbol{\rho}(\beta)\,\mathbf{Q}(-i\tau_2)\,\mathbf{Q}(-i\tau_1)\right).\tag{9}\]
+        \[G_E(\tau_2, \tau_1;\beta) =\frac{1}{Z} \oint\mathcal{D}q_E(\tau)q(-i\tau_1)q(-i\tau_2)e^{-S_E[q_E]/\hbar} = \mathrm{Tr}\!\left(\boldsymbol{\rho}(\beta)\,\mathbf{Q}(-i\tau_2)\,\mathbf{Q}(-i\tau_1)\right).\tag{1.9}\]
         To see the above, we can write the path integral as 
-        \[\oint\mathcal{D}q_E(\tau) = \int dq_{E1}\int dq_{E2}\oint_{q_{Ei} = q_E(\tau_i)}\mathcal{D}q_E(\tau),\tag{10}\]
+        \[\oint\mathcal{D}q_E(\tau) = \int dq_{E1}\int dq_{E2}\oint_{q_{Ei} = q_E(\tau_i)}\mathcal{D}q_E(\tau),\tag{1.10}\]
         using the completeness relation, we find
         \[\begin{aligned}&amp;G_E(\tau_2, \tau_1;\beta ) \notag\\
         &amp;= \frac{1}{Z}  \int dq_{E1}\int dq_{E2}
@@ -127,7 +127,7 @@ window.MathJax = {
         &amp;= \frac{1}{Z} \mathrm{Tr}\!\left(e^{-\beta H/\hbar}\,
            \mathbf{Q}(-i\tau_2)\,\mathbf{Q}(-i\tau_1)\right) \notag\\
         &amp;= \mathrm{Tr}\!\left(\boldsymbol{\rho}(\beta)\,
-           \mathbf{Q}(-i\tau_2)\,\mathbf{Q}(-i\tau_1)\right).\end{aligned}\tag{42}\]
+           \mathbf{Q}(-i\tau_2)\,\mathbf{Q}(-i\tau_1)\right).\end{aligned}\tag{1.11}\]
             Expanding the trace over energy eigenstates $|n\rangle$ with $H|n\rangle = E_n|n\rangle$:
     \[\begin{aligned}G_E(\tau_2,\tau_1;\beta) 
         &amp;= \mathrm{Tr}\!\left(\boldsymbol{\rho}(\beta)\,\mathbf{Q}(-i\tau_2)\,\mathbf{Q}(-i\tau_1)\right) \notag\\
@@ -135,9 +135,9 @@ window.MathJax = {
            \langle m | e^{\tau_2 H}\,\mathbf{Q}\,e^{-\tau_2 H}
                        e^{\tau_1 H}\,\mathbf{Q}\,e^{-\tau_1 H} | m \rangle \notag\\
         &amp;= \frac{1}{Z}\sum_{m,n} e^{-\beta E_m}\,e^{(\tau_2-\tau_1)(E_m - E_n)}
-           |\langle m|\mathbf{Q}|n\rangle|^2\end{aligned}\tag{43}\]
+           |\langle m|\mathbf{Q}|n\rangle|^2\end{aligned}\tag{1.12}\]
     where $Z = \mathrm{Tr}(e^{-\beta H})$. For this sum to converge we need the exponential factor to be damped, which requires
-    \[\tau_2 - \tau_1 &gt; 0 \qquad \Longrightarrow \qquad \tau_2 &gt; \tau_1.\tag{11}\]
+    \[\tau_2 - \tau_1 &gt; 0 \qquad \Longrightarrow \qquad \tau_2 &gt; \tau_1.\tag{1.13}\]
     If instead $\tau_2 &lt; \tau_1$, the factor $e^{(\tau_2-\tau_1)(E_m-E_n)}$ diverges for large $E_m - E_n$, rendering the expression ill-defined. This is the Euclidean analogue of the time-ordering prescription in Minkowski space.</p>
 
 </aside></li>
@@ -147,7 +147,7 @@ window.MathJax = {
 <div class="solution__label">Solution.</div>
 
 <p>As already demonstrated above, we have
-            \[G_E(\tau_2, \tau_1;\beta) =\frac{1}{Z} \oint\mathcal{D}q_E(\tau)q(-i\tau_1)q(-i\tau_2)e^{-S_E[q_E]/\hbar}\tag{12}\]</p>
+            \[G_E(\tau_2, \tau_1;\beta) =\frac{1}{Z} \oint\mathcal{D}q_E(\tau)q(-i\tau_1)q(-i\tau_2)e^{-S_E[q_E]/\hbar}\tag{1.14}\]</p>
 
 </aside></li>
   <li>Explain why $G_E = G_E(\tau, \beta)$ is only a function of $\tau = \tau_2 - \tau_1$, and why it should be considered as a periodic function in $\tau$. What is this period $\tau_\beta$ and what is its limit when the temperature $T$ is taken to be zero?
@@ -161,13 +161,13 @@ window.MathJax = {
 
 </aside></li>
   <li>The Green's function $G_E(\tau; \beta)$ obeys the differential equation
-        \[\left(-\frac{\partial^2}{\partial\tau^2} + \omega_0^2\right) G_E(\tau;\beta) = \frac{\hbar}{m}\,\delta(\tau)\tag{13}\]
+        \[\left(-\frac{\partial^2}{\partial\tau^2} + \omega_0^2\right) G_E(\tau;\beta) = \frac{\hbar}{m}\,\delta(\tau)\tag{1.15}\]
         Show that at zero temperature ($T = 0$, $\beta = \infty$), $G_E(\tau;\infty) = G_E(\tau)$ is given simply by
-        \[G_E(\tau) = \frac{\hbar}{m}\,\frac{1}{2\omega_0}\exp(-|\tau|\omega_0)\tag{14}\]
+        \[G_E(\tau) = \frac{\hbar}{m}\,\frac{1}{2\omega_0}\exp(-|\tau|\omega_0)\tag{1.16}\]
         while at finite temperature it is periodic with period $\tau_\beta$, and it is given by
         \[G_E(\tau;\beta) = \frac{\hbar}{m}\,\frac{1}{2\omega_0}
             \frac{\cosh\!\left(\omega_0(\tau_\beta/2 - |\tau|)\right)}{\sinh\!\left(\omega_0\tau_\beta/2\right)},
-            \qquad 0 \leq \tau \leq \tau_\beta\tag{15}\]
+            \qquad 0 \leq \tau \leq \tau_\beta\tag{1.17}\]
 
 <aside class="solution">
 <div class="solution__label">Solution.</div>
@@ -175,32 +175,32 @@ window.MathJax = {
 <p>For completeness, we shall first show that the propagator is indeed the Green's function of the differential operator given.</p>
 
 <p>First, note that the Euclidean action can be written in the form
-            \[S_E[q_E]  = \int d\tau \,q_E\frac{m}{2}\left(-\frac{d^2}{d\tau^2}+\omega_0^2\right)q_E.\tag{16}\]
+            \[S_E[q_E]  = \int d\tau \,q_E\frac{m}{2}\left(-\frac{d^2}{d\tau^2}+\omega_0^2\right)q_E.\tag{1.18}\]
             Using the identity, 
-            \[0= \oint\mathcal{D}q_E\,\frac{\delta}{\delta q_E(\tau_2)}\left(q_E(\tau_1)e^{-S_E[q_E]/\hbar    }\right),\tag{17}\]
+            \[0= \oint\mathcal{D}q_E\,\frac{\delta}{\delta q_E(\tau_2)}\left(q_E(\tau_1)e^{-S_E[q_E]/\hbar    }\right),\tag{1.19}\]
             we find
-            \[Z\delta(\tau_1-\tau_2) = \frac{m}{2\hbar}\Tr{e^{-\beta H/\hbar  } q_E(\tau_1)\left(-\frac{d^2}{d\tau^2}+\omega_0^2\right)q_E(\tau_2)},\tag{18}\]
+            \[Z\delta(\tau_1-\tau_2) = \frac{m}{2\hbar}\Tr{e^{-\beta H/\hbar  } q_E(\tau_1)\left(-\frac{d^2}{d\tau^2}+\omega_0^2\right)q_E(\tau_2)},\tag{1.20}\]
             which implies
-            \[\left(-\frac{d^2}{d\tau^2}+\omega_0^2\right)\Tr{\boldsymbol{\rho}(\beta)\mathbf{Q}(-i\tau_2)\mathbf{Q}(-i\tau_1)} = \frac{\hbar}{m}\delta(\tau_1-\tau_2).\tag{19}\]
+            \[\left(-\frac{d^2}{d\tau^2}+\omega_0^2\right)\Tr{\boldsymbol{\rho}(\beta)\mathbf{Q}(-i\tau_2)\mathbf{Q}(-i\tau_1)} = \frac{\hbar}{m}\delta(\tau_1-\tau_2).\tag{1.21}\]
             The solution to the Green's function is given by 
             \[G(\tau;\beta) = \begin{cases}
                     Ae^{+\omega_0\tau} + Be^{-\omega_0\tau}, &amp;\tau&lt;0,\\
                     Ce^{+\omega_0\tau} + De^{-\omega_0\tau}, &amp;\tau&gt;0.
-                \end{cases}\tag{20}\]
+                \end{cases}\tag{1.22}\]
             For the Green's function to satisfy the periodic boundary condition, we require
-            \[Ce^{+\omega_0\tau} + De^{-\omega_0\tau}  = Ce^{+\omega_0(\tau+\tau_\beta)} + De^{-\omega_0(\tau+\tau_\beta)},\tag{21}\]
+            \[Ce^{+\omega_0\tau} + De^{-\omega_0\tau}  = Ce^{+\omega_0(\tau+\tau_\beta)} + De^{-\omega_0(\tau+\tau_\beta)},\tag{1.23}\]
             and
-            \[Ae^{+\omega_0\tau} + Be^{-\omega_0\tau}  = Ae^{+\omega_0(\tau-\tau_\beta)} + Be^{-\omega_0(\tau-\tau_\beta)}\tag{22}\]
+            \[Ae^{+\omega_0\tau} + Be^{-\omega_0\tau}  = Ae^{+\omega_0(\tau-\tau_\beta)} + Be^{-\omega_0(\tau-\tau_\beta)}\tag{1.24}\]
             for all $\tau$. Therefore, we find
-            \[B = A \frac{1-e^{-\omega_0\tau_\beta}}{e^{\omega_0\tau_\beta}-1}, \quad \text{and} \quad C = D \frac{1-e^{-\omega_0\tau_\beta}}{e^{\omega_0\tau_\beta}-1}.\tag{23}\]
+            \[B = A \frac{1-e^{-\omega_0\tau_\beta}}{e^{\omega_0\tau_\beta}-1}, \quad \text{and} \quad C = D \frac{1-e^{-\omega_0\tau_\beta}}{e^{\omega_0\tau_\beta}-1}.\tag{1.25}\]
             The matching condition at $\tau=0$ implies
-            \[A + D = \frac{\hbar}{2m\omega_0 }.\tag{24}\]
+            \[A + D = \frac{\hbar}{2m\omega_0 }.\tag{1.26}\]
             For $T\to 0$, $\tau_\beta \to \infty$, we find
-            \[G_E (\tau) = \frac{\hbar}{m}\,\frac{1}{2\omega_0}\exp(-|\tau|\omega_0).\tag{25}\]
+            \[G_E (\tau) = \frac{\hbar}{m}\,\frac{1}{2\omega_0}\exp(-|\tau|\omega_0).\tag{1.27}\]
             For finite $\tau_\beta$, we find
             \[G_E(\tau;\beta) = \frac{\hbar}{m}\,\frac{1}{2\omega_0}
             \frac{\cosh\!\left(\omega_0(\tau_\beta/2 - |\tau|)\right)}{\sinh\!\left(\omega_0\tau_\beta/2\right)},
-            \qquad 0 \leq \tau \leq \tau_\beta.\tag{26}\]</p>
+            \qquad 0 \leq \tau \leq \tau_\beta.\tag{1.28}\]</p>
 
 </aside></li>
   <li>Compute the Fourier transform $\hat{G}_E(k)$ of $G_E(\tau)$.
@@ -210,7 +210,7 @@ window.MathJax = {
 
 <p>Go back to the differential equation satisfied by $G_E$, we can immediately 
 obtain its Fourier transform, when $\tau_\beta \to \infty$:
-            \[\hat{G}_E(k) = \frac{\hbar}{m(k^2+\omega_0^2)}.\tag{27}\]</p>
+            \[\hat{G}_E(k) = \frac{\hbar}{m(k^2+\omega_0^2)}.\tag{1.29}\]</p>
 
 </aside></li>
 </ol>
@@ -224,25 +224,25 @@ obtain its Fourier transform, when $\tau_\beta \to \infty$:
 <div class="solution__label">Solution.</div>
 
 <p>Now, we go back to real time. Note that the Euclidean theory with $T=0$ is equivalent to the vacuum expectation value. Therefore, after wick rotation, we find
-            \[G(t_2,t_1) = \frac{\hbar}{m}\frac{1}{2\omega_0}\exp(-i\omega_0|t|)\tag{28}\]
+            \[G(t_2,t_1) = \frac{\hbar}{m}\frac{1}{2\omega_0}\exp(-i\omega_0|t|)\tag{1.30}\]
             with $t=t_2-t_1$. It is an even function due to the fact that the ground state of a harmonic oscillator is even under time parity.</p>
 
 </aside></li>
   <li>Show that its Fourier transform $\hat{G}(\omega)$ can be written as
-        \[\hat{G}(\omega) = \lim_{\epsilon \to 0^+} \frac{\hbar}{m}\,\frac{i}{\omega^2 - \omega_0^2 + i\epsilon}\tag{29}\]
+        \[\hat{G}(\omega) = \lim_{\epsilon \to 0^+} \frac{\hbar}{m}\,\frac{i}{\omega^2 - \omega_0^2 + i\epsilon}\tag{1.31}\]
 
 <aside class="solution">
 <div class="solution__label">Solution.</div>
 
 <p>We can write the Fourier transform as
     \[\hat{G}(\omega) = \frac{\hbar}{m}\frac{1}{2\omega_0}
-        \int_{-\infty}^{\infty} dt\, e^{i\omega t}e^{-i\omega_0|t|}\tag{30}\]
+        \int_{-\infty}^{\infty} dt\, e^{i\omega t}e^{-i\omega_0|t|}\tag{1.32}\]
     We split the integral into $t&gt;0$ and $t&lt;0$ regions, introducing $\epsilon\to 0^+$ in each to ensure convergence:
     \[\begin{aligned}\hat{G}(\omega) 
         &amp;= \frac{\hbar}{m}\frac{1}{2\omega_0}\left[
            \int_0^\infty dt\, e^{i(\omega-\omega_0+i\epsilon)t} 
            + \int_{-\infty}^0 dt\, e^{i(\omega+\omega_0-i\epsilon)t}
-           \right]\end{aligned}\tag{44}\]
+           \right]\end{aligned}\tag{1.33}\]
     The $i\epsilon$ in the first integral ensures the integrand vanishes as $t\to+\infty$, and the $-i\epsilon$ in the second ensures it vanishes as $t\to-\infty$. Evaluating both Gaussian integrals exactly:
     \[\begin{aligned}\hat{G}(\omega) 
         &amp;= \frac{\hbar}{m}\frac{1}{2\omega_0}\left[
@@ -250,10 +250,10 @@ obtain its Fourier transform, when $\tau_\beta \to \infty$:
            - \frac{i}{\omega+\omega_0-i\epsilon}
            \right] \notag\\
         &amp;= \frac{\hbar}{m}\frac{1}{2\omega_0}\cdot
-           \frac{2i\omega_0}{\omega^2-\omega_0^2+i\epsilon}\end{aligned}\tag{45}\]
+           \frac{2i\omega_0}{\omega^2-\omega_0^2+i\epsilon}\end{aligned}\tag{1.34}\]
     where in the last step we absorbed the $\pm i\epsilon\omega_0$ cross terms into a single $i\epsilon$. This gives exactly
     \[\hat{G}(\omega) = \lim_{\epsilon\to 0^+}\frac{\hbar}{m}
-        \cdot\frac{i}{\omega^2 - \omega_0^2 + i\epsilon}\tag{31}\]
+        \cdot\frac{i}{\omega^2 - \omega_0^2 + i\epsilon}\tag{1.35}\]
     No approximation has been made — the $(\omega+\omega_0)$ factors cancel exactly rather than requiring any near-pole expansion.</p>
 
 </aside></li>
@@ -273,7 +273,7 @@ obtain its Fourier transform, when $\tau_\beta \to \infty$:
     periodic images:
     \[G_E(\tau;\beta) = \sum_{n=-\infty}^{\infty} G_E(\tau + n\tau_\beta)
         = \frac{\hbar}{m}\frac{1}{2\omega_0}
-        \sum_{n=-\infty}^{\infty} e^{-\omega_0|\tau + n\tau_\beta|}\tag{32}\]
+        \sum_{n=-\infty}^{\infty} e^{-\omega_0|\tau + n\tau_\beta|}\tag{1.36}\]
     To verify this equals the closed-form expression, restrict to $0\leq\tau\leq\tau_\beta$ 
     so that only the $n\leq 0$ terms contribute positively and $n&gt;0$ negatively:
     \[\begin{aligned}\sum_{n=-\infty}^{\infty} e^{-\omega_0|\tau+n\tau_\beta|}
@@ -284,21 +284,21 @@ obtain its Fourier transform, when $\tau_\beta \to \infty$:
         &amp;= \frac{e^{-\omega_0\tau}}{1-e^{-\omega_0\tau_\beta}}
          + \frac{e^{\omega_0\tau}\,e^{-\omega_0\tau_\beta}}{1-e^{-\omega_0\tau_\beta}} \notag\\
         &amp;= \frac{e^{-\omega_0\tau} + e^{\omega_0(\tau-\tau_\beta)}}{1-e^{-\omega_0\tau_\beta}}\notag\\
-         &amp;= \frac{2\cosh(\omega_0(\tau_\beta/2-\tau))}{2\sinh(\omega_0\tau_\beta/2)}\end{aligned}\tag{46}\]
+         &amp;= \frac{2\cosh(\omega_0(\tau_\beta/2-\tau))}{2\sinh(\omega_0\tau_\beta/2)}\end{aligned}\tag{1.37}\]
     Therefore:
     \[G_E(\tau;\beta) = \frac{\hbar}{m}\frac{1}{2\omega_0}
         \frac{\cosh\!\left(\omega_0(\tau_\beta/2-|\tau|)\right)}
-             {\sinh\!\left(\omega_0\tau_\beta/2\right)}\tag{33}\]
+             {\sinh\!\left(\omega_0\tau_\beta/2\right)}\tag{1.38}\]
     which is exactly the closed-form result, confirming the equivalence.</p>
 
 </aside></li>
   <li>Using the Poisson summation formula
-        \[\sum_{n=-\infty}^{\infty} f(x + an) = \frac{1}{a}\sum_{k=-\infty}^{\infty} e^{2\pi i k x/a}\,\hat{f}(2\pi k/a)\tag{34}\]
+        \[\sum_{n=-\infty}^{\infty} f(x + an) = \frac{1}{a}\sum_{k=-\infty}^{\infty} e^{2\pi i k x/a}\,\hat{f}(2\pi k/a)\tag{1.39}\]
         show that you can rewrite $G_E(\tau;\beta)$ as a sum over frequencies
         \[G_E(\tau;\beta) = \frac{\hbar}{m}\,\frac{1}{\tau_\beta}
-            \sum_{k \in \mathbb{Z}} \frac{e^{i\bar{\omega}_k \tau}}{\omega_k^2 + \omega_0^2}\tag{35}\]
+            \sum_{k \in \mathbb{Z}} \frac{e^{i\bar{\omega}_k \tau}}{\omega_k^2 + \omega_0^2}\tag{1.40}\]
         with $\bar{\omega}_k = -i\omega_k$ given by
-        \[\bar{\omega}_k = \frac{2\pi}{\tau_\beta}\,k, \qquad k \in \mathbb{Z}\tag{36}\]
+        \[\bar{\omega}_k = \frac{2\pi}{\tau_\beta}\,k, \qquad k \in \mathbb{Z}\tag{1.41}\]
 
 <aside class="solution">
 <div class="solution__label">Solution.</div>
@@ -313,7 +313,7 @@ obtain its Fourier transform, when $\tau_\beta \to \infty$:
            \sum_{k\in\mathbb{Z}} e^{2\pi ik\tau/\tau_\beta}
            \frac{2\omega_0}{\omega_0^2 + (2\pi k/\tau_\beta)^2} \notag\\
         &amp;= \frac{\hbar}{m}\frac{1}{\tau_\beta}
-           \sum_{k\in\mathbb{Z}}\frac{e^{i\bar{\omega}_k\tau}}{\omega_0^2+\bar{\omega}_k^2}\end{aligned}\tag{47}\]
+           \sum_{k\in\mathbb{Z}}\frac{e^{i\bar{\omega}_k\tau}}{\omega_0^2+\bar{\omega}_k^2}\end{aligned}\tag{1.42}\]
     Identifying $\bar{\omega}_k = 2\pi k/\tau_\beta$ and writing 
     $\bar{\omega}_k^2 = -\omega_k^2$ gives the result.</p>
 
@@ -329,7 +329,7 @@ obtain its Fourier transform, when $\tau_\beta \to \infty$:
 </ol>
 
 <p>Consider the Green's function at real time
-    \[G(t_1, t_2; \beta) = \mathrm{Tr}\!\left(\rho(\beta)\,T(\mathbf{Q}(t_1)\mathbf{Q}(t_2))\right)\tag{37}\]</p>
+    \[G(t_1, t_2; \beta) = \mathrm{Tr}\!\left(\rho(\beta)\,T(\mathbf{Q}(t_1)\mathbf{Q}(t_2))\right)\tag{1.43}\]</p>
 
 <ol>
   <li>Express $G(t_1, t_2;\beta)$ explicitly as a function of the time $t = t_2 - t_1$ and of the temperature $T$ or the Boltzmann factor $\beta$.
@@ -340,7 +340,7 @@ obtain its Fourier transform, when $\tau_\beta \to \infty$:
 <p>Performing a Wick rotation, we find
             \[G(t;\beta) = \frac{\hbar}{m}\,\frac{i}{2\omega_0}
             \frac{\cos\!\left(\omega_0(\hbar\beta/2 - |t|)\right)}{\sin\!\left(\omega_0\hbar\beta/2\right)},
-            \qquad 0 \leq t \leq \hbar\beta.\tag{38}\]</p>
+            \qquad 0 \leq t \leq \hbar\beta.\tag{1.44}\]</p>
 
 </aside></li>
   <li>Express its Fourier transform $\hat{G}(\omega;\beta)$ as a sum over Matsubara frequencies.
@@ -350,15 +350,15 @@ obtain its Fourier transform, when $\tau_\beta \to \infty$:
 
 <p>Using the result from part (i):
     \[G(t;\beta) = \frac{1}{m\beta}\sum_{k\in\mathbb{Z}}
-        \frac{e^{i\omega_k t}}{\omega_0^2-\omega_k^2}\tag{39}\]
+        \frac{e^{i\omega_k t}}{\omega_0^2-\omega_k^2}\tag{1.45}\]
     Taking the Fourier transform term by term:
     \[\hat{G}(\omega;\beta) = \int_{-\infty}^{\infty} dt\, e^{i\omega t}\, G(t;\beta)
         = \frac{1}{m\beta}\sum_{k\in\mathbb{Z}}\frac{1}{\omega_0^2-\omega_k^2}
-        \int_{-\infty}^{\infty} dt\, e^{i(\omega+\omega_k)t}\tag{40}\]
+        \int_{-\infty}^{\infty} dt\, e^{i(\omega+\omega_k)t}\tag{1.46}\]
     Using $\int_{-\infty}^{\infty} dt\, e^{i(\omega+\omega_k)t} = 2\pi\delta(\omega+\omega_k)$
     as a formal identity in the sense of analytic continuation:
     \[\hat{G}(\omega;\beta) = \frac{2\pi}{m\beta}
-        \sum_{k\in\mathbb{Z}}\frac{\delta(\omega+\omega_k)}{\omega_0^2-\omega_k^2}\tag{41}\]
+        \sum_{k\in\mathbb{Z}}\frac{\delta(\omega+\omega_k)}{\omega_0^2-\omega_k^2}\tag{1.47}\]
     which is a sum of poles located at $\omega = -\omega_k$ in the complex 
     frequency plane, i.e.\ at the Matsubara frequencies.</p>
 

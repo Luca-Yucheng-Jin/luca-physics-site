@@ -105,7 +105,7 @@ window.MathJax = {
 
 <p>A group is a set of elements $\{g_i\}$ and a rule $g_i \times g_j = g_k$ which tells how each set of elements is multiplied to get a third. More precisely, the rule needs to be associative, and there needs to be an identity group element and inverses. A representation is a particular embedding of these $g_i$ into operators that act on a vector space. Any group has the trivial representation $r: g_i \rightarrow \mathds{1}$. A representation in which each group element gets into its own matrix is called a faithful representation.
 Recall Lorentz group preserves the Minkowski metric
-\[\Lambda^Tg\Lambda = g.\tag{1}\]
+\[\Lambda^Tg\Lambda = g.\tag{1.1}\]
 The matrices in this equation are in 4-vector representation. Examples of Lorentz transformations are rotations around the $x$, $y$ or $z$ axes:</p>
 
 <p>\[\begin{pmatrix}
@@ -155,10 +155,10 @@ The matrices in this equation are in 4-vector representation. Examples of Lorent
 <p>These matrices give an embedding of elements of the Lorentz group into a set of matrices. That is, they describe one particular representation of the Lorentz group (the 4-vector representation). We would now like to find all the representations.</p>
 
 <p>To extract the group away from its representation, it is easiest to look at the infinitesimal transformations. In the 4-vector representation:
-\[\delta X_0 = \beta_i X_i,\tag{2}\]
-\[\delta X_i = \beta_i X_i - \varepsilon_{ijk}\theta_j X_k.\tag{3}\]
+\[\delta X_0 = \beta_i X_i,\tag{1.2}\]
+\[\delta X_i = \beta_i X_i - \varepsilon_{ijk}\theta_j X_k.\tag{1.3}\]
 Generally, the infinitesimal transformations can be written as 
-\[\delta X_\mu = i\left[ \sum_{i=1}^3\theta_i(J_i)_{\mu\nu} + \beta_i(K_i)_{\mu\nu} \right]X_\nu,\tag{4}\]
+\[\delta X_\mu = i\left[ \sum_{i=1}^3\theta_i(J_i)_{\mu\nu} + \beta_i(K_i)_{\mu\nu} \right]X_\nu,\tag{1.4}\]
 where</p>
 
 <p>\[J_1 = i\begin{pmatrix}
@@ -199,7 +199,7 @@ K_3 = i\begin{pmatrix}
 -1 &amp; 0 &amp; 0 &amp; 0
 \end{pmatrix}.\]
 These matrices are known as the generators of the Lorentz group in the 4-vector basis. They generate the group in the sense that any element of the group can be written uniquely as
-\[\Lambda = \exp(i\theta_i J_i + i\beta_i K_i)\tag{5}\]</p>
+\[\Lambda = \exp(i\theta_i J_i + i\beta_i K_i)\tag{1.5}\]</p>
 
 <p>up to some discrete transformations. The advantage of writing the group elements this way is that it is completely general. In any finite-dimensional representation the group elements can be written as an exponential of matrices.</p>
 
@@ -210,9 +210,9 @@ These matrices are known as the generators of the Lorentz group in the 4-vector 
 <p>Lie groups also have the structure of a differentiable manifold. For most applications of quantum field theory, the manifold is totally irrelevant, but it is occasionally important. For example, topological properties of the 3D rotation group SO(3) will help us understand the spin-statistics theorem. We sometimes distinguish the proper orthochronous Lorentz group, which is the elements of the Lorentz group continuously connected to the identity, from the full Lorentz group, which includes time reversal ($T$) and parity reversal ($P$).</p>
 
 <p>In a Lie algebra, the multiplication rule is defined as the Lie bracket. With matrix representations, this Lie bracket is just an ordinary commutator. Since any element of the Lie algebra can be represented as a linear combination of its generators. For the Lorentz group, these commutation relations can be calculated with any representation, including the 4-vector representation. Thus,
-\[[J_i, J_j] = i \epsilon_{ijk}J_k,\tag{6}\]
-\[[J_i, K_j] = i \epsilon_{ijk}K_k,\tag{7}\]
-\[[K_i, K_j] = -i \epsilon_{ijk}J_k.\tag{8}\]
+\[[J_i, J_j] = i \epsilon_{ijk}J_k,\tag{1.6}\]
+\[[J_i, K_j] = i \epsilon_{ijk}K_k,\tag{1.7}\]
+\[[K_i, K_j] = -i \epsilon_{ijk}J_k.\tag{1.8}\]
 These commutation relations define the Lorentz algebra, so(1,3). Notice that $[J_i, J_j] = i\epsilon_{ijk}J_k$ is the algebra for rotations, SO(3), and in fact the $J_i$ generate the 3D rotation subgroup of the Lorentz group.</p>
 
 <p>These commutation relations define the Lie algebra of the Lorentz group. Although these commutation relations were derived using Eq. (10.14) they must hold for any representation; for example in the rank-2 tensor representation $J_i$ and $K_i$ can be written as 16-dimensional matrices. It is sometimes useful to use a different form for these commutation relations. We can index the generators by $V^{\mu \nu}$ instead of $J_i$ and $K_i$:</p>
@@ -223,15 +223,15 @@ These commutation relations define the Lorentz algebra, so(1,3). Notice that $[J
 -K_1 &amp; 0 &amp; J_3 &amp; -J_2 \\
 -K_2 &amp; -J_3 &amp; 0 &amp; J_1 \\
 -K_3 &amp; J_2 &amp; -J_1 &amp; 0
-\end{pmatrix}.\tag{9}\]</p>
+\end{pmatrix}.\tag{1.9}\]</p>
 
 <p>Here each $V^{\mu \nu}$ is itself a $4 \times 4$ matrix, for example, $V^{23} = J_1$. A Lorentz transformation can be written in terms of $V^{\mu \nu}$ as $\Lambda_V = \exp(i\theta_{\mu \nu} V^{\mu \nu})$ for six numbers $\theta_{\mu \nu}$. These $V^{\mu \nu}$ satisfy</p>
 
-<p>\[[V^{\mu \nu}, V^{\rho \sigma}] = i(g^{\nu \rho} V^{\mu \sigma} - g^{\mu \rho} V^{\nu \sigma} - g^{\nu \sigma} V^{\mu \rho} + g^{\mu \sigma} V^{\nu \rho}).\tag{10}\]</p>
+<p>\[[V^{\mu \nu}, V^{\rho \sigma}] = i(g^{\nu \rho} V^{\mu \sigma} - g^{\mu \rho} V^{\nu \sigma} - g^{\nu \sigma} V^{\mu \rho} + g^{\mu \sigma} V^{\nu \rho}).\tag{1.10}\]</p>
 
 <p>By definition, the generators in any other representation must satisfy these same relations. For example, another representation of the Lorentz group is given by</p>
 
-<p>\[L^{\mu \nu} = i(x^{\mu} \partial^{\nu} - x^{\nu} \partial^{\mu}).\tag{11}\]</p>
+<p>\[L^{\mu \nu} = i(x^{\mu} \partial^{\nu} - x^{\nu} \partial^{\mu}).\tag{1.11}\]</p>
 
 <p>This is an infinite-dimensional representation which acts on functions rather than a finite-dimensional vector space. These are the classical generators of angular momentum generalised to include time. You can check that $L^{\mu \nu}$ satisfies the commutation relations of the Lorentz algebra.</p>
 
@@ -240,13 +240,13 @@ These commutation relations define the Lorentz algebra, so(1,3). Notice that $[J
 <h4>General Representations of the Lorentz Group</h4>
 
 <p>Remember, the algebraic properties of the Lorentz group are independent of representations. Now, we can take linear combinations of $J_i$ and $K_i$ to construct
-\[J_i^+ \equiv \frac{1}{2}(J_i + iK_i), \quad J_i^- \equiv \frac{1}{2}(J_i - iK_i).\tag{12}\]
+\[J_i^+ \equiv \frac{1}{2}(J_i + iK_i), \quad J_i^- \equiv \frac{1}{2}(J_i - iK_i).\tag{1.12}\]
 These operators satisfy
-\[[J_i^+,J_j^+ ] = i\epsilon_{ijk}J_k^+,\tag{13}\]
-\[[J_i^-,J_j^-] = i\epsilon_{ijk}J_k^-,\tag{14}\]
-\[[J_i^+,J_j^-] = 0.\tag{15}\]
+\[[J_i^+,J_j^+ ] = i\epsilon_{ijk}J_k^+,\tag{1.13}\]
+\[[J_i^-,J_j^-] = i\epsilon_{ijk}J_k^-,\tag{1.14}\]
+\[[J_i^+,J_j^-] = 0.\tag{1.15}\]
 These algebras are the 3D rotation algebra, so(3) = sl(2,$\mathbb{R}$) = so(1,1) = su(2) (it has multiple names because these Lie groups share the same algebra). Also, these two subalgebras commute. Therefore, we have shown that
-\[\text{so(1,3) = su(2)}\oplus\text{su(2)}.\tag{16}\]
+\[\text{so(1,3) = su(2)}\oplus\text{su(2)}.\tag{1.16}\]
 Thus, representations of su(2)$\oplus$su(2) will determine representations of the Lorentz group.</p>
 
 <p>We should be very familiar with su(2). In quantum mechanics, the Pauli matrices satisfy exactly su(2), which generate the 3D rotation group SO(3). Each irreducible representation of su(2) is characterised by a half-integer $j$. The representation acts on a vector space with $2j+1$ basis elements.</p>
@@ -254,7 +254,7 @@ Thus, representations of su(2)$\oplus$su(2) will determine representations of th
 <aside class="callout">
 
 <p>Now, let us try to construct the finite-dimensional irreducible representations of SU(2). By definition, such a representation is a set of three $n \times n$ matrices $\tau_1, \tau_2$ and $\tau_3$ satisfying the algebra of the Pauli matrices $[\tau_i, \tau_j] = i\varepsilon_{ijk}\tau_k$. Similarly, we can define the linear combination
-    \[\tau ^\pm \equiv \tau^1 \pm i \tau^2.\tag{17}\]
+    \[\tau ^\pm \equiv \tau^1 \pm i \tau^2.\tag{1.17}\]
     In any representation we can diagonalize $\tau_3$. Its eigenvector are $n$ complex vectors $V_j$ with $\tau_3 V_j = \lambda_j V_j$. We can write
     \[\begin{aligned}
         \tau^3 \tau^\pm V_j &amp;= \left([\tau^3, \tau^\pm] + \tau^\pm \tau^3\right)V_j\\
@@ -262,15 +262,15 @@ Thus, representations of su(2)$\oplus$su(2) will determine representations of th
         &amp;= \tau^\pm(\tau^3 \pm 1) V_j\\
         &amp;= (\lambda_j \pm 1) (\tau^\pm V_j),
         
-    \end{aligned}\tag{18}\]
+    \end{aligned}\tag{1.18}\]
     which says that $\tau^\pm V_j$ are eigenvectors of $\tau^3$ with eigenvalue $\lambda_j \pm 1$, except when $\tau^\pm V_j=0$.</p>
 
 <p>We can also prove that there must be one eigenstate $V_\text{max}$ of $\tau^3$ satisfying $\tau^+V_\text{max} = 0$. Similarly, there will be one eigenstate $V_\text{min}$ of  $\tau^3$ satisfying $\tau^-V_\text{min} = 0$, The prove goes as following. We can rank $V_j$ from the one with the smallest eigenvalue to the one with the biggest, and thus we have a sequence of eigenvectors:
-    \[V_\text{min}, V_2, V_3, \ldots, V_\text{max}.\tag{19}\]
-    From (18), we know that we can act $\tau^+$ on $V_j$ to take it to $V_{j+1}$. However, this cannot go forever, since there are only a finite number of $V_j$. Therefore, there must be a $V_\text{max}$ such that $\tau^+ V_\text{max}=0$. Similarly, there must exist a $V_\text{min}$ such that $\tau^-V_\text{min} = 0$.</p>
+    \[V_\text{min}, V_2, V_3, \ldots, V_\text{max}.\tag{1.19}\]
+    From (1.18), we know that we can act $\tau^+$ on $V_j$ to take it to $V_{j+1}$. However, this cannot go forever, since there are only a finite number of $V_j$. Therefore, there must be a $V_\text{max}$ such that $\tau^+ V_\text{max}=0$. Similarly, there must exist a $V_\text{min}$ such that $\tau^-V_\text{min} = 0$.</p>
 
 <p>The eigenvalue $\lambda_\text{max}=j$ is known as the spin. There exist an $N$ such that $(\tau^-)^N V_\text{max} = V_\text{min}$, and thus $(\tau^-)^{N+1} V_\text{max} = 0$. Hence, $\tau^+(\tau^-)^{N+1} V_\text{max} = 0$. Now, let us consider the general form
-    \[\tau^+(\tau^-)^{m} V_\text{max},\tag{20}\]
+    \[\tau^+(\tau^-)^{m} V_\text{max},\tag{1.20}\]
     where $m$ is an integer. Using the commutation relations, we have
     \[\begin{aligned}
             \tau^+(\tau^-)^{m} V_\text{max} &amp;= \tau^-\tau^+(\tau^-)^{m-1} V_\text{max} + [\tau^+,\tau^-](\tau^-)^{m-1} V_\text{max}\\
@@ -283,11 +283,11 @@ Thus, representations of su(2)$\oplus$su(2) will determine representations of th
             &amp; \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad + (j - 1) + j](\tau^-)^{m-1}V_\text{max}\\
             &amp; = 2\left[mj - \frac{m(m-1)}{2}\right]V_\text{max}\\
             &amp;= m(2j-m+1)V_\text{max}.
-        \end{aligned}\tag{21}\]
+        \end{aligned}\tag{1.21}\]
     Therefore, we have
-    \[(\tau^-)^{N+1} V_\text{max} = (N+1)(2j-N)V_\text{max} = 0,\tag{22}\]
+    \[(\tau^-)^{N+1} V_\text{max} = (N+1)(2j-N)V_\text{max} = 0,\tag{1.22}\]
     which implies that
-    \[N=2j.\tag{23}\]
+    \[N=2j.\tag{1.23}\]
     Thus, we have $n= N+1 = 2j+1$. This says that the representation lives in a vector space with $2j+1$ basis elements, which is exactly what we set out to prove. Since $n$ is an integer, $j$ must be a half-integer.</p>
 
 </aside>
@@ -303,40 +303,40 @@ Thus, representations of su(2)$\oplus$su(2) will determine representations of th
 <h2 id="spinor-representations">Spinor Representations</h2>
 
 <p>There are two complex $J=\frac{1}{2}$ representations: $(\frac{1}{2},0)$ and $(0, \frac{1}{2})$. The vector space they act on has $2J+1=2$ degrees of freedom. Thus, we need to find $2\times2$ matrices that satisfy
-\[[J_i^+,J_j^+ ] = i\epsilon_{ijk}J_k^+,\tag{1}\]
-\[[J_i^-,J_j^-] = i\epsilon_{ijk}J_k^-,\tag{2}\]
-\[[J_i^+,J_j^-] = 0.\tag{3}\]</p>
+\[[J_i^+,J_j^+ ] = i\epsilon_{ijk}J_k^+,\tag{2.1}\]
+\[[J_i^-,J_j^-] = i\epsilon_{ijk}J_k^-,\tag{2.2}\]
+\[[J_i^+,J_j^-] = 0.\tag{2.3}\]</p>
 
 <p>Fortunately, we already knew such matrices, the Pauli matrices $\sigma_i$. The Pauli matrices have the commutation relation $[\sigma_i, \sigma_j] = 2i\varepsilon_{ijk}\sigma_k$. Hence, we have
-\[\left[ \frac{\sigma_i}{2}, \frac{\sigma_j}{2}\right] = i\varepsilon_{ijk}\frac{\sigma_k}{2},\tag{4}\]
+\[\left[ \frac{\sigma_i}{2}, \frac{\sigma_j}{2}\right] = i\varepsilon_{ijk}\frac{\sigma_k}{2},\tag{2.4}\]
 which is the SO(3) algebra. Another useful identity is
-\[\{\sigma_i, \sigma_j\} =  2\delta_{ij}.\tag{5}\]
+\[\{\sigma_i, \sigma_j\} =  2\delta_{ij}.\tag{2.5}\]
 To construct the $(\frac{1}{2},0)$ representation, we can set $J^-_i=\frac{\sigma_i}{2}$, which generates the $\frac{1}{2}$. For the 0, we can trivially set $J^+_i = 0$. So the $(\frac{1}{2},0)$ representation is
-\[\vec{J}^- = \frac{\vec{\sigma}}{2},\quad  \vec{J}^+ = 0.\tag{6}\]
+\[\vec{J}^- = \frac{\vec{\sigma}}{2},\quad  \vec{J}^+ = 0.\tag{2.6}\]
 Similarly, the $(0, \frac{1}{2})$ representation is given by
-\[\vec{J}^- = 0 ,\quad  \vec{J}^+ = \frac{\vec{\sigma}}{2}.\tag{7}\]
+\[\vec{J}^- = 0 ,\quad  \vec{J}^+ = \frac{\vec{\sigma}}{2}.\tag{2.7}\]
 So what would the Lorentz transformation look like? Recall, $\vec{J} = \vec{J}^- + \vec{J}^+$ and $\vec{K} = i(\vec{K}^- - \vec{K}^+)$. Thus, we find
-\[\left(\frac{1}{2}, 0\right): \quad \vec{J} = \frac{\vec{\sigma}}{2}, \quad\vec{K} = i\frac{\vec{\sigma}}{2},\tag{8}\]
-\[\left(0,\frac{1}{2}\right): \quad \vec{J} = \frac{\vec{\sigma}}{2}, \quad\vec{K} = -i\frac{\vec{\sigma}}{2}.\tag{9}\]
+\[\left(\frac{1}{2}, 0\right): \quad \vec{J} = \frac{\vec{\sigma}}{2}, \quad\vec{K} = i\frac{\vec{\sigma}}{2},\tag{2.8}\]
+\[\left(0,\frac{1}{2}\right): \quad \vec{J} = \frac{\vec{\sigma}}{2}, \quad\vec{K} = -i\frac{\vec{\sigma}}{2}.\tag{2.9}\]
 Since the Pauli matrices are Hermitian, $\vec{\sigma}= \vec{\sigma}^\dagger$, the rotations must also be Hermitian, and the boosts are anti-Hermitian, $\vec{K}= -\vec{K}^\dagger$.</p>
 
 <p>The elements of vector space on which the spin-$\frac{1}{2}$ representation acts on is called the spinors. The $(0,\frac{1}{2})$ is known as the right-handed Weyl spinors and often denoted by $\psi_R$, while the $(\frac{1}{2},0)$ is known as the left-handed Weyl spinors and often denoted by $\psi_L$. Under rotation angles $\theta_j$ and boost angles $\beta_j$, these spinors transform as
-\[\psi_R \rightarrow e^{\frac{1}{2}(i\theta_j\sigma_j + \beta_j\sigma_j)}\psi_R = \left( 1 + \frac{i}{2}\theta_j\sigma_j + \frac{1}{2}\beta_j \sigma_j + \cdots   \right)\psi_R,\tag{10}\]
-\[\psi_L \rightarrow e^{\frac{1}{2}(i\theta_j\sigma_j - \beta_j\sigma_j)}\psi_L = \left( 1 + \frac{i}{2}\theta_j\sigma_j - \frac{1}{2}\beta_j \sigma_j + \cdots   \right)\psi_L.\tag{11}\]
+\[\psi_R \rightarrow e^{\frac{1}{2}(i\theta_j\sigma_j + \beta_j\sigma_j)}\psi_R = \left( 1 + \frac{i}{2}\theta_j\sigma_j + \frac{1}{2}\beta_j \sigma_j + \cdots   \right)\psi_R,\tag{2.10}\]
+\[\psi_L \rightarrow e^{\frac{1}{2}(i\theta_j\sigma_j - \beta_j\sigma_j)}\psi_L = \left( 1 + \frac{i}{2}\theta_j\sigma_j - \frac{1}{2}\beta_j \sigma_j + \cdots   \right)\psi_L.\tag{2.11}\]
 For an infinitesimal transformation, we find
-\[\delta\psi_R = \frac{1}{2}(i\theta_j + \beta_j)\sigma_j\psi_R,\tag{12}\]
-\[\delta\psi_L = \frac{1}{2}(i\theta_j - \beta_j)\sigma_j\psi_L.\tag{13}\]
+\[\delta\psi_R = \frac{1}{2}(i\theta_j + \beta_j)\sigma_j\psi_R,\tag{2.12}\]
+\[\delta\psi_L = \frac{1}{2}(i\theta_j - \beta_j)\sigma_j\psi_L.\tag{2.13}\]
 Similarly, 
 \[\delta\psi_R^\dagger = \frac{1}{2}(-i\theta_j + \beta_j)\psi_R^\dagger\sigma_j,
-    \tag{14}\]
+    \tag{2.14}\]
 \[\delta\psi_L^\dagger = \frac{1}{2}(-i\theta_j - \beta_j)\psi_L^\dagger\sigma_j.
-    \tag{15}\]
+    \tag{2.15}\]
 Note that we have non-trivial action for all the Lorentz generators, so these are the faithful irreducible representations of the Lorentz group.</p>
 
 <h4>Unitary Representations</h4>
 
 <p>Now, let us check if the 2D representations are unitary or not? Unitary means $\Lambda^\dagger\Lambda=1$, which is the necessary condition for the matrix elements to be Lorentz-invariant:
-\[\braket{\psi}{\psi} \rightarrow \bra{\psi}\Lambda^\dagger \Lambda\ket{\psi}.\tag{16}\]
+\[\braket{\psi}{\psi} \rightarrow \bra{\psi}\Lambda^\dagger \Lambda\ket{\psi}.\tag{2.16}\]
 SU(2) is the special unitary group, all of its representations are unitary. Since the group elements are given by $e^{i\Lambda}$, unitary requires $\Lambda$ to be Hermitian. Thus, the generators for the SU(2) $\times$ SU(2) decomposition, $\vec{J}_\pm$, are Hermitian, which means $\exp(i\theta_j^+J^+_j + i\theta_j^-J^-_j)$ is unitary for $\theta^\pm_i \in \mathbb{R}$. However, this does not imply that the corresponding Lorentz group are unitary. The rotation angles $\theta_i$ and boost angles $\beta_i$, which are real numbers, are related to the angles for the $\vec{J^\pm}$ generator of SU(2) $\times$ SU(2) by $\theta^\pm_j = \theta_j  \mp i\beta_j$. So for a boost, the $J_+$ and $J_-$ generators get multiplied by imaginary angles, which makes the transformation anti-unitary. Thus, none of the representations of the Lorentz group generated this way will be unitary and therefore, there are no finite-dimensional unitary representations of the Lorentz group.</p>
 
 <p>To construct a unitary field theory, we need unitary representations of the Poincaré group, which are infinite dimensional; the corresponding representations of the Lorentz subgroup of the Poincaré group are also infinite dimensional. We will construct an infinite-dimensional representation by having the basis depend on the momentum $p^\mu$. For fixed momentum, say $p^\mu = (m, 0, 0, 0)$ in the massive case, or $p^\mu = (E, 0, 0, E)$ in the massless case, the group reduces to the appropriate little group, $\mathrm{SO}(3)$ or $\mathrm{ISO}(2)$ respectively. These little groups do have unitary representations. Implementing this procedure for spin 1, we were led uniquely to Lagrangians with kinetic terms of the form $-\frac{1}{4} F_{\mu\nu}^2$, and gauge invariance and charge conservation if $m = 0$. We will now see how to construct Lorentz-invariant Lagrangians that describe unitary theories with spinors.</p>
@@ -347,74 +347,74 @@ SU(2) is the special unitary group, all of its representations are unitary. Sinc
 \[\left(\frac{1}{2}, 0\right): \psi_L(x) = \begin{pmatrix}
          \psi_1(x)\\
          \psi_2(x)
-     \end{pmatrix}\tag{17}\]
+     \end{pmatrix}\tag{2.17}\]
 or
 \[\left(0, \frac{1}{2}\right): \psi_R(x) = \begin{pmatrix}
          \psi_1(x)\\
          \psi_2(x)
-     \end{pmatrix}.\tag{18}\]</p>
+     \end{pmatrix}.\tag{2.18}\]</p>
 
 <p>Similarly to the spin-1 case, we would first like to write down a Lorentz-invariant Lagrangian with the correct number of degrees of freedom, which is two. A first guess would be
-\[\mathcal{L} = \psi_R^\dagger\square\psi_R + m^2 \psi_R^\dagger\psi_R.\tag{19}\]
-Under an infinitesimal Lorentz transformation, (14) and (15), the second term becomes
+\[\mathcal{L} = \psi_R^\dagger\square\psi_R + m^2 \psi_R^\dagger\psi_R.\tag{2.19}\]
+Under an infinitesimal Lorentz transformation, (2.14) and (2.15), the second term becomes
 \[\begin{aligned}
         \delta(\psi_R^\dagger\psi_R) &amp;= \frac{1}{2}(-i\theta_j + \beta_j)\psi_R^\dagger\sigma_j\psi_R + \frac{1}{2}\psi_R^\dagger (i\theta_j + \beta_j)\sigma_j\psi_R\\
         &amp;= \beta_j\psi_R^\dagger\sigma_j\psi_R \neq 0,
-    \end{aligned}\tag{20}\]
+    \end{aligned}\tag{2.20}\]
 which is clearly not Lorentz-invariant. 
 We could also try the term $\psi_L^\dagger\psi_R$. Under an infinitesimal transformation, it gives
 \[\begin{aligned}
         \delta(\psi_L^\dagger\psi_R) &amp;= \frac{1}{2}(-i\theta_j - \beta_j)\psi_L^\dagger\sigma_j\psi_R + \frac{1}{2}\psi_L^\dagger (i\theta_j + \beta_j)\sigma_j\psi_R\\
         &amp;= 0,
-    \end{aligned}\tag{21}\]
+    \end{aligned}\tag{2.21}\]
 which is great! To get a real Lagrangian we need to add the Hermitian conjugate, which is 
-\[\mathcal{L}_\text{Dirac mass} = m^2(\psi_L^\dagger\psi_R + \psi_R^\dagger\psi_L).\tag{22}\]
+\[\mathcal{L}_\text{Dirac mass} = m^2(\psi_L^\dagger\psi_R + \psi_R^\dagger\psi_L).\tag{2.22}\]
 This term is known as the Dirac mass. However, this is not enough; we still need kinetic terms to get dynamics out of the Lagrangian. Let us look at $\psi_R^\dagger\sigma_i\psi_R$, which transforms as
 \[\begin{aligned}
         \delta(\psi_R^\dagger\sigma_i\psi_R) &amp;= \frac{1}{2}(-i\theta_j + \beta_j)\psi_R^\dagger\sigma_j\sigma_i\psi_R + \frac{1}{2}\psi_R^\dagger (i\theta_j + \beta_j)\sigma_i\sigma_j\psi_R\\
         &amp;= \frac{i\theta_j}{2}\psi_R^\dagger(\sigma_i\sigma_j-\sigma_j\sigma_i)\psi_R + \frac{\beta_j}{2}\psi_R^\dagger(\sigma_i\sigma_j+\sigma_j\sigma_i)\psi_R\\
         &amp;= \beta_i \psi_R^\dagger\psi_R - \theta_j\varepsilon_{ijk}\psi_R^\dagger\sigma_k\psi_R.
-    \end{aligned}\tag{23}\]
+    \end{aligned}\tag{2.23}\]
 Thus, we have found that
-\[\delta(\psi_R^\dagger\psi_R,\psi_R^\dagger\sigma_i\psi_R) = (\beta_i\psi_R^\dagger\sigma_j\psi_R, \beta_i \psi_R^\dagger\psi_R - \theta_j\varepsilon_{ijk}\psi_R^\dagger\sigma_k\psi_R)\tag{24}\]
+\[\delta(\psi_R^\dagger\psi_R,\psi_R^\dagger\sigma_i\psi_R) = (\beta_i\psi_R^\dagger\sigma_j\psi_R, \beta_i \psi_R^\dagger\psi_R - \theta_j\varepsilon_{ijk}\psi_R^\dagger\sigma_k\psi_R)\tag{2.24}\]
 transforms exactly like a 4-vector:
-\[\delta(V_0, V_i) = (\beta_i V_i, \beta_i V_0 - \varepsilon_{ijk}\theta_j V_k).\tag{25}\]
+\[\delta(V_0, V_i) = (\beta_i V_i, \beta_i V_0 - \varepsilon_{ijk}\theta_j V_k).\tag{2.25}\]
 Therefore, 
-\[\partial_\mu (\psi_R^\dagger\psi_R,\psi_R^\dagger\vec{\sigma}\psi_R)_\mu = \partial_t(\psi_R^\dagger\psi_R) + \partial_j(\psi_R^\dagger\sigma_j\psi_R)\tag{26}\]
+\[\partial_\mu (\psi_R^\dagger\psi_R,\psi_R^\dagger\vec{\sigma}\psi_R)_\mu = \partial_t(\psi_R^\dagger\psi_R) + \partial_j(\psi_R^\dagger\sigma_j\psi_R)\tag{2.26}\]
 is Lorentz invariant. However, it is a total derivative that does not contribute to the action. Instead, we can write down 
-\[\psi_R^\dagger\partial_t\psi_R + \psi_R^\dagger\partial_j\sigma_j\psi_R,\tag{27}\]
+\[\psi_R^\dagger\partial_t\psi_R + \psi_R^\dagger\partial_j\sigma_j\psi_R,\tag{2.27}\]
 which is also Lorentz invariant.
 Similarly, we can write another Lorentz-invariance term with the left-handed Weyl spinor, $\psi_L$:
-\[\psi_L^\dagger\partial_t\psi_L - \psi_L^\dagger\partial_j\sigma_j\psi_L.\tag{28}\]
+\[\psi_L^\dagger\partial_t\psi_L - \psi_L^\dagger\partial_j\sigma_j\psi_L.\tag{2.28}\]
 Defining
-\[\sigma^{\mu} \equiv (\mathds{1}, \vec{\sigma}), \quad \bar{\sigma}^{\mu} \equiv (\mathds{1}, -\vec{\sigma}),\tag{29}\]
+\[\sigma^{\mu} \equiv (\mathds{1}, \vec{\sigma}), \quad \bar{\sigma}^{\mu} \equiv (\mathds{1}, -\vec{\sigma}),\tag{2.29}\]
 we can write all the Lorentz-invariant terms we have found as
-\[\mathcal{L} = i\psi_{R}^{\dagger}\sigma^{\mu}\partial_{\mu}\psi_{R} + i\psi_{L}^{\dagger}\bar{\sigma}^{\mu}\partial_{\mu}\psi_{L} - m(\psi_{R}^{\dagger}\psi_{L} + \psi_{L}^{\dagger}\psi_{R}).\tag{30}\]
+\[\mathcal{L} = i\psi_{R}^{\dagger}\sigma^{\mu}\partial_{\mu}\psi_{R} + i\psi_{L}^{\dagger}\bar{\sigma}^{\mu}\partial_{\mu}\psi_{L} - m(\psi_{R}^{\dagger}\psi_{L} + \psi_{L}^{\dagger}\psi_{R}).\tag{2.30}\]
 We added a factor of $i$ in the kinetic term to make the Lagrangian Hermitian:
-\[(i\psi_{R}^{\dagger}\sigma^{\mu}\partial_{\mu}\psi_{R})^{\dagger} = -i(\partial_{\mu}\psi_{R}^{\dagger})\sigma^{\mu}\psi_{R} = i\psi_{R}^{\dagger}\sigma^{\mu}\partial_{\mu}\psi_{R},\tag{31}\]
+\[(i\psi_{R}^{\dagger}\sigma^{\mu}\partial_{\mu}\psi_{R})^{\dagger} = -i(\partial_{\mu}\psi_{R}^{\dagger})\sigma^{\mu}\psi_{R} = i\psi_{R}^{\dagger}\sigma^{\mu}\partial_{\mu}\psi_{R},\tag{2.31}\]
 where we have used $\sigma_{\mu}^{\dagger} = \sigma_{\mu}$ and integrated by parts.</p>
 
 <p>There is an even shorter-hand way to write this. Let us combine the two spinors into a four-component object known as a Dirac spinor:
 \[\psi = \begin{pmatrix}
 \psi_{L} \\
 \psi_{R}
-\end{pmatrix}.\tag{32}\]
+\end{pmatrix}.\tag{2.32}\]
 If we also define  
-\[\bar{\psi} = \left( \psi_R^\dagger, \psi_L^\dagger \right),\tag{33}\]  
+\[\bar{\psi} = \left( \psi_R^\dagger, \psi_L^\dagger \right),\tag{2.33}\]  
 and use the $4 \times 4$ matrices</p>
 
 <p>\[\gamma^\mu = \begin{pmatrix}
 0 &amp; \sigma^\mu \\
 \bar{\sigma}^\mu &amp; 0
-\end{pmatrix},\tag{34}\]</p>
+\end{pmatrix},\tag{2.34}\]</p>
 
 <p>known as Dirac matrices or $\gamma$-matrices, our Lagrangian becomes</p>
 
-<p>\[\mathcal{L} = \bar{\psi}(i\gamma^\mu \partial_\mu - m)\psi,\tag{35}\]</p>
+<p>\[\mathcal{L} = \bar{\psi}(i\gamma^\mu \partial_\mu - m)\psi,\tag{2.35}\]</p>
 
 <p>which is the conventional form of the Dirac Lagrangian. The equations of motion that follow are</p>
 
-<p>\[(i\gamma^\mu \partial_\mu - m)\psi = 0,\tag{36}\]</p>
+<p>\[(i\gamma^\mu \partial_\mu - m)\psi = 0,\tag{2.36}\]</p>
 
 <p>which is the Dirac equation.</p>
 
@@ -423,13 +423,13 @@ and use the $4 \times 4$ matrices</p>
 <p>The Dirac matrices satisfy</p>
 
 <p>\[\{\gamma^\mu, \gamma^\nu\} = 2g^{\mu\nu}.
-        \tag{1}\]</p>
+        \tag{3.1}\]</p>
 
 <p>Recall, we have used a specific representation to determine the general algebra of the Lorentz group. Here, the algebra of the $\gamma$-matrices is more fundamental than any particular representation of them. The $\gamma$-matrices generate the Dirac algebra, which is a special case of the Clifford algebra. The particular representation we came across is called the Weyl representation.</p>
 
 <p>Next, for simplicity, we define</p>
 
-<p>\[\sigma^{\mu\nu} \equiv \frac{i}{2}[\gamma^\mu, \gamma^\nu],\tag{2}\]</p>
+<p>\[\sigma^{\mu\nu} \equiv \frac{i}{2}[\gamma^\mu, \gamma^\nu],\tag{3.2}\]</p>
 
 <p>which can be expanded in $\sigma$-matrices:
 \[\begin{aligned}
@@ -456,9 +456,9 @@ and use the $4 \times 4$ matrices</p>
             \sigma^\mu\bar{\sigma}^\nu - \sigma^\nu\bar{\sigma}^\mu &amp; \\
             &amp; \bar{\sigma}^\mu\sigma^\nu - \bar{\sigma}^\nu\sigma^\mu.
         \end{pmatrix}
-    \end{aligned}\tag{3}\]
+    \end{aligned}\tag{3.3}\]
 Thus, we find
-\[\sigma^{\mu\mu} = 0,\tag{4}\]
+\[\sigma^{\mu\mu} = 0,\tag{3.4}\]
 \[\sigma^{ij} = -\frac{i}{2}
     \begin{pmatrix}
         [\sigma^i, \sigma^j]&amp; \\
@@ -468,21 +468,21 @@ Thus, we find
     \begin{pmatrix}
         \sigma_k &amp; \\
         &amp; \sigma_k
-    \end{pmatrix},\tag{5}\]
+    \end{pmatrix},\tag{3.5}\]
 and
 \[\sigma^{0i} = -\sigma^{i0} = -i
     \begin{pmatrix}
         \sigma_i &amp;\\
         &amp; -\sigma_i
-    \end{pmatrix}.\tag{6}\]
+    \end{pmatrix}.\tag{3.6}\]
 Recall, in the 4-vector representations, we could embed the generators into an anti-symmetric rank-2 tensor, $V^{\mu\nu}$. Here, we could do the exact same thing. Since the Lorentz generators are $\frac{\sigma_i}{2}$ for the spinor representations, they can be written as 
-\[S^{\mu\nu} = \frac{1}{2}\sigma^{\mu\nu}.\tag{7}\]
+\[S^{\mu\nu} = \frac{1}{2}\sigma^{\mu\nu}.\tag{3.7}\]
 More generally, $S^{\mu\nu}$ will satisfy the Lorentz algebra when constructed from any $\gamma$-matrices satisfying the Clifford algebra. That is, you can derive from $\{\gamma^\mu,\gamma^\nu\} = 2g^{\mu\nu}$ that 
-\[[S^{\mu\nu},S^{\rho\sigma}] = i(g^{\nu\rho}S^{\mu\sigma} - g^{\mu\rho}S^{\nu\sigma} - g^{\nu\sigma}S^{\mu\rho} + g^{\mu\sigma}S^{\nu\rho}).\tag{8}\]
+\[[S^{\mu\nu},S^{\rho\sigma}] = i(g^{\nu\rho}S^{\mu\sigma} - g^{\mu\rho}S^{\nu\sigma} - g^{\nu\sigma}S^{\mu\rho} + g^{\mu\sigma}S^{\nu\rho}).\tag{3.8}\]
 It is important to appreciate that the matrices $S_{\mu\nu}$ are different from the matrices $V_{\mu\nu}$ corresponding to the Lorentz generators in the 4-vector representation. In particular, $S_{\mu\nu}$ are complex. So we have found two inequivalent four-dimensional representations. In each case, the group element is determined by six real angles $\theta_{\mu\nu}$ (three rotations and three boosts). The vector or $(\frac{1}{2},\frac{1}{2})$ representation is irreducible, and has Lorentz group element
-\[\Lambda_V = \exp(i\theta_{\mu\nu}V^{\mu\nu}),\tag{9}\]
+\[\Lambda_V = \exp(i\theta_{\mu\nu}V^{\mu\nu}),\tag{3.9}\]
 while the Dirac or $(\frac{1}{2},0)\oplus(0,\frac{1}{2})$ representation is reducible and has Lorentz group elements
-\[\Lambda_s = \exp(i\theta_{\mu\nu}S^{\mu\nu}).\tag{10}\]
+\[\Lambda_s = \exp(i\theta_{\mu\nu}S^{\mu\nu}).\tag{3.10}\]
 There are actually a number of Dirac representations, depending on the form of the $\gamma$-matrices. We will consider two: the Weyl and Majorana representations.</p>
 
 <p>The Weyl representation has the Lorentz generators
@@ -497,61 +497,61 @@ There are actually a number of Dirac representations, depending on the form of t
     \begin{pmatrix}
         \sigma_i &amp;\\
         &amp; -\sigma_i
-    \end{pmatrix},\tag{11}\]
+    \end{pmatrix},\tag{3.11}\]
 which are block diagonal. These are the same generators we used for the $(\frac{1}{2},0)$ (the bottom right matrix element) and $(0,\frac{1}{2})$ (the top left matrix element) representations above. This makes it clear that the Dirac representation of the Lorentz group is reducible; it is the direct sum of a left-handed and a right-handed spinor representation.</p>
 
 <p>The Weyl spinors, $\psi_L$ and $\psi_R$, are in a way more fundamental than Dirac spinors such as $\psi$ because they correspond to irreducible representations of the Lorentz group. But the electron is a Dirac spinor. More importantly, QED is symmetric under $L \leftrightarrow R$. Thus, for QED the $\gamma$-matrices make calculations a lot easier than separating out the $\psi_L$ and $\psi_R$ components.</p>
 
 <h4>Lorentz Transformation Properties</h4>
 
-<p>When dealing with the Dirac matrices, we often suppress the spinor indices. If we make the spinor indices explicit, (1) becomes
-\[\{\gamma^\mu_{\alpha\gamma}, \gamma^\nu_{\gamma\beta}\} = 2g^{\mu\nu}\delta_{\alpha\beta}.\tag{12}\]
+<p>When dealing with the Dirac matrices, we often suppress the spinor indices. If we make the spinor indices explicit, (3.1) becomes
+\[\{\gamma^\mu_{\alpha\gamma}, \gamma^\nu_{\gamma\beta}\} = 2g^{\mu\nu}\delta_{\alpha\beta}.\tag{3.12}\]
 Since $\bar{\psi}\gamma^\mu\psi = \psi_L\bar{\sigma}^\mu\psi_L + \psi_R\sigma^\mu\psi_R$ transforms like a 4-vector, we can deduce that
-\[\Lambda_s^{-1}\gamma^\mu\Lambda_s = (\Lambda_V)^{\mu\nu}\gamma^\nu,\tag{13}\]
+\[\Lambda_s^{-1}\gamma^\mu\Lambda_s = (\Lambda_V)^{\mu\nu}\gamma^\nu,\tag{3.13}\]
 where the $\Lambda_s$ denotes the Lorentz transformation acting on the spinors and $\Lambda_V$ are the Lorentz transformation acting on the 4-vectors. Making the spinor indices explicit, this becomes
-\[(\Lambda_s^{-1})_{\alpha\delta}\gamma^\mu_{\delta\gamma}(\Lambda_s)_{\gamma\beta} = (\Lambda_V)^{\mu\nu}\gamma^\nu_{\alpha\beta}.\tag{14}\]
+\[(\Lambda_s^{-1})_{\alpha\delta}\gamma^\mu_{\delta\gamma}(\Lambda_s)_{\gamma\beta} = (\Lambda_V)^{\mu\nu}\gamma^\nu_{\alpha\beta}.\tag{3.14}\]
 It would be more general to study the Lorentz transformation properties just from the Dirac algebra itself without using any specific representations. First, note that
-\[\{\gamma^\mu, \gamma^\nu\} = 2g^{\mu\nu} \quad \implies \quad (\gamma^0)^2 = \mathds{1}, \quad (\gamma^i)^2 = -\mathds{1}.\tag{15}\]
+\[\{\gamma^\mu, \gamma^\nu\} = 2g^{\mu\nu} \quad \implies \quad (\gamma^0)^2 = \mathds{1}, \quad (\gamma^i)^2 = -\mathds{1}.\tag{3.15}\]
 This implies, that
-\[\gamma^{0\dagger} = \gamma^0, \quad \gamma^{i\dagger} = -\gamma^i,\tag{16}\]
+\[\gamma^{0\dagger} = \gamma^0, \quad \gamma^{i\dagger} = -\gamma^i,\tag{3.16}\]
 which says that for any representations, $\gamma^0$ is Hermitian and $\gamma^i$ are anti-Hermitian.</p>
 
 <p>Then,
-\[(S^{\mu\nu})^\dagger = \left(\frac{i}{4}[\gamma^\mu, \gamma^\nu]\right)^\dagger = -\frac{i}{4}[\gamma^{\nu\dagger}, \gamma^{\mu\dagger}] = \frac{i}{4}[\gamma^{\mu\dagger}, \gamma^{\nu\dagger}],\tag{17}\]
+\[(S^{\mu\nu})^\dagger = \left(\frac{i}{4}[\gamma^\mu, \gamma^\nu]\right)^\dagger = -\frac{i}{4}[\gamma^{\nu\dagger}, \gamma^{\mu\dagger}] = \frac{i}{4}[\gamma^{\mu\dagger}, \gamma^{\nu\dagger}],\tag{3.17}\]
 which implies
-\[S^{ij\dagger} = S^{ij}, \quad S^{0i\dagger} = -S^{0i}.\tag{18}\]
+\[S^{ij\dagger} = S^{ij}, \quad S^{0i\dagger} = -S^{0i}.\tag{3.18}\]
 Therefore, we have shown that rotations are Hermitian and boosts are anti-Hermitian in a completely algebraic way, using only the relation $\{\gamma^\mu, \gamma^\nu\} = 2g^{\mu\nu}$. Hence, this must be true for all representations of the Dirac algebra.</p>
 
 <p>Now, using $\{\gamma^\mu, \gamma^\nu\} = 2g^{\mu\nu}$ once again, we find
-\[\gamma^0\gamma^i\gamma^0 = -\gamma^i = \gamma^{i\dagger}, \quad \gamma^0\gamma^0\gamma^0 = \gamma^0 = \gamma^{0\dagger},\tag{19}\]
+\[\gamma^0\gamma^i\gamma^0 = -\gamma^i = \gamma^{i\dagger}, \quad \gamma^0\gamma^0\gamma^0 = \gamma^0 = \gamma^{0\dagger},\tag{3.19}\]
 so
-\[\gamma^0\gamma^\mu\gamma^0 = \gamma^{\mu\dagger}.\tag{20}\]
+\[\gamma^0\gamma^\mu\gamma^0 = \gamma^{\mu\dagger}.\tag{3.20}\]
 Then,
-\[\gamma^0(S^{\mu\nu})^\dagger\gamma^0 = \gamma^0\frac{i}{4}[\gamma^{\mu\dagger}, \gamma^{\nu\dagger}]\gamma^0 = S^{\mu\nu},\tag{21}\]
+\[\gamma^0(S^{\mu\nu})^\dagger\gamma^0 = \gamma^0\frac{i}{4}[\gamma^{\mu\dagger}, \gamma^{\nu\dagger}]\gamma^0 = S^{\mu\nu},\tag{3.21}\]
 and thus
-\[(\gamma^0\Lambda_s\gamma^0)^\dagger = \gamma^0\exp(-i\theta_{\mu\nu}S^{\mu\nu\dagger})\gamma^0 = \exp(-i\theta_{\mu\nu}S^{\mu\nu}) = \Lambda_s^{-1}.\tag{22}\]
+\[(\gamma^0\Lambda_s\gamma^0)^\dagger = \gamma^0\exp(-i\theta_{\mu\nu}S^{\mu\nu\dagger})\gamma^0 = \exp(-i\theta_{\mu\nu}S^{\mu\nu}) = \Lambda_s^{-1}.\tag{3.22}\]
 Finally,
-\[\psi^\dagger\gamma^0\psi \rightarrow (\psi^\dagger\Lambda_s^\dagger) \gamma^0 (\Lambda_s \psi) = \psi^\dagger \gamma^0 \Lambda_s^{-1}\Lambda_s \psi = \psi^\dagger \gamma^0 \psi,\tag{23}\]
+\[\psi^\dagger\gamma^0\psi \rightarrow (\psi^\dagger\Lambda_s^\dagger) \gamma^0 (\Lambda_s \psi) = \psi^\dagger \gamma^0 \Lambda_s^{-1}\Lambda_s \psi = \psi^\dagger \gamma^0 \psi,\tag{3.23}\]
 which is Lorentz invariant.</p>
 
 <p>We have just been re-deriving from the Dirac algebra point of view what we found by hand from the Weyl point of view. We have seen that the natural conjugate for $\psi$ out of which real Lorentz-invariant expressions are constructed is not $\psi^{\dagger}$ but
-\[\bar{\psi} \equiv \psi^{\dagger} \gamma^0.\tag{24}\]
+\[\bar{\psi} \equiv \psi^{\dagger} \gamma^0.\tag{3.24}\]
 The point is that $\bar{\psi}$ transforms according to $\Lambda_s^{-1}$. Thus $\bar{\psi}\psi$ is Lorentz invariant. In contrast, $\psi^{\dagger}\psi$ is not Lorentz invariant, since $\psi^{\dagger}\psi \rightarrow (\psi^{\dagger}\Lambda_s^{\dagger})(\Lambda_s \psi)$. For this to be invariant, we would need $\Lambda_s^{\dagger} = \Lambda_s^{-1}$, that is, for the representation of the Lorentz group to be unitary.</p>
 
 <p>But the finite-dimensional spinor representation of the Lorentz group, like the 4-vector representation, is not unitary, because the boost generators are anti-Hermitian. As with vectors, for unitary representations we will need fields $\psi(x)$ that transform in infinite-dimensional representations of the Poincaré group.</p>
 
 <p>We can also construct objects such as
-\[\bar{\psi}\gamma_{\mu}\psi, \quad \bar{\psi}\gamma_{\mu}\gamma_{\nu}\psi, \quad \bar{\psi}\partial_{\mu}\psi;\tag{25}\]
+\[\bar{\psi}\gamma_{\mu}\psi, \quad \bar{\psi}\gamma_{\mu}\gamma_{\nu}\psi, \quad \bar{\psi}\partial_{\mu}\psi;\tag{3.25}\]
 all transform like tensors under the Lorentz group. Also
-\[\mathcal{L} = \bar{\psi}(i\gamma^{\mu}\partial_{\mu}-m)\psi\tag{26}\]
+\[\mathcal{L} = \bar{\psi}(i\gamma^{\mu}\partial_{\mu}-m)\psi\tag{3.26}\]
 is Lorentz invariant. We abbreviate this with
-\[\mathcal{L} = \bar{\psi}(i\slashed{\partial}-m)\psi,\tag{27}\]
+\[\mathcal{L} = \bar{\psi}(i\slashed{\partial}-m)\psi,\tag{3.27}\]
 which is the Dirac Lagrangian.</p>
 
 <p>The Dirac equation follows from this Lagrangian by the equations of motion:
-\[(i\slashed{\partial}-m)\psi=0.\tag{28}\]
+\[(i\slashed{\partial}-m)\psi=0.\tag{3.28}\]
 To be explicit, this is shorthand for
-\[(i\gamma^{\mu}_{\alpha\beta}\partial_{\mu}-m\delta_{\alpha\beta})\psi_{\beta}=0.\tag{29}\]
+\[(i\gamma^{\mu}_{\alpha\beta}\partial_{\mu}-m\delta_{\alpha\beta})\psi_{\beta}=0.\tag{3.29}\]
 After multiplying the Dirac equation by $(i\slashed{\partial}+m)$ we find
 \[\begin{split}
 0 &amp;= (i\slashed{\partial}+m)(i\slashed{\partial}-m)\psi \\
@@ -559,31 +559,31 @@ After multiplying the Dirac equation by $(i\slashed{\partial}+m)$ we find
          -\frac{1}{2}\partial_{\mu}\partial_{\nu}[\gamma^{\mu},\gamma^{\nu}]
          -m^{2} \right)\psi \\
   &amp;= -(\partial^{2}+m^{2})\psi.
-\end{split}\tag{30}\]
+\end{split}\tag{3.30}\]
 So $\psi$ satisfies the Klein-Gordon equation:
-\[(\Box+m^{2})\psi=0.\tag{31}\]
+\[(\Box+m^{2})\psi=0.\tag{3.31}\]
 In Fourier space, this implies that on-shell spinor momenta satisfy the unique relativistic dispersion relation $p^{2}=m^{2}$, just like scalars. Because spinors also satisfy an equation linear in derivatives, people sometimes say the Dirac equation is the &ldquo;square root&rdquo; of the Klein-Gordon equation.</p>
 
 <p>We can integrate the Lagrangian by parts to derive the equations of motion for $\bar{\psi}$:
 \[\mathcal{L} = \bar{\psi}i\slashed{\partial}\psi-m\bar{\psi}\psi
-            = -i(\partial_{\mu}\bar{\psi})\gamma^{\mu}\psi-m\bar{\psi}\psi.\tag{32}\]
+            = -i(\partial_{\mu}\bar{\psi})\gamma^{\mu}\psi-m\bar{\psi}\psi.\tag{3.32}\]
 So,
-\[-i\partial_{\mu}\bar{\psi}\gamma^{\mu}-m\bar{\psi}=0.\tag{33}\]
+\[-i\partial_{\mu}\bar{\psi}\gamma^{\mu}-m\bar{\psi}=0.\tag{3.33}\]
 This $\gamma^{\mu}$ on the opposite side from $\partial_{\mu}$ is a little annoying, so we often write
-\[\bar{\psi}(-i\overleftarrow{\slashed{\partial}}-m)=0,\tag{34}\]
+\[\bar{\psi}(-i\overleftarrow{\slashed{\partial}}-m)=0,\tag{3.34}\]
 where the derivative acts to the left. This makes the conjugate equation look more like the original Dirac equation.</p>
 
 <h2 id="coupling-with-the-photon-fields">Coupling with the Photon Fields</h2>
 
 <p>The spinor fields transform exactly the same as for a complex scalar field under a gauge transformation. For example, for a particle with charge $Q=-1$, such as the electrons, we have
-\[\psi \rightarrow e^{-i\alpha}\psi.\tag{1}\]
+\[\psi \rightarrow e^{-i\alpha}\psi.\tag{4.1}\]
 Therefore, to couple with the photon fields, we can also replace $\partial_\mu \rightarrow D_\mu$, where $D_\mu = \partial_\mu +ieA_\mu$. Thus, the Lagrangian becomes
-\[\mathcal{L} = \bar{\psi}(i\slashed{\partial}-e\slashed{A}-m)\psi = \bar{\psi}(i\slashed{D}-m)\psi,\tag{2}\]
+\[\mathcal{L} = \bar{\psi}(i\slashed{\partial}-e\slashed{A}-m)\psi = \bar{\psi}(i\slashed{D}-m)\psi,\tag{4.2}\]
 and thus the equation of motion becomes
-\[(i\slashed{\partial}-e\slashed{A}-m)\psi = (i\slashed{D}-m)\psi = 0.\tag{3}\]
+\[(i\slashed{\partial}-e\slashed{A}-m)\psi = (i\slashed{D}-m)\psi = 0.\tag{4.3}\]
 If we compare the Dirac equation to the Klein-Gordon equation of the complex scalar field coupled with the photon field, we will notice something very interesting. The Klein-Gordon equation for the complex scalar field is
 \[-(D^2+m^2)\phi = [(i\partial_\mu-eA_\mu)^2-m^2]\phi = 0.
-    \tag{4}\]
+    \tag{4.4}\]
 Similarly to before, we multiply the Dirac equation by $i\slashed{\partial}-e\slashed{A}+m$, and thus
 \[\begin{aligned}
         0 &amp;= (i\slashed{\partial}-e\slashed{A}+m)(i\slashed{\partial}-e\slashed{A}-m)\psi\\
@@ -593,24 +593,24 @@ Similarly to before, we multiply the Dirac equation by $i\slashed{\partial}-e\sl
         &amp;= \bigg( \frac{1}{4}\{i\partial_\mu - eA_\mu,i\partial_\nu - eA_\nu\}\{\gamma^\mu,\gamma^\nu\} +  \cancel{\frac{1}{4}\{i\partial_\mu - eA_\mu,i\partial_\nu - eA_\nu\}[\gamma^\mu,\gamma^\nu]} \\
         &amp; \qquad \qquad + \cancel{\frac{1}{4}[i\partial_\mu - eA_\mu,i\partial_\nu - eA_\nu]\{\gamma^\mu,\gamma^\nu\}} + \frac{1}{4}[i\partial_\mu - eA_\mu,i\partial_\nu - eA_\nu][\gamma^\mu,\gamma^\nu] -m^2 \bigg)\psi\\
         &amp;= \bigg( \frac{1}{4}\{i\partial_\mu - eA_\mu,i\partial_\nu - eA_\nu\}\{\gamma^\mu,\gamma^\nu\} + \frac{1}{4}[i\partial_\mu - eA_\mu,i\partial_\nu - eA_\nu][\gamma^\mu,\gamma^\nu] -m^2 \bigg)\psi.
-    \end{aligned}\tag{5}\]
+    \end{aligned}\tag{4.5}\]
 Now, let us evaluate the commutator
 \[\begin{aligned}
         [i\partial_\mu - eA_\mu,i\partial_\nu - eA_\nu] &amp;= (i\partial_\mu - eA_\mu)(i\partial_\nu - eA_\nu) - (i\partial_\nu - eA_\nu)(i\partial_\mu - eA_\mu)\\
         &amp;= - ie(\partial_\mu A_\nu  + A_\mu\partial_\nu - \partial_\nu A_\mu -  A_\nu\partial_\mu)\\
         &amp;= -ie[(\partial_\mu A_\nu) + \cancel{A_\nu\partial_\mu} + \cancel{A_\mu\partial_\nu} - (\partial_\nu A_\mu) - \cancel{A_\mu\partial_\nu} -  \cancel{A_\nu\partial_\mu}]\\
         &amp;= -ieF_{\mu\nu}.
-    \end{aligned}\tag{6}\]
+    \end{aligned}\tag{4.6}\]
 And using the identity $\{\gamma^\mu,\gamma^\nu\} = 2g^{\mu\nu}$, the anti-commutator becomes
-\[\{i\partial_\mu - eA_\mu,i\partial_\nu - eA_\nu\}\{\gamma^\mu,\gamma^\nu\} = 4(i\partial_\mu - eA_\mu)^2.\tag{7}\]
+\[\{i\partial_\mu - eA_\mu,i\partial_\nu - eA_\nu\}\{\gamma^\mu,\gamma^\nu\} = 4(i\partial_\mu - eA_\mu)^2.\tag{4.7}\]
 Thus, the Dirac equation becomes
 \[\begin{aligned}
     0 &amp;= \bigg( (i\partial_\mu - eA_\mu)^2 - \frac{i}{4}eF_{\mu\nu}[\gamma^\mu,\gamma^\nu] -m^2 \bigg)\psi\\
     &amp;= \bigg( (i\partial_\mu - eA_\mu)^2 - \frac{e}{2}F_{\mu\nu}\sigma^{\mu\nu} -m^2 \bigg)\psi,
     
-\end{aligned}\tag{8}\]
-where we have used the definition $\sigma^{\mu\nu} = [\gamma^\mu,\gamma^\nu]$. Comparing (8) and (4), we see that there is an extra $\frac{e}{2}F_{\mu\nu}\sigma^{\mu\nu}$ term for the spinor QED. This can be written as
-\[\slashed{D}^2 = D_\mu^2 + \frac{e}{2}F_{\mu\nu}\sigma^{\mu\nu},\tag{9}\]
+\end{aligned}\tag{4.8}\]
+where we have used the definition $\sigma^{\mu\nu} = [\gamma^\mu,\gamma^\nu]$. Comparing (4.8) and (4.4), we see that there is an extra $\frac{e}{2}F_{\mu\nu}\sigma^{\mu\nu}$ term for the spinor QED. This can be written as
+\[\slashed{D}^2 = D_\mu^2 + \frac{e}{2}F_{\mu\nu}\sigma^{\mu\nu},\tag{4.9}\]
 which tells us the difference between the covariant derivative when acting on the scalar field and the spinor field. So, what is this extra term? In the Weyl representation, they have the form
 \[\begin{aligned}
     \frac{e}{2}F_{\mu\nu}\sigma^{\mu\nu} &amp;= \frac{e}{2}(F^{0i}\sigma^{0i} - F^{i0}\sigma^{i0} + F^{ij}\sigma^{ij})\\
@@ -641,32 +641,32 @@ which tells us the difference between the covariant derivative when acting on th
         (\vec{B}+i\vec{E})\cdot\vec{\sigma}&amp; 0\\
         0&amp; (\vec{B}-i\vec{E})\cdot\vec{\sigma}
     \end{pmatrix}.
-\end{aligned}\tag{10}\]
+\end{aligned}\tag{4.10}\]
 Thus, the Dirac equation can be written explicitly as 
 \[\left\{(\partial_\mu+ieA_\mu)^2 + m^2 -e 
     \begin{pmatrix}
         (\vec{B}+i\vec{E})\cdot\vec{\sigma}&amp; 0\\
         0&amp; (\vec{B}-i\vec{E})\cdot\vec{\sigma}
     \end{pmatrix}
-    \right\}\psi = 0.\tag{11}\]</p>
+    \right\}\psi = 0.\tag{4.11}\]</p>
 
 <p>Finally, note that the Noether current associated with the global symmetry $\psi \to e^{-i\alpha}\psi$ is
-\[J_{\mu} = \bar{\psi}\gamma_{\mu}\psi.\tag{12}\]
+\[J_{\mu} = \bar{\psi}\gamma_{\mu}\psi.\tag{4.12}\]
 This, like any Noether current, is conserved on the equations of motion even if we set $A_{\mu} = 0$. The 0 component of this current gives the charge density
-\[J_{0} = \psi^{\dagger}\psi = \psi^{\dagger}_{L}\psi_{L} + \psi^{\dagger}_{R}\psi_{R}.\tag{13}\]
+\[J_{0} = \psi^{\dagger}\psi = \psi^{\dagger}_{L}\psi_{L} + \psi^{\dagger}_{R}\psi_{R}.\tag{4.13}\]
 We originally hoped this would be Lorentz invariant, which it is not. Now we see that it transforms as the 0 component of a conserved current. We can interpret this as the probability density for a fermion. The conserved charge $Q = \int d^{3}x\, J_{0}$ is electron number, which is the number of electrons minus the number of positrons. The spatial components of $J_{\mu}$ denote electron number flow. The electron number current $J_{\mu}$ is related to the charge current $eJ_{\mu}$, which couples to $A_{\mu}$, by a factor of the electric charge $e$.</p>
 
 <h4>The Magnetic Dipole Moment</h4>
 
 <p>The Dirac equation predicted that there is an interaction between the magnetic field $\vec{B}$ and the electron spin $\vec{S}$, which is known as the magnetic dipole moment of the electron. Before the Dirac equation, people did not understand spin and were particularly confused about the origin of the electron's magnetic dipole moment. To understand it, let us first take the non-relativistic limit. In quantum mechanics, we need to work with the Hamiltonian instead of the Lagrangian. Of course, one can find the Dirac Hamiltonian in the regular way. However, it is easier to express the Dirac equation in the form $i\partial_t\psi = H_D \psi$, so that we have the Dirac Hamiltonian automatically. The Dirac equation can be written as
-\[(i\gamma^0\partial_t + i\gamma^i\partial_i - e\slashed{A} - m )\psi = 0,\tag{14}\]
+\[(i\gamma^0\partial_t + i\gamma^i\partial_i - e\slashed{A} - m )\psi = 0,\tag{4.14}\]
 which implies
-\[i\partial_t\psi = [\gamma^0\gamma^i(-i\partial_i-eA_i) + eA_0  + m\gamma^0]\psi = H_D\psi.\tag{15}\]
+\[i\partial_t\psi = [\gamma^0\gamma^i(-i\partial_i-eA_i) + eA_0  + m\gamma^0]\psi = H_D\psi.\tag{4.15}\]
 Replace $-i\partial_i$ by $p_i$, the Dirac Hamiltonian becomes
 \[\begin{aligned}
         H_D &amp;= \gamma^0\gamma^i(p_i-eA_i) + eA_0  + m\gamma^0\\
         &amp;= \gamma^0\gamma^i\Pi_i + eA_0  + m\gamma^0,
-\end{aligned}\tag{16}\]
+\end{aligned}\tag{4.16}\]
 where $\Pi_i \equiv p_i-eA_i$ is known as the kinetic momentum.</p>
 
 <p>Now we compute $(H_D-eA_0)^2$ in the Weyl representations:
@@ -681,24 +681,24 @@ where $\Pi_i \equiv p_i-eA_i$ is known as the kinetic momentum.</p>
         \end{pmatrix}
         \Pi_i\Pi_j + m^2\\
         &amp;= [(\vec{\sigma}\cdot\vec{\Pi})^2 + m^2]\mathds{1}.
-    \end{aligned}\tag{17}\]
+    \end{aligned}\tag{4.17}\]
 Putting back $\hbar$ and $c$, the above becomes
-\[(H_D-eA_0)^2 = [(\vec{\sigma}\cdot\vec{\Pi})^2c^2 + m^2c^4]\mathds{1}\tag{18}\]
+\[(H_D-eA_0)^2 = [(\vec{\sigma}\cdot\vec{\Pi})^2c^2 + m^2c^4]\mathds{1}\tag{4.18}\]
 Then, subtract off the zero-point energy $mc^2$ from $H_D$, and expand to order $c^0$, we have
 \[\begin{aligned}
         H = H_D - mc^2 &amp;= \sqrt{(H_D-ecA_0)^2} + ecA_0 -mc^2 \\
         &amp;= \left[\sqrt{(\vec{\sigma}\cdot\vec{\Pi})^2c^2 + m^2c^4} + ecA_0 -mc^2 \right]\mathds{1}.
-    \end{aligned}\tag{19}\]
+    \end{aligned}\tag{4.19}\]
 Since
 \[\begin{aligned}
     \sqrt{(\vec{\sigma}\cdot\vec{\Pi})^2c^2 + m^2c^4} &amp;= mc^2\left[1 + \frac{1}{2m^2c^2}(\vec{\sigma}\cdot\vec{\Pi})^2 + \cdots \right]\\
     &amp;= mc^2 + \frac{1}{2m}(\vec{\sigma}\cdot\vec{\Pi})^2 + \order{\frac{1}{c^2}},
-\end{aligned}\tag{20}\]
+\end{aligned}\tag{4.20}\]
 we find
-\[H = H_D - mc^2 = \frac{1}{2m}(\vec{\sigma}\cdot\vec{\Pi})^2 + ecA_0 + \order{\frac{1}{c^2}},\tag{21}\]
+\[H = H_D - mc^2 = \frac{1}{2m}(\vec{\sigma}\cdot\vec{\Pi})^2 + ecA_0 + \order{\frac{1}{c^2}},\tag{4.21}\]
 where we have suppressed the identity matrix $\mathds{1}$.
 To see the coupling strength between the magnetic field and the spin, we need to further simplify the above relation. Note,
-\[(\vec{\sigma}\cdot\vec{\Pi})^2 = \sigma^i\sigma^j\Pi_i\Pi_j = \frac{1}{2}(\{\sigma^i,\sigma^j\} + [\sigma^i,\sigma^j])\Pi_i\Pi_j = (\delta^{ij}+i\varepsilon^{ijk}\sigma_k)\Pi_i\Pi_j.\tag{22}\]
+\[(\vec{\sigma}\cdot\vec{\Pi})^2 = \sigma^i\sigma^j\Pi_i\Pi_j = \frac{1}{2}(\{\sigma^i,\sigma^j\} + [\sigma^i,\sigma^j])\Pi_i\Pi_j = (\delta^{ij}+i\varepsilon^{ijk}\sigma_k)\Pi_i\Pi_j.\tag{4.22}\]
 Then, putting back $p_i \rightarrow -i\partial_i$, we find
 \[\begin{aligned}
         \varepsilon^{ijk}\sigma_k\Pi_i\Pi_j &amp;= \varepsilon^{ijk}\sigma_k(i\partial_i+eA_i)(i\partial_j+eA_j)\\
@@ -706,23 +706,23 @@ Then, putting back $p_i \rightarrow -i\partial_i$, we find
         &amp;= -\sigma_k\cancel{(\partial_i\partial_j - \partial_j\partial_i - A_iA_j + A_jA_i)} + ie\varepsilon^{ijk}\sigma_k[A_j\partial_i + (\partial_iA_j) + A_i\partial_j]\\
         &amp;= ie\varepsilon^{ijk}\sigma_k(\partial_iA_j)\\
         &amp;= ieB^k\sigma_k.
-    \end{aligned}\tag{23}\]
+    \end{aligned}\tag{4.23}\]
 Thus, the Hamiltonian becomes (putting back the $\hbar$ in the above derivation)
-\[H = \frac{1}{2m}(p_i-eA_i)^2 - \frac{e}{m}\vec{B}\cdot\vec{S}  + ecA_0 + \order{\frac{1}{c^2}}.\tag{24}\]
+\[H = \frac{1}{2m}(p_i-eA_i)^2 - \frac{e}{m}\vec{B}\cdot\vec{S}  + ecA_0 + \order{\frac{1}{c^2}}.\tag{4.24}\]
 From this, we can see that the spin magnetic dipole moment of an electron is $-\frac{e}{m}$ to order of $c^0$. Meanwhile, the spin electric dipole moment is simply $0$, because we do not see any $\vec{E}\cdot\vec{S}$ coupling above.</p>
 
 <p>Now, if we choose the magnetic field to be constant in the $z$-direction, then $\vec{B}=B_z\hat{k}$. Thus, we can set $\vec{A} =  -B_zy/2\hat{i} + B_zx/2\hat{j}$. The Hamiltonian becomes
 \[\begin{aligned}
         H &amp;= \frac{\vec{p}^2}{2m}+\frac{e^2}{2m}\vec{A}^2 - \frac{e}{2m}\left(-\frac{B_zyp_x}{2} + \frac{B_zxp_y}{2}\right) - \frac{e}{m}B_zS_z  + ecA_0 + \order{\frac{1}{c^2}}\\
         &amp;= \frac{\vec{p}^2}{2m}+\frac{e^2}{2m}\vec{A}^2 -\frac{e}{2m}(L_z + 2S_z)B_z + ecA_0 + \order{\frac{1}{c^2}}.
-    \end{aligned}\tag{25}\]
+    \end{aligned}\tag{4.25}\]
 Note there is also a coupling term between the magnetic field $\vec{B}$ and the angular momentum $\vec{L}$ with the coupling strength $\mu_B = -\frac{e}{2m}$. Now, we define the gyromagnetic ratio, $g_e$, to be the relative size of the $\vec{S}\cdot\vec{B}$ and $\vec{L}\cdot\vec{B}$ interactions. Thus, we have just found out that $g_e=2$ to the $0^\text{th}$ order of $c$, since the entire coupling to the magnetic field is given by
-\[\vec{\mu} \equiv \mu_B(\vec{L} + g_e\vec{S})\cdot \vec{B} = -\frac{e}{2m}(\vec{L} + 2\vec{S})\cdot \vec{B}.\tag{26}\]</p>
+\[\vec{\mu} \equiv \mu_B(\vec{L} + g_e\vec{S})\cdot \vec{B} = -\frac{e}{2m}(\vec{L} + 2\vec{S})\cdot \vec{B}.\tag{4.26}\]</p>
 
 <h2 id="the-meaning-of-spin-frac12">The Meaning of spin-$\frac{1}{2}$</h2>
 
 <p>To understand spin-$\frac{1}{2}$ particles, let us begin by looking at what happens when we rotate them by an angle $\theta$ in the $z$ plane. For any representation, such a rotation is given by
-\[\Lambda(\theta_{z}) = \exp(i\theta_{z}J_{z}),\tag{1}\]
+\[\Lambda(\theta_{z}) = \exp(i\theta_{z}J_{z}),\tag{5.1}\]
 with $J_z$ the generator in an appropriate representation. The easiest way to exponentiate a matrix is to first diagonalize it with a unitary transformation, then exponentiate the eigenvalues, then transform back. This unitary transformation is like choosing a (possibly complex) direction. If we are only ever rotating around one axis, we can simply use the diagonal basis for the exponentiation.</p>
 
 <p>First, for the vector representation,
@@ -736,7 +736,7 @@ with $J_z$ the generator in an appropriate representation. The easiest way to ex
 &amp; -1 &amp;  \\
 &amp; &amp; 1 &amp; \\
 &amp;&amp;&amp;0
-\end{pmatrix} U.\tag{2}\]
+\end{pmatrix} U.\tag{5.2}\]
 Note that the eigenvalues of $J_3$ are $-1, 0, 1$ and $0$, which is what one expects from the $\left( \frac{1}{2}, \frac{1}{2} \right)$ representation of the Lorentz group describing spins 1 and 0. So,
 \[\Lambda_V (\theta_z) = \exp(i\theta_z V_{12}) = U^{-1} \begin{pmatrix}
 1 &amp; &amp; &amp; \\
@@ -744,34 +744,34 @@ Note that the eigenvalues of $J_3$ are $-1, 0, 1$ and $0$, which is what one exp
 &amp; &amp; \exp(i\theta_z) \\
 &amp; &amp; &amp; 1
 
-\end{pmatrix} U\tag{3}\]
+\end{pmatrix} U\tag{5.3}\]
 and
-\[\Lambda_V (2\pi) = 1.\tag{4}\]
+\[\Lambda_V (2\pi) = 1.\tag{5.4}\]
 That is, we rotate 360 degrees and we are back to where we started.</p>
 
 <p>For the spinor representation
-\[\Lambda_s (\theta_z) = \exp(i\theta_z S_{12})\tag{5}\]
+\[\Lambda_s (\theta_z) = \exp(i\theta_z S_{12})\tag{5.5}\]
 the 12 rotation is already diagonal:
 \[S_{12} = \begin{pmatrix}
 \frac{1}{2} &amp;  &amp; &amp; \\
 &amp;-\frac{1}{2}&amp;&amp;\\
 &amp; &amp; \frac{1}{2} \\
 &amp; &amp; &amp; -\frac{1}{2}
-\end{pmatrix}.\tag{6}\]
+\end{pmatrix}.\tag{5.6}\]
 Here the eigenvalues are $-\frac{1}{2}, \frac{1}{2}, -\frac{1}{2}$ and $\frac{1}{2}$, as one expects for the $\left( \frac{1}{2}, 0 \right) \oplus \left( 0, \frac{1}{2} \right)$ representation of the Lorentz group. So,
 \[\Lambda_s (\theta_z) = \exp(i\theta_z S_{12}) = \begin{pmatrix}
 \exp\left(\frac{i}{2}\theta_z\right) &amp; &amp; &amp; \\
 &amp; \exp\left(-\frac{i}{2}\theta_z\right)&amp;&amp;\\
 &amp; &amp; \exp\left(\frac{i}{2}\theta_z\right) \\
 &amp; &amp; &amp; \exp\left(-\frac{i}{2}\theta_z\right)
-\end{pmatrix}\tag{7}\]
+\end{pmatrix}\tag{5.7}\]
 and
 \[\Lambda_s (2\pi) = \begin{pmatrix}
 -1 &amp;  &amp; &amp; \\
 &amp; -1 &amp; &amp; \\
 &amp;&amp;-1&amp;\\
 &amp; &amp; &amp; -1
-\end{pmatrix} = -\mathds{1}.\tag{8}\]
+\end{pmatrix} = -\mathds{1}.\tag{5.8}\]
 Thus, a $2\pi$ rotation does not bring us back where we started! If we rotate by $4\pi$ it would, but with a $2\pi$ rotation we pick up a $-1$.</p>
 
 <p>By the way, this odd factor of $-1$ is the origin of the connection between spin and statistics. As a quick way to see the connection, consider a state containing two identical fermions localized on opposite sides of the origin in the $\hat{x}$ direction. Let their spins both point in the $+\hat{z}$ direction. So the state is $|\psi_{12}\rangle = |\psi_1(\vec{x})\psi_1(-\vec{x})\rangle$. Now rotate the state around the $z$ axis by $\pi$. Such a rotation interchanges the two particles, and does not affect the spins. It also induces a factor of $\Lambda_s(\pi) = i$ for each spinor. Thus, $|\psi_{12}\rangle \rightarrow -|\psi_{21}\rangle$ since the particles are identical, $|\psi_{12}\rangle = |\psi_{21}\rangle$. Thus, the wavefunction picks up a $-1$ when the particles are interchanged. That is, the spinors are fermions.</p>
@@ -781,7 +781,7 @@ Thus, a $2\pi$ rotation does not bring us back where we started! If we rotate by
 <p>How can something go back to minus itself under a $2\pi$ rotation? This is not something that can happen in the Lorentz group. By definition, all representations of the Lorentz group map $2\pi$ rotations to the identity element of the group: $r[2\pi] = 1$. And, by definition, the identity group element sends objects to themselves. The problem is that by exponentiating elements of the Lie algebra for the group we generated a different group, $SL(2, \mathbb{C})$, which is the universal cover of the Lorentz group, not the Lorentz group itself. So, technically, spinors transform as representations of $SL(2, \mathbb{C})$. Why is this OK?</p>
 
 <p>Recall that the Lorentz group is defined as the group preserving the Minkowski metric $\Lambda^T g\Lambda = g$. Observables, in particular the $S$-matrix, should be invariant under this symmetry. In quantum mechanics, we learned that states are identified with rays, so that $|\psi\rangle$ and $\lambda|\psi\rangle$ for any complex number $\lambda$ are the same state. In field theory, we have carefully normalized our fields (and we will carefully renormalize them), so we do not want that norm to change in different frames. However, we can still have the fields change by a phase without upsetting their norms. Thus, for physical purposes what we are looking for is not exactly representations of the Lorentz group, but <strong>projective representations</strong> of the Lorentz group, in which group elements can change the phase of a state. Projective representations can have
-\[r[g_1]r[g_2] = e^{i\phi(g_1,g_2)}r[g_1g_2],\tag{9}\]
+\[r[g_1]r[g_2] = e^{i\phi(g_1,g_2)}r[g_1g_2],\tag{5.9}\]
 which is a generalization of the normal requirement that $r[g_1g_2] = r[g_1]r[g_2]$ for a group representation. The projective representations of $O(1, 3)$ are the same as the representations of $SL(2, \mathbb{C})$, which include the spinors.</p>
 
 <p>Using objects that have properties that are not directly observable is not new. For example, in quantum mechanics, we learned that wavefunctions are complex. There are plenty of implications of the complexity, but you do not actually measure complex things. In the same way, although we only measure Lorentz-invariant things (matrix elements), the most general theory can have objects, spinors, that are a little bit more complicated than the Lorentz group alone would naively suggest. Although spinors transform in representations of $SL(2, \mathbb{C})$, the Poincaré group is still the symmetry group of observables.</p>
@@ -794,7 +794,7 @@ which is a generalization of the normal requirement that $r[g_1g_2] = r[g_1]r[g_
 \cos 2\pi t &amp; \sin 2\pi t &amp; 0 \\
 -\sin 2\pi t &amp; \cos 2\pi t &amp; 0 \\
 0 &amp; 0 &amp; 1
-\end{pmatrix}.\tag{10}\]
+\end{pmatrix}.\tag{5.10}\]
 This path cannot be smoothly deformed to the identity. Try it! Try to find $R(t, u)$ so that $R(t, 0) = R(t)$ and $R(t, 1) = 1$.</p>
 
 <p>Any rotation in SO(3) can be specified by an axis $\vec{v}$ and an angle $-\pi \leq \theta_v &lt; \pi$. If we think of the axis as a point on the surface of a ball of radius $r = \pi$, then the rotation can be specified by a point in the ball, with the distance from the origin being the angle $\theta_v$. Thus, a path through the group is a path through the ball. The identity group element is the centre of the ball. There is one catch, however: rotations about an axis by an angle $\theta_v$ are the same as rotations about an axis pointing in the opposite direction by the angle $-\theta_v$. Thus, we have to identify antipodal points on the sphere as the same group element in SO(3). In this sense, SO(3) is a real projective space $B^3/\mathbb{Z}_2 = \mathbb{RP}^3$. The full ball is SU(2), which is the universal cover of SO(3), and $\mathbb{Z}_2$ is the fundamental group of SO(3) (for the full Lorentz group, the cover is SL(2, $\mathbb{C}$)) and the fundamental group is still $\mathbb{Z}_2$.</p>
@@ -810,27 +810,27 @@ This path cannot be smoothly deformed to the identity. Try it! Try to find $R(t,
 <h4>Majorana Masses</h4>
 
 <p>There is another Lorentz-invariant quantity we can construct using $\psi_L$ and $\psi_R$. The bilinear quantity:
-\[\mathcal{L}_\text{Maj} = \psi_R^T\sigma_2\psi_R,\tag{1}\]
+\[\mathcal{L}_\text{Maj} = \psi_R^T\sigma_2\psi_R,\tag{6.1}\]
 which is known as the Majorana mass.</p>
 
 <p>To see the Lorentz invariance, recall that for the Pauli matrices $\sigma_1$ and $\sigma_3$ are real, and $\sigma_2$ is imaginary:
 \[\sigma_1 = \begin{pmatrix} 0 &amp; 1 \\ 1 &amp; 0 \end{pmatrix}, \quad 
 \sigma_2 = \begin{pmatrix} 0 &amp; -i \\ i &amp; 0 \end{pmatrix}, \quad 
-\sigma_3 = \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; -1 \end{pmatrix}.\tag{2}\]
+\sigma_3 = \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; -1 \end{pmatrix}.\tag{6.2}\]
 So,
-\[\sigma_1^* = \sigma_1, \quad \sigma_2^* = -\sigma_2, \quad \sigma_3^* = \sigma_3,\tag{3}\]
-\[\sigma_1^T = \sigma_1, \quad \sigma_2^T = -\sigma_2, \quad \sigma_3^T = \sigma_3.\tag{4}\]
+\[\sigma_1^* = \sigma_1, \quad \sigma_2^* = -\sigma_2, \quad \sigma_3^* = \sigma_3,\tag{6.3}\]
+\[\sigma_1^T = \sigma_1, \quad \sigma_2^T = -\sigma_2, \quad \sigma_3^T = \sigma_3.\tag{6.4}\]
 This implies $\sigma_1^T \sigma_2 = \sigma_1 \sigma_2 = -\sigma_2 \sigma_1$, $\sigma_3^T \sigma_2 = \sigma_3 \sigma_2 = -\sigma_2 \sigma_3$ and $\sigma_2^T \sigma_2 = -\sigma_2 \sigma_2$. That is,
-\[\sigma_j^T \sigma_2 = -\sigma_2 \sigma_j\tag{5}\]
+\[\sigma_j^T \sigma_2 = -\sigma_2 \sigma_j\tag{6.5}\]
 and so
-\[\delta (\psi_R^T \sigma_2) = \frac{1}{2} (i \theta_j + \beta_j) \psi_R^T \sigma_j^T \sigma_2 = \frac{1}{2} (-i \theta_j - \beta_j) (\psi_R^T \sigma_2) \sigma_j.\tag{6}\]
+\[\delta (\psi_R^T \sigma_2) = \frac{1}{2} (i \theta_j + \beta_j) \psi_R^T \sigma_j^T \sigma_2 = \frac{1}{2} (-i \theta_j - \beta_j) (\psi_R^T \sigma_2) \sigma_j.\tag{6.6}\]
 Combining this with the transformation of $\psi_R$ we see that $\mathcal{L}_{Maj}$ is Lorentz invariant.</p>
 
 <p>Since $\sigma_2 = \begin{pmatrix} 0 &amp; -i \\ i &amp; 0 \end{pmatrix}$ the Majorana mass can be expanded out to
-\[\psi_R^T \sigma_2 \psi_R = (\psi_1, \psi_2) \begin{pmatrix} 0 &amp; -i \\ i &amp; 0 \end{pmatrix} \begin{pmatrix} \psi_1 \\ \psi_2 \end{pmatrix} = -i (\psi_1 \psi_2 - \psi_2 \psi_1).\tag{7}\]
+\[\psi_R^T \sigma_2 \psi_R = (\psi_1, \psi_2) \begin{pmatrix} 0 &amp; -i \\ i &amp; 0 \end{pmatrix} \begin{pmatrix} \psi_1 \\ \psi_2 \end{pmatrix} = -i (\psi_1 \psi_2 - \psi_2 \psi_1).\tag{6.7}\]
 Thus, we have shown that $\psi_1 \psi_2 - \psi_2 \psi_1$ is Lorentz invariant. We often write this as
 \[\psi_1 \psi_2 - \psi_2 \psi_1 = \psi^\alpha \psi^\beta \epsilon_{\alpha \beta}, \quad 
-\epsilon_{\alpha \beta} = \begin{pmatrix} 0 &amp; 1 \\ -1 &amp; 0 \end{pmatrix},\tag{8}\]
+\epsilon_{\alpha \beta} = \begin{pmatrix} 0 &amp; 1 \\ -1 &amp; 0 \end{pmatrix},\tag{6.8}\]
 which avoids picking a $\sigma_2$.</p>
 
 <p>There is only one problem: if the fermion components commute, $\psi_1 \psi_2 - \psi_2 \psi_1 = 0$! For Majorana masses to be non-trivial, fermion components cannot be regular numbers; they must be anticommuting numbers. Such things are called Grassmann numbers and satisfy a Grassmann algebra.</p>
@@ -843,41 +843,41 @@ which avoids picking a $\sigma_2$.</p>
 \[\begin{pmatrix}
         \psi^\alpha\\
         \psi_{\dot{\beta}}
-    \end{pmatrix}.\tag{9}\]</p>
+    \end{pmatrix}.\tag{6.9}\]</p>
 
 <p>The Majorana mass has the form
-\[\mathcal{L}_\text{Maj} = \tilde{\psi}^T\sigma_2\tilde{\psi} = -i(\psi_1\psi_2-\psi_2\psi_1) = i\tilde{\psi}_{\dot{\alpha}}\varepsilon^{\dot{\alpha}\dot{\beta}}\tilde{\psi}_{\dot{\beta}},\tag{10}\]
+\[\mathcal{L}_\text{Maj} = \tilde{\psi}^T\sigma_2\tilde{\psi} = -i(\psi_1\psi_2-\psi_2\psi_1) = i\tilde{\psi}_{\dot{\alpha}}\varepsilon^{\dot{\alpha}\dot{\beta}}\tilde{\psi}_{\dot{\beta}},\tag{6.10}\]
 where we have just defined $\varepsilon^{\alpha\beta}=-i\sigma_2^{\alpha\beta}$. It it a totally antisymmetric $2\times2$ tensor
-\[\varepsilon^{\alpha\beta} = -\varepsilon_{\alpha\beta} = \begin{pmatrix} 0 &amp; 1 \\ -1 &amp; 0 \end{pmatrix}.\tag{11}\]
+\[\varepsilon^{\alpha\beta} = -\varepsilon_{\alpha\beta} = \begin{pmatrix} 0 &amp; 1 \\ -1 &amp; 0 \end{pmatrix}.\tag{6.11}\]
 That is, $\varepsilon^{12} = \varepsilon_{21} = 1$, which leads to $\varepsilon_{\alpha\beta}\varepsilon^{\beta\gamma} = \delta^{\gamma}_{\alpha}$. The $\varepsilon$ tensor serves the function for Weyl spinors that $g_{\mu\nu}$ does for tensors - we can always contract spinors into Lorentz-invariant combinations with the $\varepsilon$ tensor. However, we have to be careful raising and lowering indices, since
-\[\psi^{\alpha}\chi_{\alpha} = \varepsilon^{\alpha\beta}\varepsilon_{\alpha\gamma}\psi_{\beta}\chi^{\gamma} = -\varepsilon^{\beta\alpha}\varepsilon_{\alpha\gamma}\psi_{\beta}\chi^{\gamma} = -\delta^{\beta}_{\gamma}\psi_{\beta}\chi^{\gamma} = -\psi_{\beta}\chi^{\beta}.\tag{12}\]
+\[\psi^{\alpha}\chi_{\alpha} = \varepsilon^{\alpha\beta}\varepsilon_{\alpha\gamma}\psi_{\beta}\chi^{\gamma} = -\varepsilon^{\beta\alpha}\varepsilon_{\alpha\gamma}\psi_{\beta}\chi^{\gamma} = -\delta^{\beta}_{\gamma}\psi_{\beta}\chi^{\gamma} = -\psi_{\beta}\chi^{\beta}.\tag{6.12}\]
 While it seems that the index position makes things messy, it actually makes things easier, since spinors anticommute. We can define the inner product between two left-handed spinors as
-\[\psi\chi \equiv \psi_{\alpha}\chi^{\alpha} = \psi_{\alpha}\varepsilon^{\alpha\beta}\chi_{\beta} = -\chi_{\beta}\varepsilon^{\alpha\beta}\psi_{\alpha} = \chi_{\beta}\varepsilon^{\beta\alpha}\psi_{\alpha} = \chi_{\alpha}\psi^{\alpha} = \chi\psi,\tag{13}\]
+\[\psi\chi \equiv \psi_{\alpha}\chi^{\alpha} = \psi_{\alpha}\varepsilon^{\alpha\beta}\chi_{\beta} = -\chi_{\beta}\varepsilon^{\alpha\beta}\psi_{\alpha} = \chi_{\beta}\varepsilon^{\beta\alpha}\psi_{\alpha} = \chi_{\alpha}\psi^{\alpha} = \chi\psi,\tag{6.13}\]
 so that the product is symmetric. Note that $\psi\psi \neq 0$ even though $\psi^{\alpha}\psi^{\alpha} = 0$. For right-handed spinors, we define
-\[\tilde{\psi}\tilde{\chi} = \tilde{\psi}^{\alpha}\tilde{\chi}_{\alpha} = -\tilde{\chi}_{\alpha}\tilde{\psi}^{\alpha} = \tilde{\chi}^{\alpha}\tilde{\psi}_{\alpha} = \tilde{\chi}\tilde{\psi},\tag{14}\]
+\[\tilde{\psi}\tilde{\chi} = \tilde{\psi}^{\alpha}\tilde{\chi}_{\alpha} = -\tilde{\chi}_{\alpha}\tilde{\psi}^{\alpha} = \tilde{\chi}^{\alpha}\tilde{\psi}_{\alpha} = \tilde{\chi}\tilde{\psi},\tag{6.14}\]
 which is also symmetric.</p>
 
 <p>For Weyl spinors, the $\sigma$-matrices $\sigma^{\mu} = (1, \vec{\sigma})$ and $\bar{\sigma}^{\mu} = (1, -\vec{\sigma})$ replace the Dirac $\gamma$-matrices. Recall that the kinetic term for a Dirac spinor $\psi = (\psi, \tilde{\chi})$ is
-\[\mathcal{L}_{\text{kin}} = i\tilde{\psi}\tilde{\phi}\psi = i\psi^{\dagger}\bar{\sigma}^{\mu}\partial_{\mu}\psi + i\tilde{\chi}^{\dagger}\sigma^{\mu}\partial_{\mu}\tilde{\chi}.\tag{15}\]
+\[\mathcal{L}_{\text{kin}} = i\tilde{\psi}\tilde{\phi}\psi = i\psi^{\dagger}\bar{\sigma}^{\mu}\partial_{\mu}\psi + i\tilde{\chi}^{\dagger}\sigma^{\mu}\partial_{\mu}\tilde{\chi}.\tag{6.15}\]
 Each of these two terms is separately Lorentz invariant. With spinor indices, $\sigma^{\mu} = \sigma^{\mu}_{\alpha\dot{\alpha}}$, the contractions are
-\[\tilde{\chi}^{\dagger}\sigma^{\mu}\tilde{\chi} = (\tilde{\chi}^{\dagger})^{\dot{\alpha}}\sigma^{\mu}_{\dot{\alpha}\alpha}\tilde{\chi}^{\alpha} = \chi^{\alpha}\sigma^{\mu}_{\alpha\dot{\alpha}}\tilde{\chi}^{\dot{\alpha}},\tag{16}\]
+\[\tilde{\chi}^{\dagger}\sigma^{\mu}\tilde{\chi} = (\tilde{\chi}^{\dagger})^{\dot{\alpha}}\sigma^{\mu}_{\dot{\alpha}\alpha}\tilde{\chi}^{\alpha} = \chi^{\alpha}\sigma^{\mu}_{\alpha\dot{\alpha}}\tilde{\chi}^{\dot{\alpha}},\tag{6.16}\]
 where we have defined a left-handed spinor $\chi \equiv \tilde{\chi}^{\dagger}$ so that we can drop the $\dagger$. You can think of $\chi$ as the particle and $\tilde{\chi}$ as the antiparticle for the same Weyl spinor. Similarly,
-\[\psi^{\dagger}\bar{\sigma}^{\mu}\psi = (\psi^{\dagger})^{\dot{\alpha}}\bar{\sigma}^{\mu}_{\dot{\alpha}\alpha}\psi^{\alpha} = \tilde{\psi}^{\alpha}\bar{\sigma}^{\mu}_{\alpha\dot{\alpha}}\psi^{\dot{\alpha}}\tag{17}\]
+\[\psi^{\dagger}\bar{\sigma}^{\mu}\psi = (\psi^{\dagger})^{\dot{\alpha}}\bar{\sigma}^{\mu}_{\dot{\alpha}\alpha}\psi^{\alpha} = \tilde{\psi}^{\alpha}\bar{\sigma}^{\mu}_{\alpha\dot{\alpha}}\psi^{\dot{\alpha}}\tag{6.17}\]
 with $\tilde{\psi} \equiv \psi^{\dagger}$.</p>
 
 <p>Two very useful relations are
-\[g_{\mu\nu}\sigma^{\mu}_{\alpha\dot{\alpha}}\sigma^{\nu}_{\beta\dot{\beta}} = 2\epsilon_{\alpha\beta}\epsilon_{\dot{\alpha}\dot{\beta}}\tag{18}\]
+\[g_{\mu\nu}\sigma^{\mu}_{\alpha\dot{\alpha}}\sigma^{\nu}_{\beta\dot{\beta}} = 2\epsilon_{\alpha\beta}\epsilon_{\dot{\alpha}\dot{\beta}}\tag{6.18}\]
 and
-\[\epsilon_{\alpha\beta}\epsilon_{\dot{\alpha}\dot{\beta}}\sigma^{\mu\beta\dot{\beta}} = \bar{\sigma}^{\mu}_{\dot{\alpha}\alpha}.\tag{19}\]</p>
+\[\epsilon_{\alpha\beta}\epsilon_{\dot{\alpha}\dot{\beta}}\sigma^{\mu\beta\dot{\beta}} = \bar{\sigma}^{\mu}_{\dot{\alpha}\alpha}.\tag{6.19}\]</p>
 
 <h2 id="spin-helicity-and-chirality">Spin, Helicity and Chirality</h2>
 
 <p>In a relativistic theory, unlike quantum mechanics, spin is a confusing subject. There are three quantities related to spin: spin, chirality and helicity. In this section, we will define and make sense of each of them.</p>
 
 <p>Recall, the Dirac equation can be written in the form
-\[\left((i\partial_\mu - eA_\mu)^2 - m^2 - \frac{e}{2}\sigma^{\mu\nu}F_{\mu\nu}\right)\psi = 0,\tag{1}\]
+\[\left((i\partial_\mu - eA_\mu)^2 - m^2 - \frac{e}{2}\sigma^{\mu\nu}F_{\mu\nu}\right)\psi = 0,\tag{7.1}\]
 and for the conjugate field $\bar{\psi} = \psi^\dagger\gamma^0$
-\[\bar{\psi}\left((i\overleftarrow{\partial}_\mu + eA_\mu)^2 - m^2 + \frac{e}{2}\sigma^{\mu\nu}F_{\mu\nu}\right) = 0.\tag{2}\]
+\[\bar{\psi}\left((i\overleftarrow{\partial}_\mu + eA_\mu)^2 - m^2 + \frac{e}{2}\sigma^{\mu\nu}F_{\mu\nu}\right) = 0.\tag{7.2}\]
 This means that $\psi$ and $\bar{\psi}$ are a particle-antiparticle pair. We normally call $\psi$ an electron and $\bar{\psi}$ a positron.</p>
 
 <p>When we constructed the Dirac representation, we saw that it was the direct sum of two irreducible representations of the Lorentz group: $\left( \frac{1}{2}, 0 \right) \oplus \left( 0, \frac{1}{2} \right)$. Now we see that it describes two physically distinguishable particles: the electron and the positron. Irreducible unitary spin-$\frac{1}{2}$ representations of the Poincaré group, Weyl spinors, have two degrees of freedom. Dirac spinors have four. These are two spin states for the electron and two spin states for the positron. For charged spinors, there is no other way. Uncharged spinors can be their own antiparticles if they are Majorana spinors, which we will discuss later.</p>
@@ -886,42 +886,42 @@ This means that $\psi$ and $\bar{\psi}$ are a particle-antiparticle pair. We nor
 \[\gamma_{\mu} = \begin{pmatrix}
 0 &amp; \sigma_{\mu} \\
 \bar{\sigma}_{\mu} &amp; 0
-\end{pmatrix},\tag{3}\]
+\end{pmatrix},\tag{7.3}\]
 and the Lorentz generators $S^{\mu\nu} = \frac{i}{4} [\gamma^{\mu}, \gamma^{\nu}]$ are block diagonal. Under an infinitesimal Lorentz transformation,
 \[\psi \rightarrow \psi + \frac{1}{2} 
 \begin{pmatrix}
      (i\theta_i - \beta_i) \sigma_i  &amp; \\
      &amp;  (i\theta_i + \beta_i) \sigma_i 
 \end{pmatrix}
- \psi,\tag{4}\]</p>
+ \psi,\tag{7.4}\]</p>
 
 <p>In this basis, a Dirac spinor is a doublet of a left- and a right-handed Weyl spinor:
 \[\psi = \begin{pmatrix}
 \psi_L \\
 \psi_R
-\end{pmatrix}.\tag{5}\]
+\end{pmatrix}.\tag{7.5}\]
 Here left-handed and right-handed refer to the $\left(\frac{1}{2}, 0\right)$ or $\left(0, \frac{1}{2}\right)$ representations of the Lorentz group. The handedness of a spinor is also known as its chirality.</p>
 
 <p>It is helpful to be able to project out the left- or right-handed Weyl spinors from a Dirac spinor. We can do that with the $\gamma_5$-matrix:
-\[\gamma^5 \equiv i \gamma^0 \gamma^1 \gamma^2 \gamma^3.\tag{6}\]</p>
+\[\gamma^5 \equiv i \gamma^0 \gamma^1 \gamma^2 \gamma^3.\tag{7.6}\]</p>
 
 <p>In the Weyl representation
-\[\gamma^5 = \begin{pmatrix} -\mathds{1} &amp; 0 \\ 0 &amp; \mathds{1} \end{pmatrix},\tag{7}\]
+\[\gamma^5 = \begin{pmatrix} -\mathds{1} &amp; 0 \\ 0 &amp; \mathds{1} \end{pmatrix},\tag{7.7}\]
 so left- and right-handed spinors are eigenstates of $\gamma_5$ with eigenvalues $\mp 1$. We can also define projection operators,
 \[P_R = \frac{1 + \gamma^5}{2} = \begin{pmatrix} 0 &amp; 0 \\ 0 &amp; \mathds{1} \end{pmatrix}, \quad 
-P_L = \frac{1 - \gamma^5}{2} = \begin{pmatrix} \mathds{1} &amp; 0 \\ 0 &amp; 0 \end{pmatrix},\tag{8}\]
+P_L = \frac{1 - \gamma^5}{2} = \begin{pmatrix} \mathds{1} &amp; 0 \\ 0 &amp; 0 \end{pmatrix},\tag{7.8}\]
 which satisfy $P_R^2 = P_R$ and $P_L^2 = P_L$ and
 \[P_R \begin{pmatrix} \psi_L \\ \psi_R \end{pmatrix} = \begin{pmatrix} 0 \\ \psi_R \end{pmatrix}, \quad 
-P_L \begin{pmatrix} \psi_L \\ \psi_R \end{pmatrix} = \begin{pmatrix} \psi_L \\ 0 \end{pmatrix}.\tag{9}\]
+P_L \begin{pmatrix} \psi_L \\ \psi_R \end{pmatrix} = \begin{pmatrix} \psi_L \\ 0 \end{pmatrix}.\tag{7.9}\]
 Writing projectors as $\frac{1 + \gamma^5}{2}$ is basis independent.</p>
 
 <p>It is easy to check that $\left( \gamma^5 \right)^2 = \mathds{1}$ and $\left\{ \gamma^5, \gamma^\mu \right\} = 0$. Thus $\gamma^5$ is like another $\gamma$-matrix, which is why we call it $\gamma_5$. This lets us formally extend the Clifford algebra to five generators, $\gamma^M = (\gamma^0, \gamma^1, \gamma^2, \gamma^3, i\gamma^5)$ so that $\left\{ \gamma^M, \gamma^N \right\} = 2g^{MN}$ with $g^{MN} = \text{diag}(1, -1, -1, -1, -1)$.</p>
 
 <p>To understand the degrees of freedom in the spinor, let us focus on the free theory. In the Weyl basis, the Dirac equation is
-\[\begin{pmatrix} -m &amp; i\sigma^\mu \partial_\mu \\ i\bar{\sigma}^\mu \partial_\mu &amp; -m \end{pmatrix} \begin{pmatrix} \psi_L \\ \psi_R \end{pmatrix} = 0.\tag{10}\]
+\[\begin{pmatrix} -m &amp; i\sigma^\mu \partial_\mu \\ i\bar{\sigma}^\mu \partial_\mu &amp; -m \end{pmatrix} \begin{pmatrix} \psi_L \\ \psi_R \end{pmatrix} = 0.\tag{7.10}\]
 In Fourier space, this implies
-\[\sigma^\mu p_\mu \psi_R = (E - \vec{\sigma} \cdot \vec{p}) \psi_R = m \psi_L,\tag{11}\]
-\[\bar{\sigma}^\mu p_\mu \psi_L = (E + \vec{\sigma} \cdot \vec{p}) \psi_L = m \psi_R.\tag{12}\]
+\[\sigma^\mu p_\mu \psi_R = (E - \vec{\sigma} \cdot \vec{p}) \psi_R = m \psi_L,\tag{7.11}\]
+\[\bar{\sigma}^\mu p_\mu \psi_L = (E + \vec{\sigma} \cdot \vec{p}) \psi_L = m \psi_R.\tag{7.12}\]
 So the mass mixes the left- and right-handed states.</p>
 
 <p>In the absence of a mass, left- and right-handed states are eigenstates of the operator $\hat{h} = \frac{\vec{\sigma} \cdot \vec{p}}{\abs{\vec{p}}}$ with opposite eigenvalue, since $E = \abs{\vec{p}}$ for massless particles. This operator projects the spin on the momentum direction. Spin projected on the direction of motion is called the helicity, so the left- and right-handed states have opposite helicity in the massless theory.</p>
@@ -953,9 +953,9 @@ So the mass mixes the left- and right-handed states.</p>
 <h2 id="solving-the-dirac-equation">Solving the Dirac Equation</h2>
 
 <p>Now, we would like to solve the free Dirac equation. Since free spinors satisfy the Klein-Gordon equation, we can simply write down the solution:
-\[\psi_s(x) = \int \frac{d^3p}{(2\pi)^3} u_s(p)e^{-ipx}\tag{1}\]
+\[\psi_s(x) = \int \frac{d^3p}{(2\pi)^3} u_s(p)e^{-ipx}\tag{8.1}\]
 with $p_0 = \sqrt{\vec{p}^2 + m^2} &gt; 0$ and $u_s(p)$ being the polarization vector for particles to be determined. These bases are dependent on momenta since there are no finite unitary representations of the Poincaré group. (Similarly to the spin-1 case.) Of course, we should also get solutions with negative energy. We now interpret these solutions as antiparticles, which has the same mass and opposite charge when coupling with the photon field. These solutions can be written as 
-\[\chi_s(x) = \int \frac{d^3p}{(2\pi)^3} v_s(p)e^{ipx}\tag{2}\]
+\[\chi_s(x) = \int \frac{d^3p}{(2\pi)^3} v_s(p)e^{ipx}\tag{8.2}\]
 with $p_0 = \sqrt{\vec{p}^2 + m^2} &gt; 0$ and $v_s(p)$ being the polarization vector for antiparticles to be determined. These polarization vectors transform under the Poincaré group through the transformation of $p^\mu$ and the little group transformation that fixes $p^\mu$. Thus, we only need to find explicit solutions at constant $p^\mu$, as we did for spin-1 fields.</p>
 
 <p>To begin, let us write the Dirac equation in the Weyl basis, which is 
@@ -963,7 +963,7 @@ with $p_0 = \sqrt{\vec{p}^2 + m^2} &gt; 0$ and $v_s(p)$ being the polarization v
     \begin{pmatrix}
         -m &amp; i\sigma^\mu\partial_\mu \\
         i\bar{\sigma}^\mu\partial_\mu &amp; -m
-    \end{pmatrix} \psi = 0.\tag{3}\]
+    \end{pmatrix} \psi = 0.\tag{8.3}\]
 Thus, the polarization vectors satisfy
 \[\begin{pmatrix}
         -m &amp; p \cdot \sigma \\
@@ -973,7 +973,7 @@ Thus, the polarization vectors satisfy
         -m &amp; -p \cdot \sigma \\
         -p \cdot \bar{\sigma} &amp; -m
     \end{pmatrix}v_s(p) = 0.
-    \tag{4}\]
+    \tag{8.4}\]
 In the rest frame, where $p^\mu = (m,0,0,0)$, this becomes
 \[\begin{pmatrix}
         -1 &amp;  1 \\
@@ -982,7 +982,7 @@ In the rest frame, where $p^\mu = (m,0,0,0)$, this becomes
     \begin{pmatrix}
         -1 &amp;  1 \\
         1  &amp; -1
-    \end{pmatrix}v_s(p) = 0,\tag{5}\]
+    \end{pmatrix}v_s(p) = 0,\tag{8.5}\]
 which have the solutions 
 \[u_s =
     \begin{pmatrix}
@@ -992,7 +992,7 @@ which have the solutions
         \begin{pmatrix}
         \eta_s\\
         -\eta_s,
-    \end{pmatrix}\tag{6}\]
+    \end{pmatrix}\tag{8.6}\]
 where $\xi_s$ and $\eta_s$ are constant two-component spinors. For example, we can choose $\xi_s$ and $\eta_s$ so that we get four linearly independent solutions:
 \[u_\uparrow = 
     \begin{pmatrix}
@@ -1009,7 +1009,7 @@ where $\xi_s$ and $\eta_s$ are constant two-component spinors. For example, we c
     v_\downarrow = 
     \begin{pmatrix}
         1\\0\\-1\\0
-    \end{pmatrix},\tag{7}\]
+    \end{pmatrix},\tag{8.7}\]
 which has four real degrees of freedom. The Dirac spinor is a complex four-component field with eight real degrees of freedom, and the equation of motion reduces it to four degrees of freedom.</p>
 
 <p>More generally, consider the frame with momentum $p^\mu = (E, 0,0,p_z)$, then 
@@ -1022,8 +1022,8 @@ which has four real degrees of freedom. The Dirac spinor is a complex four-compo
     \begin{pmatrix}
         E + p_z &amp; 0 \\
         0 &amp; E - p_z 
-    \end{pmatrix}.\tag{8}\]
-One should notice that $\sqrt{E-p_z}\sqrt{E+p_z} = m$, and thus if we write $a=\sqrt{E-p-z}$ and $b=\sqrt{E+p_z}$ then (4) becomes
+    \end{pmatrix}.\tag{8.8}\]
+One should notice that $\sqrt{E-p_z}\sqrt{E+p_z} = m$, and thus if we write $a=\sqrt{E-p-z}$ and $b=\sqrt{E+p_z}$ then (8.4) becomes
 \[\begin{pmatrix}
         -ab &amp; 0 &amp; a^2 &amp; 0 \\
         0 &amp;-ab&amp; 0 &amp; b^2 \\
@@ -1035,7 +1035,7 @@ One should notice that $\sqrt{E-p_z}\sqrt{E+p_z} = m$, and thus if we write $a=\
         0 &amp;-ab&amp; 0 &amp; -b^2 \\
         -b^2 &amp; 0 &amp; -ab &amp;0 \\
         0&amp;-a^2&amp;0&amp;-ab
-    \end{pmatrix}v_s(p) = 0.\tag{9}\]
+    \end{pmatrix}v_s(p) = 0.\tag{8.9}\]
 These have solutions 
 \[u_s = 
     \begin{pmatrix}
@@ -1058,7 +1058,7 @@ These have solutions
             -b &amp;0\\
             0&amp; -a
         \end{pmatrix}\eta_s\\
-    \end{pmatrix}.\tag{10}\]
+    \end{pmatrix}.\tag{8.10}\]
 Using the simpler but slightly subtle notation (the square root of matrix can be defined by changing to the diagonal basis.)
 \[\sqrt{p\cdot \sigma} = 
     \begin{pmatrix}
@@ -1069,7 +1069,7 @@ Using the simpler but slightly subtle notation (the square root of matrix can be
     \begin{pmatrix}
         b &amp; 0 \\
         0 &amp; a 
-    \end{pmatrix},\tag{11}\]
+    \end{pmatrix},\tag{8.11}\]
 the above becomes
 \[u_s =
     \begin{pmatrix}
@@ -1079,12 +1079,12 @@ the above becomes
     \begin{pmatrix}
         \sqrt{p\cdot \sigma}\eta_s \\
         -\sqrt{p\cdot \bar{\sigma}}\eta_s
-    \end{pmatrix}.\tag{12}\]
+    \end{pmatrix}.\tag{8.12}\]
 In practice, we can always choose the momentum to point in the $z$-direction. Then, the four solutions are
 \[u_p^1 = \begin{pmatrix} \sqrt{E - p_z} \\ 0 \\ \sqrt{E + p_z} \\ 0 \end{pmatrix}, \quad 
 u_p^2 = \begin{pmatrix} 0 \\ \sqrt{E - p_z} \\ 0 \\ \sqrt{E + p_z} \end{pmatrix}, \quad 
 v_p^1 = \begin{pmatrix} \sqrt{E - p_z} \\ 0 \\ -\sqrt{E + p_z} \\ 0 \end{pmatrix}, \quad 
-v_p^2 = \begin{pmatrix} 0 \\ \sqrt{E - p_z} \\ 0 \\ -\sqrt{E + p_z} \end{pmatrix}.\tag{13}\]
+v_p^2 = \begin{pmatrix} 0 \\ \sqrt{E - p_z} \\ 0 \\ -\sqrt{E + p_z} \end{pmatrix}.\tag{8.13}\]
 In any frame of reference, $u_s$ are always positive frequency electrons, and $v_s$ are always negative frequency electrons, or equivalently, positive frequency positrons.</p>
 
 <p>For massless spinors, $p_z = \pm E$ and the explicit solutions become 4-vectors with one non-zero component describing spinors with fixed helicity. The spinor solutions for massless electrons are sometimes called polarizations, and are useful for computing polarized electron scattering amplitudes.</p>
@@ -1116,11 +1116,11 @@ In any frame of reference, $u_s$ are always positive frequency electrons, and $v
     &amp;= 2\xi_{s}^\dagger\sqrt{(p\cdot \bar{\sigma})(p\cdot \sigma)}\xi_{s'}\\
     &amp;= 2\xi_{s}^\dagger m\mathds{1}\xi_{s'} \\
     &amp;= 2m\delta_{ss'}.
-    \end{aligned}\tag{14}\]
+    \end{aligned}\tag{8.14}\]
 Similarly, we have
-\[\bar{v}_s(p)v_{s'}(p) = -2m\delta_{ss'}.\tag{15}\]
+\[\bar{v}_s(p)v_{s'}(p) = -2m\delta_{ss'}.\tag{8.15}\]
 Also, it is easy to show that
-\[\bar{v}_s(p)u_{s'}(p) = \bar{u}_s(p)v_{s'}(p) = 0.\tag{16}\]
+\[\bar{v}_s(p)u_{s'}(p) = \bar{u}_s(p)v_{s'}(p) = 0.\tag{8.16}\]
 These are the conventional normalisations for the massive spinor inner product.</p>
 
 <p>Of course, we can also compute
@@ -1145,11 +1145,11 @@ These are the conventional normalisations for the massive spinor inner product.<
     &amp;= \xi_s^\dagger (p\cdot \sigma) \xi_{s'} + \xi_s^\dagger (p\cdot \bar{\sigma}) \xi_{s'}\\
     &amp;= 2\xi_s^\dagger E_p\mathds{1} \xi_{s'}\\
     &amp;= 2E_p\delta_{ss'},
-    \end{aligned}\tag{17}\]
+    \end{aligned}\tag{8.17}\]
 and similarly
-\[v_s^\dagger(p)v_s(p) = 2E_p\delta_{ss'}.\tag{18}\]
+\[v_s^\dagger(p)v_s(p) = 2E_p\delta_{ss'}.\tag{8.18}\]
 This is the conventional normalisation for massless Dirac spinors. Another useful relation is that 
-\[v_s^\dagger(p)u_s(\bar{p}) = u_s^\dagger(p)v_s(\bar{p}) =0,\tag{19}\]
+\[v_s^\dagger(p)u_s(\bar{p}) = u_s^\dagger(p)v_s(\bar{p}) =0,\tag{8.19}\]
 where $\bar{p}^\mu = (E_p, -\vec{p})$.</p>
 
 <p>Now, let us compute the outer products. In quantum mechanics, we have $\sum\ket{s}\bra{s}$. By analogy, we can define the outer product of spinor to be
@@ -1181,29 +1181,29 @@ where $\bar{p}^\mu = (E_p, -\vec{p})$.</p>
         p \cdot \bar{\sigma} &amp; m \\
     \end{pmatrix}\xi_s\xi_s^\dagger\\
     &amp;= \sum_{s=1}^2 (\slashed{p} + m)\xi_s\xi_s^\dagger.
-    \end{aligned}\tag{20}\]
+    \end{aligned}\tag{8.20}\]
 Note that an arbitrary $2\times2$ matrix can be written as $\sum_{ss'}a_{ss'}\xi_s\xi_{s'}^\dagger$. Using our normalisation, we would find
-\[\sum_{s=1}^2 \xi_s\xi_s^\dagger \sum_{ab=1}^2 a_{ab} \xi_a\xi_b^\dagger = \sum_{ab=1}^2 \sum_{s=1}^2a_{ab{}} \xi_s \delta_{sa}\xi_b^\dagger = \sum_{ab=1}^2 a_{ab} \xi_a\xi_b^\dagger.\tag{21}\]
+\[\sum_{s=1}^2 \xi_s\xi_s^\dagger \sum_{ab=1}^2 a_{ab} \xi_a\xi_b^\dagger = \sum_{ab=1}^2 \sum_{s=1}^2a_{ab{}} \xi_s \delta_{sa}\xi_b^\dagger = \sum_{ab=1}^2 a_{ab} \xi_a\xi_b^\dagger.\tag{8.21}\]
 Thus, multiplying $\sum_s \xi_s\xi_s^\dagger$ on a matrix gives a factor of 1. Thus, we have</p>
 
-<p>\[\sum_{s=1}^2u_s(p)\bar{u}_s(p) = \slashed{p} + m,\tag{22}\]</p>
+<p>\[\sum_{s=1}^2u_s(p)\bar{u}_s(p) = \slashed{p} + m,\tag{8.22}\]</p>
 
 <p>and similarly</p>
 
-<p>\[\sum_{s=1}^2v_s(p)\bar{v}_s(p) = \slashed{p} - m.\tag{23}\]</p>
+<p>\[\sum_{s=1}^2v_s(p)\bar{v}_s(p) = \slashed{p} - m.\tag{8.23}\]</p>
 
 <h2 id="majorana-fermions">Majorana Fermions</h2>
 
 <p>As discussed before, if the spinors are anticommuting Grassman numbers (which they indeed are), then we can write a Lagrangian with only one Weyl spinor with a mass term:
-\[\mathcal{L} = i\psi_L^\dagger\sigma^\mu\partial_\mu\psi_L + i \frac{m}{2}(\psi_L^\dagger\sigma_2\psi_L^* - \psi_L^T\sigma_2\psi_L).\tag{1}\]
+\[\mathcal{L} = i\psi_L^\dagger\sigma^\mu\partial_\mu\psi_L + i \frac{m}{2}(\psi_L^\dagger\sigma_2\psi_L^* - \psi_L^T\sigma_2\psi_L).\tag{9.1}\]
 This Lagrangian describes the Majorana fermions, which transform under the same representation as the Weyl spinors. The difference comes in quantum theory, in which a Majorana fermion is its own antiparticle. Below, we will make this point clearer using the notion of charge conjugation.</p>
 
 <p>Sometimes, it is easier to work with the Dirac algebra, so we can put the Majorana fermions into a Dirac four-component spinor:
 \[\psi = \begin{pmatrix}
         \psi_L \\ i\sigma_2\psi_L^*
-    \end{pmatrix}.\tag{2}\]
+    \end{pmatrix}.\tag{9.2}\]
 Since $\sigma_2\psi_L$ transforms just like $\psi_R$, the above transforms exactly like a Dirac spinor. Hence, we can write the Majorana mass as
-\[\frac{m}{2}\bar{\psi}\psi = i \frac{m}{2}(\psi_L^\dagger\sigma_2\psi_L^* - \psi_L^T\sigma_2\psi_L).\tag{3}\]</p>
+\[\frac{m}{2}\bar{\psi}\psi = i \frac{m}{2}(\psi_L^\dagger\sigma_2\psi_L^* - \psi_L^T\sigma_2\psi_L).\tag{9.3}\]</p>
 
 <p>Now, consider $-i\gamma^2\psi^*$ under the Weyl basis:
 \[-i\gamma^2\psi^* = -i
@@ -1220,22 +1220,22 @@ Since $\sigma_2\psi_L$ transforms just like $\psi_R$, the above transforms exact
     = \begin{pmatrix}
         \psi_L \\ i\sigma_2\psi_L^*
     \end{pmatrix} = \psi.
-    \tag{4}\]
+    \tag{9.4}\]
 Therefore, the operator $-i\gamma^2$ takes the Majorana fermion to itself. What does this operator mean? Recall the Dirac equation
-\[(i\slashed{\partial} - e\slashed{A} -m ) \psi = 0.\tag{5}\]
+\[(i\slashed{\partial} - e\slashed{A} -m ) \psi = 0.\tag{9.5}\]
 Taking its complex conjugate, we find
-\[(-i\gamma^{\mu*}\partial_\mu - e\gamma^{\mu*}A_\mu -m)\psi^* = 0.\tag{6}\]
+\[(-i\gamma^{\mu*}\partial_\mu - e\gamma^{\mu*}A_\mu -m)\psi^* = 0.\tag{9.6}\]
 Recall $(\gamma^2)^2 = -  \mathds{1}$, the above implies
-\[\gamma^2(-i\gamma^{\mu*}\partial_\mu - e\gamma^{\mu*}A_\mu -m)\gamma^2(-i\gamma^2\psi^*) = 0,\tag{7}\]
+\[\gamma^2(-i\gamma^{\mu*}\partial_\mu - e\gamma^{\mu*}A_\mu -m)\gamma^2(-i\gamma^2\psi^*) = 0,\tag{9.7}\]
 where we have multiplied $-i\gamma^2$ on the right on both sides. Now, we can define a new representation for the $\gamma$-matrices $\hat{\gamma}^\mu = \gamma^2\gamma^{\mu*}\gamma^2$, which also satisfies the Dirac algebra. (Trivial to check.) Thus, we find
 \[\begin{aligned}
         &amp;(-i\hat{\gamma}^{\mu}\partial_\mu - e\hat{\gamma}^{\mu}A_\mu + m)(-i\gamma^2\psi^*) = 0 \\
         \implies&amp;(i\hat{\gamma}^{\mu}\partial_\mu + e\hat{\gamma}^{\mu}A_\mu - m)(-i\gamma^2\psi^*) = 0,
-\end{aligned}\tag{8}\]
+\end{aligned}\tag{9.8}\]
 which means $-i\gamma^2\psi^*$ satisfies the Dirac equation under a different representation of the $\gamma$ matrix with the same mass and opposite charge. Therefore, the transformation takes the spinor to its charge conjugate. Thus, we define such a transformation as charge conjugation, $C$:
-\[C:\quad \psi \rightarrow -i\gamma^2\psi^*  = \psi_c.\tag{9}\]
-Thus, (4) says that the Majorana spinor is its own charge conjugate. Therefore, under a U(1) gauged or global symmetry theory, the Majorana spinor cannot be charged. Under such a symmetry $\psi \rightarrow e^{i\alpha}\psi$ and $\psi_c \rightarrow e^{-i\alpha}\psi_c$, so $\psi = \psi_c$ cannot hold. We can also see this through the mass term, which is not invariant under the U(1) transformation:
-\[\psi_L^T\sigma_2\psi_L \rightarrow \psi_L^Te^{i\alpha}\sigma_2e^{i\alpha}\psi_L = e^{2i\alpha}\psi_L^T\sigma_2\psi_L.\tag{10}\]
+\[C:\quad \psi \rightarrow -i\gamma^2\psi^*  = \psi_c.\tag{9.9}\]
+Thus, (9.4) says that the Majorana spinor is its own charge conjugate. Therefore, under a U(1) gauged or global symmetry theory, the Majorana spinor cannot be charged. Under such a symmetry $\psi \rightarrow e^{i\alpha}\psi$ and $\psi_c \rightarrow e^{-i\alpha}\psi_c$, so $\psi = \psi_c$ cannot hold. We can also see this through the mass term, which is not invariant under the U(1) transformation:
+\[\psi_L^T\sigma_2\psi_L \rightarrow \psi_L^Te^{i\alpha}\sigma_2e^{i\alpha}\psi_L = e^{2i\alpha}\psi_L^T\sigma_2\psi_L.\tag{9.10}\]
 This is true for gauge charges, that is, those with a corresponding gauge boson, such as the photon, and also for global charges such as lepton number (which counts the number of electrons and neutrinos minus the number of positrons and antineutrinos), which have no associated gauge boson. If there are multiple Majorana fermions, they can transform together under a real representation of an internal non-Abelian symmetry group. For example, gluons in supersymmetry can be Majorana, transforming under the adjoint representation of SU(3).</p>
 
 <p>There are particles in nature called neutrinos, which apparently carry no charges. Thus, they may be Majorana or Dirac fermions. In fact, a number of experiments are trying hard to find out if neutrinos are Majorana. Weyl spinors do exist in nature, in an obvious way, since Dirac spinors are just two Weyl spinors put together. But Weyl spinors are also integral to the theory of weak interactions, which is chiral.</p>
@@ -1255,42 +1255,42 @@ This is true for gauge charges, that is, those with a corresponding gauge boson,
     \end{pmatrix} = 
     \begin{pmatrix}
         0\\1\\0\\-1
-    \end{pmatrix} = v_\downarrow.\tag{1}\]
+    \end{pmatrix} = v_\downarrow.\tag{10.1}\]
 Similarly, we have
 \[(u_\uparrow)^c = v_\downarrow, \quad
     (u_\downarrow)^c = v_\uparrow, \quad
     (v_\uparrow)^c = u_\downarrow, \quad
-    (v_\downarrow)^c = u_\uparrow.\tag{2}\]
+    (v_\downarrow)^c = u_\uparrow.\tag{10.2}\]
 Therefore, charge conjugation takes particles to antiparticles and flips their spins.</p>
 
 <p>Charge conjugation may or may not be a symmetry of a particular Lagrangian. The operation of charge conjugation acts on spinors and their conjugates by  
-\[C : \psi \rightarrow -i\gamma_2\psi^*.\tag{3}\]</p>
+\[C : \psi \rightarrow -i\gamma_2\psi^*.\tag{10.3}\]</p>
 
 <p>In the Weyl basis, $\gamma_2^* = -\gamma_2$ and $\gamma_2^T = \gamma_2$, so  
-\[C : \psi^* \rightarrow -i\gamma_2\psi,\tag{4}\]</p>
+\[C : \psi^* \rightarrow -i\gamma_2\psi,\tag{10.4}\]</p>
 
 <p>and in particular $C^2 = 1$, which is why $C$ is called a <em>conjugation</em> operator. Then  
-\[C : \bar{\psi}\psi \rightarrow (-i\gamma_2\psi)^T\gamma_0(-i\gamma_2\psi^*) = -\psi^T\gamma_2^T\gamma_0\gamma_2\psi^* = -\psi^T\gamma_0\psi^*.\tag{5}\]</p>
+\[C : \bar{\psi}\psi \rightarrow (-i\gamma_2\psi)^T\gamma_0(-i\gamma_2\psi^*) = -\psi^T\gamma_2^T\gamma_0\gamma_2\psi^* = -\psi^T\gamma_0\psi^*.\tag{10.5}\]</p>
 
 <p>The transpose on a spinor is not really necessary. This last expression just means  
-\[-\psi^T\gamma_0\psi^* = -(\gamma_0)_{\alpha\beta}\psi_\alpha\psi_\beta^*.\tag{6}\]</p>
+\[-\psi^T\gamma_0\psi^* = -(\gamma_0)_{\alpha\beta}\psi_\alpha\psi_\beta^*.\tag{10.6}\]</p>
 
 <p>Now, anticommuting the spinors, relabeling $\alpha \leftrightarrow \beta$ and combining shows that  
-\[-(\gamma_0)_{\alpha\beta}\psi_\alpha\psi_\beta^* = (\gamma_0)_{\alpha\beta}\psi_\beta^*\psi_\alpha = (\gamma_0)_{\beta\alpha}\psi_\alpha^*\psi_\beta = \psi^\dagger\gamma_0^T\psi = \bar{\psi}\psi.\tag{7}\]</p>
+\[-(\gamma_0)_{\alpha\beta}\psi_\alpha\psi_\beta^* = (\gamma_0)_{\alpha\beta}\psi_\beta^*\psi_\alpha = (\gamma_0)_{\beta\alpha}\psi_\alpha^*\psi_\beta = \psi^\dagger\gamma_0^T\psi = \bar{\psi}\psi.\tag{10.7}\]</p>
 
 <p>Thus,  
-\[C : \bar{\psi}\psi \rightarrow \bar{\psi}\psi.\tag{8}\]</p>
+\[C : \bar{\psi}\psi \rightarrow \bar{\psi}\psi.\tag{10.8}\]</p>
 
 <p>Similarly,  
-\[C : \bar{\psi}\gamma^\mu\partial_\mu\psi \rightarrow \bar{\psi}\gamma^\mu\partial_\mu\psi.\tag{9}\]</p>
+\[C : \bar{\psi}\gamma^\mu\partial_\mu\psi \rightarrow \bar{\psi}\gamma^\mu\partial_\mu\psi.\tag{10.9}\]</p>
 
 <p>So the free Dirac Lagrangian is $C$ invariant.</p>
 
 <p>We can also check that  
-\[C : \bar{\psi}\gamma^\mu\psi \rightarrow -\bar{\psi}\gamma^\mu\psi.\tag{10}\]</p>
+\[C : \bar{\psi}\gamma^\mu\psi \rightarrow -\bar{\psi}\gamma^\mu\psi.\tag{10.10}\]</p>
 
 <p>This implies that the interaction $eA_\mu\bar{\psi}\gamma^\mu\psi$ will only be $C$ invariant if  
-\[C : A_\mu \rightarrow -A_\mu.\tag{11}\]</p>
+\[C : A_\mu \rightarrow -A_\mu.\tag{10.11}\]</p>
 
 <p>Since the kinetic term $F_{\mu \nu}^2$ is invariant under $A_\mu \to \pm A_\mu$, the whole QED Lagrangian is therefore $C$ invariant.</p>
 
@@ -1309,23 +1309,23 @@ Therefore, charge conjugation takes particles to antiparticles and flips their s
         &amp;= -i\psi_{\alpha}\gamma^0_{\alpha\beta}\gamma^5_{\beta\gamma}\psi^*_\gamma\\
         &amp;= i\psi_{\gamma}^*\gamma^0_{\gamma\beta}\gamma^5_{\beta\alpha}\psi_\alpha\\
         &amp;= i\bar{\psi}\gamma^5\psi.
-    \end{aligned}\tag{12}\]
+    \end{aligned}\tag{10.12}\]
 \[\begin{aligned}
         C: \quad i\bar{\psi}\gamma^5\gamma^\mu\psi &amp;\rightarrow i(-i\gamma^2\psi)^T\gamma^0\gamma^5\gamma^\mu(-i\gamma^2\psi^*)\\
         &amp;= -i\psi(\gamma^2)^T\gamma^0\gamma^5\gamma^\mu\gamma^2\psi^*\\
         &amp;= i\psi^T\gamma^0\gamma^5(2g^{\mu2} - \gamma^\mu\gamma^2)\gamma^2\psi^*.
-    \end{aligned}\tag{13}\]
+    \end{aligned}\tag{10.13}\]
 Note, when $\mu \neq 2$, we find
-\[i\psi^T\gamma^0\gamma^5(2g^{\mu2} - \gamma^\mu\gamma^2)\gamma^2\psi^* = -i\psi^T\gamma^0\gamma^5\gamma^\mu\psi^* = i\psi^\dagger\gamma^0\gamma^5\gamma^\mu\psi.\tag{14}\]
+\[i\psi^T\gamma^0\gamma^5(2g^{\mu2} - \gamma^\mu\gamma^2)\gamma^2\psi^* = -i\psi^T\gamma^0\gamma^5\gamma^\mu\psi^* = i\psi^\dagger\gamma^0\gamma^5\gamma^\mu\psi.\tag{10.14}\]
 Then, when $\mu =2$, we have
-\[i\psi^T\gamma^0\gamma^5(2\cancelto{=-1}{g^{22}} - \cancelto{=-1}{\gamma^2\gamma^2)}\gamma^2\psi^* = -i\psi^T\gamma^0\gamma^5\gamma^2\psi^* = i\psi^\dagger\gamma^0\gamma^5\gamma^2\psi.\tag{15}\]
+\[i\psi^T\gamma^0\gamma^5(2\cancelto{=-1}{g^{22}} - \cancelto{=-1}{\gamma^2\gamma^2)}\gamma^2\psi^* = -i\psi^T\gamma^0\gamma^5\gamma^2\psi^* = i\psi^\dagger\gamma^0\gamma^5\gamma^2\psi.\tag{10.15}\]
 Thus, we can conclude
 \[C: \quad i\bar{\psi}\gamma^5\gamma^\mu\psi \rightarrow i\bar{\psi}\gamma^5\gamma^\mu\psi.
-    \tag{16}\]
-In the above derivation, we can see that since $\gamma^5$ commutes with all the rest of $\gamma$-matrices, it gives a factor of 1 while taking charge conjugation. Now, if we put in another $\gamma^\nu$, we would need to swap $\gamma^2$ with $\gamma^\mu$ twice, which results in an extra factor of $-1$ in contrast to (16). Thus, 
-\[C: \quad i\bar{\psi}\gamma^\mu\gamma^\nu\psi \rightarrow -i\bar{\psi}\gamma^\mu\gamma^\nu\psi,\tag{17}\]
+    \tag{10.16}\]
+In the above derivation, we can see that since $\gamma^5$ commutes with all the rest of $\gamma$-matrices, it gives a factor of 1 while taking charge conjugation. Now, if we put in another $\gamma^\nu$, we would need to swap $\gamma^2$ with $\gamma^\mu$ twice, which results in an extra factor of $-1$ in contrast to (10.16). Thus, 
+\[C: \quad i\bar{\psi}\gamma^\mu\gamma^\nu\psi \rightarrow -i\bar{\psi}\gamma^\mu\gamma^\nu\psi,\tag{10.17}\]
 and thus
-\[C: \quad i\bar{\psi}\sigma_{\mu\nu}\psi \rightarrow -i\bar{\psi}\sigma_{\mu\nu}\psi\tag{18}\]</p>
+\[C: \quad i\bar{\psi}\sigma_{\mu\nu}\psi \rightarrow -i\bar{\psi}\sigma_{\mu\nu}\psi\tag{10.18}\]</p>
 
 </aside>
 
@@ -1334,9 +1334,9 @@ and thus
 <p>Recall that the full Lorentz group, $O(1, 3)$, is the group of $4 \times 4$ matrices $\Lambda$ with $\Lambda^T g \Lambda = g$.  
 In addition to the transformations smoothly connected to $\mathbb{I}$, this group also contains the transformations of parity and time reversal:</p>
 
-<p>\[P : (t, \vec{x}) \rightarrow (t, -\vec{x}),\tag{1}\]</p>
+<p>\[P : (t, \vec{x}) \rightarrow (t, -\vec{x}),\tag{11.1}\]</p>
 
-<p>\[T : (t, \vec{x}) \rightarrow (-t, \vec{x}).\tag{2}\]</p>
+<p>\[T : (t, \vec{x}) \rightarrow (-t, \vec{x}).\tag{11.2}\]</p>
 
 <p>Just as with charge conjugation, we would like to know how to define these transformations acting on spinors and other fields, so that they are symmetries of QED or whatever theory we are studying.</p>
 
@@ -1345,50 +1345,50 @@ In addition to the transformations smoothly connected to $\mathbb{I}$, this grou
 <h4>Scalars and Vectors</h4>
 
 <p>For real scalar fields, parity should be symmetry for the kinetic term $\mathcal{L} = -\frac{1}{2}\phi\square\phi - \frac{1}{2}m^2\phi^2$. Thus, with $P^2=1$, we are only left with two choices:
-\[P: \quad \phi(t,\vec{x}) \rightarrow \pm \phi(t,-\vec{x}).\tag{3}\]
+\[P: \quad \phi(t,\vec{x}) \rightarrow \pm \phi(t,-\vec{x}).\tag{11.3}\]
 The sign is known as the intrinsic parity. In nature, there are particles with even parity (scalar, such as the Higgs bosons) and particles with odd parity (pseudoscalars, such as the $\pi^0$). Since the action integrates over all $\vec{x}$, the action is invariant under $\vec{x} \rightarrow -\vec{x}$.</p>
 
 <p>For complex scalar fields, the Lagrangian is $\mathcal{L} = -\phi^*\square\phi - m^2\phi^*\phi$. Thus, the most general parity transformation would be
-\[P: \quad \phi(t,\vec{x}) \rightarrow \eta \phi(t,-\vec{x}),\tag{4}\]
+\[P: \quad \phi(t,\vec{x}) \rightarrow \eta \phi(t,-\vec{x}),\tag{11.4}\]
 where $\eta$ is a pure phase. Recall, any charged scalar must have a global symmetry under the phase transformation $\phi \rightarrow e^{i\alpha}\phi$, which is why they can couple to the photon. Therefore, $\eta$ can be combined with a phase shift, which means it is not well defined. Thus, we can choose a phase convention for one charged particle, and all the other phase will become physical. Hence, we redefine $P$ so that all particles have parity phases $\pm1$. In specific, we choose proton, neutron and electron to have parity $+1$, and all the rest to have parity $-1$.</p>
 
 <p>For the free theory of vector fields to be invariant under parity, we require
-\[P: \quad V_0(t,\vec{x}) \rightarrow \pm V_0(t,-\vec{x}), \quad V_i(t,\vec{x}) \rightarrow \mp V_i(t,-\vec{x}).\tag{5}\]
+\[P: \quad V_0(t,\vec{x}) \rightarrow \pm V_0(t,-\vec{x}), \quad V_i(t,\vec{x}) \rightarrow \mp V_i(t,-\vec{x}).\tag{11.5}\]
 If the fields transform like $\vec{x}$, $V_i \rightarrow -V_i$, we call it a vector with parity $-1$. If the fields transform like a scalar, $V_i \rightarrow V_i$, we call it a pseudovector with parity $+1$.</p>
 
 <p>Massless vectors such as the photon have to have parity $-1$. To see this, just look at the coupling to a charged scalar. Under parity we would like
-\[P : \quad A_\mu (\phi^* \partial_\mu \phi - \phi \partial_\mu \phi^*) \rightarrow A_\mu (\phi^* \partial_\mu \phi - \phi \partial_\mu \phi^*),\tag{6}\]
+\[P : \quad A_\mu (\phi^* \partial_\mu \phi - \phi \partial_\mu \phi^*) \rightarrow A_\mu (\phi^* \partial_\mu \phi - \phi \partial_\mu \phi^*),\tag{11.6}\]
 which is only possible if $A_\mu$ transforms like $\partial_\mu$. That is, $A_\mu$ is a vector:
-\[P : \quad A_0 (t, \vec{x}) \to A_0 (t, -\vec{x}), \quad A_i (t, \vec{x}) \to -A_i (t, -\vec{x}).\tag{7}\]</p>
+\[P : \quad A_0 (t, \vec{x}) \to A_0 (t, -\vec{x}), \quad A_i (t, \vec{x}) \to -A_i (t, -\vec{x}).\tag{11.7}\]</p>
 
 <h4>Spinors</h4>
 
 <p>Now, let us consider the spinors. In the Lorentz group, parity commutes with rotation, which means it should not change the spin of a state embedded in a vector field. For massless spinors, recall that the left- and right-handed spinors are eigenstates of the helicity operator, which projects spin onto the momentum axis:
-\[\frac{\vec{\sigma}\cdot\vec{p}}{\abs{\vec{p}}}\psi_R = \psi_R, \quad  \frac{\vec{\sigma}\cdot\vec{p}}{\abs{\vec{p}}}\psi_L = -\psi_L.\tag{8}\]
+\[\frac{\vec{\sigma}\cdot\vec{p}}{\abs{\vec{p}}}\psi_R = \psi_R, \quad  \frac{\vec{\sigma}\cdot\vec{p}}{\abs{\vec{p}}}\psi_L = -\psi_L.\tag{11.8}\]
 Since parity commutes with spin and energy, but flips momentum, it will take a left-handed spinor to a right-handed one and vice versa. In other words, it maps $(\frac{1}{2},0)$ representations to $(0,\frac{1}{2})$. Therefore, parity cannot be appended to any of the irreducible spin-$\frac{1}{2}$ representation alone.</p>
 
 <p>For the Dirac spinor, under the Weyl basis, we can simply write
-\[P: \quad \psi \to \gamma^0 \psi.\tag{9}\]
+\[P: \quad \psi \to \gamma^0 \psi.\tag{11.9}\]
 Similarly to the complex scalar case, we have a phase ambiguity here. However, we have chosen parity $+1$ as a convention, using global gauge invariance just as before. Note, a chiral theory (no symmetry under $L \leftrightarrow R$) is not invariant under parity, such as the theory of weak interactions</p>
 
 <p>Now, note that
-\[P: \quad \bar{\psi}\psi(t,\vec{x}) \to \psi^\dagger\gamma^0\gamma^0\gamma^0\psi(t,-\vec{x}) = \bar{\psi}\psi(t,-\vec{x}),\tag{10}\]
-\[P: \quad \bar{\psi}\gamma^\mu\psi(t,\vec{x}) \to \psi^\dagger\gamma^0\gamma^0\gamma^\mu\gamma^0\psi(t,-\vec{x}) = \bar{\psi}\gamma^{\mu\dagger}\psi(t,-\vec{x}).\tag{11}\]
+\[P: \quad \bar{\psi}\psi(t,\vec{x}) \to \psi^\dagger\gamma^0\gamma^0\gamma^0\psi(t,-\vec{x}) = \bar{\psi}\psi(t,-\vec{x}),\tag{11.10}\]
+\[P: \quad \bar{\psi}\gamma^\mu\psi(t,\vec{x}) \to \psi^\dagger\gamma^0\gamma^0\gamma^\mu\gamma^0\psi(t,-\vec{x}) = \bar{\psi}\gamma^{\mu\dagger}\psi(t,-\vec{x}).\tag{11.11}\]
 Recall, $\gamma_0^\dagger= \gamma_0$ and $\gamma_i^\dagger= -\gamma_i$, and thus
-\[P: \quad \bar{\psi}\gamma^0\psi(t,\vec{x}) \to \bar{\psi}\gamma^0\psi(t,-\vec{x}), \quad \bar{\psi}\gamma^i\psi(t,\vec{x}) \to -\bar{\psi}\gamma^i\psi(t,-\vec{x}),\tag{12}\]
+\[P: \quad \bar{\psi}\gamma^0\psi(t,\vec{x}) \to \bar{\psi}\gamma^0\psi(t,-\vec{x}), \quad \bar{\psi}\gamma^i\psi(t,\vec{x}) \to -\bar{\psi}\gamma^i\psi(t,-\vec{x}),\tag{11.12}\]
 which transforms just as a four-vector. Therefore, $\bar{\psi}\slashed{\partial}\psi$, $\bar{\psi}\slashed{A}\psi$ and $\bar{\psi}\psi$ is invariant under parity, and so is the Dirac Lagrangian. Things get a bit different if we have an extra $\gamma^5$:
-\[P: \quad \bar{\psi}\gamma^0\gamma^5\psi(t,\vec{x}) \to -\bar{\psi}\gamma^0\gamma^5\psi(t,-\vec{x}), \quad \bar{\psi}\gamma^i\gamma^5\psi(t,\vec{x}) \to \bar{\psi}\gamma^i\gamma^5\psi(t,-\vec{x}).\tag{13}\]
+\[P: \quad \bar{\psi}\gamma^0\gamma^5\psi(t,\vec{x}) \to -\bar{\psi}\gamma^0\gamma^5\psi(t,-\vec{x}), \quad \bar{\psi}\gamma^i\gamma^5\psi(t,\vec{x}) \to \bar{\psi}\gamma^i\gamma^5\psi(t,-\vec{x}).\tag{11.13}\]
 This leads to
-\[P: \quad \bar{\psi}\slashed{A}\psi(t,\vec{x}) \to \bar{\psi}\slashed{A}\psi(t,-\vec{x}),\tag{14}\]
-\[P: \quad \bar{\psi}\slashed{A}\gamma^5\psi(t,\vec{x}) \to -\bar{\psi}\slashed{A}\gamma^5\psi(t,-\vec{x}).\tag{15}\]
+\[P: \quad \bar{\psi}\slashed{A}\psi(t,\vec{x}) \to \bar{\psi}\slashed{A}\psi(t,-\vec{x}),\tag{11.14}\]
+\[P: \quad \bar{\psi}\slashed{A}\gamma^5\psi(t,\vec{x}) \to -\bar{\psi}\slashed{A}\gamma^5\psi(t,-\vec{x}).\tag{11.15}\]
 The currents contracted with $A^\mu$ in these terms are known as the vector current, $J^\mu = \bar{\psi} \gamma^\mu \psi$, and the axial vector current, $J_5^\mu = \bar{\psi} \gamma^\mu \gamma^5 \psi$. These currents play a crucial role in the theory of weak interactions, which involves $J^\mu - J_5^\mu$, or the V--A current.</p>
 
 <h2 id="time-reversal">Time Reversal</h2>
 
 <p>Finally, let us consider time reversal. As a Lorentz transformation,
-\[T: \quad (t,\vec{x}) \to (-t,\vec{x}).\tag{1}\]
+\[T: \quad (t,\vec{x}) \to (-t,\vec{x}).\tag{12.1}\]
 We require the kinetic term of the spinor fields to be invariant under $T$, which means we need $\bar{\psi}\gamma^\mu\psi$ to transform as a four-vector. Thus, we need
-\[T: \quad \bar{\psi}\gamma^0\psi(t,\vec{x}) \to -\bar{\psi}\gamma^0\psi(-t,\vec{x}),\tag{2}\]
+\[T: \quad \bar{\psi}\gamma^0\psi(t,\vec{x}) \to -\bar{\psi}\gamma^0\psi(-t,\vec{x}),\tag{12.2}\]
 which is really strange. It says we need to turn a positive definite quantity($\psi^\dagger\psi$) to a negative definite quantity($-\psi^\dagger\psi$). This is impossible for any linear transformation $\psi \to \Gamma\psi$.</p>
 
 <h4>The Simple $\hat{T}$</h4>
@@ -1402,27 +1402,27 @@ which is really strange. It says we need to turn a positive definite quantity($\
     &amp;= -\psi_\gamma^*\Gamma_{\alpha\beta}^\dagger\Gamma_{\beta
     \gamma}\psi_{\alpha}(-t,\vec{x})\\
     &amp;= -\psi^\dagger(\Gamma^\dagger\Gamma)^T\psi(-t,\vec{x}).
-\end{aligned}\tag{3}\]
+\end{aligned}\tag{12.3}\]
 Thus, we require $\Gamma^\dagger\Gamma = \mathds{1}$, which means $\Gamma$ needs to be unitary. However, we also need the transformation to preserve $\bar{\psi}\gamma^i\psi$ and the mass term $\bar{\psi}\psi$. For the mass term, 
-\[\hat{T}:\quad \bar{\psi}\psi \to \psi^T\Gamma^\dagger\gamma^0\Gamma\psi^* = -\psi^\dagger(\Gamma^\dagger\gamma^0\Gamma)^T\psi = -\bar{\psi}(\Gamma^\dagger\gamma^0\Gamma\gamma^0)^T\psi,\tag{4}\]
+\[\hat{T}:\quad \bar{\psi}\psi \to \psi^T\Gamma^\dagger\gamma^0\Gamma\psi^* = -\psi^\dagger(\Gamma^\dagger\gamma^0\Gamma)^T\psi = -\bar{\psi}(\Gamma^\dagger\gamma^0\Gamma\gamma^0)^T\psi,\tag{12.4}\]
 which is equal to $\bar{\psi}\psi$ only when $\{\Gamma, \gamma^0\} = 0$. Then,
-\[\hat{T}:\quad \bar{\psi}\gamma^i\psi \to \psi^T\Gamma^\dagger\gamma^0\gamma^i\Gamma\psi^* = -\psi^\dagger(\Gamma^\dagger\gamma^0\gamma^i\Gamma)^T\psi = -\bar{\psi}(\Gamma^\dagger\gamma^0\gamma^i\Gamma\gamma^0)^T\psi = -\bar{\psi}(\Gamma^\dagger\gamma^i\Gamma)^T\psi,\tag{5}\]
+\[\hat{T}:\quad \bar{\psi}\gamma^i\psi \to \psi^T\Gamma^\dagger\gamma^0\gamma^i\Gamma\psi^* = -\psi^\dagger(\Gamma^\dagger\gamma^0\gamma^i\Gamma)^T\psi = -\bar{\psi}(\Gamma^\dagger\gamma^0\gamma^i\Gamma\gamma^0)^T\psi = -\bar{\psi}(\Gamma^\dagger\gamma^i\Gamma)^T\psi,\tag{12.5}\]
 which means we need
-\[-(\Gamma^\dagger\gamma^i\Gamma)^T = \gamma^i \implies \gamma^i\Gamma + \Gamma\gamma^{i*} = 0.\tag{6}\]
+\[-(\Gamma^\dagger\gamma^i\Gamma)^T = \gamma^i \implies \gamma^i\Gamma + \Gamma\gamma^{i*} = 0.\tag{12.6}\]
 This implies $[\Gamma,\gamma^1]=0$, $\{\Gamma,\gamma^2\}=0$ and $[\Gamma,\gamma^3]=0$, which has the unique solution (up to a constant)
-\[\Gamma = \gamma^0 \gamma^2,\tag{7}\]
+\[\Gamma = \gamma^0 \gamma^2,\tag{12.7}\]
 and thus
-\[\hat{T}: \quad \psi(t,\vec{x}) \to  \gamma^0 \gamma^2\psi^*(t,-\vec{x}), \quad  \psi^\dagger(t,\vec{x}) \to  -\psi^T\gamma^0 \gamma^2(-t,\vec{x}).\tag{8}\]
+\[\hat{T}: \quad \psi(t,\vec{x}) \to  \gamma^0 \gamma^2\psi^*(t,-\vec{x}), \quad  \psi^\dagger(t,\vec{x}) \to  -\psi^T\gamma^0 \gamma^2(-t,\vec{x}).\tag{12.8}\]
 This is very similar to $PC$, where we had
-\[PC: \quad A_0(t,\vec{x}) \to -A_0(-t,\vec{x}), \quad A_i(t,\vec{x}) \to A_i(t,-\vec{x}),\tag{9}\]
+\[PC: \quad A_0(t,\vec{x}) \to -A_0(-t,\vec{x}), \quad A_i(t,\vec{x}) \to A_i(t,-\vec{x}),\tag{12.9}\]
 so that the interaction $\bar\psi\slashed{A}\psi$ is conserved.</p>
 
 <p>Now consider the $CP\hat{T}$ transformation:
-\[CP\hat{T}: \quad \psi(t,\vec{x}) \to -i\gamma^2(\gamma^0[\gamma^0\gamma^2\psi^*])^*(-t,-\vec{x}) = -i\psi(-t,-\vec{x})，\tag{10}\]
+\[CP\hat{T}: \quad \psi(t,\vec{x}) \to -i\gamma^2(\gamma^0[\gamma^0\gamma^2\psi^*])^*(-t,-\vec{x}) = -i\psi(-t,-\vec{x})，\tag{12.10}\]
 and so
-\[CP\hat{T} : \quad \bar{\psi}(t, \vec{x})\gamma^{\mu}\psi(t, \vec{x}) \rightarrow \bar{\psi}(-t, -\vec{x})\gamma^{\mu}\psi(-t, -\vec{x}),\tag{11}\]</p>
+\[CP\hat{T} : \quad \bar{\psi}(t, \vec{x})\gamma^{\mu}\psi(t, \vec{x}) \rightarrow \bar{\psi}(-t, -\vec{x})\gamma^{\mu}\psi(-t, -\vec{x}),\tag{12.11}\]</p>
 
-<p>\[CP\hat{T} : \quad A_{\mu}(t, \vec{x}) \rightarrow A_{\mu}(-t, -\vec{x}).\tag{12}\]</p>
+<p>\[CP\hat{T} : \quad A_{\mu}(t, \vec{x}) \rightarrow A_{\mu}(-t, -\vec{x}).\tag{12.12}\]</p>
 
 <p>$CP\hat{T}$ also sends $\partial_{\mu} \rightarrow - \partial_{\mu}$. Thus, $\bar{\psi}\psi$, $i\bar{\psi}\gamma^{\mu}\partial_{\mu}\psi$ and $\bar{\psi}A_{\mu}\gamma^{\mu}\psi$ are all invariant in the action.</p>
 
@@ -1431,25 +1431,25 @@ and so
 <h4>The Wigner's $T$</h4>
 
 <p>What we normally call time reversal is a symmetry $T$ that was described by Wigner, which explains the Kramer's degeneracy. Let us first recap what is Kramer's degeneracy. Consider the Schrödinger equation
-\[i\partial_t\psi(t,\vec{x}) = H\psi(t,\vec{x}),\tag{13}\]
+\[i\partial_t\psi(t,\vec{x}) = H\psi(t,\vec{x}),\tag{12.13}\]
 where we will assume, for simplicity, that $H$ is real and independent of time. If we take the complex conjugate of the above and $t\to-t$, we find
-\[i\partial_t\psi^*(-t,\vec{x}) = H\psi^*(-t,\vec{x}).\tag{14}\]
+\[i\partial_t\psi^*(-t,\vec{x}) = H\psi^*(-t,\vec{x}).\tag{12.14}\]
 Thus, $\psi^*(-t,\vec{x})$ is another solution to the Schrödinger equation. Therefore, if $\psi\neq \xi\psi^*$ for any complex number, then $\psi^*$ will be another state with the same energy. The doubling state at each energy is known as Kramer's degeneracy. This theorem also holds for more complex systems.</p>
 
 <p>The trick to Wigner's $T$ is that we need to take the complex conjugate and then take $\psi\to\psi^*$. This means under a $T$ transformation
-\[T: \quad i\to -i, \quad \psi(t,\vec{x}) \to \tilde{\Gamma}\psi(-t,\vec{x}),\tag{15}\]
+\[T: \quad i\to -i, \quad \psi(t,\vec{x}) \to \tilde{\Gamma}\psi(-t,\vec{x}),\tag{12.15}\]
 which says that $T$ is an anti-linear operator. ($T(\psi_1+i\psi_2) = T(\psi_1)-iT(\psi_2).$)</p>
 
 <p>Note, since $T$ changes the sign of all $i$ in the Lagrangian, it also effects the $\gamma$-matrices. In the Weyl basis, we find
-\[T: \quad \gamma^2 \to -\gamma^2.\tag{16}\]</p>
+\[T: \quad \gamma^2 \to -\gamma^2.\tag{12.16}\]</p>
 
 <p>To preserve the kinetic term of the Lagrangian, $i\bar{\psi}\gamma^\mu\partial_\mu\psi$, we need  $\bar{\psi}\gamma^0\psi \to \bar{\psi}\gamma^0\psi$ and $\bar{\psi}\gamma^i\psi \to -\bar{\psi}\gamma^i\psi$.</p>
 
-<p>\[T: \quad \bar{\psi}\gamma^0\psi \to \psi^\dagger\tilde{\Gamma}^\dagger\gamma^0\tilde{\Gamma}\psi,\tag{17}\]
+<p>\[T: \quad \bar{\psi}\gamma^0\psi \to \psi^\dagger\tilde{\Gamma}^\dagger\gamma^0\tilde{\Gamma}\psi,\tag{12.17}\]
 which implies
-\[[\tilde{\Gamma}, \gamma^0] = 0.\tag{18}\]
+\[[\tilde{\Gamma}, \gamma^0] = 0.\tag{12.18}\]
 Similarly, we find
-\[\{\tilde{\Gamma}, \gamma^1\} = [\tilde{\Gamma}, \gamma^2] = \{\tilde{\Gamma}, \gamma^3\} =0.\tag{19}\]
+\[\{\tilde{\Gamma}, \gamma^1\} = [\tilde{\Gamma}, \gamma^2] = \{\tilde{\Gamma}, \gamma^3\} =0.\tag{12.19}\]
 The only element of the Dirac algebra that satisfies these conditions $\tilde{\Gamma} = \gamma^1\gamma^3$, up to a constant. Thus, we take
 \[T : \psi(t, \vec{x}) \to \gamma_1 \gamma_3 \psi(-t, \vec{x}) =
 \begin{pmatrix}
@@ -1458,21 +1458,21 @@ The only element of the Dirac algebra that satisfies these conditions $\tilde{\G
 0 &amp; 0 &amp; 0 &amp; 1 \\
 0 &amp; 0 &amp; -1 &amp; 0
 \end{pmatrix}
-\psi(-t, \vec{x}).\tag{20}\]</p>
+\psi(-t, \vec{x}).\tag{12.20}\]</p>
 
 <p>Thus, $T$ flips the spins of particles, but does not turn particles into antiparticles, as expected. $T$ does not have a well-defined action on Weyl spinors, which have one spin state. $T$ also reverses the momenta, $\vec{p} = i\vec{\nabla}$, because of the $i$. Thus, $T$ makes it look like things are going forwards in time, but with their momenta and spins flipped (just like playing a movie backward).</p>
 
 <p>Similarly, for $\bar{\psi} \slashed{D}\psi$ to be invariant, we need $A_{\mu}$ to transform as $i\partial_{\mu}$, which is
-\[T : \quad A_0(t, \vec{x}) \rightarrow A_0(-t, \vec{x}), \quad A_i(t, \vec{x}) \rightarrow -A_i(-t, \vec{x}).\tag{21}\]
+\[T : \quad A_0(t, \vec{x}) \rightarrow A_0(-t, \vec{x}), \quad A_i(t, \vec{x}) \rightarrow -A_i(-t, \vec{x}).\tag{12.21}\]
 It is straightforward to check now that the Dirac Lagrangian is invariant under $T$.</p>
 
 <p>Next, consider the combined operation of $CPT$. This sends particles into antiparticles moving as if you watched them in reverse in a mirror. On Dirac spinors, it acts as</p>
 
-<p>\[C \cdot P \cdot T : \quad \psi(x) \rightarrow -i\gamma_2\gamma_0\gamma_1\gamma_3\psi^*(-x) = -\gamma_5\psi^*(-x).\tag{22}\]
+<p>\[C \cdot P \cdot T : \quad \psi(x) \rightarrow -i\gamma_2\gamma_0\gamma_1\gamma_3\psi^*(-x) = -\gamma_5\psi^*(-x).\tag{12.22}\]
 It also sends $A_{\mu}(x) \rightarrow A_{\mu}(-x), \phi \rightarrow \phi^*(-x)$ and of course $i \rightarrow -i$.</p>
 
 <p>Any terms you could possibly write down, for example,
-\[\mathcal{L} = \bar{\psi}\psi, \quad i\bar{\psi}\phi\psi, \quad i\bar{\psi}\slashed{A}\psi, \quad \bar{\psi}\gamma^{\mu}\gamma^5\psi W_{\mu}, \quad i\bar{\psi}\sigma^{\mu\nu}\psi F_{\mu\nu}\tag{23}\]
+\[\mathcal{L} = \bar{\psi}\psi, \quad i\bar{\psi}\phi\psi, \quad i\bar{\psi}\slashed{A}\psi, \quad \bar{\psi}\gamma^{\mu}\gamma^5\psi W_{\mu}, \quad i\bar{\psi}\sigma^{\mu\nu}\psi F_{\mu\nu}\tag{12.23}\]
 and so on, are all CPT invariant. The CPT theorem says that this is a consequence of Lorentz invariance and unitarity.</p>
   </article>
 

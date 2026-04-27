@@ -132,24 +132,24 @@ window.MathJax = {
 </g>
 </svg></figure>
 
-<p><span class="equation-num">(1)</span></div></p>
+<p><span class="equation-num">(1.1)</span></div></p>
 
 <p>where the blob is, in general, complicated coupling of the virtual photon to the target.</p>
 
 <p>If the initial and final energies of the electron are $E$ and $E'$. Under the high-energy limit, 
-\[p = (E, 0,0,E), \quad p'=(E',E'\sin\theta,0,E'\cos\theta),\tag{2}\]
+\[p = (E, 0,0,E), \quad p'=(E',E'\sin\theta,0,E'\cos\theta),\tag{1.2}\]
 which implies
-\[q^2 = (p'-p)^2 = -2EE'(1-\cos\theta).\tag{3}\]
+\[q^2 = (p'-p)^2 = -2EE'(1-\cos\theta).\tag{1.3}\]
 In the limit of forward scattering, whatever the energy loss, the photon momentum approaches $q^2 = 0$; thus the reaction is highly peaked in the forward direction. It is tempting to guess that, in this limit, the virtual photon becomes a real photon. Let us investigate in what sense that is true.</p>
 
 <p><strong>(a)</strong> The matrix element of the above process is given by
-\[\mathcal{M} = (-ie)\bar{u}(p')\gamma^\mu u(p)\frac{-ig_{\mu\nu}}{q^2}\hat{\mathcal{M}}^\nu(q),\tag{4}\]
+\[\mathcal{M} = (-ie)\bar{u}(p')\gamma^\mu u(p)\frac{-ig_{\mu\nu}}{q^2}\hat{\mathcal{M}}^\nu(q),\tag{1.4}\]
 where $\hat{\mathcal{M}}^\nu(q)$ represents the (in general, complicated) coupling of the virtual photon to the target. Let us analyse the structure of the piece $\bar{u}(p')\gamma^\mu u(p)$. Let $q = (q^0,\vec{q})$ and $\Tilde{q}=(q^0,-\vec{q})$. We can expand the spinor products as 
-\[\bar{u}(p')\gamma^\mu u(p) = Aq^\mu + B\Tilde{q}^\mu + C \epsilon_1^\mu + D\epsilon_2^\mu,\tag{5}\]
+\[\bar{u}(p')\gamma^\mu u(p) = Aq^\mu + B\Tilde{q}^\mu + C \epsilon_1^\mu + D\epsilon_2^\mu,\tag{1.5}\]
 where $A, B, C , D$ are functions of the scattering angle and energy loss and $\epsilon_1, \epsilon_2$ are two unit vectors transverse to $\vec{q}$. By dotting the expression with $q^\mu$, we find
-\[q_\mu \cdot [\bar{u}(p')\gamma^\mu u(p)] = Aq^2 + Bq\cdot \Tilde{q}.\tag{6}\]
+\[q_\mu \cdot [\bar{u}(p')\gamma^\mu u(p)] = Aq^2 + Bq\cdot \Tilde{q}.\tag{1.6}\]
 By Ward identity, we have $q_\mu \bar{u}(p')\gamma^\mu u(p)]=0$. Thus, we have
-\[B = -A\frac{q^2}{q\cdot \Tilde{q}} \approx A \frac{2EE'(1-\cos\theta)}{(q^0)^2 + \vec{q}^2} \sim \theta^2.\tag{7}\]
+\[B = -A\frac{q^2}{q\cdot \Tilde{q}} \approx A \frac{2EE'(1-\cos\theta)}{(q^0)^2 + \vec{q}^2} \sim \theta^2.\tag{1.7}\]
 Thus, $B$ can be ignored in the case of forward scattering.</p>
 
 <p>Again, by Ward identity, we have $q\cdot \hat{\mathcal{M}}(q) = 0$. Thus, $A$ can be ignored as well.</p>
@@ -158,31 +158,31 @@ Thus, $B$ can be ignored in the case of forward scattering.</p>
 \[u_s(p) = \begin{pmatrix}
         \sqrt{p\cdot \sigma}\xi_s\\
         \sqrt{p\cdot \bar{\sigma}}\xi_s,
-    \end{pmatrix}\tag{8}\]
+    \end{pmatrix}\tag{1.8}\]
 where
 \[\sigma^3\xi_\pm = \pm\xi_\pm \implies \xi_+ = \begin{pmatrix}
         1\\0
     \end{pmatrix}, \quad \xi_-=\begin{pmatrix}
         0\\1
-    \end{pmatrix},\tag{9}\]
+    \end{pmatrix},\tag{1.9}\]
 and
-\[\sqrt{p\cdot \sigma} = \sqrt{E(1 - \sigma^3)}, \quad \sqrt{p\cdot \sigma} = \sqrt{E(1 + \sigma^3)}.\tag{10}\]
+\[\sqrt{p\cdot \sigma} = \sqrt{E(1 - \sigma^3)}, \quad \sqrt{p\cdot \sigma} = \sqrt{E(1 + \sigma^3)}.\tag{1.10}\]
 Thus,
 \[\boxed{
     u_+(p) = \sqrt{2E}\begin{pmatrix}
         0\\0\\1\\0
     \end{pmatrix},\quad u_-(p)=\begin{pmatrix}
         0\\1\\0\\0
-    \end{pmatrix}.}\tag{11}\]</p>
+    \end{pmatrix}.}\tag{1.11}\]</p>
 
 <p>Next, let us evaluate $u(p')$. Using $p' = (E', E'\sin\theta,0,E'\cos\theta)$, we find
 \[\hat{p}'\cdot \vec{\sigma} \xi_\pm = \pm \xi_\pm \implies \xi_+ = \begin{pmatrix}
         \cos\frac{\theta}{2}\\\sin\frac{\theta}{2}
     \end{pmatrix},\quad \xi_- = \sqrt{2E}\begin{pmatrix}
         -\sin\frac{\theta}{2}\\\cos\frac{\theta}{2}
-    \end{pmatrix}\tag{12}\]
+    \end{pmatrix}\tag{1.12}\]
 and
-\[\sqrt{p\cdot \sigma} = \sqrt{E'(1-\hat{p}\cdot \vec{\sigma})}, \quad \sqrt{p\cdot \bar{\sigma}} = \sqrt{E'(1+\hat{p}\cdot \vec{\sigma}).}\tag{13}\]
+\[\sqrt{p\cdot \sigma} = \sqrt{E'(1-\hat{p}\cdot \vec{\sigma})}, \quad \sqrt{p\cdot \bar{\sigma}} = \sqrt{E'(1+\hat{p}\cdot \vec{\sigma}).}\tag{1.13}\]
 Thus, we find
 \[\boxed{
     u_+(p') = \sqrt{2E'}\begin{pmatrix}
@@ -191,7 +191,7 @@ Thus, we find
     u_-(p') = \sqrt{2E'}\begin{pmatrix}
         -\sin\frac{\theta}{2}\\\cos\frac{\theta}{2}\\0\\0
     \end{pmatrix}
-    .}\tag{14}\]</p>
+    .}\tag{1.14}\]</p>
 
 <p>The polarisation vectors are defined to be parallel and horizontal to the scattering plane ($x-z$ plane). Thus,
 \[\boxed{
@@ -199,7 +199,7 @@ Thus, we find
         0, E'\cos\theta-E, 0, -E'\sin\theta
     \end{pmatrix},\quad
     \epsilon_2^\mu = (0,0,1,0).
-    }\tag{15}\]</p>
+    }\tag{1.15}\]</p>
 
 <p>Now, let us evaluate $\bar{u}(p')\vec{\gamma}\cdot\vec{\epsilon_i}u(p)$. With some algebra, one should find
 \[\boxed{
@@ -207,7 +207,7 @@ Thus, we find
         &amp;\bar{u}_\pm(p')\vec{\gamma}\cdot\vec{\epsilon_1}u_\pm(p) = -\frac{E'+E}{\abs{E'-E}}\theta\sqrt{EE'} = C,\\
         &amp;\bar{u}_\pm(p')\vec{\gamma}\cdot\vec{\epsilon}_2u_\pm(p) = \pm\theta\sqrt{EE'} = D_\pm,\\
         &amp;\bar{u}_\pm(p')\vec{\gamma}\cdot\vec{\epsilon}_1u_\mp(p) = \bar{u}_\pm(p')\vec{\gamma}\cdot\vec{\epsilon}_2u_\mp(p) = 0.
-    \end{aligned}}\tag{16}\]</p>
+    \end{aligned}}\tag{1.16}\]</p>
   </article>
 
   <hr class="ornament-rule">

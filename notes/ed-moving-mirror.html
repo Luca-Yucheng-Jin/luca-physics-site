@@ -83,7 +83,7 @@ window.MathJax = {
 <p>An electromagnetic wave is reflected by a perfect conductor at
 $x=0$. The electric field has the form
 \[\mathbf{E}(t,\mathbf{x}) = \hat{\mathbf{y}}\left[f(t_-) - f(t_+)\right],
-    \tag{1}\]
+    \tag{1.1}\]
 where $f$ is an arbitrary function and $ct_\pm = ct\pm x$. Show that this
 satisfies the relevant boundary condition at the conductor. Find the
 corresponding magnetic field $\mathbf{B}$.</p>
@@ -94,35 +94,35 @@ the $x$-direction, the electric field is transformed to
     \rho f(\rho t'_-) - \frac{1}{\rho}f\!\left(\frac{t'_+}{\rho}\right)
   \right],
   \qquad\text{where}\quad
-  \rho = \sqrt{\frac{c-v}{c+v}}\,.\tag{2}\]</p>
+  \rho = \sqrt{\frac{c-v}{c+v}}\,.\tag{1.2}\]</p>
 
 <p>Hence for an incident wave $\mathbf{E}(t,\mathbf{x}) = \hat{\mathbf{y}}F(t_-)$,
 find the wave that is reflected after it hits a perfectly conducting mirror
 moving with speed $v$ in the $x$-direction.</p>
 
 <p><u><strong>Solution</strong></u> It is clear to see that the electric field of this form has an ingoing part, $f(t_-)$, and an outgoing part, $f(t_+)$. The boundary condition at a perfect conductor is given by 
-\[\hat{\mathbf{x}}\cdot (\mathbf{E}_+- \mathbf{E}_-) = \frac{\sigma}{\varepsilon_0} = 0, \quad \text{and}\quad \hat{\mathbf{x}}\times(\mathbf{E}_+- \mathbf{E}_-) =0.\tag{3}\]
-It is clear to see that (1) satisfies the boundary condition. To find the magnetic field, let's first take the curl of the electric field, which gives
-\[\begin{aligned}\nabla \times \mathbf{E} &amp;= -\hat{\mathbf{y}} \times[\nabla f(t_-) - \nabla f(t_+)] = \frac{\hat{\mathbf{y}}\times \hat{\mathbf{x}}}{c}[\dot{f}(t_-) + \dot{f}(t_+)]= -\frac{\hat{\mathbf{z}}}{c}[\dot{f}(t_-) + \dot{f}(t_+)].\end{aligned}\tag{10}\]
+\[\hat{\mathbf{x}}\cdot (\mathbf{E}_+- \mathbf{E}_-) = \frac{\sigma}{\varepsilon_0} = 0, \quad \text{and}\quad \hat{\mathbf{x}}\times(\mathbf{E}_+- \mathbf{E}_-) =0.\tag{1.3}\]
+It is clear to see that (1.1) satisfies the boundary condition. To find the magnetic field, let's first take the curl of the electric field, which gives
+\[\begin{aligned}\nabla \times \mathbf{E} &amp;= -\hat{\mathbf{y}} \times[\nabla f(t_-) - \nabla f(t_+)] = \frac{\hat{\mathbf{y}}\times \hat{\mathbf{x}}}{c}[\dot{f}(t_-) + \dot{f}(t_+)]= -\frac{\hat{\mathbf{z}}}{c}[\dot{f}(t_-) + \dot{f}(t_+)].\end{aligned}\tag{1.4}\]
 Hence, the magnetic field is given by
-\[\mathbf{B}(t,\mathbf{x}) = \frac{\hat{\mathbf{z}}}{c} [f(t_-) + f(t_+)].\tag{4}\]</p>
+\[\mathbf{B}(t,\mathbf{x}) = \frac{\hat{\mathbf{z}}}{c} [f(t_-) + f(t_+)].\tag{1.5}\]</p>
 
 <p>For a boost in the $x$-direction, the electric field transforms like
-\[E_x'= E_x, \quad E_y' = \gamma(E_y-vB_z),\quad \text{and}\quad E_z'=\gamma(E_z+vB_y).\tag{5}\]
+\[E_x'= E_x, \quad E_y' = \gamma(E_y-vB_z),\quad \text{and}\quad E_z'=\gamma(E_z+vB_y).\tag{1.6}\]
 Therefore, we have
-\[\mathbf{E}'(t',\mathbf{x}') = \gamma[f(t_-)-f(t_+)]\hat{\mathbf{y}}-\frac{v}{c}\gamma[f(t_-)+f(t_+)]\hat{\mathbf{y}} = \hat{\mathbf{y}}[\rho f(t_-) -\frac{1}{\rho}f(t_+)].\tag{6}\]
+\[\mathbf{E}'(t',\mathbf{x}') = \gamma[f(t_-)-f(t_+)]\hat{\mathbf{y}}-\frac{v}{c}\gamma[f(t_-)+f(t_+)]\hat{\mathbf{y}} = \hat{\mathbf{y}}[\rho f(t_-) -\frac{1}{\rho}f(t_+)].\tag{1.7}\]
 Now, we express the coordinates in the primed coordinates, which is
 \[ct_\pm = \gamma\left(ct'+\frac{vx'}{c^2}\pm x' \pm vt'\right) = \frac{\gamma}{c}\left[(c\pm v)t' \pm(c\pm v)x'\right]=\begin{cases}
         \rho t_-',\\
         \dfrac{1}{\rho}t_+'.
-    \end{cases}\tag{7}\]
+    \end{cases}\tag{1.8}\]
 Thus, we find
 \[\mathbf{E}'(t',\mathbf{x}') = \hat{\mathbf{y}}\left[
     \rho f(\rho t'_-) - \frac{1}{\rho}f\!\left(\frac{t'_+}{\rho}\right)
-  \right].\tag{8}\]</p>
+  \right].\tag{1.9}\]</p>
 
 <p>In the frame where the mirror is stationary, the incident electric field is given by $\hat{\mathbf{y}}\rho F(\rho t_-')$. Since the mirror is stationary in this frame, the reflected electric field must be $-\hat{\mathbf{y}}\rho F(\rho t_+')$. Given the transformation law we just derived, the reflected electric field in the rest frame is $-\hat{\mathbf{y}}\rho^2 F(\rho^2 t_+)$. The total electric field is given by
-\[\mathbf{E}(t,\mathbf{x}) = \hat{\mathbf{y}}\left[F(t_-) -\rho^2 F(\rho^2 t_+) \right].\tag{9}\]</p>
+\[\mathbf{E}(t,\mathbf{x}) = \hat{\mathbf{y}}\left[F(t_-) -\rho^2 F(\rho^2 t_+) \right].\tag{1.10}\]</p>
   </article>
 
   <hr class="ornament-rule">
