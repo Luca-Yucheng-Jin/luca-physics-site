@@ -136,7 +136,11 @@ Following the steps above, the centre of mass of the system can be obtained to b
 \[\omega^2 = m^2 + \vec{p}^2.\tag{2.1}\]
 By substituting $\vec{p} \rightarrow -i\vec{\nabla}$ and $E \rightarrow i\partial_t$, and multiplying both sides by a field $\phi$ (just as in quantum mechanics), we obtained a relativistic equation of motion known as the Klein-Gordon equation</p>
 
+<aside class="boxed-equation">
+
 <p>\[(\square + m^2)\phi(\vec{x}, t) = 0.\tag{2.2}\]</p>
+
+</aside>
 
 <p>To solve this equation, we first define $\tilde{\phi}(p)$ to be the Fourier transform of $\phi(x)$:
 \[\phi(\vec{x}, t) = \int \frac{d^3p}{(2\pi)^3} \tilde{\phi}(\vec{p}, t)e^{i\vec{p}  \vec{x}}.\tag{2.3}\]
@@ -168,7 +172,11 @@ To compute the normalisation, we start by defining
 \[\braket{0}{0} =  1.\tag{2.13}\]
 Therefore,</p>
 
+<aside class="boxed-equation">
+
 <p>\[\braket{q}{p} = \sqrt{2\omega_p}\sqrt{2\omega_q}\bra{0}a_q a_p^\dagger\ket{0} = 2\omega_p (2\pi)^3\delta^3(\vec{p}-\vec{q}).\tag{2.14}\]</p>
+
+</aside>
 
 <p>The identity operator for a one-particle state is 
 \[\mathds{1} = \int \frac{d^3p}{(2\pi)^3} \frac{1}{\sqrt{2\omega_p}}\ket{p}\bra{p},\tag{2.15}\]
@@ -195,7 +203,11 @@ is Lorentz-invariant, where we have suppressed the additional factor $\delta(k^2
 
 <p>Now, we will define the free scalar field operator $\phi_0(x)$ to be</p>
 
+<aside class="boxed-equation">
+
 <p>\[\phi_0(x) = \int \frac{d^3p}{(2\pi)^3} \frac{1}{\sqrt{2\omega_p}}(a_pe^{-ipx} + a_p^\dagger e^{ipx}).\tag{2.19}\]</p>
+
+</aside>
 
 <aside class="callout">
 
@@ -218,7 +230,11 @@ Occasionally, we would also need the equal-time commutation relations. The commu
 \end{aligned}\tag{2.21}\]
 For equal-time commutation relations, $x^0 = y^0$, and hence,</p>
 
+<aside class="boxed-equation">
+
 <p>\[\left[\phi_0(\vec{x}), \phi_0(\vec{y}) \right] = \int \frac{d^3p}{(2\pi)^3} \frac{1}{2\omega_p}\biggl\{e^{i\vec{p}(\vec{x}-\vec{y})} - e^{-i\vec{p}(\vec{x}-\vec{y})} \biggr\} = 0.\tag{2.22}\]</p>
+
+</aside>
 
 <p>Next, we define the time derivative operator (canonical momentum operator) $\pi$ to be
 \[\pi(x) = \partial_t\phi(x) = -i\int \frac{d^3p}{(2\pi)^3} \sqrt{\frac{\omega_p}{2}}(a_pe^{i\vec{p}\vec{x}} - a_p^\dagger e^{-i\vec{p}\vec{x}}).\tag{2.23}\]
@@ -230,7 +246,11 @@ Now we compute
 \end{aligned}\tag{2.24}\]
 Similarly, imposing the equal-time condition, we have,</p>
 
+<aside class="boxed-equation">
+
 <p>\[\left[\phi(\vec{x}), \pi(\vec{y})\right] = i\int \frac{d^3p}{(2\pi)^3} \biggl\{e^{i\vec{p}(\vec{x}-\vec{y})} + e^{-i\vec{p}(\vec{x}-\vec{y})} \biggr\} = i\delta^3(\vec{x}-\vec{y}).\tag{2.25}\]</p>
+
+</aside>
 
 <h2 id="s-matrix">$S$-matrix</h2>
 
@@ -313,8 +333,12 @@ As $\delta^4(p)$ is Lorentz-invariant, $\delta^4(\Sigma p)$ is also Lorentz-inva
 
 <p>Putting everything together, we have</p>
 
+<aside class="boxed-equation">
+
 <p>\[d\sigma = \frac{1}{(2\omega_{p_1})(2\omega_{p_1})\abs{\vec{v_1} - \vec{v_2}}}\abs{\mathcal{M}}^2d\Pi_{LIPS}.
         \tag{4.20}\]</p>
+
+</aside>
 
 <h4>Decay Rates</h4>
 
@@ -322,7 +346,11 @@ As $\delta^4(p)$ is Lorentz-invariant, $\delta^4(\Sigma p)$ is also Lorentz-inva
 \[d\Gamma = \frac{1}{T}dP.\tag{4.21}\]
 Following the same steps as above, the decay rate can be written as</p>
 
+<aside class="boxed-equation">
+
 <p>\[d\Gamma = \frac{1}{2\omega_{p_1}}\abs{\mathcal{M}}^2d\Pi_{LIPS}.\tag{4.22}\]</p>
+
+</aside>
 
 <p>Note this is the decay rate in the rest frame of the particle.</p>
 
@@ -351,8 +379,12 @@ Putting everything together, we have
 \[\frac{d\sigma}{d\Omega} = \frac{1}{64\pi^2E_{CM}^2}\frac{p_f}{p_i}\abs{\mathcal{M}}^2\theta(E_{CM}-m_3-m_4).\tag{4.30}\]
 If all the masses are equal then $p_i = p_f$, and then</p>
 
+<aside class="boxed-equation">
+
 <p>\[\frac{d\sigma}{d\Omega} = \frac{1}{64\pi^2E_{CM}^2}\abs{\mathcal{M}}^2.
         \tag{4.31}\]</p>
+
+</aside>
 
 <h2 id="the-lsz-reduction-formula">The LSZ reduction Formula</h2>
 
@@ -405,10 +437,14 @@ where $T\{ \dots \}$ is the time-ordering operation. The property time-ordering 
 \end{aligned}\tag{5.12}\]
 Thus, we have</p>
 
+<aside class="boxed-equation">
+
 <p>\[\begin{aligned}
                 \bra{f}S\ket{i} = \biggr[ i\int d^4x_1e^{-ip_1x_1}(\square_1+m^2) \biggr] \cdots \biggr[ i\int d^4x_ne^{ip_nx_n}(\square_n+m^2) \biggr]\\
                 \times \bra{\Omega}T\{\phi(x_1) \dots \phi(x_n)\}\ket{\Omega},
     \end{aligned}\tag{5.13}\]</p>
+
+</aside>
 
 <p>which is the LSZ reduction formula.</p>
 
@@ -458,7 +494,11 @@ where the $-1$ in the bracket comes from doing the contour integral clockwise.</
 \[\lim_{\epsilon\rightarrow0} i\int \frac{d^3p d\omega}{(2\pi)^4} \frac{1}{\omega^2 - \omega_p^2 +i\epsilon} e^{-i\vec{p}(\vec{x}-\vec{y})} e^{i\omega(x^0-y^0)}.\tag{6.8}\]
 Now, by introducing a new variable $q=(\omega, -\vec{p})$, we have</p>
 
+<aside class="boxed-equation">
+
 <p>\[D_F(x, y) = \bra{0}T\{\phi_0(x)\phi_0(y)\}\ket{0} = \int \frac{d^4q }{(2\pi)^4} \frac{i}{q^2 - m^2 +i\epsilon} e^{iq(x-y)},\tag{6.9}\]</p>
+
+</aside>
 
 <p>where we let the limit to b explicit and used the identity $m^2 = \omega_p^2 - \vec{p}^2$. This Lorentz-invariant object is called the Feynman propagator. It is important to remember that $k_0^2 \neq m^2 + \vec{k}^2$ anymore. So the propagating field here is off-shell!</p>
 
@@ -489,10 +529,14 @@ where we have introduced the notation $\langle\cdots\rangle$ to represent $\bra{
 
 <p>Now, it is an easy generalisation to go from two fields at $x, x'$ to many fields at $x, \{x_j\}$, which generates a $\delta$-function for every $x_j$. Meanwhile, recall, for a free theory, $(\square+m^2)\phi(x)=\mathcal{L'}_{\text{int}}\phi(x)$, where $\mathcal{L}' = \frac{\delta\mathcal{L}_{\text{int}}}{\delta\phi}$. Thus,</p>
 
+<aside class="boxed-equation">
+
 <p>\[\begin{aligned}
         (\square+m^2)\langle\phi(x)\phi(x_1)\cdots\phi(x_n)\rangle =&amp; \langle\mathcal{L}'_{\text{int}}[\phi(x)]\phi(x_1)\cdots\phi(x_n)\rangle \\
         &amp;-i\hbar\sum_j\delta^4(x-x_j)\langle\phi(x)\phi(x_1)\cdots\phi(x_{j-1})\phi(x_{j+1}) \cdots \phi(x_n)\rangle.
          \end{aligned}\tag{7.5}\]</p>
+
+</aside>
 
 <p>This equation is known as the Schwinger-Dyson equation. It demonstrates the difference between classical and quantum theories. In particular, the quantum theory is deviated from the classical theory by the last term, which is called the contact term or contact interactions. This contact term allows virtual particles to be created and destroyed.</p>
 
@@ -654,8 +698,12 @@ where $U(t,t_0) \equiv e^{iH_0(t-t_0)}S(t,t_0)$.</p>
     \end{aligned}\tag{8.7}\]
 where $V_I(t) = e^{iH_0(t-t_0)}V(t)e^{-iH_0(t-t_0)}$ is $V(t)$ in the interaction picture. If everything commuted in this equation, then the solution would simply be $U(t, t_0) = \text{exp}[-i\int^t_{t_0} dt' V_I(t') ]$. However, $V_I(t_1)$ does not necessarily commutes with $V_I(t_2)$, and hence the right solution would be</p>
 
+<aside class="boxed-equation">
+
 <p>\[U(t, t_0) = T\biggr\{\text{exp}\biggr[-i\int^t_{t_0} dt' V_I(t') \biggr]\biggr\}.
         \tag{8.8}\]</p>
+
+</aside>
 
 <aside class="callout">
 
@@ -734,8 +782,12 @@ Now, recall
 \[V_I(t) = \int d^3x \mathcal{H}_{\text{int}}[\phi_0] = -\int d^3x \mathcal{L}_{\text{int}}[\phi_0].\tag{8.30}\]
 Here, $\mathcal{H}_{\text{int}}$ and $\mathcal{L}_{\text{int}}$ are functions of $\phi_0$ because we are in the interaction picture (operators only evolves with the free Hamiltonian). Thus, (8.29) becomes</p>
 
+<aside class="boxed-equation">
+
 <p>\[\bra{\Omega}T\{\phi(x_1) \phi(x_2) \cdots  \phi(x_n)\}\ket{\Omega} = \frac{\bra{0}T\biggr\{\phi_0(x_1)\phi_0(x_2) \cdots \phi_0(x_n) \text{exp}\biggr[i\int^{\infty}_{-\infty} d^4x \mathcal{L}_{\text{int}}[\phi_0]\biggr]\biggr \}\ket{0}}{\ \bra{0}T\biggr \{ \text{exp}\biggr[i\int^{\infty}_{-\infty} d^4x \mathcal{L}_{\text{int}}[\phi_0]\biggr]\biggr\}\ket{0}}.
         \tag{8.31}\]</p>
+
+</aside>
 
 <p>Now consider the case, where
 \[\mathcal{L}_{\text{int}}[\phi] = \frac{g}{3!}\phi^3,\tag{8.32}\]
@@ -765,13 +817,19 @@ Note, here all the annihilation operators $a$ are on the right except for the co
 
 <p>Let us define a normal ordering operation, $:a_pa_q a_k^\dagger\ldots:$, such that place whatever operators it contains in normal order. For example,</p>
 
+<aside class="boxed-equation">
+
 <p>\[:a_pa_ka_q^\dagger: = a_q^\dagger a_pa_k.\tag{8.37}\]</p>
+
+</aside>
 
 <p>Hence, (8.36) becomes
 \[T\{\phi_0(x)\phi_0(y)\} = :\phi_0(x)\phi_0(y) + [\phi_0^+(x), \phi_0^-(y)]:, \qquad \qquad (x^0 &gt; y^0).\tag{8.38}\]
 Similarly, for $x^0 &lt; y^0$, we have
 \[\bra{0}T\{\phi_0(x)\phi_0(y)\}\ket{0} = :\phi_0(x)\phi_0(y) + [\phi_0^+(y), \phi_0^-(x)]:, \qquad \qquad (x^0 &lt; y^0).\tag{8.39}\]
 Therefore, let us define another quantity called contraction of two fields, which is</p>
+
+<aside class="boxed-equation">
 
 <p><figure class="wick-figure"><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='-1.992528 -32.877001 347.696139 34.869529'>
 <defs>
@@ -869,6 +927,8 @@ Therefore, let us define another quantity called contraction of two fields, whic
 </g>
 </svg></figure></p>
 
+</aside>
+
 <p>where we have made the subscript implicit, as contractions always involves interaction picture operators.
 Thus,
 <figure class="wick-figure"><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='-1.992528 -18.430884 347.696139 20.423412'>
@@ -946,7 +1006,11 @@ Thus,
 </svg></figure>
 Generally,</p>
 
+<aside class="boxed-equation">
+
 <p>\[T\{\phi_0(x_1)\phi_0(x_2) \cdots \phi_0(x_n)\} = :\phi_0(x_1)\phi_0(x_2) \cdots \phi_0(x_n)\ + (\text{all possible contractions}):.\tag{8.42}\]</p>
+
+</aside>
 
 <p>This is known as the Wick's theorem, which can be proven by induction. We have already shown it is true with $m=2$ fields. Now, let us prove: if this is true for $m=n$ fields, then it must also be true for $m=n+1$ fields. We will assume $x_1^0 &gt; x_2^0 &gt; \cdots &gt; x_{n+1}^0$.
 \[\begin{aligned}
@@ -1566,6 +1630,8 @@ where $\delta^4(\Sigma p_i)$ in this case is just $\delta^4(p_f-p_i)$. Therefore
 \[i\mathcal{M} = \frac{g^2}{2} \int \frac{d^4k}{(2\pi)^4} \frac{i}{(p_i-k)^2+i\epsilon}\frac{i} {k^2+i\epsilon} + \cdots.\tag{9.6}\]
 From this, we can summarise the momentum-space Feynman rules:</p>
 
+<aside class="boxed-equation">
+
 <ol>
   <li>Internal lines (those not connected to external points) get propagators $\frac{i}{p^2-m^2+i\epsilon}$.</li>
   <li>Vertices come from interactions in the Lagrangian. They get factors of the coupling constant times $i$.</li>
@@ -1574,6 +1640,8 @@ From this, we can summarise the momentum-space Feynman rules:</p>
   <li>Integrate over undetermined 4-momenta.</li>
   <li>Sum over all possible diagrams.</li>
 </ol>
+
+</aside>
 
 <h4>Disconnected Graphs</h4>
 
@@ -1812,7 +1880,11 @@ Thus, the definition, which says putting all the operators in time order, can no
 \[T\{\phi_1(x)\phi_2(y)\} = \phi_1(x)\phi_2(y) \theta(x^0-y^0) + \phi_2(y)\phi_1(x) \theta(y^0-x^0).\tag{10.2}\]
 As the fermionic fields have anticommutation relations instead of commutation relations, an extra minus sign will arise from swapping the ordering of fields. Thus, for fermionic fields, we define the time-ordered product to be</p>
 
+<aside class="boxed-equation">
+
 <p>\[T\{\psi_1(x)\psi_2(y)\} = \psi_1(x)\psi_2(y) \theta(x^0-y^0) - \psi_2(y)\psi_1(x) \theta(y^0-x^0).\tag{10.3}\]</p>
+
+</aside>
 
 <h4>Spin 0</h4>
 
@@ -1873,7 +1945,11 @@ Using (10.6) and (10.7), we find
     \end{aligned}\tag{10.13}\]
 This is exactly the same integral we found in the spin-0 case. Hence,</p>
 
+<aside class="boxed-equation">
+
 <p>\[\bra{0}T\{\psi(0)\bar{\psi}(x)\}\ket{0} = \int\frac{d^{4}p}{(2\pi)^{4}}\frac{i(\slashed{p}+m)}{p^2-m^2+i\varepsilon}e^{ipx},\tag{10.14}\]</p>
+
+</aside>
 
 <p>which is a Lorentz invariant expression. This is the Feynman propagator for the spinors.</p>
 

@@ -404,10 +404,15 @@ def strip_tex_only_constructs(text):
     for cmd in ("vcenter", "hbox", "vbox"):
         text = _balanced_arg_replace(text, cmd, lambda a: a)
 
-    # \shaded / \begin{shaded} etc. — keep the inner content as-is (it usually
-    # wraps an equation we already display)
-    text = re.sub(r"\\begin\{shaded\}", "", text)
-    text = re.sub(r"\\end\{shaded\}", "", text)
+    # \begin{shaded}…\end{shaded} typically wraps a boxed key result like
+    # the Euler-Lagrange equation or the Noether current. Render as a
+    # styled <aside class="boxed-equation"> matching elegantphys.sty's
+    # \boxedeq{X} style (lightgray bg, thin black frame). Previously
+    # silently stripped — losing the visual emphasis the user intended.
+    text = re.sub(r"\\begin\{shaded\}",
+                  '\n\n<aside class="boxed-equation">\n\n', text)
+    text = re.sub(r"\\end\{shaded\}",
+                  '\n\n</aside>\n\n', text)
 
     # tcolorbox — colored callout boxes. Render as <aside>.
     text = re.sub(r"\\begin\{tcolorbox\}(?:\[[^\]]*\])?",
@@ -902,7 +907,22 @@ def latex_to_html(body, stash=None):
         stash = MathStash()
     body = stash_math(body, stash)
     # Replace tikz placeholders with block-level <div> markers so the
-    # paragraphizer treats them as standalone.
+    # paragraphizer treats them as standalone.  Two passes: placeholders
+    # *inside* an equation-row stay inline (no surrounding newlines, so
+    # the paragraphizer doesn't split the row across <p> boundaries —
+    # which previously produced malformed `<p>...</div></p>` markup);
+    # everything else gets newlines so it becomes its own block.
+    def _eqrow_inline_tikz(m):
+        inner = re.sub(
+            r"\x00TIKZ(\d+)\x00",
+            r'<div class="tikz-marker" data-tikz="\1"></div>',
+            m.group(1),
+        )
+        return '<div class="equation-row">' + inner + '</div>'
+    body = re.sub(
+        r'<div class="equation-row">(.*?)</div>',
+        _eqrow_inline_tikz, body, flags=re.DOTALL,
+    )
     body = re.sub(r"\x00TIKZ(\d+)\x00",
                   r'\n\n<div class="tikz-marker" data-tikz="\1"></div>\n\n',
                   body)

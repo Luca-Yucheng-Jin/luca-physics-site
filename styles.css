@@ -1060,6 +1060,27 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
 .note aside.callout > :first-child { margin-top: 0; }
 .note aside.callout > :last-child  { margin-bottom: 0; }
 
+/* Boxed-equation environments — wraps \begin{shaded} and the
+   \boxedeq{X} command from elegantphys.sty. lightgray bg, thin black
+   frame, sharp corners. Used to highlight key results like the
+   Euler-Lagrange equation or the Noether current. */
+.note aside.boxed-equation {
+  background: var(--callout-bg);    /* lightgray-ish in light mode */
+  border: 0.8px solid var(--ink);
+  border-radius: 0;
+  padding: 0.4rem 1rem;
+  margin: 1.4rem 0;
+  color: var(--ink);
+}
+[data-theme="dark"] .note aside.boxed-equation {
+  background: var(--paper-shade);
+  border-color: var(--ink-soft);
+}
+.note aside.boxed-equation > :first-child { margin-top: 0; }
+.note aside.boxed-equation > :last-child  { margin-bottom: 0; }
+.note aside.boxed-equation .equation-row { margin: 0.4rem 0; }
+.note aside.boxed-equation mjx-container[display="true"] { margin: 0 !important; }
+
 /* Solution environments — match the user's elegantphys.sty:
    light-blue tcolorbox, sharp corners, 3pt dark-gray left bar, and an
    inline bold "Solution." label that floats next to the first line of
