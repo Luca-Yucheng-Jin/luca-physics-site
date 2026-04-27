@@ -710,32 +710,29 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
 }
 
 /* TikZ figures rendered by TikZJax. No box / border / background — the
-   diagram should sit inline with the surrounding prose like a math
-   display. We use CSS `zoom` (non-standard but works in Chrome, Safari,
-   Firefox) to scale the whole figure layout box so the SVG never
-   escapes its container and labels stay visible. */
+   diagram sits inline with the surrounding prose like a math display.
+   The actual size adjustment happens in JS (see resize-tikz.js): once
+   TikZJax has finished rendering, we measure every SVG's natural pt
+   size and CSS-scale it up so it's readable in-page while still
+   reserving the right amount of vertical space (no whitespace gaps). */
 .note figure.tikz-figure {
   background: transparent;
-  padding: 0.4rem 0;
+  padding: 0.2rem 0;
   border: none;
   text-align: center;
   display: block;
   width: max-content;
   max-width: 100%;
-  margin: 1.2rem auto;
+  margin: 1.4rem auto;
   overflow: visible;
-  zoom: 1.8;
 }
 .note figure.tikz-figure svg { color: var(--ink); }
 
-/* Inside an equation row the figure is a flex item; smaller zoom so the
-   row doesn't grow too tall but keep the SVG fully visible. */
 .equation-row figure.tikz-figure {
   padding: 0;
   background: transparent;
   border: none;
   flex: 0 0 auto;
-  zoom: 1.35;
   margin: 0 0.4rem;
 }
 

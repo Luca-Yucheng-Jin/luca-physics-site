@@ -981,7 +981,9 @@ window.MathJax = {
       Cdot: '\\boldsymbol{\\cdot}',
       Tr: '\\operatorname{Tr}',
       slashed: ['{\\not{#1}}', 1],
-      wick:    ['{\\overline{#1}}', 1],
+      // Wick contraction: top brace connector over the contracted pair —
+      // closer to the standard physics notation than a plain overline.
+      wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
       c:       ['{#1}', 1],
       mathds:  ['\\mathbb{#1}', 1],
       Tilde:   ['\\tilde{#1}', 1],
@@ -997,6 +999,8 @@ window.MathJax = {
 <!-- TikZJax: renders <script type="text/tikz"> blocks into SVG client-side -->
 <link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
 <script src="https://tikzjax.com/v1/tikzjax.js"></script>
+<!-- Post-process TikZJax SVGs: scale them up so they're readable in-page -->
+<script defer src="../assets/resize-tikz.js"></script>
 </head>
 <body>
 
