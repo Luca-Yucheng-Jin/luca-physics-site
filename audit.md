@@ -922,8 +922,50 @@ across browsers, no font-license issues, dark-mode safe via a
 post-process step that swaps hardcoded `stroke='#000'` / `fill='#000'`
 for `currentColor`.
 
-## 14. Phase 3 — implementation begins
+## 14. Phase 3 — Resolution status
 
-Will land in the commit order from §11. Each commit is small and
-reviewable. After every commit I'll re-run `./build.sh` and spot-check
-the affected pages.
+All 13 catalogued bugs landed across 7 commits. Each was rebuilt and
+spot-checked in the preview server before committing.
+
+| # | Bug (audit ref) | Commit | Status |
+|---|---|---|---|
+| 1 | `\begin{figure}` with TikZ-only body silently dropped (§7 / §11) | `357506f` | ✅ resolved — 8 figures recovered with captions |
+| 2 | Equation numbering out of source order (§7 Bug 2) | `9665b33` | ✅ resolved — linear walk, `(n.eq)` format |
+| 3 | Photon = dashed, gluon = dotted via TikZJax (§11 Bug 6) | `d36c775` | ✅ resolved — pre-rendered SVG, real wavy/coil glyphs |
+| 4 | `[blob]` markers render as empty nodes (§11 Bug 7) | `d36c775` | ✅ resolved — tikz-feynman blob renders as hatched circle |
+| 5 | Wick contractions: pair structure lost, multi-pair shows raw digits (§11 Bug 8) | `6502ed0` | ✅ resolved — pre-rendered SVG matches simpler-wick pdfLaTeX output |
+| 6 | `\begin{shaded}` silently stripped (§11 Bug 9) | `d00c5ca` | ✅ resolved — `<aside class="boxed-equation">` per `elegantphys.sty:\boxedeq` |
+| 7 | `equation-row` HTML malformation `<p>...</div></p>` (§5c / §11 Bug 10) | `d00c5ca` | ✅ resolved — placeholders inside equation-rows stay inline |
+| 8 | `\Tr{X}` drops parens (§11 Bug 11) | `e5bd00c` | ✅ resolved — pre-rewrite to `\operatorname{Tr}\!\left(X\right)`; `\Tr[X]` left as-is |
+| 9 | Solution markers inconsistent across pages (§7 Bug 5) | `a622498` | ✅ resolved — normalised to `<aside class="solution">` per `elegantphys.sty` style |
+| 10 | `\ref{wick}` to section labels leaks raw key (§11 Bug 12) | — | ⏸️ deferred — minor cosmetic, single occurrence; would need section-numbering scheme to fix properly |
+| 11 | `\mathds{1}` glyph differs from real `dsfont` (§11 informational) | — | ⏸️ deferred — MathJax `\mathbb{1}` is acceptable approximation; could pre-render those equations to SVG if you want |
+| 12 | `enumerate[label=\roman*.]` drops the label spec (§7) | — | ⏸️ deferred per your decision (§9) — kept as default `<ol>` |
+| 13 | `tex-served/` redundant copy (§11) | — | ⏸️ kept per your decision (§12) — doesn't slow anything |
+
+### Final-build stats (Apr 27 2026, post-Phase 3)
+
+- 40 HTML pages built
+- 63 inline-SVG diagrams (50 from `\begin{tikzpicture}`/`\feynmandiagram`, 8 from `\begin{figure}` recovery, 5 from path-integral essay images)
+- 6 Wick-contraction equations as inline SVG
+- 45 boxed-equations (from `\begin{shaded}`)
+- 63 styled solution asides
+- 0 compile failures (no `tikz-source` source-listing fallbacks used)
+- 0 residual TikZJax `<script type="text/tikz">` blocks
+- 0 malformed `<p>...</div></p>` HTML
+- Cold build: ~68s (62 lualatex+dvisvgm compiles)
+- Warm build: ~0.1s (everything cache-hit)
+- SVG cache: 884 KB across 62 files
+
+### Remaining items for the user
+
+- **Performance**: cold build is 68s, warm is sub-second. The
+  `build/svg-cache/` directory is gitignored — anyone cloning fresh
+  needs ~1 minute on first build. CI would too.
+- **Deferred items** (Bugs 10, 11, 12 above): all minor cosmetic. Can
+  be addressed if/when they bite.
+- **CI**: if you want pushes to trigger a fresh build on Vercel /
+  GitHub Pages, the runner needs `apt-get install texlive-luatex
+  texlive-pictures texlive-science dvisvgm` (or the platform's
+  equivalent). Right now `notes/*.html` is checked in so the deployed
+  site uses the locally-built artifacts.
