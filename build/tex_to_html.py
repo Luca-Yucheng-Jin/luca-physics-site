@@ -12,7 +12,7 @@ import re
 import os
 import html as htmllib
 
-ROOT = "/Users/lucajin/luca-physics-site"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEX  = os.path.join(ROOT, "tex")
 OUT  = os.path.join(ROOT, "notes")
 
@@ -430,19 +430,15 @@ def strip_tex_only_constructs(text):
     return text
 
 
-try:
-    import sys as _sys, os as _os
-    _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))
-    from feynman_convert import feynman_to_plain_tikz
-except Exception:
-    feynman_to_plain_tikz = None
+import sys as _sys, os as _os
+_sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))
+from svg_render import render_or_fallback, KIND_TIKZ
 
 
 def stash_tikz(text, stash):
     """Pull tikz / feynmandiagram blocks out of the source, replacing them
     with placeholder sentinels so they survive math-stashing and paragraphing.
-    Each stashed item also carries a converted-to-plain-TikZ version when the
-    block uses tikz-feynman syntax — TikZJax can render that."""
+    The stashed source is later rendered to inline SVG by svg_render."""
     # tikzpicture environment
     pat = re.compile(r"\\begin\{tikzpicture\}(\[[^\]]*\])?(.*?)\\end\{tikzpicture\}",
                      re.DOTALL)
@@ -450,14 +446,9 @@ def stash_tikz(text, stash):
     def tikz_repl(m):
         opts = m.group(1) or ""
         body = m.group(2)
-        is_feynman = ("\\feynmandiagram" in body) or ("\\begin{feynman}" in body)
         full_src = f"\\begin{{tikzpicture}}{opts}{body}\\end{{tikzpicture}}"
-        # If feynman, try to convert to plain TikZ
-        plain = None
-        if is_feynman and feynman_to_plain_tikz is not None:
-            plain = feynman_to_plain_tikz(full_src)
         idx = len(stash["tikz"])
-        stash["tikz"].append((full_src, is_feynman, plain))
+        stash["tikz"].append(full_src)
         return f"\x00TIKZ{idx}\x00"
 
     text = pat.sub(tikz_repl, text)
@@ -467,12 +458,10 @@ def stash_tikz(text, stash):
     def fdiag_repl(m):
         opts = m.group(1) or ""
         body = m.group(2)
-        full_src = f"\\feynmandiagram{opts}{{{body}}};"
-        plain = None
-        if feynman_to_plain_tikz is not None:
-            plain = feynman_to_plain_tikz(full_src)
+        # Wrap in a tikzpicture so standalone wraps it the same way as inline.
+        full_src = f"\\begin{{tikzpicture}}\\feynmandiagram{opts}{{{body}}};\\end{{tikzpicture}}"
         idx = len(stash["tikz"])
-        stash["tikz"].append((full_src, True, plain))
+        stash["tikz"].append(full_src)
         return f"\x00TIKZ{idx}\x00"
     text = pat2.sub(fdiag_repl, text)
 
@@ -510,35 +499,28 @@ def stash_tikz(text, stash):
     return text
 
 
+def _tikz_to_svg(src):
+    """Render one tikzpicture/feynmandiagram block to an inline-SVG figure.
+    On compile failure, show the LaTeX source verbatim as a fallback."""
+    safe = src.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    fallback = (
+        '<figure class="tikz-source">'
+        '<pre aria-label="LaTeX source (compile failed)">'
+        f'{safe}'
+        '</pre>'
+        '<figcaption>Diagram failed to compile; LaTeX source shown above.</figcaption>'
+        '</figure>'
+    )
+    svg = render_or_fallback(src, KIND_TIKZ, fallback)
+    if svg.startswith("<figure"):  # fallback HTML
+        return svg
+    return f'<figure class="tikz-figure">{svg}</figure>'
+
+
 def restore_tikz(text, stash):
     def repl(m):
         idx = int(m.group(1))
-        src, is_feynman, plain = stash["tikz"][idx]
-        # Prefer the plain-TikZ rendering if we have one (this is what makes
-        # tikz-feynman diagrams actually visible).
-        if plain:
-            return (
-                '<figure class="tikz-figure">'
-                f'<script type="text/tikz">\n{plain}\n</script>'
-                '</figure>'
-            )
-        # Plain tikz with no conversion needed → emit as-is for TikZJax
-        if not is_feynman:
-            return (
-                '<figure class="tikz-figure">'
-                f'<script type="text/tikz">\n{src}\n</script>'
-                '</figure>'
-            )
-        # Last resort: tikz-feynman that we couldn't convert → source listing
-        safe = src.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-        return (
-            '<figure class="tikz-source">'
-            '<pre class="tikz-feynman" aria-label="Feynman diagram (LaTeX source)">'
-            f'{safe}'
-            '</pre>'
-            '<figcaption>Feynman diagram — automatic conversion failed; the LaTeX source is shown above.</figcaption>'
-            '</figure>'
-        )
+        return _tikz_to_svg(stash["tikz"][idx])
     return re.sub(r"\x00TIKZ(\d+)\x00", repl, text)
 
 
@@ -845,28 +827,7 @@ def latex_to_html(body, stash=None):
 
 
 def render_tikz_one(stash, idx):
-    src, is_feynman, plain = stash["tikz"][idx]
-    if plain:
-        return (
-            '<figure class="tikz-figure">'
-            f'<script type="text/tikz">\n{plain}\n</script>'
-            '</figure>'
-        )
-    if not is_feynman:
-        return (
-            '<figure class="tikz-figure">'
-            f'<script type="text/tikz">\n{src}\n</script>'
-            '</figure>'
-        )
-    safe = src.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-    return (
-        '<figure class="tikz-source">'
-        '<pre class="tikz-feynman" aria-label="Feynman diagram (LaTeX source)">'
-        f'{safe}'
-        '</pre>'
-        '<figcaption>Feynman diagram — automatic conversion failed; the LaTeX source is shown above.</figcaption>'
-        '</figure>'
-    )
+    return _tikz_to_svg(stash["tikz"][idx])
 
 
 # ----------------------------------------------------------------------
@@ -996,12 +957,6 @@ window.MathJax = {
 };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
-<!-- TikZJax: renders <script type="text/tikz"> blocks into SVG client-side -->
-<link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
-<script src="https://tikzjax.com/v1/tikzjax.js"></script>
-<!-- Post-process TikZJax SVGs: scale them up so they're readable in-page -->
-<script defer src="../assets/resize-tikz.js"></script>
 </head>
 <body>
 

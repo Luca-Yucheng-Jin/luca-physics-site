@@ -890,12 +890,10 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
   margin-top: 0.5rem;
 }
 
-/* TikZ figures rendered by TikZJax. No box / border / background — the
+/* TikZ figures (pre-rendered to inline SVG by build/svg_render.py). The
    diagram sits inline with the surrounding prose like a math display.
-   The actual size adjustment happens in JS (see resize-tikz.js): once
-   TikZJax has finished rendering, we measure every SVG's natural pt
-   size and CSS-scale it up so it's readable in-page while still
-   reserving the right amount of vertical space (no whitespace gaps). */
+   SVG uses currentColor for strokes/fills, so it inherits the page's
+   text color and just works in light + dark mode. */
 .note figure.tikz-figure {
   background: transparent;
   padding: 0.2rem 0;
@@ -907,40 +905,32 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
   margin: 1.4rem auto;
   overflow: visible;
 }
-.note figure.tikz-figure svg { color: var(--ink); }
-
-/* Dark mode: TikZJax bakes literal #000 into stroke/fill attributes, so the
-   diagrams render as invisible black on dark paper. Recolor those exact
-   attributes; non-black colors (e.g. styled gluons) pass through untouched. */
-[data-theme="dark"] .note figure.tikz-figure svg [stroke="#000"],
-[data-theme="dark"] .note figure.tikz-figure svg [stroke="#000000"],
-[data-theme="dark"] .note figure.tikz-figure svg [stroke="black"] {
-  stroke: var(--ink);
+.note figure.tikz-figure svg {
+  color: var(--ink);
+  /* dvisvgm strips width/height; SVG sizes via viewBox. We set the
+     visual width here so diagrams read at a comfortable size relative
+     to body text, capped to the column width. height auto preserves
+     aspect ratio. */
+  width: var(--diagram-w, auto);
+  height: auto;
+  max-width: 100%;
 }
-[data-theme="dark"] .note figure.tikz-figure svg [fill="#000"],
-[data-theme="dark"] .note figure.tikz-figure svg [fill="#000000"],
-[data-theme="dark"] .note figure.tikz-figure svg [fill="black"] {
-  fill: var(--ink);
-}
+/* Default sizing: full diagrams take ~28em (~half a normal column);
+   small inline diagrams in equation-rows are scaled down so they
+   don't dominate the row. The renderer puts a `data-diagram-size`
+   attribute on each figure if you ever need per-diagram tuning. */
+.note figure.tikz-figure { --diagram-w: 28em; }
+.equation-row figure.tikz-figure { --diagram-w: 14em; }
 
-/* Inside an equation row the figure is a flex item; smaller zoom so the
-   row doesn't grow too tall but keep the SVG fully visible. */
+/* Inside an equation row the figure is a flex item — let the SVG's
+   intrinsic dimensions drive sizing; no border, no padding override. */
 .equation-row figure.tikz-figure {
   padding: 0;
+  margin: 0 0.4rem;
   background: transparent;
   border: none;
   flex: 0 0 auto;
-  margin: 0 0.4rem;
-}
-
-/* Inside an equation row the diagram sits next to math chunks; keep it
-   compact so the row doesn't break in awkward places. */
-.equation-row figure.tikz-figure {
-  padding: 0.3rem 0.6rem;
-  border-style: dashed;
-  background: transparent;
-  width: clamp(180px, 22vw, 260px);
-  flex: 0 0 auto;
+  max-width: 100%;
 }
 
 /* Equation rows that contain inline TikZ figures.  Visually presents the

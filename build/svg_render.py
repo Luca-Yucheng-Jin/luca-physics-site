@@ -138,9 +138,20 @@ def _rewrite_to_currentcolor(svg: str) -> str:
     )
 
 
+def _strip_pt_dimensions(svg: str) -> str:
+    """dvisvgm stamps the SVG with width='Npt' height='Mpt' attributes,
+    which cap the rendered size at the natural LaTeX point dimensions
+    (≈1.33px per pt) — too small next to body text. Strip them so the
+    SVG sizes purely via the viewBox + a CSS-controlled width."""
+    svg = re.sub(r"\s+width=(['\"])[\d.]+pt\1", "", svg, count=1)
+    svg = re.sub(r"\s+height=(['\"])[\d.]+pt\1", "", svg, count=1)
+    return svg
+
+
 def _post_process(svg: str) -> str:
     svg = _strip_xml_decl(svg)
     svg = _rewrite_to_currentcolor(svg)
+    svg = _strip_pt_dimensions(svg)
     return svg
 
 
