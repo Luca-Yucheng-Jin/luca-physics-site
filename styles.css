@@ -613,34 +613,34 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
   margin-top: 0.5rem;
 }
 
-/* TikZ figures rendered by TikZJax. We leave TikZJax's aspect-ratio
-   wrapper alone and use CSS `zoom` (non-standard but works in Chrome,
-   Safari, Firefox) to scale the whole figure including its layout box,
-   so the SVG never escapes the figure border and labels stay visible. */
+/* TikZ figures rendered by TikZJax. No box / border / background — the
+   diagram should sit inline with the surrounding prose like a math
+   display. We use CSS `zoom` (non-standard but works in Chrome, Safari,
+   Firefox) to scale the whole figure layout box so the SVG never
+   escapes its container and labels stay visible. */
 .note figure.tikz-figure {
-  background: var(--paper);
-  padding: 0.7rem 0.9rem;
-  border: 1px solid var(--rule);
-  border-radius: var(--rad);
+  background: transparent;
+  padding: 0.4rem 0;
+  border: none;
   text-align: center;
   display: block;
   width: max-content;
   max-width: 100%;
-  margin: 1.4rem auto;
+  margin: 1.2rem auto;
   overflow: visible;
   zoom: 1.8;
 }
 .note figure.tikz-figure svg { color: var(--ink); }
 
-/* Inside an equation row the figure is a flex item; reduce zoom so the
+/* Inside an equation row the figure is a flex item; smaller zoom so the
    row doesn't grow too tall but keep the SVG fully visible. */
 .equation-row figure.tikz-figure {
-  padding: 0.4rem 0.6rem;
-  border-style: dashed;
+  padding: 0;
   background: transparent;
+  border: none;
   flex: 0 0 auto;
-  zoom: 1.4;
-  margin: 0.4rem;
+  zoom: 1.35;
+  margin: 0 0.4rem;
 }
 
 /* Inside an equation row the diagram sits next to math chunks; keep it
