@@ -155,6 +155,18 @@ def _post_process(svg: str) -> str:
     return svg
 
 
+# Two-pass triggers: simpler-wick draws contraction brackets via
+# `\tikz[remember picture, overlay]` which writes node coordinates to
+# AUX on the first pass and reads them on the second. Same applies to
+# any other PGF/TikZ construct that depends on `\pageref` / `\ref`.
+# When the snippet contains any of these, we run lualatex twice.
+_TWO_PASS_MARKERS = ("\\wick", "remember picture", "\\pageref", "\\ref")
+
+
+def _needs_two_passes(tex: str) -> bool:
+    return any(m in tex for m in _TWO_PASS_MARKERS)
+
+
 def _compile(tex: str, key: str) -> str:
     """Run lualatex → dvisvgm in a temp dir; return inline SVG content."""
     with tempfile.TemporaryDirectory(prefix="svg-render-") as tmp:
@@ -163,12 +175,17 @@ def _compile(tex: str, key: str) -> str:
             f.write(tex)
 
         # 1. lualatex --output-format=dvi diag.tex
+        #    Run twice when the snippet uses a two-pass mechanism (e.g.
+        #    simpler-wick's overlay-drawn contraction bars need AUX info
+        #    from the first pass to draw on the second).
+        passes = 2 if _needs_two_passes(tex) else 1
         try:
-            r = subprocess.run(
-                [LUALATEX, "--interaction=batchmode",
-                 "--output-format=dvi", "diag.tex"],
-                cwd=tmp, capture_output=True, text=True, timeout=120,
-            )
+            for _ in range(passes):
+                r = subprocess.run(
+                    [LUALATEX, "--interaction=batchmode",
+                     "--output-format=dvi", "diag.tex"],
+                    cwd=tmp, capture_output=True, text=True, timeout=120,
+                )
         except subprocess.TimeoutExpired:
             raise RuntimeError(f"lualatex timed out for cache key {key}")
         dvi = os.path.join(tmp, "diag.dvi")
