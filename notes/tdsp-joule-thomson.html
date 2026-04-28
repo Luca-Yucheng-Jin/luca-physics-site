@@ -23,7 +23,7 @@ window.MathJax = {
   tex: {
     inlineMath: [['$', '$'], ['\\(', '\\)']],
     displayMath: [['$$', '$$'], ['\\[', '\\]']],
-    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros']},
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros', 'mathtools']},
     macros: {
       R: '\\mathbb{R}',
       C: '\\mathbb{C}',
@@ -40,21 +40,17 @@ window.MathJax = {
       wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
       c:       ['{#1}', 1],
       mathds:  ['\\mathbb{#1}', 1],
-      Tilde:   ['\\tilde{#1}', 1],
-      // tensor.sty: \tensor{base}{indices} — rendered as base + indices
-      tensor:  ['{#1{#2}}', 2]
+      Tilde:   ['\\tilde{#1}', 1]
+      // \tensor{base}{indices} is rewritten to base^a{}_b in
+      // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
+      // so no runtime macro is needed here. The empty-group trick is
+      // what makes MathJax kern the indices into separate columns.
     }
   },
-  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
 };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
-<!-- TikZJax: renders <script type="text/tikz"> blocks into SVG client-side -->
-<link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
-<script src="https://tikzjax.com/v1/tikzjax.js"></script>
-<!-- Post-process TikZJax SVGs: scale them up so they're readable in-page -->
-<script defer src="../assets/resize-tikz.js"></script>
 </head>
 <body>
 
@@ -96,6 +92,87 @@ side, resisted by another piston which applies a constant pressure $P_2$
 ($P_2 &lt; P_1$). Eventually all of the gas occupies a volume $V_2$ on the
 right-hand side.</p>
 
+<figure class="tikz-figure"><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='-1.992528 -82.577602 340.267211 84.57013'><style>path:not([fill]):not([stroke]){fill:currentColor;}</style>
+<defs>
+<path id='g0-80' d='M3.01868-3.148194H4.712329C6.127024-3.148194 7.511831-4.184309 7.511831-5.300125C7.511831-6.067248 6.854296-6.804483 5.549191-6.804483H2.321295C2.132005-6.804483 2.022416-6.804483 2.022416-6.615193C2.022416-6.495641 2.11208-6.495641 2.311333-6.495641C2.440847-6.495641 2.620174-6.485679 2.739726-6.475716C2.899128-6.455791 2.958904-6.425903 2.958904-6.316314C2.958904-6.276463 2.948941-6.246575 2.919054-6.127024L1.58406-.777086C1.484433-.388543 1.464508-.308842 .67746-.308842C.508095-.308842 .398506-.308842 .398506-.119552C.398506 0 .518057 0 .547945 0C.826899 0 1.534247-.029888 1.8132-.029888C2.022416-.029888 2.241594-.019925 2.450809-.019925C2.669988-.019925 2.889166 0 3.098381 0C3.16812 0 3.297634 0 3.297634-.199253C3.297634-.308842 3.20797-.308842 3.01868-.308842C2.650062-.308842 2.371108-.308842 2.371108-.488169C2.371108-.547945 2.391034-.597758 2.400996-.657534L3.01868-3.148194ZM3.73599-6.117061C3.825654-6.465753 3.845579-6.495641 4.273973-6.495641H5.230386C6.057285-6.495641 6.585305-6.22665 6.585305-5.539228C6.585305-5.150685 6.386052-4.293898 5.997509-3.935243C5.499377-3.486924 4.901619-3.407223 4.463263-3.407223H3.058531L3.73599-6.117061Z'/>
+<path id='g0-86' d='M6.256538-5.668742C6.744707-6.445828 7.163138-6.475716 7.531756-6.495641C7.651308-6.505604 7.66127-6.674969 7.66127-6.684932C7.66127-6.764633 7.611457-6.804483 7.531756-6.804483C7.272727-6.804483 6.983811-6.774595 6.714819-6.774595C6.386052-6.774595 6.047323-6.804483 5.728518-6.804483C5.668742-6.804483 5.539228-6.804483 5.539228-6.615193C5.539228-6.505604 5.628892-6.495641 5.69863-6.495641C5.967621-6.475716 6.156912-6.37609 6.156912-6.166874C6.156912-6.017435 6.007472-5.798257 6.007472-5.788294L2.948941-.926526L2.271482-6.196762C2.271482-6.366127 2.500623-6.495641 2.958904-6.495641C3.098381-6.495641 3.20797-6.495641 3.20797-6.694894C3.20797-6.784558 3.128269-6.804483 3.068493-6.804483C2.669988-6.804483 2.241594-6.774595 1.833126-6.774595C1.653798-6.774595 1.464508-6.784558 1.285181-6.784558S.916563-6.804483 .747198-6.804483C.67746-6.804483 .557908-6.804483 .557908-6.615193C.557908-6.495641 .647572-6.495641 .806974-6.495641C1.364882-6.495641 1.374844-6.405978 1.404732-6.156912L2.191781-.009963C2.221669 .18929 2.261519 .219178 2.391034 .219178C2.550436 .219178 2.590286 .169365 2.669988 .039851L6.256538-5.668742Z'/>
+<path id='g1-49' d='M2.336239-4.435367C2.336239-4.623661 2.322291-4.630635 2.127024-4.630635C1.680697-4.191283 1.046077-4.184309 .760149-4.184309V-3.93325C.927522-3.93325 1.387796-3.93325 1.771357-4.128518V-.571856C1.771357-.341719 1.771357-.251059 1.073973-.251059H.808966V0C.934496-.006974 1.792279-.027895 2.050311-.027895C2.266501-.027895 3.145205-.006974 3.29863 0V-.251059H3.033624C2.336239-.251059 2.336239-.341719 2.336239-.571856V-4.435367Z'/>
+<path id='g1-50' d='M3.521793-1.26924H3.284682C3.263761-1.115816 3.194022-.704359 3.103362-.63462C3.047572-.592777 2.510585-.592777 2.412951-.592777H1.129763C1.862017-1.241345 2.106102-1.436613 2.524533-1.764384C3.040598-2.175841 3.521793-2.608219 3.521793-3.270735C3.521793-4.11457 2.782565-4.630635 1.889913-4.630635C1.025156-4.630635 .439352-4.02391 .439352-3.382316C.439352-3.02665 .739228-2.991781 .808966-2.991781C.976339-2.991781 1.17858-3.110336 1.17858-3.361395C1.17858-3.486924 1.129763-3.731009 .767123-3.731009C.983313-4.226152 1.457534-4.379577 1.785305-4.379577C2.48269-4.379577 2.84533-3.835616 2.84533-3.270735C2.84533-2.66401 2.412951-2.182814 2.189788-1.931756L.509091-.27198C.439352-.209215 .439352-.195268 .439352 0H3.312578L3.521793-1.26924Z'/>
+<path id='g2-27' d='M7.612453 0V-.439352H6.742715L4.393524-6.034371C4.294894-6.276463 4.160399-6.276463 3.999004-6.276463S3.703113-6.276463 3.604483-6.034371L1.33599-.645579C1.273225-.502117 1.273225-.493151 1.049066-.466252C.896638-.448319 .726276-.439352 .573848-.439352H.385554V0C.887671-.017933 1.004234-.026899 1.479452-.026899C1.829141-.026899 2.116065-.026899 2.67198 0V-.439352C2.429888-.439352 2.125031-.439352 1.873973-.537983L2.367123-1.721544H4.850809L5.388792-.439352H4.545953V0C4.859776-.026899 5.76538-.026899 6.133001-.026899C6.509589-.026899 7.271731-.026899 7.612453 0ZM4.662516-2.160897H2.555417L3.61345-4.671482L4.662516-2.160897Z'/>
+<path id='g2-34' d='M6.939975-1.667746C6.939975-2.447821 6.276463-3.084433 5.083935-3.218929C6.070237-3.38929 6.644085-3.945205 6.644085-4.608717C6.644085-5.433624 5.837111-6.150934 4.357659-6.150934H.376588V-5.711582H1.344956V-.439352H.376588V0H4.635616C6.168867 0 6.939975-.798007 6.939975-1.667746ZM5.34396-4.608717C5.34396-3.954172 4.904608-3.380324 4.00797-3.380324H2.537484V-5.711582H4.241096C5.308095-5.711582 5.34396-4.788045 5.34396-4.608717ZM5.586052-1.685679C5.586052-1.066999 5.227397-.439352 4.259029-.439352H2.537484V-3.021669H4.348692C4.492154-3.021669 4.967372-3.021669 5.272229-2.663014C5.532254-2.340224 5.586052-1.972603 5.586052-1.685679Z'/>
+<path id='g2-50' d='M4.563885-1.0401C4.563885-1.219427 4.384558-1.219427 4.33076-1.219427C4.169365-1.219427 4.151432-1.165629 4.097634-1.0401C3.891407-.573848 3.344458-.331756 2.779577-.331756C1.506351-.331756 1.488418-1.488418 1.488418-1.927771H4.267995C4.456289-1.927771 4.563885-1.927771 4.563885-2.178829C4.563885-2.37609 4.545953-3.165131 3.963138-3.649315C3.559651-3.981071 3.021669-4.061768 2.582316-4.061768C1.049066-4.061768 .29589-3.0934 .29589-2.017435C.29589-.842839 1.183562 .053798 2.707846 .053798C4.187298 .053798 4.563885-.896638 4.563885-1.0401ZM3.685181-2.25056H1.488418C1.506351-2.663014 1.551183-3.703113 2.582316-3.703113C3.631382-3.703113 3.667248-2.609215 3.685181-2.25056Z'/>
+<path id='g2-55' d='M4.043836-5.478456C4.043836-5.881943 3.694147-6.276463 2.99477-6.276463C2.0533-6.276463 1.084932-5.872976 1.084932-4.868742V-3.981071H.394521V-3.541719H1.084932V-.439352H.475218V0L1.622914-.026899C1.847073-.026899 2.367123-.026899 2.842341 0V-.439352H2.080199V-3.541719H3.147198V-3.981071H2.026401V-4.868742C2.026401-5.846077 2.725778-5.917808 2.949938-5.917808C2.976837-5.917808 3.066501-5.899875 3.066501-5.899875S3.066501-5.881943 3.048568-5.86401C2.949938-5.747447 2.905106-5.621918 2.905106-5.478456C2.905106-5.101868 3.209963-4.904608 3.469988-4.904608C3.765878-4.904608 4.043836-5.119801 4.043836-5.478456Z'/>
+<path id='g2-81' d='M5.003238-1.95467C5.003238-3.129265 4.178331-4.061768 2.654047-4.061768C1.075965-4.061768 .29589-3.084433 .29589-1.95467C.29589-.842839 1.102864 .053798 2.645081 .053798C4.250062 .053798 5.003238-.887671 5.003238-1.95467ZM3.81071-2.0533C3.81071-1.282192 3.81071-.331756 2.654047-.331756C1.488418-.331756 1.488418-1.273225 1.488418-2.0533C1.488418-2.806476 1.488418-3.703113 2.645081-3.703113C3.81071-3.703113 3.81071-2.806476 3.81071-2.0533Z'/>
+<path id='g2-96' d='M4.079701-3.281694C4.079701-3.738979 3.61345-4.034869 3.084433-4.034869C2.456787-4.034869 2.071233-3.577584 1.873973-3.057534H1.865006V-4.034869L.367621-3.963138V-3.523786C.905604-3.523786 .977335-3.523786 .977335-3.174097V-.439352H.367621V0L1.515318-.026899C1.739477-.026899 2.259527-.026899 2.734745 0V-.439352H1.972603V-1.95467C1.972603-2.609215 2.214695-3.649315 3.084433-3.676214C2.985803-3.577584 2.940971-3.425156 2.940971-3.281694C2.940971-2.887173 3.254795-2.707846 3.505853-2.707846C3.792777-2.707846 4.079701-2.905106 4.079701-3.281694Z'/>
+<path id='g2-105' d='M3.523786-1.102864V-1.578082H3.066501V-1.129763C3.066501-.493151 2.743711-.331756 2.519552-.331756C1.999502-.331756 1.999502-.869738 1.999502-1.084932V-3.541719H3.353425V-3.981071H1.999502V-5.693649H1.542217C1.53325-4.850809 1.111831-3.927273 .19726-3.900374V-3.541719H.950436V-1.102864C.950436-.080697 1.838107 .053798 2.394022 .053798C3.0934 .053798 3.523786-.448319 3.523786-1.102864Z'/>
+</defs>
+<g id='page1'>
+<g transform='matrix(1 0 0 1 55.76296 -70.5905)'>
+<use x='9.401041' y='-.3985' xlink:href='#g2-34'/>
+<use x='16.941763' y='-.3985' xlink:href='#g2-50'/>
+<use x='21.810505' y='-.3985' xlink:href='#g2-55'/>
+<use x='25.056333' y='-.3985' xlink:href='#g2-81'/>
+<use x='30.364428' y='-.3985' xlink:href='#g2-96'/>
+<use x='34.740019' y='-.3985' xlink:href='#g2-50'/>
+</g>
+<path d='M9.402344-.398438V-8.90234H151.13704V-.398438Z' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M9.402344-48.5898V-57.0938H151.13704V-48.5898Z' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M78.85154-8.90234V-48.5898' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M81.68364-8.90234V-48.5898' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M37.74614-8.90234V-48.5898H43.41794V-8.90234Z' fill='#4d4d4d'/>
+<path d='M37.74614-8.90234V-48.5898H43.41794V-8.90234Z' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M84.51954-8.90234V-48.5898H88.77344V-8.90234Z' fill='#4d4d4d'/>
+<path d='M84.51954-8.90234V-48.5898H88.77344V-8.90234Z' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 47.30126 -25.6901)'>
+<use x='9.401041' y='-.3985' xlink:href='#g0-86'/>
+<use x='15.212587' y='1.095881' xlink:href='#g1-49'/>
+</g>
+<path d='M17.90625-28.7461H32.32424' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M34.91404-28.746093L30.76951-30.81641L32.324199-28.746093L30.76951-26.67187'/>
+<g transform='matrix(1 0 0 1 -6.08058 -25.6901)'>
+<use x='9.401041' y='-.3985' xlink:href='#g0-80'/>
+<use x='15.797191' y='1.095881' xlink:href='#g1-49'/>
+</g>
+<path d='M95.61324-28.7461H110.03104' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M93.02344-28.746093L97.16797-26.67187L95.613285-28.746093L97.16797-30.81641'/>
+<g transform='matrix(1 0 0 1 104.34996 -25.6901)'>
+<use x='9.401041' y='-.3985' xlink:href='#g0-80'/>
+<use x='15.797191' y='1.095881' xlink:href='#g1-50'/>
+</g>
+<g transform='matrix(1 0 0 1 228.63696 -70.5905)'>
+<use x='9.401041' y='-.3985' xlink:href='#g2-27'/>
+<use x='17.408015' y='-.3985' xlink:href='#g2-55'/>
+<use x='20.653843' y='-.3985' xlink:href='#g2-105'/>
+<use x='24.778376' y='-.3985' xlink:href='#g2-50'/>
+<use x='29.647118' y='-.3985' xlink:href='#g2-96'/>
+</g>
+<path d='M179.48004-.398438V-8.90234H321.21504V-.398438Z' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M179.48004-48.5898V-57.0938H321.21504V-48.5898Z' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M248.93004-8.90234V-48.5898' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M251.76604-8.90234V-48.5898' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M240.42604-8.90234V-48.5898H246.09804V-8.90234Z' fill='#4d4d4d'/>
+<path d='M240.42604-8.90234V-48.5898H246.09804V-8.90234Z' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M292.87104-8.90234V-48.5898H298.53904V-8.90234Z' fill='#4d4d4d'/>
+<path d='M292.87104-8.90234V-48.5898H298.53904V-8.90234Z' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 258.48496 -25.6901)'>
+<use x='9.401041' y='-.3985' xlink:href='#g0-86'/>
+<use x='15.212587' y='1.095881' xlink:href='#g1-50'/>
+</g>
+<path d='M220.58604-28.7461H235.00404' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M237.59408-28.746093L233.44955-30.81641L235.004236-28.746093L233.44955-26.67187'/>
+<g transform='matrix(1 0 0 1 196.59896 -25.6901)'>
+<use x='9.401041' y='-.3985' xlink:href='#g0-80'/>
+<use x='15.797191' y='1.095881' xlink:href='#g1-49'/>
+</g>
+<path d='M303.96504-28.7461H318.38304' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M301.3755-28.746093L305.52003-26.67187L303.965343-28.746093L305.52003-30.81641'/>
+<g transform='matrix(1 0 0 1 312.69896 -25.6901)'>
+<use x='9.401041' y='-.3985' xlink:href='#g0-80'/>
+<use x='15.797191' y='1.095881' xlink:href='#g1-50'/>
+</g>
+</g>
+</svg><figcaption>Joule-Thomson process: gas is pushed through a porous barrier from pressure $P_1$ to $P_2 &lt; P_1$.</figcaption></figure>
+
 <ol>
   <li>Show that enthalpy, $H = E + PV$, is conserved.</li>
   <li>Find the Joule-Thomson coefficient
@@ -112,39 +189,43 @@ right-hand side.</p>
     temperature $T$ can the gas be cooled?</li>
 </ol>
 
-<p><u><strong>Solution</strong></u> Label all quantities on the left by 1 and quantities on the right by 2. We have 
-\[dH = dH_1+ dH_2 = dE_1 + P_1dV_1 + V_1dP_1 + dE_2 + P_2dV_2 + V_2dP_2.\tag{1}\]
+<aside class="solution">
+
+<p>Label all quantities on the left by 1 and quantities on the right by 2. We have 
+\[dH = dH_1+ dH_2 = dE_1 + P_1dV_1 + V_1dP_1 + dE_2 + P_2dV_2 + V_2dP_2.\tag{1.1}\]
 Since the process is adiabatic, we have $dE_i = -\delta W_i = -P_idV_i$. Meanwhile, the pressure is constant; thus, all quantities on the left vanish. Hence, we have $dH=0$.</p>
 
 <p>Now, consider the temperature $T$ as a function of $H$ and $P$. The total derivative of $T$ is given by
-\[dT = \left(\frac{\partial T}{\partial H}\right)_P dH + \left(\frac{\partial T}{\partial P}\right)_H dP = \left(\frac{\partial T}{\partial P}\right)_H dP \equiv \eta_{\text{JT}}dP.\tag{2}\]
+\[dT = \left(\frac{\partial T}{\partial H}\right)_P dH + \left(\frac{\partial T}{\partial P}\right)_H dP = \left(\frac{\partial T}{\partial P}\right)_H dP \equiv \eta_{\text{JT}}dP.\tag{1.2}\]
 Using Maxwell relations, we have
-\[\eta_{\text{JT}} = -\left(\frac{\partial T}{\partial H}\right)_P\left(\frac{\partial H}{\partial P}\right)_T = -\frac{1}{C_P}\left[T\left(\frac{\partial S}{\partial P}\right)_T + V\right] = \frac{1}{C_P}\left[T\left(\frac{\partial V}{\partial T}\right)_P - V\right].\tag{3}\]</p>
+\[\eta_{\text{JT}} = -\left(\frac{\partial T}{\partial H}\right)_P\left(\frac{\partial H}{\partial P}\right)_T = -\frac{1}{C_P}\left[T\left(\frac{\partial S}{\partial P}\right)_T + V\right] = \frac{1}{C_P}\left[T\left(\frac{\partial V}{\partial T}\right)_P - V\right].\tag{1.3}\]</p>
 
 <p>For ideal gas, 
-\[\left(\frac{\partial V}{\partial T}\right)_P = V \implies \eta_{\text{JT}}=0.\tag{4}\]</p>
+\[\left(\frac{\partial V}{\partial T}\right)_P = V \implies \eta_{\text{JT}}=0.\tag{1.4}\]</p>
 
 <p>Since $dP&lt;0$, for a cooling process, $dT&lt;0$, we require $\eta_{\text{JT}}&gt;0$.</p>
 
 <p>The van der Waals equation of state is
-\[\left(P + \frac{aN^2}{V^2}\right)(V-Nb) = NkT.\tag{5}\]
+\[\left(P + \frac{aN^2}{V^2}\right)(V-Nb) = NkT.\tag{1.5}\]
 Expanding and dropping the $ab$ term as second order in the density $N/V$,
-\[PV - PNb + \frac{aN^2}{V} = NkT.\tag{6}\]
+\[PV - PNb + \frac{aN^2}{V} = NkT.\tag{1.6}\]
 Differentiating implicitly at constant $P$,
-\[P\left(\frac{\partial V}{\partial T}\right)_P - \frac{aN^2}{V^2}\left(\frac{\partial V}{\partial T}\right)_P = Nk,\tag{7}\]
+\[P\left(\frac{\partial V}{\partial T}\right)_P - \frac{aN^2}{V^2}\left(\frac{\partial V}{\partial T}\right)_P = Nk,\tag{1.7}\]
 and so
-\[\left(\frac{\partial V}{\partial T}\right)_P = \frac{Nk}{P - aN^2/V^2} \approx \frac{Nk}{P}\left(1 + \frac{aN^2}{PV^2}\right).\tag{8}\]
+\[\left(\frac{\partial V}{\partial T}\right)_P = \frac{Nk}{P - aN^2/V^2} \approx \frac{Nk}{P}\left(1 + \frac{aN^2}{PV^2}\right).\tag{1.8}\]
 To leading order in $N/V$ we may replace $V \approx NkT/P$ in the correction term only, giving
-\[\left(\frac{\partial V}{\partial T}\right)_P \approx \frac{Nk}{P} + \frac{aN^2}{kT^2 V}.\tag{9}\]
+\[\left(\frac{\partial V}{\partial T}\right)_P \approx \frac{Nk}{P} + \frac{aN^2}{kT^2 V}.\tag{1.9}\]
 Substituting into the expression for $\eta_{\mathrm{JT}}$ and using $V \approx NkT/P + Nb - aN/kT$ to the same order,
 \[T\left(\frac{\partial V}{\partial T}\right)_P - V 
     = \frac{NkT}{P} + \frac{aN}{kT} - \frac{NkT}{P} - Nb + \frac{aN}{kT}
-    = \frac{2aN}{kT} - Nb.\tag{10}\]
+    = \frac{2aN}{kT} - Nb.\tag{1.10}\]
 Hence,
 \[\eta_{\mathrm{JT}} = \frac{N}{C_P}\left(\frac{2a}{kT} - b\right).
-    \tag{11}\]
+    \tag{1.11}\]
 The gas can be cooled ($\eta_{\mathrm{JT}}&gt;0$) only below the <em>inversion temperature</em>,
-\[T &lt; T_{\mathrm{inv}} \equiv \frac{2a}{kb}.\tag{12}\]</p>
+\[T &lt; T_{\mathrm{inv}} \equiv \frac{2a}{kb}.\tag{1.12}\]</p>
+
+</aside>
   </article>
 
   <hr class="ornament-rule">

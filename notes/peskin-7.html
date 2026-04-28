@@ -23,7 +23,7 @@ window.MathJax = {
   tex: {
     inlineMath: [['$', '$'], ['\\(', '\\)']],
     displayMath: [['$$', '$$'], ['\\[', '\\]']],
-    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros']},
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros', 'mathtools']},
     macros: {
       R: '\\mathbb{R}',
       C: '\\mathbb{C}',
@@ -40,21 +40,17 @@ window.MathJax = {
       wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
       c:       ['{#1}', 1],
       mathds:  ['\\mathbb{#1}', 1],
-      Tilde:   ['\\tilde{#1}', 1],
-      // tensor.sty: \tensor{base}{indices} — rendered as base + indices
-      tensor:  ['{#1{#2}}', 2]
+      Tilde:   ['\\tilde{#1}', 1]
+      // \tensor{base}{indices} is rewritten to base^a{}_b in
+      // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
+      // so no runtime macro is needed here. The empty-group trick is
+      // what makes MathJax kern the indices into separate columns.
     }
   },
-  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
 };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
-<!-- TikZJax: renders <script type="text/tikz"> blocks into SVG client-side -->
-<link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
-<script src="https://tikzjax.com/v1/tikzjax.js"></script>
-<!-- Post-process TikZJax SVGs: scale them up so they're readable in-page -->
-<script defer src="../assets/resize-tikz.js"></script>
 </head>
 <body>
 
@@ -89,20 +85,20 @@ window.MathJax = {
 <p>We have seen that the Ward identity can be violated by an improperly chosen regulator. Let us check the validity of the identity $Z_1=Z_2$, to order $\alpha$, for several choices of regulator. We have already verified that the relation holds for Pauli-Villars regularisation.</p>
 
 <p><strong>(a)</strong> First, let us verify the identity, $\delta Z_1 = \delta Z_2$, by simply replacing introducing an UV cutoff, $\Lambda$, on the integration over $l_E$. Recall
-\[\Gamma^\mu(q=0) =  Z_1^{-1}\gamma^\mu \implies \delta Z_1 =  -\delta F_1(q^2=0),\tag{1}\]
+\[\Gamma^\mu(q=0) =  Z_1^{-1}\gamma^\mu \implies \delta Z_1 =  -\delta F_1(q^2=0),\tag{1.1}\]
 and
-\[Z_2^{-1} = 1-\frac{d\Sigma_2}{d\slashed{p}}\bigg|_{\slashed{p}=m} \implies \delta Z_2 = \frac{d\Sigma_2}{d\slashed{p}}\bigg|_{\slashed{p}=m_0}.\tag{2}\]
+\[Z_2^{-1} = 1-\frac{d\Sigma_2}{d\slashed{p}}\bigg|_{\slashed{p}=m} \implies \delta Z_2 = \frac{d\Sigma_2}{d\slashed{p}}\bigg|_{\slashed{p}=m_0}.\tag{1.2}\]
 (We have used the fact that $m=m_0$ at tree-level.)</p>
 
 <p>Let us start by evaluating $\delta Z_2$. From Peskin (7.17), we have
-\[\Sigma_2(p)  = -ie^2\int^1_0 dx\int\frac{d^4l}{(2\pi)^4}\frac{-2x\slashed{p}+4m_0}{(l^2-\Delta+i\varepsilon)^2},\tag{3}\]
+\[\Sigma_2(p)  = -ie^2\int^1_0 dx\int\frac{d^4l}{(2\pi)^4}\frac{-2x\slashed{p}+4m_0}{(l^2-\Delta+i\varepsilon)^2},\tag{1.3}\]
 where $\Delta = -x(1-x)p^2+(1-x)m_0^2$. Perform a Wick rotation on the integral, and we obtain
 \[\begin{aligned}
     \int\frac{d^4l}{(2\pi)^4}\frac{1}{(l^2-\Delta+i\varepsilon)^2} &amp;= i\int\frac{d^4l_E}{(2\pi)^4}\frac{1}{(l_E^2+\Delta)^2}\\
     &amp;=\frac{i}{8\pi^2}\int_0^\infty dl_E\frac{l_E^3}{(l_E^2+\Delta)^2}.
-\end{aligned}\tag{4}\]
+\end{aligned}\tag{1.4}\]
 Now, we can apply the UV cutoff to the integral, which yields
-\[\frac{i}{8\pi^2}\int_0^\Lambda dl_E\frac{l_E^3}{(l_E^2+\Delta)^2}=\frac{i}{16\pi^2}\left[\ln\left(1+\frac{\Lambda^2}{\Delta}\right)-\frac{\Lambda^2}{\Lambda^2+\Delta}\right].\tag{5}\]</p>
+\[\frac{i}{8\pi^2}\int_0^\Lambda dl_E\frac{l_E^3}{(l_E^2+\Delta)^2}=\frac{i}{16\pi^2}\left[\ln\left(1+\frac{\Lambda^2}{\Delta}\right)-\frac{\Lambda^2}{\Lambda^2+\Delta}\right].\tag{1.5}\]</p>
 
 <p>Thus, by differentiating $\Sigma_2$ and noting that $p^2 = \slashed{p}^2$, we can obtain
 \[\begin{aligned}
@@ -110,44 +106,44 @@ Now, we can apply the UV cutoff to the integral, which yields
         &amp;=-\frac{\alpha}{2\pi}\int^1_0dx \left\{x\left[\ln\left(1+\frac{\Lambda^2}{\Delta}\right)-\frac{\Lambda^2}{\Lambda^2+\Delta}\right]-2(x\slashed{p}-2m_0)\slashed{p}x(1-x)\left[-\frac{\Lambda^2}{\Delta(\Lambda^2+\Delta)}+\frac{\Lambda^2}{(\Lambda^2+\Delta)^2}\right]\right\}\bigg|_{\slashed{p}=m_0}\\
         &amp;=-\frac{\alpha}{2\pi}\int^1_0dx\left\{x\left[\ln\left(1+\frac{\Lambda^2}{\Delta}\right)-\frac{\Lambda^2}{\Lambda^2+\Delta}\right]+2m_0^2(x-2)x(1-x)\frac{\Lambda^4}{\Delta(\Lambda^2+\Delta)^2}\right\}\bigg|_{\Delta=(1-x)^2m_0^2}\\
         &amp;=-\frac{\alpha}{2\pi}\int^1_0dx\left\{x\ln\left(1+\frac{\Lambda^2}{m_0^2(1-x)^2}\right)-x+\frac{2(x-2)x}{(1-x)}+ \order{\frac{m_0^2}{\Lambda^2}}\right\}.
-    \end{aligned}\tag{6}\]</p>
+    \end{aligned}\tag{1.6}\]</p>
 
 <p>Now, let us turn to $\delta Z_1$. From Peskin (6.54), we have
-\[\delta F_1(q^2=0)=2ie^2\int^1_0dx\,dy\,dz\,\delta(x+y+z-1)\int\frac{d^4l}{(2\pi)^4}\frac{-l^2+2(1-4x+x^2)m_0^2}{(l^2-\Delta+i\varepsilon)^3},\tag{7}\]
+\[\delta F_1(q^2=0)=2ie^2\int^1_0dx\,dy\,dz\,\delta(x+y+z-1)\int\frac{d^4l}{(2\pi)^4}\frac{-l^2+2(1-4x+x^2)m_0^2}{(l^2-\Delta+i\varepsilon)^3},\tag{1.7}\]
 where $\Delta=(1-x)^2m_0^2$. Again, Wick rotate the interal with respect to $l$, we obtain
 \[\begin{aligned}
     \int\frac{d^4l}{(2\pi)^4}\frac{-l^2+2(1-4x+x^2)m_0^2}{(l^2-\Delta+i\varepsilon)^3} &amp;= -i\int\frac{d^4l_E}{(2\pi)^4}\frac{l_E^2+2(1-4x+x^2)m_0^2}{(l_E^2+\Delta)^3}\\
     &amp;=\frac{-i}{8\pi^2}\int^\infty_0 dl_E\, l_E^3\cdot \frac{l_E^2+2(1-4x+x^2)m_0^2}{(l_E^2+\Delta)^3}.
-\end{aligned}\tag{8}\]
+\end{aligned}\tag{1.8}\]
 Let us regulate the integral with a UV cutoff:
 \[\begin{aligned}
         \int^\infty_0\to\int^\Lambda_0.
-    \end{aligned}\tag{9}\]
+    \end{aligned}\tag{1.9}\]
 Thus,
 \[\begin{aligned}
         &amp;\frac{-i}{8\pi^2}\int^\Lambda_0 dl_E\, l_E^3\cdot \frac{l_E^2+2(1-4x+x^2)m_0^2}{(l_E^2+\Delta)^3}= \frac{-i}{8\pi^2}\int^{\sqrt{\Lambda^2+\Delta}}_{\sqrt{\Delta}} dk\left[\frac{(k^2-\Delta)^2}{k^5} + 2(1-4x+x^2)m_0^2\frac{k^2-\Delta}{k^5}\right]\\
         =&amp;\frac{-i}{8\pi^2}\left[\frac{1}{2}\ln\left(1+\frac{\Lambda^2}{\Delta}\right)+\frac{\Delta}{\Lambda^2+\Delta}-\frac{3}{4} - \frac{\Delta^2}{4(
         \Lambda^2+\Delta)^2} + 2(1-4x+x^2)m_0^2\left(-\frac{1}{2(\Lambda^2+\Delta)}+\frac{1}{4\Delta} + \frac{\Delta}{4(\Lambda^2+\Delta)}\right)\right]\\
         =&amp;\frac{-i}{8\pi^2}\left[\frac{1}{2}\ln\left(1+\frac{\Lambda^2}{\Delta}\right)-\frac{3}{4}+\frac{(1-4x+x^2)m_0^2}{2\Delta}+\order{\frac{m_0^2}{\Lambda^2}}\right]. 
-    \end{aligned}\tag{10}\]</p>
+    \end{aligned}\tag{1.10}\]</p>
 
 <p>Therefore, we have
-\[\delta Z_1 = -\frac{\alpha}{2\pi}\int^1_0dx\int^{1-x}_0dy\left[\ln\left(1+\frac{\Lambda^2}{\Delta}\right)-1+\order{\frac{m_0^2}{\Lambda^2}}\right].\tag{11}\]</p>
+\[\delta Z_1 = -\frac{\alpha}{2\pi}\int^1_0dx\int^{1-x}_0dy\left[\ln\left(1+\frac{\Lambda^2}{\Delta}\right)-1+\order{\frac{m_0^2}{\Lambda^2}}\right].\tag{1.11}\]</p>
 
 <p>Hence, we have shown that $\delta Z_1 \neq \delta Z_2$ under the UV cutoff regulator.</p>
 
 <p><strong>(b)</strong>
 In this section, let us see what happened with dimensional regularisation. Note that in $d$ dimensions,
-\[\gamma^\mu\gamma^\nu\gamma_\mu = -(2-\epsilon)\gamma^\nu;\tag{12}\]
-\[\gamma^\mu \gamma_\mu = d.\tag{13}\]
+\[\gamma^\mu\gamma^\nu\gamma_\mu = -(2-\epsilon)\gamma^\nu;\tag{1.12}\]
+\[\gamma^\mu \gamma_\mu = d.\tag{1.13}\]
 Then, Peskin (7.17) is modified to be
 \[\begin{aligned}
         \Sigma_2(p) &amp;= ie^2\int^1_0dx\int\frac{d^dl}{(2\pi)^d}\frac{(2-d)x\slashed{p}+d\cdot m_0}{(l^2-\Delta+i\varepsilon)^2}\\
         &amp;=-e^2\int^1_0dx\int\frac{d^dl_E}{(2\pi)^d}\frac{(2-d)x\slashed{p}+d\cdot m_0}{(l_E^2+\Delta)^2}\\
         &amp;= \frac{-e^2}{(4\pi)^{d/2}}\Gamma(2-\frac{d}{2})\int^1_0dx[(2-d)x\slashed{p}+d\cdot m_0]\cdot\frac{1}{\Delta^{2-d/2}}.
-\end{aligned}\tag{14}\]
+\end{aligned}\tag{1.14}\]
 Thus,
-\[\delta Z_2 = \frac{d\Sigma_2}{d\slashed{p}}\bigg|_{\slashed{p}=m_0}=-\frac{2e^2}{(4\pi)^{d/2}}\Gamma(2-\frac{d}{2})\int^1_0dx\left[\frac{(2-d)x}{\Delta^{2-d/2}} + (2-\frac{d}{2})\frac{[(2-d)xm_0+d\cdot m_0]2x(1-x)m_0}{\Delta^{3-d/2}}\right]\bigg|_{\Delta=(1-x)^2m_0^2}.\tag{15}\]
+\[\delta Z_2 = \frac{d\Sigma_2}{d\slashed{p}}\bigg|_{\slashed{p}=m_0}=-\frac{2e^2}{(4\pi)^{d/2}}\Gamma(2-\frac{d}{2})\int^1_0dx\left[\frac{(2-d)x}{\Delta^{2-d/2}} + (2-\frac{d}{2})\frac{[(2-d)xm_0+d\cdot m_0]2x(1-x)m_0}{\Delta^{3-d/2}}\right]\bigg|_{\Delta=(1-x)^2m_0^2}.\tag{1.15}\]
 Now, take the limit $d=4-\epsilon$, where $\epsilon\to0$, we have
 \[\begin{aligned}
     \delta Z_2 &amp;= -\frac{e^2}{(4\pi)^{2}}\left(1+\frac{\epsilon}{2}\ln4\pi\right)\left(\frac{2}{\epsilon}-\gamma+\order{\epsilon} \right)\int^1_0dx
@@ -165,7 +161,7 @@ Now, take the limit $d=4-\epsilon$, where $\epsilon\to0$, we have
 -\frac{2(2-x)}{1-x}
 \right]
 +\mathcal{O}(\epsilon).
-\end{aligned}\tag{16}\]</p>
+\end{aligned}\tag{1.16}\]</p>
   </article>
 
   <hr class="ornament-rule">

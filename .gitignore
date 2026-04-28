@@ -12,3 +12,4 @@ __pycache__/
 
 # Worktrees
 .claude/worktrees/
+build/svg-cache/

@@ -23,7 +23,7 @@ window.MathJax = {
   tex: {
     inlineMath: [['$', '$'], ['\\(', '\\)']],
     displayMath: [['$$', '$$'], ['\\[', '\\]']],
-    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros']},
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros', 'mathtools']},
     macros: {
       R: '\\mathbb{R}',
       C: '\\mathbb{C}',
@@ -40,21 +40,17 @@ window.MathJax = {
       wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
       c:       ['{#1}', 1],
       mathds:  ['\\mathbb{#1}', 1],
-      Tilde:   ['\\tilde{#1}', 1],
-      // tensor.sty: \tensor{base}{indices} — rendered as base + indices
-      tensor:  ['{#1{#2}}', 2]
+      Tilde:   ['\\tilde{#1}', 1]
+      // \tensor{base}{indices} is rewritten to base^a{}_b in
+      // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
+      // so no runtime macro is needed here. The empty-group trick is
+      // what makes MathJax kern the indices into separate columns.
     }
   },
-  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
 };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
-<!-- TikZJax: renders <script type="text/tikz"> blocks into SVG client-side -->
-<link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
-<script src="https://tikzjax.com/v1/tikzjax.js"></script>
-<!-- Post-process TikZJax SVGs: scale them up so they're readable in-page -->
-<script defer src="../assets/resize-tikz.js"></script>
 </head>
 <body>
 
@@ -91,26 +87,30 @@ window.MathJax = {
 By integrating around a Bromwich keyhole contour, verify the inversion formula
 for $f(t)$. What is the Laplace transform of $t^{1/2}$?</p>
 
-<p><u><strong>Solution</strong></u> The integral can be evaluated easily by a change of variable $\tau^2 = t$:
-\[\hat{F}(s) = \mathcal{L}[f(t)] = \int^\infty _ 0 dt \,e^{-st}t^{-1/2} = \int^\infty_0 d\tau \, 2e^{-s\tau^2} = \sqrt{\frac{\pi}{s}}.\tag{1}\]</p>
+<aside class="solution">
+
+<p>The integral can be evaluated easily by a change of variable $\tau^2 = t$:
+\[\hat{F}(s) = \mathcal{L}[f(t)] = \int^\infty _ 0 dt \,e^{-st}t^{-1/2} = \int^\infty_0 d\tau \, 2e^{-s\tau^2} = \sqrt{\frac{\pi}{s}}.\tag{1.1}\]</p>
 
 <p>Now, we shall verify the inverse Laplace transform of $\hat{F}(s)$. The function $\hat{F}(s)$ has a principal branch cut from $-\infty$ to $0$. To see that, write $s=re^{i\theta}$, and we find
-\[s^{-1/2} = r^{-1/2}e^{-i\theta/2}  = r^{-1/2}e^{-i\arg s/2} \quad \text{with} \quad    \arg s\in (-\pi, \pi).\tag{2}\]
+\[s^{-1/2} = r^{-1/2}e^{-i\theta/2}  = r^{-1/2}e^{-i\arg s/2} \quad \text{with} \quad    \arg s\in (-\pi, \pi).\tag{1.2}\]
 Therefore, just above the branch cut, we have $s^{-1/2} = -ir^{-1/2}$; just below the branch cut, we have $s^{-1/2} = ir^{-1/2}$.</p>
 
 <p>The inverse Laplace transform is given by
-\[f(t) = \frac{\sqrt{\pi}}{2\pi i}\int_{\mathcal{C}_\gamma}ds\,e^{st}s^{-1/2}= \frac{\sqrt{\pi}}{2\pi i}\int^{\gamma+i\infty}_{\gamma-\infty}ds\,e^{st}s^{-1/2}\tag{3}\]
+\[f(t) = \frac{\sqrt{\pi}}{2\pi i}\int_{\mathcal{C}_\gamma}ds\,e^{st}s^{-1/2}= \frac{\sqrt{\pi}}{2\pi i}\int^{\gamma+i\infty}_{\gamma-\infty}ds\,e^{st}s^{-1/2}\tag{1.3}\]
 with $\gamma\to 0^+$. We can choose to integrate the Bromwich keyhole contour, $\mathcal{C}_B = \Gamma_+ \cup \Gamma_- \cup \mathcal{C}_\epsilon \cup \mathcal{C}_\gamma \cup \mathcal{C}_+\cup \mathcal{C}_-$, where
-\[\Gamma_\pm = \lim_{\epsilon\to 0}\{z\in(\pm i \epsilon -\infty, \pm i \epsilon]\}, \quad\mathcal{C}_\epsilon = \lim_{\epsilon\to0^+}\{z=\epsilon e^{i\theta}|\theta\in[-\pi/2, \pi/2]\},\tag{4}\]
+\[\Gamma_\pm = \lim_{\epsilon\to 0}\{z\in(\pm i \epsilon -\infty, \pm i \epsilon]\}, \quad\mathcal{C}_\epsilon = \lim_{\epsilon\to0^+}\{z=\epsilon e^{i\theta}|\theta\in[-\pi/2, \pi/2]\},\tag{1.4}\]
 and the large arcs are given by
-\[\mathcal{C}_\pm = \lim_{R\to\infty} \{ z = R e^{i\theta} | \theta \in [\pm \tfrac{\pi}{2}, \pm \pi] \}.\tag{5}\] 
+\[\mathcal{C}_\pm = \lim_{R\to\infty} \{ z = R e^{i\theta} | \theta \in [\pm \tfrac{\pi}{2}, \pm \pi] \}.\tag{1.5}\] 
 Since there are no poles enclosed by this contour, we have
-\[\oint_{\mathcal{C}_B}ds\,e^{st}s^{-1/2} = 0.\tag{6}\]</p>
+\[\oint_{\mathcal{C}_B}ds\,e^{st}s^{-1/2} = 0.\tag{1.6}\]</p>
 
 <p>It is easy to see that the integral along $\mathcal{C}_\pm$ and $\mathcal{C}_\epsilon$ vanishes. The integral along $\Gamma_\pm$ is given by
-\[I_\pm = \int_{\Gamma_\pm}ds\,e^{st}s^{-1/2} = \pm\int^0_{-\infty}dr\, r^{-1/2}e^{rt} = \mp i\int^\infty_0dr\,r^{-1/2}e^{-rt} = \mp i\sqrt{\frac{\pi}{t}}.\tag{7}\]
+\[I_\pm = \int_{\Gamma_\pm}ds\,e^{st}s^{-1/2} = \pm\int^0_{-\infty}dr\, r^{-1/2}e^{rt} = \mp i\int^\infty_0dr\,r^{-1/2}e^{-rt} = \mp i\sqrt{\frac{\pi}{t}}.\tag{1.7}\]
 Thus, we find (notice the direction of the contour integration)
-\[2\sqrt{\pi}if(t) +I_+ - I_- = 0 \implies f(t) = t^{-1/2}.\tag{8}\]</p>
+\[2\sqrt{\pi}if(t) +I_+ - I_- = 0 \implies f(t) = t^{-1/2}.\tag{1.8}\]</p>
+
+</aside>
   </article>
 
   <hr class="ornament-rule">

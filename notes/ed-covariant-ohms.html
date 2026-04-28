@@ -23,7 +23,7 @@ window.MathJax = {
   tex: {
     inlineMath: [['$', '$'], ['\\(', '\\)']],
     displayMath: [['$$', '$$'], ['\\[', '\\]']],
-    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros']},
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros', 'mathtools']},
     macros: {
       R: '\\mathbb{R}',
       C: '\\mathbb{C}',
@@ -40,21 +40,17 @@ window.MathJax = {
       wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
       c:       ['{#1}', 1],
       mathds:  ['\\mathbb{#1}', 1],
-      Tilde:   ['\\tilde{#1}', 1],
-      // tensor.sty: \tensor{base}{indices} — rendered as base + indices
-      tensor:  ['{#1{#2}}', 2]
+      Tilde:   ['\\tilde{#1}', 1]
+      // \tensor{base}{indices} is rewritten to base^a{}_b in
+      // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
+      // so no runtime macro is needed here. The empty-group trick is
+      // what makes MathJax kern the indices into separate columns.
     }
   },
-  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
 };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
-<!-- TikZJax: renders <script type="text/tikz"> blocks into SVG client-side -->
-<link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
-<script src="https://tikzjax.com/v1/tikzjax.js"></script>
-<!-- Post-process TikZJax SVGs: scale them up so they're readable in-page -->
-<script defer src="../assets/resize-tikz.js"></script>
 </head>
 <body>
 
@@ -89,22 +85,24 @@ window.MathJax = {
 <p>For a general 4-velocity, written as $u^\mu = \gamma(c,\mathbf{v})$,
 show that
 \[F_{\mu\nu}u^\nu = \gamma\begin{pmatrix}-\mathbf{E}\cdot\mathbf{v}/c\\[4pt]
-  \mathbf{E}+\mathbf{v}\times\mathbf{B}\end{pmatrix}.\tag{1}\]</p>
+  \mathbf{E}+\mathbf{v}\times\mathbf{B}\end{pmatrix}.\tag{1.1}\]</p>
 
 <p>In the rest-frame of a conducting medium, Ohm's law states that
 $\mathbf{J}=\sigma\mathbf{E}$, where $\sigma$ is the conductivity and
 $\mathbf{J}$ is the 3-current. Assuming that $\sigma$ is a Lorentz scalar,
 show that Ohm's law can be written covariantly as
-\[J^\mu + \frac{1}{c^2}(J^\nu u_\nu)u^\mu = \sigma F^{\mu\nu}u_\nu,\tag{2}\]
+\[J^\mu + \frac{1}{c^2}(J^\nu u_\nu)u^\mu = \sigma F^{\mu\nu}u_\nu,\tag{1.2}\]
 where $J^\mu$ is the 4-current and $u^\mu$ is the (uniform) 4-velocity of
 the medium. If the medium moves with 3-velocity $\mathbf{v}$ in some inertial
 frame, show that the current in that frame is
 \[\mathbf{J} = \rho\mathbf{v} + \sigma\gamma\!\left(\mathbf{E}
-  + \mathbf{v}\times\mathbf{B} - \frac{1}{c^2}(\mathbf{v}\cdot\mathbf{E})\mathbf{v}\right),\tag{3}\]
+  + \mathbf{v}\times\mathbf{B} - \frac{1}{c^2}(\mathbf{v}\cdot\mathbf{E})\mathbf{v}\right),\tag{1.3}\]
 where $\rho$ is the charge density. Simplify this formula, given that the
 charge density vanishes in the rest-frame of the medium.</p>
 
-<p><u><strong>Solution</strong></u> It is easy to verify that 
+<aside class="solution">
+
+<p>It is easy to verify that 
 \[F_{\mu\nu}u^\nu = \gamma\begin{pmatrix}
   0        &amp;  E_x/c &amp;  E_y/c &amp;  E_z/c \\
   -E_x/c  &amp;  0     &amp; -B_z   &amp;  B_y   \\
@@ -115,7 +113,7 @@ charge density vanishes in the rest-frame of the medium.</p>
     c\\v_x\\v_y\\v_z
 \end{pmatrix} = 
    \gamma\begin{pmatrix}-\mathbf{E}\cdot\mathbf{v}/c\\
-  \mathbf{E}+\mathbf{v}\times\mathbf{B}\end{pmatrix}.\tag{4}\]</p>
+  \mathbf{E}+\mathbf{v}\times\mathbf{B}\end{pmatrix}.\tag{1.4}\]</p>
 
 <p>In the rest-frame, $u^\mu = (c,0,0,0)$. Then, consider
 \[J^\mu + \frac{1}{c^2}(J^\nu u_\nu)u^\mu = \begin{pmatrix}
@@ -128,13 +126,13 @@ charge density vanishes in the rest-frame of the medium.</p>
         c\\0
     \end{pmatrix} = \begin{pmatrix}
         0\\\mathbf{J}
-    \end{pmatrix},\tag{5}\]
+    \end{pmatrix},\tag{1.5}\]
 and
 \[\sigma F_{\mu\nu}u^\nu = \begin{pmatrix}
         0\\\sigma\mathbf{E}.
-    \end{pmatrix}\tag{6}\]
+    \end{pmatrix}\tag{1.6}\]
 Thus, we have verified that 
-\[J^\mu + \frac{1}{c^2}(J^\nu u_\nu)u^\mu = \sigma F^{\mu\nu}u_\nu\tag{7}\]
+\[J^\mu + \frac{1}{c^2}(J^\nu u_\nu)u^\mu = \sigma F^{\mu\nu}u_\nu\tag{1.7}\]
 is indeed the covariant representation of Ohm's law.</p>
 
 <p>For a moving medium, the equation gives
@@ -142,22 +140,24 @@ is indeed the covariant representation of Ohm's law.</p>
         \rho c+\gamma^2(-\rho c^2+\mathbf{J}\cdot\mathbf{v})\\
         \mathbf{J} +\gamma^2(-\rho c^2+\mathbf{J}\cdot\mathbf{v})\mathbf{v}/c
     \end{pmatrix}  =\gamma \sigma\begin{pmatrix}
-        \mathbf{E}\cdot\mathbf{v}/c\\\mathbf{E}+\mathbf{v}\times\mathbf{B} \end{pmatrix}.\tag{8}\]
+        \mathbf{E}\cdot\mathbf{v}/c\\\mathbf{E}+\mathbf{v}\times\mathbf{B} \end{pmatrix}.\tag{1.8}\]
 Combining the two equations, we find
 \[\mathbf{J} = \rho\mathbf{v} + \sigma\gamma\!\left(\mathbf{E}
-  + \mathbf{v}\times\mathbf{B} - \frac{1}{c^2}(\mathbf{v}\cdot\mathbf{E})\mathbf{v}\right).\tag{9}\]</p>
+  + \mathbf{v}\times\mathbf{B} - \frac{1}{c^2}(\mathbf{v}\cdot\mathbf{E})\mathbf{v}\right).\tag{1.9}\]</p>
 
 <p>Finally, given $\rho_0 = 0$, then $J^\mu u_\mu = -\rho_0 c^2$. This implies
-\[-\rho c^2 + \mathbf{J}\cdot\mathbf{v} = 0,\tag{10}\]
+\[-\rho c^2 + \mathbf{J}\cdot\mathbf{v} = 0,\tag{1.10}\]
 Taking the dot product of $\mathbf{J}$
 with $\mathbf{v}$ gives
 \[\rho v^2 + \sigma\gamma\left(\mathbf{v}\cdot\mathbf{E} - \frac{v^2}{c^2}\mathbf{v}\cdot\mathbf{E}\right)
-    = \rho c^2.\tag{11}\]
+    = \rho c^2.\tag{1.11}\]
 Rearranging, we find
-\[\rho = \frac{\sigma \gamma}{c^2}\,\mathbf{v}\cdot\mathbf{E}.\tag{12}\]
+\[\rho = \frac{\sigma \gamma}{c^2}\,\mathbf{v}\cdot\mathbf{E}.\tag{1.12}\]
 Substituting back, the current becomes
 \[\mathbf{J}
-    = \sigma\gamma\left(\mathbf{E}+\mathbf{v}\times\mathbf{B}\right).\tag{13}\]</p>
+    = \sigma\gamma\left(\mathbf{E}+\mathbf{v}\times\mathbf{B}\right).\tag{1.13}\]</p>
+
+</aside>
   </article>
 
   <hr class="ornament-rule">

@@ -23,7 +23,7 @@ window.MathJax = {
   tex: {
     inlineMath: [['$', '$'], ['\\(', '\\)']],
     displayMath: [['$$', '$$'], ['\\[', '\\]']],
-    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros']},
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros', 'mathtools']},
     macros: {
       R: '\\mathbb{R}',
       C: '\\mathbb{C}',
@@ -40,21 +40,17 @@ window.MathJax = {
       wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
       c:       ['{#1}', 1],
       mathds:  ['\\mathbb{#1}', 1],
-      Tilde:   ['\\tilde{#1}', 1],
-      // tensor.sty: \tensor{base}{indices} — rendered as base + indices
-      tensor:  ['{#1{#2}}', 2]
+      Tilde:   ['\\tilde{#1}', 1]
+      // \tensor{base}{indices} is rewritten to base^a{}_b in
+      // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
+      // so no runtime macro is needed here. The empty-group trick is
+      // what makes MathJax kern the indices into separate columns.
     }
   },
-  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
 };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
-<!-- TikZJax: renders <script type="text/tikz"> blocks into SVG client-side -->
-<link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
-<script src="https://tikzjax.com/v1/tikzjax.js"></script>
-<!-- Post-process TikZJax SVGs: scale them up so they're readable in-page -->
-<script defer src="../assets/resize-tikz.js"></script>
 </head>
 <body>
 
@@ -97,81 +93,93 @@ window.MathJax = {
 <h2 id="the-euler-lagrange-equations">The Euler-Lagrange Equations</h2>
 
 <p>The action $S$ is defined as 
-\[S = \int dt L = \int d^4x \mathcal{L},\tag{1}\]
+\[S = \int dt L = \int d^4x \mathcal{L},\tag{1.1}\]
 where $L$ is the Lagrangian of the system, and $\mathcal{L}$ is the Lagrangian density. Say we have a Lagrangian $\mathcal{L}[\phi, \partial_\mu\phi]$ is only a functional of $\phi$ and $\partial_\mu\phi$. Then,
 \[\begin{aligned}
         \delta S &amp;= \int d^4x \biggr [ \frac{\partial\mathcal{L}}{\partial \phi}\delta\phi + \frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi)}\delta(\partial_\mu\phi)\biggr] \\
         &amp; = \int d^4x\biggr\{  \biggr(\frac{\partial\mathcal{L}}{\partial \phi} - \frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi)}\biggr)\delta\phi  + \partial_\mu\biggr[\frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi)}\delta(\phi)\biggr] \biggr\}.
         
-    \end{aligned}\tag{2}\]
+    \end{aligned}\tag{1.2}\]
 The last term is a total integral and the boundary condition will always force it to vanish. Imposing the principal of least action, $\frac{\delta S}{\delta\phi} =0$. Hence, this implies</p>
 
-<p>\[\frac{\partial\mathcal{L}}{\partial \phi} - \frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi)} = 0.\tag{3}\]</p>
+<aside class="boxed-equation">
+
+<p>\[\frac{\partial\mathcal{L}}{\partial \phi} - \frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi)} = 0.\tag{1.3}\]</p>
+
+</aside>
 
 <h2 id="noethers-theorem">Noether's Theorem</h2>
 
-<p>A Lagrangian may be invariant under some transformation $\phi \rightarrow \phi + \delta\phi$, which is called a symmetry. When there is such a symmetry that depends on some parameter $\alpha$ that can be taken small (a continuous symmetry), we find, similar to (2)
+<p>A Lagrangian may be invariant under some transformation $\phi \rightarrow \phi + \delta\phi$, which is called a symmetry. When there is such a symmetry that depends on some parameter $\alpha$ that can be taken small (a continuous symmetry), we find, similar to (1.2)
 \[0 = \frac{\delta \mathcal{L}}{\delta \alpha} = \sum _n \biggr(\frac{\partial\mathcal{L}}{\partial \phi_n} - \frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi_n)}\biggr)\frac{\delta\phi_n}{\delta\alpha}  + \partial_\mu\biggr[\frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi_n)}\frac{\delta\phi_n}{\delta\alpha}\biggr].
-    \tag{1}\]
-When the equation of motion is satisfied, then (1) simplifies to $\partial_
+    \tag{2.1}\]
+When the equation of motion is satisfied, then (2.1) simplifies to $\partial_
 \mu J^\mu = 0$ with</p>
 
-<p>\[J^\mu = \sum_n \frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi_n)}\frac{\delta\phi_n}{\delta\alpha}.\tag{2}\]</p>
+<aside class="boxed-equation">
+
+<p>\[J^\mu = \sum_n \frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi_n)}\frac{\delta\phi_n}{\delta\alpha}.\tag{2.2}\]</p>
+
+</aside>
 
 <p>This is known as the Noether current.
 Such a vector field is also called a conserved current, since the total charge $Q$, defined as 
-\[Q = \int d^3xJ_0,\tag{3}\]
+\[Q = \int d^3xJ_0,\tag{2.3}\]
 satisfies
-\[\partial_tQ = \int d^3x\partial_tJ_0 = \int d^3x\vec{\nabla}\cdot\vec{J} = \int \vec{dS}\cdot\vec{J} = 0.\tag{4}\]</p>
+\[\partial_tQ = \int d^3x\partial_tJ_0 = \int d^3x\vec{\nabla}\cdot\vec{J} = \int \vec{dS}\cdot\vec{J} = 0.\tag{2.4}\]</p>
 
 <h4>Energy-Momentum Tensor</h4>
 
 <p>In this section, we will investigate the conserved current corresponding to space-time translation invariance, known as the energy-momentum tensor, $\mathcal{T}_{\mu\nu}$. Now, let us consider the transformation $y^\mu \rightarrow y^\mu - \xi^\mu$ with $\xi^\mu$ to be a constant four-vector. The scalar fields then would transform as $\phi(x) \rightarrow \phi(x+\xi)$. For infinitesimal $\delta\xi^\mu$
-\[\phi(x) \rightarrow \phi(x+\delta\xi)= \phi(x) + \delta\xi^\mu\partial_\mu\phi(x)+\cdots.\tag{5}\]
+\[\phi(x) \rightarrow \phi(x+\delta\xi)= \phi(x) + \delta\xi^\mu\partial_\mu\phi(x)+\cdots.\tag{2.5}\]
 This implies
-\[\frac{\delta\phi(x)}{\delta\xi^\mu} = \partial_\mu\phi(x).\tag{6}\]
+\[\frac{\delta\phi(x)}{\delta\xi^\mu} = \partial_\mu\phi(x).\tag{2.6}\]
 As the Lagrangian is also a function of $x$, we have
-\[\frac{\delta\mathcal{L}}{\delta\xi^\mu} = \partial_\mu\mathcal{L}.\tag{7}\]
+\[\frac{\delta\mathcal{L}}{\delta\xi^\mu} = \partial_\mu\mathcal{L}.\tag{2.7}\]
 Since this is a total derivative, $\delta S = \int d^4x \delta\mathcal{L}=\delta\xi^\mu\int d^4x \partial_\mu\mathcal{L}=0$, which is why we sometimes say this is a symmetry of the action, not the Lagrangian.
 Similarly to before, we have
-\[\frac{\delta\mathcal{L}[\phi_n,\partial_\mu\phi_n]}{\delta\xi^\nu} = \partial_\mu\sum _n\biggr [\frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi_n)}\frac{\delta\phi_n}{\delta\xi^\nu} \biggr] = \partial_\mu\sum _n\biggr[\frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi_n)}\partial_\nu\phi_n(x)\biggr].\tag{8}\]
+\[\frac{\delta\mathcal{L}[\phi_n,\partial_\mu\phi_n]}{\delta\xi^\nu} = \partial_\mu\sum _n\biggr [\frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi_n)}\frac{\delta\phi_n}{\delta\xi^\nu} \biggr] = \partial_\mu\sum _n\biggr[\frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi_n)}\partial_\nu\phi_n(x)\biggr].\tag{2.8}\]
 Thus, 
 \[\begin{aligned}
         \partial_\nu\mathcal{L}-\partial_\mu\sum _n\biggr[\frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi_n)}\partial_\nu\phi_n(x)\biggr] = 0 \\
         \implies \partial_\mu \biggr(\sum _n\frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi_n)}\partial_\nu\phi_n - g_{\mu\nu}\mathcal{L}\bigg)=0.
-\end{aligned}\tag{9}\]
+\end{aligned}\tag{2.9}\]
 We obtained a conserved current with four components, being energy and momentum. Therefore, we define the energy-momentum tensor $\mathcal{T}_{\mu\nu}$ to be</p>
 
-<p>\[\mathcal{T}_{\mu\nu} = \sum _n\frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi_n)}\partial_\nu\phi_n - g_{\mu\nu}\mathcal{L}\tag{10}\]</p>
+<aside class="boxed-equation">
+
+<p>\[\mathcal{T}_{\mu\nu} = \sum _n\frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi_n)}\partial_\nu\phi_n - g_{\mu\nu}\mathcal{L}\tag{2.10}\]</p>
+
+</aside>
 
 <p>with $\partial_\mu\mathcal{T}_{\mu\nu} = 0$.</p>
 
 <h2 id="greens-functions">Green's Functions</h2>
 
 <p>Now, we will introduce a very powerful tool in field theory,  the Green's functions. Suppose we have a very general differential equation formed from a linear operator $\hat{L}$
-\[\hat{L}x(t) = f(t).\tag{1}\]
+\[\hat{L}x(t) = f(t).\tag{3.1}\]
 The Green's function $G(t, u)$ (or $\Pi(t, u)$) of the equation is defined as
-\[\hat{L}G(t,u) = \delta(t-u).\tag{2}\]</p>
+\[\hat{L}G(t,u) = \delta(t-u).\tag{3.2}\]</p>
 
 <aside class="callout">
 
 <p>Let us consider a familiar example from mechanics. We will ltake an oscillator of mass $m$ and spring constant $K$ evolving under the influence of a time-dependent force $f(t)$. The equation of motion for this is</p>
 
-<p>\[m\frac{d^{2}}{dt^{2}}x(t) + Kx(t) = f(t),\tag{3}\]</p>
+<p>\[m\frac{d^{2}}{dt^{2}}x(t) + Kx(t) = f(t),\tag{3.3}\]</p>
 
 <p>so here the linear operator is $\hat{L} = m\frac{d^{2}}{dt^{2}} + K$. We can build up a force function $f(t)$ by adding together lots of delta functions.</p>
 
-<p>\[f(t) = \int_{0}^{\infty} du\, f(u)\delta(t-u),\tag{4}\]</p>
+<p>\[f(t) = \int_{0}^{\infty} du\, f(u)\delta(t-u),\tag{3.4}\]</p>
 
 <p>where $u$ is a dummy variable which allows us to break $f(t)$ into deltas. This is, of course, merely an example of superposition and is allowed because our differential equation is linear.</p>
 
 <p>Instead of hitting the problem head-on, we sidestep and solve Eq.&nbsp;(16.3) for just one of the delta functions. We'll call this solution the Green's function $G(t,u)$:</p>
 
-<p>\[\left[m\frac{d^{2}}{dt^{2}} + K\right]G(t,u) = \delta(t-u).\tag{5}\]</p>
+<p>\[\left[m\frac{d^{2}}{dt^{2}} + K\right]G(t,u) = \delta(t-u).\tag{3.5}\]</p>
 
 <p>The complete solution to Eq.&nbsp;(16.3) is then given by the integral of the Green's function, weighted by the force function $f(u)$:</p>
 
-<p>\[x(t) = \int_{0}^{\infty} du\, G(t,u)f(u).\tag{6}\]</p>
+<p>\[x(t) = \int_{0}^{\infty} du\, G(t,u)f(u).\tag{3.6}\]</p>
 
 <p>The solution is therefore simply a sum of the responses of the system in $x$ to the stimuli $f(u)$.</p>
 
@@ -179,7 +187,7 @@ The Green's function $G(t, u)$ (or $\Pi(t, u)$) of the equation is defined as
 
 <p>\[\begin{aligned}\hat{L}\,x(t) &amp;= \int du\, \hat{L}\,G(t,u)f(u) \notag \\
 &amp;= \int du\, \delta(t-u)f(u)  \\
-&amp;= f(t)\end{aligned}\tag{7}\]</p>
+&amp;= f(t)\end{aligned}\tag{3.7}\]</p>
 
 <p>which is where we started! This implies we can solve an inhomogeneous differential equation by finding the Green's function $G(t,u)$ and then integrating over $f(u)$ to get the solution $x(t)$.</p>
 

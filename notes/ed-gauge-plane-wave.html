@@ -23,7 +23,7 @@ window.MathJax = {
   tex: {
     inlineMath: [['$', '$'], ['\\(', '\\)']],
     displayMath: [['$$', '$$'], ['\\[', '\\]']],
-    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros']},
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros', 'mathtools']},
     macros: {
       R: '\\mathbb{R}',
       C: '\\mathbb{C}',
@@ -40,21 +40,17 @@ window.MathJax = {
       wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
       c:       ['{#1}', 1],
       mathds:  ['\\mathbb{#1}', 1],
-      Tilde:   ['\\tilde{#1}', 1],
-      // tensor.sty: \tensor{base}{indices} — rendered as base + indices
-      tensor:  ['{#1{#2}}', 2]
+      Tilde:   ['\\tilde{#1}', 1]
+      // \tensor{base}{indices} is rewritten to base^a{}_b in
+      // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
+      // so no runtime macro is needed here. The empty-group trick is
+      // what makes MathJax kern the indices into separate columns.
     }
   },
-  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
 };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
-<!-- TikZJax: renders <script type="text/tikz"> blocks into SVG client-side -->
-<link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
-<script src="https://tikzjax.com/v1/tikzjax.js"></script>
-<!-- Post-process TikZJax SVGs: scale them up so they're readable in-page -->
-<script defer src="../assets/resize-tikz.js"></script>
 </head>
 <body>
 
@@ -90,7 +86,7 @@ window.MathJax = {
 vector and scalar potentials,
 \[\mathbf{A}(\mathbf{r},t) = \mathbf{A}_0\,e^{i(\mathbf{k}\cdot\mathbf{r}-\omega t)}
   \qquad\text{and}\qquad
-  \phi(\mathbf{r},t) = \phi_0\,e^{i(\mathbf{k}\cdot\mathbf{r}-\omega t)},\tag{1}\]
+  \phi(\mathbf{r},t) = \phi_0\,e^{i(\mathbf{k}\cdot\mathbf{r}-\omega t)},\tag{1.1}\]
 with constant $\mathbf{A}_0$ and $\phi_0$. Use Maxwell's equations to find a
 relationship between $\mathbf{A}_0$ and $\phi_0$.</p>
 
@@ -99,15 +95,19 @@ relationship between $\mathbf{A}_0$ and $\phi_0$.</p>
 gauge, $\nabla\cdot\mathbf{A}=0$). What is the scalar potential $\phi$ in
 this gauge?</p>
 
-<p><u><strong>Solution</strong></u> The Maxwell equations give
-\[\nabla^2\phi +\frac{\partial}{\partial t}\nabla\cdot \mathbf{A} =0,\tag{2}\]
+<aside class="solution">
+
+<p>The Maxwell equations give
+\[\nabla^2\phi +\frac{\partial}{\partial t}\nabla\cdot \mathbf{A} =0,\tag{1.2}\]
 and
-\[\nabla\times(\nabla\times\mathbf{A}) = -\frac{1}{c^2}\left[\nabla\left(\frac{\partial \phi}{\partial t}\right) + \frac{\partial^2\mathbf{A}}{\partial t^2}\right] = \nabla(\nabla\cdot \mathbf{A})-\nabla^2\mathbf{A}.\tag{3}\]
+\[\nabla\times(\nabla\times\mathbf{A}) = -\frac{1}{c^2}\left[\nabla\left(\frac{\partial \phi}{\partial t}\right) + \frac{\partial^2\mathbf{A}}{\partial t^2}\right] = \nabla(\nabla\cdot \mathbf{A})-\nabla^2\mathbf{A}.\tag{1.3}\]
 Then, we find
-\[\mathbf{k}^2 \phi_0 - \omega\mathbf{k}\cdot \mathbf{A}_0 = 0.\tag{4}\]</p>
+\[\mathbf{k}^2 \phi_0 - \omega\mathbf{k}\cdot \mathbf{A}_0 = 0.\tag{1.4}\]</p>
 
 <p>If we set the Coulomb gauge, we find
-\[\phi_0 = 0.\tag{5}\]</p>
+\[\phi_0 = 0.\tag{1.5}\]</p>
+
+</aside>
   </article>
 
   <hr class="ornament-rule">

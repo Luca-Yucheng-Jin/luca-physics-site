@@ -12,7 +12,7 @@ import re
 import os
 import html as htmllib
 
-ROOT = "/Users/lucajin/luca-physics-site"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEX  = os.path.join(ROOT, "tex")
 OUT  = os.path.join(ROOT, "notes")
 
@@ -178,27 +178,200 @@ def extract_subsection(text, needle):
 # Math placeholders: we extract math regions and replace them with sentinels
 # while we transform the surrounding text, then restore them.
 
+
+def _rewrite_tr_curly(body):
+    """Rewrite \\Tr{X} → \\operatorname{Tr}\\!\\left(X\\right) (auto-sized
+    parens). Only the curly form is rewritten — the bracket form
+    \\Tr[X] is intentional notation for literal Tr[X] in the source
+    and is left alone (the runtime macro `\\Tr` → `\\operatorname{Tr}`
+    handles those, rendering them as Tr[X]).
+
+    Done with balanced-brace matching so nested {} inside the argument
+    survive (e.g. \\Tr{\\gamma^\\mu \\gamma^\\nu \\frac{1}{p^2}} →
+    Tr(...) including the \\frac arg)."""
+    out = []
+    i = 0
+    pat = re.compile(r"\\Tr(?![A-Za-z])\s*\{")
+    while i < len(body):
+        m = pat.search(body, i)
+        if not m:
+            out.append(body[i:])
+            break
+        out.append(body[i:m.start()])
+        depth = 1
+        j = m.end()
+        start = j
+        while j < len(body) and depth > 0:
+            if body[j] == "{":
+                depth += 1
+            elif body[j] == "}":
+                depth -= 1
+                if depth == 0:
+                    break
+            j += 1
+        arg = body[start:j]
+        out.append(f"\\operatorname{{Tr}}\\!\\left({arg}\\right)")
+        i = j + 1
+    return "".join(out)
+
+
+def _rewrite_tensor(body):
+    """Rewrite \\tensor{base}{indices} → base + <indices with empty groups>
+    so MathJax doesn't stack the upper and lower indices in the same
+    horizontal column.
+
+    Real LaTeX's `tensor.sty` distributes the indices: μ goes above-left
+    and the lower indices go below-right of where μ ended. MathJax does
+    this naturally if and only if there's an empty {} between consecutive
+    script operators — `R^\\mu{}_{\\nu\\rho\\sigma}`. The polyfill
+    `tensor: ['{#1{#2}}', 2]` produced `R^\\mu_{\\nu\\rho\\sigma}` which
+    stacks them in one column instead.
+
+    We walk the indices argument and insert {} before each ^/_ operator
+    that follows another, so the kerning shifts correctly.
+
+    Examples (all verified against pdfLaTeX):
+      \\tensor{R}{^\\mu_{\\nu\\rho\\sigma}}    →  R^\\mu{}_{\\nu\\rho\\sigma}
+      \\tensor{G}{_\\nu^{\\beta\\rho\\sigma}}  →  G_\\nu{}^{\\beta\\rho\\sigma}
+      \\tensor{T}{^{\\mu\\nu}_{\\rho\\sigma}}  →  T^{\\mu\\nu}{}_{\\rho\\sigma}
+      \\tensor{R}{_{\\mu\\nu\\rho\\sigma}}     →  R_{\\mu\\nu\\rho\\sigma}    (no transition; pass-through)
+
+    Composes with accents: \\bar{\\tensor{R}{^\\mu_\\nu}} expands to
+    \\bar{R^\\mu{}_\\nu} which renders correctly under MathJax.
+
+    Source today uses only \\tensor; \\indices and \\prescript aren't
+    triggered yet. Easy to extend when needed."""
+    out = []
+    i = 0
+    pat = re.compile(r"\\tensor\s*\{")
+    while i < len(body):
+        m = pat.search(body, i)
+        if not m:
+            out.append(body[i:])
+            break
+        out.append(body[i:m.start()])
+        # Parse arg1 (base): balanced { ... }
+        depth = 1
+        j = m.end()
+        start = j
+        while j < len(body) and depth > 0:
+            if body[j] == "{": depth += 1
+            elif body[j] == "}":
+                depth -= 1
+                if depth == 0: break
+            j += 1
+        if depth != 0:                           # malformed; bail
+            out.append(body[m.start():])
+            break
+        base = body[start:j]
+        j += 1                                    # past closing brace
+        # Skip whitespace, expect arg2's {
+        while j < len(body) and body[j] in " \n\t":
+            j += 1
+        if j >= len(body) or body[j] != "{":
+            # No second arg — emit base alone
+            out.append(base)
+            i = j
+            continue
+        depth = 1
+        j += 1
+        start = j
+        while j < len(body) and depth > 0:
+            if body[j] == "{": depth += 1
+            elif body[j] == "}":
+                depth -= 1
+                if depth == 0: break
+            j += 1
+        indices = body[start:j]
+        i = j + 1                                 # past closing brace of arg2
+        # Walk indices, inserting {} between consecutive script operators
+        out.append(base + _split_tensor_indices(indices))
+    return "".join(out)
+
+
+def _split_tensor_indices(s):
+    """Walk a tensor-index string and insert empty groups {} between each
+    pair of consecutive ^/_ operators so MathJax doesn't collapse them
+    into one stacked column. Returns the rewritten string."""
+    out = []
+    i = 0
+    seen_script = False
+    n = len(s)
+    while i < n:
+        ch = s[i]
+        if ch in "^_":
+            if seen_script:
+                out.append("{}")
+            out.append(ch)
+            i += 1
+            # consume the script's argument: balanced {...}, or \cmd, or single char
+            while i < n and s[i] in " \t":
+                i += 1
+            if i >= n: break
+            if s[i] == "{":
+                depth = 1
+                start = i
+                i += 1
+                while i < n and depth > 0:
+                    if s[i] == "{": depth += 1
+                    elif s[i] == "}": depth -= 1
+                    i += 1
+                out.append(s[start:i])
+            elif s[i] == "\\":
+                start = i
+                i += 1
+                while i < n and (s[i].isalpha() or s[i] == "*"):
+                    i += 1
+                out.append(s[start:i])
+            else:
+                out.append(s[i])
+                i += 1
+            seen_script = True
+        else:
+            # Non-script char: pass through. (Whitespace etc. between the
+            # operators is fine — it doesn't reset `seen_script`.)
+            out.append(ch)
+            i += 1
+    return "".join(out)
+
+
 class MathStash(dict):
     """Holds math + tikz stashes, plus a per-page equation counter, a
-    figure counter, and a label→number map so \\eqref / \\ref resolve."""
+    figure counter, and a label→number map so \\eqref / \\ref resolve.
+
+    Equation numbers are formatted (n.eq) where n is the index of the
+    current `<h2>` topic on the page (1-indexed) and eq resets at every
+    new topic. This mirrors `\\numberwithin{equation}{section}` in the
+    user's elegantphys.sty preamble."""
     def __init__(self):
         super().__init__()
         self.items = []
         self["tikz"] = []
+        self["sec_counter"] = 1   # default for single-section pages
         self["eq_counter"] = 0
         self["fig_counter"] = 0
-        self["labels"] = {}     # \label{...} → number string
+        self["labels"] = {}       # \label{...} → number string
+        self._section_started = False
 
     def next_eq_number(self):
         self["eq_counter"] += 1
-        return str(self["eq_counter"])
+        return f"{self['sec_counter']}.{self['eq_counter']}"
 
-    def reset_eq_counter(self):
-        """Reset the equation counter — call this at every new topic boundary
-        so equations restart from (1) per-section."""
+    def begin_section(self):
+        """Mark the start of a new <h2> topic. Resets the equation counter,
+        and on every call AFTER the first, increments the section counter
+        so the new equation tags read (n+1.1), (n+1.2), …"""
+        if self._section_started:
+            self["sec_counter"] += 1
         self["eq_counter"] = 0
+        self._section_started = True
+
+    # Backwards-compat shim for callers that still use the old name.
+    reset_eq_counter = begin_section
 
     def stash(self, body, display):
+        body = _rewrite_tr_curly(body)
+        body = _rewrite_tensor(body)
         idx = len(self.items)
         self.items.append((body, display))
         return f"\x00MATH{idx}\x00"
@@ -352,10 +525,15 @@ def strip_tex_only_constructs(text):
     for cmd in ("vcenter", "hbox", "vbox"):
         text = _balanced_arg_replace(text, cmd, lambda a: a)
 
-    # \shaded / \begin{shaded} etc. — keep the inner content as-is (it usually
-    # wraps an equation we already display)
-    text = re.sub(r"\\begin\{shaded\}", "", text)
-    text = re.sub(r"\\end\{shaded\}", "", text)
+    # \begin{shaded}…\end{shaded} typically wraps a boxed key result like
+    # the Euler-Lagrange equation or the Noether current. Render as a
+    # styled <aside class="boxed-equation"> matching elegantphys.sty's
+    # \boxedeq{X} style (lightgray bg, thin black frame). Previously
+    # silently stripped — losing the visual emphasis the user intended.
+    text = re.sub(r"\\begin\{shaded\}",
+                  '\n\n<aside class="boxed-equation">\n\n', text)
+    text = re.sub(r"\\end\{shaded\}",
+                  '\n\n</aside>\n\n', text)
 
     # tcolorbox — colored callout boxes. Render as <aside>.
     text = re.sub(r"\\begin\{tcolorbox\}(?:\[[^\]]*\])?",
@@ -363,10 +541,31 @@ def strip_tex_only_constructs(text):
     text = re.sub(r"\\end\{tcolorbox\}",
                   '\n\n</aside>\n\n', text)
 
-    # solution environments (used in PSI / Tong PS files) — styled aside with
-    # a "Solution." header.
+    # Solution markers come in three shapes across the .tex sources:
+    #   \begin{solution}...\end{solution}        (Tong PS files)
+    #   \underline{\textbf{Solution}} ...         (QM, DE, MM, TDSP, ED)
+    #   \textbf{Solution:} ...                    (same files, sometimes)
+    # Normalise the latter two into the env form so a single styled
+    # <aside class="solution"> covers all pages — matches the user's
+    # elegantphys.sty \begin{solution}{...}\end{solution} tcolorbox.
+    if r"\begin{solution}" not in text:
+        sol_pat = re.compile(
+            r"(?:\\noindent\s*)?"
+            r"(?:\\underline\s*\{\s*\\textbf\s*\{Solution[.:]?\}\s*\}"
+            r"|\\textbf\s*\{Solution[.:]?\})"
+        )
+        m = sol_pat.search(text)
+        if m:
+            text = (text[:m.start()]
+                    + r"\begin{solution}"
+                    + text[m.end():]
+                    + r"\end{solution}")
+
+    # \begin{solution}…\end{solution} → styled <aside>. The "Solution."
+    # label is rendered by CSS (::before) so it floats inline with the
+    # first paragraph rather than sitting on a line of its own.
     text = re.sub(r"\\begin\{solution\}",
-                  '\n\n<aside class="solution">\n<div class="solution__label">Solution.</div>\n\n',
+                  '\n\n<aside class="solution">\n\n',
                   text)
     text = re.sub(r"\\end\{solution\}",
                   '\n\n</aside>\n\n', text)
@@ -430,19 +629,15 @@ def strip_tex_only_constructs(text):
     return text
 
 
-try:
-    import sys as _sys, os as _os
-    _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))
-    from feynman_convert import feynman_to_plain_tikz
-except Exception:
-    feynman_to_plain_tikz = None
+import sys as _sys, os as _os
+_sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))
+from svg_render import render_or_fallback, KIND_TIKZ, KIND_MATH
 
 
 def stash_tikz(text, stash):
     """Pull tikz / feynmandiagram blocks out of the source, replacing them
     with placeholder sentinels so they survive math-stashing and paragraphing.
-    Each stashed item also carries a converted-to-plain-TikZ version when the
-    block uses tikz-feynman syntax — TikZJax can render that."""
+    The stashed source is later rendered to inline SVG by svg_render."""
     # tikzpicture environment
     pat = re.compile(r"\\begin\{tikzpicture\}(\[[^\]]*\])?(.*?)\\end\{tikzpicture\}",
                      re.DOTALL)
@@ -450,14 +645,9 @@ def stash_tikz(text, stash):
     def tikz_repl(m):
         opts = m.group(1) or ""
         body = m.group(2)
-        is_feynman = ("\\feynmandiagram" in body) or ("\\begin{feynman}" in body)
         full_src = f"\\begin{{tikzpicture}}{opts}{body}\\end{{tikzpicture}}"
-        # If feynman, try to convert to plain TikZ
-        plain = None
-        if is_feynman and feynman_to_plain_tikz is not None:
-            plain = feynman_to_plain_tikz(full_src)
         idx = len(stash["tikz"])
-        stash["tikz"].append((full_src, is_feynman, plain))
+        stash["tikz"].append(full_src)
         return f"\x00TIKZ{idx}\x00"
 
     text = pat.sub(tikz_repl, text)
@@ -467,12 +657,10 @@ def stash_tikz(text, stash):
     def fdiag_repl(m):
         opts = m.group(1) or ""
         body = m.group(2)
-        full_src = f"\\feynmandiagram{opts}{{{body}}};"
-        plain = None
-        if feynman_to_plain_tikz is not None:
-            plain = feynman_to_plain_tikz(full_src)
+        # Wrap in a tikzpicture so standalone wraps it the same way as inline.
+        full_src = f"\\begin{{tikzpicture}}\\feynmandiagram{opts}{{{body}}};\\end{{tikzpicture}}"
         idx = len(stash["tikz"])
-        stash["tikz"].append((full_src, True, plain))
+        stash["tikz"].append(full_src)
         return f"\x00TIKZ{idx}\x00"
     text = pat2.sub(fdiag_repl, text)
 
@@ -510,35 +698,28 @@ def stash_tikz(text, stash):
     return text
 
 
+def _tikz_to_svg(src):
+    """Render one tikzpicture/feynmandiagram block to an inline-SVG figure.
+    On compile failure, show the LaTeX source verbatim as a fallback."""
+    safe = src.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    fallback = (
+        '<figure class="tikz-source">'
+        '<pre aria-label="LaTeX source (compile failed)">'
+        f'{safe}'
+        '</pre>'
+        '<figcaption>Diagram failed to compile; LaTeX source shown above.</figcaption>'
+        '</figure>'
+    )
+    svg = render_or_fallback(src, KIND_TIKZ, fallback)
+    if svg.startswith("<figure"):  # fallback HTML
+        return svg
+    return f'<figure class="tikz-figure">{svg}</figure>'
+
+
 def restore_tikz(text, stash):
     def repl(m):
         idx = int(m.group(1))
-        src, is_feynman, plain = stash["tikz"][idx]
-        # Prefer the plain-TikZ rendering if we have one (this is what makes
-        # tikz-feynman diagrams actually visible).
-        if plain:
-            return (
-                '<figure class="tikz-figure">'
-                f'<script type="text/tikz">\n{plain}\n</script>'
-                '</figure>'
-            )
-        # Plain tikz with no conversion needed → emit as-is for TikZJax
-        if not is_feynman:
-            return (
-                '<figure class="tikz-figure">'
-                f'<script type="text/tikz">\n{src}\n</script>'
-                '</figure>'
-            )
-        # Last resort: tikz-feynman that we couldn't convert → source listing
-        safe = src.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-        return (
-            '<figure class="tikz-source">'
-            '<pre class="tikz-feynman" aria-label="Feynman diagram (LaTeX source)">'
-            f'{safe}'
-            '</pre>'
-            '<figcaption>Feynman diagram — automatic conversion failed; the LaTeX source is shown above.</figcaption>'
-            '</figure>'
-        )
+        return _tikz_to_svg(stash["tikz"][idx])
     return re.sub(r"\x00TIKZ(\d+)\x00", repl, text)
 
 
@@ -549,80 +730,86 @@ def stash_math(text, stash):
     # 1. Pre-strip TeX-only artefacts that don't translate
     text = strip_tex_only_constructs(text)
 
-    # 2. Display environments.
-    for env in DISPLAY_ENVS:
-        pattern = re.compile(r"\\begin\{" + re.escape(env) + r"\}(.*?)\\end\{" + re.escape(env) + r"\}",
-                             re.DOTALL)
+    # 2. Display environments — walk in source order so equation numbers
+    #    come out monotonically.  Previously the env-type loop processed
+    #    all `equation` envs first, then `align`, etc., which left mixed
+    #    pages with numbering like (1, 23, 2, 3, …).
+    env_alt = "|".join(re.escape(e) for e in DISPLAY_ENVS)
+    env_pattern = re.compile(
+        r"\\begin\{(" + env_alt + r")\}(.*?)\\end\{\1\}",
+        re.DOTALL,
+    )
+    def repl(m):
+        env = m.group(1)
+        body = m.group(2).strip()
         starred = env.endswith("*")
-        def repl(m, env=env, starred=starred):
-            body = m.group(1).strip()
-            # Extract any \label{...} BEFORE we strip them (so we can number)
-            label_match = re.search(r"\\label\{([^}]+)\}", body)
-            label = label_match.group(1) if label_match else None
-            body = re.sub(r"\\label\{[^}]+\}", "", body)
+        # Extract any \label{...} BEFORE we strip them (so we can number)
+        label_match = re.search(r"\\label\{([^}]+)\}", body)
+        label = label_match.group(1) if label_match else None
+        body = re.sub(r"\\label\{[^}]+\}", "", body)
 
-            # Assign a number unless the env is starred (LaTeX convention)
-            number = None
-            if not starred:
-                number = stash.next_eq_number()
-                if label:
-                    stash["labels"][label] = number
+        # Assign a number unless the env is starred (LaTeX convention)
+        number = None
+        if not starred:
+            number = stash.next_eq_number()
+            if label:
+                stash["labels"][label] = number
 
-            if env.startswith("align"):
-                wrap = ("\\begin{aligned}", "\\end{aligned}")
-            elif env.startswith("gather"):
-                wrap = ("\\begin{gathered}", "\\end{gathered}")
-            else:
-                wrap = ("", "")
+        if env.startswith("align"):
+            wrap = ("\\begin{aligned}", "\\end{aligned}")
+        elif env.startswith("gather"):
+            wrap = ("\\begin{gathered}", "\\end{gathered}")
+        else:
+            wrap = ("", "")
 
-            # ----- Equation containing a TikZ figure: render as flex row -----
-            if "\x00TIKZ" in body:
-                parts = re.split(r"(\x00TIKZ\d+\x00)", body)
-                fragments = []
-                for i, part in enumerate(parts):
-                    if i % 2 == 0:
-                        # Strip nested aligned/align/gather wrappers — they
-                        # would leak as unmatched \begin / \end into chunks.
-                        for env_name in ("aligned", "align", "align*", "gather",
-                                          "gathered", "multline", "multline*",
-                                          "split"):
-                            part = re.sub(
-                                r"\\(?:begin|end)\{" + re.escape(env_name) + r"\}",
-                                "",
-                                part,
-                            )
-                        # Strip `\\[6pt]`-style row spacing that LaTeX uses
-                        # inside align — they leak to text otherwise.
-                        part = re.sub(r"\\\\\s*\[[^\]]*\]", "\\\\\\\\", part)
-                        # Split by `\\` row separator so each row becomes its
-                        # own inline math span; strip `&` alignment markers.
-                        rows = re.split(r"\\\\", part)
-                        for row in rows:
-                            row = row.replace("&", "")
-                            # also strip leftover `[6pt]` etc.
-                            row = re.sub(r"^\s*\[[^\]]*\]\s*", "", row)
-                            row = row.strip().strip("{}").strip()
-                            if not row or row in ("=", ".", ",", ":", ";"):
-                                continue
-                            fragments.append(
-                                f'<span class="equation-part">\\({row}\\)</span>'
-                            )
-                    else:
-                        # tikz placeholder; will be restored later
-                        fragments.append(part)
-                row = '\n\n<div class="equation-row">' + "".join(fragments)
-                if number is not None:
-                    row += f'<span class="equation-num">({number})</span>'
-                row += '</div>\n\n'
-                return row
-
-            # ----- Pure equation: emit \[ ... \tag{N} \] -----
-            tag_part = ""
+        # ----- Equation containing a TikZ figure: render as flex row -----
+        if "\x00TIKZ" in body:
+            parts = re.split(r"(\x00TIKZ\d+\x00)", body)
+            fragments = []
+            for i, part in enumerate(parts):
+                if i % 2 == 0:
+                    # Strip nested aligned/align/gather wrappers — they
+                    # would leak as unmatched \begin / \end into chunks.
+                    for env_name in ("aligned", "align", "align*", "gather",
+                                      "gathered", "multline", "multline*",
+                                      "split"):
+                        part = re.sub(
+                            r"\\(?:begin|end)\{" + re.escape(env_name) + r"\}",
+                            "",
+                            part,
+                        )
+                    # Strip `\\[6pt]`-style row spacing that LaTeX uses
+                    # inside align — they leak to text otherwise.
+                    part = re.sub(r"\\\\\s*\[[^\]]*\]", "\\\\\\\\", part)
+                    # Split by `\\` row separator so each row becomes its
+                    # own inline math span; strip `&` alignment markers.
+                    rows = re.split(r"\\\\", part)
+                    for row in rows:
+                        row = row.replace("&", "")
+                        # also strip leftover `[6pt]` etc.
+                        row = re.sub(r"^\s*\[[^\]]*\]\s*", "", row)
+                        row = row.strip().strip("{}").strip()
+                        if not row or row in ("=", ".", ",", ":", ";"):
+                            continue
+                        fragments.append(
+                            f'<span class="equation-part">\\({row}\\)</span>'
+                        )
+                else:
+                    # tikz placeholder; will be restored later
+                    fragments.append(part)
+            row = '\n\n<div class="equation-row">' + "".join(fragments)
             if number is not None:
-                tag_part = f"\\tag{{{number}}}"
-            full = wrap[0] + body + wrap[1] + tag_part
-            return stash.stash(full, display=True)
-        text = pattern.sub(repl, text)
+                row += f'<span class="equation-num">({number})</span>'
+            row += '</div>\n\n'
+            return row
+
+        # ----- Pure equation: emit \[ ... \tag{N} \] -----
+        tag_part = ""
+        if number is not None:
+            tag_part = f"\\tag{{{number}}}"
+        full = wrap[0] + body + wrap[1] + tag_part
+        return stash.stash(full, display=True)
+    text = env_pattern.sub(repl, text)
 
     # 2. \[ ... \]
     text = re.sub(r"\\\[(.+?)\\\]",
@@ -657,35 +844,65 @@ def transform_text(text, stash=None):
     # ── EARLY: extract \begin{figure}…\end{figure} blocks BEFORE we strip
     # \label{} so the figure handler can record figure-number labels for
     # \ref{} resolution.
+    #
+    # Two cases: figure body contains an \includegraphics (image asset),
+    # or it contains a stashed TikZ block (\x00TIKZ%d\x00) — pgfplots,
+    # tikz-feynman, or plain tikz wrapped in \begin{figure}. In the
+    # second case we keep the placeholder so the tikz-marker pass later
+    # turns it into an inline SVG.
     def _early_figure_repl(m):
         body = m.group(1)
         img = re.search(r"\\includegraphics(?:\[[^\]]*\])?\{([^}]+)\}", body)
+        # By the time _early_figure_repl runs, latex_to_html() has already
+        # converted \x00TIKZ%d\x00 into <div class="tikz-marker" data-tikz="N"></div>
+        # markers; match that form.
+        tikz_marker = re.search(
+            r'<div class="tikz-marker" data-tikz="\d+"></div>', body)
         cap = re.search(r"\\caption\{(.+?)\}\s*(?:\\label\{[^}]+\})?", body, re.DOTALL)
         label_m = re.search(r"\\label\{([^}]+)\}", body)
-        if not img:
+        if not img and not tikz_marker:
             return ""
-        src = img.group(1).strip()
+        # Bump the figure counter and capture the label → number mapping
+        # so \ref{} / \eqref{} resolve correctly later.
         if stash is not None:
             stash["fig_counter"] = stash.get("fig_counter", 0) + 1
             if label_m:
                 stash["labels"][label_m.group(1)] = str(stash["fig_counter"])
-        FIG_MAP = {
-            "截屏2025-09-03 11.12.36.png": "../assets/path-integral-fig1-spacetime.png",
-            "截屏2025-09-03 11.12.36 (1).png": "../assets/path-integral-fig1-spacetime.png",
-            "截屏2025-12-06 22.06.22.png": "../assets/path-integral-fig2-slits.png",
-            "截屏2025-12-07 14.59.48.png": "../assets/path-integral-fig3-paths.png",
-            "截屏2025-12-07 21.55.01.png": "../assets/path-integral-fig4-wick.png",
-            "截屏2025-12-08 11.10.24.png": "../assets/path-integral-fig5-cylinder.png",
-        }
-        href = FIG_MAP.get(src, f"../assets/{src}")
         caption_html = cap.group(1).strip() if cap else ""
         alt = re.sub(r"\x00MATH\d+\x00", "", caption_html)
         alt = re.sub(r"\s+", " ", alt).strip()[:120]
         alt = alt.replace('"', "'")
+
+        if img:
+            FIG_MAP = {
+                "截屏2025-09-03 11.12.36.png": "../assets/path-integral-fig1-spacetime.png",
+                "截屏2025-09-03 11.12.36 (1).png": "../assets/path-integral-fig1-spacetime.png",
+                "截屏2025-12-06 22.06.22.png": "../assets/path-integral-fig2-slits.png",
+                "截屏2025-12-07 14.59.48.png": "../assets/path-integral-fig3-paths.png",
+                "截屏2025-12-07 21.55.01.png": "../assets/path-integral-fig4-wick.png",
+                "截屏2025-12-08 11.10.24.png": "../assets/path-integral-fig5-cylinder.png",
+            }
+            src = img.group(1).strip()
+            href = FIG_MAP.get(src, f"../assets/{src}")
+            inner = f'<img src="{href}" alt="{alt}">'
+            if caption_html:
+                return f'\n\n<figure>{inner}<figcaption>{caption_html}</figcaption></figure>\n\n'
+            return f'\n\n<figure>{inner}</figure>\n\n'
+
+        # tikz-only figure: rewrite the marker to carry the caption as a
+        # data attribute. The tikz-marker substitution later reads it and
+        # injects a <figcaption> inside the tikz-figure (no nested figures).
         if caption_html:
-            return (f'\n\n<figure><img src="{href}" alt="{alt}">'
-                    f'<figcaption>{caption_html}</figcaption></figure>\n\n')
-        return f'\n\n<figure><img src="{href}" alt=""></figure>\n\n'
+            # base64-ish encode the caption so it survives quote conflicts:
+            # we just escape `&`, `"`, and \n and stash it as a data attr.
+            cap_attr = (caption_html
+                        .replace("&", "&amp;")
+                        .replace('"', "&quot;")
+                        .replace("\n", " "))
+            return tikz_marker.group(0).replace(
+                'data-tikz="', f'data-figcaption="{cap_attr}" data-tikz="'
+            )
+        return tikz_marker.group(0)
     text = re.sub(r"\\begin\{figure\}\*?(?:\[[^\]]*\])?\s*(.*?)\\end\{figure\}\*?",
                   _early_figure_repl, text, flags=re.DOTALL)
 
@@ -811,16 +1028,67 @@ def latex_to_html(body, stash=None):
         stash = MathStash()
     body = stash_math(body, stash)
     # Replace tikz placeholders with block-level <div> markers so the
-    # paragraphizer treats them as standalone.
+    # paragraphizer treats them as standalone.  Two passes: placeholders
+    # *inside* an equation-row stay inline (no surrounding newlines, so
+    # the paragraphizer doesn't split the row across <p> boundaries —
+    # which previously produced malformed `<p>...</div></p>` markup);
+    # everything else gets newlines so it becomes its own block.
+    def _eqrow_inline_tikz(m):
+        inner = re.sub(
+            r"\x00TIKZ(\d+)\x00",
+            r'<div class="tikz-marker" data-tikz="\1"></div>',
+            m.group(1),
+        )
+        return '<div class="equation-row">' + inner + '</div>'
+    body = re.sub(
+        r'<div class="equation-row">(.*?)</div>',
+        _eqrow_inline_tikz, body, flags=re.DOTALL,
+    )
     body = re.sub(r"\x00TIKZ(\d+)\x00",
                   r'\n\n<div class="tikz-marker" data-tikz="\1"></div>\n\n',
                   body)
     body = transform_text(body, stash=stash)
     body = stash.restore(body)
-    # Substitute tikz markers with the real figures.
+    # Equations containing \wick{...} can't be rendered live by MathJax —
+    # the simpler-wick package is LaTeX-only and the polyfill at best draws
+    # a single overbrace. Pre-render those whole equations to inline SVG
+    # via lualatex so multi-pair contraction arcs stay distinct.
+    def _wick_to_svg(m):
+        inner = m.group(1)
+        # stash.restore HTML-escaped < > & inside math; un-escape before
+        # handing the body to LaTeX.
+        for src, repl in (("&lt;", "<"), ("&gt;", ">"), ("&amp;", "&")):
+            inner = inner.replace(src, repl)
+        fallback = f'\\[{m.group(1)}\\]'    # leave it for MathJax to attempt
+        svg = render_or_fallback(inner, KIND_MATH, fallback)
+        if svg.startswith("\\["):
+            return svg
+        return f'<figure class="wick-figure">{svg}</figure>'
+    # Match \[...\\wick...\]. The body may contain literal `[X]` (e.g.
+    # commutators) — those are bare brackets, not display-math delimiters,
+    # so we use non-greedy `.*?` between \[ and \\] to skip over them.
     body = re.sub(
-        r'<div class="tikz-marker" data-tikz="(\d+)"></div>',
-        lambda m: render_tikz_one(stash, int(m.group(1))),
+        r'\\\[((?:(?!\\\]).)*?\\wick(?:(?!\\\]).)*?)\\\]',
+        _wick_to_svg, body, flags=re.DOTALL,
+    )
+    # Substitute tikz markers with the real figures. If the marker carries
+    # a data-figcaption (set by _early_figure_repl when the diagram came
+    # from a \begin{figure}...\caption{...}\end{figure} block), inject the
+    # caption inside the rendered tikz-figure rather than as a sibling.
+    def _tikz_marker_repl(m):
+        idx = int(m.group("idx"))
+        cap = m.group("cap")
+        figure_html = render_tikz_one(stash, idx)
+        if cap:
+            cap = (cap.replace("&quot;", '"').replace("&amp;", "&"))
+            figure_html = figure_html.replace(
+                "</figure>", f"<figcaption>{cap}</figcaption></figure>", 1)
+        return figure_html
+    body = re.sub(
+        r'<div class="tikz-marker"'
+        r'(?: data-figcaption="(?P<cap>[^"]*)")?'
+        r' data-tikz="(?P<idx>\d+)"></div>',
+        _tikz_marker_repl,
         body,
     )
     # Resolve \eqref{} / \ref{} sentinels using the labels map collected
@@ -845,28 +1113,7 @@ def latex_to_html(body, stash=None):
 
 
 def render_tikz_one(stash, idx):
-    src, is_feynman, plain = stash["tikz"][idx]
-    if plain:
-        return (
-            '<figure class="tikz-figure">'
-            f'<script type="text/tikz">\n{plain}\n</script>'
-            '</figure>'
-        )
-    if not is_feynman:
-        return (
-            '<figure class="tikz-figure">'
-            f'<script type="text/tikz">\n{src}\n</script>'
-            '</figure>'
-        )
-    safe = src.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-    return (
-        '<figure class="tikz-source">'
-        '<pre class="tikz-feynman" aria-label="Feynman diagram (LaTeX source)">'
-        f'{safe}'
-        '</pre>'
-        '<figcaption>Feynman diagram — automatic conversion failed; the LaTeX source is shown above.</figcaption>'
-        '</figure>'
-    )
+    return _tikz_to_svg(stash["tikz"][idx])
 
 
 # ----------------------------------------------------------------------
@@ -970,7 +1217,7 @@ window.MathJax = {
   tex: {
     inlineMath: [['$', '$'], ['\\(', '\\)']],
     displayMath: [['$$', '$$'], ['\\[', '\\]']],
-    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros']},
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros', 'mathtools']},
     macros: {
       R: '\\mathbb{R}',
       C: '\\mathbb{C}',
@@ -987,21 +1234,17 @@ window.MathJax = {
       wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
       c:       ['{#1}', 1],
       mathds:  ['\\mathbb{#1}', 1],
-      Tilde:   ['\\tilde{#1}', 1],
-      // tensor.sty: \tensor{base}{indices} — rendered as base + indices
-      tensor:  ['{#1{#2}}', 2]
+      Tilde:   ['\\tilde{#1}', 1]
+      // \tensor{base}{indices} is rewritten to base^a{}_b in
+      // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
+      // so no runtime macro is needed here. The empty-group trick is
+      // what makes MathJax kern the indices into separate columns.
     }
   },
-  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
 };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
-<!-- TikZJax: renders <script type="text/tikz"> blocks into SVG client-side -->
-<link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
-<script src="https://tikzjax.com/v1/tikzjax.js"></script>
-<!-- Post-process TikZJax SVGs: scale them up so they're readable in-page -->
-<script defer src="../assets/resize-tikz.js"></script>
 </head>
 <body>
 

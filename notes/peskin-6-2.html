@@ -23,7 +23,7 @@ window.MathJax = {
   tex: {
     inlineMath: [['$', '$'], ['\\(', '\\)']],
     displayMath: [['$$', '$$'], ['\\[', '\\]']],
-    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros']},
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros', 'mathtools']},
     macros: {
       R: '\\mathbb{R}',
       C: '\\mathbb{C}',
@@ -40,21 +40,17 @@ window.MathJax = {
       wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
       c:       ['{#1}', 1],
       mathds:  ['\\mathbb{#1}', 1],
-      Tilde:   ['\\tilde{#1}', 1],
-      // tensor.sty: \tensor{base}{indices} — rendered as base + indices
-      tensor:  ['{#1{#2}}', 2]
+      Tilde:   ['\\tilde{#1}', 1]
+      // \tensor{base}{indices} is rewritten to base^a{}_b in
+      // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
+      // so no runtime macro is needed here. The empty-group trick is
+      // what makes MathJax kern the indices into separate columns.
     }
   },
-  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
 };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
-<!-- TikZJax: renders <script type="text/tikz"> blocks into SVG client-side -->
-<link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
-<script src="https://tikzjax.com/v1/tikzjax.js"></script>
-<!-- Post-process TikZJax SVGs: scale them up so they're readable in-page -->
-<script defer src="../assets/resize-tikz.js"></script>
 </head>
 <body>
 
@@ -88,39 +84,70 @@ window.MathJax = {
   <article class="note__body">
 <p>Consider the process in which electrons of very high energy scatter from a target. In leading order in $\alpha$, the electron is connected to the target by one photon propagator:</p>
 
-<div class="equation-row"><span class="equation-part">$i\mathcal{M} =$</span>
-
-<figure class="tikz-figure"><script type="text/tikz">
-\usetikzlibrary{decorations.markings,arrows.meta}
-\begin{tikzpicture}[every node/.style={font=\small}]
-  \node (i1) at (0.00,0.00) {$e^{-}$};
-  \node (a) at (2.20,0.00) {};
-  \node (i2) at (4.40,0.00) {$e^{-}$};
-  \node (b) at (2.20,-1.60) {};
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (i1) -- node[above, midway, font=\footnotesize] {$p'$} (a);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (a) -- node[above, midway, font=\footnotesize] {$p$} (i2);
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- node[above, midway, font=\footnotesize] {$q$} (b);
-\end{tikzpicture}
-</script></figure>
-
-<p><span class="equation-num">(1)</span></div></p>
+<div class="equation-row"><span class="equation-part">$i\mathcal{M} =$</span><figure class="tikz-figure"><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='-1.992528 -105.640302 105.152218 112.61415'><style>path:not([fill]):not([stroke]){fill:currentColor;}</style>
+<defs>
+<pattern id='pat0-0' x='-.99628' y='-.99628' width='2.98883' height='2.98883' viewBox='-.99628 -.99628 2.98883 2.98883' patternUnits='userSpaceOnUse' patternTransform='matrix(1 0 0 1 108.344 -22.6362)' overflow='visible'>
+<clipPath id='pc0'>
+<rect x='-.99628' y='-.99628' width='4.98138' height='4.98138'/>
+</clipPath>
+<g clip-path='url(#pc0)'>
+<path d='M0 2.98828L3.08984-.101563' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+</g>
+</pattern>
+<path id='g0-0' d='M5.188543-1.57609C5.300125-1.57609 5.467497-1.57609 5.467497-1.743462C5.467497-1.917808 5.307098-1.917808 5.188543-1.917808H1.03213C.920548-1.917808 .753176-1.917808 .753176-1.750436C.753176-1.57609 .913574-1.57609 1.03213-1.57609H5.188543Z'/>
+<path id='g0-48' d='M2.022416-3.291656C2.078207-3.410212 2.085181-3.466002 2.085181-3.514819C2.085181-3.731009 1.889913-3.898381 1.673724-3.898381C1.408717-3.898381 1.325031-3.682192 1.290162-3.57061L.369614-.550934C.36264-.536986 .334745-.446326 .334745-.439352C.334745-.355666 .550934-.285928 .606725-.285928C.655542-.285928 .662516-.299875 .711333-.404483L2.022416-3.291656Z'/>
+<path id='g1-101' d='M1.863014-2.30137C2.15193-2.30137 2.889166-2.321295 3.387298-2.530511C4.084682-2.82939 4.134496-3.417186 4.134496-3.556663C4.134496-3.995019 3.755915-4.403487 3.068493-4.403487C1.96264-4.403487 .458281-3.437111 .458281-1.693649C.458281-.67746 1.046077 .109589 2.022416 .109589C3.447073 .109589 4.283935-.946451 4.283935-1.066002C4.283935-1.125778 4.224159-1.195517 4.164384-1.195517C4.11457-1.195517 4.094645-1.175592 4.034869-1.09589C3.247821-.109589 2.161893-.109589 2.042341-.109589C1.265255-.109589 1.175592-.946451 1.175592-1.265255C1.175592-1.384807 1.185554-1.693649 1.334994-2.30137H1.863014ZM1.39477-2.520548C1.783313-4.034869 2.809465-4.184309 3.068493-4.184309C3.536737-4.184309 3.805729-3.895392 3.805729-3.556663C3.805729-2.520548 2.211706-2.520548 1.803238-2.520548H1.39477Z'/>
+<path id='g1-112' d='M.448319 1.215442C.368618 1.554172 .348692 1.62391-.089664 1.62391C-.209215 1.62391-.318804 1.62391-.318804 1.8132C-.318804 1.892902-.268991 1.932752-.18929 1.932752C.079701 1.932752 .368618 1.902864 .647572 1.902864C.976339 1.902864 1.315068 1.932752 1.633873 1.932752C1.683686 1.932752 1.8132 1.932752 1.8132 1.733499C1.8132 1.62391 1.713574 1.62391 1.574097 1.62391C1.075965 1.62391 1.075965 1.554172 1.075965 1.464508C1.075965 1.344956 1.494396-.278954 1.564134-.52802C1.693649-.239103 1.972603 .109589 2.480697 .109589C3.636364 .109589 4.881694-1.344956 4.881694-2.809465C4.881694-3.745953 4.313823-4.403487 3.556663-4.403487C3.058531-4.403487 2.580324-4.044832 2.251557-3.656289C2.15193-4.194271 1.723537-4.403487 1.354919-4.403487C.896638-4.403487 .707347-4.014944 .617684-3.835616C.438356-3.496887 .308842-2.899128 .308842-2.86924C.308842-2.769614 .408468-2.769614 .428394-2.769614C.52802-2.769614 .537983-2.779577 .597758-2.998755C.767123-3.706102 .966376-4.184309 1.325031-4.184309C1.494396-4.184309 1.633873-4.104608 1.633873-3.726027C1.633873-3.496887 1.603985-3.387298 1.564134-3.217933L.448319 1.215442ZM2.201743-3.108344C2.271482-3.377335 2.540473-3.656289 2.719801-3.805729C3.068493-4.11457 3.35741-4.184309 3.526775-4.184309C3.92528-4.184309 4.164384-3.835616 4.164384-3.247821S3.835616-1.514321 3.656289-1.135741C3.317559-.438356 2.839352-.109589 2.470735-.109589C1.8132-.109589 1.683686-.936488 1.683686-.996264C1.683686-1.016189 1.683686-1.036115 1.713574-1.155666L2.201743-3.108344Z'/>
+<path id='g1-113' d='M4.503113-4.293898C4.503113-4.333748 4.473225-4.393524 4.403487-4.393524C4.293898-4.393524 3.895392-3.995019 3.726027-3.706102C3.506849-4.244085 3.118306-4.403487 2.799502-4.403487C1.62391-4.403487 .398506-2.929016 .398506-1.484433C.398506-.508095 .986301 .109589 1.713574 .109589C2.141968 .109589 2.530511-.129514 2.889166-.488169C2.799502-.139477 2.470735 1.205479 2.440847 1.295143C2.361146 1.574097 2.281445 1.613948 1.723537 1.62391C1.594022 1.62391 1.494396 1.62391 1.494396 1.823163C1.494396 1.833126 1.494396 1.932752 1.62391 1.932752C1.942715 1.932752 2.291407 1.902864 2.620174 1.902864C2.958904 1.902864 3.317559 1.932752 3.646326 1.932752C3.696139 1.932752 3.825654 1.932752 3.825654 1.733499C3.825654 1.62391 3.726027 1.62391 3.566625 1.62391C3.088418 1.62391 3.088418 1.554172 3.088418 1.464508C3.088418 1.39477 3.108344 1.334994 3.128269 1.24533L4.503113-4.293898ZM1.743462-.109589C1.145704-.109589 1.105853-.876712 1.105853-1.046077C1.105853-1.524284 1.39477-2.610212 1.564134-3.028643C1.872976-3.765878 2.391034-4.184309 2.799502-4.184309C3.447073-4.184309 3.58655-3.377335 3.58655-3.307597C3.58655-3.247821 3.038605-1.066002 3.008717-1.026152C2.859278-.747198 2.30137-.109589 1.743462-.109589Z'/>
+</defs>
+<g id='page1'>
+<path d='M31.35941 16.60937L54.1875-22.6367' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M39.4844 2.6406L40.4414-4.4375L45.1641-1.6875Z'/>
+<g transform='matrix(1 0 0 -1 28.2887 -118.01264)'>
+<use x='18.004717' y='-120.45564' xlink:href='#g1-112'/>
+<use x='23.017182' y='-124.071004' xlink:href='#g0-48'/>
+</g>
+<path d='M54.1875-22.6367L31.63676-62.4766' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M46.125-36.8789L40.4961-41.2734L45.2539-43.9648Z'/>
+<g transform='matrix(1 0 0 -1 28.4258 -170.8212)'>
+<use x='18.004717' y='-120.45564' xlink:href='#g1-112'/>
+</g>
+<path d='M60.6836-14.1328H87.9532' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M90.44926-14.132775L86.87504-12.78512L88.05082-14.132775L86.87504-15.47653Z'/>
+<path d='M90.44926-14.132775L86.87504-12.78512L88.05082-14.132775L86.87504-15.47653Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 -1 55.4432 -129.33039)'>
+<use x='18.004717' y='-120.45564' xlink:href='#g1-113'/>
+</g>
+<path d='M54.1875-22.6367H54.7032L55.2188-22.0117L55.7344-21.5586L56.25-21.3906L56.7657-21.5586L57.2813-22.0117L57.7969-22.6367L58.3125-23.2578L58.8282-23.7148L59.3438-23.8828L59.8594-23.7148L60.375-23.2578L60.8907-22.6367L61.4063-22.0117L61.9219-21.5586L62.4375-21.3906L62.9532-21.5586L63.4688-22.0117L63.9883-22.6367L64.5039-23.2578L65.0196-23.7148L65.5352-23.8828L66.0508-23.7148L66.5664-23.2578L67.0821-22.6367L67.5977-22.0117L68.1133-21.5586L68.6289-21.3906L69.1446-21.5586L69.6602-22.0117L70.1758-22.6367L70.6914-23.2578L71.2071-23.7148L71.7227-23.8828L72.2383-23.7148L72.7539-23.2578L73.2696-22.6367L73.7852-22.0117L74.3008-21.5586L74.8164-21.3906L75.336-21.5586L75.8516-22.0117L76.3672-22.6367L76.8829-23.2578L77.3985-23.7148L77.9141-23.8828L78.4297-23.7148L78.9454-23.2578L79.461-22.6367L79.9766-22.0117L80.4922-21.5586L81.0079-21.3906L81.5235-21.5586L82.0391-22.0117L82.5547-22.6367L83.0704-23.2578L83.586-23.7148L84.1016-23.8828L84.6172-23.7148L85.1329-23.2578L85.6485-22.6367L86.168-22.0117L86.6836-21.5586L87.1993-21.3906L87.7149-21.5586L88.2305-22.0117L88.7461-22.6367L89.2618-23.2578L89.7774-23.7148L90.293-23.8828L90.8086-23.7148L91.3243-23.2578L91.8399-22.6367L92.3555-22.0117L92.8711-21.5586L93.3868-21.3906L93.9024-21.5586L94.418-22.0117L94.9336-22.6367L95.4493-23.2578L95.9649-23.7148L96.4805-23.8828L97.5157-22.6367' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 -1 3.3205 -100.3273)'>
+<use x='18.004717' y='-120.45564' xlink:href='#g1-101'/>
+<use x='22.643589' y='-124.071004' xlink:href='#g0-0'/>
+</g>
+<g transform='matrix(1 0 0 -1 3.711 -194.3841)'>
+<use x='18.004717' y='-120.45564' xlink:href='#g1-101'/>
+<use x='22.643589' y='-124.071004' xlink:href='#g0-0'/>
+</g>
+<path d='M118.9729-22.636757C118.9729-16.76566 114.21509-12.0079 108.344-12.0079S97.7151-16.76566 97.7151-22.636757C97.7151-28.50785 102.47291-33.2657 108.344-33.2657S118.9729-28.50785 118.9729-22.636757Z' fill='url(#pat0-0)'/>
+<path d='M118.9729-22.636757C118.9729-16.76566 114.21509-12.0079 108.344-12.0079S97.7151-16.76566 97.7151-22.636757C97.7151-28.50785 102.47291-33.2657 108.344-33.2657S118.9729-28.50785 118.9729-22.636757Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+</g>
+</svg></figure><span class="equation-num">(1.1)</span></div>
 
 <p>where the blob is, in general, complicated coupling of the virtual photon to the target.</p>
 
 <p>If the initial and final energies of the electron are $E$ and $E'$. Under the high-energy limit, 
-\[p = (E, 0,0,E), \quad p'=(E',E'\sin\theta,0,E'\cos\theta),\tag{2}\]
+\[p = (E, 0,0,E), \quad p'=(E',E'\sin\theta,0,E'\cos\theta),\tag{1.2}\]
 which implies
-\[q^2 = (p'-p)^2 = -2EE'(1-\cos\theta).\tag{3}\]
+\[q^2 = (p'-p)^2 = -2EE'(1-\cos\theta).\tag{1.3}\]
 In the limit of forward scattering, whatever the energy loss, the photon momentum approaches $q^2 = 0$; thus the reaction is highly peaked in the forward direction. It is tempting to guess that, in this limit, the virtual photon becomes a real photon. Let us investigate in what sense that is true.</p>
 
 <p><strong>(a)</strong> The matrix element of the above process is given by
-\[\mathcal{M} = (-ie)\bar{u}(p')\gamma^\mu u(p)\frac{-ig_{\mu\nu}}{q^2}\hat{\mathcal{M}}^\nu(q),\tag{4}\]
+\[\mathcal{M} = (-ie)\bar{u}(p')\gamma^\mu u(p)\frac{-ig_{\mu\nu}}{q^2}\hat{\mathcal{M}}^\nu(q),\tag{1.4}\]
 where $\hat{\mathcal{M}}^\nu(q)$ represents the (in general, complicated) coupling of the virtual photon to the target. Let us analyse the structure of the piece $\bar{u}(p')\gamma^\mu u(p)$. Let $q = (q^0,\vec{q})$ and $\Tilde{q}=(q^0,-\vec{q})$. We can expand the spinor products as 
-\[\bar{u}(p')\gamma^\mu u(p) = Aq^\mu + B\Tilde{q}^\mu + C \epsilon_1^\mu + D\epsilon_2^\mu,\tag{5}\]
+\[\bar{u}(p')\gamma^\mu u(p) = Aq^\mu + B\Tilde{q}^\mu + C \epsilon_1^\mu + D\epsilon_2^\mu,\tag{1.5}\]
 where $A, B, C , D$ are functions of the scattering angle and energy loss and $\epsilon_1, \epsilon_2$ are two unit vectors transverse to $\vec{q}$. By dotting the expression with $q^\mu$, we find
-\[q_\mu \cdot [\bar{u}(p')\gamma^\mu u(p)] = Aq^2 + Bq\cdot \Tilde{q}.\tag{6}\]
+\[q_\mu \cdot [\bar{u}(p')\gamma^\mu u(p)] = Aq^2 + Bq\cdot \Tilde{q}.\tag{1.6}\]
 By Ward identity, we have $q_\mu \bar{u}(p')\gamma^\mu u(p)]=0$. Thus, we have
-\[B = -A\frac{q^2}{q\cdot \Tilde{q}} \approx A \frac{2EE'(1-\cos\theta)}{(q^0)^2 + \vec{q}^2} \sim \theta^2.\tag{7}\]
+\[B = -A\frac{q^2}{q\cdot \Tilde{q}} \approx A \frac{2EE'(1-\cos\theta)}{(q^0)^2 + \vec{q}^2} \sim \theta^2.\tag{1.7}\]
 Thus, $B$ can be ignored in the case of forward scattering.</p>
 
 <p>Again, by Ward identity, we have $q\cdot \hat{\mathcal{M}}(q) = 0$. Thus, $A$ can be ignored as well.</p>
@@ -129,31 +156,31 @@ Thus, $B$ can be ignored in the case of forward scattering.</p>
 \[u_s(p) = \begin{pmatrix}
         \sqrt{p\cdot \sigma}\xi_s\\
         \sqrt{p\cdot \bar{\sigma}}\xi_s,
-    \end{pmatrix}\tag{8}\]
+    \end{pmatrix}\tag{1.8}\]
 where
 \[\sigma^3\xi_\pm = \pm\xi_\pm \implies \xi_+ = \begin{pmatrix}
         1\\0
     \end{pmatrix}, \quad \xi_-=\begin{pmatrix}
         0\\1
-    \end{pmatrix},\tag{9}\]
+    \end{pmatrix},\tag{1.9}\]
 and
-\[\sqrt{p\cdot \sigma} = \sqrt{E(1 - \sigma^3)}, \quad \sqrt{p\cdot \sigma} = \sqrt{E(1 + \sigma^3)}.\tag{10}\]
+\[\sqrt{p\cdot \sigma} = \sqrt{E(1 - \sigma^3)}, \quad \sqrt{p\cdot \sigma} = \sqrt{E(1 + \sigma^3)}.\tag{1.10}\]
 Thus,
 \[\boxed{
     u_+(p) = \sqrt{2E}\begin{pmatrix}
         0\\0\\1\\0
     \end{pmatrix},\quad u_-(p)=\begin{pmatrix}
         0\\1\\0\\0
-    \end{pmatrix}.}\tag{11}\]</p>
+    \end{pmatrix}.}\tag{1.11}\]</p>
 
 <p>Next, let us evaluate $u(p')$. Using $p' = (E', E'\sin\theta,0,E'\cos\theta)$, we find
 \[\hat{p}'\cdot \vec{\sigma} \xi_\pm = \pm \xi_\pm \implies \xi_+ = \begin{pmatrix}
         \cos\frac{\theta}{2}\\\sin\frac{\theta}{2}
     \end{pmatrix},\quad \xi_- = \sqrt{2E}\begin{pmatrix}
         -\sin\frac{\theta}{2}\\\cos\frac{\theta}{2}
-    \end{pmatrix}\tag{12}\]
+    \end{pmatrix}\tag{1.12}\]
 and
-\[\sqrt{p\cdot \sigma} = \sqrt{E'(1-\hat{p}\cdot \vec{\sigma})}, \quad \sqrt{p\cdot \bar{\sigma}} = \sqrt{E'(1+\hat{p}\cdot \vec{\sigma}).}\tag{13}\]
+\[\sqrt{p\cdot \sigma} = \sqrt{E'(1-\hat{p}\cdot \vec{\sigma})}, \quad \sqrt{p\cdot \bar{\sigma}} = \sqrt{E'(1+\hat{p}\cdot \vec{\sigma}).}\tag{1.13}\]
 Thus, we find
 \[\boxed{
     u_+(p') = \sqrt{2E'}\begin{pmatrix}
@@ -162,7 +189,7 @@ Thus, we find
     u_-(p') = \sqrt{2E'}\begin{pmatrix}
         -\sin\frac{\theta}{2}\\\cos\frac{\theta}{2}\\0\\0
     \end{pmatrix}
-    .}\tag{14}\]</p>
+    .}\tag{1.14}\]</p>
 
 <p>The polarisation vectors are defined to be parallel and horizontal to the scattering plane ($x-z$ plane). Thus,
 \[\boxed{
@@ -170,7 +197,7 @@ Thus, we find
         0, E'\cos\theta-E, 0, -E'\sin\theta
     \end{pmatrix},\quad
     \epsilon_2^\mu = (0,0,1,0).
-    }\tag{15}\]</p>
+    }\tag{1.15}\]</p>
 
 <p>Now, let us evaluate $\bar{u}(p')\vec{\gamma}\cdot\vec{\epsilon_i}u(p)$. With some algebra, one should find
 \[\boxed{
@@ -178,7 +205,7 @@ Thus, we find
         &amp;\bar{u}_\pm(p')\vec{\gamma}\cdot\vec{\epsilon_1}u_\pm(p) = -\frac{E'+E}{\abs{E'-E}}\theta\sqrt{EE'} = C,\\
         &amp;\bar{u}_\pm(p')\vec{\gamma}\cdot\vec{\epsilon}_2u_\pm(p) = \pm\theta\sqrt{EE'} = D_\pm,\\
         &amp;\bar{u}_\pm(p')\vec{\gamma}\cdot\vec{\epsilon}_1u_\mp(p) = \bar{u}_\pm(p')\vec{\gamma}\cdot\vec{\epsilon}_2u_\mp(p) = 0.
-    \end{aligned}}\tag{16}\]</p>
+    \end{aligned}}\tag{1.16}\]</p>
   </article>
 
   <hr class="ornament-rule">
