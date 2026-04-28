@@ -40,9 +40,11 @@ window.MathJax = {
       wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
       c:       ['{#1}', 1],
       mathds:  ['\\mathbb{#1}', 1],
-      Tilde:   ['\\tilde{#1}', 1],
-      // tensor.sty: \tensor{base}{indices} — rendered as base + indices
-      tensor:  ['{#1{#2}}', 2]
+      Tilde:   ['\\tilde{#1}', 1]
+      // \tensor{base}{indices} is rewritten to base^a{}_b in
+      // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
+      // so no runtime macro is needed here. The empty-group trick is
+      // what makes MathJax kern the indices into separate columns.
     }
   },
   loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
@@ -112,11 +114,11 @@ $G = dC$ where $C$ is a 3-form potential. The action governing these fields is
 <p>Let us consider the variation term by term. The first term gives the standard
         \[\delta(\sqrt{-g}R) = \sqrt{-g}G_{\mu\nu}\delta g^{\mu\nu}.\tag{1.4}\]
         The second term gives
-        \[\frac{1}{96}\sqrt{-g}g_{\mu\nu}G_{\alpha\beta\rho\sigma}G^{\alpha\beta\rho\sigma}\delta g^{\mu\nu} - \frac{1}{12}G_{\mu\beta\rho\sigma}\tensor{G}{_\nu^{\beta\rho\sigma}}\delta g^{\mu\nu}.\tag{1.5}\]
+        \[\frac{1}{96}\sqrt{-g}g_{\mu\nu}G_{\alpha\beta\rho\sigma}G^{\alpha\beta\rho\sigma}\delta g^{\mu\nu} - \frac{1}{12}G_{\mu\beta\rho\sigma}G_\nu{}^{\beta\rho\sigma}\delta g^{\mu\nu}.\tag{1.5}\]
     The last integral is a pure topological term, and has no metric dependence.</p>
 
 <p>Therefore, we find the Einstein equation to be
-    \[G_{\mu\nu} = \frac{1}{96}\left(8G_{\mu\beta\rho\sigma}\tensor{G}{_\nu^{\beta\rho\sigma}} - g_{\mu\nu}G_{\alpha\beta\rho\sigma}G^{\alpha\beta\rho\sigma}\right).\tag{1.6}\]</p>
+    \[G_{\mu\nu} = \frac{1}{96}\left(8G_{\mu\beta\rho\sigma}G_\nu{}^{\beta\rho\sigma} - g_{\mu\nu}G_{\alpha\beta\rho\sigma}G^{\alpha\beta\rho\sigma}\right).\tag{1.6}\]</p>
 
 </aside></li>
   <li>Vary $C$ to obtain the equation of motion for the 4-form,

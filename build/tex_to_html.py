@@ -215,6 +215,126 @@ def _rewrite_tr_curly(body):
     return "".join(out)
 
 
+def _rewrite_tensor(body):
+    """Rewrite \\tensor{base}{indices} → base + <indices with empty groups>
+    so MathJax doesn't stack the upper and lower indices in the same
+    horizontal column.
+
+    Real LaTeX's `tensor.sty` distributes the indices: μ goes above-left
+    and the lower indices go below-right of where μ ended. MathJax does
+    this naturally if and only if there's an empty {} between consecutive
+    script operators — `R^\\mu{}_{\\nu\\rho\\sigma}`. The polyfill
+    `tensor: ['{#1{#2}}', 2]` produced `R^\\mu_{\\nu\\rho\\sigma}` which
+    stacks them in one column instead.
+
+    We walk the indices argument and insert {} before each ^/_ operator
+    that follows another, so the kerning shifts correctly.
+
+    Examples (all verified against pdfLaTeX):
+      \\tensor{R}{^\\mu_{\\nu\\rho\\sigma}}    →  R^\\mu{}_{\\nu\\rho\\sigma}
+      \\tensor{G}{_\\nu^{\\beta\\rho\\sigma}}  →  G_\\nu{}^{\\beta\\rho\\sigma}
+      \\tensor{T}{^{\\mu\\nu}_{\\rho\\sigma}}  →  T^{\\mu\\nu}{}_{\\rho\\sigma}
+      \\tensor{R}{_{\\mu\\nu\\rho\\sigma}}     →  R_{\\mu\\nu\\rho\\sigma}    (no transition; pass-through)
+
+    Composes with accents: \\bar{\\tensor{R}{^\\mu_\\nu}} expands to
+    \\bar{R^\\mu{}_\\nu} which renders correctly under MathJax.
+
+    Source today uses only \\tensor; \\indices and \\prescript aren't
+    triggered yet. Easy to extend when needed."""
+    out = []
+    i = 0
+    pat = re.compile(r"\\tensor\s*\{")
+    while i < len(body):
+        m = pat.search(body, i)
+        if not m:
+            out.append(body[i:])
+            break
+        out.append(body[i:m.start()])
+        # Parse arg1 (base): balanced { ... }
+        depth = 1
+        j = m.end()
+        start = j
+        while j < len(body) and depth > 0:
+            if body[j] == "{": depth += 1
+            elif body[j] == "}":
+                depth -= 1
+                if depth == 0: break
+            j += 1
+        if depth != 0:                           # malformed; bail
+            out.append(body[m.start():])
+            break
+        base = body[start:j]
+        j += 1                                    # past closing brace
+        # Skip whitespace, expect arg2's {
+        while j < len(body) and body[j] in " \n\t":
+            j += 1
+        if j >= len(body) or body[j] != "{":
+            # No second arg — emit base alone
+            out.append(base)
+            i = j
+            continue
+        depth = 1
+        j += 1
+        start = j
+        while j < len(body) and depth > 0:
+            if body[j] == "{": depth += 1
+            elif body[j] == "}":
+                depth -= 1
+                if depth == 0: break
+            j += 1
+        indices = body[start:j]
+        i = j + 1                                 # past closing brace of arg2
+        # Walk indices, inserting {} between consecutive script operators
+        out.append(base + _split_tensor_indices(indices))
+    return "".join(out)
+
+
+def _split_tensor_indices(s):
+    """Walk a tensor-index string and insert empty groups {} between each
+    pair of consecutive ^/_ operators so MathJax doesn't collapse them
+    into one stacked column. Returns the rewritten string."""
+    out = []
+    i = 0
+    seen_script = False
+    n = len(s)
+    while i < n:
+        ch = s[i]
+        if ch in "^_":
+            if seen_script:
+                out.append("{}")
+            out.append(ch)
+            i += 1
+            # consume the script's argument: balanced {...}, or \cmd, or single char
+            while i < n and s[i] in " \t":
+                i += 1
+            if i >= n: break
+            if s[i] == "{":
+                depth = 1
+                start = i
+                i += 1
+                while i < n and depth > 0:
+                    if s[i] == "{": depth += 1
+                    elif s[i] == "}": depth -= 1
+                    i += 1
+                out.append(s[start:i])
+            elif s[i] == "\\":
+                start = i
+                i += 1
+                while i < n and (s[i].isalpha() or s[i] == "*"):
+                    i += 1
+                out.append(s[start:i])
+            else:
+                out.append(s[i])
+                i += 1
+            seen_script = True
+        else:
+            # Non-script char: pass through. (Whitespace etc. between the
+            # operators is fine — it doesn't reset `seen_script`.)
+            out.append(ch)
+            i += 1
+    return "".join(out)
+
+
 class MathStash(dict):
     """Holds math + tikz stashes, plus a per-page equation counter, a
     figure counter, and a label→number map so \\eqref / \\ref resolve.
@@ -251,6 +371,7 @@ class MathStash(dict):
 
     def stash(self, body, display):
         body = _rewrite_tr_curly(body)
+        body = _rewrite_tensor(body)
         idx = len(self.items)
         self.items.append((body, display))
         return f"\x00MATH{idx}\x00"
@@ -1113,9 +1234,11 @@ window.MathJax = {
       wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
       c:       ['{#1}', 1],
       mathds:  ['\\mathbb{#1}', 1],
-      Tilde:   ['\\tilde{#1}', 1],
-      // tensor.sty: \tensor{base}{indices} — rendered as base + indices
-      tensor:  ['{#1{#2}}', 2]
+      Tilde:   ['\\tilde{#1}', 1]
+      // \tensor{base}{indices} is rewritten to base^a{}_b in
+      // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
+      // so no runtime macro is needed here. The empty-group trick is
+      // what makes MathJax kern the indices into separate columns.
     }
   },
   loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }

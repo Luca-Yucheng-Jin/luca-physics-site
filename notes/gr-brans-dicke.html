@@ -40,9 +40,11 @@ window.MathJax = {
       wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
       c:       ['{#1}', 1],
       mathds:  ['\\mathbb{#1}', 1],
-      Tilde:   ['\\tilde{#1}', 1],
-      // tensor.sty: \tensor{base}{indices} — rendered as base + indices
-      tensor:  ['{#1{#2}}', 2]
+      Tilde:   ['\\tilde{#1}', 1]
+      // \tensor{base}{indices} is rewritten to base^a{}_b in
+      // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
+      // so no runtime macro is needed here. The empty-group trick is
+      // what makes MathJax kern the indices into separate columns.
     }
   },
   loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
@@ -91,13 +93,13 @@ the resulting Einstein equation and the equation of motion for $\phi$.</p>
 
 <aside class="solution">
 
-<p>First, consider the variation of the action with respect to the change $\tensor{g}{^{\mu\nu}} \to \tensor{g}{^{\mu\nu}} + \delta\tensor{g}{^{\mu\nu}}$. The first term is given by
+<p>First, consider the variation of the action with respect to the change $g^{\mu\nu} \to g^{\mu\nu} + \deltag^{\mu\nu}$. The first term is given by
     \[\delta(\sqrt{-g}R\phi) = \delta(\sqrt{-g})R\phi +\sqrt{-g}\delta R\phi +\sqrt{-g} R\delta\phi.\tag{1.2}\]
     Let us evaluate this term by term. For the first term, we use the identity 
     \[\ln \det A = \tr \ln A,
         \tag{1.3}\]
     and find
-    \[\frac{\delta(\det A)}{\det A} = \tr (A^{-1}\delta A)\quad \implies\quad \delta\sqrt{-g} = \frac{1}{2}\frac{1}{\sqrt{-g}}(-g)\tensor{g}{^{\mu\nu}}\delta g_{\mu\nu}.\tag{1.4}\]
+    \[\frac{\delta(\det A)}{\det A} = \tr (A^{-1}\delta A)\quad \implies\quad \delta\sqrt{-g} = \frac{1}{2}\frac{1}{\sqrt{-g}}(-g)g^{\mu\nu}\delta g_{\mu\nu}.\tag{1.4}\]
     Note that
     \[0=\delta(g^{\mu\nu}g_{\mu\nu}) = \delta g^{\mu\nu}g_{\mu\nu} + g^{\mu\nu}\delta g_{\mu\nu},\tag{1.5}\]
     we find that
@@ -105,36 +107,36 @@ the resulting Einstein equation and the equation of motion for $\phi$.</p>
     The variation of the Ricci scalar is given by
     \[\delta(g^{\mu\nu}R_{\mu\nu}) = \delta g^{\mu\nu}R_{\mu\nu} + g^{\mu\nu}\delta R_{\mu\nu}.\tag{1.7}\]
     The latter variation of the Ricci tensor is slightly trickier. Recall the definition of the Riemann tensor,
-    \[\tensor{R}{^\mu_{\nu\rho\sigma}} = \partial_\rho\tensor{\Gamma}{^\mu_{\nu\sigma}}
-    - \partial_\sigma\tensor{\Gamma}{^\mu_{\nu\rho}}
-    + \tensor{\Gamma}{^\mu_{\rho\lambda}}\tensor{\Gamma}{^\lambda_{\nu\sigma}}
-    - \tensor{\Gamma}{^\mu_{\sigma\lambda}}\tensor{\Gamma}{^\lambda_{\nu\rho}}.\tag{1.8}\]
+    \[R^\mu{}_{\nu\rho\sigma} = \partial_\rho\Gamma^\mu{}_{\nu\sigma}
+    - \partial_\sigma\Gamma^\mu{}_{\nu\rho}
+    + \Gamma^\mu{}_{\rho\lambda}\Gamma^\lambda{}_{\nu\sigma}
+    - \Gamma^\mu{}_{\sigma\lambda}\Gamma^\lambda{}_{\nu\rho}.\tag{1.8}\]
     Consider the normal coordinate at point $p\in M$, the Riemann tensor becomes
-    \[\tensor{R}{^\mu_{\nu\rho\sigma}} = \partial_\rho\tensor{\Gamma}{^\mu_{\nu\sigma}}
-    - \partial_\sigma\tensor{\Gamma}{^\mu_{\nu\rho}}.\tag{1.9}\]
+    \[R^\mu{}_{\nu\rho\sigma} = \partial_\rho\Gamma^\mu{}_{\nu\sigma}
+    - \partial_\sigma\Gamma^\mu{}_{\nu\rho}.\tag{1.9}\]
     Now consider the variation of the Christoffel symbol, 
-    \[\delta \tensor{\Gamma}{^\mu_{\nu\sigma}} = \frac{1}{2}g^{\mu\rho}(\partial_\nu\delta g_{\rho\sigma} +\partial_\sigma\delta g_{\rho\nu} - \partial_\rho\delta g_{\nu\sigma}),\tag{1.10}\]
+    \[\delta \Gamma^\mu{}_{\nu\sigma} = \frac{1}{2}g^{\mu\rho}(\partial_\nu\delta g_{\rho\sigma} +\partial_\sigma\delta g_{\rho\nu} - \partial_\rho\delta g_{\nu\sigma}),\tag{1.10}\]
     where the variation $\delta g^{\mu\rho}$ vanishes in the normal coordinates. Since, we are in the normal coordinate, we can interchange $\partial_\mu$ with $\nabla_\mu$ with no cost. Thus, we find
-    \[\delta \tensor{\Gamma}{^\mu_{\nu\sigma}} = \frac{1}{2}g^{\mu\rho}(\nabla_\nu\delta g_{\rho\sigma} +\nabla_\sigma\delta g_{\rho\nu} - \nabla_\rho\delta g_{\nu\sigma}).\tag{1.11}\]
+    \[\delta \Gamma^\mu{}_{\nu\sigma} = \frac{1}{2}g^{\mu\rho}(\nabla_\nu\delta g_{\rho\sigma} +\nabla_\sigma\delta g_{\rho\nu} - \nabla_\rho\delta g_{\nu\sigma}).\tag{1.11}\]
     Notice that the right-hand side is a tensor, and hence the equality holds generally for any arbitrary point $p$. The same logic holds for the Ricci tensor, which gives
-    \[\tensor{R}{^\mu_{\nu\rho\sigma}} = \nabla_\rho\tensor{\Gamma}{^\mu_{\nu\sigma}}
-    - \nabla_\sigma\tensor{\Gamma}{^\mu_{\nu\rho}}.\tag{1.12}\]
+    \[R^\mu{}_{\nu\rho\sigma} = \nabla_\rho\Gamma^\mu{}_{\nu\sigma}
+    - \nabla_\sigma\Gamma^\mu{}_{\nu\rho}.\tag{1.12}\]
     Therefore, the variation is given by
-    \[\delta\tensor{R}{^\mu_{\nu\rho\sigma}} = \nabla_\rho\delta\tensor{\Gamma}{^\mu_{\nu\sigma}}
-    - \nabla_\sigma\delta\tensor{\Gamma}{^\mu_{\nu\rho}} \quad\implies\quad \delta\tensor{R}{_{\nu\sigma}} = \nabla_\mu\delta\tensor{\Gamma}{^\mu_{\nu\sigma}}
-    - \nabla_\sigma\delta\tensor{\Gamma}{^\mu_{\nu\mu}}.\tag{1.13}\]
+    \[\deltaR^\mu{}_{\nu\rho\sigma} = \nabla_\rho\delta\Gamma^\mu{}_{\nu\sigma}
+    - \nabla_\sigma\delta\Gamma^\mu{}_{\nu\rho} \quad\implies\quad \deltaR_{\nu\sigma} = \nabla_\mu\delta\Gamma^\mu{}_{\nu\sigma}
+    - \nabla_\sigma\delta\Gamma^\mu{}_{\nu\mu}.\tag{1.13}\]
     Hence, we have
-    \[g^{\mu\nu}\delta R_{\mu\nu} = \nabla_\mu X^\mu \quad    \text{with} \quad X^\mu = g^{\nu\sigma} \delta\tensor{\Gamma}{^\mu_{\nu\sigma}} - g^{\mu\nu}\delta\tensor{\Gamma}{^\rho_{\nu\rho}}.\tag{1.14}\]
+    \[g^{\mu\nu}\delta R_{\mu\nu} = \nabla_\mu X^\mu \quad    \text{with} \quad X^\mu = g^{\nu\sigma} \delta\Gamma^\mu{}_{\nu\sigma} - g^{\mu\nu}\delta\Gamma^\rho{}_{\nu\rho}.\tag{1.14}\]
     Therefore, the variation of the first term in the Lagrangian is given by
     \[\begin{aligned}\delta(\sqrt{-g}R\phi) &amp;= -\frac{1}{2}\sqrt{-g}g_{\mu\nu}\delta g^{\mu\nu}R\phi+ \sqrt{-g}\delta g^{\mu\nu}R_{\mu\nu}\phi+\sqrt{-g}\nabla_\mu X^\mu \phi\notag\\ &amp;= \sqrt{-g}(G_{\mu\nu}\phi\delta g^{\mu\nu}+\nabla_\mu( X^\mu \phi) -X^\mu \nabla_\mu\phi).\end{aligned}\tag{1.15}\]
     The last term needs a bit more of care, let us plug the variation of the Christoffel symbol:
-    \[X^\mu \nabla_\mu \phi = (g^{\nu\sigma} \delta\tensor{\Gamma}{^\mu_{\nu\sigma}} - g^{\mu\nu}\delta\tensor{\Gamma}{^\rho_{\nu\rho}})\nabla_\mu\phi.\tag{1.16}\]
+    \[X^\mu \nabla_\mu \phi = (g^{\nu\sigma} \delta\Gamma^\mu{}_{\nu\sigma} - g^{\mu\nu}\delta\Gamma^\rho{}_{\nu\rho})\nabla_\mu\phi.\tag{1.16}\]
     Again, we consider the two terms separately; the first gives
-    \[\begin{aligned}g^{\nu\sigma} \delta\tensor{\Gamma}{^\mu_{\nu\sigma}}\nabla_\mu\phi &amp;= \frac{1}{2}g^{\mu\rho}g^{\nu\sigma}(\nabla_\nu\delta g_{\rho\sigma} +\nabla_\sigma\delta g_{\rho\nu} - \nabla_\rho\delta g_{\nu\sigma})\nabla_\mu\phi \notag \\
-        &amp;= \frac{1}{2}(2\nabla^\nu\delta g_{\rho\nu}-\nabla_\rho \delta \tensor{g}{^\nu_\nu})\nabla^\rho \phi\notag\\
+    \[\begin{aligned}g^{\nu\sigma} \delta\Gamma^\mu{}_{\nu\sigma}\nabla_\mu\phi &amp;= \frac{1}{2}g^{\mu\rho}g^{\nu\sigma}(\nabla_\nu\delta g_{\rho\sigma} +\nabla_\sigma\delta g_{\rho\nu} - \nabla_\rho\delta g_{\nu\sigma})\nabla_\mu\phi \notag \\
+        &amp;= \frac{1}{2}(2\nabla^\nu\delta g_{\rho\nu}-\nabla_\rho \delta g^\nu{}_\nu)\nabla^\rho \phi\notag\\
         &amp;=\left(\nabla_\mu\nabla_\nu\phi - \frac{1}{2}\nabla^\rho\nabla_\rho\phi\right)\delta g^{\mu\nu}.\end{aligned}\tag{1.17}\]
     And the second term:
-    \[\begin{aligned}g^{\mu\nu}\delta\tensor{\Gamma}{^\rho_{\nu\rho}}\nabla_\mu\nu &amp;= \frac{1}{2}g^{\mu\nu}g^{\rho\sigma}(\nabla_\nu\delta g_{\sigma\rho} +\nabla_\rho\delta g_{\sigma\nu} - \nabla_\sigma\delta g_{\nu\rho})\nabla_\mu\phi\notag\\
+    \[\begin{aligned}g^{\mu\nu}\delta\Gamma^\rho{}_{\nu\rho}\nabla_\mu\nu &amp;= \frac{1}{2}g^{\mu\nu}g^{\rho\sigma}(\nabla_\nu\delta g_{\sigma\rho} +\nabla_\rho\delta g_{\sigma\nu} - \nabla_\sigma\delta g_{\nu\rho})\nabla_\mu\phi\notag\\
         &amp;=\frac{1}{2}(\nabla^\rho\nabla_\rho\phi) g_{\mu\nu}\delta g^{\mu\nu}.\end{aligned}\tag{1.18}\]
     Now, putting everything together, we find
     \[\delta(\sqrt{-g}R\phi) = (G_{\mu\nu}\phi-\nabla_\mu\nabla_\nu \phi + g_{\mu\nu}\nabla^\rho\nabla_\rho\phi)\delta g^{\mu\nu} + \sqrt{-g}\nabla_\mu X^\mu.\tag{1.19}\]
@@ -155,9 +157,9 @@ the resulting Einstein equation and the equation of motion for $\phi$.</p>
     We wish to evaluate the derivative with respect to $\sqrt{-g}$, we find
     \[\partial_\mu(\sqrt{-g}) = \frac{1}{2}\frac{1}{\sqrt{-g}}\partial_\mu(-g) = \frac{1}{2}\sqrt{-g}\partial_\mu\ln(-g) = \frac{1}{2}\sqrt{-g}\tr\partial_\mu\ln(-g) = \frac{1}{2}\sqrt{-g}\tr((-g)^{-1}\partial_\mu(-g)),\tag{1.25}\]
     where we have used (1.3) in the last equality. Now, note that 
-    \[\tensor{\Gamma}{^\mu_{\mu\nu}}= \frac{1}{2}g^{\mu\rho}\partial_\nu g_{\rho\mu} = \frac{1}{2}\tr((-g)^{-1}\partial_\nu(-g)).\tag{1.26}\]
+    \[\Gamma^\mu{}_{\mu\nu}= \frac{1}{2}g^{\mu\rho}\partial_\nu g_{\rho\mu} = \frac{1}{2}\tr((-g)^{-1}\partial_\nu(-g)).\tag{1.26}\]
     Thus, we find
-    \[\partial_\mu(\sqrt{-g}Y^\mu) = \sqrt{-g}\partial_\mu Y^\mu + \sqrt{-g}\tensor{\Gamma}{^\nu_{\nu\mu}}Y^\mu = \sqrt{-g}\nabla_\mu Y^\mu.\tag{1.27}\]
+    \[\partial_\mu(\sqrt{-g}Y^\mu) = \sqrt{-g}\partial_\mu Y^\mu + \sqrt{-g}\Gamma^\nu{}_{\nu\mu}Y^\mu = \sqrt{-g}\nabla_\mu Y^\mu.\tag{1.27}\]
     Now, note that the covariant derivative is equivalent to the normal derivative when acting on scalars and that the covariant derivative of the metric tensor vanishes for Riemannian (Lorentzian) geometry. Therefore, the variation of the field action is found to be
     \[\frac{1}{16\pi G}\sqrt{-g}\left[R - \frac{\omega}{\phi^2}g^{\mu\nu}\partial_\mu\phi\partial_\nu\phi +\frac{2\omega}{\phi}g^{\mu\nu}\nabla_\mu\nabla_\nu\phi\right].\tag{1.28}\]
     Finally, setting the variation to zero, we find
