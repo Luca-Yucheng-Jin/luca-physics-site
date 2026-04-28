@@ -92,6 +92,20 @@ def footer_html(index_path: str = "index.html",
 # Per-category catalogue body. Roman numerals are kept exactly as the user
 # had them in the original notes.html.
 
+def roman(n: int) -> str:
+    """Render n as Roman numerals (1 → 'I', 4 → 'IV', etc.)."""
+    pairs = [(1000, 'M'), (900, 'CM'), (500, 'D'), (400, 'CD'),
+             (100, 'C'), (90, 'XC'), (50, 'L'), (40, 'XL'),
+             (10, 'X'), (9, 'IX'), (5, 'V'), (4, 'IV'),
+             (1, 'I')]
+    out = []
+    for v, s in pairs:
+        while n >= v:
+            out.append(s)
+            n -= v
+    return "".join(out)
+
+
 CATEGORIES = [
     {
         "slug": "essays",
@@ -586,9 +600,45 @@ def top_index_page(categories: list[dict]) -> str:
 
 # ---------------------------------------------------------------------------
 
+import re as _re
+
+
+_ROMAN_LABEL_RE = _re.compile(r"^[IVXLCDM]+\.$")
+
+
+def _renumber_body(body: str) -> str:
+    """Restart Roman-numeral catalogue labels at I within each <ul>.
+
+    The original notes.html was one continuous page, so labels ran
+    II–X, XI–XIII, XIV–XXI, … across categories. Now each category has
+    its own page, so the labels should restart at I per category. This
+    pass walks each <ul>...</ul> in order and replaces every
+    `<span class="catalogue__num">XYZ.</span>` whose label parses as
+    Roman with a fresh sequential numeral. Non-Roman labels (PS1, PS2,
+    α, β, γ, …) are left alone."""
+
+    def renumber_one_ul(m):
+        ul = m.group(0)
+        n = [0]   # mutable counter
+        def num_repl(mm):
+            existing = mm.group(1)
+            if not _ROMAN_LABEL_RE.match(existing):
+                return mm.group(0)
+            n[0] += 1
+            return f'<span class="catalogue__num">{roman(n[0])}.</span>'
+        return _re.sub(
+            r'<span class="catalogue__num">([^<]+)</span>',
+            num_repl, ul,
+        )
+
+    return _re.sub(r"<ul class=\"catalogue\">.*?</ul>",
+                   renumber_one_ul, body, flags=_re.DOTALL)
+
+
 def main():
     # Per-category pages
     for cat in CATEGORIES:
+        cat = {**cat, "body": _renumber_body(cat["body"])}
         path = os.path.join(ROOT, f"notes-{cat['slug']}.html")
         with open(path, "w") as f:
             f.write(category_page(cat))
