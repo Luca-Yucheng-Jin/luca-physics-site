@@ -969,3 +969,66 @@ spot-checked in the preview server before committing.
   texlive-pictures texlive-science dvisvgm` (or the platform's
   equivalent). Right now `notes/*.html` is checked in so the deployed
   site uses the locally-built artifacts.
+
+---
+
+## 15. Follow-up #3 — Wick & Tensor (Apr 28 2026)
+
+Two issues from a follow-up review, both now resolved.
+
+### Bug 14 — Wick contraction arcs missing (was deferred from Phase 3)
+
+**Failure mode:** SVGs had only the vertical "tick stubs" at each
+`\c<n>` mark — the connecting bracket bars never rendered.
+
+**Root cause:** `simpler-wick.sty:169-173` draws the bracket arcs via
+`\tikz[remember picture, overlay]` — a *two-pass* mechanism. First
+pass writes node coordinates to AUX, second pass uses them to draw
+the connecting lines. `build/svg_render.py` ran `lualatex` once.
+
+**Fix (commit `e461854`):** detect two-pass triggers in the snippet
+(`\wick`, `remember picture`, `\pageref`, `\ref`) and run lualatex
+twice for those. Plain TikZ keeps the cheap single-pass path.
+
+**Verification:** [verification/wick/index.html](verification/wick/index.html)
+shows web SVG ↔ pdfLaTeX side-by-side for all 6 Wick equations
+(eq 8.40, 8.41, 8.46, 8.47, 8.49, 13.49). User-confirmed match
+Apr 28 2026.
+
+### Bug 15 — `\tensor{}{}` indices stacked instead of separated
+
+**Failure mode:** MathJax was rendering `R^μ_{νρσ}` with μ stacked
+DIRECTLY above ν (same horizontal column). Real `tensor.sty` puts μ
+above-LEFT, νρσ below-RIGHT — distinct columns.
+
+**Root cause:** the page-template polyfill `tensor: ['{#1{#2}}', 2]`
+expanded `\tensor{R}{^μ_{νρσ}}` to `{R{^μ_{νρσ}}}`. MathJax stacks
+consecutive `^...` and `_...` operators in one column unless an empty
+group `{}` separates them.
+
+**Fix (commit `b30e105`):**
+[`build/tex_to_html.py:_rewrite_tensor`](build/tex_to_html.py:218)
+walks math regions with balanced-brace matching and rewrites every
+`\tensor{base}{indices}` to `base + indices` with `{}` inserted
+between consecutive script operators. Removed the broken polyfill from
+the MathJax config — no runtime macro needed. Source is never edited.
+
+| Source form | Rewritten |
+|---|---|
+| `\tensor{R}{^\mu_{\nu\rho\sigma}}` | `R^\mu{}_{\nu\rho\sigma}` |
+| `\tensor{G}{_\nu^{\beta\rho\sigma}}` | `G_\nu{}^{\beta\rho\sigma}` |
+| `\tensor{T}{^{\mu\nu}_{\rho\sigma}}` | `T^{\mu\nu}{}_{\rho\sigma}` |
+| `\tensor{R}{_{\mu\nu\rho\sigma}}` (no transition) | `R_{\mu\nu\rho\sigma}` (pass-through) |
+
+Composes correctly with `\bar`, `\hat`, `\tilde` accents.
+
+**Verification:** [verification/tensors/index.html](verification/tensors/index.html)
+shows live MathJax ↔ pdfLaTeX for all **42** tensor expressions across
+BransDicke.tex (38), 11dsupergravity.tex (2), DTQFTPS1.tex (4). The
+audit's earlier count of 26 missed cases with nested braces in the
+indices argument — same regex bug as the old polyfill; fixed in the
+collection script.
+
+10-case unit test in `_rewrite_tensor` confirms the algorithm handles
+mixed-script transitions (`^a_b^c_d`), accent compositions, and
+multiple expressions on one line.
