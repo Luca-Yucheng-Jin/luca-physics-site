@@ -917,10 +917,20 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
   color: var(--ink);
   /* SVG carries its natural width/height in `em` units (build/svg_render
      bakes `pt × 0.135 em` into each SVG so it scales with the user's
-     font-size while keeping LaTeX-faithful proportions). The cap below
-     prevents wide diagrams from overflowing on small screens. */
+     font-size while keeping LaTeX-faithful proportions). max-height
+     caps tall vertical-layout Feynman diagrams (Rutherford, t/u-channel
+     Møller, etc.) so they scale down proportionally rather than
+     dominating the equation row; max-width caps wide schematics on
+     small viewports. */
   max-width: 100%;
+  max-height: 12em;
   height: auto;
+  width: auto;
+}
+/* Inside an equation-row, the diagram sits next to math; cap a touch
+   smaller so it doesn't dwarf the equation parts. */
+.equation-row figure.tikz-figure svg {
+  max-height: 10em;
 }
 
 /* Wick-contraction equations are pre-rendered to SVG (simpler-wick is

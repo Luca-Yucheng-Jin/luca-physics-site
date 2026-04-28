@@ -99,11 +99,72 @@ def _cache_path(key: str) -> str:
     return os.path.join(CACHE_DIR, f"{key}.svg")
 
 
+def _strip_inline_baseline(tex: str) -> str:
+    """Strip `baseline=...` options from `\\begin{tikzpicture}[…]`.
+
+    Source diagrams often use `[baseline={(0,-3.5cm)}]` so they sit at a
+    sensible vertical position when used inline next to math. In our
+    standalone compile (preview package) the baseline option causes the
+    bbox to clip parts of the drawing — anything below the baseline
+    anchor gets cropped, so a diagram with `baseline=(0,0.5)` loses its
+    lower half. Drop the option entirely; the bbox will then come from
+    the actual drawn content.
+
+    Handles `baseline=COORD`, `baseline={(...)}`, multiple options
+    separated by commas, and either single or double quotes."""
+    def repl(m):
+        opts = m.group(1)
+        # Strip `baseline = (...)` and `baseline = {...}` and bare
+        # `baseline=name` forms. Balanced-brace + balanced-paren aware.
+        out = []
+        i = 0
+        while i < len(opts):
+            if opts[i:i+8].lower() == "baseline":
+                # consume "baseline = …"
+                j = i + 8
+                while j < len(opts) and opts[j] in " \t":
+                    j += 1
+                if j < len(opts) and opts[j] == "=":
+                    j += 1
+                    while j < len(opts) and opts[j] in " \t":
+                        j += 1
+                    # consume the value
+                    if j < len(opts) and opts[j] == "{":
+                        depth = 1
+                        j += 1
+                        while j < len(opts) and depth > 0:
+                            if opts[j] == "{": depth += 1
+                            elif opts[j] == "}": depth -= 1
+                            j += 1
+                    elif j < len(opts) and opts[j] == "(":
+                        depth = 1
+                        j += 1
+                        while j < len(opts) and depth > 0:
+                            if opts[j] == "(": depth += 1
+                            elif opts[j] == ")": depth -= 1
+                            j += 1
+                    else:
+                        while j < len(opts) and opts[j] != "," and opts[j] != "]":
+                            j += 1
+                    # also skip a trailing comma
+                    if j < len(opts) and opts[j] == ",":
+                        j += 1
+                        while j < len(opts) and opts[j] in " \t":
+                            j += 1
+                    i = j
+                    continue
+            out.append(opts[i])
+            i += 1
+        cleaned = "".join(out).strip().rstrip(",").strip()
+        return f"\\begin{{tikzpicture}}[{cleaned}]" if cleaned else r"\begin{tikzpicture}"
+    return re.sub(r"\\begin\{tikzpicture\}\[([^\]]*)\]", repl, tex)
+
+
 def _wrap(snippet: str, kind: str) -> str:
     """Build a complete standalone .tex document containing the snippet."""
     snippet = snippet.strip()
     if kind == KIND_TIKZ or kind == KIND_AXIS:
-        body = snippet
+        body = _strip_inline_baseline(snippet)
     elif kind == KIND_MATH:
         body = f"\\[{snippet}\\]"
     elif kind == KIND_RAW:
@@ -251,12 +312,15 @@ def _compile(tex: str, key: str) -> str:
             )
 
         # 2. dvisvgm --no-fonts → diag.svg.
-        #    --bbox=preview uses the preview package's bbox info, which
-        #    captures simpler-wick contraction arcs that draw above the
-        #    math baseline. --exact-bbox would crop them off.
+        #    --bbox=min computes the bbox from the actually-drawn content,
+        #    which captures simpler-wick contraction arcs above the math
+        #    AND correctly bounds tikz-feynman diagrams whose vertices land
+        #    at positive y (--bbox=preview was using preview.sty's bbox,
+        #    which mis-aligned with the content for some \feynmandiagram
+        #    layouts and clipped the diagram entirely).
         env = {**os.environ, **DVISVGM_ENV}
         r = subprocess.run(
-            [DVISVGM, "--no-fonts", "--bbox=preview",
+            [DVISVGM, "--no-fonts", "--bbox=min",
              "-o", "diag.svg", "diag.dvi"],
             cwd=tmp, capture_output=True, text=True, env=env, timeout=60,
         )
