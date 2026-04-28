@@ -223,7 +223,7 @@ def _rewrite_to_currentcolor(svg: str) -> str:
     return svg
 
 
-def _rewrite_pt_to_em(svg: str) -> str:
+def _rewrite_pt_to_em(svg: str, scale: float = 0.135) -> str:
     """dvisvgm stamps the SVG with width/height in `pt`. Browsers treat
     1pt as ~1.33px (96/72), which reads small next to body text. Convert
     to `em` units pegged to the page's font-size so each diagram scales
@@ -234,18 +234,23 @@ def _rewrite_pt_to_em(svg: str) -> str:
     up by ~1.6 so the diagram reads at a comfortable on-screen size
     (matches the previous --diagram-scale 1.6 we used elsewhere).
 
-    The viewBox stays in pt so internal coordinates remain consistent."""
-    SCALE = 0.135   # pt-to-em with built-in 1.6 visual bump
+    The viewBox stays in pt so internal coordinates remain consistent.
+
+    `scale` defaults to 0.135 (diagrams: visually larger than 1pt would
+    suggest). For pre-rendered math (Wick contractions etc.) pass the
+    smaller scale 0.085 so the SVG glyphs match MathJax's CHTML height
+    exactly — otherwise Wick equations render ~1.5× taller than the
+    surrounding live math, which looks inconsistent."""
 
     def w_repl(m):
         try:
-            return f" width='{float(m.group(1)) * SCALE:.3f}em'"
+            return f" width='{float(m.group(1)) * scale:.3f}em'"
         except ValueError:
             return m.group(0)
 
     def h_repl(m):
         try:
-            return f" height='{float(m.group(1)) * SCALE:.3f}em'"
+            return f" height='{float(m.group(1)) * scale:.3f}em'"
         except ValueError:
             return m.group(0)
 
@@ -254,15 +259,10 @@ def _rewrite_pt_to_em(svg: str) -> str:
     return svg
 
 
-def _strip_pt_dimensions(svg: str) -> str:
-    """Backwards-compat shim. Call _rewrite_pt_to_em instead."""
-    return _rewrite_pt_to_em(svg)
-
-
-def _post_process(svg: str) -> str:
+def _post_process(svg: str, scale: float = 0.135) -> str:
     svg = _strip_xml_decl(svg)
     svg = _rewrite_to_currentcolor(svg)
-    svg = _strip_pt_dimensions(svg)
+    svg = _rewrite_pt_to_em(svg, scale=scale)
     return svg
 
 
@@ -338,7 +338,12 @@ def render(snippet: str, kind: str = KIND_TIKZ) -> str:
     """Render `snippet` to inline SVG, with caching.
 
     Returns the SVG markup ready to drop into HTML. On compile failure,
-    raises RuntimeError with the LaTeX log tail."""
+    raises RuntimeError with the LaTeX log tail.
+
+    Math snippets (KIND_MATH — Wick contractions, etc.) are rendered at
+    a smaller pt→em scale so their glyphs match MathJax's CHTML height.
+    Diagrams (KIND_TIKZ, KIND_AXIS) keep the larger scale so they read
+    at a comfortable on-screen size."""
     os.makedirs(CACHE_DIR, exist_ok=True)
     tex = _wrap(snippet, kind)
     key = _hash(tex)
@@ -347,7 +352,8 @@ def render(snippet: str, kind: str = KIND_TIKZ) -> str:
         with open(cache) as f:
             return f.read()
     raw = _compile(tex, key)
-    svg = _post_process(raw)
+    scale = 0.085 if kind == KIND_MATH else 0.135
+    svg = _post_process(raw, scale=scale)
     # Write atomically so a Ctrl-C mid-write doesn't poison the cache.
     tmp_path = cache + ".tmp"
     with open(tmp_path, "w") as f:

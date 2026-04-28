@@ -40,7 +40,13 @@ window.MathJax = {
       wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
       c:       ['{#1}', 1],
       mathds:  ['\\mathbb{#1}', 1],
-      Tilde:   ['\\tilde{#1}', 1]
+      Tilde:   ['\\tilde{#1}', 1],
+      // siunitx polyfill — \si{K}, \si{m\,s^{-1}} etc. should render
+      // the unit in upright math text, like \mathrm{X}. Doesn't try
+      // to mimic the full siunitx unit-formatting machinery; just
+      // unblocks the common bare-unit case in TDSP problems.
+      si: ['\\,\\mathrm{#1}', 1],
+      SI: ['#1\\,\\mathrm{#2}', 2]
       // \tensor{base}{indices} is rewritten to base^a{}_b in
       // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
       // so no runtime macro is needed here. The empty-group trick is
@@ -82,7 +88,7 @@ window.MathJax = {
   
 
   <article class="note__body">
-<p>Using the equality $\int_0^\infty e^{-x^2}\,d x
+<p>Using the equality $\int_0^\infty e^{-x^2} d x
 = \frac{1}{2}\sqrt{\pi}$, find the Laplace transform of $f(t) = t^{-1/2}$.
 By integrating around a Bromwich keyhole contour, verify the inversion formula
 for $f(t)$. What is the Laplace transform of $t^{1/2}$?</p>

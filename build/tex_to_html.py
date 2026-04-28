@@ -997,6 +997,15 @@ def transform_text(text, stash=None):
     text = re.sub(r"\\medskip\b\s*", "", text)
     text = re.sub(r"\\bigskip\b\s*", "", text)
     text = re.sub(r"\\smallskip\b\s*", "", text)
+    # \hfill is layout-only — strip in prose. (In math it'd never reach
+    # this stage since math regions are already stashed.)
+    text = re.sub(r"\\hfill\b\s*", "", text)
+    # \, is a thin space. In math (already stashed) MathJax handles it.
+    # In prose, it's a non-breaking thin space → use &nbsp; so the user
+    # gets the right visual ("100\,atm" → "100 atm").
+    text = text.replace(r"\,", " ")
+    # \: and \; are also thin/medium spaces in TeX; same treatment.
+    text = re.sub(r"\\[:;!]", " ", text)
     # font-size / font-style declarative commands (LARGE, large, Huge, ...)
     text = re.sub(r"\\(?:LARGE|Large|large|small|Huge|huge|tiny|footnotesize|normalsize|scriptsize|bf|it|sl|sc|rm|tt|sf)\b\s*",
                   "", text)
@@ -1258,7 +1267,13 @@ window.MathJax = {
       wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
       c:       ['{#1}', 1],
       mathds:  ['\\mathbb{#1}', 1],
-      Tilde:   ['\\tilde{#1}', 1]
+      Tilde:   ['\\tilde{#1}', 1],
+      // siunitx polyfill — \si{K}, \si{m\,s^{-1}} etc. should render
+      // the unit in upright math text, like \mathrm{X}. Doesn't try
+      // to mimic the full siunitx unit-formatting machinery; just
+      // unblocks the common bare-unit case in TDSP problems.
+      si: ['\\,\\mathrm{#1}', 1],
+      SI: ['#1\\,\\mathrm{#2}', 2]
       // \tensor{base}{indices} is rewritten to base^a{}_b in
       // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
       // so no runtime macro is needed here. The empty-group trick is

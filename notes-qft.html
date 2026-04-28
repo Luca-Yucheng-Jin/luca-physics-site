@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quantum Field Theory — Notes — Yucheng (Luca) Jin</title>
+<meta name="description" content="Notes catalogue: Quantum Field Theory — Peskin solved problems, Tong PS1–3, and Schwartz chapter notes.">
+
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="styles.css">
+
+<script src="assets/theme.js"></script>
+<script src="assets/font-size.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <a href="index.html" class="topbar__brand">Yucheng (Luca) Jin <small>BSc · Imperial</small></a>
+  <nav class="topbar__nav">
+    <a href="index.html">About</a>
+    <a href="notes.html" class="is-active">Notes</a>
+    <a href="research.html">Research</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+    <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" title="Decrease font size">A<span class="font-toggle__small">−</span></button>
+    <button class="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size" title="Increase font size">A<span class="font-toggle__large">+</span></button>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Toggle theme">
+      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    </button>
+  </nav>
+</header>
+<main class="page page--index">
+
+  <div class="note__breadcrumb">
+    <a href="notes.html">Notes</a> &nbsp;·&nbsp; Quantum Field Theory
+  </div>
+
+  <section class="hero">
+    <div class="hero__eyebrow">Notes · category</div>
+    <h1>Quantum Field Theory</h1>
+    <p class="hero__lede">Peskin solved problems, Tong PS1–3, and Schwartz chapter notes.</p>
+  </section>
+
+  <section class="section" id="qft">
+    <h3>Peskin &amp; Schroeder — solved problems</h3>
+    <ul class="catalogue">
+      <li class="catalogue__item">
+        <span class="catalogue__num">II.</span>
+        <span class="catalogue__main">
+          <a href="notes/peskin-6-2.html">Equivalent Photon Approximation</a>
+          <span class="catalogue__desc">Peskin &amp; Schroeder, Problem 6.2.</span>
+        </span>
+        <span class="catalogue__tag">Ch. 6</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">III.</span>
+        <span class="catalogue__main">
+          <a href="notes/peskin-7.html">Alternative Regulators in QED</a>
+          <span class="catalogue__desc">Peskin &amp; Schroeder, Chapter 7 — Pauli–Villars vs. dimensional regularization.</span>
+        </span>
+        <span class="catalogue__tag">Ch. 7</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">IV.</span>
+        <span class="catalogue__main">
+          <a href="notes/peskin-final.html">Final Project — Radiation of Gluon Jets</a>
+          <span class="catalogue__desc">Peskin &amp; Schroeder, end-of-book project.</span>
+        </span>
+        <span class="catalogue__tag">Final</span>
+      </li>
+    </ul>
+
+    <h3>Tong QFT — problem sheets</h3>
+    <ul class="catalogue">
+      <li class="catalogue__item">
+        <span class="catalogue__num">PS1.</span>
+        <span class="catalogue__main">
+          <a href="notes/tong-qft-ps1.html">Lorentz, Symmetries &amp; Currents</a>
+          <span class="catalogue__desc">SO(3), infinitesimal Lorentz, energy-momentum tensor (incl. EM field), Proca, scale invariance.</span>
+        </span>
+        <span class="catalogue__tag">Tong PS1</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">PS2.</span>
+        <span class="catalogue__main">
+          <a href="notes/tong-qft-ps2.html">Canonical Quantization &amp; the Free Scalar</a>
+          <span class="catalogue__desc">String quantization, free scalar, normal ordering, Yukawa, Wick's theorem, Feynman propagator.</span>
+        </span>
+        <span class="catalogue__tag">Tong PS2</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">PS3.</span>
+        <span class="catalogue__main">
+          <a href="notes/tong-qft-ps3.html">Dirac Field &amp; Spin-Statistics</a>
+          <span class="catalogue__desc">Clifford algebra, Lorentz from γ-matrices, traces, plane-wave spinors, canonical quantisation.</span>
+        </span>
+        <span class="catalogue__tag">Tong PS3</span>
+      </li>
+    </ul>
+
+    <h3>Schwartz — chapter notes</h3>
+    <ul class="catalogue">
+      <li class="catalogue__item">
+        <span class="catalogue__num">V.</span>
+        <span class="catalogue__main">
+          <a href="notes/schwartz-classical-field.html">Classical Field Theory</a>
+          <span class="catalogue__desc">Schwartz, Ch. 1–3 — Euler–Lagrange, Noether, Green's functions.</span>
+        </span>
+        <span class="catalogue__tag">Ch. 1–3</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">VI.</span>
+        <span class="catalogue__main">
+          <a href="notes/schwartz-second-quantization.html">Second Quantization &amp; LSZ Reduction</a>
+          <span class="catalogue__desc">Schwartz, Ch. 2–6 — from the harmonic oscillator to the S-matrix and the Feynman propagator.</span>
+        </span>
+        <span class="catalogue__tag">Ch. 2–6</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">VII.</span>
+        <span class="catalogue__main">
+          <a href="notes/schwartz-spin-1.html">Spin 1, Gauge Invariance, Photon Propagator</a>
+          <span class="catalogue__desc">Schwartz, Ch. 8–9 — quantising massless spin-1, Ward identity, scalar QED.</span>
+        </span>
+        <span class="catalogue__tag">Ch. 8–9</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">VIII.</span>
+        <span class="catalogue__main">
+          <a href="notes/schwartz-spinors.html">Spinors, Dirac Equation, CPT</a>
+          <span class="catalogue__desc">Schwartz, Ch. 10–11 — Lorentz reps, Weyl/Majorana, charge conjugation, parity, time reversal.</span>
+        </span>
+        <span class="catalogue__tag">Ch. 10–11</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">IX.</span>
+        <span class="catalogue__main">
+          <a href="notes/schwartz-qed-tree.html">QED Tree Amplitudes</a>
+          <span class="catalogue__desc">Schwartz, Ch. 13 — e+e− → μ+μ− and Rutherford scattering from the Feynman rules.</span>
+        </span>
+        <span class="catalogue__tag">Ch. 13</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">X.</span>
+        <span class="catalogue__main">
+          <a href="notes/schwartz-path-integrals.html">Path Integrals (in QFT)</a>
+          <span class="catalogue__desc">Schwartz, Ch. 14 — from QM to functional integrals over fields.</span>
+        </span>
+        <span class="catalogue__tag">Ch. 14</span>
+      </li>
+    </ul>
+  </section>
+
+  <hr class="ornament-rule">
+
+  <p style="text-align:center; font-style:italic; color:var(--muted); font-family:var(--display);">
+    <a href="notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="index.html">About</a> ·
+    <a href="research.html">Research</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>

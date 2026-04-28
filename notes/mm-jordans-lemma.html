@@ -40,7 +40,13 @@ window.MathJax = {
       wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
       c:       ['{#1}', 1],
       mathds:  ['\\mathbb{#1}', 1],
-      Tilde:   ['\\tilde{#1}', 1]
+      Tilde:   ['\\tilde{#1}', 1],
+      // siunitx polyfill — \si{K}, \si{m\,s^{-1}} etc. should render
+      // the unit in upright math text, like \mathrm{X}. Doesn't try
+      // to mimic the full siunitx unit-formatting machinery; just
+      // unblocks the common bare-unit case in TDSP problems.
+      si: ['\\,\\mathrm{#1}', 1],
+      SI: ['#1\\,\\mathrm{#2}', 2]
       // \tensor{base}{indices} is rewritten to base^a{}_b in
       // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
       // so no runtime macro is needed here. The empty-group trick is
@@ -87,7 +93,7 @@ $g(z)\to 0$ uniformly on the upper half-plane as $|z|\to\infty$, i.e.
 \[\max_{\theta\in[0,\pi]}|g(Re^{i\theta})| \to 0 \quad \text{as } R\to\infty,
     \tag{1.1}\]
 then the integral over the upper semicircular arc $\mathcal{C}_R =
-\{z = Re^{i\theta},\, \theta\in[0,\pi]\}$ vanishes:
+\{z = Re^{i\theta},  \theta\in[0,\pi]\}$ vanishes:
 \[\lim_{R\to\infty}\int_{\mathcal{C}_R}f(z)\,dz = 0.\tag{1.2}\]
 Find an upper bound for $\left|\int_{\mathcal{C}_R}f(z)\,dz\right|$ and
 give an example of a class of functions $g$ satisfying (1.1).</p>
