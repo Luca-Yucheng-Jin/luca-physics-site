@@ -40,7 +40,13 @@ window.MathJax = {
       wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
       c:       ['{#1}', 1],
       mathds:  ['\\mathbb{#1}', 1],
-      Tilde:   ['\\tilde{#1}', 1]
+      Tilde:   ['\\tilde{#1}', 1],
+      // siunitx polyfill — \si{K}, \si{m\,s^{-1}} etc. should render
+      // the unit in upright math text, like \mathrm{X}. Doesn't try
+      // to mimic the full siunitx unit-formatting machinery; just
+      // unblocks the common bare-unit case in TDSP problems.
+      si: ['\\,\\mathrm{#1}', 1],
+      SI: ['#1\\,\\mathrm{#2}', 2]
       // \tensor{base}{indices} is rewritten to base^a{}_b in
       // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
       // so no runtime macro is needed here. The empty-group trick is
@@ -84,17 +90,17 @@ window.MathJax = {
   <article class="note__body">
 <p>One gram of pure solid water starts with a temperature and a
 pressure both slightly below the triple point of water. The water is compressed
-adiabatically to a pressure of 100\,atm. At 1\,atm, the water is found to lie
+adiabatically to a pressure of 100 atm. At 1 atm, the water is found to lie
 on the solid--liquid coexistence curve.</p>
 
 <p>You may use the data given at the end of this question.</p>
 
 <ol>
   <li>Explain what happens as the pressure increases from the starting point
-    to 100\,atm and sketch the process on a $PT$ diagram (phase diagram).
-    \hfill [8 marks]</li>
+    to 100 atm and sketch the process on a $PT$ diagram (phase diagram).
+    [8 marks]</li>
   <li>Calculate the change in temperature as the pressure increases from
-    1\,atm to 100\,atm. \hfill [7 marks]</li>
+    1 atm to 100 atm. [7 marks]</li>
   <li>Writing entropy as a function of $T$ and $P$, show that for a single
     phase,
 
@@ -102,8 +108,8 @@ on the solid--liquid coexistence curve.</p>
 
 <p>where $C_P$ is the heat capacity at constant pressure and $\beta$ is the
     thermal expansivity. Hence, for the adiabatic compression, estimate what
-    fraction of the water is in the liquid phase at 100\,atm. Comment on any
-    assumptions. \hfill [10 marks]</li>
+    fraction of the water is in the liquid phase at 100 atm. Comment on any
+    assumptions. [10 marks]</li>
 </ol></p>
 
 <p>You may assume the following for water:</p>
@@ -121,7 +127,7 @@ on the solid--liquid coexistence curve.</p>
 </ul>
 
 <p>(Note: $1\,\mathrm{atm} = 1.01\times10^{5}\,\mathrm{Pa}$.)
-\hfill [Total 25 marks]</p>
+[Total 25 marks]</p>
 
 <aside class="solution">
 
