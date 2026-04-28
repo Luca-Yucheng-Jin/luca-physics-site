@@ -915,20 +915,13 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
 }
 .note figure.tikz-figure svg {
   color: var(--ink);
-  /* dvisvgm strips width/height; SVG sizes via viewBox. We set the
-     visual width here so diagrams read at a comfortable size relative
-     to body text, capped to the column width. height auto preserves
-     aspect ratio. */
-  width: var(--diagram-w, auto);
-  height: auto;
+  /* SVG carries its natural width/height in `em` units (build/svg_render
+     bakes `pt × 0.135 em` into each SVG so it scales with the user's
+     font-size while keeping LaTeX-faithful proportions). The cap below
+     prevents wide diagrams from overflowing on small screens. */
   max-width: 100%;
+  height: auto;
 }
-/* Default sizing: full diagrams take ~28em (~half a normal column);
-   small inline diagrams in equation-rows are scaled down so they
-   don't dominate the row. The renderer puts a `data-diagram-size`
-   attribute on each figure if you ever need per-diagram tuning. */
-.note figure.tikz-figure { --diagram-w: 28em; }
-.equation-row figure.tikz-figure { --diagram-w: 14em; }
 
 /* Wick-contraction equations are pre-rendered to SVG (simpler-wick is
    not supported by MathJax). The figure sits in the document flow like
@@ -945,7 +938,7 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
 }
 .note figure.wick-figure svg {
   color: var(--ink);
-  width: var(--diagram-w, 32em);
+  /* SVG carries its natural em-based width — same scheme as tikz-figure. */
   max-width: 100%;
   height: auto;
 }

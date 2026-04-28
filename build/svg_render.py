@@ -149,26 +149,53 @@ def _rewrite_to_currentcolor(svg: str) -> str:
         r"(stroke|fill)=(['\"])(#[0-9a-fA-F]{3,6}|black|none)\2",
         repl, svg,
     )
-    # Inject a <style> block so paths without an explicit fill default to
-    # currentColor. The :not([fill]) selector means any path that already
-    # carries its own fill (gluon hatch, arrow with a colored fill) keeps it.
-    style = (
-        "<style>"
-        "path:not([fill]):not([stroke]){fill:currentColor;}"
-        "</style>"
-    )
-    svg = re.sub(r"(<svg\b[^>]*>)", r"\1" + style, svg, count=1)
+    # Set `fill='currentColor'` on the SVG root. `fill` is an inheritable
+    # SVG presentation attribute, so every descendant element (path, rect,
+    # polygon, …) without an EXPLICIT `fill` attribute inherits it. This
+    # covers fraction bars (rendered as <rect> by dvisvgm), arrow markers
+    # (bare <path d=…Z/>), character glyphs (<path id=g0-…>), and any
+    # other shape we don't enumerate. Elements with explicit fills
+    # (blob hatching url(#pat0-…), the blue worldline, orange light-cone
+    # dashes) keep their original color because explicit attributes
+    # override inherited ones.
+    svg = re.sub(r"(<svg\b)", r"\1 fill='currentColor'", svg, count=1)
+    return svg
+
+
+def _rewrite_pt_to_em(svg: str) -> str:
+    """dvisvgm stamps the SVG with width/height in `pt`. Browsers treat
+    1pt as ~1.33px (96/72), which reads small next to body text. Convert
+    to `em` units pegged to the page's font-size so each diagram scales
+    with the user's text-size preference and stays at the same visual
+    weight as the surrounding prose.
+
+    Conversion factor: 1pt ≈ 0.085em at the LaTeX 12pt baseline, scaled
+    up by ~1.6 so the diagram reads at a comfortable on-screen size
+    (matches the previous --diagram-scale 1.6 we used elsewhere).
+
+    The viewBox stays in pt so internal coordinates remain consistent."""
+    SCALE = 0.135   # pt-to-em with built-in 1.6 visual bump
+
+    def w_repl(m):
+        try:
+            return f" width='{float(m.group(1)) * SCALE:.3f}em'"
+        except ValueError:
+            return m.group(0)
+
+    def h_repl(m):
+        try:
+            return f" height='{float(m.group(1)) * SCALE:.3f}em'"
+        except ValueError:
+            return m.group(0)
+
+    svg = re.sub(r"\s+width=['\"]([\d.]+)pt['\"]", w_repl, svg, count=1)
+    svg = re.sub(r"\s+height=['\"]([\d.]+)pt['\"]", h_repl, svg, count=1)
     return svg
 
 
 def _strip_pt_dimensions(svg: str) -> str:
-    """dvisvgm stamps the SVG with width='Npt' height='Mpt' attributes,
-    which cap the rendered size at the natural LaTeX point dimensions
-    (≈1.33px per pt) — too small next to body text. Strip them so the
-    SVG sizes purely via the viewBox + a CSS-controlled width."""
-    svg = re.sub(r"\s+width=(['\"])[\d.]+pt\1", "", svg, count=1)
-    svg = re.sub(r"\s+height=(['\"])[\d.]+pt\1", "", svg, count=1)
-    return svg
+    """Backwards-compat shim. Call _rewrite_pt_to_em instead."""
+    return _rewrite_pt_to_em(svg)
 
 
 def _post_process(svg: str) -> str:
