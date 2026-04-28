@@ -286,10 +286,10 @@ def _rewrite_tensor(body):
         i = j + 1                                 # past closing brace of arg2
         # Walk indices, inserting {} between consecutive script operators
         rewritten = base + _split_tensor_indices(indices)
-        # If the base starts with a letter and we're emerging at the end
-        # of a control word (e.g. `\delta\tensor{R}{…}`), the substitution
-        # would glue `R` onto `\delta` and form the bogus macro `\deltaR`.
-        # Insert `{}` to terminate the preceding control word.
+        # Leading-edge fix: if the base starts with a letter and we're
+        # emerging at the end of a control word (e.g. `\delta\tensor{R}{…}`),
+        # the substitution would glue `R` onto `\delta` and form the bogus
+        # macro `\deltaR`. Insert `{}` to terminate the preceding word.
         if rewritten and rewritten[0].isalpha():
             prev = "".join(out)
             if prev:
@@ -298,6 +298,17 @@ def _rewrite_tensor(body):
                     k -= 1
                 if k >= 0 and prev[k] == "\\":
                     rewritten = "{}" + rewritten
+        # Trailing-edge fix: if the rewrite ends with a control word
+        # (e.g. last index was `^\nu`, so output ends `…\nu`) AND the
+        # next source character after the original \tensor{}{…} is a
+        # letter, the two glue together (`\nu` + `x` → `\nux`).
+        # Append `{}` to terminate the trailing control word.
+        if i < len(body) and body[i].isalpha():
+            k = len(rewritten) - 1
+            while k >= 0 and rewritten[k].isalpha():
+                k -= 1
+            if k >= 0 and rewritten[k] == "\\":
+                rewritten = rewritten + "{}"
         out.append(rewritten)
     return "".join(out)
 

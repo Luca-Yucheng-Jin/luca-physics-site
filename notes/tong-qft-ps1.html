@@ -135,7 +135,7 @@ is a Lorentz transformation when $\omega^{\mu\nu}$ is antisymmetric: i.e.\ $\ome
 <aside class="solution">
 
 <p>Substitute the Lorentz transformation into the metric preserving statement, we find
-    \[\eta_{\mu\nu}x^\mu x^\nu = \eta_{\sigma\tau}\Lambda^\sigma{}_\mu\Lambda^\tau{}_\nux^\mu x^\nu \implies \eta_{\mu\nu} = \eta_{\sigma\tau}\Lambda^\sigma{}_\mu\Lambda^\tau{}_\nu.\tag{2.3}\]
+    \[\eta_{\mu\nu}x^\mu x^\nu = \eta_{\sigma\tau}\Lambda^\sigma{}_\mu\Lambda^\tau{}_\nu{}x^\mu x^\nu \implies \eta_{\mu\nu} = \eta_{\sigma\tau}\Lambda^\sigma{}_\mu\Lambda^\tau{}_\nu.\tag{2.3}\]
     For an infinitesimal transformation of the form, it needs to satisfy the above equality
     \[\eta_{\mu\nu} = \eta_{\sigma\tau}(\delta^\sigma{}_\mu + \omega^\sigma{}_\mu)(\delta^\tau{}_\nu + \omega^\tau{}_\nu) = \eta_{\mu\nu} + \omega_{\nu\mu} + \omega_{\mu\nu} + \order{\omega^2}.\tag{2.4}\]
     Therefore, we require $\omega_{\mu\nu} + \omega_{\nu\mu} = 0$, i.e.\ $\omega^{\mu\nu} = -\omega^{\nu\mu}$.</p>
@@ -198,7 +198,7 @@ and interpret this equation.</p>
 <aside class="solution">
 
 <p>Under an infinitesimal Lorentz transformation, the scalar field transforms as
-    \[\phi(x) \to \phi'(x) =  \phi(\Lambda^{-1}x) = \phi(x^\mu - \omega^\mu{}_\nux^\nu) = \phi(x) - \omega^\mu{}_\nux^\nu\partial_\nu\phi(x).\tag{3.6}\]
+    \[\phi(x) \to \phi'(x) =  \phi(\Lambda^{-1}x) = \phi(x^\mu - \omega^\mu{}_\nu{}x^\nu) = \phi(x) - \omega^\mu{}_\nu{}x^\nu\partial_\nu\phi(x).\tag{3.6}\]
     Since the Lagrangian is a scalar, it must transform in the same way as the free scalar field, that is
     \[\delta\mathcal{L} = -\partial_\mu(\omega^\mu{}_\nu\, x^\nu\, \mathcal{L}).\tag{3.7}\]
     For a Lorentz invariant Lagrangian, the conserved current is given by
