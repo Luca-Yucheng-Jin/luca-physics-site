@@ -285,7 +285,20 @@ def _rewrite_tensor(body):
         indices = body[start:j]
         i = j + 1                                 # past closing brace of arg2
         # Walk indices, inserting {} between consecutive script operators
-        out.append(base + _split_tensor_indices(indices))
+        rewritten = base + _split_tensor_indices(indices)
+        # If the base starts with a letter and we're emerging at the end
+        # of a control word (e.g. `\delta\tensor{R}{…}`), the substitution
+        # would glue `R` onto `\delta` and form the bogus macro `\deltaR`.
+        # Insert `{}` to terminate the preceding control word.
+        if rewritten and rewritten[0].isalpha():
+            prev = "".join(out)
+            if prev:
+                k = len(prev) - 1
+                while k >= 0 and prev[k].isalpha():
+                    k -= 1
+                if k >= 0 and prev[k] == "\\":
+                    rewritten = "{}" + rewritten
+        out.append(rewritten)
     return "".join(out)
 
 
