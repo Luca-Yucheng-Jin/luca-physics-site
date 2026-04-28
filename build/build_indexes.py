@@ -108,11 +108,12 @@ def roman(n: int) -> str:
 
 CATEGORIES = [
     {
-        "slug": "essays",
-        "title": "Long-form essays",
-        "blurb": "Sustained essays that develop one idea start-to-finish.",
-        "tag": "1 essay",
-        "body": """    <ul class="catalogue">
+        "slug": "qft",
+        "title": "Quantum Field Theory",
+        "blurb": "Path-integral essay, Peskin and Tong solutions, Schwartz chapter notes.",
+        "tag": "13 entries",
+        "body": """    <h3>Papers</h3>
+    <ul class="catalogue">
       <li class="catalogue__item">
         <span class="catalogue__num">I.</span>
         <span class="catalogue__main">
@@ -121,43 +122,34 @@ CATEGORIES = [
         </span>
         <span class="catalogue__tag">Essay</span>
       </li>
-    </ul>""",
-    },
-    {
-        "slug": "qft",
-        "title": "Quantum Field Theory",
-        "blurb": "Peskin solved problems, Tong PS1–3, and Schwartz chapter notes.",
-        "tag": "12 notes",
-        "body": """    <h3>Peskin &amp; Schroeder — solved problems</h3>
+    </ul>
+
+    <h3>Solutions</h3>
     <ul class="catalogue">
       <li class="catalogue__item">
-        <span class="catalogue__num">II.</span>
+        <span class="catalogue__num">I.</span>
         <span class="catalogue__main">
           <a href="notes/peskin-6-2.html">Equivalent Photon Approximation</a>
           <span class="catalogue__desc">Peskin &amp; Schroeder, Problem 6.2.</span>
         </span>
-        <span class="catalogue__tag">Ch. 6</span>
+        <span class="catalogue__tag">Peskin Ch. 6</span>
       </li>
       <li class="catalogue__item">
-        <span class="catalogue__num">III.</span>
+        <span class="catalogue__num">II.</span>
         <span class="catalogue__main">
           <a href="notes/peskin-7.html">Alternative Regulators in QED</a>
           <span class="catalogue__desc">Peskin &amp; Schroeder, Chapter 7 — Pauli–Villars vs. dimensional regularization.</span>
         </span>
-        <span class="catalogue__tag">Ch. 7</span>
+        <span class="catalogue__tag">Peskin Ch. 7</span>
       </li>
       <li class="catalogue__item">
-        <span class="catalogue__num">IV.</span>
+        <span class="catalogue__num">III.</span>
         <span class="catalogue__main">
           <a href="notes/peskin-final.html">Final Project — Radiation of Gluon Jets</a>
           <span class="catalogue__desc">Peskin &amp; Schroeder, end-of-book project.</span>
         </span>
-        <span class="catalogue__tag">Final</span>
+        <span class="catalogue__tag">Peskin Final</span>
       </li>
-    </ul>
-
-    <h3>Tong QFT — problem sheets</h3>
-    <ul class="catalogue">
       <li class="catalogue__item">
         <span class="catalogue__num">PS1.</span>
         <span class="catalogue__main">
@@ -184,55 +176,55 @@ CATEGORIES = [
       </li>
     </ul>
 
-    <h3>Schwartz — chapter notes</h3>
+    <h3>Notes</h3>
     <ul class="catalogue">
       <li class="catalogue__item">
-        <span class="catalogue__num">V.</span>
+        <span class="catalogue__num">I.</span>
         <span class="catalogue__main">
           <a href="notes/schwartz-classical-field.html">Classical Field Theory</a>
           <span class="catalogue__desc">Schwartz, Ch. 1–3 — Euler–Lagrange, Noether, Green's functions.</span>
         </span>
-        <span class="catalogue__tag">Ch. 1–3</span>
+        <span class="catalogue__tag">Schwartz Ch. 1–3</span>
       </li>
       <li class="catalogue__item">
-        <span class="catalogue__num">VI.</span>
+        <span class="catalogue__num">II.</span>
         <span class="catalogue__main">
           <a href="notes/schwartz-second-quantization.html">Second Quantization &amp; LSZ Reduction</a>
           <span class="catalogue__desc">Schwartz, Ch. 2–6 — from the harmonic oscillator to the S-matrix and the Feynman propagator.</span>
         </span>
-        <span class="catalogue__tag">Ch. 2–6</span>
+        <span class="catalogue__tag">Schwartz Ch. 2–6</span>
       </li>
       <li class="catalogue__item">
-        <span class="catalogue__num">VII.</span>
+        <span class="catalogue__num">III.</span>
         <span class="catalogue__main">
           <a href="notes/schwartz-spin-1.html">Spin 1, Gauge Invariance, Photon Propagator</a>
           <span class="catalogue__desc">Schwartz, Ch. 8–9 — quantising massless spin-1, Ward identity, scalar QED.</span>
         </span>
-        <span class="catalogue__tag">Ch. 8–9</span>
+        <span class="catalogue__tag">Schwartz Ch. 8–9</span>
       </li>
       <li class="catalogue__item">
-        <span class="catalogue__num">VIII.</span>
+        <span class="catalogue__num">IV.</span>
         <span class="catalogue__main">
           <a href="notes/schwartz-spinors.html">Spinors, Dirac Equation, CPT</a>
           <span class="catalogue__desc">Schwartz, Ch. 10–11 — Lorentz reps, Weyl/Majorana, charge conjugation, parity, time reversal.</span>
         </span>
-        <span class="catalogue__tag">Ch. 10–11</span>
+        <span class="catalogue__tag">Schwartz Ch. 10–11</span>
       </li>
       <li class="catalogue__item">
-        <span class="catalogue__num">IX.</span>
+        <span class="catalogue__num">V.</span>
         <span class="catalogue__main">
           <a href="notes/schwartz-qed-tree.html">QED Tree Amplitudes</a>
           <span class="catalogue__desc">Schwartz, Ch. 13 — e+e− → μ+μ− and Rutherford scattering from the Feynman rules.</span>
         </span>
-        <span class="catalogue__tag">Ch. 13</span>
+        <span class="catalogue__tag">Schwartz Ch. 13</span>
       </li>
       <li class="catalogue__item">
-        <span class="catalogue__num">X.</span>
+        <span class="catalogue__num">VI.</span>
         <span class="catalogue__main">
           <a href="notes/schwartz-path-integrals.html">Path Integrals (in QFT)</a>
           <span class="catalogue__desc">Schwartz, Ch. 14 — from QM to functional integrals over fields.</span>
         </span>
-        <span class="catalogue__tag">Ch. 14</span>
+        <span class="catalogue__tag">Schwartz Ch. 14</span>
       </li>
     </ul>""",
     },
@@ -241,7 +233,8 @@ CATEGORIES = [
         "title": "General Relativity & Beyond",
         "blurb": "Brans–Dicke, 11d supergravity, and PSI QFT II finite-temperature correlators.",
         "tag": "3 notes",
-        "body": """    <ul class="catalogue">
+        "body": """    <h3>Solutions</h3>
+    <ul class="catalogue">
       <li class="catalogue__item">
         <span class="catalogue__num">α.</span>
         <span class="catalogue__main">
@@ -273,7 +266,8 @@ CATEGORIES = [
         "title": "Quantum Mechanics",
         "blurb": "Bound-state existence, parity arguments, factorisation method.",
         "tag": "3 notes",
-        "body": """    <ul class="catalogue">
+        "body": """    <h3>Solutions</h3>
+    <ul class="catalogue">
       <li class="catalogue__item">
         <span class="catalogue__num">XI.</span>
         <span class="catalogue__main">
@@ -305,7 +299,8 @@ CATEGORIES = [
         "title": "Electrodynamics",
         "blurb": "Tong EM problem-sheet selections — radiation, Liénard–Wiechert, dielectric boundaries.",
         "tag": "8 notes",
-        "body": """    <ul class="catalogue">
+        "body": """    <h3>Solutions</h3>
+    <ul class="catalogue">
       <li class="catalogue__item">
         <span class="catalogue__num">XIV.</span>
         <span class="catalogue__main">
@@ -377,7 +372,8 @@ CATEGORIES = [
         "title": "Mathematical Methods",
         "blurb": "Complex methods (Santos PS), Cambridge variational principles.",
         "tag": "6 notes",
-        "body": """    <ul class="catalogue">
+        "body": """    <h3>Solutions</h3>
+    <ul class="catalogue">
       <li class="catalogue__item">
         <span class="catalogue__num">XXII.</span>
         <span class="catalogue__main">
@@ -433,7 +429,8 @@ CATEGORIES = [
         "title": "Differential Equations",
         "blurb": "Green's-function and method-of-images problems.",
         "tag": "3 notes",
-        "body": """    <ul class="catalogue">
+        "body": """    <h3>Solutions</h3>
+    <ul class="catalogue">
       <li class="catalogue__item">
         <span class="catalogue__num">XXVIII.</span>
         <span class="catalogue__main">
@@ -465,7 +462,8 @@ CATEGORIES = [
         "title": "Thermodynamics & Statistical Physics",
         "blurb": "Joule–Thomson, water near the triple point, partition functions.",
         "tag": "4 notes",
-        "body": """    <ul class="catalogue">
+        "body": """    <h3>Solutions</h3>
+    <ul class="catalogue">
       <li class="catalogue__item">
         <span class="catalogue__num">XXXI.</span>
         <span class="catalogue__main">
