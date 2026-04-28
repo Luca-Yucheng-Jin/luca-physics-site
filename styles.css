@@ -22,11 +22,6 @@
   --accent-line:  rgba(107, 31, 31, 0.25);
   --highlight:    #b08732;          /* old gold */
   --callout-bg:   #fdf5dc;
-  /* Solution boxes match the user's elegantphys.sty preamble:
-     light-blue tcolorbox with a 3pt dark-gray left bar and an inline
-     bold "Solution." label. Colours mirrored 1:1. */
-  --solution-bg:  #e1ebf8;     /* RGB(225, 235, 248) per elegantphys.sty */
-  --solution-bar: #3c3c3c;     /* RGB(60, 60, 60) — darkgray */
   --shadow:       0 1px 2px rgba(20, 17, 13, 0.04);
   --shadow-soft:  0 6px 24px -12px rgba(20, 17, 13, 0.18);
 
@@ -70,8 +65,6 @@
   --accent-line:  rgba(214, 138, 110, 0.32);
   --highlight:    #d4a857;          /* lit gold */
   --callout-bg:   #2a2218;
-  --solution-bg:  #1c2230;        /* deeper blue for dark theme */
-  --solution-bar: #8c8170;        /* lighter bar so it shows on dark bg */
   --shadow:       0 1px 2px rgba(0, 0, 0, 0.4);
   --shadow-soft:  0 8px 28px -14px rgba(0, 0, 0, 0.6);
 }
@@ -1054,63 +1047,57 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
   .note__toc-list { columns: 1; }
 }
 
-/* tcolorbox callouts — yellow-paper aside boxes for highlighted derivations */
+/* tcolorbox callouts — warm-paper aside boxes for highlighted derivations. */
 .note aside.callout {
   background: var(--callout-bg);
-  border-left: 3px solid var(--highlight);
-  border-radius: var(--rad);
-  padding: 1rem 1.4rem;
+  border-left: 2px solid var(--highlight);
+  border-radius: 0;
+  padding: 0.85rem 1.2rem;
   margin: 1.5rem 0;
   color: var(--ink);
 }
 .note aside.callout > :first-child { margin-top: 0; }
 .note aside.callout > :last-child  { margin-bottom: 0; }
 
-/* Boxed-equation environments — wraps \begin{shaded} and the
-   \boxedeq{X} command from elegantphys.sty. lightgray bg, thin black
-   frame, sharp corners. Used to highlight key results like the
-   Euler-Lagrange equation or the Noether current. */
+/* Boxed-equation environments — saturated warm-accent tint as fill, no
+   border. The deeper colour gives the result presence without harsh
+   lines, distinct from the lighter callout fill. */
 .note aside.boxed-equation {
-  background: var(--callout-bg);    /* lightgray-ish in light mode */
-  border: 0.8px solid var(--ink);
+  background: color-mix(in srgb, var(--accent) 15%, var(--paper));
+  border: none;
   border-radius: 0;
-  padding: 0.4rem 1rem;
-  margin: 1.4rem 0;
+  padding: 0.8rem 1.4rem;
+  margin: 1.6rem auto;
+  width: fit-content;
+  max-width: 100%;
   color: var(--ink);
-}
-[data-theme="dark"] .note aside.boxed-equation {
-  background: var(--paper-shade);
-  border-color: var(--ink-soft);
+  text-align: center;
 }
 .note aside.boxed-equation > :first-child { margin-top: 0; }
 .note aside.boxed-equation > :last-child  { margin-bottom: 0; }
 .note aside.boxed-equation .equation-row { margin: 0.4rem 0; }
 .note aside.boxed-equation mjx-container[display="true"] { margin: 0 !important; }
 
-/* Solution environments — match the user's elegantphys.sty:
-   light-blue tcolorbox, sharp corners, 3pt dark-gray left bar, and an
-   inline bold "Solution." label that floats next to the first line of
-   prose (no separate header line). */
+/* Solution environments — refined warm-paper variant of elegantphys.sty's
+   tcolorbox. Cream fill ties into the rest of the palette; thin oxblood
+   left bar and italicised "Solution." label match the accent. */
 .note aside.solution {
-  background: var(--solution-bg);
-  border-left: 3px solid var(--solution-bar);
-  border-radius: 0;          /* sharp corners — `sharp corners` in basestyle */
-  padding: 0.5rem 0.7rem;    /* mirrors left=8pt right=8pt top=5pt bottom=5pt */
+  background: var(--paper-deep);
+  border-left: 2px solid var(--accent);
+  border-radius: 0;
+  padding: 0.7rem 1.1rem;
   margin: 1.2rem 0;
   color: var(--ink);
 }
 .note aside.solution > :first-child { margin-top: 0; }
 .note aside.solution > :last-child  { margin-bottom: 0; }
-/* The "Solution." prefix from \begin{solution}'s definition in
-   elegantphys.sty is `\noindent\textbf{Solution.}\quad`, i.e. inline
-   bold + 1-em horizontal space. Reproduce by floating the label
-   before the first paragraph; subsequent lines flow normally. */
 .note aside.solution::before {
   content: "Solution.";
-  font-weight: 700;
+  font-style: italic;
+  font-weight: 600;
   margin-right: 0.6em;
   float: left;
-  color: var(--ink);
+  color: var(--accent);
 }
 
 /* tabular tables */
