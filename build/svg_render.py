@@ -124,7 +124,20 @@ def _strip_xml_decl(svg: str) -> str:
 def _rewrite_to_currentcolor(svg: str) -> str:
     """Swap hardcoded black strokes/fills for currentColor so the SVG inherits
     the page's text color in both light and dark mode. Leave non-black colors
-    (e.g. tikz-feynman patterns, intentional gray fills) untouched.
+    (e.g. tikz-feynman patterns, intentional gray/blue/red fills) untouched.
+
+    Two passes:
+
+    (a) Explicit attributes — substitute `fill='#000'` / `stroke='#000'` etc.
+        with currentColor so colored elements stay colored.
+
+    (b) Bare paths — character glyphs from `\\node {$x$}` come out as
+        `<path id='g0-...'>` and arrow markers as `<path d='...Z'/>` with
+        NO fill or stroke attribute. SVG's spec defaults `fill` to black
+        for those, which is invisible against a dark-mode background. We
+        inject a `<style>` block at the top of the SVG that sets
+        `path { fill: currentColor; stroke-width: ... }` as the default,
+        and lets explicit `fill=` attributes win via specificity.
 
     dvisvgm emits attributes with single quotes by default — handle both."""
     def repl(m):
@@ -132,10 +145,20 @@ def _rewrite_to_currentcolor(svg: str) -> str:
         if val in ("#000", "#000000", "black"):
             return f'{attr}={q}currentColor{q}'
         return m.group(0)
-    return re.sub(
+    svg = re.sub(
         r"(stroke|fill)=(['\"])(#[0-9a-fA-F]{3,6}|black|none)\2",
         repl, svg,
     )
+    # Inject a <style> block so paths without an explicit fill default to
+    # currentColor. The :not([fill]) selector means any path that already
+    # carries its own fill (gluon hatch, arrow with a colored fill) keeps it.
+    style = (
+        "<style>"
+        "path:not([fill]):not([stroke]){fill:currentColor;}"
+        "</style>"
+    )
+    svg = re.sub(r"(<svg\b[^>]*>)", r"\1" + style, svg, count=1)
+    return svg
 
 
 def _strip_pt_dimensions(svg: str) -> str:

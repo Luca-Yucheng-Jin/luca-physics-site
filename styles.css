@@ -35,11 +35,14 @@
   --body:    'EB Garamond', Garamond, 'Times New Roman', serif;
   --mono:    'JetBrains Mono', 'Courier New', monospace;
 
-  /* layout */
+  /* layout — measures in `ch` so text column scales with font.
+     --measure-wide is generous (170ch) for the math notes so display
+     equations like Schwartz P^μ derivations fit without overflowing
+     onto a horizontal scrollbar on most desktop viewports. */
   --measure: 92ch;
   --measure-narrow: 60ch;
-  --measure-wide: 140ch;
-  --gutter: clamp(1rem, 3vw, 4rem);
+  --measure-wide: 170ch;
+  --gutter: clamp(0.6rem, 2vw, 2.5rem);
   --rad: 2px;
 
   /* User-controlled multiplier on the root font-size, persisted in
@@ -1145,12 +1148,25 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
   font-size: 0.85rem;
 }
 
-/* MathJax tweaks: keep displays from overflowing on phones */
+/* MathJax tweaks: keep displays from overflowing on phones. MathJax sets
+   an inline `min-width: <natural-em>` on display containers — that's
+   the equation's intrinsic width — which beats our cascade `min-width: 0`
+   without `!important`. With it, a too-wide equation gets a horizontal
+   scrollbar inside its container instead of pushing the page sideways. */
 mjx-container[display="true"] {
   margin: 1.4rem 0 !important;
   overflow-x: auto;
   overflow-y: hidden;
   max-width: 100%;
+  min-width: 0 !important;
+}
+/* Asides containing math also need to allow horizontal scroll for any
+   single equation that's still wider than the column on small screens. */
+.note aside.solution,
+.note aside.boxed-equation,
+.note aside.callout {
+  overflow-x: auto;
+  min-width: 0;
 }
 
 /* ---------- Decorative Feynman ornaments ---------- */
