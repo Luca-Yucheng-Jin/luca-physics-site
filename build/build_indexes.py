@@ -641,10 +641,72 @@ def _renumber_body(body: str) -> str:
                    renumber_one_ul, body, flags=_re.DOTALL)
 
 
+# Parser used to derive the runtime nav manifest (assets/nav-manifest.json)
+# consumed by theme.js to build the site-wide navigator, breadcrumb links,
+# and prev/next pager. The category bodies above are the single source of
+# truth, so we read them rather than maintaining a parallel list.
+_GROUP_RE = _re.compile(
+    r'(?:<h3>([^<]+)</h3>\s*)?<ul class="catalogue">(.*?)</ul>',
+    _re.DOTALL,
+)
+_ITEM_RE = _re.compile(
+    r'<li class="catalogue__item">\s*'
+    r'<span class="catalogue__num">([^<]+)</span>\s*'
+    r'<span class="catalogue__main">\s*'
+    r'<a href="([^"]+)">(.*?)</a>\s*'
+    r'<span class="catalogue__desc">(.*?)</span>\s*'
+    r'</span>\s*'
+    r'<span class="catalogue__tag">(.*?)</span>\s*'
+    r'</li>',
+    _re.DOTALL,
+)
+
+
+def _extract_groups(body: str):
+    groups = []
+    for gm in _GROUP_RE.finditer(body):
+        group_title = (gm.group(1) or "").strip()
+        notes = []
+        for im in _ITEM_RE.finditer(gm.group(2)):
+            label, href, title, desc, tag = im.groups()
+            notes.append({
+                "href":  href.strip(),
+                "title": title.strip(),
+                "label": label.strip(),
+                "desc":  desc.strip(),
+                "tag":   tag.strip(),
+            })
+        if notes:
+            groups.append({"title": group_title, "notes": notes})
+    return groups
+
+
+def write_manifest(categories: list[dict]) -> None:
+    import json
+    data = {
+        "categories": [
+            {
+                "slug":   cat["slug"],
+                "title":  cat["title"],
+                "blurb":  cat["blurb"],
+                "tag":    cat["tag"],
+                "groups": _extract_groups(cat["body"]),
+            }
+            for cat in categories
+        ],
+    }
+    out = os.path.join(ROOT, "assets", "nav-manifest.json")
+    with open(out, "w") as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
+    print(f"  wrote assets/nav-manifest.json ({len(data['categories'])} categories)")
+
+
 def main():
     # Per-category pages
+    rendered = []
     for cat in CATEGORIES:
         cat = {**cat, "body": _renumber_body(cat["body"])}
+        rendered.append(cat)
         path = os.path.join(ROOT, f"notes-{cat['slug']}.html")
         with open(path, "w") as f:
             f.write(category_page(cat))
@@ -653,8 +715,11 @@ def main():
     # Top-level overview
     top = os.path.join(ROOT, "notes.html")
     with open(top, "w") as f:
-        f.write(top_index_page(CATEGORIES))
-    print(f"  wrote notes.html (overview, {len(CATEGORIES)} categories)")
+        f.write(top_index_page(rendered))
+    print(f"  wrote notes.html (overview, {len(rendered)} categories)")
+
+    # Runtime nav manifest used by theme.js
+    write_manifest(rendered)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,392 @@
+{
+  "categories": [
+    {
+      "slug": "qft",
+      "title": "Quantum Field Theory",
+      "blurb": "Path-integral essay, Peskin and Tong solutions, Schwartz chapter notes.",
+      "tag": "14 entries",
+      "groups": [
+        {
+          "title": "Papers",
+          "notes": [
+            {
+              "href": "notes/path-integral.html",
+              "title": "Path Integrals and the Quantum–Statistical Correspondence",
+              "label": "I.",
+              "desc": "Imperial Year-2 essay — Feynman's path integral, Wick rotation, and the partition function.",
+              "tag": "Essay"
+            }
+          ]
+        },
+        {
+          "title": "Solutions",
+          "notes": [
+            {
+              "href": "notes/peskin-6-2.html",
+              "title": "Equivalent Photon Approximation",
+              "label": "I.",
+              "desc": "Peskin &amp; Schroeder, Problem 6.2.",
+              "tag": "Peskin Ch. 6"
+            },
+            {
+              "href": "notes/peskin-7.html",
+              "title": "Alternative Regulators in QED",
+              "label": "II.",
+              "desc": "Peskin &amp; Schroeder, Chapter 7 — Pauli–Villars vs. dimensional regularization.",
+              "tag": "Peskin Ch. 7"
+            },
+            {
+              "href": "notes/peskin-final.html",
+              "title": "Final Project — Radiation of Gluon Jets",
+              "label": "III.",
+              "desc": "Peskin &amp; Schroeder, end-of-book project.",
+              "tag": "Peskin Final"
+            },
+            {
+              "href": "notes/tong-qft-ps1.html",
+              "title": "Lorentz, Symmetries &amp; Currents",
+              "label": "PS1.",
+              "desc": "SO(3), infinitesimal Lorentz, energy-momentum tensor (incl. EM field), Proca, scale invariance.",
+              "tag": "Tong PS1"
+            },
+            {
+              "href": "notes/tong-qft-ps2.html",
+              "title": "Canonical Quantization &amp; the Free Scalar",
+              "label": "PS2.",
+              "desc": "String quantization, free scalar, normal ordering, Yukawa, Wick's theorem, Feynman propagator.",
+              "tag": "Tong PS2"
+            },
+            {
+              "href": "notes/tong-qft-ps3.html",
+              "title": "Dirac Field &amp; Spin-Statistics",
+              "label": "PS3.",
+              "desc": "Clifford algebra, Lorentz from γ-matrices, traces, plane-wave spinors, canonical quantisation.",
+              "tag": "Tong PS3"
+            },
+            {
+              "href": "notes/tong-qft-ps4.html",
+              "title": "Interactions &amp; Tree-Level Amplitudes",
+              "label": "PS4.",
+              "desc": "Wick's theorem at tree level — φ⁴ 3-to-3, vacuum bubbles, Yukawa, Compton, e⁻e⁺ → μ⁻μ⁺.",
+              "tag": "Tong PS4"
+            }
+          ]
+        },
+        {
+          "title": "Notes",
+          "notes": [
+            {
+              "href": "notes/schwartz-classical-field.html",
+              "title": "Classical Field Theory",
+              "label": "I.",
+              "desc": "Schwartz, Ch. 1–3 — Euler–Lagrange, Noether, Green's functions.",
+              "tag": "Schwartz Ch. 1–3"
+            },
+            {
+              "href": "notes/schwartz-second-quantization.html",
+              "title": "Second Quantization &amp; LSZ Reduction",
+              "label": "II.",
+              "desc": "Schwartz, Ch. 2–6 — from the harmonic oscillator to the S-matrix and the Feynman propagator.",
+              "tag": "Schwartz Ch. 2–6"
+            },
+            {
+              "href": "notes/schwartz-spin-1.html",
+              "title": "Spin 1, Gauge Invariance, Photon Propagator",
+              "label": "III.",
+              "desc": "Schwartz, Ch. 8–9 — quantising massless spin-1, Ward identity, scalar QED.",
+              "tag": "Schwartz Ch. 8–9"
+            },
+            {
+              "href": "notes/schwartz-spinors.html",
+              "title": "Spinors, Dirac Equation, CPT",
+              "label": "IV.",
+              "desc": "Schwartz, Ch. 10–11 — Lorentz reps, Weyl/Majorana, charge conjugation, parity, time reversal.",
+              "tag": "Schwartz Ch. 10–11"
+            },
+            {
+              "href": "notes/schwartz-qed-tree.html",
+              "title": "QED Tree Amplitudes",
+              "label": "V.",
+              "desc": "Schwartz, Ch. 13 — e+e− → μ+μ− and Rutherford scattering from the Feynman rules.",
+              "tag": "Schwartz Ch. 13"
+            },
+            {
+              "href": "notes/schwartz-path-integrals.html",
+              "title": "Path Integrals (in QFT)",
+              "label": "VI.",
+              "desc": "Schwartz, Ch. 14 — from QM to functional integrals over fields.",
+              "tag": "Schwartz Ch. 14"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "advanced",
+      "title": "General Relativity & Beyond",
+      "blurb": "Brans–Dicke, 11d supergravity, and PSI QFT II finite-temperature correlators.",
+      "tag": "3 notes",
+      "groups": [
+        {
+          "title": "Solutions",
+          "notes": [
+            {
+              "href": "notes/gr-brans-dicke.html",
+              "title": "Brans–Dicke Theory",
+              "label": "α.",
+              "desc": "Tong GR PS3 Q2 — scalar-tensor gravity and the variation of Newton's constant.",
+              "tag": "Tong GR"
+            },
+            {
+              "href": "notes/psi-11d-supergravity.html",
+              "title": "11-Dimensional Supergravity",
+              "label": "β.",
+              "desc": "PSI Strings PS1 Q3 — graviton, gravitino, and three-form on the maximal supergravity algebra.",
+              "tag": "PSI Strings"
+            },
+            {
+              "href": "notes/psi-correlation-functions-qm.html",
+              "title": "Correlation Functions in Quantum Mechanics",
+              "label": "γ.",
+              "desc": "PSI QFT II PS1 — Euclidean / real-time propagators of the harmonic oscillator at finite temperature.",
+              "tag": "PSI QFT II"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "qm",
+      "title": "Quantum Mechanics",
+      "blurb": "Bound-state existence, parity arguments, factorisation method.",
+      "tag": "3 notes",
+      "groups": [
+        {
+          "title": "Solutions",
+          "notes": [
+            {
+              "href": "notes/qm-bound-states.html",
+              "title": "Non-Degeneracy &amp; Reality of Bound States in 1D",
+              "label": "I.",
+              "desc": "D. Tong, <em>Quantum Mechanics</em>, PS1 Q3.",
+              "tag": "Tong QM"
+            },
+            {
+              "href": "notes/qm-shallow-well.html",
+              "title": "Absence of Odd-Parity Bound States in a Shallow Square Well",
+              "label": "II.",
+              "desc": "D. Tong, <em>Quantum Mechanics</em>, PS1 Q7.",
+              "tag": "Tong QM"
+            },
+            {
+              "href": "notes/qm-sech-squared.html",
+              "title": "Factorisation Method for the Sech-Squared Potential",
+              "label": "III.",
+              "desc": "D. Tong, <em>Quantum Mechanics</em>, PS1 Q8.",
+              "tag": "Tong QM"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "ed",
+      "title": "Electrodynamics",
+      "blurb": "Tong EM problem-sheet selections — radiation, Liénard–Wiechert, dielectric boundaries.",
+      "tag": "8 notes",
+      "groups": [
+        {
+          "title": "Solutions",
+          "notes": [
+            {
+              "href": "notes/ed-retarded.html",
+              "title": "Retarded Potentials and Far-Field Radiation",
+              "label": "I.",
+              "desc": "D. Tong, <em>Electromagnetism</em>, PS7 Q4.",
+              "tag": "Tong EM"
+            },
+            {
+              "href": "notes/ed-lienard-wiechert.html",
+              "title": "Liénard–Wiechert Potential and the Field Tensor",
+              "label": "II.",
+              "desc": "D. Tong, <em>Electromagnetism</em>, PS7 Q6.",
+              "tag": "Tong EM"
+            },
+            {
+              "href": "notes/ed-relativistic-uniform.html",
+              "title": "Relativistic Motion in a Uniform Electric Field",
+              "label": "III.",
+              "desc": "D. Tong, <em>Electromagnetism</em>, PS3 Q9.",
+              "tag": "Tong EM"
+            },
+            {
+              "href": "notes/ed-gauge-plane-wave.html",
+              "title": "Gauge Transformation of a Plane EM Wave",
+              "label": "IV.",
+              "desc": "D. Tong, <em>Electromagnetism</em>, PS3 Q5.",
+              "tag": "Tong EM"
+            },
+            {
+              "href": "notes/ed-moving-mirror.html",
+              "title": "Reflection of an EM Wave from a Moving Mirror",
+              "label": "V.",
+              "desc": "D. Tong, <em>Electromagnetism</em>, PS3 Q7.",
+              "tag": "Tong EM"
+            },
+            {
+              "href": "notes/ed-covariant-ohms.html",
+              "title": "Covariant Form of Ohm's Law",
+              "label": "VI.",
+              "desc": "D. Tong, <em>Electromagnetism</em>, PS3 Q10.",
+              "tag": "Tong EM"
+            },
+            {
+              "href": "notes/ed-dielectric-sphere.html",
+              "title": "Dielectric Sphere in a Uniform Electric Field",
+              "label": "VII.",
+              "desc": "D. Tong, <em>Electromagnetism</em>, PS8 Q1.",
+              "tag": "Tong EM"
+            },
+            {
+              "href": "notes/ed-frustrated-tir.html",
+              "title": "Frustrated Total Internal Reflection &amp; Evanescent Waves",
+              "label": "VIII.",
+              "desc": "D. Tong, <em>Electromagnetism</em>, PS8 Q3.",
+              "tag": "Tong EM"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "mm",
+      "title": "Mathematical Methods",
+      "blurb": "Complex methods (Santos PS), Cambridge variational principles.",
+      "tag": "6 notes",
+      "groups": [
+        {
+          "title": "Solutions",
+          "notes": [
+            {
+              "href": "notes/mm-jordans-lemma.html",
+              "title": "Jordan's Lemma",
+              "label": "I.",
+              "desc": "Standard statement, proof, and applications.",
+              "tag": "Complex Analysis"
+            },
+            {
+              "href": "notes/mm-convolution-fourier.html",
+              "title": "Convolution and Fourier Representation of e<sup>-|x|</sup>",
+              "label": "II.",
+              "desc": "J. E. Santos, Cambridge Part IB Complex Methods, PS3 Q2.",
+              "tag": "Santos CM"
+            },
+            {
+              "href": "notes/mm-residues.html",
+              "title": "Residues at Simple and Higher-Order Poles",
+              "label": "III.",
+              "desc": "J. E. Santos, Cambridge Part IB Complex Methods, PS2 Q7.",
+              "tag": "Santos CM"
+            },
+            {
+              "href": "notes/mm-contour-integration.html",
+              "title": "Contour Integration via Residues and Cauchy",
+              "label": "IV.",
+              "desc": "J. E. Santos, Cambridge Part IB Complex Methods, PS2 Q9.",
+              "tag": "Santos CM"
+            },
+            {
+              "href": "notes/mm-laplace-bromwich.html",
+              "title": "Laplace Transform of t<sup>-1/2</sup> and the Bromwich Contour",
+              "label": "V.",
+              "desc": "J. E. Santos, Cambridge Part IB Complex Methods, PS3 Q12.",
+              "tag": "Santos CM"
+            },
+            {
+              "href": "notes/mm-variational-euler.html",
+              "title": "Variational Derivation of Euler's Equation for Inviscid Flow",
+              "label": "VI.",
+              "desc": "Cambridge Part II Variational Principles, PS2 Q9.",
+              "tag": "VarPrin"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "de",
+      "title": "Differential Equations",
+      "blurb": "Green's-function and method-of-images problems.",
+      "tag": "3 notes",
+      "groups": [
+        {
+          "title": "Solutions",
+          "notes": [
+            {
+              "href": "notes/de-greens-function.html",
+              "title": "Green's Function with Heaviside Forcing",
+              "label": "I.",
+              "desc": "Imperial College, Carlo Contaldi DE, PS9 Q4.",
+              "tag": "Imperial DE"
+            },
+            {
+              "href": "notes/de-images-laplace.html",
+              "title": "Laplace Operator in 3D — Method of Images",
+              "label": "II.",
+              "desc": "Imperial College, Carlo Contaldi DE, PS9 Q5.",
+              "tag": "Imperial DE"
+            },
+            {
+              "href": "notes/de-greens-identity-halfspace.html",
+              "title": "Green's Identity &amp; Method of Images for the Half-Space",
+              "label": "III.",
+              "desc": "Cambridge Part IB past paper 2025, 14D.",
+              "tag": "Cambridge IB"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "tdsp",
+      "title": "Thermodynamics & Statistical Physics",
+      "blurb": "Joule–Thomson, water near the triple point, partition functions.",
+      "tag": "4 notes",
+      "groups": [
+        {
+          "title": "Solutions",
+          "notes": [
+            {
+              "href": "notes/tdsp-joule-thomson.html",
+              "title": "The Joule–Thomson Process",
+              "label": "I.",
+              "desc": "D. Tong, <em>Statistical Physics</em>, PS4 Q4.",
+              "tag": "Tong SP"
+            },
+            {
+              "href": "notes/tdsp-adiabatic-water.html",
+              "title": "Adiabatic Compression of Water Near the Triple Point",
+              "label": "II.",
+              "desc": "Imperial 2023 TPSM paper, Q3.",
+              "tag": "Imperial TPSM"
+            },
+            {
+              "href": "notes/tdsp-spin-half.html",
+              "title": "Partition Function of a Spin-½ System",
+              "label": "III.",
+              "desc": "D. Tong, <em>Statistical Physics</em>, PS1 Q3.",
+              "tag": "Tong SP"
+            },
+            {
+              "href": "notes/tdsp-interacting-spin.html",
+              "title": "Heat Capacity of an Interacting Spin System",
+              "label": "IV.",
+              "desc": "D. Tong, <em>Statistical Physics</em>, PS1 Q4.",
+              "tag": "Tong SP"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

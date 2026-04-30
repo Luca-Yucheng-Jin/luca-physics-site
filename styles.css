@@ -46,6 +46,16 @@
      almost every size in the stylesheet is in `rem` or `ch`, this
      scales the entire page (text, gutters, headings) uniformly. */
   --font-scale: 1;
+
+  /* Motion tokens — single place for all animation curves and durations
+     so the navigation chrome feels coherent. --ease-out is the gentle
+     "ease-out-quint" curve used for reveals (drawers, fades, panels);
+     --ease-snappy is the standard material ease for tiny hover states. */
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-snappy: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur-fast:    0.18s;
+  --dur-base:    0.28s;
+  --dur-slow:    0.42s;
 }
 
 /* Dark "midnight study" theme — warm dark, terracotta accent */
@@ -310,6 +320,124 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
    Floating circular button, fades in once the user has scrolled past the
    first viewport. Lives at body level (injected by theme.js) so it's
    independent of the reading-column layout. */
+/* Floating page-controls cluster: Prev / Up / Next pill in the
+   bottom-right of every page. The Up button always exists; Prev / Next
+   are added by theme.js only on note pages. The cluster fades in once
+   the user scrolls past the first viewport. */
+.page-controls {
+  position: fixed;
+  right: clamp(16px, 2vw, 32px);
+  bottom: clamp(16px, 2vw, 32px);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  border: 1px solid var(--rule);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: var(--shadow-soft);
+  opacity: 0;
+  transform: translateY(10px) scale(0.96);
+  pointer-events: none;
+  transition: opacity var(--dur-base) var(--ease-out),
+              transform var(--dur-base) var(--ease-out);
+  z-index: 10;
+}
+.page-controls.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+.page-controls__btn {
+  appearance: none;
+  background: transparent;
+  border: none;
+  color: var(--ink-soft);
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease-snappy),
+              background-color var(--dur-fast) var(--ease-snappy),
+              transform var(--dur-fast) var(--ease-snappy);
+  position: relative;
+}
+.page-controls__btn:hover,
+.page-controls__btn:focus-visible {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+.page-controls__btn:active { transform: scale(0.92); }
+.page-controls__btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.page-controls__btn svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.page-controls__btn[aria-disabled="true"] {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.page-controls__sep {
+  width: 1px;
+  height: 22px;
+  background: var(--rule);
+  flex: none;
+}
+
+/* Tooltip: shown on hover/focus of prev/next buttons so the user can
+   see which note they're about to jump to without leaving the page. */
+.page-controls__btn[data-tip]::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 10px);
+  right: 0;
+  white-space: nowrap;
+  max-width: 16rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--rad);
+  box-shadow: var(--shadow-soft);
+  opacity: 0;
+  transform: translateY(4px);
+  pointer-events: none;
+  transition: opacity var(--dur-fast) var(--ease-snappy),
+              transform var(--dur-fast) var(--ease-snappy);
+}
+.page-controls__btn[data-tip][data-side="left"]::after {
+  right: auto;
+  left: 0;
+}
+.page-controls__btn[data-tip]:hover::after,
+.page-controls__btn[data-tip]:focus-visible::after {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Back-to-top retained as standalone button for backwards compatibility
+   with any page that doesn't have the controls cluster — but the new
+   cluster is preferred and built by theme.js on every page. */
 .back-to-top {
   position: fixed;
   right: clamp(16px, 2vw, 32px);
@@ -331,8 +459,11 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
   -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
   box-shadow: var(--shadow-soft);
-  transition: opacity 0.25s ease, transform 0.25s ease,
-              color 0.2s, border-color 0.2s, background-color 0.2s;
+  transition: opacity var(--dur-base) var(--ease-out),
+              transform var(--dur-base) var(--ease-out),
+              color var(--dur-fast) var(--ease-snappy),
+              border-color var(--dur-fast) var(--ease-snappy),
+              background-color var(--dur-fast) var(--ease-snappy);
   z-index: 10;
 }
 .back-to-top.is-visible {
@@ -423,6 +554,419 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
 }
 .note__sidebar-list .sidebar-h3 a.is-active {
   color: var(--accent);
+}
+
+/* ---------- Topbar Back button ----------
+   Small ← Back pill injected into the topbar. Visible on every page;
+   dimmed when there's nothing to go back to. The arrow nudges left on
+   hover for a tactile feel. */
+.topbar__back {
+  appearance: none;
+  background: color-mix(in srgb, var(--paper-deep) 60%, transparent);
+  border: 1px solid var(--rule);
+  color: var(--ink-soft);
+  font-family: var(--display);
+  font-variant: small-caps;
+  letter-spacing: 0.08em;
+  font-size: 0.78rem;
+  border-radius: 999px;
+  padding: 0.18rem 0.75rem 0.18rem 0.55rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32rem;
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-snappy),
+              border-color var(--dur-fast) var(--ease-snappy),
+              background-color var(--dur-fast) var(--ease-snappy),
+              transform var(--dur-fast) var(--ease-snappy);
+}
+.topbar__back svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.topbar__back:hover,
+.topbar__back:focus-visible {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 6%, var(--paper));
+}
+.topbar__back:hover svg,
+.topbar__back:focus-visible svg { transform: translateX(-2px); }
+.topbar__back:active { transform: scale(0.96); }
+.topbar__back.is-disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* ---------- Site nav toggle (plain-text label) ----------
+   Renders as a single line of small-caps text — "Topics ▾" — pinned
+   below the topbar. Click to drop the sidebar down. No background,
+   border, or shadow: it should read as text, not a button. */
+.site-nav-toggle {
+  appearance: none;
+  background: transparent;
+  border: none;
+  color: var(--ink-soft);
+  cursor: pointer;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.34rem;
+  font-family: var(--display);
+  font-variant: small-caps;
+  letter-spacing: 0.14em;
+  font-size: 0.82rem;
+  position: fixed;
+  /* Below the topbar — never overlapping it. The top value tracks the
+     topbar's lower edge so the label sits just below it both at the
+     top of the page and after scroll. */
+  top: clamp(4.6rem, 5.4vw, 5.4rem);
+  left: clamp(0.8rem, 1.6vw, 1.8rem);
+  z-index: 35;
+  transition: color var(--dur-fast) var(--ease-snappy);
+}
+.site-nav-toggle:hover,
+.site-nav-toggle:focus-visible {
+  color: var(--accent);
+  background: transparent;
+}
+.site-nav-toggle__chevron {
+  width: 12px;
+  height: 12px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+:root.nav-on .site-nav-toggle__chevron,
+body.nav-on .site-nav-toggle__chevron {
+  transform: rotate(180deg);
+}
+
+/* (no inline close button — the "Topics ▾" pill above the sidebar
+   acts as the toggle for both opening and closing) */
+
+/* ---------- Site nav (cross-page navigator) ----------
+   Fixed-position panel listing every category and its notes. Built by
+   theme.js from assets/nav-manifest.json. Visibility on both desktop
+   and mobile is gated by body.nav-on so the user can hide/show via the
+   topbar toggle or the × button on the rail. */
+.site-nav {
+  position: fixed;
+  display: block;
+  font-family: var(--display);
+  font-size: 0.86rem;
+  z-index: 30;
+  scrollbar-width: thin;
+}
+.site-nav__label {
+  font-variant: small-caps;
+  letter-spacing: 0.12em;
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-bottom: 0.55rem;
+  padding-left: 0.7rem;
+}
+.site-nav__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-left: 1px solid var(--rule-soft);
+}
+.site-nav__cat { margin: 0; }
+.site-nav__cat-head {
+  appearance: none;
+  background: transparent;
+  border: none;
+  color: var(--ink-soft);
+  font: inherit;
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  padding: 0.34rem 0.7rem;
+  margin-left: -1px;
+  border-left: 2px solid transparent;
+  cursor: pointer;
+  line-height: 1.3;
+  transition: color var(--dur-fast) var(--ease-snappy),
+              border-color var(--dur-base) var(--ease-out),
+              background-color var(--dur-fast) var(--ease-snappy);
+}
+.site-nav__cat-head:hover {
+  background: color-mix(in srgb, var(--accent) 4%, transparent);
+}
+.site-nav__caret {
+  display: inline-block;
+  font-size: 0.85em;
+  color: var(--muted);
+  transform: rotate(0deg);
+  transform-origin: 50% 55%;
+  transition: transform var(--dur-base) var(--ease-out),
+              color var(--dur-fast) var(--ease-snappy);
+  width: 0.6em;
+  flex: none;
+}
+.site-nav__cat.is-current .site-nav__caret,
+.site-nav__cat.is-open    .site-nav__caret {
+  transform: rotate(90deg);
+  color: var(--accent);
+}
+
+.site-nav__cat-title {
+  border: none;
+  color: inherit;
+  flex: 1 1 auto;
+  transition: color var(--dur-fast) var(--ease-snappy);
+}
+.site-nav__cat-head:hover .site-nav__cat-title,
+.site-nav__cat-head:focus-visible .site-nav__cat-title { color: var(--accent); }
+.site-nav__cat.is-current .site-nav__cat-title { color: var(--accent); }
+.site-nav__cat.is-current .site-nav__cat-head { border-left-color: var(--accent); }
+
+/* Smooth grid-row collapse: animating grid-template-rows from 0fr → 1fr
+   gives a perfectly content-sized slide regardless of how many notes
+   are inside, and avoids the easing distortion that comes from picking
+   an arbitrary max-height. Falls back gracefully in older browsers. */
+.site-nav__notes-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--dur-base) var(--ease-out);
+}
+.site-nav__cat.is-current .site-nav__notes-wrap,
+.site-nav__cat.is-open    .site-nav__notes-wrap {
+  grid-template-rows: 1fr;
+}
+.site-nav__notes-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+.site-nav__notes {
+  list-style: none;
+  padding: 0.15rem 0 0.5rem 0;
+  margin: 0;
+  /* Stagger reveal of notes — applied by JS when category opens */
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity var(--dur-base) var(--ease-out) 0.05s,
+              transform var(--dur-base) var(--ease-out) 0.05s;
+}
+.site-nav__cat.is-current .site-nav__notes,
+.site-nav__cat.is-open    .site-nav__notes {
+  opacity: 1;
+  transform: translateY(0);
+}
+.site-nav__notes li { margin: 0; }
+.site-nav__notes a {
+  display: block;
+  border: none;
+  color: var(--muted);
+  padding: 0.22rem 0.7rem 0.22rem 1.6rem;
+  font-size: 0.8rem;
+  line-height: 1.34;
+  border-left: 2px solid transparent;
+  margin-left: -1px;
+  transition: color var(--dur-fast) var(--ease-snappy),
+              border-color var(--dur-fast) var(--ease-snappy),
+              padding-left var(--dur-base) var(--ease-out),
+              background-color var(--dur-fast) var(--ease-snappy);
+}
+.site-nav__notes a:hover,
+.site-nav__notes a:focus-visible {
+  color: var(--accent);
+  padding-left: 1.75rem;
+  background: color-mix(in srgb, var(--accent) 4%, transparent);
+}
+.site-nav__notes a.is-active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  font-weight: 500;
+}
+.site-nav__foot {
+  display: inline-block;
+  border: none;
+  color: var(--muted);
+  font-variant: small-caps;
+  letter-spacing: 0.1em;
+  font-size: 0.72rem;
+  margin-top: 0.8rem;
+  padding: 0.25rem 0.6rem 0.25rem 0.7rem;
+  border-radius: 999px;
+  transition: color var(--dur-fast) var(--ease-snappy),
+              background-color var(--dur-fast) var(--ease-snappy);
+}
+.site-nav__foot:hover, .site-nav__foot:focus-visible {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+}
+
+/* ---------- Sidebar visibility: shared mechanism ----------
+   On every viewport, the sidebar is hidden by default and revealed by
+   adding body.nav-on. The transform drives the slide animation; the
+   media queries below customise where the rail sits and (on desktop)
+   how the page content shifts to make room for it. */
+
+/* Desktop: rail sits in the left margin; body padding shifts the
+   content right so the sidebar never covers it. Hidden state slides
+   the rail off-screen and removes the padding, returning content to
+   its centered, full-width position. */
+@media (min-width: 1280px) {
+  .site-nav {
+    /* Sits just below the "Topics ▾" pill. Top edge stays put across
+       open/close — only the bottom edge animates, so the panel never
+       extends up into the topbar area. */
+    top: clamp(6.4rem, 7vw, 7.2rem);
+    left: clamp(0.8rem, 1.6vw, 1.8rem);
+    width: 13.5rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 0.5rem;
+    /* Hidden: clipped to zero height, faded out, no clicks. */
+    max-height: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: max-height var(--dur-slow) var(--ease-out),
+                opacity   var(--dur-base) var(--ease-out);
+  }
+  :root.nav-on .site-nav,
+  body.nav-on .site-nav {
+    /* Open: expand downward to fit the viewport (or content, whichever
+       is shorter) — the contents fall down out of nothing. */
+    max-height: calc(100vh - 8.5rem);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  /* Push the rest of the page content right while the sidebar is open
+     so it never overlaps the reading column. The transition matches
+     the rail slide so the two move in lockstep. The :root selector is
+     mirrored from JS at first paint to avoid layout shift on load. */
+  body {
+    transition: padding-left var(--dur-slow) var(--ease-out);
+  }
+  :root.nav-on body,
+  body.nav-on { padding-left: 14.5rem; }
+
+  /* On-page TOC (h2/h3) lives on the right edge, opposite the rail. */
+  .note__sidebar { left: auto; right: clamp(0.5rem, 1.4vw, 1.8rem); }
+}
+
+/* Mobile / tablet: drawer overlay with backdrop. No content shift —
+   instead an overlay tints the rest of the page until dismissed. */
+@media (max-width: 1279.98px) {
+  .site-nav {
+    top: 0;
+    left: 0;
+    width: min(18rem, 80vw);
+    height: 100dvh;
+    max-height: 100dvh;
+    background: var(--paper);
+    border-right: 1px solid var(--rule);
+    box-shadow: var(--shadow-soft);
+    padding: 1.4rem 0.8rem 1.4rem 1.1rem;
+    transform: translateX(-105%);
+    transition: transform var(--dur-slow) var(--ease-out);
+  }
+  :root.nav-on .site-nav,
+  body.nav-on .site-nav { transform: translateX(0); }
+  body.nav-on::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 20;
+    animation: backdrop-in var(--dur-slow) var(--ease-out);
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+  }
+}
+@keyframes backdrop-in {
+  from { opacity: 0; -webkit-backdrop-filter: blur(0); backdrop-filter: blur(0); }
+  to   { opacity: 1; -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); }
+}
+
+/* ---------- Prev / Next pager ----------
+   Two-column row injected at the end of every note. Left = previous,
+   right = next, within the current category. The label arrows nudge in
+   the travel direction on hover for a tactile feel. */
+.note__pager {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 3rem 0 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule-soft);
+}
+.note__pager-side { min-width: 0; }
+.note__pager-side--next { text-align: right; }
+.note__pager-link {
+  display: block;
+  border: 1px solid var(--rule-soft);
+  border-radius: var(--rad);
+  padding: 0.75rem 0.95rem;
+  text-decoration: none;
+  color: var(--ink-soft);
+  background: color-mix(in srgb, var(--paper-deep) 30%, transparent);
+  transition: border-color var(--dur-base) var(--ease-out),
+              color      var(--dur-fast) var(--ease-snappy),
+              background-color var(--dur-fast) var(--ease-snappy),
+              transform   var(--dur-base) var(--ease-out),
+              box-shadow  var(--dur-base) var(--ease-out);
+}
+.note__pager-link:hover,
+.note__pager-link:focus-visible {
+  color: var(--accent);
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-soft);
+  background: var(--paper);
+}
+.note__pager-link:active { transform: translateY(0); box-shadow: none; }
+.note__pager-label {
+  display: block;
+  font-family: var(--display);
+  font-variant: small-caps;
+  letter-spacing: 0.1em;
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-bottom: 0.22rem;
+  transition: color var(--dur-fast) var(--ease-snappy),
+              transform var(--dur-base) var(--ease-out);
+}
+.note__pager-link:hover .note__pager-label,
+.note__pager-link:focus-visible .note__pager-label { color: var(--accent); }
+.note__pager-side--prev .note__pager-link:hover .note__pager-label,
+.note__pager-side--prev .note__pager-link:focus-visible .note__pager-label {
+  transform: translateX(-3px);
+}
+.note__pager-side--next .note__pager-link:hover .note__pager-label,
+.note__pager-side--next .note__pager-link:focus-visible .note__pager-label {
+  transform: translateX(3px);
+}
+.note__pager-title {
+  display: block;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 1.02rem;
+  line-height: 1.3;
+  color: inherit;
+}
+@media (max-width: 540px) {
+  .note__pager { grid-template-columns: 1fr; }
+  .note__pager-side--next { text-align: left; }
+}
+
+/* Make the current crumb visually distinct. */
+.note__breadcrumb-here {
+  color: var(--ink-soft);
 }
 
 /* ---------- Theme toggle ----------
@@ -1249,7 +1793,9 @@ mjx-container[display="true"] {
     font-size: 11pt;
     line-height: 1.45;
   }
-  .topbar, .footer, .ornament, .hero__vertex, .hero__formula { display: none; }
+  .topbar, .footer, .ornament, .hero__vertex, .hero__formula,
+  .site-nav, .site-nav-toggle, .topbar__back, .note__pager,
+  .back-to-top, .note__sidebar { display: none; }
   a { color: var(--ink); border: none; }
   h1, h2, h3 { break-after: avoid-page; }
   .note__problem, .note__abstract { break-inside: avoid; }
