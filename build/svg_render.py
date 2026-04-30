@@ -85,11 +85,14 @@ KIND_MATH      = "math"        # math expression (e.g. a Wick equation) — wrap
 KIND_RAW       = "raw"         # snippet is its own complete document body
 
 
-def _hash(content: str) -> str:
-    """Stable content hash for cache key. Includes preamble version, so
-    a preamble bump invalidates everything automatically."""
+def _hash(content: str, scale: float = 0.110) -> str:
+    """Stable content hash for cache key. Includes preamble version and
+    the post-process scale, so a preamble or scale change invalidates
+    everything automatically."""
     h = hashlib.sha256()
     h.update(PREAMBLE.encode("utf-8"))
+    h.update(b"\x00")
+    h.update(f"scale={scale}".encode("utf-8"))
     h.update(b"\x00")
     h.update(content.encode("utf-8"))
     return h.hexdigest()[:24]
@@ -223,7 +226,7 @@ def _rewrite_to_currentcolor(svg: str) -> str:
     return svg
 
 
-def _rewrite_pt_to_em(svg: str, scale: float = 0.135) -> str:
+def _rewrite_pt_to_em(svg: str, scale: float = 0.110) -> str:
     """dvisvgm stamps the SVG with width/height in `pt`. Browsers treat
     1pt as ~1.33px (96/72), which reads small next to body text. Convert
     to `em` units pegged to the page's font-size so each diagram scales
@@ -236,11 +239,13 @@ def _rewrite_pt_to_em(svg: str, scale: float = 0.135) -> str:
 
     The viewBox stays in pt so internal coordinates remain consistent.
 
-    `scale` defaults to 0.135 (diagrams: visually larger than 1pt would
-    suggest). For pre-rendered math (Wick contractions etc.) pass the
-    smaller scale 0.085 so the SVG glyphs match MathJax's CHTML height
-    exactly — otherwise Wick equations render ~1.5× taller than the
-    surrounding live math, which looks inconsistent."""
+    `scale` defaults to 0.110 (diagrams: a touch larger than 1pt would
+    suggest, but small enough that math nodes baked into Feynman-rule
+    diagrams stay close to MathJax's CHTML glyph height). For pre-
+    rendered math (Wick contractions etc.) pass the smaller scale 0.085
+    so the SVG glyphs match MathJax's CHTML height exactly — otherwise
+    Wick equations render ~1.5× taller than the surrounding live math,
+    which looks inconsistent."""
 
     def w_repl(m):
         try:
@@ -259,7 +264,7 @@ def _rewrite_pt_to_em(svg: str, scale: float = 0.135) -> str:
     return svg
 
 
-def _post_process(svg: str, scale: float = 0.135) -> str:
+def _post_process(svg: str, scale: float = 0.110) -> str:
     svg = _strip_xml_decl(svg)
     svg = _rewrite_to_currentcolor(svg)
     svg = _rewrite_pt_to_em(svg, scale=scale)
@@ -346,13 +351,13 @@ def render(snippet: str, kind: str = KIND_TIKZ) -> str:
     at a comfortable on-screen size."""
     os.makedirs(CACHE_DIR, exist_ok=True)
     tex = _wrap(snippet, kind)
-    key = _hash(tex)
+    scale = 0.085 if kind == KIND_MATH else 0.110
+    key = _hash(tex, scale=scale)
     cache = _cache_path(key)
     if os.path.exists(cache):
         with open(cache) as f:
             return f.read()
     raw = _compile(tex, key)
-    scale = 0.085 if kind == KIND_MATH else 0.135
     svg = _post_process(raw, scale=scale)
     # Write atomically so a Ctrl-C mid-write doesn't poison the cache.
     tmp_path = cache + ".tmp"
