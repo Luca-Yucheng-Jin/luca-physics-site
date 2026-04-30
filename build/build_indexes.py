@@ -111,7 +111,7 @@ CATEGORIES = [
         "slug": "qft",
         "title": "Quantum Field Theory",
         "blurb": "Path-integral essay, Peskin and Tong solutions, Schwartz chapter notes.",
-        "tag": "13 entries",
+        "tag": "14 entries",
         "body": """    <h3>Papers</h3>
     <ul class="catalogue">
       <li class="catalogue__item">
@@ -173,6 +173,14 @@ CATEGORIES = [
           <span class="catalogue__desc">Clifford algebra, Lorentz from γ-matrices, traces, plane-wave spinors, canonical quantisation.</span>
         </span>
         <span class="catalogue__tag">Tong PS3</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">PS4.</span>
+        <span class="catalogue__main">
+          <a href="notes/tong-qft-ps4.html">Interactions &amp; Tree-Level Amplitudes</a>
+          <span class="catalogue__desc">Wick's theorem at tree level — φ⁴ 3-to-3, vacuum bubbles, Yukawa, Compton, e⁻e⁺ → μ⁻μ⁺.</span>
+        </span>
+        <span class="catalogue__tag">Tong PS4</span>
       </li>
     </ul>
 

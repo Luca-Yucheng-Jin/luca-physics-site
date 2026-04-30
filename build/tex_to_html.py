@@ -422,6 +422,59 @@ DISPLAY_ENVS = ["equation", "equation*", "align", "align*", "gather", "gather*",
                 "multline", "multline*"]
 
 
+def _strip_two_arg_keep_first(text, command):
+    """For commands like \\texorpdfstring{TeX}{PDF}, keep the first argument
+    (TeX form) and discard the second. Balanced braces."""
+    out = []
+    i = 0
+    pat = re.compile(r"\\" + re.escape(command) + r"\*?")
+    while i < len(text):
+        m = pat.search(text, i)
+        if not m:
+            out.append(text[i:])
+            break
+        out.append(text[i:m.start()])
+        j = m.end()
+        while j < len(text) and text[j] in " \n\t":
+            j += 1
+        if j >= len(text) or text[j] != "{":
+            out.append(text[m.start():m.end()])
+            i = m.end()
+            continue
+        depth = 1
+        j += 1
+        arg1_start = j
+        while j < len(text) and depth > 0:
+            if text[j] == "{":
+                depth += 1
+            elif text[j] == "}":
+                depth -= 1
+                if depth == 0:
+                    break
+            j += 1
+        arg1 = text[arg1_start:j]
+        j += 1   # past closing brace of arg1
+        while j < len(text) and text[j] in " \n\t":
+            j += 1
+        if j >= len(text) or text[j] != "{":
+            out.append(arg1)
+            i = j
+            continue
+        depth = 1
+        j += 1
+        while j < len(text) and depth > 0:
+            if text[j] == "{":
+                depth += 1
+            elif text[j] == "}":
+                depth -= 1
+                if depth == 0:
+                    break
+            j += 1
+        out.append(arg1)
+        i = j + 1
+    return "".join(out)
+
+
 def _strip_two_arg_keep_second(text, command):
     """For commands of the form \\command[opt]{arg1}{arg2} (where arg1 is
     decoration metadata we don't care about and arg2 is the actual content
@@ -541,9 +594,17 @@ def strip_tex_only_constructs(text):
     text = re.sub(r"\\setlength\{[^}]+\}\{[^}]+\}", "", text)
     text = re.sub(r"\\addtolength\{[^}]+\}\{[^}]+\}", "", text)
     text = re.sub(r"\\baselineskip\b", "", text)
+    # Preamble-style commands that occasionally end up in the body (e.g.
+    # `\usetikzlibrary{...}` written between paragraphs). They have no
+    # rendering and would otherwise leak as raw text.
+    text = re.sub(r"\\usetikzlibrary\{[^}]*\}", "", text)
+    text = re.sub(r"\\usepackage(?:\[[^\]]*\])?\{[^}]*\}", "", text)
     # \raisebox{lift}{content} → keep only content
     for cmd in ("raisebox", "makebox", "framebox", "fbox", "parbox", "mbox"):
         text = _strip_two_arg_keep_second(text, cmd)
+    # \texorpdfstring{TeX}{PDF} — keep the TeX (first) form, used in headings
+    # like \subsection{... \texorpdfstring{$\phi^4$}{phi4} ...}
+    text = _strip_two_arg_keep_first(text, "texorpdfstring")
     # Single-arg layout commands like \vcenter{...}, \hbox{...}, \text{...}
     # used inline with math to wrap a tikzpicture. Keep the inner content.
     for cmd in ("vcenter", "hbox", "vbox"):
@@ -771,6 +832,9 @@ def stash_math(text, stash):
         label_match = re.search(r"\\label\{([^}]+)\}", body)
         label = label_match.group(1) if label_match else None
         body = re.sub(r"\\label\{[^}]+\}", "", body)
+        # User-supplied \tag{...} would collide with our auto-tag and
+        # produce a MathJax "Multiple \tag" error. Strip them.
+        body = re.sub(r"\\tag\*?\{[^}]*\}", "", body)
 
         # Assign a number unless the env is starred (LaTeX convention)
         number = None
@@ -812,11 +876,72 @@ def stash_math(text, stash):
                         row = row.replace("&", "")
                         # also strip leftover `[6pt]` etc.
                         row = re.sub(r"^\s*\[[^\]]*\]\s*", "", row)
-                        row = row.strip().strip("{}").strip()
+                        row = row.strip()
+                        # Peel wrapper-brace artifacts left over from a
+                        # `{\vcenter{\hbox{TIKZ}}}`-style wrapper around a
+                        # placeholder: a leading `}` (close-wrapper from
+                        # before the placeholder) and a trailing `{` (open-
+                        # wrapper from after). Legitimate math is never
+                        # affected — math rows can't start with `}` or end
+                        # with `{`.
+                        while row.startswith("}"):
+                            row = row[1:].lstrip()
+                        while row.endswith("{"):
+                            row = row[:-1].rstrip()
                         if not row or row in ("=", ".", ",", ":", ";"):
                             continue
+                        # Each fragment is a separate MathJax block, so
+                        # `\left(` and `\right)` that originally bracketed
+                        # an interleaved TikZ figure end up split across
+                        # spans and trigger "Extra \left" / "Missing \right"
+                        # errors. The unmatched `\left X` / `\right Y` is
+                        # promoted to the fixed-size `\Biggl X` / `\Biggr Y`
+                        # — `\left`'s auto-sizing only sees the local
+                        # fragment, which would render the delimiter at
+                        # text height even though it originally bracketed
+                        # a tall figure; `\Biggl` gives a visibly large
+                        # delimiter regardless of local content.
+                        def _promote_unmatched(s: str) -> str:
+                            depth = 0
+                            i = 0
+                            spans = []  # (start, end, kind) where kind ∈ {'L','R'}
+                            while i < len(s):
+                                m = re.match(r"\\(left|right)(?=[^a-zA-Z])", s[i:])
+                                if not m:
+                                    i += 1
+                                    continue
+                                kind = 'L' if m.group(1) == 'left' else 'R'
+                                spans.append((i, i + m.end(), kind, depth))
+                                if kind == 'L':
+                                    depth += 1
+                                else:
+                                    depth -= 1
+                                i += m.end()
+                            # An unmatched \left has depth >= 0 at its position
+                            # but no matching \right closes it before s ends.
+                            # Easier: walk forward, track stack.
+                            stack = []  # indices into spans
+                            unmatched = []  # indices into spans that are unmatched
+                            for idx, (a, b, kind, _) in enumerate(spans):
+                                if kind == 'L':
+                                    stack.append(idx)
+                                else:
+                                    if stack:
+                                        stack.pop()
+                                    else:
+                                        unmatched.append(idx)
+                            unmatched.extend(stack)
+                            unmatched.sort(reverse=True)
+                            for idx in unmatched:
+                                a, b, kind, _ = spans[idx]
+                                replacement = r"\Biggl" if kind == 'L' else r"\Biggr"
+                                s = s[:a] + replacement + s[b:]
+                            return s
+                        row = _promote_unmatched(row)
+                        # Force display style so `\frac` etc. render at
+                        # full size (the span uses inline `\(...\)` math).
                         fragments.append(
-                            f'<span class="equation-part">\\({row}\\)</span>'
+                            f'<span class="equation-part">\\(\\displaystyle {row}\\)</span>'
                         )
                 else:
                     # tikz placeholder; will be restored later
@@ -1372,6 +1497,10 @@ WHOLE_FILE_PAGES = [
         "Tong QFT — Problem Sheet 3",
         "Quantum Field Theory · Tong QFT PS3",
         "D. Tong, <em>Quantum Field Theory</em>, Problem Sheet 3 (Dirac fields)."),
+    ("DTQFTPS4.tex", "tong-qft-ps4",
+        "Tong QFT — Problem Sheet 4",
+        "Quantum Field Theory · Tong QFT PS4",
+        "D. Tong, <em>Quantum Field Theory</em>, Problem Sheet 4 (interactions and tree-level amplitudes)."),
 ]
 
 
@@ -1612,7 +1741,7 @@ def write_whole_file_page(tex_path, slug, title, breadcrumb, source_long):
             if pre:
                 out_chunks.append(latex_to_html(pre, stash=shared))
             for i, (cstart, cend, sub_title) in enumerate(matches):
-                sub_title = sub_title.strip()
+                sub_title = _strip_two_arg_keep_first(sub_title, "texorpdfstring").strip()
                 display = re.sub(r"\s*\([^)]*\)\s*$", "", sub_title).strip() or sub_title
                 start = cend
                 end_pos = matches[i + 1][0] if i + 1 < len(matches) else len(text)
@@ -1629,7 +1758,7 @@ def write_whole_file_page(tex_path, slug, title, breadcrumb, source_long):
             if pre:
                 out_chunks.append(latex_to_html(pre, stash=shared))
             for i, (cstart, cend, sec_title) in enumerate(matches):
-                sec_title = sec_title.strip()
+                sec_title = _strip_two_arg_keep_first(sec_title, "texorpdfstring").strip()
                 display = re.sub(r"\s*\([^)]*\)\s*$", "", sec_title).strip() or sec_title
                 start = cend
                 end_pos = matches[i + 1][0] if i + 1 < len(matches) else len(text)
