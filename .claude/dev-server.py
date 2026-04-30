@@ -4,6 +4,7 @@ asset problem when iterating on theme.js / styles.css. Used by
 preview_start; production deploys (GitHub Pages, Vercel, etc.) are
 unaffected."""
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
+import os
 import sys
 
 
@@ -16,7 +17,10 @@ class NoCacheHandler(SimpleHTTPRequestHandler):
 
 
 def main():
-    port = int(sys.argv[1]) if len(sys.argv) > 1 else 8080
+    if len(sys.argv) > 1:
+        port = int(sys.argv[1])
+    else:
+        port = int(os.environ.get("PORT", "8080"))
     server = ThreadingHTTPServer(("", port), NoCacheHandler)
     print(f"Serving on http://localhost:{port} (no-cache)")
     try:

@@ -85,14 +85,21 @@ KIND_MATH      = "math"        # math expression (e.g. a Wick equation) — wrap
 KIND_RAW       = "raw"         # snippet is its own complete document body
 
 
+# Bump this when post-processing logic changes so cached SVGs regenerate
+# automatically. The hash mixes it in alongside preamble + scale.
+POST_PROCESS_VERSION = "3"
+
+
 def _hash(content: str, scale: float = 0.110) -> str:
-    """Stable content hash for cache key. Includes preamble version and
-    the post-process scale, so a preamble or scale change invalidates
-    everything automatically."""
+    """Stable content hash for cache key. Includes preamble version,
+    the post-process scale, and the post-process version, so any of
+    those changing invalidates everything automatically."""
     h = hashlib.sha256()
     h.update(PREAMBLE.encode("utf-8"))
     h.update(b"\x00")
     h.update(f"scale={scale}".encode("utf-8"))
+    h.update(b"\x00")
+    h.update(f"pp={POST_PROCESS_VERSION}".encode("utf-8"))
     h.update(b"\x00")
     h.update(content.encode("utf-8"))
     return h.hexdigest()[:24]
@@ -264,9 +271,56 @@ def _rewrite_pt_to_em(svg: str, scale: float = 0.110) -> str:
     return svg
 
 
+def _fix_inverted_text(svg: str) -> str:
+    """Some PGF / tikz-feynman diagrams emit text glyph groups wrapped in
+    `<g transform='matrix(1 0 0 -1 dx dy)'>` instead of the usual
+    `matrix(1 0 0 1 ...)`. The extra Y-flip mirrors every glyph and
+    inverts the y-up offset between glyphs in the group, so labels like
+    "p", "p'", "e^-" come out upside-down with their superscripts
+    rendered as subscripts.
+    Fix: drop the Y-flip from the transform, and shift `dy` so the
+    BASELINE glyph (the first <use> in the group — the main character
+    that TikZ anchored to the line) stays at exactly the same SVG y as
+    the broken render. With pivot y₀ = first use's y, the un-flipped
+    equivalent is `matrix(1 0 0 1 dx (dy - 2y₀))`. Sub/superscripts then
+    move to their correct relative positions around the baseline.
+    (Using the mean y instead of y₀ keeps the GROUP CENTRE put, but
+    that drifts the visible main character by 2·(y₀ - mean), which
+    reads as a small but noticeable label shift on every diagram.)
+    Restricts itself to groups whose only children are <use> elements
+    — geometry groups (paths, rects) are left alone."""
+    pattern = re.compile(
+        r"<g transform=(['\"])matrix\(1 0 0 -1 ([\-\d.eE]+) ([\-\d.eE]+)\)\1>(.*?)</g>",
+        re.DOTALL,
+    )
+    first_use_y_re = re.compile(r"<use\b[^>]*?\by=['\"]([\-\d.eE]+)['\"]")
+
+    def repl(m):
+        q, dx, dy_str, inner = m.group(1), m.group(2), m.group(3), m.group(4)
+        # Only rewrite if every non-whitespace child is a <use>. That
+        # signals a label group; geometry groups contain <path> etc.
+        stripped = re.sub(r"<use\b[^/]*/>", "", inner).strip()
+        if stripped:
+            return m.group(0)
+
+        first = first_use_y_re.search(inner)
+        if not first:
+            return m.group(0)
+        try:
+            y0 = float(first.group(1))
+            dy = float(dy_str)
+        except ValueError:
+            return m.group(0)
+        new_dy = dy - 2 * y0
+        return f"<g transform={q}matrix(1 0 0 1 {dx} {new_dy:g}){q}>{inner}</g>"
+
+    return pattern.sub(repl, svg)
+
+
 def _post_process(svg: str, scale: float = 0.110) -> str:
     svg = _strip_xml_decl(svg)
     svg = _rewrite_to_currentcolor(svg)
+    svg = _fix_inverted_text(svg)
     svg = _rewrite_pt_to_em(svg, scale=scale)
     return svg
 

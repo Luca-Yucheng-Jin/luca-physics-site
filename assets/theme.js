@@ -212,30 +212,6 @@
     }
   }
 
-  /* ---------- Topbar Back button ----------
-     A small ← Back link added to the topbar nav. Calls history.back()
-     which returns the user to whichever page (note, category, search,
-     external) brought them here. Hidden when the tab has no history. */
-  function buildTopbarBack() {
-    var nav = document.querySelector(".topbar__nav");
-    if (!nav) return;
-    var btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "topbar__back";
-    btn.setAttribute("aria-label", "Go back to the previous page");
-    btn.title = "Back (Alt+←)";
-    btn.innerHTML =
-      '<svg viewBox="0 0 24 24" aria-hidden="true">' +
-        '<path d="M15 18l-6-6 6-6"/>' +
-      '</svg><span>Back</span>';
-    btn.addEventListener("click", function () {
-      if (history.length > 1) history.back();
-    });
-    if (history.length <= 1) btn.classList.add("is-disabled");
-    // Insert as the first item so it's visually leftmost in the nav row.
-    nav.insertBefore(btn, nav.firstChild);
-  }
-
   /* ---------- Breadcrumb enhancement ----------
      Existing static breadcrumbs look like:
        <a href="../notes.html">Notes</a> · Quantum Field Theory · Peskin Problem 6.2
@@ -588,6 +564,96 @@
     return d.textContent || d.innerText || "";
   }
 
+  /* ---------- Feynman cell markers ----------
+     Decorate each catalogue row and research entry with a tiny stroked
+     SVG diagram drawn in the same line-art language as the existing
+     ornaments (.ornament, .hero__vertex). Cycles through a small pool so
+     adjacent rows feel distinct. The diagrams are purely decorative —
+     marked aria-hidden — and the underlying numeral / heading text stays
+     the accessible label. */
+  var FEYN_DIAGRAMS = [
+    /* 0 — vertex: two solid lines into a vertex, dashed wavy out (the
+       canonical e+e- → photon used by the existing site ornaments). */
+    '<svg viewBox="0 0 40 40" aria-hidden="true">' +
+      '<line x1="6" y1="6" x2="20" y2="20"/>' +
+      '<line x1="34" y1="6" x2="20" y2="20"/>' +
+      '<path d="M20,20 Q24,26 20,30 Q16,34 20,38" stroke-dasharray="2.4 2.4"/>' +
+      '<circle class="vertex-dot" cx="20" cy="20" r="1.7"/>' +
+    '</svg>',
+    /* 1 — propagator: straight fermion line with mid arrow. */
+    '<svg viewBox="0 0 40 40" aria-hidden="true">' +
+      '<line x1="5" y1="20" x2="35" y2="20"/>' +
+      '<path d="M17,15 L23,20 L17,25"/>' +
+    '</svg>',
+    /* 2 — photon: continuous wavy line. */
+    '<svg viewBox="0 0 40 40" aria-hidden="true">' +
+      '<path d="M5,20 Q9,12 13,20 T21,20 T29,20 T37,20"/>' +
+    '</svg>',
+    /* 3 — one-loop: external lines into and out of an oval. */
+    '<svg viewBox="0 0 40 40" aria-hidden="true">' +
+      '<line x1="3" y1="20" x2="13" y2="20"/>' +
+      '<ellipse cx="20" cy="20" rx="7" ry="5.4"/>' +
+      '<line x1="27" y1="20" x2="37" y2="20"/>' +
+    '</svg>',
+    /* 4 — s-channel: left vertex → wavy → right vertex (annihilation). */
+    '<svg viewBox="0 0 40 40" aria-hidden="true">' +
+      '<line x1="3" y1="8" x2="13" y2="20"/>' +
+      '<line x1="3" y1="32" x2="13" y2="20"/>' +
+      '<path d="M13,20 Q17,16 21,20 T29,20" stroke-dasharray="2.2 2.2"/>' +
+      '<line x1="29" y1="20" x2="37" y2="8"/>' +
+      '<line x1="29" y1="20" x2="37" y2="32"/>' +
+      '<circle class="vertex-dot" cx="13" cy="20" r="1.4"/>' +
+      '<circle class="vertex-dot" cx="29" cy="20" r="1.4"/>' +
+    '</svg>',
+    /* 5 — box loop: square topology with four external legs. */
+    '<svg viewBox="0 0 40 40" aria-hidden="true">' +
+      '<line x1="3" y1="13" x2="13" y2="13"/>' +
+      '<line x1="3" y1="27" x2="13" y2="27"/>' +
+      '<rect x="13" y="13" width="14" height="14"/>' +
+      '<line x1="27" y1="13" x2="37" y2="13"/>' +
+      '<line x1="27" y1="27" x2="37" y2="27"/>' +
+    '</svg>',
+  ];
+
+  function makeFeynMark(index) {
+    var span = document.createElement("span");
+    span.className = "feyn-mark";
+    span.setAttribute("aria-hidden", "true");
+    span.innerHTML = FEYN_DIAGRAMS[index % FEYN_DIAGRAMS.length];
+    return span;
+  }
+
+  function decorateCatalogueAndEntries() {
+    /* Catalogue rows: replace each Roman-numeral marker with a diagram.
+       Indexing restarts within each ul.catalogue so a long page doesn't
+       cycle past the pool unevenly — each list looks intentionally varied
+       on its own. */
+    document.querySelectorAll("ul.catalogue").forEach(function (list) {
+      var idx = 0;
+      list.querySelectorAll(".catalogue__item .catalogue__num").forEach(function (numEl) {
+        if (numEl.classList.contains("is-feyn")) return;
+        // Prepend so the glyph sits LEFT of the Roman numeral —
+        // glyph as decoration, numeral as the chronological label.
+        numEl.insertBefore(makeFeynMark(idx), numEl.firstChild);
+        numEl.classList.add("is-feyn");
+        idx++;
+      });
+    });
+
+    /* Research / education entries: prepend a diagram to the head row,
+       just left of the entry title. Skip entries that already have one
+       (defensive against re-runs). */
+    var entries = document.querySelectorAll(".entry .entry__head");
+    var ei = 0;
+    entries.forEach(function (head) {
+      if (head.querySelector(".feyn-mark")) return;
+      var title = head.querySelector(".entry__title");
+      if (!title) return;
+      title.insertBefore(makeFeynMark(ei), title.firstChild);
+      ei++;
+    });
+  }
+
   /* ---------- Bootstrap ---------- */
   function loadManifest() {
     return fetch(ASSET_PREFIX + "assets/nav-manifest.json", { credentials: "same-origin" })
@@ -598,8 +664,8 @@
   function bind() {
     bindThemeToggles();
     buildPageControls();
-    buildTopbarBack();
     buildOnPageTOC();
+    decorateCatalogueAndEntries();
 
     loadManifest().then(function (manifest) {
       if (!manifest) return;
