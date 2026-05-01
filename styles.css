@@ -273,6 +273,10 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
   font-family: var(--display);
   font-size: 0.95rem;
   border-bottom: 1px solid var(--rule-soft);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--paper);
 }
 
 .topbar > * { flex-shrink: 1; min-width: 0; }
