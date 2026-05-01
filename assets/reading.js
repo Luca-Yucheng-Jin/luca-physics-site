@@ -91,7 +91,19 @@ async function promptUnlock() {
     );
     return;
   }
-  const phrase = window.prompt("Passphrase to unlock edit mode:");
+  // Trim leading/trailing whitespace and zero-width characters —
+  // autocorrect, mobile keyboards, and clipboard managers love to sneak
+  // these in, and SHA-256 is unforgiving about them.
+  const raw = window.prompt("Passphrase to unlock edit mode:");
+  if (raw == null) return;
+  // \s plus the common zero-width sneak-ins (ZWSP, ZWNJ, ZWJ, BOM).
+  // Trimmed from both ends only — interior whitespace is preserved in
+  // case the passphrase legitimately contains a space.
+  const TRIM_RE = new RegExp(
+    "^[\\s\u200B\u200C\u200D\uFEFF]+|[\\s\u200B\u200C\u200D\uFEFF]+$",
+    "g"
+  );
+  const phrase = raw.replace(TRIM_RE, "");
   if (!phrase) return;
   const hash = await sha256Hex(phrase);
   if (hash !== PASSPHRASE_HASH) {
