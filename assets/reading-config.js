@@ -18,10 +18,10 @@
  *   attack is impractical.
  */
 export const PASSPHRASE_HASH =
-  "e2186dbdb1bb4193608605e84f33208765b5693b55edd4f730a719a100eeea6f";
+  "d8d0a653348f28f23123938d6315f537dc9f950cc614d8b970563623443cda25";
 
-/* Sentinel: same hash as the shipped default ("change-me"). The page
- * shows a warning banner while PASSPHRASE_HASH equals this value so you
- * notice if you forget to rotate it. */
+/* Sentinel: hash of the original shipped default ("change-me"). The
+ * page shows a warning banner while PASSPHRASE_HASH equals this value
+ * so you notice if you forget to rotate it. */
 export const DEFAULT_PASSPHRASE_HASH =
   "e2186dbdb1bb4193608605e84f33208765b5693b55edd4f730a719a100eeea6f";
