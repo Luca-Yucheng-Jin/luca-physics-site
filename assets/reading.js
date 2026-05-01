@@ -1,44 +1,142 @@
 /* Reading list — DOM wiring.
 
-   Loaded as <script type="module"> from reading.html. Pure data helpers
-   live in reading-store.js so they can be unit-tested in Node. This file
-   only handles DOM events, rendering, and persistence I/O. */
+   Two display modes:
+     - Read mode (default): renders assets/reading-data.json, no edit UI.
+       Anyone visiting the site sees this.
+     - Edit mode: unlocked with a passphrase (hash in reading-config.js).
+       Edits go to localStorage as a working copy. A Download button
+       exports the working copy as reading-data.json so the owner can
+       commit it back to the repo. */
 
 import {
   loadItems,
   saveItems,
+  loadPublished,
   makeEntry,
   applyProgress,
   sortEntries,
   stats,
   status,
+  sha256Hex,
+  serializeForExport,
+  isDirty,
 } from "./reading-store.js";
+import { PASSPHRASE_HASH, DEFAULT_PASSPHRASE_HASH } from "./reading-config.js";
 
-let items = loadItems();
-let activeFilter = "all"; // "all" | "reading" | "done"
+const SESSION_KEY = "reading-list:unlocked";
+
+let publishedItems = [];
+let workingItems = [];
+let unlocked = false;
+let activeFilter = "all";
 
 const $  = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
-function persist() { saveItems(items); }
+/* Console helper: lets the owner generate a fresh passphrase hash
+   without needing to know how SubtleCrypto works. Available always,
+   not just in edit mode. */
+if (typeof window !== "undefined") {
+  window.ReadingDigest = sha256Hex;
+}
 
 // ---------- Init ---------------------------------------------------
 
-function init() {
+async function init() {
+  unlocked = sessionStorage.getItem(SESSION_KEY) === "true";
+
+  publishedItems = await loadPublished();
+  workingItems = unlocked ? loadItems() : [];
+  if (unlocked && workingItems.length === 0 && publishedItems.length > 0) {
+    workingItems = publishedItems.map(e => ({ ...e }));
+    saveItems(workingItems);
+  }
+
   bindAddForm();
   bindFilters();
+  bindToolbar();
+
+  if (new URL(location.href).searchParams.has("edit") && !unlocked) {
+    promptUnlock();
+  }
+
   render();
 }
+
+function activeItems() { return unlocked ? workingItems : publishedItems; }
+
+function persist() {
+  if (!unlocked) return;
+  saveItems(workingItems);
+}
+
+// ---------- Toolbar (lock / download) ------------------------------
+
+function bindToolbar() {
+  $("#reading-lock").addEventListener("click", () => {
+    if (unlocked) lock();
+    else promptUnlock();
+  });
+  $("#reading-publish").addEventListener("click", downloadPublished);
+}
+
+async function promptUnlock() {
+  if (!PASSPHRASE_HASH || PASSPHRASE_HASH.length !== 64) {
+    alert(
+      "Edit gate not configured.\n\n" +
+      "Open the developer console and run:\n\n" +
+      "    await window.ReadingDigest(\"your-passphrase\")\n\n" +
+      "Paste the 64-char result into PASSPHRASE_HASH in " +
+      "assets/reading-config.js, then redeploy."
+    );
+    return;
+  }
+  const phrase = window.prompt("Passphrase to unlock edit mode:");
+  if (!phrase) return;
+  const hash = await sha256Hex(phrase);
+  if (hash !== PASSPHRASE_HASH) {
+    alert("Incorrect passphrase.");
+    return;
+  }
+  unlocked = true;
+  sessionStorage.setItem(SESSION_KEY, "true");
+  workingItems = loadItems();
+  if (workingItems.length === 0 && publishedItems.length > 0) {
+    workingItems = publishedItems.map(e => ({ ...e }));
+    saveItems(workingItems);
+  }
+  render();
+}
+
+function lock() {
+  unlocked = false;
+  sessionStorage.removeItem(SESSION_KEY);
+  render();
+}
+
+function downloadPublished() {
+  const blob = new Blob([serializeForExport(workingItems)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "reading-data.json";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+// ---------- Add form ----------------------------------------------
 
 function bindAddForm() {
   const form = $("#reading-add");
   form.addEventListener("submit", (e) => {
     e.preventDefault();
+    if (!unlocked) return;
     const fd = new FormData(form);
     const title = String(fd.get("title") || "").trim();
     const author = String(fd.get("author") || "").trim();
-    const rawPages = String(fd.get("totalPages") || "").trim();
-    const totalPages = Number(rawPages);
+    const totalPages = Number(String(fd.get("totalPages") || "").trim());
 
     if (!title) return flagError(form.elements.title, "Title is required");
     if (!Number.isFinite(totalPages) || !Number.isInteger(totalPages) || totalPages <= 0) {
@@ -46,7 +144,7 @@ function bindAddForm() {
     }
 
     try {
-      items.push(makeEntry({ title, author, totalPages }));
+      workingItems.push(makeEntry({ title, author, totalPages }));
       persist();
       form.reset();
       form.elements.title.focus();
@@ -67,6 +165,8 @@ function flagError(input, msg) {
   }, 2400);
 }
 
+// ---------- Filter -------------------------------------------------
+
 function bindFilters() {
   $$('[data-filter]').forEach(btn => {
     btn.addEventListener("click", () => {
@@ -79,26 +179,44 @@ function bindFilters() {
   });
 }
 
-// ---------- Render -------------------------------------------------
-
 function visibleItems() {
-  const sorted = sortEntries(items);
-  if (activeFilter === "reading") {
-    return sorted.filter(e => status(e) !== "finished");
-  }
-  if (activeFilter === "done") {
-    return sorted.filter(e => status(e) === "finished");
-  }
+  const sorted = sortEntries(activeItems());
+  if (activeFilter === "reading") return sorted.filter(e => status(e) !== "finished");
+  if (activeFilter === "done")    return sorted.filter(e => status(e) === "finished");
   return sorted;
 }
 
+// ---------- Render -------------------------------------------------
+
 function render() {
+  document.body.classList.toggle("reading-locked",   !unlocked);
+  document.body.classList.toggle("reading-unlocked",  unlocked);
+
+  const lockBtn = $("#reading-lock");
+  lockBtn.setAttribute("aria-pressed", unlocked ? "true" : "false");
+  lockBtn.title = unlocked
+    ? "Lock — return to read-only view"
+    : "Edit — enter passphrase to unlock";
+  $("#reading-lock-label").textContent = unlocked ? "Lock" : "Edit";
+
+  const pub = $("#reading-publish");
+  pub.hidden = !unlocked;
+  const dirty = unlocked && isDirty(workingItems, publishedItems);
+  pub.classList.toggle("is-dirty", dirty);
+  $("#reading-publish-label").textContent = dirty ? "Download JSON ●" : "Download JSON";
+
+  const warn = $("#reading-default-warn");
+  warn.hidden = !(unlocked && PASSPHRASE_HASH === DEFAULT_PASSPHRASE_HASH);
+
+  $("#reading-add").hidden = !unlocked;
+
   renderStats();
   renderList();
 }
 
 function renderStats() {
   const wrap = $("#reading-stats");
+  const items = activeItems();
   if (!items.length) { wrap.hidden = true; wrap.innerHTML = ""; return; }
   const s = stats(items);
   wrap.hidden = false;
@@ -117,9 +235,12 @@ function renderList() {
   const list = $("#reading-list");
   list.innerHTML = "";
 
+  const items = activeItems();
   if (!items.length) {
     list.appendChild(emptyState(
-      "Nothing on the pile yet — add a book or paper above to start tracking it."
+      unlocked
+        ? "Nothing on the pile yet — add a book or paper above to start tracking it."
+        : "No published entries yet."
     ));
     return;
   }
@@ -146,7 +267,6 @@ function renderRow(entry) {
   li.className = "reading-row reading-row--" + s;
   li.dataset.id = entry.id;
 
-  // ----- Heading row: title + author ------------------------------
   const head = document.createElement("div");
   head.className = "reading-row__head";
 
@@ -163,7 +283,6 @@ function renderRow(entry) {
   }
   li.appendChild(head);
 
-  // ----- Progress bar ---------------------------------------------
   const bar = document.createElement("div");
   bar.className = "reading-row__bar";
   bar.setAttribute("role", "progressbar");
@@ -179,7 +298,6 @@ function renderRow(entry) {
   bar.appendChild(fill);
   li.appendChild(bar);
 
-  // ----- Controls --------------------------------------------------
   const ctrl = document.createElement("div");
   ctrl.className = "reading-row__ctrl";
 
@@ -189,23 +307,29 @@ function renderRow(entry) {
   pages.setAttribute("aria-label", "Edit current page");
   pages.title = "Click to edit current page";
   pages.textContent = entry.currentPage + " / " + entry.totalPages;
-  pages.addEventListener("click", () => editProgress(entry, pages));
+  if (unlocked) {
+    pages.addEventListener("click", () => editProgress(entry, pages));
+  } else {
+    pages.disabled = true;
+  }
   ctrl.appendChild(pages);
 
-  const dec  = makeBtn("−10", "Subtract 10 pages", () => bumpProgress(entry.id, -10));
-  const inc  = makeBtn("+10", "Add 10 pages",      () => bumpProgress(entry.id, +10));
-  if (s === "finished") { dec.disabled = true; inc.disabled = true; }
-  ctrl.appendChild(dec); ctrl.appendChild(inc);
+  if (unlocked) {
+    const dec  = makeBtn("−10", "Subtract 10 pages", () => bumpProgress(entry.id, -10));
+    const inc  = makeBtn("+10", "Add 10 pages",      () => bumpProgress(entry.id, +10));
+    if (s === "finished") { dec.disabled = true; inc.disabled = true; }
+    ctrl.appendChild(dec); ctrl.appendChild(inc);
 
-  const done = makeBtn("✓", "Mark finished",
-    () => setProgress(entry.id, entry.totalPages));
-  done.classList.add("reading-row__btn--done");
-  if (s === "finished") done.disabled = true;
-  ctrl.appendChild(done);
+    const done = makeBtn("✓", "Mark finished",
+      () => setProgress(entry.id, entry.totalPages));
+    done.classList.add("reading-row__btn--done");
+    if (s === "finished") done.disabled = true;
+    ctrl.appendChild(done);
 
-  const del = makeBtn("×", "Delete", () => removeEntry(entry.id));
-  del.classList.add("reading-row__btn--del");
-  ctrl.appendChild(del);
+    const del = makeBtn("×", "Delete", () => removeEntry(entry.id));
+    del.classList.add("reading-row__btn--del");
+    ctrl.appendChild(del);
+  }
 
   li.appendChild(ctrl);
   return li;
@@ -259,21 +383,21 @@ function editProgress(entry, button) {
 // ---------- Mutations ---------------------------------------------
 
 function bumpProgress(id, delta) {
-  const e = items.find(x => x.id === id);
+  const e = workingItems.find(x => x.id === id);
   if (!e) return;
   setProgress(id, e.currentPage + delta);
 }
 
 function setProgress(id, value) {
-  const idx = items.findIndex(x => x.id === id);
+  const idx = workingItems.findIndex(x => x.id === id);
   if (idx < 0) return;
-  items[idx] = applyProgress(items[idx], value);
+  workingItems[idx] = applyProgress(workingItems[idx], value);
   persist();
   render();
 }
 
 function removeEntry(id) {
-  items = items.filter(e => e.id !== id);
+  workingItems = workingItems.filter(e => e.id !== id);
   persist();
   render();
 }

@@ -116,3 +116,64 @@ export function saveItems(items, storage = defaultStorage()) {
   if (!storage) return;
   try { storage.setItem(STORAGE_KEY, JSON.stringify(items)); } catch {}
 }
+
+/* ---------- Published JSON (the read-only baseline visitors see) ----- */
+
+export const PUBLISHED_URL =
+  (typeof import.meta !== "undefined" && import.meta.url)
+    ? new URL("./reading-data.json", import.meta.url).href
+    : "assets/reading-data.json";
+
+export async function loadPublished(url = PUBLISHED_URL, fetchImpl) {
+  const f = fetchImpl || (typeof fetch !== "undefined" ? fetch : null);
+  if (!f) return [];
+  try {
+    const res = await f(url, { cache: "no-store" });
+    if (!res.ok) return [];
+    const data = await res.json();
+    if (!data || !Array.isArray(data.items)) return [];
+    return data.items
+      .filter(isValidEntry)
+      .map(e => ({ ...e, currentPage: clamp(e.currentPage, 0, e.totalPages) }));
+  } catch {
+    return [];
+  }
+}
+
+/* SHA-256 of a string, returned as 64-char lowercase hex. Uses
+   SubtleCrypto which is available in browsers and modern Node. */
+export async function sha256Hex(text) {
+  const enc = new TextEncoder().encode(String(text));
+  const buf = await crypto.subtle.digest("SHA-256", enc);
+  return Array.from(new Uint8Array(buf))
+    .map(b => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+/* Format the current working copy as a JSON string ready to drop into
+   assets/reading-data.json. Stable key order, two-space indent, trailing
+   newline — matches what a hand-written file looks like, so diffs in
+   git stay tidy. */
+export function serializeForExport(items) {
+  const cleaned = items.map(({ id, title, author, totalPages, currentPage, addedAt }) => ({
+    id, title, author, totalPages, currentPage, addedAt,
+  }));
+  return JSON.stringify(
+    { items: cleaned, updatedAt: new Date().toISOString() },
+    null,
+    2
+  ) + "\n";
+}
+
+/* True iff `working` differs from `published` once both are normalised
+   (sorted by id, only the schema fields). Used to drive the "unsaved
+   changes" indicator on the Download button. */
+export function isDirty(working, published) {
+  const norm = arr => JSON.stringify(
+    arr
+      .map(({ id, title, author, totalPages, currentPage, addedAt }) =>
+        ({ id, title, author, totalPages, currentPage, addedAt }))
+      .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0))
+  );
+  return norm(working) !== norm(published);
+}

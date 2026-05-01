@@ -17,6 +17,9 @@ import {
   applyProgress,
   loadItems,
   saveItems,
+  serializeForExport,
+  isDirty,
+  loadPublished,
 } from "../assets/reading-store.js";
 
 // ---------- clamp ---------------------------------------------------
@@ -185,4 +188,96 @@ test("loadItems drops invalid entries and re-clamps currentPage", () => {
 
 test("loadItems with no storage returns []", () => {
   assert.deepEqual(loadItems(null), []);
+});
+
+// ---------- serializeForExport ------------------------------------
+
+test("serializeForExport produces clean, parseable JSON", () => {
+  const items = [
+    { id: "a", title: "Tong", author: null, totalPages: 200, currentPage: 50, addedAt: "2026-01-01T00:00:00Z" },
+  ];
+  const out = serializeForExport(items);
+  assert.ok(out.endsWith("\n"));
+  const parsed = JSON.parse(out);
+  assert.equal(parsed.items.length, 1);
+  assert.equal(parsed.items[0].title, "Tong");
+  assert.ok(typeof parsed.updatedAt === "string");
+});
+
+test("serializeForExport drops extraneous fields", () => {
+  const items = [{
+    id: "a", title: "x", author: "y", totalPages: 10, currentPage: 0, addedAt: "z",
+    secret: "leak", _internal: true,
+  }];
+  const out = JSON.parse(serializeForExport(items));
+  assert.deepEqual(Object.keys(out.items[0]).sort(),
+    ["addedAt", "author", "currentPage", "id", "title", "totalPages"]);
+});
+
+// ---------- isDirty -----------------------------------------------
+
+test("isDirty: identical content is clean", () => {
+  const a = [{ id:"1", title:"x", author:null, totalPages:10, currentPage:5, addedAt:"t" }];
+  const b = [{ id:"1", title:"x", author:null, totalPages:10, currentPage:5, addedAt:"t" }];
+  assert.equal(isDirty(a, b), false);
+});
+
+test("isDirty: changed currentPage is dirty", () => {
+  const a = [{ id:"1", title:"x", author:null, totalPages:10, currentPage:5, addedAt:"t" }];
+  const b = [{ id:"1", title:"x", author:null, totalPages:10, currentPage:6, addedAt:"t" }];
+  assert.equal(isDirty(a, b), true);
+});
+
+test("isDirty: different array order is clean", () => {
+  const a = [
+    { id:"1", title:"a", author:null, totalPages:10, currentPage:0, addedAt:"t" },
+    { id:"2", title:"b", author:null, totalPages:10, currentPage:0, addedAt:"t" },
+  ];
+  const b = [a[1], a[0]];
+  assert.equal(isDirty(a, b), false);
+});
+
+test("isDirty: extra entry is dirty", () => {
+  const a = [{ id:"1", title:"x", author:null, totalPages:10, currentPage:0, addedAt:"t" }];
+  const b = [];
+  assert.equal(isDirty(a, b), true);
+});
+
+// ---------- loadPublished (with a stub fetch) ---------------------
+
+function stubFetch(map) {
+  return (url) => {
+    if (!(url in map)) return Promise.resolve({ ok: false });
+    const r = map[url];
+    return Promise.resolve({
+      ok: true,
+      json: () => Promise.resolve(r),
+    });
+  };
+}
+
+test("loadPublished returns parsed items, dropping invalid ones", async () => {
+  const f = stubFetch({
+    "x://data": {
+      items: [
+        { id:"ok", title:"a", author:null, totalPages:100, currentPage:50, addedAt:"t" },
+        { id:"clamp", title:"b", author:null, totalPages:100, currentPage:9999, addedAt:"t" },
+        { id:"bad", title:"", totalPages:0, currentPage:0, addedAt:"t" },
+      ],
+    },
+  });
+  const out = await loadPublished("x://data", f);
+  assert.equal(out.length, 2);
+  assert.equal(out[0].id, "ok");
+  assert.equal(out[1].currentPage, 100);
+});
+
+test("loadPublished returns [] on fetch failure", async () => {
+  const f = stubFetch({});
+  assert.deepEqual(await loadPublished("x://missing", f), []);
+});
+
+test("loadPublished returns [] on malformed payload", async () => {
+  const f = stubFetch({ "x://data": { items: "not an array" } });
+  assert.deepEqual(await loadPublished("x://data", f), []);
 });

@@ -43,9 +43,9 @@
     <div class="hero__eyebrow">A working pile of books and papers</div>
     <h1>Reading</h1>
     <p class="hero__lede">
-      Books and papers I am working through, with page progress kept locally
-      in this browser. Add a new entry, mark progress, and the list reorders
-      so what is currently being read sits at the top.
+      Books and papers I am working through. Progress is published from a
+      JSON file in this site's source — visitors see the latest snapshot;
+      only I can edit, gated by a passphrase.
     </p>
 
     <svg class="hero__vertex" viewBox="0 0 60 60" aria-hidden="true">
@@ -59,7 +59,27 @@
 
   <section class="section reading">
 
-    <form class="reading-add" id="reading-add" novalidate aria-label="Add a reading-list entry">
+    <div class="reading-toolbar">
+      <button type="button" id="reading-lock" class="reading-toolbar__btn" aria-pressed="false" title="Edit — enter passphrase to unlock">
+        <svg viewBox="0 0 24 24" aria-hidden="true" class="reading-toolbar__icon-locked"><path d="M6 11V8a6 6 0 1 1 12 0v3"/><rect x="4.5" y="11" width="15" height="10" rx="1.5"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true" class="reading-toolbar__icon-unlocked"><path d="M6 11V8a6 6 0 0 1 11.6-2"/><rect x="4.5" y="11" width="15" height="10" rx="1.5"/></svg>
+        <span id="reading-lock-label">Edit</span>
+      </button>
+      <button type="button" id="reading-publish" class="reading-toolbar__btn reading-toolbar__btn--publish" hidden title="Download a JSON file you can commit to publish your edits">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v12M6 12l6 6 6-6M5 20h14"/></svg>
+        <span id="reading-publish-label">Download JSON</span>
+      </button>
+    </div>
+
+    <p class="reading-warn" id="reading-default-warn" hidden>
+      <strong>⚠ Default passphrase still in use.</strong>
+      Open the developer console and run
+      <code>await window.ReadingDigest("your-passphrase")</code>,
+      paste the result into <code>assets/reading-config.js</code>,
+      then redeploy.
+    </p>
+
+    <form class="reading-add" id="reading-add" novalidate aria-label="Add a reading-list entry" hidden>
       <label class="reading-add__field reading-add__field--title">
         <span class="reading-add__label">Title</span>
         <input type="text" name="title" required autocomplete="off"
@@ -93,7 +113,7 @@
   <hr class="ornament-rule">
 
   <p style="text-align:center; font-style:italic; color:var(--muted); font-family:var(--display);">
-    Stored only in this browser — no account, no sync. Clearing site data resets the list.
+    Published from <code>assets/reading-data.json</code>. Edit access is gated by passphrase; edits are exported as a JSON file to commit back to the repo.
   </p>
 
 </main>

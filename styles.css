@@ -1917,7 +1917,116 @@ mjx-container[display="true"] {
    Personal reading-list page (reading.html). Lives only on that route, so
    class names are namespaced .reading-* and .reading-row__* to keep the
    global stylesheet uncrowded. Uses the existing design tokens — no new
-   colours, no new fonts. */
+   colours, no new fonts.
+
+   Two display modes, set by body classes:
+     body.reading-locked    → published view (visitors)
+     body.reading-unlocked  → edit view (owner) */
+/* The [hidden] attribute alone has the same specificity as a class
+   selector, so .reading-add { display: grid } would beat it. Scope an
+   explicit override to the reading-list elements that override their
+   own display so toggling .hidden on them actually hides them. */
+.reading-add[hidden],
+.reading-stats[hidden],
+.reading-toolbar__btn[hidden],
+.reading-warn[hidden] { display: none; }
+
+.reading-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 0 0 1rem;
+}
+.reading-toolbar__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--display);
+  font-variant: small-caps;
+  letter-spacing: 0.1em;
+  font-size: 0.78rem;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--rule);
+  border-radius: var(--rad);
+  padding: 0.35rem 0.7rem;
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-snappy),
+              border-color var(--dur-fast) var(--ease-snappy),
+              background-color var(--dur-fast) var(--ease-snappy);
+}
+.reading-toolbar__btn svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.reading-toolbar__btn:hover,
+.reading-toolbar__btn:focus-visible {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 5%, transparent);
+  outline: none;
+}
+.reading-toolbar__btn:focus-visible {
+  box-shadow: 0 0 0 3px var(--accent-line);
+}
+.reading-toolbar__btn[aria-pressed="true"] {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.reading-toolbar__icon-unlocked { display: none; }
+body.reading-unlocked .reading-toolbar__icon-locked   { display: none; }
+body.reading-unlocked .reading-toolbar__icon-unlocked { display: inline-block; }
+
+.reading-toolbar__btn--publish.is-dirty {
+  color: var(--paper);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.reading-toolbar__btn--publish.is-dirty:hover,
+.reading-toolbar__btn--publish.is-dirty:focus-visible {
+  background: var(--accent-soft);
+  border-color: var(--accent-soft);
+  color: var(--paper);
+}
+
+.reading-warn {
+  font-family: var(--body);
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+  background: color-mix(in srgb, var(--highlight) 12%, var(--paper));
+  border: 1px solid color-mix(in srgb, var(--highlight) 35%, var(--rule));
+  border-radius: var(--rad);
+  padding: 0.6rem 0.8rem;
+  margin: 0 0 1rem;
+}
+.reading-warn code {
+  font-family: var(--mono);
+  font-size: 0.85em;
+  background: var(--paper);
+  padding: 0.05rem 0.3rem;
+  border-radius: var(--rad);
+}
+
+/* In read-only mode the page-counter widget is shown as plain text — no
+   dashed-border affordance, no hover state, not focusable. */
+body.reading-locked .reading-row__pages {
+  border-color: transparent;
+  cursor: default;
+  padding-left: 0;
+  color: var(--ink-soft);
+}
+body.reading-locked .reading-row__pages:hover {
+  color: var(--ink-soft);
+  border-color: transparent;
+}
+
 .reading-add {
   display: grid;
   grid-template-columns: 1fr 1fr 7rem auto;
