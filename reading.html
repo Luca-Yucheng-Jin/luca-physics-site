@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reading — Yucheng (Luca) Jin</title>
+<meta name="description" content="A working reading list — books and papers I am working through, with progress tracked locally in the browser.">
+
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="styles.css">
+
+<script src="assets/theme.js"></script>
+<script src="assets/font-size.js"></script>
+<script type="module" src="assets/reading.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="index.html" class="topbar__brand">Yucheng (Luca) Jin <small>BSc · Imperial</small></a>
+  <nav class="topbar__nav">
+    <a href="index.html">About</a>
+    <a href="notes.html">Notes</a>
+    <a href="research.html">Research</a>
+    <a href="reading.html" class="is-active">Reading</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+    <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" title="Decrease font size">A<span class="font-toggle__small">−</span></button>
+    <button class="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size" title="Increase font size">A<span class="font-toggle__large">+</span></button>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Toggle theme">
+      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    </button>
+  </nav>
+</header>
+
+<main class="page">
+
+  <section class="hero">
+    <div class="hero__eyebrow">A working pile of books and papers</div>
+    <h1>Reading</h1>
+    <p class="hero__lede">
+      Books and papers I am working through. Progress is published from a
+      JSON file in this site's source — visitors see the latest snapshot;
+      only I can edit, gated by a passphrase.
+    </p>
+
+    <svg class="hero__vertex" viewBox="0 0 60 60" aria-hidden="true">
+      <line x1="14" y1="10" x2="46" y2="10"/>
+      <line x1="14" y1="22" x2="46" y2="22"/>
+      <line x1="14" y1="34" x2="46" y2="34"/>
+      <line x1="14" y1="46" x2="34" y2="46"/>
+      <circle cx="14" cy="10" r="2.2" fill="currentColor" stroke="none" style="fill: var(--accent);"/>
+    </svg>
+  </section>
+
+  <section class="section reading">
+
+    <div class="reading-toolbar">
+      <button type="button" id="reading-lock" class="reading-toolbar__btn" aria-pressed="false" title="Edit — enter passphrase to unlock">
+        <svg viewBox="0 0 24 24" aria-hidden="true" class="reading-toolbar__icon-locked"><path d="M6 11V8a6 6 0 1 1 12 0v3"/><rect x="4.5" y="11" width="15" height="10" rx="1.5"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true" class="reading-toolbar__icon-unlocked"><path d="M6 11V8a6 6 0 0 1 11.6-2"/><rect x="4.5" y="11" width="15" height="10" rx="1.5"/></svg>
+        <span id="reading-lock-label">Edit</span>
+      </button>
+      <button type="button" id="reading-publish" class="reading-toolbar__btn reading-toolbar__btn--publish" hidden title="Download a JSON file you can commit to publish your edits">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v12M6 12l6 6 6-6M5 20h14"/></svg>
+        <span id="reading-publish-label">Download JSON</span>
+      </button>
+    </div>
+
+    <p class="reading-warn" id="reading-default-warn" hidden>
+      <strong>⚠ Default passphrase still in use.</strong>
+      Open the developer console and run
+      <code>await window.ReadingDigest("your-passphrase")</code>,
+      paste the result into <code>assets/reading-config.js</code>,
+      then redeploy.
+    </p>
+
+    <form class="reading-add" id="reading-add" novalidate aria-label="Add a reading-list entry" hidden>
+      <label class="reading-add__field reading-add__field--title">
+        <span class="reading-add__label">Title</span>
+        <input type="text" name="title" required autocomplete="off"
+               placeholder="e.g. Peskin &amp; Schroeder, An Introduction to QFT">
+      </label>
+      <label class="reading-add__field">
+        <span class="reading-add__label">Author <small>(optional)</small></span>
+        <input type="text" name="author" autocomplete="off"
+               placeholder="Peskin, Schroeder">
+      </label>
+      <label class="reading-add__field reading-add__field--pages">
+        <span class="reading-add__label">Pages</span>
+        <input type="number" name="totalPages" required min="1" step="1"
+               inputmode="numeric" placeholder="842">
+      </label>
+      <button type="submit" class="reading-add__submit">Add</button>
+    </form>
+
+    <div class="reading-stats" id="reading-stats" hidden></div>
+
+    <div class="reading-filter" role="tablist" aria-label="Filter reading list">
+      <button type="button" class="reading-filter__btn is-active" data-filter="all"     role="tab">All</button>
+      <button type="button" class="reading-filter__btn"           data-filter="reading" role="tab">Reading</button>
+      <button type="button" class="reading-filter__btn"           data-filter="done"    role="tab">Done</button>
+    </div>
+
+    <ul class="reading-list" id="reading-list" aria-live="polite"></ul>
+
+  </section>
+
+  <hr class="ornament-rule">
+
+</main>
+
+<footer class="footer">
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="index.html">About</a> ·
+    <a href="notes.html">Notes</a> ·
+    <a href="research.html">Research</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>

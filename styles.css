@@ -1913,6 +1913,428 @@ mjx-container[display="true"] {
   .page { padding-top: 3rem; }
 }
 
+/* ---------- Reading list ----------
+   Personal reading-list page (reading.html). Lives only on that route, so
+   class names are namespaced .reading-* and .reading-row__* to keep the
+   global stylesheet uncrowded. Uses the existing design tokens — no new
+   colours, no new fonts.
+
+   Two display modes, set by body classes:
+     body.reading-locked    → published view (visitors)
+     body.reading-unlocked  → edit view (owner) */
+/* The [hidden] attribute alone has the same specificity as a class
+   selector, so .reading-add { display: grid } would beat it. Scope an
+   explicit override to the reading-list elements that override their
+   own display so toggling .hidden on them actually hides them. */
+.reading-add[hidden],
+.reading-stats[hidden],
+.reading-toolbar__btn[hidden],
+.reading-warn[hidden] { display: none; }
+
+.reading-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 0 0 1rem;
+}
+.reading-toolbar__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--display);
+  font-variant: small-caps;
+  letter-spacing: 0.1em;
+  font-size: 0.78rem;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--rule);
+  border-radius: var(--rad);
+  padding: 0.35rem 0.7rem;
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-snappy),
+              border-color var(--dur-fast) var(--ease-snappy),
+              background-color var(--dur-fast) var(--ease-snappy);
+}
+.reading-toolbar__btn svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.reading-toolbar__btn:hover,
+.reading-toolbar__btn:focus-visible {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 5%, transparent);
+  outline: none;
+}
+.reading-toolbar__btn:focus-visible {
+  box-shadow: 0 0 0 3px var(--accent-line);
+}
+.reading-toolbar__btn[aria-pressed="true"] {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.reading-toolbar__icon-unlocked { display: none; }
+body.reading-unlocked .reading-toolbar__icon-locked   { display: none; }
+body.reading-unlocked .reading-toolbar__icon-unlocked { display: inline-block; }
+
+.reading-toolbar__btn--publish.is-dirty {
+  color: var(--paper);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.reading-toolbar__btn--publish.is-dirty:hover,
+.reading-toolbar__btn--publish.is-dirty:focus-visible {
+  background: var(--accent-soft);
+  border-color: var(--accent-soft);
+  color: var(--paper);
+}
+
+.reading-warn {
+  font-family: var(--body);
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+  background: color-mix(in srgb, var(--highlight) 12%, var(--paper));
+  border: 1px solid color-mix(in srgb, var(--highlight) 35%, var(--rule));
+  border-radius: var(--rad);
+  padding: 0.6rem 0.8rem;
+  margin: 0 0 1rem;
+}
+.reading-warn code {
+  font-family: var(--mono);
+  font-size: 0.85em;
+  background: var(--paper);
+  padding: 0.05rem 0.3rem;
+  border-radius: var(--rad);
+}
+
+/* In read-only mode the page-counter widget is shown as plain text — no
+   dashed-border affordance, no hover state, not focusable. */
+body.reading-locked .reading-row__pages {
+  border-color: transparent;
+  cursor: default;
+  padding-left: 0;
+  color: var(--ink-soft);
+}
+body.reading-locked .reading-row__pages:hover {
+  color: var(--ink-soft);
+  border-color: transparent;
+}
+
+.reading-add {
+  display: grid;
+  grid-template-columns: 1fr 1fr 7rem auto;
+  gap: 0.6rem 0.9rem;
+  align-items: end;
+  padding: 1rem 1rem 1.1rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--rad);
+  background: color-mix(in srgb, var(--paper-deep) 35%, var(--paper));
+  margin: 0 0 1.6rem;
+}
+
+.reading-add__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.reading-add__field--title { grid-column: 1 / 3; }
+
+.reading-add__label {
+  font-family: var(--display);
+  font-variant: small-caps;
+  letter-spacing: 0.1em;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+.reading-add__label small {
+  color: var(--muted);
+  font-style: italic;
+  font-variant: normal;
+  letter-spacing: 0;
+}
+
+.reading-add input {
+  font: inherit;
+  font-family: var(--body);
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: var(--rad);
+  padding: 0.5rem 0.65rem;
+  width: 100%;
+  transition: border-color var(--dur-fast) var(--ease-snappy),
+              box-shadow var(--dur-fast) var(--ease-snappy);
+}
+.reading-add input:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-line);
+}
+.reading-add input[aria-invalid="true"] {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, var(--paper));
+}
+
+.reading-add__submit {
+  font-family: var(--display);
+  font-variant: small-caps;
+  letter-spacing: 0.12em;
+  font-size: 0.85rem;
+  color: var(--paper);
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: var(--rad);
+  padding: 0.55rem 1.1rem;
+  cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease-snappy),
+              transform var(--dur-fast) var(--ease-snappy);
+}
+.reading-add__submit:hover,
+.reading-add__submit:focus-visible {
+  background: var(--accent-soft);
+  outline: none;
+}
+.reading-add__submit:active { transform: translateY(1px); }
+.reading-add__submit:focus-visible {
+  box-shadow: 0 0 0 3px var(--accent-line);
+}
+
+.reading-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.4rem;
+  align-items: baseline;
+  padding: 0.7rem 0 1rem;
+  border-bottom: 1px solid var(--rule-soft);
+  margin-bottom: 1rem;
+}
+.reading-stat {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  font-family: var(--display);
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+.reading-stat strong {
+  font-family: var(--display);
+  font-weight: 500;
+  font-style: italic;
+  font-size: 1.4rem;
+  color: var(--accent);
+}
+.reading-stat span {
+  font-variant: small-caps;
+  letter-spacing: 0.08em;
+  font-size: 0.78rem;
+}
+.reading-stat--pages { margin-left: auto; }
+
+.reading-filter {
+  display: inline-flex;
+  gap: 0.4rem;
+  padding: 0.2rem;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--paper-deep) 25%, var(--paper));
+  margin: 0 0 1rem;
+}
+.reading-filter__btn {
+  font-family: var(--display);
+  font-variant: small-caps;
+  letter-spacing: 0.1em;
+  font-size: 0.78rem;
+  color: var(--muted);
+  background: transparent;
+  border: none;
+  border-radius: 999px;
+  padding: 0.3rem 0.85rem;
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-snappy),
+              background-color var(--dur-fast) var(--ease-snappy);
+}
+.reading-filter__btn:hover { color: var(--accent); }
+.reading-filter__btn.is-active {
+  color: var(--accent);
+  background: var(--paper);
+  box-shadow: 0 0 0 1px var(--rule);
+}
+.reading-filter__btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-line);
+}
+
+.reading-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.reading-empty {
+  padding: 1.6rem 0;
+  font-style: italic;
+  color: var(--muted);
+  text-align: center;
+}
+
+.reading-row {
+  display: grid;
+  gap: 0.45rem;
+  padding: 1rem 0;
+  border-bottom: 1px dotted var(--rule);
+}
+.reading-row:last-child { border-bottom: none; }
+
+.reading-row__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.3rem 0.8rem;
+}
+
+.reading-row__title {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: clamp(1.05rem, 1.6vw, 1.18rem);
+  color: var(--ink);
+  word-break: break-word;
+}
+
+.reading-row--finished .reading-row__title {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+
+.reading-row__author {
+  font-style: italic;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.reading-row__bar {
+  position: relative;
+  height: 6px;
+  background: var(--rule-soft);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.reading-row__bar-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: linear-gradient(90deg, var(--accent), var(--accent-soft));
+  width: 0%;
+  transition: width var(--dur-base) var(--ease-out);
+}
+.reading-row--finished .reading-row__bar-fill {
+  background: var(--muted);
+}
+
+.reading-row__ctrl {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.reading-row__pages {
+  font-family: var(--mono);
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 1px dashed transparent;
+  border-radius: var(--rad);
+  padding: 0.2rem 0.45rem;
+  cursor: text;
+  transition: border-color var(--dur-fast) var(--ease-snappy),
+              color var(--dur-fast) var(--ease-snappy);
+}
+.reading-row__pages:hover {
+  border-color: var(--rule);
+  color: var(--accent);
+}
+.reading-row__pages:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-line);
+}
+
+.reading-row__page-input {
+  font-family: var(--mono);
+  font-size: 0.88rem;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--accent);
+  border-radius: var(--rad);
+  padding: 0.2rem 0.45rem;
+  width: 6.5rem;
+}
+.reading-row__page-input:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-line);
+}
+
+.reading-row__btn {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: var(--rad);
+  padding: 0.25rem 0.55rem;
+  cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease-snappy),
+              border-color var(--dur-fast) var(--ease-snappy),
+              color var(--dur-fast) var(--ease-snappy);
+}
+.reading-row__btn:hover:not(:disabled),
+.reading-row__btn:focus-visible:not(:disabled) {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 5%, var(--paper));
+  outline: none;
+}
+.reading-row__btn:focus-visible {
+  box-shadow: 0 0 0 3px var(--accent-line);
+}
+.reading-row__btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.reading-row__btn--done { margin-left: auto; }
+.reading-row__btn--del {
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0.2rem 0.5rem;
+  color: var(--muted);
+}
+.reading-row__btn--del:hover:not(:disabled) {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* On narrow screens, stack the controls and let the page-counter widen. */
+@media (max-width: 560px) {
+  .reading-add {
+    grid-template-columns: 1fr 7rem;
+  }
+  .reading-add__field--title { grid-column: 1 / -1; }
+  .reading-add__submit { grid-column: 1 / -1; }
+  .reading-stat--pages { margin-left: 0; }
+  .reading-row__btn--done { margin-left: 0; }
+}
+
 /* ---------- Print ---------- */
 @media print {
   body {
