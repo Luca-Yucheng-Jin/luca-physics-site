@@ -672,12 +672,23 @@
       var info = pageInfo(manifest);
       enhanceBreadcrumb(info);
       buildPager(info);
-      buildSiteNav(info, manifest);
-      buildNavDrawerToggle();
-      // documentElement.nav-on was set synchronously at boot (no FOUC);
-      // mirror it onto body now that body exists, so CSS rules that
-      // chain off body see it immediately.
-      document.body.classList.toggle("nav-on", isNavOn());
+      // Topics navigator only on pages where you're actually reading a
+      // note or solution. On the home/about, research, notes index, and
+      // category landing pages the topbar alone is enough.
+      var showSiteNav = info.kind === "note" || info.kind === "note-orphan";
+      if (showSiteNav) {
+        buildSiteNav(info, manifest);
+        buildNavDrawerToggle();
+        // documentElement.nav-on was set synchronously at boot (no FOUC);
+        // mirror it onto body now that body exists, so CSS rules that
+        // chain off body see it immediately.
+        document.body.classList.toggle("nav-on", isNavOn());
+      } else {
+        // Strip the boot-time nav-on class so layouts that react to it
+        // (content offset, etc.) don't reserve space for an absent rail.
+        document.documentElement.classList.remove("nav-on");
+        document.body.classList.remove("nav-on");
+      }
     });
   }
 
