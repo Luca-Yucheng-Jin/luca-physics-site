@@ -2193,8 +2193,86 @@ body.reading-locked .reading-row__pages:hover {
   gap: 0.45rem;
   padding: 1rem 0;
   border-bottom: 1px dotted var(--rule);
+  /* Reset overrides any in-flight leave animation when the row is
+     re-created on the next render. */
+  opacity: 1;
 }
 .reading-row:last-child { border-bottom: none; }
+
+/* Row mount/leave animations. Gentle, brief — re-runs on every render
+   but kept short enough that filter switches and progress bumps still
+   feel responsive rather than choreographed. Disabled under
+   prefers-reduced-motion via the existing global rule. */
+@keyframes reading-row-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes reading-row-out {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+    max-height: 12rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-bottom-color: var(--rule);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-12px);
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-bottom-color: transparent;
+  }
+}
+.reading-row {
+  animation: reading-row-in var(--dur-base) var(--ease-out) both;
+}
+.reading-row.is-leaving {
+  /* Take the row out of normal flow space smoothly. overflow:hidden
+     so the inner content clips as max-height collapses. */
+  overflow: hidden;
+  animation: reading-row-out 240ms var(--ease-snappy) both;
+  pointer-events: none;
+}
+
+/* Edit-mode chrome: form + Download button fade in when the page
+   transitions from locked to unlocked. @starting-style is the modern
+   way to animate from display:none — supported by all current
+   evergreen browsers; older ones just skip the animation. */
+.reading-add,
+.reading-toolbar__btn--publish,
+.reading-warn {
+  transition: opacity var(--dur-base) var(--ease-out),
+              transform var(--dur-base) var(--ease-out);
+}
+@starting-style {
+  body.reading-unlocked .reading-add,
+  body.reading-unlocked .reading-toolbar__btn--publish,
+  body.reading-unlocked .reading-warn {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+/* Filter pill: subtle slide on the active background. */
+.reading-filter__btn {
+  transition: color var(--dur-fast) var(--ease-snappy),
+              background-color var(--dur-base) var(--ease-out),
+              box-shadow var(--dur-fast) var(--ease-snappy),
+              transform var(--dur-fast) var(--ease-snappy);
+}
+.reading-filter__btn.is-active { transform: translateY(-1px); }
+
+/* Dirty-indicator dot on the Download button: a soft pulse to draw the
+   eye without becoming a nag. */
+@keyframes reading-dirty-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 var(--accent-line); }
+  50%      { box-shadow: 0 0 0 4px transparent; }
+}
+.reading-toolbar__btn--publish.is-dirty {
+  animation: reading-dirty-pulse 2.4s var(--ease-out) infinite;
+}
 
 .reading-row__head {
   display: flex;

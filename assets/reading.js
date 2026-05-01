@@ -397,9 +397,33 @@ function setProgress(id, value) {
 }
 
 function removeEntry(id) {
-  workingItems = workingItems.filter(e => e.id !== id);
-  persist();
-  render();
+  const reduced = window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const row = document.querySelector('.reading-row[data-id="' + cssEscape(id) + '"]');
+
+  let done = false;
+  function finalize() {
+    if (done) return;
+    done = true;
+    workingItems = workingItems.filter(e => e.id !== id);
+    persist();
+    render();
+  }
+
+  if (!reduced && row) {
+    row.classList.add("is-leaving");
+    row.addEventListener("animationend", finalize, { once: true });
+    // Fallback in case the animationend event doesn't fire (e.g. the
+    // tab is backgrounded mid-animation).
+    setTimeout(finalize, 320);
+    return;
+  }
+  finalize();
+}
+
+function cssEscape(s) {
+  if (window.CSS && CSS.escape) return CSS.escape(s);
+  return String(s).replace(/[^a-zA-Z0-9_-]/g, "\\$&");
 }
 
 // ---------- Boot ---------------------------------------------------
