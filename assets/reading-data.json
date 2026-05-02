@@ -1,4 +1,37 @@
 {
-  "items": [],
-  "updatedAt": null
+  "items": [
+    {
+      "id": "r_monj2lyz_g1noemg",
+      "title": "Asymptotic Methods",
+      "author": "N. S. Manton",
+      "totalPages": 20,
+      "currentPage": 0,
+      "addedAt": "2026-05-01T23:12:22.715Z"
+    },
+    {
+      "id": "r_monj3ggo_g18qkrq",
+      "title": "QFT II",
+      "author": "David Skinner",
+      "totalPages": 150,
+      "currentPage": 20,
+      "addedAt": "2026-05-01T23:13:02.232Z"
+    },
+    {
+      "id": "r_monj48x7_oo2lcvy",
+      "title": "General Relativity",
+      "author": "David Tong",
+      "totalPages": 280,
+      "currentPage": 190,
+      "addedAt": "2026-05-01T23:13:39.115Z"
+    },
+    {
+      "id": "r_monj5jpd_yzjlv6v",
+      "title": "Group Theory",
+      "author": "Hugh Osborn",
+      "totalPages": 251,
+      "currentPage": 0,
+      "addedAt": "2026-05-01T23:14:39.745Z"
+    }
+  ],
+  "updatedAt": "2026-05-02T09:42:35.747Z"
 }
