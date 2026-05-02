@@ -165,6 +165,75 @@ export function serializeForExport(items) {
   ) + "\n";
 }
 
+/* Encode a UTF-8 string as base64. btoa() can't handle non-ASCII on
+   its own — encodeURIComponent + unescape is the standard workaround
+   that keeps multi-byte characters intact. */
+function utf8ToBase64(str) {
+  return btoa(unescape(encodeURIComponent(str)));
+}
+
+/* Commit assets/reading-data.json directly to GitHub via the Contents
+   API. Two requests: GET to read the current file SHA (so PUT can
+   reference it for atomic update), then PUT to write the new content.
+   Returns { ok, commitSha } on success, { ok: false, status, message }
+   on failure. fetchImpl is injectable for tests. */
+export async function publishToGitHub({ items, token, repo, branch, path, fetchImpl }) {
+  const f = fetchImpl || (typeof fetch !== "undefined" ? fetch : null);
+  if (!f) return { ok: false, status: 0, message: "fetch is unavailable" };
+  if (!token) return { ok: false, status: 0, message: "no token provided" };
+
+  const apiBase = `https://api.github.com/repos/${repo}/contents/${path}`;
+  const headers = {
+    "Authorization": `Bearer ${token}`,
+    "Accept": "application/vnd.github+json",
+    "X-GitHub-Api-Version": "2022-11-28",
+  };
+
+  let currentSha = null;
+  try {
+    const getRes = await f(`${apiBase}?ref=${encodeURIComponent(branch)}`, { headers });
+    if (getRes.ok) {
+      const cur = await getRes.json();
+      currentSha = cur && cur.sha;
+    } else if (getRes.status !== 404) {
+      return await readError(getRes, "read current file");
+    }
+    // 404 is fine — the file just doesn't exist yet, we'll create it.
+  } catch (e) {
+    return { ok: false, status: 0, message: `Network error reading file: ${e.message || e}` };
+  }
+
+  const content = serializeForExport(items);
+  const body = JSON.stringify({
+    message: "Update reading list",
+    content: utf8ToBase64(content),
+    branch,
+    ...(currentSha ? { sha: currentSha } : {}),
+  });
+
+  try {
+    const putRes = await f(apiBase, {
+      method: "PUT",
+      headers: { ...headers, "Content-Type": "application/json" },
+      body,
+    });
+    if (!putRes.ok) return await readError(putRes, "write file");
+    const data = await putRes.json();
+    return { ok: true, commitSha: data && data.commit && data.commit.sha };
+  } catch (e) {
+    return { ok: false, status: 0, message: `Network error writing file: ${e.message || e}` };
+  }
+}
+
+async function readError(res, action) {
+  let msg = `HTTP ${res.status} during ${action}`;
+  try {
+    const j = await res.json();
+    if (j && j.message) msg = j.message;
+  } catch {}
+  return { ok: false, status: res.status, message: msg };
+}
+
 /* True iff `working` differs from `published` once both are normalised
    (sorted by id, only the schema fields). Used to drive the "unsaved
    changes" indicator on the Download button. */

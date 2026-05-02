@@ -20,6 +20,7 @@ import {
   serializeForExport,
   isDirty,
   loadPublished,
+  publishToGitHub,
 } from "../assets/reading-store.js";
 
 // ---------- clamp ---------------------------------------------------
@@ -280,4 +281,102 @@ test("loadPublished returns [] on fetch failure", async () => {
 test("loadPublished returns [] on malformed payload", async () => {
   const f = stubFetch({ "x://data": { items: "not an array" } });
   assert.deepEqual(await loadPublished("x://data", f), []);
+});
+
+// ---------- publishToGitHub ---------------------------------------
+
+function makeGitHubFetch({ getResponse, putResponse, captured = [] }) {
+  return async (url, opts = {}) => {
+    captured.push({ url: String(url), method: opts.method || "GET", body: opts.body, headers: opts.headers });
+    if (opts.method === "PUT") return putResponse;
+    return getResponse;
+  };
+}
+function jsonRes(status, body) {
+  return {
+    ok: status >= 200 && status < 300,
+    status,
+    json: async () => body,
+  };
+}
+
+test("publishToGitHub: GET sha, then PUT new content with that sha", async () => {
+  const captured = [];
+  const f = makeGitHubFetch({
+    getResponse: jsonRes(200, { sha: "abc123", name: "reading-data.json" }),
+    putResponse: jsonRes(200, { commit: { sha: "deadbeef" } }),
+    captured,
+  });
+  const items = [
+    { id: "1", title: "Tong", author: null, totalPages: 200, currentPage: 50, addedAt: "2026-01-01T00:00:00Z" },
+  ];
+  const result = await publishToGitHub({
+    items, token: "fake_pat", repo: "owner/repo", branch: "main",
+    path: "assets/reading-data.json", fetchImpl: f,
+  });
+  assert.equal(result.ok, true);
+  assert.equal(result.commitSha, "deadbeef");
+  assert.equal(captured.length, 2);
+  assert.equal(captured[0].method, "GET");
+  assert.match(captured[0].url, /\/repos\/owner\/repo\/contents\/assets\/reading-data\.json\?ref=main/);
+  assert.equal(captured[0].headers.Authorization, "Bearer fake_pat");
+  assert.equal(captured[1].method, "PUT");
+  const putBody = JSON.parse(captured[1].body);
+  assert.equal(putBody.sha, "abc123");
+  assert.equal(putBody.branch, "main");
+  assert.equal(putBody.message, "Update reading list");
+  // base64 of the serialized JSON should decode back to clean JSON
+  const decoded = Buffer.from(putBody.content, "base64").toString("utf-8");
+  const parsed = JSON.parse(decoded);
+  assert.equal(parsed.items.length, 1);
+  assert.equal(parsed.items[0].title, "Tong");
+});
+
+test("publishToGitHub: file missing (404) creates the file without sha", async () => {
+  const captured = [];
+  const f = makeGitHubFetch({
+    getResponse: jsonRes(404, { message: "Not Found" }),
+    putResponse: jsonRes(201, { commit: { sha: "newcommit" } }),
+    captured,
+  });
+  const result = await publishToGitHub({
+    items: [], token: "t", repo: "o/r", branch: "main", path: "x.json", fetchImpl: f,
+  });
+  assert.equal(result.ok, true);
+  const putBody = JSON.parse(captured[1].body);
+  assert.equal(putBody.sha, undefined);
+});
+
+test("publishToGitHub: 401 surfaces the GitHub message", async () => {
+  const f = makeGitHubFetch({
+    getResponse: jsonRes(401, { message: "Bad credentials" }),
+    putResponse: jsonRes(401, { message: "Bad credentials" }),
+  });
+  const result = await publishToGitHub({
+    items: [], token: "wrong", repo: "o/r", branch: "main", path: "x.json", fetchImpl: f,
+  });
+  assert.equal(result.ok, false);
+  assert.equal(result.status, 401);
+  assert.equal(result.message, "Bad credentials");
+});
+
+test("publishToGitHub: rejects without a token", async () => {
+  const result = await publishToGitHub({ items: [], token: "", repo: "o/r", branch: "main", path: "x.json", fetchImpl: () => {
+    throw new Error("should not be called");
+  } });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /token/);
+});
+
+test("publishToGitHub: PUT failure surfaces the body message", async () => {
+  const f = makeGitHubFetch({
+    getResponse: jsonRes(200, { sha: "abc" }),
+    putResponse: jsonRes(409, { message: "is at 8a3b but expected def" }),
+  });
+  const result = await publishToGitHub({
+    items: [], token: "t", repo: "o/r", branch: "main", path: "x.json", fetchImpl: f,
+  });
+  assert.equal(result.ok, false);
+  assert.equal(result.status, 409);
+  assert.match(result.message, /is at 8a3b/);
 });
