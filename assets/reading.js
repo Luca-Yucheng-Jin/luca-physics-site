@@ -20,10 +20,18 @@ import {
   sha256Hex,
   serializeForExport,
   isDirty,
+  publishToGitHub,
 } from "./reading-store.js";
-import { PASSPHRASE_HASH, DEFAULT_PASSPHRASE_HASH } from "./reading-config.js";
+import {
+  PASSPHRASE_HASH,
+  DEFAULT_PASSPHRASE_HASH,
+  GITHUB_REPO,
+  GITHUB_BRANCH,
+  PUBLISHED_PATH,
+} from "./reading-config.js";
 
 const SESSION_KEY = "reading-list:unlocked";
+const TOKEN_KEY   = "reading-list:gh-token";
 
 let publishedItems = [];
 let workingItems = [];
@@ -77,7 +85,9 @@ function bindToolbar() {
     if (unlocked) lock();
     else promptUnlock();
   });
-  $("#reading-publish").addEventListener("click", downloadPublished);
+  $("#reading-publish").addEventListener("click", publish);
+  $("#reading-download").addEventListener("click", downloadPublished);
+  $("#reading-forget-token").addEventListener("click", forgetToken);
 }
 
 async function promptUnlock() {
@@ -124,6 +134,109 @@ function lock() {
   unlocked = false;
   sessionStorage.removeItem(SESSION_KEY);
   render();
+}
+
+// ---------- GitHub publish flow ------------------------------------
+
+function getToken()  { try { return localStorage.getItem(TOKEN_KEY) || ""; } catch { return ""; } }
+function setToken(t) { try { localStorage.setItem(TOKEN_KEY, t); } catch {} }
+function clearToken(){ try { localStorage.removeItem(TOKEN_KEY); } catch {} }
+
+function forgetToken() {
+  if (!getToken()) { setStatus("No token stored.", "info"); return; }
+  if (!confirm("Forget the saved GitHub token from this browser?")) return;
+  clearToken();
+  setStatus("Token forgotten. You'll be asked for it the next time you publish.", "info");
+  render();
+}
+
+async function publish() {
+  if (!unlocked) return;
+  let token = getToken();
+  if (!token) {
+    const raw = window.prompt(
+      "Paste a GitHub fine-grained personal access token.\n\n" +
+      "Scope: Contents (Read and write) on this repo only.\n" +
+      "It will be stored unencrypted in this browser's localStorage.\n" +
+      "Click 'Forget token' in the toolbar to clear it."
+    );
+    if (raw == null) return;
+    const TRIM_RE = new RegExp(
+      "^[\\s\u200B\u200C\u200D\uFEFF]+|[\\s\u200B\u200C\u200D\uFEFF]+$",
+      "g"
+    );
+    token = raw.replace(TRIM_RE, "");
+    if (!token) return;
+    setToken(token);
+  }
+
+  setStatus("Publishing to GitHub…", "info");
+  setPublishBusy(true);
+
+  const result = await publishToGitHub({
+    items: workingItems,
+    token,
+    repo:   GITHUB_REPO,
+    branch: GITHUB_BRANCH,
+    path:   PUBLISHED_PATH,
+  });
+
+  setPublishBusy(false);
+
+  if (!result.ok) {
+    if (result.status === 401 || result.status === 403) {
+      clearToken();
+      setStatus(
+        `${result.message || "Token rejected"} — token cleared. Click Publish again to paste a new one.`,
+        "error"
+      );
+    } else if (result.status === 409) {
+      setStatus(
+        "Conflict: someone else updated the file. Reload the page so the published view catches up, then publish again.",
+        "error"
+      );
+    } else {
+      setStatus(`Publish failed: ${result.message}`, "error");
+    }
+    render();
+    return;
+  }
+
+  // Success — published view now matches working copy.
+  publishedItems = workingItems.map(e => ({ ...e }));
+  const shortSha = result.commitSha ? ` (${result.commitSha.slice(0, 7)})` : "";
+  setStatus(
+    `Published${shortSha}. GitHub Pages will redeploy in ~30 seconds.`,
+    "success"
+  );
+  render();
+}
+
+function setStatus(msg, kind = "info") {
+  const el = $("#reading-status");
+  if (!el) return;
+  el.textContent = msg;
+  el.dataset.kind = kind;
+  el.hidden = false;
+  if (kind === "info") {
+    // Auto-clear info messages after a few seconds.
+    clearTimeout(setStatus._t);
+    setStatus._t = setTimeout(() => {
+      if (el.textContent === msg) { el.hidden = true; el.textContent = ""; }
+    }, 4500);
+  }
+  if (kind === "success") {
+    clearTimeout(setStatus._t);
+    setStatus._t = setTimeout(() => {
+      if (el.textContent === msg) { el.hidden = true; el.textContent = ""; }
+    }, 6500);
+  }
+}
+
+function setPublishBusy(busy) {
+  const btn = $("#reading-publish");
+  btn.disabled = busy;
+  btn.classList.toggle("is-busy", busy);
 }
 
 function downloadPublished() {
@@ -211,11 +324,18 @@ function render() {
     : "Edit — enter passphrase to unlock";
   $("#reading-lock-label").textContent = unlocked ? "Lock" : "Edit";
 
+  const dirty = unlocked && isDirty(workingItems, publishedItems);
+
   const pub = $("#reading-publish");
   pub.hidden = !unlocked;
-  const dirty = unlocked && isDirty(workingItems, publishedItems);
   pub.classList.toggle("is-dirty", dirty);
-  $("#reading-publish-label").textContent = dirty ? "Download JSON ●" : "Download JSON";
+  $("#reading-publish-label").textContent = dirty ? "Publish ●" : "Publish";
+
+  const dl = $("#reading-download");
+  dl.hidden = !unlocked;
+
+  const forget = $("#reading-forget-token");
+  forget.hidden = !(unlocked && getToken());
 
   const warn = $("#reading-default-warn");
   warn.hidden = !(unlocked && PASSPHRASE_HASH === DEFAULT_PASSPHRASE_HASH);

@@ -25,3 +25,28 @@ export const PASSPHRASE_HASH =
  * so you notice if you forget to rotate it. */
 export const DEFAULT_PASSPHRASE_HASH =
   "e2186dbdb1bb4193608605e84f33208765b5693b55edd4f730a719a100eeea6f";
+
+/* ---------- One-click publish to GitHub ----------
+ *
+ * The reading.html "Publish" button writes assets/reading-data.json
+ * straight to this repo via GitHub's Contents API. GitHub Pages
+ * redeploys automatically.
+ *
+ * To set this up:
+ *   1. Visit https://github.com/settings/personal-access-tokens/new
+ *      (Settings → Developer settings → Personal access tokens →
+ *       Fine-grained tokens → Generate new token).
+ *   2. Repository access: Only select repositories → pick this repo.
+ *   3. Repository permissions: Contents → Access: Read and write.
+ *   4. Pick a short expiration (90 days is reasonable).
+ *   5. Click Generate token. Copy the token string (starts with
+ *      "github_pat_…"). Paste it into the page when prompted.
+ *
+ * The token is stored unencrypted in this browser's localStorage. The
+ * scope above is the smallest privilege that lets the page commit, so
+ * the worst case if the token leaks is someone vandalising this file.
+ * Click "Forget token" in the toolbar to clear it.
+ */
+export const GITHUB_REPO   = "Luca-Yucheng-Jin/luca-physics-site";
+export const GITHUB_BRANCH = "main";
+export const PUBLISHED_PATH = "assets/reading-data.json";
