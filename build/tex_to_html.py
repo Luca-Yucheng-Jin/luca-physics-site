@@ -1417,7 +1417,7 @@ window.MathJax = {
 <body>
 
 <header class="topbar">
-  <a href="../index.html" class="topbar__brand">Yucheng (Luca) Jin <small>MSci · Imperial</small></a>
+  <a href="../index.html" class="topbar__brand">Yucheng (Luca) Jin <small>BSc · Imperial</small></a>
   <nav class="topbar__nav">
     <a href="../index.html">About</a>
     <a href="../notes.html" class="is-active">Notes</a>
@@ -1506,6 +1506,10 @@ WHOLE_FILE_PAGES = [
         "Tong QFT — Problem Sheet 4",
         "Quantum Field Theory · Tong QFT PS4",
         "D. Tong, <em>Quantum Field Theory</em>, Problem Sheet 4 (interactions and tree-level amplitudes)."),
+    ("DTGRPS1.tex", "tong-gr-ps1",
+        "Tong GR — Problem Sheet 1",
+        "General Relativity &amp; Beyond · Tong GR PS1",
+        "D. Tong, <em>General Relativity</em>, Problem Sheet 1 (manifolds, tensors, Lie and exterior derivatives)."),
 ]
 
 
