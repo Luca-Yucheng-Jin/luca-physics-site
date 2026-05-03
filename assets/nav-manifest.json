@@ -140,21 +140,21 @@
             {
               "href": "notes/tong-gr-ps1.html",
               "title": "Differential Geometry",
-              "label": "α.",
-              "desc": "Tong GR PS1 — manifolds, tensors, Lie and exterior derivatives, Maurer–Cartan, Poincaré lemma.",
+              "label": "PS1.",
+              "desc": "Manifolds, tensors, Lie and exterior derivatives, Maurer–Cartan, Poincaré lemma.",
               "tag": "Tong GR PS1"
             },
             {
               "href": "notes/gr-brans-dicke.html",
               "title": "Brans–Dicke Theory",
-              "label": "β.",
+              "label": "α.",
               "desc": "Tong GR PS3 Q2 — scalar-tensor gravity and the variation of Newton's constant.",
               "tag": "Tong GR"
             },
             {
               "href": "notes/psi-11d-supergravity.html",
               "title": "11-Dimensional Supergravity",
-              "label": "γ.",
+              "label": "β.",
               "desc": "PSI Strings PS1 Q3 — graviton, gravitino, and three-form on the maximal supergravity algebra.",
               "tag": "PSI Strings"
             }
