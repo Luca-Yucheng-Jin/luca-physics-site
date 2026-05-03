@@ -112,8 +112,8 @@ CATEGORIES = [
     {
         "slug": "qft",
         "title": "Quantum Field Theory",
-        "blurb": "Path-integral essay, Peskin and Tong solutions, Schwartz chapter notes.",
-        "tag": "14 entries",
+        "blurb": "Path-integral essay, Peskin / Tong / PSI solutions, Schwartz chapter notes.",
+        "tag": "15 entries",
         "body": """    <h3>Papers</h3>
     <ul class="catalogue">
       <li class="catalogue__item">
@@ -184,6 +184,14 @@ CATEGORIES = [
         </span>
         <span class="catalogue__tag">Tong PS4</span>
       </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">Ψ1.</span>
+        <span class="catalogue__main">
+          <a href="notes/psi-correlation-functions-qm.html">Correlation Functions in Quantum Mechanics</a>
+          <span class="catalogue__desc">PSI QFT II PS1 — Euclidean / real-time path-integral propagators of the harmonic oscillator at finite temperature.</span>
+        </span>
+        <span class="catalogue__tag">PSI QFT II</span>
+      </li>
     </ul>
 
     <h3>Notes</h3>
@@ -240,9 +248,9 @@ CATEGORIES = [
     },
     {
         "slug": "advanced",
-        "title": "General Relativity & Beyond",
-        "blurb": "Manifolds and tensors, Brans–Dicke, 11d supergravity, and PSI QFT II finite-temperature correlators.",
-        "tag": "4 notes",
+        "title": "GR",
+        "blurb": "Manifolds and tensors, Brans–Dicke scalar-tensor gravity, and 11-dimensional supergravity.",
+        "tag": "3 notes",
         "body": """    <h3>Solutions</h3>
     <ul class="catalogue">
       <li class="catalogue__item">
@@ -268,14 +276,6 @@ CATEGORIES = [
           <span class="catalogue__desc">PSI Strings PS1 Q3 — graviton, gravitino, and three-form on the maximal supergravity algebra.</span>
         </span>
         <span class="catalogue__tag">PSI Strings</span>
-      </li>
-      <li class="catalogue__item">
-        <span class="catalogue__num">δ.</span>
-        <span class="catalogue__main">
-          <a href="notes/psi-correlation-functions-qm.html">Correlation Functions in Quantum Mechanics</a>
-          <span class="catalogue__desc">PSI QFT II PS1 — Euclidean / real-time propagators of the harmonic oscillator at finite temperature.</span>
-        </span>
-        <span class="catalogue__tag">PSI QFT II</span>
       </li>
     </ul>""",
     },

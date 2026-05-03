@@ -1480,15 +1480,15 @@ WHOLE_FILE_PAGES = [
     # (tex_file, slug, title, breadcrumb, source_long)
     ("11dsupergravity.tex", "psi-11d-supergravity",
         "11-Dimensional Supergravity",
-        "General Relativity &amp; Beyond · PSI Strings PS1 Q3",
+        "GR · PSI Strings PS1 Q3",
         "Perimeter Scholars International, Strings &amp; AdS/CFT, Problem Sheet 1, Question 3."),
     ("BransDicke.tex", "gr-brans-dicke",
         "Brans–Dicke Theory",
-        "General Relativity &amp; Beyond · Tong GR PS3 Q2",
+        "GR · Tong GR PS3 Q2",
         "D. Tong, <em>General Relativity</em>, Problem Sheet 3, Question 2."),
     ("Correlation_functions_in_QM.tex", "psi-correlation-functions-qm",
         "Correlation Functions in Quantum Mechanics",
-        "General Relativity &amp; Beyond · PSI QFT II PS1",
+        "Quantum Field Theory · PSI QFT II PS1",
         "Perimeter Scholars International, QFT II, Problem Sheet 1."),
     ("DTQFTPS1.tex", "tong-qft-ps1",
         "Tong QFT — Problem Sheet 1",
@@ -1508,7 +1508,7 @@ WHOLE_FILE_PAGES = [
         "D. Tong, <em>Quantum Field Theory</em>, Problem Sheet 4 (interactions and tree-level amplitudes)."),
     ("DTGRPS1.tex", "tong-gr-ps1",
         "Tong GR — Problem Sheet 1",
-        "General Relativity &amp; Beyond · Tong GR PS1",
+        "GR · Tong GR PS1",
         "D. Tong, <em>General Relativity</em>, Problem Sheet 1 (manifolds, tensors, Lie and exterior derivatives)."),
 ]
 
