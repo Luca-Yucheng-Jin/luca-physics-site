@@ -48,7 +48,8 @@ def page_chrome_head(title: str, description: str, css_path: str = "styles.css",
 
 def topbar(active: str, index_path: str = "index.html",
            notes_path: str = "notes.html",
-           research_path: str = "research.html") -> str:
+           research_path: str = "research.html",
+           reading_path: str = "reading.html") -> str:
     """`active` ∈ {'about', 'notes', 'research'} marks the current nav item."""
     a_about = ' class="is-active"' if active == "about" else ""
     a_notes = ' class="is-active"' if active == "notes" else ""
@@ -60,6 +61,7 @@ def topbar(active: str, index_path: str = "index.html",
     <a href="{index_path}"{a_about}>About</a>
     <a href="{notes_path}"{a_notes}>Notes</a>
     <a href="{research_path}"{a_research}>Research</a>
+    <a href="{reading_path}">Reading</a>
     <a href="mailto:luca.jin@outlook.com">Contact</a>
     <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" title="Decrease font size">A<span class="font-toggle__small">−</span></button>
     <button class="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size" title="Increase font size">A<span class="font-toggle__large">+</span></button>
@@ -110,8 +112,8 @@ CATEGORIES = [
     {
         "slug": "qft",
         "title": "Quantum Field Theory",
-        "blurb": "Path-integral essay, Peskin and Tong solutions, Schwartz chapter notes.",
-        "tag": "14 entries",
+        "blurb": "Path-integral essay, Peskin / Tong / PSI solutions, Schwartz chapter notes.",
+        "tag": "15 entries",
         "body": """    <h3>Papers</h3>
     <ul class="catalogue">
       <li class="catalogue__item">
@@ -182,6 +184,14 @@ CATEGORIES = [
         </span>
         <span class="catalogue__tag">Tong PS4</span>
       </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">Ψ1.</span>
+        <span class="catalogue__main">
+          <a href="notes/psi-correlation-functions-qm.html">Correlation Functions in Quantum Mechanics</a>
+          <span class="catalogue__desc">PSI QFT II PS1 — Euclidean / real-time path-integral propagators of the harmonic oscillator at finite temperature.</span>
+        </span>
+        <span class="catalogue__tag">PSI QFT II</span>
+      </li>
     </ul>
 
     <h3>Notes</h3>
@@ -238,13 +248,21 @@ CATEGORIES = [
     },
     {
         "slug": "advanced",
-        "title": "General Relativity & Beyond",
-        "blurb": "Brans–Dicke, 11d supergravity, and PSI QFT II finite-temperature correlators.",
+        "title": "GR",
+        "blurb": "Manifolds and tensors, Brans–Dicke scalar-tensor gravity, and 11-dimensional supergravity.",
         "tag": "3 notes",
         "body": """    <h3>Solutions</h3>
     <ul class="catalogue">
       <li class="catalogue__item">
         <span class="catalogue__num">α.</span>
+        <span class="catalogue__main">
+          <a href="notes/tong-gr-ps1.html">Differential Geometry</a>
+          <span class="catalogue__desc">Tong GR PS1 — manifolds, tensors, Lie and exterior derivatives, Maurer–Cartan, Poincaré lemma.</span>
+        </span>
+        <span class="catalogue__tag">Tong GR PS1</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">β.</span>
         <span class="catalogue__main">
           <a href="notes/gr-brans-dicke.html">Brans–Dicke Theory</a>
           <span class="catalogue__desc">Tong GR PS3 Q2 — scalar-tensor gravity and the variation of Newton's constant.</span>
@@ -252,20 +270,12 @@ CATEGORIES = [
         <span class="catalogue__tag">Tong GR</span>
       </li>
       <li class="catalogue__item">
-        <span class="catalogue__num">β.</span>
+        <span class="catalogue__num">γ.</span>
         <span class="catalogue__main">
           <a href="notes/psi-11d-supergravity.html">11-Dimensional Supergravity</a>
           <span class="catalogue__desc">PSI Strings PS1 Q3 — graviton, gravitino, and three-form on the maximal supergravity algebra.</span>
         </span>
         <span class="catalogue__tag">PSI Strings</span>
-      </li>
-      <li class="catalogue__item">
-        <span class="catalogue__num">γ.</span>
-        <span class="catalogue__main">
-          <a href="notes/psi-correlation-functions-qm.html">Correlation Functions in Quantum Mechanics</a>
-          <span class="catalogue__desc">PSI QFT II PS1 — Euclidean / real-time propagators of the harmonic oscillator at finite temperature.</span>
-        </span>
-        <span class="catalogue__tag">PSI QFT II</span>
       </li>
     </ul>""",
     },
@@ -575,6 +585,11 @@ def top_index_page(categories: list[dict]) -> str:
     <p class="hero__lede">
       Solved problems and self-contained derivations from coursework and
       independent reading, organised by topic.
+    </p>
+    <p class="hero__lede" style="font-style:italic; color:var(--muted);">
+      None of these works are original — they are write-ups of problems and
+      derivations from textbooks, lecture courses, and other published sources.
+      Sources are credited on every page.
     </p>
 
     <svg class="hero__vertex" viewBox="0 0 60 60" aria-hidden="true">

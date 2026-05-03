@@ -3,8 +3,8 @@
     {
       "slug": "qft",
       "title": "Quantum Field Theory",
-      "blurb": "Path-integral essay, Peskin and Tong solutions, Schwartz chapter notes.",
-      "tag": "14 entries",
+      "blurb": "Path-integral essay, Peskin / Tong / PSI solutions, Schwartz chapter notes.",
+      "tag": "15 entries",
       "groups": [
         {
           "title": "Papers",
@@ -69,6 +69,13 @@
               "label": "PS4.",
               "desc": "Wick's theorem at tree level — φ⁴ 3-to-3, vacuum bubbles, Yukawa, Compton, e⁻e⁺ → μ⁻μ⁺.",
               "tag": "Tong PS4"
+            },
+            {
+              "href": "notes/psi-correlation-functions-qm.html",
+              "title": "Correlation Functions in Quantum Mechanics",
+              "label": "Ψ1.",
+              "desc": "PSI QFT II PS1 — Euclidean / real-time path-integral propagators of the harmonic oscillator at finite temperature.",
+              "tag": "PSI QFT II"
             }
           ]
         },
@@ -123,33 +130,33 @@
     },
     {
       "slug": "advanced",
-      "title": "General Relativity & Beyond",
-      "blurb": "Brans–Dicke, 11d supergravity, and PSI QFT II finite-temperature correlators.",
+      "title": "GR",
+      "blurb": "Manifolds and tensors, Brans–Dicke scalar-tensor gravity, and 11-dimensional supergravity.",
       "tag": "3 notes",
       "groups": [
         {
           "title": "Solutions",
           "notes": [
             {
+              "href": "notes/tong-gr-ps1.html",
+              "title": "Differential Geometry",
+              "label": "α.",
+              "desc": "Tong GR PS1 — manifolds, tensors, Lie and exterior derivatives, Maurer–Cartan, Poincaré lemma.",
+              "tag": "Tong GR PS1"
+            },
+            {
               "href": "notes/gr-brans-dicke.html",
               "title": "Brans–Dicke Theory",
-              "label": "α.",
+              "label": "β.",
               "desc": "Tong GR PS3 Q2 — scalar-tensor gravity and the variation of Newton's constant.",
               "tag": "Tong GR"
             },
             {
               "href": "notes/psi-11d-supergravity.html",
               "title": "11-Dimensional Supergravity",
-              "label": "β.",
+              "label": "γ.",
               "desc": "PSI Strings PS1 Q3 — graviton, gravitino, and three-form on the maximal supergravity algebra.",
               "tag": "PSI Strings"
-            },
-            {
-              "href": "notes/psi-correlation-functions-qm.html",
-              "title": "Correlation Functions in Quantum Mechanics",
-              "label": "γ.",
-              "desc": "PSI QFT II PS1 — Euclidean / real-time propagators of the harmonic oscillator at finite temperature.",
-              "tag": "PSI QFT II"
             }
           ]
         }
