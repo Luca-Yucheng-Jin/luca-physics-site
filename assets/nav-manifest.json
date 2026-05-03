@@ -139,9 +139,9 @@
           "notes": [
             {
               "href": "notes/tong-gr-ps1.html",
-              "title": "Tong GR — Problem Sheet 1",
+              "title": "Differential Geometry",
               "label": "α.",
-              "desc": "Manifolds, tensors, Lie and exterior derivatives, Maurer–Cartan, Poincaré lemma.",
+              "desc": "Tong GR PS1 — manifolds, tensors, Lie and exterior derivatives, Maurer–Cartan, Poincaré lemma.",
               "tag": "Tong GR PS1"
             },
             {

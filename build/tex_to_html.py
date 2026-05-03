@@ -1507,7 +1507,7 @@ WHOLE_FILE_PAGES = [
         "Quantum Field Theory · Tong QFT PS4",
         "D. Tong, <em>Quantum Field Theory</em>, Problem Sheet 4 (interactions and tree-level amplitudes)."),
     ("DTGRPS1.tex", "tong-gr-ps1",
-        "Tong GR — Problem Sheet 1",
+        "Differential Geometry",
         "GR · Tong GR PS1",
         "D. Tong, <em>General Relativity</em>, Problem Sheet 1 (manifolds, tensors, Lie and exterior derivatives)."),
 ]
