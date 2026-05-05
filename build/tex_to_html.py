@@ -984,11 +984,39 @@ def stash_math(text, stash):
     return text
 
 
+_ACCENT_MAP = {
+    '"': {'a': 'ä', 'e': 'ë', 'i': 'ï', 'o': 'ö', 'u': 'ü', 'y': 'ÿ',
+          'A': 'Ä', 'E': 'Ë', 'I': 'Ï', 'O': 'Ö', 'U': 'Ü', 'Y': 'Ÿ'},
+    "'": {'a': 'á', 'e': 'é', 'i': 'í', 'o': 'ó', 'u': 'ú', 'y': 'ý',
+          'A': 'Á', 'E': 'É', 'I': 'Í', 'O': 'Ó', 'U': 'Ú', 'Y': 'Ý',
+          'c': 'ć', 'n': 'ń', 's': 'ś', 'z': 'ź'},
+    '`': {'a': 'à', 'e': 'è', 'i': 'ì', 'o': 'ò', 'u': 'ù',
+          'A': 'À', 'E': 'È', 'I': 'Ì', 'O': 'Ò', 'U': 'Ù'},
+    '^': {'a': 'â', 'e': 'ê', 'i': 'î', 'o': 'ô', 'u': 'û',
+          'A': 'Â', 'E': 'Ê', 'I': 'Î', 'O': 'Ô', 'U': 'Û'},
+    '~': {'a': 'ã', 'n': 'ñ', 'o': 'õ',
+          'A': 'Ã', 'N': 'Ñ', 'O': 'Õ'},
+}
+_ACCENT_RE = re.compile(r'\\(["\'`^~])\{?([A-Za-z])\}?')
+
+
+def _decode_accents(text):
+    """Decode LaTeX accent macros (\\"o, \\'e, \\^a, \\`u, \\~n, with or
+    without braces) to their Unicode equivalents in non-math text."""
+    def repl(m):
+        accent, letter = m.group(1), m.group(2)
+        return _ACCENT_MAP.get(accent, {}).get(letter, m.group(0))
+    return _ACCENT_RE.sub(repl, text)
+
+
 def transform_text(text, stash=None):
     """Apply structural and formatting LaTeX → HTML transformations on the
     text segments (math regions are already stashed)."""
     # Strip percent-comments (TeX comments), preserving leading whitespace
     text = re.sub(r"(?m)(?<!\\)%.*$", "", text)
+
+    # Decode LaTeX accent macros (\"o → ö, \'e → é, \^a → â, \`u → ù, \~n → ñ)
+    text = _decode_accents(text)
 
     # ── EARLY: extract \begin{figure}…\end{figure} blocks BEFORE we strip
     # \label{} so the figure handler can record figure-number labels for
@@ -1510,6 +1538,10 @@ WHOLE_FILE_PAGES = [
         "Differential Geometry",
         "GR · Tong GR PS1",
         "D. Tong, <em>General Relativity</em>, Problem Sheet 1 (manifolds, tensors, Lie and exterior derivatives)."),
+    ("DTGRPS2.tex", "tong-gr-ps2",
+        "Connections &amp; Curvature",
+        "GR · Tong GR PS2",
+        "D. Tong, <em>General Relativity</em>, Problem Sheet 2 (connections, torsion, Riemann / Ricci / Weyl, geodesics, Reissner–Nordström)."),
 ]
 
 
@@ -1751,6 +1783,7 @@ def write_whole_file_page(tex_path, slug, title, breadcrumb, source_long):
                 out_chunks.append(latex_to_html(pre, stash=shared))
             for i, (cstart, cend, sub_title) in enumerate(matches):
                 sub_title = _strip_two_arg_keep_first(sub_title, "texorpdfstring").strip()
+                sub_title = _decode_accents(sub_title)
                 display = re.sub(r"\s*\([^)]*\)\s*$", "", sub_title).strip() or sub_title
                 start = cend
                 end_pos = matches[i + 1][0] if i + 1 < len(matches) else len(text)
@@ -1768,6 +1801,7 @@ def write_whole_file_page(tex_path, slug, title, breadcrumb, source_long):
                 out_chunks.append(latex_to_html(pre, stash=shared))
             for i, (cstart, cend, sec_title) in enumerate(matches):
                 sec_title = _strip_two_arg_keep_first(sec_title, "texorpdfstring").strip()
+                sec_title = _decode_accents(sec_title)
                 display = re.sub(r"\s*\([^)]*\)\s*$", "", sec_title).strip() or sec_title
                 start = cend
                 end_pos = matches[i + 1][0] if i + 1 < len(matches) else len(text)

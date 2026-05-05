@@ -249,8 +249,8 @@ CATEGORIES = [
     {
         "slug": "advanced",
         "title": "GR",
-        "blurb": "Manifolds and tensors, Brans–Dicke scalar-tensor gravity, and 11-dimensional supergravity.",
-        "tag": "3 notes",
+        "blurb": "Manifolds and tensors, connections and curvature, Brans–Dicke scalar-tensor gravity, and 11-dimensional supergravity.",
+        "tag": "4 notes",
         "body": """    <h3>Solutions</h3>
     <ul class="catalogue">
       <li class="catalogue__item">
@@ -260,6 +260,14 @@ CATEGORIES = [
           <span class="catalogue__desc">Manifolds, tensors, Lie and exterior derivatives, Maurer–Cartan, Poincaré lemma.</span>
         </span>
         <span class="catalogue__tag">Tong GR PS1</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">PS2.</span>
+        <span class="catalogue__main">
+          <a href="notes/tong-gr-ps2.html">Connections &amp; Curvature</a>
+          <span class="catalogue__desc">Christoffel transformation, torsion, Bianchi, parallel transport, Riemann / Ricci / Weyl, geodesics, Reissner–Nordström.</span>
+        </span>
+        <span class="catalogue__tag">Tong GR PS2</span>
       </li>
       <li class="catalogue__item">
         <span class="catalogue__num">α.</span>
