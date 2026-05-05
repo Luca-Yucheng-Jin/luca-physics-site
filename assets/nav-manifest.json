@@ -131,8 +131,8 @@
     {
       "slug": "advanced",
       "title": "GR",
-      "blurb": "Manifolds and tensors, Brans–Dicke scalar-tensor gravity, and 11-dimensional supergravity.",
-      "tag": "3 notes",
+      "blurb": "Manifolds and tensors, connections and curvature, Brans–Dicke scalar-tensor gravity, and 11-dimensional supergravity.",
+      "tag": "4 notes",
       "groups": [
         {
           "title": "Solutions",
@@ -143,6 +143,13 @@
               "label": "PS1.",
               "desc": "Manifolds, tensors, Lie and exterior derivatives, Maurer–Cartan, Poincaré lemma.",
               "tag": "Tong GR PS1"
+            },
+            {
+              "href": "notes/tong-gr-ps2.html",
+              "title": "Connections &amp; Curvature",
+              "label": "PS2.",
+              "desc": "Christoffel transformation, torsion, Bianchi, parallel transport, Riemann / Ricci / Weyl, geodesics, Reissner–Nordström.",
+              "tag": "Tong GR PS2"
             },
             {
               "href": "notes/gr-brans-dicke.html",

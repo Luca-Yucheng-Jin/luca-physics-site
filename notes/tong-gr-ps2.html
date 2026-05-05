@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Connections &amp; Curvature — Yucheng (Luca) Jin</title>
+<meta name="description" content="Connections &amp; Curvature. Source: D. Tong.">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../styles.css">
+
+<script src="../assets/theme.js"></script>
+<script src="../assets/font-size.js"></script>
+
+<!-- MathJax with custom macros mirroring the original .tex preamble -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros', 'mathtools']},
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      Q: '\\mathbb{Q}',
+      A: '\\mathcal{A}',
+      Lagrangian: '\\mathcal{L}',
+      Cdot: '\\boldsymbol{\\cdot}',
+      Tr: '\\operatorname{Tr}',
+      // Feynman slash: \not{x} would render the slash to the LEFT of x
+      // (it's designed for \not=). \cancel from the cancel package
+      // strikes diagonally through the centre, matching the slashed.sty
+      // package's appearance.
+      slashed: ['{\\cancel{#1}}', 1],
+      // Wick contraction: top brace connector over the contracted pair —
+      // closer to the standard physics notation than a plain overline.
+      wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // siunitx polyfill — \si{K}, \si{m\,s^{-1}} etc. should render
+      // the unit in upright math text, like \mathrm{X}. Doesn't try
+      // to mimic the full siunitx unit-formatting machinery; just
+      // unblocks the common bare-unit case in TDSP problems.
+      si: ['\\,\\mathrm{#1}', 1],
+      SI: ['#1\\,\\mathrm{#2}', 2]
+      // \tensor{base}{indices} is rewritten to base^a{}_b in
+      // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
+      // so no runtime macro is needed here. The empty-group trick is
+      // what makes MathJax kern the indices into separate columns.
+    }
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="topbar__brand">Yucheng (Luca) Jin <small>BSc · Imperial</small></a>
+  <nav class="topbar__nav">
+    <a href="../index.html">About</a>
+    <a href="../notes.html" class="is-active">Notes</a>
+    <a href="../research.html">Research</a>
+    <a href="../reading.html">Reading</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+    <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" title="Decrease font size">A<span class="font-toggle__small">−</span></button>
+    <button class="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size" title="Increase font size">A<span class="font-toggle__large">+</span></button>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Toggle theme">
+      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    </button>
+  </nav>
+</header>
+
+<main class="note">
+
+  <div class="note__breadcrumb">
+    <a href="../notes.html">Notes</a> &nbsp;·&nbsp; GR · Tong GR PS2
+  </div>
+
+  <h1 class="note__title">Connections &amp; Curvature</h1>
+  <p class="note__subtitle">Source: D. Tong, <em>General Relativity</em>, Problem Sheet 2 (connections, torsion, Riemann / Ricci / Weyl, geodesics, Reissner–Nordström).</p>
+
+  <nav class="note__toc" aria-label="Contents">
+  <div class="note__toc-label">On this page</div>
+  <ol class="note__toc-list">
+    <li class="toc-h2"><a href="#transformation-of-connection-components-q1">Transformation of Connection Components, Q1</a></li>
+    <li class="toc-h2"><a href="#the-torsion-tensor-q2">The Torsion Tensor, Q2</a></li>
+    <li class="toc-h2"><a href="#ricci-identity-for-a-1-form-q3">Ricci Identity for a 1-Form, Q3</a></li>
+    <li class="toc-h2"><a href="#the-contracted-bianchi-identity-q4">The Contracted Bianchi Identity, Q4</a></li>
+    <li class="toc-h2"><a href="#parallel-transport-on-the-sphere-q5">Parallel Transport on the Sphere, Q5</a></li>
+    <li class="toc-h2"><a href="#the-reissner-nordström-solution-q6">The Reissner-Nordström Solution, Q6*</a></li>
+    <li class="toc-h2"><a href="#lie-derivatives-and-covariant-derivatives-q7">Lie Derivatives and Covariant Derivatives, Q7</a></li>
+    <li class="toc-h2"><a href="#independent-components-of-the-riemann-tensor-q8">Independent Components of the Riemann Tensor, Q8</a></li>
+    <li class="toc-h2"><a href="#the-weyl-tensor-q9">The Weyl Tensor, Q9</a></li>
+    <li class="toc-h2"><a href="#the-penrose-equation-q10">The Penrose Equation, Q10</a></li>
+    <li class="toc-h2"><a href="#geodesics-and-curvature-from-vierbeins-q11">Geodesics and Curvature from Vierbeins, Q11</a></li>
+  </ol>
+</nav>
+
+  <article class="note__body">
+<h2 id="transformation-of-connection-components-q1">Transformation of Connection Components, Q1</h2>
+
+<p>Consider a change of basis $\tilde{e}_\mu = (A^{-1})^\nu{}_\mu e_\nu$. Show that the components of a connection in the new basis are related to its components in the old basis by
+\[\tilde{\Gamma}^\rho{}_{\mu\nu} = A^\rho{}_\lambda (A^{-1})^\sigma{}_\mu\left[(A^{-1})^\tau{}_\nu\Gamma^\lambda{}_{\sigma\tau} + e_\sigma((A^{-1})^\lambda{}_\nu)\right].\tag{1.1}\]
+Show further that the difference of two connections, $(\Gamma_1)^\rho{}_{\mu\nu} - (\Gamma_2)^\rho{}_{\mu\nu}$, transforms as a tensor.</p>
+
+<aside class="solution">
+
+<p>Starting from the definition of a connection,
+    \[\nabla_{e_\mu} e_\nu = \Gamma^\rho {}_{\mu\nu} e_\rho.\tag{1.2}\]
+    After the coordinate transformation, we have
+    \[\begin{aligned}
+        \nabla_{\tilde{e}_\mu} \tilde{e}_\nu = \tilde{\Gamma}^\rho {}_{\mu\nu} \tilde{e}_\rho &amp;= \nabla_{(A^{-1})^\lambda{}_\mu e_\lambda}(A^{-1})^\sigma{}_\nu e_\sigma\\
+        &amp;=(A^{-1})^\lambda{}_\mu\nabla_{e_\lambda}[(A^{-1})^\sigma{}_\nu e_\sigma]\\
+        &amp;= (A^{-1})^\lambda{}_\mu\left[(A^{-1})^\sigma{}_\nu \Gamma^\tau {}_{\lambda\sigma} e_\tau + e_\lambda((A^{-1})^\sigma{}_\nu)e_\sigma \right].
+    \end{aligned}\tag{1.3}\]
+    Multiplying both side by $A$, we find
+    \[\tilde{\Gamma}^\rho{}_{\mu\nu} = A^\rho{}_\lambda (A^{-1})^\sigma{}_\mu\left[(A^{-1})^\tau{}_\nu\Gamma^\lambda{}_{\sigma\tau} + e_\sigma((A^{-1})^\lambda{}_\nu)\right].\tag{1.4}\]</p>
+
+</aside>
+
+<h2 id="the-torsion-tensor-q2">The Torsion Tensor, Q2</h2>
+
+<p>Let $\nabla$ be a connection that is not torsion-free. Let $T(X,Y) = \nabla_X Y - \nabla_Y X - [X,Y]$ where $X$ and $Y$ are vector fields. Show that this defines a $(1,2)$ tensor field $T$. This is called the torsion tensor. Show that, for any function $f$,
+\[2\nabla_{[\mu}\nabla_{\nu]}f = -T^\rho{}_{\mu\nu}\nabla_\rho f.\tag{2.1}\]</p>
+
+<aside class="solution">
+
+<p>The operator maps
+        \[T: \mathfrak{X}(M)\times\mathfrak{X}(M) \to \mathfrak{X}(M),\tag{2.2}\]
+        which is isomorphic to a map
+        \[\hat{T}: \Lambda^1(M)\times \mathfrak{X}(M)\times\mathfrak{X}(M) \to C^\infty(M).\tag{2.3}\]
+        Such an isomorphism can be defined as
+        \[\hat{T}(\omega;X,Y) = \omega(T(X,Y)).\tag{2.4}\]
+        Due to linearity of 1-form, the first entry of $\hat{T}$ is already linear. Now, we need to verify linearity of the other two vector field entries, which is equivalent to check linearity of $T$. However, note that both the covariant derivative and commutators are bilinear. Therefore, $T$ is also bilinear, and hence $\hat{T}$ is trilinear. That is, $\hat{T}$ is a rank $(1,2)$ tensor.</p>
+
+<p>Now, consider 
+        \[2\nabla_{[\mu}\nabla_{\nu]}f = \nabla_\mu(\partial_\nu f) - \nabla_\nu(\partial_\mu f) = -(\Gamma^\rho{}_{\mu\nu} - \Gamma^\rho{}_{\nu\mu})\partial_\rho f,\tag{2.5}\]
+        where the minus sign comes from taking the covariant derivative of a 1-form.
+        Note that, if we expand the torsion tensor, we find
+        \[T^{\rho}{}_{\mu\nu} = T(dx^\rho ; \partial _\mu, \partial_\nu) = dx^\rho(\nabla_\mu \partial_\nu - \nabla_\nu \partial_\mu - [\partial_\mu, \partial_\nu]) = \Gamma^\rho{}_{\mu\nu} - \Gamma^\rho{}_{\nu\mu}.\tag{2.6}\]
+        Therefore, we find
+        \[2\nabla_{[\mu}\nabla_{\nu]}f = -T^\rho{}_{\mu\nu}\nabla_\rho f.\tag{2.7}\]</p>
+
+</aside>
+
+<h2 id="ricci-identity-for-a-1-form-q3">Ricci Identity for a 1-Form, Q3</h2>
+
+<p>Let $\nabla$ be a torsion-free connection. Derive the analogue of the Ricci identity for a 1-form $\omega$,
+\[2\nabla_{[\mu}\nabla_{\nu]}\omega_\rho = -R^\sigma{}_{\rho\mu\nu}\,\omega_\sigma.\tag{3.1}\]</p>
+
+<aside class="solution">
+
+<p>\[\begin{aligned}
+            \nabla_{[\mu}\nabla_{\nu]}\omega_\rho 
+            &amp;= \partial_{[\mu}(\nabla_{\nu]}\omega_\rho) - \Gamma^\lambda{}_{[\mu\nu]}(\nabla_\lambda\omega_\rho) - \Gamma^\lambda{}_{[\mu|\rho}(\nabla_{|\nu]}\omega_\lambda)\\
+            &amp;=\partial_{{[\mu}}\partial_{\nu]}\omega_\rho - \partial_{{[\mu}}(\Gamma^\lambda{}_{\nu]\rho}\omega_\lambda) - \Gamma^\lambda{}_{[\mu\nu]}\partial_\lambda\omega_\rho \\
+            &amp;\quad+\Gamma^\lambda{}_{[\mu\nu]}\Gamma^\sigma{}_{\lambda\rho}\omega_\sigma - \Gamma^\lambda{}_{[\mu|\rho}\partial_{|\nu]}\omega_\lambda + \Gamma^\lambda{}_{[\mu|\rho}\Gamma^\sigma{}_{|\nu]\lambda}\omega_\sigma\\
+            &amp;=-(\partial_{{[\mu}}\Gamma^\lambda{}_{\nu]\rho})\omega_\lambda -(\partial_{{[\mu|}}\omega_\lambda)\Gamma^\lambda{}_{|\nu]\rho} - \Gamma^\lambda{}_{[\mu|\rho}\partial_{|\nu]}\omega_\lambda + \Gamma^\lambda{}_{[\mu|\rho}\Gamma^\sigma{}_{|\nu]\lambda}\omega_\sigma.
+        \end{aligned}\tag{3.2}\]
+    Note that the middle two terms cancel, and recall the definition of The Ricci tensor, we find
+    \[2\nabla_{[\mu}\nabla_{\nu]}\omega_\rho = -R^\sigma{}_{\rho\mu\nu}\,\omega_\sigma.\tag{3.3}\]</p>
+
+</aside>
+
+<h2 id="the-contracted-bianchi-identity-q4">The Contracted Bianchi Identity, Q4</h2>
+
+<p>The Riemann tensor constructed from the Levi-Civita connection obeys the Bianchi identity $R^\mu{}_{\nu[\rho\sigma;\lambda]} = 0$. Use this fact to derive the contracted Bianchi identity $G^\mu{}_{\nu;\mu} = 0$ where $G_{\mu\nu} = R_{\mu\nu} - \frac{1}{2}Rg_{\mu\nu}$ is the Einstein tensor.</p>
+
+<aside class="solution">
+
+<p>Recall
+    \[R_{\mu\nu} = R^\rho{}_{\mu\rho\nu} \quad {\rm{and}} \quad R = g^{\mu\nu}R_{\mu\nu}.\tag{4.1}\]
+    Now consider
+    \[g^{\mu\rho}G_{\mu\nu;\rho} = g^{\mu\rho}\nabla_\rho R^\lambda{}_{\mu\lambda\nu} - \frac{1}{2}g_{\mu\nu}g^{\mu\rho}g^{\sigma\tau}\nabla_\rho R^\lambda{}_{\sigma\lambda\tau} = g^{\mu\rho} R^\lambda{}_{\mu\lambda\nu;\rho} - \frac{1}{2}g^{\mu\rho} R^\lambda{}_{\mu\lambda\rho;\nu}.\tag{4.2}\]
+    Recall the the Riemann tensor is symmetric under the total exchange of the first two and the last two indices, and antisymmetric under the individual exchange of the first two and the last two indices. Therefore, we have
+    \[g^{\mu\rho}R^\lambda{}_{\mu\lambda\nu;\rho} = g^{\mu\rho}g^{\lambda\sigma}R_{\sigma\mu\lambda\nu;\rho}  = g^{\lambda\sigma}g^{\mu\rho}R_{\rho\lambda\mu\nu;\sigma} = g^{\lambda\sigma}g^{\mu\rho}R_{\mu\lambda\rho\nu;\sigma} = - g^{\mu\rho}R^\lambda{}_{\mu\rho\nu;\lambda}.\tag{4.3}\]
+    Therefore, we have
+    \[g^{\mu\rho}G_{\mu\nu;\rho} = - g^{\mu\rho}\frac{1}{2}(R^\lambda{}_{\mu\lambda\nu;\rho}-R^\lambda{}_{\mu\lambda\rho;\nu}- R^\lambda{}_{\mu\rho\nu;\lambda}).\tag{4.4}\]
+    The Bianchi identity together with the antisymmetric property of the last two indices of the Riemann tensor, we have
+    \[R^\delta{}_{\mu\lambda\nu;\rho}-R^\delta{}_{\mu\lambda\rho;\nu}- R^\delta{}_{\mu\rho\nu;\lambda}=0.\tag{4.5}\]
+    Therefore, we find
+    \[G^\mu{}_{\nu;\mu} = 0.\tag{4.6}\]</p>
+
+</aside>
+
+<h2 id="parallel-transport-on-the-sphere-q5">Parallel Transport on the Sphere, Q5</h2>
+
+<p>A vector field $Y$ is parallely propagated (with respect to the Levi-Civita connection) along an affinely parameterized geodesic with tangent vector $X$ in a Riemannian manifold. Show that the magnitudes of the vectors $X$, $Y$ and the angle between them are constant along the geodesic.</p>
+
+<p>On the unit sphere a unit vector $Y$ is initially tangent to the line $\phi=0$ at a point on the equator. It is then moved by parallel propagation first along the equator to the point $\phi=\phi_0$, from there along the line $\phi=\phi_0$ to the North pole, and then back along the line $\phi=0$ to its original position. By how much has it changed, and why?</p>
+
+<aside class="solution">
+
+<p>The inner product between two vector fields is given by $g(X,Y)$. Parallel transport means that $\nabla_X Y =0$, and the fact that $X$ is the tangent vector of the affinely parametrized geodesic implies that $\nabla_XX = 0$. Therefore, we find
+    \[\nabla_Xg(X,Y) =\frac{d}{d\tau} g(X,Y) =   (\nabla_Xg)(X,Y) + g(\nabla_XX,Y)+g(X,\nabla_XY) = 0,\tag{5.1}\]
+    where we have used $\nabla_Xg = 0$ for Levi-Civita connection.</p>
+
+<p>It simple to visualize such a process, and one would find that $Y$ is rotated by $\phi_0$.</p>
+
+<p>Mathematically, The Levi-Civita connection of a unit sphere is given by
+    \[\Gamma^\theta{}_{\phi\phi} =  - \sin\theta \cos\theta, \quad {\rm and} \quad \Gamma^\phi{}_{\theta\phi} =  \Gamma^\phi{}_{\phi\theta} = \cot\theta.\tag{5.2}\]
+    We start with the vector $Y^\mu = (1,0)$ at $\theta = \pi/2$, $\phi = 0$.</p>
+
+<p>Along the equator $\phi: 0\to\phi_0$ at $\theta = \pi/2$,
+    \[\frac{dY^\theta}{d\phi} = \sin\theta\cos\theta\, Y^\phi = 0, \quad
+        \frac{dY^\phi}{d\phi} = -\cot\theta\, Y^\theta\cdot 0 = 0
+        \implies Y_1^\mu = (1,0).\tag{5.3}\]</p>
+
+<p>Then, along the meridian $\phi = \phi_0$, $\theta: \pi/2\to 0$,
+    \[\frac{dY^\theta}{d\theta} = \sin\theta\cos\theta\, Y^\phi\cdot 0= 0, \quad
+        \frac{dY^\phi}{d\theta} = -\cot\theta\, Y^\phi
+        \implies \Delta Y^\phi = \frac{C}{\sin\theta}
+        \implies Y_2^\mu = (1,0),\tag{5.4}\]
+    where $C=0$ by $Y^\phi = 0$.</p>
+
+<p>Back along $\phi = 0$, $\theta: 0\to\pi/2$. However, one should note that, at the pole, the direction of $\hat{\theta}$ and $\hat{\phi}$ is rotated together by $\phi_0$ clockwise. Therefore, now we start from $Y_2'^\mu = (\cos\phi_0,-\sin\phi_0)$.
+    \[\frac{dY^\theta}{d\theta} = \sin\theta\cos\theta\, Y^\phi, \quad
+        \frac{dY^\phi}{d\theta} = -\cot\theta\, Y^\phi \implies  Y^\phi = \frac{C}{\sin\theta}, \quad  Y^\theta = C\sin\theta +D.\tag{5.5}\]
+    The $Y^\phi$ term seems to be diverging unless we set $C=0$, which does not match our initial condition at $\theta=0$. The key is to pick a orthogonal coordinate at the pole, $\hat{Y}^\theta = Y^\theta$, and $\hat{Y}^\phi = \sin\theta Y^\phi$. Note that the $\sin\theta$ factor comes form normalizing the coordinate bases $\partial_\phi$, $\partial_\theta$ by $\sqrt{g_{\phi\phi}}=\sin\theta$.</p>
+
+<p>This gives $C=-\sin\phi_0$, and therefore $D=\sin\phi_0+\cos\phi_0$. Finally, we end up with the vector
+    \[Y_3^\mu = (\cos\phi_0-\sin\phi_0, -\sin\phi_0),\tag{5.6}\]
+    which is rotated by $\phi_0$ from its initial direction, consistent with the holonomy theorem: the rotation equals the area $\phi_0$ enclosed by the path on the unit sphere.</p>
+
+</aside>
+
+<h2 id="the-reissner-nordström-solution-q6">The Reissner-Nordström Solution, Q6*</h2>
+
+<p>The Reissner-Nordström solution of the Einstein-Maxwell equations has metric
+\[ds^2 = -f(r)^2\,dt^2 + f(r)^{-2}\,dr^2 + r^2\!\left(d\theta^2 + \sin^2\theta\,d\phi^2\right)\tag{6.1}\]
+with
+\[f(r)^2 = 1 - \frac{2M}{r} + \frac{Q^2+P^2}{r^2}\tag{6.2}\]
+and a Maxwell field strength $F = dA$, with
+\[A = -\frac{Q}{r}\,dt - P\cos\theta\,d\phi\tag{6.3}\]
+where $M$, $P$, $Q$ are constants. $M$ can be interpreted as the total mass of this spacetime. Assume that $(t,r,\theta,\phi)$ is a right-handed coordinate chart. Show that
+\[\frac{1}{4\pi}\int_{S^2_\infty} \star F = Q \qquad \text{and} \qquad \frac{1}{4\pi}\int_{S^2_\infty} F = P\tag{6.4}\]
+where $S^2_\infty$ is a sphere at $r=\infty$ on a surface of constant $t$. What is the physical interpretation of $Q$ and $P$?</p>
+
+<aside class="solution">
+
+<p>\[F = dA = (\partial_\mu A_\nu - \partial_\nu A_\mu)dx^\mu \wedge dx ^\nu,\tag{6.5}\]
+which gives
+\[F_{rt} = -F_{tr} = \frac{Q}{2r^2} dr \wedge dt,\tag{6.6}\]
+\[F_{\theta\phi} = -F_{\phi\theta} = \frac{1}{2}P\sin\theta d\theta\wedge d\phi,\tag{6.7}\]
+and all of the rest of the component vanish.</p>
+
+<p>Now consider the charge defined as
+\[\frac{1}{4\pi}\int_{S_\infty^2} F = \frac{1}{4\pi}\int_{S_\infty^2}P\sin\theta d\phi d\theta + \frac{1}{4\pi}\int_{S_\infty^2}\frac{Q}{r^2} dr dt= P,\tag{6.8}\]
+which can be interpreted as the magnetic charge of the whole universe. Note that $dt =0$ for $S_\infty^2$.</p>
+
+<p>Similarly, consider the integral
+\[\frac{1}{4\pi}\int_{S^2_\infty} \star F = \frac{1}{4\pi}\int_{S^2_\infty} \sqrt{-g}\left[\frac{Q}{r^2}d\phi d\theta + P\sin\theta dr dt\right] =Q,\tag{6.9}\]
+which can be interpreted as the electric charge of the entire universe.</p>
+
+</aside>
+
+<h2 id="lie-derivatives-and-covariant-derivatives-q7">Lie Derivatives and Covariant Derivatives, Q7</h2>
+
+<p>In Q5 of Example Sheet 1, we showed that
+\[\begin{aligned}(\mathcal{L}_X\omega)_\mu &amp;= X^\nu\partial_\nu\omega_\mu + \omega_\nu\partial_\mu X^\nu\\
+    (\mathcal{L}_X g)_{\mu\nu} &amp;= X^\rho\partial_\rho g_{\mu\nu} + g_{\mu\rho}\partial_\nu X^\rho + g_{\rho\nu}\partial_\mu X^\rho.\end{aligned}\]
+Use normal coordinates to argue that one can replace partial derivatives with covariant derivatives to obtain the basis-independent results
+\[\begin{aligned}(\mathcal{L}_X\omega)_\mu &amp;= X^\nu\nabla_\nu\omega_\mu + \omega_\nu\nabla_\mu X^\nu\\
+    (\mathcal{L}_X g)_{\mu\nu} &amp;= \nabla_\mu X_\nu + \nabla_\nu X_\mu\end{aligned}\]
+where $\nabla$ is the Levi-Civita connection.</p>
+
+<aside class="solution">
+
+<p>In a normal coordinate, we can interchange $\partial_\mu$ and $\nabla_\mu$ with no cost. Since we are considering Levi-Civita connection, we have $\nabla g = 0$. Therefore, the two expression becomes
+    \[\begin{aligned}(\mathcal{L}_X\omega)_\mu &amp;= X^\nu\nabla_\nu\omega_\mu + \omega_\nu\nabla_\mu X^\nu,\\
+        (\mathcal{L}_X g)_{\mu\nu} &amp;= \nabla_\mu X_\nu + \nabla_\nu X_\mu.\end{aligned}\tag{7.1}\]
+    Since, both the left- and the right-hand sides are tensors. The above expressions holds for all coordinates.</p>
+
+</aside>
+
+<h2 id="independent-components-of-the-riemann-tensor-q8">Independent Components of the Riemann Tensor, Q8</h2>
+
+<p>How many independent components does the Riemann tensor (of the Levi-Civita connection) have in two, three and four dimensions? Show that in two dimensions
+\[R_{\mu\nu\rho\sigma} = \frac{1}{2}R\,(g_{\mu\rho}g_{\nu\sigma} - g_{\mu\sigma}g_{\nu\rho}).\tag{8.1}\]
+Discuss the implications for general relativity in two spacetime dimensions.</p>
+
+<aside class="solution">
+
+<p>The first two and the last two indices are antisymmetric, which has $\tfrac{1}{2}d(d-1)$ degrees of freedom each. The Riemann tensor is also symmetric under the exchange of the first and last two indices, which gives $\tfrac{1}{2}d(d+1)$ degrees of freedom. Putting them together, we find the total degrees of freedom to be
+    \[\frac{1}{2}\left[\frac{1}{2}d(d-1)\right]\left(\left[\frac{1}{2}d(d-1)\right]  +1\right).\tag{8.2}\]
+    Also, recall the Bianchi identity, $R^\mu{}_{[\nu\rho\sigma]} = 0$, which takes away $\begin{pmatrix}
+        d\\4
+    \end{pmatrix}$ more degrees of freedom (need to choose four distinct indices). Therefore, we end up having 
+    \[\begin{aligned}
+        \frac{1}{2}\left[\frac{1}{2}d(d-1)\right]\left(\left[\frac{1}{2}d(d-1)\right]  +1\right) - \frac{d!}{4!(d-4)!} &amp;= \frac{d^2(d-1)^2+2d(d-1)}{8} - \frac{d(d-1)(d-2)(d-3)}{24}\\
+        &amp;=\frac{3d^4-6d^3+9d^2-6d - d^4+6d^3-11d^2+6d}{24}\\
+        &amp;=\frac{d^2(d^2-1)}{12}.
+    \end{aligned}\tag{8.3}\]
+    Therefore, for $d=2$, there is only $1$ degrees of freedom. For $d=3$, $6$ degrees of freedom, and for $d=4$, $20$ degrees of freedom.</p>
+
+<p>Since there is only one degrees of freedom for the Riemann tensor in $2$-dimension, the only component of the Riemann tensor should be the Ricci scalar. To satisfy the symmetric property of the Riemann tensor, we must write
+    \[R_{\mu\nu\rho\sigma} = \frac{1}{2}R\,(g_{\mu\rho}g_{\nu\sigma} - g_{\mu\sigma}g_{\nu\rho}).
+        \tag{8.4}\]
+    The Einstein's equation simply becomes
+    \[0=G_{\mu\nu}= 8\pi G T_{\mu\nu},\tag{8.5}\]
+    which means that there is no dynamics to the spacetime, and matter cannot interact with spacetime.</p>
+
+</aside>
+
+<h2 id="the-weyl-tensor-q9">The Weyl Tensor, Q9</h2>
+
+<p>In a $d$-dimensional spacetime, define a tensor
+\[C_{\mu\nu\rho\sigma} = R_{\mu\nu\rho\sigma} + \alpha(R_{\mu\rho}g_{\nu\sigma} + R_{\nu\sigma}g_{\mu\rho} - R_{\mu\sigma}g_{\nu\rho} - R_{\nu\rho}g_{\mu\sigma}) + \beta R(g_{\mu\rho}g_{\nu\sigma} - g_{\mu\sigma}g_{\nu\rho})\tag{9.1}\]
+where $\alpha$ and $\beta$ are constants. Show that $C_{\mu\nu\rho\sigma}$ has the same symmetries as $R_{\mu\nu\rho\sigma}$.</p>
+
+<p>What values of $\alpha$ and $\beta$ give $C^\mu{}_{\nu\mu\sigma} = 0$? Determine them. With this extra condition $C_{\mu\nu\rho\sigma}$ is called the Weyl tensor. Show that it vanishes if $d=2,3$.</p>
+
+<p>Setting $d=4$, how many independent components do $R_{\mu\nu}$ and $C_{\mu\nu\rho\sigma}$ have? Show that in vacuum
+\[\nabla^\mu C_{\mu\nu\rho\sigma} = 0.\tag{9.2}\]
+What does the Weyl tensor represent physically?</p>
+
+<aside class="solution">
+
+<p>It is rather easy to see the the $C_{\mu\nu\rho\sigma}$ is constructed to have the same symmetries as the Riemann tensor. To determine the value of $\alpha$ and $\beta$, consider the contraction
+    \[\begin{aligned}
+        g^{\mu\rho}G_{\mu\nu\rho\sigma} &amp;= g^{\mu\rho}\left[R_{\mu\nu\rho\sigma} + \alpha(R_{\mu\rho}g_{\nu\sigma} + R_{\nu\sigma}g_{\mu\rho} - R_{\mu\sigma}g_{\nu\rho} - R_{\nu\rho}g_{\mu\sigma}) + \beta R(g_{\mu\rho}g_{\nu\sigma} - g_{\mu\sigma}g_{\nu\rho})\right]\\
+        &amp;=R_{\nu\sigma} + \alpha(Rg_{\nu\sigma}+dR_{\nu\sigma}-R_{\nu\sigma} - R_{\nu\sigma}) + \beta R(dg_{\nu\sigma} - g_{\nu\sigma})= 0,
+    \end{aligned}\tag{9.3}\]
+    which implies
+    \[\alpha = \frac{1}{2-d}, \quad {\rm and} \quad \beta = \frac{1}{(d-1)(d-2)}.\tag{9.4}\]</p>
+
+<p>By (8.4), we see that the Weyl tensor vanishes for $d=2$. For $d=3$, there are 6 degrees of freedom to the Riemann tensor, which is completely captured by the Ricci tensor (symmetric tensor has $\tfrac{1}{2}3\cdot(3+1)= 6$ degrees of freedom). Since the Weyl tensor is defined as the traceless leftover of $R_{\mu\nu\rho\sigma}$ that cannot be represented by $R_{\mu\nu}$ and $R$. For the case of $d=3$, the Weyl tensor must vanishes.</p>
+
+<p>In $d=4$, the Riemann tensor has $20$ degrees of freedom, and the Ricci tensor has $\tfrac{1}{2}4\cdot  (4+1) = 10$ degrees of freedom (the on extra degrees of freedom in $R$ is already accounted for in the Ricci tensor). Therefore, there are $10$ degrees of freedom left for the Weyl tensor.</p>
+
+<p>The Riemann tensor vanishes if and only if both the Ricci tensor and the Weyl tensor vanishes. Therefore, even if in a vacuum, the spacetime can still be curved. So the Weyl tensor measures the part of curvature that Einstein's equations alone cannot determine — it requires boundary conditions, encoding the global structure of spacetime.</p>
+
+</aside>
+
+<h2 id="the-penrose-equation-q10">The Penrose Equation, Q10</h2>
+
+<p>Use the Bianchi identity to derive the Penrose equation for a vacuum spacetime
+\[\nabla^\lambda\nabla_\lambda R_{\mu\nu\rho\sigma} = 2R^\kappa{}_{\mu\lambda\sigma}R^\lambda{}_{\rho\kappa\nu} - 2R^\kappa{}_{\nu\lambda\sigma}R^\lambda{}_{\rho\kappa\mu} - R^\kappa{}_{\lambda\sigma\rho}R^\lambda{}_{\kappa\mu\nu}.\tag{10.1}\]</p>
+
+<aside class="solution">
+
+<p>Expanding the Bianchi identity, we find
+    \[\nabla_\lambda R_{\mu\nu\rho\sigma}-\nabla_\sigma R_{\mu\nu\rho\lambda}- \nabla_\rho R_{\mu\nu\lambda\sigma}=0.\tag{10.2}\]
+    Applying the vacuum condition $\nabla^\lambda R_{\mu\nu\rho\lambda} = 0$ (which follows from the
+    contracted Bianchi identity and $R_{\mu\nu}=0$), we commute derivatives on each term,
+    \[\nabla^\lambda\nabla_\rho R_{\mu\nu\lambda\sigma} = [\nabla^\lambda,\nabla_\rho]R_{\mu\nu\lambda\sigma}, \qquad
+        \nabla^\lambda\nabla_\sigma R_{\mu\nu\rho\lambda} = [\nabla^\lambda,\nabla_\sigma]R_{\mu\nu\rho\lambda}.\tag{10.3}\]
+    Applying the Ricci identity to the (0,4) tensor $R_{\mu\nu\lambda\sigma}$ and contracting,
+    \[[\nabla^\lambda,\nabla_\rho]R_{\mu\nu\lambda\sigma} = -R^\kappa{}_\mu{}^\lambda{}_\rho R_{\kappa\nu\lambda\sigma} - R^\kappa{}_\nu{}^\lambda{}_\rho R_{\mu\kappa\lambda\sigma} - R^\kappa{}_\sigma{}^\lambda{}_\rho R_{\mu\nu\lambda\kappa},\tag{10.4}\]
+    where the Ricci tensor term $R^{\kappa\lambda}{}_{\lambda\rho} = -R^\kappa{}_\rho = 0$ vanishes in vacuum. Similarly,
+    \[[\nabla^\lambda,\nabla_\sigma]R_{\mu\nu\rho\lambda} = -R^\kappa{}_\mu{}^\lambda{}_\sigma R_{\kappa\nu\rho\lambda} - R^\kappa{}_\nu{}^\lambda{}_\sigma R_{\mu\kappa\rho\lambda} - R^\kappa{}_\rho{}^\lambda{}_\sigma R_{\mu\nu\kappa\lambda}.\tag{10.5}\]
+    Adding both contributions and relabelling dummy indices using the symmetries of
+    the Riemann tensor, the terms involving $R^\kappa{}_\nu$ combine and we find
+    \[\nabla^\lambda\nabla_\lambda R_{\mu\nu\rho\sigma} = 2R^\kappa{}_{\mu\lambda\sigma}R^\lambda{}_{\rho\kappa\nu} - 2R^\kappa{}_{\nu\lambda\sigma}R^\lambda{}_{\rho\kappa\mu} - R^\kappa{}_{\lambda\sigma\rho}R^\lambda{}_{\kappa\mu\nu}.\tag{10.6}\]</p>
+
+</aside>
+
+<h2 id="geodesics-and-curvature-from-vierbeins-q11">Geodesics and Curvature from Vierbeins, Q11</h2>
+
+<p>Consider metrics of the form
+\[ds^2 = -f(r)^2\,dt^2 + f(r)^{-2}\,dr^2 + r^2\!\left(d\theta^2 + \sin^2\theta\,d\phi^2\right).\tag{11.1}\]
+Use the action for a test particle to write down the geodesic equations in this metric, and hence extract the Christoffel symbols in coordinates $(t,r,\theta,\phi)$.</p>
+
+<p>Use a basis of vierbeins to determine the curvature 2-form, and hence the components of the Riemann tensor in coordinates $(t,r,\theta,\phi)$.</p>
+
+<aside class="solution">
+
+<p>Consider the action
+    \[S = \int d\tau\left[ -f(r)^2 \dot{t}^2+ f(r)^{-2}\dot{r}^2 + r^2\!\left(\dot{\theta}^2 + \sin^2\theta\,\dot{\phi}^2\right)\right],\tag{11.2}\]
+    which gives the following equations of motion
+    \[\begin{aligned}&amp;\frac{d}{d\tau}\left(f(r)^2\dot{t}\right)=0,\\
+        &amp;\frac{d}{d\tau}\left(f(r)^{-2}\dot{r}\right)=-f(r)f'(r)\dot{t}^2 -\frac{f'(r)}{f(r)^3}\dot{r}^2+r\dot{\theta}^2 +r\sin^2\theta\,\dot{\phi}^2,\\
+        &amp;\frac{d}{d\tau}(r^2\dot{\theta}) = \sin\theta\cos\theta \,r^2\dot{\phi}^2,\\
+        &amp;\frac{d}{d\tau}(r^2\sin^2\theta\dot{\phi}) = 0.\end{aligned}\tag{11.3}\]
+    Recall the form of the affinely parametrized geodesic equation,
+    \[\frac{d^2x^\mu}{d\tau^2} + \Gamma^\mu{}_{\nu\rho}\frac{d x^\nu}{d\tau}\frac{dx^\rho}{d\tau} = 0.\tag{11.4}\]
+    The first equation of motion gives
+    \[f^2\ddot{t} + 2ff'\dot{r}\dot{t} = 0 \implies \Gamma^{t}{}_{rt} = \Gamma^{t}{}_{tr} = \frac{f'}{f}.\tag{11.5}\]
+    Similarly, we find
+    \[\begin{aligned}&amp;\Gamma^r{}_{tt} = f'f^3,\\
+        &amp;\Gamma^{r}{}_{rr} = -\frac{f'}{f},\\
+        &amp;\Gamma^{r}{}_{\theta\theta} = -f^2r,\\
+        &amp;\Gamma^{r}{}_{\phi\phi} = -f^2r\sin^2\theta\end{aligned}\tag{11.6}\]
+    from the second equation of motion.
+    Then,
+    \[\begin{aligned}&amp;\Gamma^\theta{}_{r\theta} = \Gamma^\theta{}_{\theta r} = \frac{1}{r},\\
+        &amp;\Gamma^\theta{}_{\phi\phi} = -\sin\theta \cos\theta\end{aligned}\tag{11.7}\]
+    from the third equation of motion. Finally,
+    \[\begin{aligned}&amp;\Gamma^\phi{}_{r\phi}  = \Gamma^\phi{}_{\phi r} = \frac{1}{r}, \\
+        &amp;\Gamma^{\phi}{}_{\theta\phi} = \Gamma^{\phi}{}_{\phi\theta} = \frac{\cos\theta}{\sin\theta}.\end{aligned}\tag{11.8}\]
+    Now, we have obtained the Levi-Civita connection with all of the unmentioned component vanishing.</p>
+
+<p>The vielbeins are defined as 
+    \[g(\hat{e}_a,\hat{e}_b) =g_{\mu\nu}e_a{}^\mu e_b{}^\nu = \eta_{ab}.\tag{11.9}\]
+    In this case, we have the non-coordinate one-form basis
+    \[\hat{\theta}^t = f(r)dt, \quad \hat{\theta}^r = f(r)^{-1}dr,\quad \hat{\theta}^\theta = rd\theta, \quad {\rm and}\quad \hat{\theta}^\phi =r\sin\theta d\phi.\tag{11.10}\]
+    Now, we use the first Cartan structure formula to find the spin connection:
+    \[d\hat{\theta}^a = - \omega^a{}_b \wedge\hat{\theta}^b.\tag{11.11}\]
+    Taking the exterior derivative, we find
+    \[\begin{aligned}&amp;d\hat{\theta}^t = f'dr\wedge dt,\\
+        &amp;d\hat{\theta}^r =0,\\
+        &amp;d\hat{\theta}^\theta =dr\wedge d\theta,\\
+        &amp;d\hat{\theta}^\phi = \sin\theta \,dr\wedge d\phi +r\cos\theta \,d\theta\wedge d\phi.\end{aligned}\tag{11.12}\]
+    By comparison with the first Cartan structure relation, we find
+    \[\begin{aligned}&amp;\omega^t{}_r = f'\hat{\theta}^t,\\
+        &amp;\omega^r{}_t = 0,\\
+        &amp;\omega^\theta{}_r = \frac{f}{r}\hat{\theta}^\theta,\\
+        &amp;\omega^\phi{}_r = \frac{f}{r}\hat{\theta}^\phi,\\
+        &amp;\omega^\phi{}_\theta = \frac{\cot\theta}{r}\hat{\theta}^\phi,\end{aligned}\tag{11.13}\]
+    where all of the rest either vanishes or can be obtained by using the antisymmetric property of torsion-free spin connection. For example
+    \[\omega^t{}_r = \eta^{tt}\omega_{tr} = -\omega_{tr} = \omega_{rt} = \omega^r{}_t\eta_{rr} = \omega^r{}_t = f'\hat{\theta}^t.\tag{11.14}\]</p>
+
+<p>Now, we can find the curvature two-form using the second Cartan structure equation
+    \[\mathcal{R}^a{}_b = d\omega^a{}_b +     \omega^a{}_c \wedge \omega^c{}_b.\tag{11.15}\]
+    We find
+    \[\begin{aligned}\mathcal{R}^t{}_r &amp;= d(f'f\,dt) + \omega^t{}_c\wedge\omega^c{}_r = (ff''+f'^2)dr\wedge dt = -(ff''+f'^2)\hat\theta^t\wedge\hat\theta^r,\\
+        \mathcal{R}^t{}_\theta &amp;= \omega^t{}_r\wedge\omega^r{}_\theta = f'f\,dt\wedge(-f\,d\theta) = -\frac{f'f}{r}\hat\theta^t\wedge\hat\theta^\theta,\\
+        \mathcal{R}^t{}_\phi &amp;= \omega^t{}_r\wedge\omega^r{}_\phi = -\frac{f'f}{r}\hat\theta^t\wedge\hat\theta^\phi,\\
+        \mathcal{R}^r{}_\theta &amp;= d(-f\,d\theta) = -f'dr\wedge d\theta = -\frac{f'f}{r}\hat\theta^r\wedge\hat\theta^\theta,\\
+        \mathcal{R}^r{}_\phi &amp;= -\frac{f'f}{r}\hat\theta^r\wedge\hat\theta^\phi,\\
+        \mathcal{R}^\theta{}_\phi &amp;= d(-\cos\theta\,d\phi) + \omega^\theta{}_r\wedge\omega^r{}_\phi = \sin\theta\,d\theta\wedge d\phi - f^2\sin\theta\,d\theta\wedge d\phi = \frac{1-f^2}{r^2}\hat\theta^\theta\wedge\hat\theta^\phi,\end{aligned}\tag{11.16}\]
+    with all remaining components related by antisymmetry or vanishing. Reading off from
+    $\mathcal{R}^a{}_b = R^a{}_{bcd}\hat\theta^c\wedge\hat\theta^d$, the non-zero Riemann tensor
+    components in the orthonormal frame are
+    \[\begin{aligned}&amp;R^t{}_{rtr} = -(ff''+f'^2),\\
+        &amp;R^t{}_{\theta t\theta} = R^t{}_{\phi t\phi} = -\frac{f'f}{r},\\
+        &amp;R^r{}_{\theta r\theta} = R^r{}_{\phi r\phi} = -\frac{f'f}{r},\\
+        &amp;R^\theta{}_{\phi\theta\phi} = \frac{1-f^2}{r^2},\end{aligned}\tag{11.17}\]
+    with all others vanishing or related by the symmetries of the Riemann tensor.</p>
+
+</aside>
+  </article>
+
+  <hr class="ornament-rule">
+
+  <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
+    <a href="../notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="../index.html">About</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>
