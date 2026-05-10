@@ -1,0 +1,799 @@
+\section{David Tong GR PS3}
+
+
+\subsection{Timelike Geodesics in a 2d Spacetime, Q1*}
+
+Obtain the form of the general timelike geodesic in a 2d spacetime with metric
+\begin{equation}
+    ds^2 = \frac{1}{t^2}(-dt^2 + dx^2).
+\end{equation}
+Hint: You should use the symmetries of the Lagrangian. You will probably find the following integrals useful:
+\begin{equation}
+    \int \frac{dt}{t\sqrt{1+p^2t^2}} = \frac{1}{2}\ln\left(\frac{\sqrt{1+p^2t^2}-1}{\sqrt{1+p^2t^2}+1}\right) \qquad \text{and} \qquad \int \frac{d\tau}{\sinh^2\tau} = -\coth\tau.
+\end{equation}
+\begin{solution}
+    We consider the action 
+    \begin{equation}
+        S = \int d\tau (- t^{-2}\dot{t}^2 + t^{-2}\dot{x}^2)
+    \end{equation}
+    subject to the constraint
+    \begin{equation}
+        g_{\mu\nu}\dot{x}^\mu\dot{x}^\nu = -1 \implies \frac{1}{t^2}(-\dot{t}^2 + \dot{x}^2)=-1.
+    \end{equation}
+    The equations of motion are
+    \begin{align}
+        &\frac{d}{d\tau}\left(\frac{\dot{t}}{t^2}\right) = \frac{-\dot{t}^2 +\dot{x}^2}{t^3},\\
+        &\frac{d}{d\tau}\left(\frac{\dot{x}}{t^2}\right) = 0.
+    \end{align}
+    Let's write the conserved quantity as $p$ and it can be interpreted as the momentum of the particle ($m=1$). Substitute into the timelike constraint, we find
+    \begin{equation}
+         -\frac{\dot{t}^2}{t^2} + p^2t^2 = -1\implies \dot{t} = t\sqrt{1+p^2t^2}.
+    \end{equation}
+    Therefore, we find
+    \begin{equation}
+        \tau = \int \frac{dt}{t\sqrt{1+p^2t^2}}  \frac{1}{2}\ln\left(\frac{\sqrt{1+p^2t^2}-1}{\sqrt{1+p^2t^2}+1}\right) \implies t(\tau) = \frac{1}{p\sinh \tau}.
+    \end{equation}
+    Then, we integrate over the conserved quantity to find
+    \begin{equation}
+        x = \int ptd\tau = \int\frac{d\tau}{p\sinh^2\tau} = -\frac{\coth\tau}{p}+x_0.
+    \end{equation}
+
+    
+\end{solution}
+
+\subsection{Brans-Dicke Theory, Q2}
+
+The \textit{Brans-Dicke} theory of gravity has an extra scalar field $\phi$ which 
+acts like a dynamical Newton constant. The action is given
+\begin{equation}
+    S = \frac{1}{16\pi G}\int d^4x\sqrt{-g}\left[R\phi - 
+    \frac{\omega}{\phi}g^{\mu\nu}\partial_\mu\phi\partial_\nu\phi\right] + S_M
+\end{equation}
+where $\omega$ is a constant and $S_M$ is the action for matter fields. Derive 
+the resulting Einstein equation and the equation of motion for $\phi$.
+\begin{solution}
+    First, consider the variation of the action with respect to the change $\tensor{g}{^{\mu\nu}} \to \tensor{g}{^{\mu\nu}} + \delta\tensor{g}{^{\mu\nu}}$. The first term is given by
+    \begin{equation}
+        \delta(\sqrt{-g}R\phi) = \delta(\sqrt{-g})R\phi +\sqrt{-g}\delta R\phi +\sqrt{-g} R\delta\phi.
+    \end{equation}
+    Let us evaluate this term by term. For the first term, we use the identity 
+    \begin{equation}
+        \ln \det A = \tr \ln A,
+        \label{eq:detA}
+    \end{equation}
+    and find
+    \begin{equation}
+        \frac{\delta(\det A)}{\det A} = \tr (A^{-1}\delta A)\quad \implies\quad \delta\sqrt{-g} = \frac{1}{2}\frac{1}{\sqrt{-g}}(-g)\tensor{g}{^{\mu\nu}}\delta g_{\mu\nu}.
+    \end{equation}
+    Note that
+    \begin{equation}
+        0=\delta(g^{\mu\nu}g_{\mu\nu}) = \delta g^{\mu\nu}g_{\mu\nu} + g^{\mu\nu}\delta g_{\mu\nu},
+    \end{equation}
+    we find that
+    \begin{equation}
+        \delta\sqrt{-g} =  -\frac{1}{2}\sqrt{-g}g_{\mu\nu}\delta g^{\mu\nu}.
+    \end{equation}
+    The variation of the Ricci scalar is given by
+    \begin{equation}
+        \delta(g^{\mu\nu}R_{\mu\nu}) = \delta g^{\mu\nu}R_{\mu\nu} + g^{\mu\nu}\delta R_{\mu\nu}.
+    \end{equation}
+    The latter variation of the Ricci tensor is slightly trickier. Recall the definition of the Riemann tensor,
+    \begin{equation}
+        \tensor{R}{^\mu_{\nu\rho\sigma}} = \partial_\rho\tensor{\Gamma}{^\mu_{\nu\sigma}}
+    - \partial_\sigma\tensor{\Gamma}{^\mu_{\nu\rho}}
+    + \tensor{\Gamma}{^\mu_{\rho\lambda}}\tensor{\Gamma}{^\lambda_{\nu\sigma}}
+    - \tensor{\Gamma}{^\mu_{\sigma\lambda}}\tensor{\Gamma}{^\lambda_{\nu\rho}}.
+    \end{equation}
+    Consider the normal coordinate at point $p\in M$, the Riemann tensor becomes
+    \begin{equation}
+        \tensor{R}{^\mu_{\nu\rho\sigma}} = \partial_\rho\tensor{\Gamma}{^\mu_{\nu\sigma}}
+    - \partial_\sigma\tensor{\Gamma}{^\mu_{\nu\rho}}.
+    \end{equation}
+    Now consider the variation of the Christoffel symbol, 
+    \begin{equation}
+        \delta \tensor{\Gamma}{^\mu_{\nu\sigma}} = \frac{1}{2}g^{\mu\rho}(\partial_\nu\delta g_{\rho\sigma} +\partial_\sigma\delta g_{\rho\nu} - \partial_\rho\delta g_{\nu\sigma}),
+    \end{equation}
+    where the variation $\delta g^{\mu\rho}$ vanishes in the normal coordinates. Since, we are in the normal coordinate, we can interchange $\partial_\mu$ with $\nabla_\mu$ with no cost. Thus, we find
+    \begin{equation}
+        \delta \tensor{\Gamma}{^\mu_{\nu\sigma}} = \frac{1}{2}g^{\mu\rho}(\nabla_\nu\delta g_{\rho\sigma} +\nabla_\sigma\delta g_{\rho\nu} - \nabla_\rho\delta g_{\nu\sigma}).
+    \end{equation}
+    Notice that the right-hand side is a tensor, and hence the equality holds generally for any arbitrary point $p$. The same logic holds for the Ricci tensor, which gives
+    \begin{equation}
+        \tensor{R}{^\mu_{\nu\rho\sigma}} = \nabla_\rho\tensor{\Gamma}{^\mu_{\nu\sigma}}
+    - \nabla_\sigma\tensor{\Gamma}{^\mu_{\nu\rho}}.
+    \end{equation}
+    Therefore, the variation is given by
+    \begin{equation}
+        \delta\tensor{R}{^\mu_{\nu\rho\sigma}} = \nabla_\rho\delta\tensor{\Gamma}{^\mu_{\nu\sigma}}
+    - \nabla_\sigma\delta\tensor{\Gamma}{^\mu_{\nu\rho}} \quad\implies\quad \delta\tensor{R}{_{\nu\sigma}} = \nabla_\mu\delta\tensor{\Gamma}{^\mu_{\nu\sigma}}
+    - \nabla_\sigma\delta\tensor{\Gamma}{^\mu_{\nu\mu}}.
+    \end{equation}
+    Hence, we have
+    \begin{equation}
+        g^{\mu\nu}\delta R_{\mu\nu} = \nabla_\mu X^\mu \quad    \text{with} \quad X^\mu = g^{\nu\sigma} \delta\tensor{\Gamma}{^\mu_{\nu\sigma}} - g^{\mu\nu}\delta\tensor{\Gamma}{^\rho_{\nu\rho}}.
+    \end{equation}
+    Therefore, the variation of the first term in the Lagrangian is given by
+    \begin{align}
+        \delta(\sqrt{-g}R\phi) &= -\frac{1}{2}\sqrt{-g}g_{\mu\nu}\delta g^{\mu\nu}R\phi+ \sqrt{-g}\delta g^{\mu\nu}R_{\mu\nu}\phi+\sqrt{-g}\nabla_\mu X^\mu \phi\notag\\ &= \sqrt{-g}(G_{\mu\nu}\phi\delta g^{\mu\nu}+\nabla_\mu( X^\mu \phi) -X^\mu \nabla_\mu\phi).
+    \end{align}
+    The last term needs a bit more of care, let us plug the variation of the Christoffel symbol:
+    \begin{equation}
+        X^\mu \nabla_\mu \phi = (g^{\nu\sigma} \delta\tensor{\Gamma}{^\mu_{\nu\sigma}} - g^{\mu\nu}\delta\tensor{\Gamma}{^\rho_{\nu\rho}})\nabla_\mu\phi.
+    \end{equation}
+    Again, we consider the two terms separately; the first gives
+    \begin{align}
+        g^{\nu\sigma} \delta\tensor{\Gamma}{^\mu_{\nu\sigma}}\nabla_\mu\phi &= \frac{1}{2}g^{\mu\rho}g^{\nu\sigma}(\nabla_\nu\delta g_{\rho\sigma} +\nabla_\sigma\delta g_{\rho\nu} - \nabla_\rho\delta g_{\nu\sigma})\nabla_\mu\phi \notag \\
+        &= \frac{1}{2}(2\nabla^\nu\delta g_{\rho\nu}-\nabla_\rho \delta \tensor{g}{^\nu_\nu})\nabla^\rho \phi\notag\\
+        &=\left(\nabla_\mu\nabla_\nu\phi - \frac{1}{2}\nabla^\rho\nabla_\rho\phi\right)\delta g^{\mu\nu}.
+    \end{align}
+    And the second term:
+    \begin{align}
+        g^{\mu\nu}\delta\tensor{\Gamma}{^\rho_{\nu\rho}}\nabla_\mu\nu &= \frac{1}{2}g^{\mu\nu}g^{\rho\sigma}(\nabla_\nu\delta g_{\sigma\rho} +\nabla_\rho\delta g_{\sigma\nu} - \nabla_\sigma\delta g_{\nu\rho})\nabla_\mu\phi\notag\\
+        &=\frac{1}{2}(\nabla^\rho\nabla_\rho\phi) g_{\mu\nu}\delta g^{\mu\nu}.
+    \end{align}
+    Now, putting everything together, we find
+    \begin{equation}
+        \delta(\sqrt{-g}R\phi) = (G_{\mu\nu}\phi-\nabla_\mu\nabla_\nu \phi + g_{\mu\nu}\nabla^\rho\nabla_\rho\phi)\delta g^{\mu\nu} + \sqrt{-g}\nabla_\mu X^\mu.
+    \end{equation}
+    The last term is a total derivative, which vanishes in the action by the divergence theorem.
+
+    The second term of the action is straightforwardly given by
+    \begin{equation}
+        \delta\left(-\sqrt{-g}\frac{\omega}{\phi}g^{\mu\nu}\partial_\mu\phi\partial_\nu\phi\right) = \sqrt{-g}\left(\frac{1}{2}\frac{\omega}{\phi}g_{\mu\nu}\partial_\rho\phi\partial^\rho\phi - \frac{\omega}{\phi}\partial_\mu\phi\partial_\nu\phi\right)\delta g^{\mu\nu}.
+    \end{equation}
+    The Einstein equation is thus given by
+    \begin{equation}
+        \frac{\delta S}{\delta g^{\mu\nu}} =0 \implies \boxed{G_{\mu\nu} = \frac{8\pi G T_{\mu\nu} }{\phi} + \frac{1}{\phi}(\nabla_\mu\nabla_\nu\phi - g_{\mu\nu}\nabla^\rho\nabla_\rho\phi) + \frac{\omega}{\phi}\left(\partial_\mu\phi\partial_\nu\phi - \frac{1}{2}g_{\mu\nu}\partial_\rho\phi\partial^\rho\phi\right).}
+    \end{equation}
+
+    Now, we shall go on to derive the equation of motion for $\phi$. We vary the action with respect to the scalar field, $\phi \to \phi + \delta \phi$. The variation to the field equation is rather easy, which gives
+    \begin{equation}
+        \frac{1}{16\pi G}\left[\sqrt{-g}R +\sqrt{-g}\frac{\omega}{\phi^2}g^{\mu\nu}\partial_\mu\phi\partial_\nu\phi +\partial_\mu\left(\sqrt{-g}\frac{2\omega}{\phi}g^{\mu\nu}\partial_\nu\phi\right)\right]\delta\phi,
+    \end{equation}
+    where we have neglected the vanishing total derivative term under the integral. The last term in expression is slightly trickier to deal with; note that
+    it can be written in the form
+    \begin{equation}
+        \partial_\mu(\sqrt{-g}Y^\mu) \quad \text{with} \quad Y^\mu = \frac{2\omega}{\phi}g^{\mu\nu}\partial_\nu\phi,
+    \end{equation}
+    which gives 
+    \begin{equation}
+        \partial_\mu(\sqrt{-g})Y^\mu + \sqrt{-g}\partial_\mu Y^\mu.
+    \end{equation}
+    We wish to evaluate the derivative with respect to $\sqrt{-g}$, we find
+    \begin{equation}
+        \partial_\mu(\sqrt{-g}) = \frac{1}{2}\frac{1}{\sqrt{-g}}\partial_\mu(-g) = \frac{1}{2}\sqrt{-g}\partial_\mu\ln(-g) = \frac{1}{2}\sqrt{-g}\tr\partial_\mu\ln(-g) = \frac{1}{2}\sqrt{-g}\tr((-g)^{-1}\partial_\mu(-g)),
+    \end{equation}
+    where we have used (\ref{eq:detA}) in the last equality. Now, note that 
+    \begin{equation}
+        \tensor{\Gamma}{^\mu_{\mu\nu}}= \frac{1}{2}g^{\mu\rho}\partial_\nu g_{\rho\mu} = \frac{1}{2}\tr((-g)^{-1}\partial_\nu(-g)).
+    \end{equation}
+    Thus, we find
+    \begin{equation}
+        \partial_\mu(\sqrt{-g}Y^\mu) = \sqrt{-g}\partial_\mu Y^\mu + \sqrt{-g}\tensor{\Gamma}{^\nu_{\nu\mu}}Y^\mu = \sqrt{-g}\nabla_\mu Y^\mu.
+    \end{equation}
+    Now, note that the covariant derivative is equivalent to the normal derivative when acting on scalars and that the covariant derivative of the metric tensor vanishes for Riemannian (Lorentzian) geometry. Therefore, the variation of the field action is found to be
+    \begin{equation}
+        \frac{1}{16\pi G}\sqrt{-g}\left[R - \frac{\omega}{\phi^2}g^{\mu\nu}\partial_\mu\phi\partial_\nu\phi +\frac{2\omega}{\phi}g^{\mu\nu}\nabla_\mu\nabla_\nu\phi\right].
+    \end{equation}
+    Finally, setting the variation to zero, we find
+    \begin{equation}
+    \boxed{
+        R - \frac{\omega}{\phi^2}g^{\mu\nu}\partial_\mu\phi\partial_\nu\phi +\frac{2\omega}{\phi}g^{\mu\nu}\nabla_\mu\nabla_\nu\phi = 0.}
+    \end{equation}
+    
+\end{solution}
+
+\subsection{11-Dimensional Supergravity, Q3}
+
+\textit{M-theory} is a quantum theory of gravity in $d=11$ spacetime dimensions. 
+It arises from the strong coupling limit of string theory. At low-energies, it is 
+described by $d=11$ supergravity whose bosonic fields are the metric and a 4-form 
+$G = dC$ where $C$ is a 3-form potential. The action governing these fields is
+\begin{equation}
+    S = \frac{1}{2}M_{\mathrm{pl}}^9\left[\int d^{11}x\sqrt{-g}
+    \left(R - \frac{1}{48}G_{\mu\nu\rho\sigma}G^{\mu\nu\rho\sigma}\right)
+    - \frac{1}{6}\int C\wedge G\wedge G\right]
+\end{equation}
+
+\begin{enumerate}[label=\textbf{\roman*)}]
+    \item Show that, up to surface terms, this action is gauge invariant under 
+    $C\to C + d\Lambda$ where $\Lambda$ is a 2-form.
+    \begin{solution}
+    Under such a transformation, the 4-form $G \to G$, because of $d^2 = 0$. Therefore, the first integral in the action remains unchanged after the gauge transformation. 
+
+    The second integral requires a bit more treatment. Under the transformation, the integral becomes
+    \begin{equation}
+        \int_M C \wedge G\wedge G \to \int_M C \wedge G\wedge G + \int_M d\Lambda \wedge G\wedge G.
+    \end{equation}
+    Now, using the Stoke's theorem, we find
+    \begin{equation}
+        \int_M d\Lambda \wedge G\wedge G = \int_{\partial M} \Lambda \wedge G\wedge G-\int_M \Lambda\wedge d(G\wedge G) = 0,
+    \end{equation}
+    where we have used the fact that the fields vanish at the boundary $\partial M$ and $dG = d^2C  =0$.
+    \end{solution}
+
+    \item Vary the metric to determine the Einstein equation for this theory.
+    
+    \begin{solution}
+        Let us consider the variation term by term. The first term gives the standard
+        \begin{equation}
+            \delta(\sqrt{-g}R) = \sqrt{-g}G_{\mu\nu}\delta g^{\mu\nu}.
+        \end{equation}
+        The second term gives
+        \begin{equation}
+            \frac{1}{96}\sqrt{-g}g_{\mu\nu}G_{\alpha\beta\rho\sigma}G^{\alpha\beta\rho\sigma}\delta g^{\mu\nu} - \frac{1}{12}G_{\mu\beta\rho\sigma}\tensor{G}{_\nu^{\beta\rho\sigma}}\delta g^{\mu\nu}.
+        \end{equation}
+    The last integral is a pure topological term, and has no metric dependence.
+    
+    Therefore, we find the Einstein equation to be
+    \begin{equation}
+        G_{\mu\nu} = \frac{1}{96}\left(8G_{\mu\beta\rho\sigma}\tensor{G}{_\nu^{\beta\rho\sigma}} - g_{\mu\nu}G_{\alpha\beta\rho\sigma}G^{\alpha\beta\rho\sigma}\right).
+    \end{equation}
+    \end{solution}
+    
+    \item Vary $C$ to obtain the equation of motion for the 4-form,
+    \begin{equation}
+        d\star G = \frac{1}{2}G\wedge G.
+    \end{equation}
+    \begin{solution}
+        Now, we vary the 3-form, $C\to C + \delta C$. Note that the $GG$ term can be written as 
+        \begin{equation}
+            \int d^{11}x\sqrt{-g}G_{\mu\nu\rho\sigma}G^{\mu\nu\rho\sigma}=-4!\int G\wedge \star G.
+        \end{equation}
+        Therefore, the variation is given by
+        \begin{equation}
+            -48\int_M d\delta C \wedge \star G = -48\int_{\partial M} \delta C \wedge \star G + 48\int_M\delta C\wedge d \star G.
+        \end{equation}
+        Again, the boundary term vanishes.
+
+        The $CGG$ term gives
+        \begin{equation}
+            \int\delta C\wedge G \wedge G + \int C\wedge \delta G \wedge G + \int C\wedge G \wedge \delta G.
+        \end{equation}
+        Note that
+        \begin{equation}
+            \int C\wedge \delta G \wedge G = -\int d(C\wedge \delta C \wedge G)\ = \int d(C\wedge G)\ \wedge \delta C =  \int G\wedge G \wedge  \delta C,
+        \end{equation}
+        where we have neglected the boundary terms implicitly.
+        Therefore, the $CGG$ term becomes
+        \begin{equation}
+            3\int G\wedge G \wedge  \delta C.
+        \end{equation}
+        putting the two terms together and set the variation to zero, we find
+        \begin{equation}
+            \frac{3}{6}\int G\wedge G \wedge  \delta C -\frac{48}{48}\int_M d \star G\wedge\delta C = 0 \implies d \star G = \frac{1}{2}G\wedge G.
+        \end{equation}
+    \end{solution}
+\end{enumerate}
+
+
+\subsection{Lie Derivatives and Killing Vectors on $S^2$, Q4}
+
+\begin{enumerate}[label=\roman*)]
+    \item Let $X$ and $Y$ be two vector fields. Show that
+    \begin{equation}
+        \mathcal{L}_X(\mathcal{L}_Y Q) - \mathcal{L}_Y(\mathcal{L}_X Q) = \mathcal{L}_{[X,Y]}Q,
+    \end{equation}
+    when $Q$ is either a function or a vector field. Use the Leibniz property of the Lie derivative to show that this also holds when $Q$ is a one-form.
+    \begin{solution}
+        For scalar fields, we have $\mathcal{L}_XQ = X(Q)$. Therefore, it is trivial to see that
+        \begin{equation}
+            \mathcal{L}_X(\mathcal{L}_Y Q) - \mathcal{L}_Y(\mathcal{L}_X Q) = \mathcal{L}_{[X,Y]}Q
+        \end{equation}
+        for $Q \in C^\infty(M)$.
+
+        For vector fields, we have $\mathcal{L}_XY = [X,Y]$. Therefore, 
+        \begin{equation}
+            \mathcal{L}_X(\mathcal{L}_Y Q) - \mathcal{L}_Y(\mathcal{L}_X Q) = [X,[Y,Q]] - [Y,[X,Q]] = [[X,Y],Q] = \mathcal{L}_{[X,Y]}Q,
+        \end{equation}
+        for $Q \in \mathfrak{X}(M)$.
+
+        Now consider $Q\in\Lambda^1(M)$ and $Z\in\mathfrak{X}(M)$,
+        \begin{equation}
+            \mathcal{L}_X(\mathcal{L}_Y Q(Z)) - \mathcal{L}_Y(\mathcal{L}_X Q(Z)).
+        \end{equation}
+        Since $Q(Z)\in C^\infty(M)$, we have
+        \begin{equation}
+            \mathcal{L}_X(\mathcal{L}_Y Q(Z)) - \mathcal{L}_Y(\mathcal{L}_X Q(Z))  =\mathcal{L}_{[X,Y]}Q(Z).
+        \end{equation}
+        Now, using Leibniz property of the Lie derivative, we have
+        \begin{equation}
+        \begin{aligned}
+            &\mathcal{L}_X((\mathcal{L}_Y Q)(Z)+Q(\mathcal{L}_YZ)) - \mathcal{L}_Y((\mathcal{L}_X Q)(Z)+Q(\mathcal{L}_XZ))\\
+            =&\mathcal{L}_X(\mathcal{L}_YQ)Z + Q(\mathcal{L}_X(\mathcal{L}_YZ)) - \mathcal{L}_Y(\mathcal{L}_XQ)Z + Q(\mathcal{L}_Y(\mathcal{L}_XZ)),
+        \end{aligned}
+        \end{equation}
+        which should be equal to 
+        \begin{equation}
+            \mathcal{L}_{[X,Y]}Q(Z).
+        \end{equation}
+        Therefore, $Q \in \Lambda^1(M)$ must also satisfy 
+        \begin{equation}
+            \mathcal{L}_X(\mathcal{L}_Y Q) - \mathcal{L}_Y(\mathcal{L}_X Q) = \mathcal{L}_{[X,Y]}Q.
+        \end{equation}
+    \end{solution}
+    \item Demonstrate that if a Riemannian or Lorentzian manifold has two ``independent'' isometries then it has a third, and define what is meant by independent here.
+    \begin{solution}
+        Given that there exist two independent isometries, which means that there are two linearly independent Killing vectors, $K,J\in\mathfrak{X}(M)$ such that
+        \begin{equation}
+            \mathcal{L}_Kg=0, \quad \mathcal{L}_Jg=0.
+        \end{equation}
+        By Leibniziarity, one can show that tensor of any rank satisfies
+        \begin{equation}
+            \mathcal{L}_X(\mathcal{L}_Y T) - \mathcal{L}_Y(\mathcal{L}_X T) = \mathcal{L}_{[X,Y]}T \implies \mathcal{L}_X \mathcal{L}_Y -  \mathcal{L}_Y\mathcal{L}_X = \mathcal{L}_{[X,Y]}.
+        \end{equation}
+        Therefore, we can immediately write down the third Killing vector, and hence the isometry
+        \begin{equation}
+            \mathcal{L}_{[K,J]}g = \mathcal{L}_K(\mathcal{L}_Jg) -\mathcal{L}_J(\mathcal{L}_Kg) =0.
+        \end{equation}
+        Since $[K,J]$ is not a linear combination of $K$ and $J$, it generates an independent isometry.
+    \end{solution}
+    \item Consider the unit sphere with metric $ds^2 = d\theta^2 + \sin^2\theta\,d\phi^2$. Show that
+    \begin{equation}
+        X = \frac{\partial}{\partial\phi} \qquad \text{and} \qquad Y = \sin\phi\frac{\partial}{\partial\theta} + \cot\theta\cos\phi\frac{\partial}{\partial\phi}
+    \end{equation}
+    are Killing vectors. Find a third, and show that they obey the Lie algebra of $so(3)$.
+    \begin{solution}
+        The metric is independent of $\phi$. Therefore, we clearly have a Killing vector
+        \begin{equation}
+            X= \frac{\partial}{\partial\phi}.
+        \end{equation}
+        The second Killing vector is harder to see. Recall that
+        \begin{equation}
+            (\mathcal{L}_X g)_{\mu\nu} = X^\rho\partial_\rho g_{\mu\nu} + g_{\mu\rho}\partial_\nu X^\rho + g_{\rho\nu}\partial_\mu X^\rho.
+        \end{equation}
+        For $\mu\neq\nu$, the above clearly vanishes. $g_{\theta\theta} = 1$, which also vanishes. Then,
+        \begin{equation}
+            \mathcal{L}_Yg_{\phi\phi} = \sin\phi\frac{\partial}{\partial\theta}\sin^2\theta + \cot\theta\cos\phi\frac{\partial}{\partial\phi}\sin^2\theta + \sin^2\theta\frac{\partial}{\partial\phi}(\cot\theta\cos\phi) + \sin^2\theta\frac{\partial}{\partial\phi}(\cot\theta\cos\phi) = 0.
+        \end{equation}
+        Therefore,
+        \begin{equation}
+            \mathcal{L}_Yg = 0.
+        \end{equation}
+        The third Killing vector is therefore,
+        \begin{equation}
+            Z = [X,Y] = \cos\phi\frac{\partial}{\partial\theta} -\cot\theta\sin\phi\frac{\partial}{\partial\phi}.
+        \end{equation}
+        Therefore, with a bit more algebra, one would find
+        \begin{equation}
+            [X_i,X_j]= \epsilon_{ijk}X_k,
+        \end{equation}
+        which is the Lie algebra of $so(3)$.
+    \end{solution}
+\end{enumerate}
+
+\subsection{Conserved Currents from Killing Vectors, Q5}
+
+Let $K^\mu$ be a Killing vector field and $T^{\mu\nu}$ the energy-momentum tensor. Let $J^\mu = T^\mu{}_\nu K^\nu$. Show that $J^\mu$ is a conserved current, meaning $\nabla_\mu J^\mu = 0$.
+\begin{solution}
+    \begin{equation}
+        \nabla_\mu(T^\mu{}_\nu K^\nu) = (\nabla_\mu T^\mu{}_\nu )K^\nu + T^\mu{}_\nu(\nabla_\mu K^\nu).
+    \end{equation}
+    By 
+    \begin{align}
+        \nabla_\mu K_\nu + \nabla_\nu K_\mu =& \,0,\\
+        \nabla_\mu T^{\mu\nu}=&\,0,
+    \end{align}
+    and the symmetric property of $T^{\mu\nu}$, we find
+    \begin{equation}
+        \nabla_\mu J^\mu = 0.
+    \end{equation}
+\end{solution}
+
+\subsection{The Killing Equation, Q6}
+
+Show that a Killing vector field $K^\mu$ satisfies the equation
+\begin{equation}
+    \nabla_\mu\nabla_\nu K^\rho = R^\rho{}_{\nu\mu\sigma}K^\sigma.
+\end{equation}
+[Hint: use the identity $R^\rho{}_{[\mu\nu\sigma]}=0$.] Deduce that in Minkowski spacetime the components of Killing covectors are linear functions of the coordinates.
+
+\begin{solution}
+    Recall the Ricci identity
+    \begin{equation}
+        2\nabla_{[\mu}\nabla_{\nu]}K_\rho = R^\sigma{}_{\rho\mu\nu}K_\sigma.
+    \end{equation}
+    Using the defining property of a Killing vector,
+    \begin{equation}
+        \nabla_\mu K_\nu + \nabla_\nu K_\nu = 0,
+    \end{equation}
+    we can write down
+    \begin{equation}
+        -(\nabla_\rho\nabla_\mu K_\nu + \nabla_\rho\nabla_\nu K_\nu) + (\nabla_\mu\nabla_\rho K_\nu + \nabla_\mu\nabla_\nu K_\rho) + (\nabla_\nu\nabla_\rho K_\mu + \nabla_\nu\nabla_\mu K_\rho) = 0.
+    \end{equation}
+    This gives
+    \begin{equation}
+        0=2\nabla_{[\mu}\nabla_{\rho]}K_\nu + 2\nabla_{[\nu}\nabla_{\rho]}K_\mu + (\nabla_\mu\nabla_\nu+\nabla_\nu\nabla_\mu)K_\rho = (R^\sigma{}_{\nu\mu\rho}+R^\sigma{}_{\mu\nu\rho} +R^\sigma{}_{\rho\mu\nu})K_\sigma+2\nabla_\nu\nabla_\mu K_\rho .
+    \end{equation}
+    Using $R^\rho{}_{[\mu\nu\sigma]}=0$, the above becomes
+    \begin{equation}
+        \nabla_\nu\nabla_\mu K_\rho = -R^\sigma{}_{\nu\mu\rho}K_\sigma \implies \nabla_\mu\nabla_\nu K^\rho = R^\rho{}_{\nu\mu\sigma}K^\sigma
+    \end{equation}
+    by the symmetric properties of the Riemann tensor.
+
+    For Minkowski spacetime, the metric has no coordinate dependence. Therefore, the Killing vectors of the Minkowski space are $\partial_\mu$ and their linear combinations.
+\end{solution}
+
+\subsection{Killing Vectors in Minkowski Spacetime, Q7}
+
+Consider Minkowski spacetime in an inertial frame, so the metric is $\eta_{\mu\nu} = \mathrm{diag}(-1,1,1,1)$. Let $K_\mu$ be a Killing vector field. Write down Killing's equation in the inertial frame coordinates. Using the result of Q6, show that the general solution can be written in terms of a constant antisymmetric matrix $a_{\mu\nu}$ and a constant covector $b_\mu$.
+
+Identify the isometries corresponding to Killing fields with
+\begin{itemize}
+    \item $a_{\mu\nu} = 0$
+    \item $a_{0i} = 0,\; b_\mu = 0$
+    \item $a_{ij} = 0,\; b_\mu = 0$
+\end{itemize}
+where $i,j=1,2,3$. Identify the conserved quantities along a timelike geodesic corresponding to each of these three cases.
+\begin{solution}
+    In the Minkowski space, the Killing vector equation simplifies to 
+    \begin{equation}
+        \partial_\mu K_\nu + \partial_\nu K_\mu = 0.
+    \end{equation}
+    As discussed before, we can take any linear combination of $\partial_\mu$. That is, a constant $b_\mu$ must solve the Killing equation. It is also easy to see that the contraction of the antisymmetric matrix with the coordinate, $a_{\mu\nu}x^\nu$, also solves the Killing equation.
+
+    It is easier to see the physical meaning of the Killing vectors by defining the generators
+    \begin{equation}
+        P_\mu = \partial_\mu, \quad {\rm and} \quad M_{\mu\nu} = x_\mu\partial_\nu - x_\nu\partial_\mu.
+    \end{equation}
+    Then, a general Killing vector can be written as
+    \begin{equation}
+        K = c^\mu P_\mu + a^{\mu\nu}M_{\mu\nu}.
+    \end{equation}
+    One would recognise that the above generator satisfies the Lie algebra of the Poincaré group, $\mathbb{R}^4\times SO(1,3)$, as expected!
+    
+    Now it is clear to see that $a_{\mu\nu}=0$ corresponds to a translation isometry; $a_{0i}=0,b_\mu=0$ corresponds to a rotational isometry; $a_{ij}=0,b_\mu=0$ corresponds to a boost isometry.
+\end{solution}
+
+\subsection{Conformal Compactification, Q8}
+
+The Einstein Static Universe has topology $\mathbb{R}\times S^3$ and metric
+\begin{equation}
+    ds^2 = -dt^2 + d\chi^2 + \sin^2\chi\,d\Omega_2^2
+\end{equation}
+where $t\in(-\infty,+\infty)$ and $\chi\in[0,\pi]$ and $d\Omega_2^2$ is the round metric on $S^2$. This can be pictured as an infinite cylinder, with spatial cross-section $S^3$. Show that Minkowski, de Sitter and anti-de Sitter spacetimes are all conformally equivalent to submanifolds of the Einstein static universe. Draw these submanifolds on a cylinder.
+
+\begin{solution}
+    The Minkowski metric is given by
+    \begin{equation}
+        ds^2 = -dt^2 +dr^2 + r^2 d\Omega_2^2.
+    \end{equation}
+    Before performing a conformal transformation, we shall first introduce the light-cone coordinate
+    \begin{equation}
+        u=t-r,  \quad v = t+r.
+    \end{equation}
+    The Minkowski metric becomes
+    \begin{equation}
+        ds^2 = -dudv+\frac{1}{4}(u-v)^2d\Omega_2^2.
+    \end{equation}
+    Then, making the substitution $\tilde{u}=\arctan u$, and $\tilde{v} = \arctan v$, the metric becomes
+    \begin{equation}
+        ds^2 = -\sec^2\tilde{u}\sec^2\tilde{v}\,d\tilde{u}d\tilde{v} + \frac{1}{4}(\tan\tilde{u}-\tan\tilde{v})^2d\Omega_2^2.
+    \end{equation}
+    Now, we go back to the normal coordinate; substitute $\tilde{u}=\tilde{t}-\chi$ and $\tilde{v}=\tilde{t} + \chi$, which gives
+    \begin{equation}
+        ds^2 = \frac{4}{(\cos\tilde{t}-\cos\chi)^2}\left(-d\tilde{t}^2 + d\chi^2 +\sin^2\chi d\Omega_2^2\right)
+    \end{equation}
+    by trigonometric identities, which is clearly conformally equivalent to the Einstein Static universe metric but with $-\pi/2<\tilde{t}-\chi<\tilde{t}+\chi <\pi/2 $.
+
+    Now, we go on to demonstrate the equivalence with de Sitter space. The global coordinates for the de Sitter space are
+    \begin{equation}
+        ds^2 = - d\tau^2 + R^2\cosh^2(\tau/R)d\Omega_3^2.
+    \end{equation}
+    It is easy to spot a useful transformation
+    \begin{equation}
+        R\cosh(\tau/R)d\eta =  d\tau\implies \cos\eta = \frac{1}{\cosh(\tau/R)},
+    \end{equation}
+    where $\eta\in(-\pi/2,\pi/2)$ is known as the conformal time. Therefore, the metric becomes
+    \begin{equation}
+        ds^2 = R^2\cosh^2(\tau/R)(-d\eta^2+d\Omega_3^2), 
+    \end{equation}
+    which is conformally equivalent to the subset of the Einstein Static universe.
+
+    The global coordinates for anti-de Sitter space are
+    \begin{equation}
+        ds^2 = -\cosh^2\rho dt^2 + R^2d\rho^2+R^2\sinh^2\rho d\Omega_2^2.
+    \end{equation}
+    We perform the coordinate transformation
+    \begin{equation}
+        d\psi = \frac{1}{\cosh\rho}d\rho\implies \cos\psi = \frac{1}{\cosh\rho},
+    \end{equation}
+    where $\rho\in [0,\infty)$ and therefore the conformal coordinate lives in $\psi\in [0,\pi/2)$. The metric becomes
+    \begin{equation}
+        ds^2 = \frac{R^2}{\cos^2\psi}(-d\tilde{t}^2 + d\psi^2 + \sin^2\psi d\Omega_2^2),
+    \end{equation}
+    where we introduced the dimensionless time $\tilde{t}= t/R$. This metric is also conformally equivalent to the Einstein static patch.
+\end{solution}
+
+\begin{figure}[h]
+\centering
+\colorlet{mink}{orange!80!black}
+\colorlet{ds}{blue!65!black}
+\colorlet{ads}{green!50!black}
+
+\pgfmathsetmacro\W{4.5}
+\pgfmathsetmacro\Htot{6.4}
+\pgfmathsetmacro\Hmink{4.5}
+\pgfmathsetmacro\Hds{2.25}
+\pgfmathsetmacro\Wads{2.25}
+
+\pgfdeclarelayer{back}
+\pgfdeclarelayer{mid}
+\pgfsetlayers{back,mid,main}
+
+\begin{tikzpicture}[thick, >=Stealth]
+
+\begin{pgfonlayer}{back}
+  \fill[gray!8]  (0,-\Htot) rectangle (\W,\Htot);
+  \fill[ads!18]  (0,-\Htot) rectangle (\Wads,\Htot);
+  \fill[ds!22]   (0,-\Hds)  rectangle (\W,\Hds);
+  \fill[mink!22] (0,\Hmink) -- (\W,0) -- (0,-\Hmink) -- cycle;
+\end{pgfonlayer}
+
+\begin{pgfonlayer}{mid}
+  % Mink: both null boundaries
+  \draw[mink, very thick, -{Stealth[length=4pt]}] (0,-\Hmink) -- (\W,0);
+  \draw[mink, very thick, -{Stealth[length=4pt]}] (\W,0) -- (0,\Hmink);
+  % dS: both diagonals
+  \draw[ds, thick, -{Stealth[length=4pt]}] (0,-\Hds) -- (\W,\Hds);
+  \draw[ds, thick, -{Stealth[length=4pt]}] (\W,-\Hds) -- (0,\Hds);
+  % AdS: bouncing null rays
+  \pgfmathsetmacro\ystart{-5.5}
+  \draw[ads, thick, -{Stealth[length=3.5pt]}]
+    (0,\ystart) -- (\Wads,{\ystart+\Wads});
+  \draw[ads, thick, -{Stealth[length=3.5pt]}]
+    (\Wads,{\ystart+\Wads}) -- (0,{\ystart+2*\Wads});
+  \draw[ads, thick, -{Stealth[length=3.5pt]}]
+    (0,{\ystart+2*\Wads}) -- (\Wads,{\ystart+3*\Wads});
+  \draw[ads, thick, -{Stealth[length=3.5pt]}]
+    (\Wads,{\ystart+3*\Wads}) -- (0,{\ystart+4*\Wads});
+\end{pgfonlayer}
+
+\draw[ds, thick]   (0,-\Hds) -- (\W,-\Hds) -- (\W,\Hds) -- (0,\Hds);
+\draw[ads, thick, dashed] (\Wads,-\Htot) -- (\Wads,\Htot);
+\draw[thick] (0,-\Htot) rectangle (\W,\Htot);
+
+\fill[mink] (0, \Hmink) circle (2.2pt)
+  node[right=3pt] {\contour{white}{\textcolor{mink}{$i^+$}}};
+\fill[mink] (0,-\Hmink) circle (2.2pt)
+  node[right=3pt] {\contour{white}{\textcolor{mink}{$i^-$}}};
+\fill[mink] (\W,0) circle (2.2pt)
+  node[right=3pt] {\contour{white}{\textcolor{mink}{$i^0$}}};
+
+\draw[->, thick] (-0.2,-\Htot) -- (-0.2,\Htot+0.5) node[above] {$T$};
+\foreach \yval/\lab in {
+    \Hmink/{$\pi$}, \Hds/{$\frac{\pi}{2}$}, 0/{$0$},
+    -\Hds/{$-\frac{\pi}{2}$}, -\Hmink/{$-\pi$}}{
+  \draw[thick] (-0.2,\yval) ++(-3pt,0) -- ++(6pt,0);
+  \node[left=5pt] at (-0.2,\yval) {\small\lab};
+}
+\draw[->, thick] (0,-\Htot-0.25) -- (\W+0.35,-\Htot-0.25) node[right] {$\chi$};
+\foreach \xval/\lab in {0/{$0$}, \Wads/{$\frac{\pi}{2}$}, \W/{$\pi$}}{
+  \draw[thick] (\xval,-\Htot-0.25) ++(0,-3pt) -- ++(0,6pt);
+  \node[below=5pt] at (\xval,-\Htot-0.25) {\small\lab};
+}
+
+\node[mink, font=\bfseries] at (2.8, 0.5) {\contour{white}{Minkowski}};
+\node[ds,   font=\bfseries] at (3.7,-3.8) {\contour{white}{de Sitter}};
+\node[ads,  font=\bfseries] at (0.9, 5.5) {\contour{white}{AdS}};
+\node[ds,  right, font=\small] at (\W+0.07, \Hds)  {$\eta=\tfrac{\pi}{2}$};
+\node[ds,  right, font=\small] at (\W+0.07,-\Hds)  {$\eta=-\tfrac{\pi}{2}$};
+\node[ads, above, font=\small] at (\Wads,\Htot+0.05) {$\psi=\tfrac{\pi}{2}$};
+
+\end{tikzpicture}
+\caption{Minkowski (orange), de Sitter (blue), and anti-de Sitter (green)
+spacetimes as submanifolds of the Einstein Static Universe, with the $S^2$
+fibre suppressed. Characteristic null rays are shown for each spacetime:
+the Minkowski triangle is bounded by $\mathcal{I}^\pm$; de Sitter has a
+finite conformal time $|\eta|<\pi/2$; AdS has a timelike conformal boundary
+at $\psi=\pi/2$ off which null rays reflect.}
+\label{fig:ESU}
+\end{figure}
+\subsection{Maxwell Equations from a Lagrangian, Q9}
+
+The Lagrangian for the electromagnetic field is
+\begin{equation}
+    \mathcal{L} = -\frac{1}{4}g^{\mu\rho}g^{\nu\sigma}F_{\mu\nu}F_{\rho\sigma}
+\end{equation}
+where $F=dA$. Show that this Lagrangian reproduces the Maxwell equations when $A_\mu$ is varied and reproduces the energy-momentum tensor when $g_{\mu\nu}$ is varied.
+\begin{solution}
+    The Maxwell action is given by
+    \begin{equation}
+        S = -\frac{1}{2}\int F\wedge \star F = -\frac{1}{4}\int d^4x \sqrt{-g}\,g^{\mu\rho}g^{\nu\sigma}F_{\mu\nu}F_{\rho\sigma}.
+    \end{equation}
+    By varying $A$, we find
+    \begin{equation}
+        \delta S = -\frac{1}{2}\int\delta F\wedge \star F + F \wedge \star \delta F.
+    \end{equation}
+    Integrating by part and discarding the boundary terms, we find
+    \begin{equation}
+        d\star F = 0,
+    \end{equation}
+    where we have used $dF = d^2 A = 0$.
+
+    Expanding in tensor notation, we find
+    \begin{equation}
+        (d \star F)_{\lambda\mu\nu} = \frac{3}{2}\partial_{[\lambda}(\sqrt{-g}\epsilon_{\mu\nu]\sigma\delta}F^{\sigma\delta}) =0.
+    \end{equation}
+    Contracting with $\epsilon^{\lambda\mu\nu\rho}$, we find
+    \begin{equation}
+        \epsilon^{\lambda\mu\nu\rho}\partial_{[\lambda}(\sqrt{-g}\epsilon_{\mu\nu]\sigma\delta}F^{\sigma\delta}) = -2\partial_{[\lambda}\left(\sqrt{-g}(\delta^\lambda_\sigma\delta^\rho_\delta - \delta^\lambda_\delta\delta^\rho_\sigma)F^{\sigma\delta}\right)= 0\implies \partial_\mu (\sqrt{-g}F^{\mu\nu}) = 0,
+    \end{equation}
+    which is equivalent to 
+    \begin{equation}
+        \nabla_\mu F^{\mu\nu} = 0.
+    \end{equation}
+
+    Now, we vary the action with respect to the metric,
+    \begin{equation}
+        \delta S = -\frac{1}{4}\int d^4 x\left(2\sqrt{-g}\, \delta g^{\mu\rho}g^{\nu\sigma}F_{\mu\nu}F_{\rho\sigma} -\frac{1}{2}\sqrt{-g}\,g_{\lambda\tau}\delta g^{\lambda\tau}g^{\mu\rho}g^{\nu\sigma}F_{\mu\nu}F_{\rho\sigma} \right).
+    \end{equation}
+    Then, by the definition of energy momentum tensor, we find
+    \begin{equation}
+        T_{\mu\nu} = -\frac{2}{\sqrt{-g}}\frac{\delta S_M}{\delta g^{\mu\nu}} = g^{\rho\sigma}F_{\mu\rho}F_{\nu\sigma} - g_{\mu\nu}\mathcal{L}.
+    \end{equation}
+    In the flat Minkowski space, we reproduce
+    \begin{equation}
+        T_{\mu\nu}\bigg|_{\eta^{\mu\nu}} = F_{\mu\rho}F_\nu{}^\rho - \eta_{\mu\nu}\mathcal{L}.
+    \end{equation}
+    
+\end{solution}
+\subsection{Conservation of the Energy-Momentum Tensor, Q10}
+
+\begin{enumerate}[label=\roman*)]
+    \item A scalar field obeying the Klein-Gordon equation $\nabla^\mu\nabla_\mu\phi - m^2\phi = 0$ has energy-momentum tensor
+    \begin{equation}
+        T_{\mu\nu} = \nabla_\mu\phi\nabla_\nu\phi - \frac{1}{2}g_{\mu\nu}\left(\nabla^\rho\phi\nabla_\rho\phi + m^2\phi^2\right).
+    \end{equation}
+    Show that $T_{\mu\nu}$ is covariantly conserved.
+    \begin{solution}
+        \begin{equation}
+            \nabla^\mu T_{\mu\nu} = \nabla^\mu \nabla_\mu \phi \nabla_\nu \phi + \nabla_\mu \phi \nabla^\mu \nabla_\nu\phi -\frac{1}{2}\nabla_\nu\left(\nabla^\rho\phi\nabla_\rho\phi + m^2\phi^2\right) = 0.
+        \end{equation}
+    \end{solution}
+    \item The energy-momentum tensor for a Maxwell field $F_{\mu\nu}$ is
+    \begin{equation}
+        T_{\mu\nu} = g^{\rho\sigma}F_{\mu\rho}F_{\nu\sigma} - \frac{1}{4}g_{\mu\nu}F^{\rho\sigma}F_{\rho\sigma}.
+    \end{equation}
+    Show that $T_{\mu\nu}$ is covariantly conserved when the Maxwell equations are obeyed.
+    \begin{solution}
+        \begin{equation}
+            \nabla^\mu T_{\mu\nu} = g^{\rho\sigma}(\nabla^\mu F_{\mu\rho}) F_{\nu\sigma } + g^{\rho\sigma} F_{\mu\rho}(\nabla^\mu F_{\nu\sigma })- \frac{1}{4}\nabla_\nu(F^{\rho\sigma}F_{\rho\sigma}),
+        \end{equation}
+        which vanishes by the Bianchi identity.
+    \end{solution}
+    \item The energy-momentum tensor of a perfect fluid, with energy density $\rho$, pressure $P$ and 4-velocity $u^\mu$ with $u_\mu u^\mu = -1$ is
+    \begin{equation}
+        T^{\mu\nu} = (\rho+P)u^\mu u^\nu + Pg^{\mu\nu}.
+    \end{equation}
+    Show that conservation of the energy-momentum tensor implies
+    \begin{align}
+        u^\mu\nabla_\mu\rho + (\rho+P)\nabla_\mu u^\mu &= 0,\\
+        (\rho+P)u^\nu\nabla_\nu u^\mu &= -(g^{\mu\nu}+u^\mu u^\nu)\nabla_\nu P.
+    \end{align}
+    \begin{solution}
+        \begin{equation}
+            \nabla_\mu T^{\mu\nu} = \nabla_\mu(\rho+P)u^\mu u^\nu + (\rho+P)[(\nabla_\mu u^\mu)u^\nu + u^\mu (\nabla_\mu u^\nu)] +(\nabla_\mu P)g^{\mu\nu} = 0.
+        \end{equation}
+        Contracting with $u_\nu$ and use $u_\nu u^\mu\nabla_\mu u^\nu = -\nabla_\mu u^\mu + \nabla_\mu u^\mu - u^\mu u^\nu \nabla_\mu u_\nu = - u^\mu u^\nu \nabla_\mu u_\nu$, we find
+        \begin{equation}
+            -\nabla_\mu(\rho+P) u^\mu -(\rho+P)\nabla_\mu u^\mu+ \nabla_\mu P u^\mu = 0 \implies u^\mu\nabla_\mu \rho + (\rho+P) \nabla_\mu u^\mu = 0.
+        \end{equation}
+        Then, the original conservation equation becomes
+        \begin{equation}
+            u^\mu u^\nu\nabla_\mu P + (\rho +P)u^\mu \nabla_\mu u^\nu  + (\nabla_\mu P)g^{\mu\nu}= 0\implies (\rho+P)u^\nu \nabla_\nu u^\mu = -(g^{\mu\nu}+u^\mu u^\nu)\nabla_\nu P.
+        \end{equation}
+    \end{solution}
+\end{enumerate}
+
+\subsection{Geodesics from Energy-Momentum Conservation, Q11}
+
+A test particle of rest mass $m$ has a timelike worldline $x^\mu(\lambda)$, $0\leq\lambda\leq 1$ and action
+\begin{equation}
+    S = -m\int d\tau \equiv -m\int d\lambda\sqrt{-g_{\mu\nu}(x(\lambda))\dot x^\mu\dot x^\nu}
+\end{equation}
+where $\tau$ is proper time and a dot denotes a derivative with respect to $\lambda$.
+\begin{enumerate}[label=\roman*)]
+    \item Show that varying this action with respect to $x^\mu(\lambda)$ leads to the non-affinely parametrised geodesic equation
+    \begin{equation}
+        \ddot x^\mu + \Gamma^\mu{}_{\rho\sigma}\dot x^\rho\dot x^\sigma = \frac{1}{L}\frac{dL}{d\lambda}\dot x^\mu.
+    \end{equation}
+    Explain why we can choose a parametrisation so that $dL/d\sigma = 0$.
+    \begin{solution}
+        Vary the action with respect to $x^\mu$, we find
+        \begin{equation}
+            \delta S = -m\int d\lambda\left(\frac{-g_{\mu\nu}\dot{x}^\mu}{\sqrt{-g_{\mu\nu}\dot{x}^\mu\dot{x}^\nu}}\delta\dot{x}^\nu + \frac{1}{2}\frac{-\partial_\rho g_{\mu\nu}\dot{x}^\mu\dot{x}^\nu}{\sqrt{- g_{\mu\nu}\dot{x}^\mu\dot{x}^\nu}}\delta x^\rho\right).
+        \end{equation}
+        Integrating by part and discarding the boundary term, we find
+        \begin{equation}
+            \frac{d}{d\lambda}\left(\frac{-g_{\mu\nu}\dot{x}^\mu}{L}\right) +  \frac{1}{2}\frac{-\partial_\rho g_{\mu\nu}\dot{x}^\mu\dot{x}^\nu}{L} = 0,
+        \end{equation}
+        which gives
+        \begin{equation}
+            -\frac{ g_{\mu\nu}\ddot{x}^\mu}{L} - \frac{\partial_\rho g_{\mu\nu}\dot{x}^\mu\dot{x}^\rho}{L} + \frac{1}{L^2}\frac{dL}{d\lambda}g_{\mu\nu}\dot{x}^\mu-\frac{1}{2}\frac{\partial_\rho g_{\mu\nu}\dot{x}^\mu\dot{x}^\nu}{L}   =0.     
+        \end{equation}
+        Then, by relabelling and recalling the definition of the Christoffel symbol, we find the non-affinely parametrised geodesics equation
+        \begin{equation}
+            \ddot x^\mu + \Gamma^\mu{}_{\rho\sigma}\dot x^\rho\dot x^\sigma = \frac{1}{L}\frac{dL}{d\lambda}\dot x^\mu. 
+        \end{equation}
+        Now, by choosing $\lambda = \tau$, $dL / d\tau = 0$, and hence we find the affinely parametrised geodesics equation, where $\tau$ is interpreted as the proper time of the particle.
+    \end{solution}
+    \item Show that the energy-momentum tensor of the particle in any chart is
+    \begin{equation}
+        T^{\mu\nu}(x) = \frac{m}{\sqrt{-g(x)}}\int d\tau\, u^\mu(\tau)u^\nu(\tau)\delta^4(x-x(\tau))
+    \end{equation}
+    where $u^\mu$ is the 4-velocity of the particle.
+    \begin{solution}
+        Vary the action with respect to the metric, we find
+        \begin{equation}
+            \delta S = - m \int d\lambda \frac{-\delta g_{\mu\nu}(x(\lambda))\dot{x}^\mu \dot{x}^\nu}{2\sqrt{-g_{\mu\nu}(x(\lambda))\dot{x}^\mu \dot{x}^\nu}}.
+        \end{equation}
+        Then, the energy-momentum tensor is given by
+        \begin{equation}
+            T^{\mu\nu}= -\frac{2}{\sqrt{-g(x)}}\frac{\delta S}{\delta g_{\mu\nu}(x)} = -\frac{m}{\sqrt{-g(x)}}\int d\lambda \,u^\mu(\lambda) u^\nu(\lambda)\delta^4(x-x(\lambda)),
+        \end{equation}
+        where we can relabel $\lambda$ by $\tau$.
+    \end{solution}
+    \item Conservation of the energy-momentum tensor is equivalent to the statement that
+    \begin{equation}
+        \int_R d^4x\sqrt{-g}\,v_\nu\nabla_\mu T^{\mu\nu} = 0
+    \end{equation}
+    for any vector field $v^\mu$ and region $R$. By choosing $v^\mu$ to be compactly supported in a region intersecting the particle worldline, show that conservation of $T^{\mu\nu}$ implies that test particles move on geodesics.
+    \begin{solution}
+        \begin{equation}
+            \nabla_\mu T^{\mu\nu} = 0 \iff \int_R d^4x\sqrt{-g}\,v_\nu\nabla_\mu T^{\mu\nu} = 0, \quad \forall R, \quad     \forall v\in \mathfrak{X}(M).
+        \end{equation}
+        The forward direction of this statement is completely trivial. The backward direction is basically saying if the integral vanished for all vector fields, $v$, and all regions, $R$, then it must vanish pointwise.
+        
+        Integrating by parts, we find
+        \begin{equation}
+            \int_{\partial R} d^3x\sqrt{-g}v_\nu \nabla_\mu T^{\mu\nu} +\int_R d^4x \sqrt{-g}(\nabla_\mu v_\nu)T^{\mu\nu} = 0.
+        \end{equation}
+        By choosing $v_\nu$ to be compactly supported in $R$, the boundary term can be discarded. Therefore, we find
+        \begin{equation}
+            \int_R d^4x \sqrt{-g}\, (\nabla_\mu v_\nu) T^\mu = -m\int_R d^4x\int d\tau \,u^\mu(\tau)u^\nu(\tau)\delta^4(x-x(\tau)) \nabla_\mu v_\nu = 0,
+        \end{equation}
+        for all compactly supported $v$. Therefore,
+        \begin{equation}
+            \int d\tau\, u^\mu(\tau)u^\nu(\tau) \nabla_\mu v_\nu \bigg|_{x=x(\tau)} = \int d\tau\, u^\mu(\tau) u^\nu(\tau) [\partial_\mu v_\nu(x(\tau)) - \Gamma^\rho{}_{\mu\nu}v_\rho(x(\tau))]= 0.
+        \end{equation}
+        Integrating by parts and using the fact that $v$ vanishes at the intersection of the worldline and the boundary of the region, we find
+        \begin{equation}
+        \begin{aligned}
+            \int d\tau \, u^\mu(\tau) u^\nu(\tau) \left[ \frac{1}{u^\mu(\tau)}\frac{d}{d\tau}v_\nu(x(\tau)) - \Gamma^\rho{}_{\mu\nu}v_\rho(x(\tau))\right] \\= -\int d\tau \, \left(\ddot{x}^\rho(\tau) + \Gamma^\rho{}_{\mu\nu}\dot{x}^\mu(\tau)\dot{x}^\nu(\tau)\right)v_\rho(x(\tau))=0.
+        \end{aligned}
+        \end{equation}
+        For the above to vanish for all $v$, the geodesic equation must be satisfied.
+    \end{solution}
+\end{enumerate}
+
+\subsection{The Weak Energy Condition, Q12}
+
+Classical matter with energy-momentum tensor $T^{\mu\nu}$ satisfies the weak energy condition
+\begin{equation}
+    T_{\mu\nu}u^\mu u^\nu \geq 0
+\end{equation}
+for all timelike $u^\mu$. Give a physical interpretation for this condition. You measure the components of $T^\mu{}_\nu$ in some basis and determine its eigenvalues $\lambda$ and eigenvectors $v^\mu$ satisfying $T^\mu{}_\nu v^\nu = \lambda v^\mu$. You find that it has precisely one timelike eigenvector with eigenvalue $-\rho$ and three spacelike eigenvectors with eigenvalues $P^{(i)}$. What necessary and sufficient condition on these eigenvalues ensures that the weak energy condition is satisfied?
+
+\begin{solution}
+    $T_{\mu\nu} u^\mu u^\nu = T_{00}$ in the rest frame of the observer moving with 4-velocity $u^\mu$. Therefore, the weak energy condition restricts to positive energy density seen by an observer with a timelike or lightlike trajectory.
+
+    The energy momentum tensor has four eigenvalues, $-\rho$, $P^{(i)}$, with eigenvalues, $n^\mu$, $e_{(i)}^\mu$. Diagonalising the energy-momentum tensor, we find
+    \begin{equation}
+        T^\mu{}_\nu = -\rho n^\mu n_\nu + \sum_iP^{(i)}e^\mu_{(i)}e_\nu^{(i)}.
+    \end{equation}
+    Expand a general timelike $u^\mu$ in the eigenbases
+    \begin{equation}
+        u^\mu = \alpha n^\mu + \sum_i \beta_{(i)}e_{(i)}^\mu.
+    \end{equation}
+    $u^\mu u_\mu <0$ implies $\alpha^2  >\sum_i \beta_{(i)}^2$. Then, consider the contraction
+    \begin{equation}
+    \begin{aligned}
+        T_{\mu\nu}u^\mu u^\nu &= \left(\rho n_\mu n_\nu + \sum_iP^{(i)}e_\mu^{(i)}e_\nu^{(i)}\right)\left(\alpha n^\mu + \sum_i \beta_{(i)}e_{(i)}^\mu\right)\left(\alpha n^\nu + \sum_i \beta_{(i)}e_{(i)}^\nu\right)\\
+        &=\alpha^2\rho + \sum_iP^{(i)}\beta^2_{(i)}\geq 0.
+    \end{aligned}
+    \end{equation}
+    This implies that $\rho \geq 0$, and by $\alpha^2  >\sum_i \beta_{(i)}^2$ we also need $\rho + P^{(i)} > 0$. It can be easily seen that the condition is also sufficient for the weak energy condition. 
+
+    
+\end{solution}

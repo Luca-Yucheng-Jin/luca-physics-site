@@ -249,8 +249,8 @@ CATEGORIES = [
     {
         "slug": "advanced",
         "title": "GR",
-        "blurb": "Manifolds and tensors, connections and curvature, Brans–Dicke scalar-tensor gravity, and 11-dimensional supergravity.",
-        "tag": "4 notes",
+        "blurb": "Manifolds and tensors, connections and curvature, geodesics and Killing vectors, Brans–Dicke scalar-tensor gravity, and 11-dimensional supergravity.",
+        "tag": "3 notes",
         "body": """    <h3>Solutions</h3>
     <ul class="catalogue">
       <li class="catalogue__item">
@@ -270,20 +270,12 @@ CATEGORIES = [
         <span class="catalogue__tag">Tong GR PS2</span>
       </li>
       <li class="catalogue__item">
-        <span class="catalogue__num">α.</span>
+        <span class="catalogue__num">PS3.</span>
         <span class="catalogue__main">
-          <a href="notes/gr-brans-dicke.html">Brans–Dicke Theory</a>
-          <span class="catalogue__desc">Tong GR PS3 Q2 — scalar-tensor gravity and the variation of Newton's constant.</span>
+          <a href="notes/tong-gr-ps3.html">Geodesics, Killing Vectors &amp; Energy Conditions</a>
+          <span class="catalogue__desc">Timelike geodesics, Brans–Dicke scalar-tensor gravity, 11-d supergravity, Killing vectors, conformal compactification, energy conditions.</span>
         </span>
-        <span class="catalogue__tag">Tong GR</span>
-      </li>
-      <li class="catalogue__item">
-        <span class="catalogue__num">β.</span>
-        <span class="catalogue__main">
-          <a href="notes/psi-11d-supergravity.html">11-Dimensional Supergravity</a>
-          <span class="catalogue__desc">PSI Strings PS1 Q3 — graviton, gravitino, and three-form on the maximal supergravity algebra.</span>
-        </span>
-        <span class="catalogue__tag">PSI Strings</span>
+        <span class="catalogue__tag">Tong GR PS3</span>
       </li>
     </ul>""",
     },
