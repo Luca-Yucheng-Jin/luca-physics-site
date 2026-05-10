@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<title>Tensor index verification — web vs pdfLaTeX</title>
+
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros', 'mathtools']}
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
+};
+</script>
+<script async src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'></script>
+
+<style>
+:root { color-scheme: light; }
+body { font: 14px/1.4 -apple-system, sans-serif; max-width: 1400px;
+       margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; background: #fff; }
+h1 { font-size: 1.8rem; }
+.row { display: grid; grid-template-columns: 32% 1fr 1fr; gap: 1rem;
+       border: 1px solid #ddd; padding: 12px; background: #fff;
+       margin: 6px 0; align-items: center; }
+.row > div { padding: 8px 12px; }
+.row > div h3 { margin: 0 0 0.4rem; font-size: 11px;
+                color: #666; text-transform: uppercase;
+                letter-spacing: 0.05em; font-weight: 600; }
+.source-cell { font-family: 'Menlo', monospace; font-size: 11px;
+               background: #f6f6f6; border-radius: 3px; }
+.source-cell pre { margin: 0; white-space: pre-wrap; word-break: break-all; }
+.source-cell .meta { font-size: 10px; color: #777; margin-bottom: 4px;
+                     font-family: -apple-system, sans-serif; }
+.web-cell { font-size: 22px; }
+.latex-cell img { max-width: 100%; height: auto; vertical-align: middle; }
+.legend { background: #f0f7ff; border: 1px solid #b0d4ff; padding: 12px;
+          border-radius: 4px; margin-bottom: 1.5rem; }
+</style>
+</head>
+<body>
+<h1>Tensor index verification</h1>
+
+<div class='legend'>
+<strong>Goal:</strong> every <code>\tensor{base}{indices}</code> call
+in the source must render with the upper and lower indices at <em>distinct
+horizontal positions</em> (μ above-left, ν below-right) — never stacked
+in the same column.<br><br>
+<strong>Approach:</strong> the build pipeline (<code>build/tex_to_html.py:_rewrite_tensor</code>)
+walks math regions and rewrites <code>\tensor{R}{^μ_{νρσ}}</code>
+to <code>R^μ{}_{νρσ}</code> (empty-group trick) before MathJax sees it.
+The empty <code>{}</code> separator is what makes MathJax kern the
+indices into separate columns.<br><br>
+The MIDDLE column below is live MathJax (same renderer as the deployed
+site). The RIGHT column is ground-truth pdfLaTeX with the actual
+<code>tensor.sty</code> package. They should look visually identical.
+</div>
+
+<div class='row' id='row-0'>
+  <div class='source-cell'>
+    <div class='meta'>tex/11dsupergravity.tex:39</div>
+    <pre>\tensor{G}{_\nu^{\beta\rho\sigma}}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>G_\nu{}^{\beta\rho\sigma}</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle G_\nu{}^{\beta\rho\sigma}\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-00.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-1'>
+  <div class='source-cell'>
+    <div class='meta'>tex/11dsupergravity.tex:45</div>
+    <pre>\tensor{G}{_\nu^{\beta\rho\sigma}}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>G_\nu{}^{\beta\rho\sigma}</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle G_\nu{}^{\beta\rho\sigma}\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-01.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-2'>
+  <div class='source-cell'>
+    <div class='meta'>tex/BransDicke.tex:12</div>
+    <pre>\tensor{g}{^{\mu\nu}}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>g^{\mu\nu}</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle g^{\mu\nu}\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-02.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-3'>
+  <div class='source-cell'>
+    <div class='meta'>tex/BransDicke.tex:12</div>
+    <pre>\tensor{g}{^{\mu\nu}}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>g^{\mu\nu}</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle g^{\mu\nu}\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-03.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-4'>
+  <div class='source-cell'>
+    <div class='meta'>tex/BransDicke.tex:12</div>
+    <pre>\tensor{g}{^{\mu\nu}}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>g^{\mu\nu}</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle g^{\mu\nu}\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-04.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-5'>
+  <div class='source-cell'>
+    <div class='meta'>tex/BransDicke.tex:23</div>
+    <pre>\tensor{g}{^{\mu\nu}}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>g^{\mu\nu}</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle g^{\mu\nu}\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-05.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-6'>
+  <div class='source-cell'>
+    <div class='meta'>tex/BransDicke.tex:39</div>
+    <pre>\tensor{R}{^\mu_{\nu\rho\sigma}}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>R^\mu{}_{\nu\rho\sigma}</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle R^\mu{}_{\nu\rho\sigma}\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-06.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-7'>
+  <div class='source-cell'>
+    <div class='meta'>tex/BransDicke.tex:39</div>
+    <pre>\tensor{\Gamma}{^\mu_{\nu\sigma}}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>\Gamma^\mu{}_{\nu\sigma}</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle \Gamma^\mu{}_{\nu\sigma}\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-07.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-8'>
+  <div class='source-cell'>
+    <div class='meta'>tex/BransDicke.tex:40</div>
+    <pre>\tensor{\Gamma}{^\mu_{\nu\rho}}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>\Gamma^\mu{}_{\nu\rho}</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle \Gamma^\mu{}_{\nu\rho}\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-08.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-9'>
+  <div class='source-cell'>
+    <div class='meta'>tex/BransDicke.tex:41</div>
+    <pre>\tensor{\Gamma}{^\mu_{\rho\lambda}}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>\Gamma^\mu{}_{\rho\lambda}</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle \Gamma^\mu{}_{\rho\lambda}\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-09.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-10'>
+  <div class='source-cell'>
+    <div class='meta'>tex/BransDicke.tex:41</div>
+    <pre>\tensor{\Gamma}{^\lambda_{\nu\sigma}}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>\Gamma^\lambda{}_{\nu\sigma}</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle \Gamma^\lambda{}_{\nu\sigma}\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-10.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-11'>
+  <div class='source-cell'>
+    <div class='meta'>tex/BransDicke.tex:42</div>
+    <pre>\tensor{\Gamma}{^\mu_{\sigma\lambda}}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>\Gamma^\mu{}_{\sigma\lambda}</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle \Gamma^\mu{}_{\sigma\lambda}\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-11.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-12'>
+  <div class='source-cell'>
+    <div class='meta'>tex/BransDicke.tex:42</div>
+    <pre>\tensor{\Gamma}{^\lambda_{\nu\rho}}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>\Gamma^\lambda{}_{\nu\rho}</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle \Gamma^\lambda{}_{\nu\rho}\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-12.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-13'>
+  <div class='source-cell'>
+    <div class='meta'>tex/BransDicke.tex:46</div>
+    <pre>\tensor{R}{^\mu_{\nu\rho\sigma}}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>R^\mu{}_{\nu\rho\sigma}</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle R^\mu{}_{\nu\rho\sigma}\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-13.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-14'>
+  <div class='source-cell'>
+    <div class='meta'>tex/BransDicke.tex:46</div>
+    <pre>\tensor{\Gamma}{^\mu_{\nu\sigma}}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>\Gamma^\mu{}_{\nu\sigma}</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle \Gamma^\mu{}_{\nu\sigma}\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-14.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-15'>
+  <div class='source-cell'>
+    <div class='meta'>tex/BransDicke.tex:47</div>
+    <pre>\tensor{\Gamma}{^\mu_{\nu\rho}}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>\Gamma^\mu{}_{\nu\rho}</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle \Gamma^\mu{}_{\nu\rho}\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-15.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-16'>
+  <div class='source-cell'>
+    <div class='meta'>tex/BransDicke.tex:51</div>
+    <pre>\tensor{\Gamma}{^\mu_{\nu\sigma}}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>\Gamma^\mu{}_{\nu\sigma}</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle \Gamma^\mu{}_{\nu\sigma}\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-16.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-17'>
+  <div class='source-cell'>
+    <div class='meta'>tex/BransDicke.tex:55</div>
+    <pre>\tensor{\Gamma}{^\mu_{\nu\sigma}}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>\Gamma^\mu{}_{\nu\sigma}</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle \Gamma^\mu{}_{\nu\sigma}\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-17.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-18'>
+  <div class='source-cell'>
+    <div class='meta'>tex/BransDicke.tex:59</div>
+    <pre>\tensor{R}{^\mu_{\nu\rho\sigma}}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>R^\mu{}_{\nu\rho\sigma}</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle R^\mu{}_{\nu\rho\sigma}\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-18.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-19'>
+  <div class='source-cell'>
+    <div class='meta'>tex/BransDicke.tex:59</div>
+    <pre>\tensor{\Gamma}{^\mu_{\nu\sigma}}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>\Gamma^\mu{}_{\nu\sigma}</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle \Gamma^\mu{}_{\nu\sigma}\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-19.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-20'>
+  <div class='source-cell'>
+    <div class='meta'>tex/BransDicke.tex:60</div>
+    <pre>\tensor{\Gamma}{^\mu_{\nu\rho}}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>\Gamma^\mu{}_{\nu\rho}</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle \Gamma^\mu{}_{\nu\rho}\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-20.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-21'>
+  <div class='source-cell'>
+    <div class='meta'>tex/BransDicke.tex:64</div>
+    <pre>\tensor{R}{^\mu_{\nu\rho\sigma}}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>R^\mu{}_{\nu\rho\sigma}</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle R^\mu{}_{\nu\rho\sigma}\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-21.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-22'>
+  <div class='source-cell'>
+    <div class='meta'>tex/BransDicke.tex:64</div>
+    <pre>\tensor{\Gamma}{^\mu_{\nu\sigma}}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>\Gamma^\mu{}_{\nu\sigma}</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle \Gamma^\mu{}_{\nu\sigma}\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-22.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-23'>
+  <div class='source-cell'>
+    <div class='meta'>tex/BransDicke.tex:65</div>
+    <pre>\tensor{\Gamma}{^\mu_{\nu\rho}}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>\Gamma^\mu{}_{\nu\rho}</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle \Gamma^\mu{}_{\nu\rho}\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-23.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-24'>
+  <div class='source-cell'>
+    <div class='meta'>tex/BransDicke.tex:65</div>
+    <pre>\tensor{R}{_{\nu\sigma}}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>R_{\nu\sigma}</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle R_{\nu\sigma}\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-24.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-25'>
+  <div class='source-cell'>
+    <div class='meta'>tex/BransDicke.tex:65</div>
+    <pre>\tensor{\Gamma}{^\mu_{\nu\sigma}}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>\Gamma^\mu{}_{\nu\sigma}</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle \Gamma^\mu{}_{\nu\sigma}\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-25.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-26'>
+  <div class='source-cell'>
+    <div class='meta'>tex/BransDicke.tex:66</div>
+    <pre>\tensor{\Gamma}{^\mu_{\nu\mu}}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>\Gamma^\mu{}_{\nu\mu}</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle \Gamma^\mu{}_{\nu\mu}\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-26.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-27'>
+  <div class='source-cell'>
+    <div class='meta'>tex/BransDicke.tex:70</div>
+    <pre>\tensor{\Gamma}{^\mu_{\nu\sigma}}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>\Gamma^\mu{}_{\nu\sigma}</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle \Gamma^\mu{}_{\nu\sigma}\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-27.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-28'>
+  <div class='source-cell'>
+    <div class='meta'>tex/BransDicke.tex:70</div>
+    <pre>\tensor{\Gamma}{^\rho_{\nu\rho}}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>\Gamma^\rho{}_{\nu\rho}</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle \Gamma^\rho{}_{\nu\rho}\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-28.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-29'>
+  <div class='source-cell'>
+    <div class='meta'>tex/BransDicke.tex:78</div>
+    <pre>\tensor{\Gamma}{^\mu_{\nu\sigma}}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>\Gamma^\mu{}_{\nu\sigma}</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle \Gamma^\mu{}_{\nu\sigma}\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-29.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-30'>
+  <div class='source-cell'>
+    <div class='meta'>tex/BransDicke.tex:78</div>
+    <pre>\tensor{\Gamma}{^\rho_{\nu\rho}}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>\Gamma^\rho{}_{\nu\rho}</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle \Gamma^\rho{}_{\nu\rho}\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-30.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-31'>
+  <div class='source-cell'>
+    <div class='meta'>tex/BransDicke.tex:82</div>
+    <pre>\tensor{\Gamma}{^\mu_{\nu\sigma}}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>\Gamma^\mu{}_{\nu\sigma}</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle \Gamma^\mu{}_{\nu\sigma}\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-31.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-32'>
+  <div class='source-cell'>
+    <div class='meta'>tex/BransDicke.tex:83</div>
+    <pre>\tensor{g}{^\nu_\nu}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>g^\nu{}_\nu</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle g^\nu{}_\nu\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-32.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-33'>
+  <div class='source-cell'>
+    <div class='meta'>tex/BransDicke.tex:88</div>
+    <pre>\tensor{\Gamma}{^\rho_{\nu\rho}}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>\Gamma^\rho{}_{\nu\rho}</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle \Gamma^\rho{}_{\nu\rho}\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-33.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-34'>
+  <div class='source-cell'>
+    <div class='meta'>tex/BransDicke.tex:125</div>
+    <pre>\tensor{\Gamma}{^\mu_{\mu\nu}}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>\Gamma^\mu{}_{\mu\nu}</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle \Gamma^\mu{}_{\mu\nu}\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-34.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-35'>
+  <div class='source-cell'>
+    <div class='meta'>tex/BransDicke.tex:129</div>
+    <pre>\tensor{\Gamma}{^\nu_{\nu\mu}}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>\Gamma^\nu{}_{\nu\mu}</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle \Gamma^\nu{}_{\nu\mu}\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-35.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-36'>
+  <div class='source-cell'>
+    <div class='meta'>tex/DTQFTPS1.tex:59</div>
+    <pre>\tensor{\Lambda}{^\sigma_\mu}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>\Lambda^\sigma{}_\mu</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle \Lambda^\sigma{}_\mu\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-36.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-37'>
+  <div class='source-cell'>
+    <div class='meta'>tex/DTQFTPS1.tex:59</div>
+    <pre>\tensor{\Lambda}{^\tau_\nu}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>\Lambda^\tau{}_\nu</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle \Lambda^\tau{}_\nu\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-37.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-38'>
+  <div class='source-cell'>
+    <div class='meta'>tex/DTQFTPS1.tex:59</div>
+    <pre>\tensor{\Lambda}{^\sigma_\mu}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>\Lambda^\sigma{}_\mu</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle \Lambda^\sigma{}_\mu\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-38.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-39'>
+  <div class='source-cell'>
+    <div class='meta'>tex/DTQFTPS1.tex:59</div>
+    <pre>\tensor{\Lambda}{^\tau_\nu}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>\Lambda^\tau{}_\nu</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle \Lambda^\tau{}_\nu\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-39.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-40'>
+  <div class='source-cell'>
+    <div class='meta'>tex/DTQFTPS1.tex:140</div>
+    <pre>\tensor{\omega}{^\mu_\nu}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>\omega^\mu{}_\nu</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle \omega^\mu{}_\nu\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-40.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+
+<div class='row' id='row-41'>
+  <div class='source-cell'>
+    <div class='meta'>tex/DTQFTPS1.tex:140</div>
+    <pre>\tensor{\omega}{^\mu_\nu}</pre>
+    <div class='meta' style='margin-top:6px'>↓ rewritten</div>
+    <pre>\omega^\mu{}_\nu</pre>
+  </div>
+  <div class='web-cell'>
+    <h3>Web (MathJax, after rewrite)</h3>
+    \(\displaystyle \omega^\mu{}_\nu\)
+  </div>
+  <div class='latex-cell'>
+    <h3>pdfLaTeX (tensor.sty)</h3>
+    <img src='expr-41.png' alt='pdfLaTeX render'>
+  </div>
+</div>
+
+</body>
+</html>

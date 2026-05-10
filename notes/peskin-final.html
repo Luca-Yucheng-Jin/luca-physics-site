@@ -23,7 +23,7 @@ window.MathJax = {
   tex: {
     inlineMath: [['$', '$'], ['\\(', '\\)']],
     displayMath: [['$$', '$$'], ['\\[', '\\]']],
-    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros']},
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros', 'mathtools']},
     macros: {
       R: '\\mathbb{R}',
       C: '\\mathbb{C}',
@@ -34,36 +34,43 @@ window.MathJax = {
       Lagrangian: '\\mathcal{L}',
       Cdot: '\\boldsymbol{\\cdot}',
       Tr: '\\operatorname{Tr}',
-      slashed: ['{\\not{#1}}', 1],
+      // Feynman slash: \not{x} would render the slash to the LEFT of x
+      // (it's designed for \not=). \cancel from the cancel package
+      // strikes diagonally through the centre, matching the slashed.sty
+      // package's appearance.
+      slashed: ['{\\cancel{#1}}', 1],
       // Wick contraction: top brace connector over the contracted pair —
       // closer to the standard physics notation than a plain overline.
       wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
       c:       ['{#1}', 1],
       mathds:  ['\\mathbb{#1}', 1],
       Tilde:   ['\\tilde{#1}', 1],
-      // tensor.sty: \tensor{base}{indices} — rendered as base + indices
-      tensor:  ['{#1{#2}}', 2]
+      // siunitx polyfill — \si{K}, \si{m\,s^{-1}} etc. should render
+      // the unit in upright math text, like \mathrm{X}. Doesn't try
+      // to mimic the full siunitx unit-formatting machinery; just
+      // unblocks the common bare-unit case in TDSP problems.
+      si: ['\\,\\mathrm{#1}', 1],
+      SI: ['#1\\,\\mathrm{#2}', 2]
+      // \tensor{base}{indices} is rewritten to base^a{}_b in
+      // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
+      // so no runtime macro is needed here. The empty-group trick is
+      // what makes MathJax kern the indices into separate columns.
     }
   },
-  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
 };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
-<!-- TikZJax: renders <script type="text/tikz"> blocks into SVG client-side -->
-<link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
-<script src="https://tikzjax.com/v1/tikzjax.js"></script>
-<!-- Post-process TikZJax SVGs: scale them up so they're readable in-page -->
-<script defer src="../assets/resize-tikz.js"></script>
 </head>
 <body>
 
 <header class="topbar">
-  <a href="../index.html" class="topbar__brand">Yucheng (Luca) Jin <small>MSci · Imperial</small></a>
+  <a href="../index.html" class="topbar__brand">Yucheng (Luca) Jin <small>BSc · Imperial</small></a>
   <nav class="topbar__nav">
     <a href="../index.html">About</a>
     <a href="../notes.html" class="is-active">Notes</a>
     <a href="../research.html">Research</a>
+    <a href="../reading.html">Reading</a>
     <a href="mailto:luca.jin@outlook.com">Contact</a>
     <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" title="Decrease font size">A<span class="font-toggle__small">−</span></button>
     <button class="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size" title="Increase font size">A<span class="font-toggle__large">+</span></button>
@@ -89,101 +96,159 @@ window.MathJax = {
 <p>In this question, we will compute one of the most important radiatively corrected cross sections – the production of strongly interacting particles through $e^+e^-$ annihilation.</p>
 
 <p>Let us represent the strong interactions by the simple model:
-\[\Delta H = \int d^3x g \bar{\psi}_{fi} \gamma^\mu \psi_{fi} B_\mu,\tag{1}\]
+\[\Delta H = \int d^3x g \bar{\psi}_{fi} \gamma^\mu \psi_{fi} B_\mu,\tag{1.1}\]
 where $B_\mu$ is a new massless vector particle, the gluon, the label $f$ labels the flavour of the quark ($u,d,s,c,$, etc) and $i=1,2,3$ labels the colour. The strong coupling constant $g$ is independent of flavour and colour. The electromagnetic coupling of quarks depends on the flavour, since $Q_f = \frac{2}{3}$ for the $u$ and $c$ quarks and $Q_f = -\frac{1}{3}$ for the $d$ and $s$ quarks. By analogy to $\alpha$, let us define 
-\[\alpha_g = \frac{g^2}{4\pi}.\tag{2}\]</p>
+\[\alpha_g = \frac{g^2}{4\pi}.\tag{1.2}\]</p>
 
 <p>Throughout the computation, we shall ignore the masses of quarks and electrons, and also average over the electron and positron polarisations. To control infrared divergence, we shall give the gluon a small, nonzero mass $\mu$, which can be taken to zero only at the end of the calculations.</p>
 
 <p><strong>(a)</strong>
 First, let us compute the cross section at tree level. Consider the diagram,</p>
 
-<div class="equation-row"><span class="equation-part">$i\mathcal{M}_0
-        =$</span>
-
-<figure class="tikz-figure"><script type="text/tikz">
-\usetikzlibrary{decorations.markings,arrows.meta}
-\begin{tikzpicture}[every node/.style={font=\small}]
-  \node (i1) at (0.00,0.00) {$e^{+}$};
-  \node (a) at (2.20,0.00) {};
-  \node (i2) at (4.40,0.00) {$e^{-}$};
-  \node (b) at (2.20,-1.60) {};
-  \node (f1) at (0.00,-1.60) {$q$};
-  \node (f2) at (4.40,-1.60) {$\overline{q}$};
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (i1) -- (a);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (a) -- (i2);
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- node[above, midway, font=\footnotesize] {$k$} (b);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (f1) -- (b);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (b) -- (f2);
-\end{tikzpicture}
-</script></figure>
-
-<p><span class="equation-part">$= (-ie)\bar{v}(p_2)\gamma^\mu u(p_1) \frac{-ig_{\mu\nu}}{k^2}(-ieQ_f)\bar{u}(p_3)\gamma^\nu v(p_4)$</span><span class="equation-part">$= -i\frac{(-ie)^2Q_f}{s}\bar{v}(p_2)\gamma^\mu u(p_1) \bar{u}(p_3)\gamma_\mu v(p_4).$</span><span class="equation-num">(3)</span></div></p>
+<div class="equation-row"><span class="equation-part">$\displaystyle i\mathcal{M}_0
+        =$</span><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='12.605em' height='8.450em' viewBox='21.811188 3.320474 114.589168 76.821398'>
+<defs>
+<path id='g0-0' d='M5.188543-1.57609C5.300125-1.57609 5.467497-1.57609 5.467497-1.743462C5.467497-1.917808 5.307098-1.917808 5.188543-1.917808H1.03213C.920548-1.917808 .753176-1.917808 .753176-1.750436C.753176-1.57609 .913574-1.57609 1.03213-1.57609H5.188543Z'/>
+<path id='g1-101' d='M1.863014-2.30137C2.15193-2.30137 2.889166-2.321295 3.387298-2.530511C4.084682-2.82939 4.134496-3.417186 4.134496-3.556663C4.134496-3.995019 3.755915-4.403487 3.068493-4.403487C1.96264-4.403487 .458281-3.437111 .458281-1.693649C.458281-.67746 1.046077 .109589 2.022416 .109589C3.447073 .109589 4.283935-.946451 4.283935-1.066002C4.283935-1.125778 4.224159-1.195517 4.164384-1.195517C4.11457-1.195517 4.094645-1.175592 4.034869-1.09589C3.247821-.109589 2.161893-.109589 2.042341-.109589C1.265255-.109589 1.175592-.946451 1.175592-1.265255C1.175592-1.384807 1.185554-1.693649 1.334994-2.30137H1.863014ZM1.39477-2.520548C1.783313-4.034869 2.809465-4.184309 3.068493-4.184309C3.536737-4.184309 3.805729-3.895392 3.805729-3.556663C3.805729-2.520548 2.211706-2.520548 1.803238-2.520548H1.39477Z'/>
+<path id='g1-107' d='M2.859278-6.804483C2.859278-6.814446 2.859278-6.914072 2.729763-6.914072C2.500623-6.914072 1.77335-6.834371 1.514321-6.814446C1.43462-6.804483 1.325031-6.794521 1.325031-6.615193C1.325031-6.495641 1.414695-6.495641 1.564134-6.495641C2.042341-6.495641 2.062267-6.425903 2.062267-6.326276L2.032379-6.127024L.587796-.388543C.547945-.249066 .547945-.229141 .547945-.169365C.547945 .059776 .747198 .109589 .836862 .109589C.966376 .109589 1.115816 .019925 1.175592-.099626C1.225405-.18929 1.673724-2.032379 1.733499-2.281445C2.072229-2.251557 2.889166-2.092154 2.889166-1.43462C2.889166-1.364882 2.889166-1.325031 2.859278-1.225405C2.839352-1.105853 2.819427-.986301 2.819427-.876712C2.819427-.288917 3.217933 .109589 3.73599 .109589C4.034869 .109589 4.303861-.049813 4.523039-.418431C4.772105-.856787 4.881694-1.404732 4.881694-1.424658C4.881694-1.524284 4.79203-1.524284 4.762142-1.524284C4.662516-1.524284 4.652553-1.484433 4.622665-1.344956C4.423412-.617684 4.194271-.109589 3.755915-.109589C3.566625-.109589 3.437111-.219178 3.437111-.577833C3.437111-.747198 3.476961-.976339 3.516812-1.135741C3.556663-1.305106 3.556663-1.344956 3.556663-1.444583C3.556663-2.092154 2.929016-2.381071 2.082192-2.49066C2.391034-2.669988 2.709838-2.988792 2.938979-3.227895C3.417186-3.755915 3.875467-4.184309 4.363636-4.184309C4.423412-4.184309 4.433375-4.184309 4.4533-4.174346C4.572852-4.154421 4.582814-4.154421 4.662516-4.094645C4.682441-4.084682 4.682441-4.07472 4.702366-4.054795C4.224159-4.024907 4.134496-3.636364 4.134496-3.516812C4.134496-3.35741 4.244085-3.16812 4.513076-3.16812C4.772105-3.16812 5.061021-3.387298 5.061021-3.775841C5.061021-4.07472 4.83188-4.403487 4.383562-4.403487C4.104608-4.403487 3.646326-4.323786 2.929016-3.526775C2.590286-3.148194 2.201743-2.749689 1.823163-2.600249L2.859278-6.804483Z'/>
+<path id='g1-113' d='M4.503113-4.293898C4.503113-4.333748 4.473225-4.393524 4.403487-4.393524C4.293898-4.393524 3.895392-3.995019 3.726027-3.706102C3.506849-4.244085 3.118306-4.403487 2.799502-4.403487C1.62391-4.403487 .398506-2.929016 .398506-1.484433C.398506-.508095 .986301 .109589 1.713574 .109589C2.141968 .109589 2.530511-.129514 2.889166-.488169C2.799502-.139477 2.470735 1.205479 2.440847 1.295143C2.361146 1.574097 2.281445 1.613948 1.723537 1.62391C1.594022 1.62391 1.494396 1.62391 1.494396 1.823163C1.494396 1.833126 1.494396 1.932752 1.62391 1.932752C1.942715 1.932752 2.291407 1.902864 2.620174 1.902864C2.958904 1.902864 3.317559 1.932752 3.646326 1.932752C3.696139 1.932752 3.825654 1.932752 3.825654 1.733499C3.825654 1.62391 3.726027 1.62391 3.566625 1.62391C3.088418 1.62391 3.088418 1.554172 3.088418 1.464508C3.088418 1.39477 3.108344 1.334994 3.128269 1.24533L4.503113-4.293898ZM1.743462-.109589C1.145704-.109589 1.105853-.876712 1.105853-1.046077C1.105853-1.524284 1.39477-2.610212 1.564134-3.028643C1.872976-3.765878 2.391034-4.184309 2.799502-4.184309C3.447073-4.184309 3.58655-3.377335 3.58655-3.307597C3.58655-3.247821 3.038605-1.066002 3.008717-1.026152C2.859278-.747198 2.30137-.109589 1.743462-.109589Z'/>
+<path id='g2-43' d='M3.228892-1.57609H5.362889C5.453549-1.57609 5.620922-1.57609 5.620922-1.743462C5.620922-1.917808 5.460523-1.917808 5.362889-1.917808H3.228892V-4.05878C3.228892-4.14944 3.228892-4.316812 3.061519-4.316812C2.887173-4.316812 2.887173-4.156413 2.887173-4.05878V-1.917808H.746202C.655542-1.917808 .488169-1.917808 .488169-1.750436C.488169-1.57609 .648568-1.57609 .746202-1.57609H2.887173V.564882C2.887173 .655542 2.887173 .822914 3.054545 .822914C3.228892 .822914 3.228892 .662516 3.228892 .564882V-1.57609Z'/>
+<path id='g3-22' d='M4.283935-5.569116V-5.877958H.687422V-5.569116H4.283935Z'/>
+</defs>
+<g id='page1'>
+<path d='M34.59371 14.77344L59.0859 41.50002' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M42.4218 23.31642L48.8945 26.33202L44.8671 30.02342Z'/>
+<path d='M59.0859 41.50002L34.31246 68.69142' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M51.0976 50.26952L48.6718 56.98442L44.6328 53.30472Z'/>
+<path d='M59.0859 41.50002H59.5976L60.1132 42.12112L60.625 42.57812L61.1406 42.74612L61.6523 42.57812L62.1679 42.12112L62.6796 41.50002L63.1914 40.87502L63.707 40.42192L64.2187 40.25392L64.7343 40.42192L65.2461 40.87502L65.7617 41.50002L66.2734 42.12112L66.789 42.57812L67.3007 42.74612L67.8164 42.57812L68.3281 42.12112L68.8437 41.50002L69.3554 40.87502L69.8671 40.42192L70.3828 40.25392L70.8945 40.42192L71.4101 40.87502L71.9218 41.50002L72.4375 42.12112L72.9492 42.57812L73.4648 42.74612L73.9765 42.57812L74.4921 42.12112L75.0039 41.50002L75.5195 40.87502L76.0312 40.42192L76.5429 40.25392L77.0586 40.42192L77.5703 40.87502L78.0859 41.50002L78.5976 42.12112L79.1132 42.57812L79.625 42.74612L80.1406 42.57812L80.6523 42.12112L81.1679 41.50002L81.6796 40.87502L82.1953 40.42192L82.707 40.25392L83.2187 40.42192L83.7343 40.87502L84.2461 41.50002L84.7617 42.12112L85.2734 42.57812L85.789 42.74612L86.3007 42.57812L86.8164 42.12112L87.3281 41.50002L87.8437 40.87502L88.3554 40.42192L88.8711 40.25392L89.3828 40.42192L89.8945 40.87502L90.4101 41.50002L90.9218 42.12112L91.4375 42.57812L91.9492 42.74612L92.4648 42.57812L92.9765 42.12112L93.4921 41.50002L94.0039 40.87502L94.5195 40.42192L95.0312 40.25392L95.5468 40.42192L96.0586 40.87502L96.5703 41.50002L97.0859 42.12112L97.5976 42.57812L98.1132 42.74612L98.625 42.57812L99.1406 42.12112L99.6523 41.50002L100.1679 40.87502L100.6796 40.42192L101.1953 40.25392L102.2226 41.50002' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 59.4127 59.5922)'>
+<use x='18.490688' y='-14.573554' xlink:href='#g1-107'/>
+</g>
+<path d='M127.4882 69.59372L102.2226 41.50002' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M119.2226 60.40622L112.7812 57.32812L116.8437 53.67192Z'/>
+<path d='M102.2226 41.50002L127.1562 13.90625' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M110.3164 32.54292L112.7148 25.81642L116.7656 29.48042Z'/>
+<g transform='matrix(1 0 0 1 3.6188 17.894)'>
+<use x='18.490688' y='-14.573554' xlink:href='#g1-101'/>
+<use x='23.129559' y='-18.188917' xlink:href='#g2-43'/>
+</g>
+<g transform='matrix(1 0 0 1 3.3205 86.7829)'>
+<use x='18.490688' y='-14.573554' xlink:href='#g1-101'/>
+<use x='23.129559' y='-18.188917' xlink:href='#g0-0'/>
+</g>
+<g transform='matrix(1 0 0 1 112.5153 89.5768)'>
+<use x='18.490688' y='-14.573554' xlink:href='#g1-113'/>
+</g>
+<g transform='matrix(1 0 0 1 112.1863 20.0663)'>
+<use x='19.232717' y='-14.573554' xlink:href='#g3-22'/>
+<use x='18.490688' y='-14.573554' xlink:href='#g1-113'/>
+</g>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle = (-ie)\bar{v}(p_2)\gamma^\mu u(p_1) \frac{-ig_{\mu\nu}}{k^2}(-ieQ_f)\bar{u}(p_3)\gamma^\nu v(p_4)$</span><span class="equation-part">$\displaystyle = -i\frac{(-ie)^2Q_f}{s}\bar{v}(p_2)\gamma^\mu u(p_1) \bar{u}(p_3)\gamma_\mu v(p_4).$</span><span class="equation-num">(1.3)</span></div>
 
 <p>Taking the hermitian conjugate of $\mathcal{M}_0$, we find
-\[\mathcal{M}_0^\dagger = \frac{e^2Q_f}{s}\bar{u}(p_1)\gamma^\mu v(p_2) \bar{v}(p_4)\gamma_\mu u(p_3).\tag{4}\]
+\[\mathcal{M}_0^\dagger = \frac{e^2Q_f}{s}\bar{u}(p_1)\gamma^\mu v(p_2) \bar{v}(p_4)\gamma_\mu u(p_3).\tag{1.4}\]
 One should notice that in the above calculation, we have made the colour implicit. Since we do not measure the colour of the quarks, we should sum over the colours. Therefore, by averaging over the incoming spins and summing over the outgoing spins and colours, we have  
 \[\begin{aligned}
         \frac{1}{4}\sum_\text{spins, colours}\mathcal{M}_0\mathcal{M}_0^\dagger &amp;=  \sum_\text{spins, colours}\frac{e^4Q_f^2}{4s^2}[\bar{u}(p_1)\gamma^\nu v(p_2)][\bar{v}(p_2)\gamma^\mu u(p_1)] [\bar{u}_i(p_3)\gamma_\mu v_i(p_4)][\bar{v}_i(p_4)\gamma_\nu u_i(p_3)]\\
-        &amp;= \frac{3e^4Q_f^2}{4s^2}\Tr{\slashed{p}_1 \gamma^\nu \slashed{p}_2 \gamma^\mu} \Tr{\slashed{p}_3 \gamma_\mu \slashed{p}_4 \gamma_\nu}\\
+        &amp;= \frac{3e^4Q_f^2}{4s^2}\operatorname{Tr}\!\left(\slashed{p}_1 \gamma^\nu \slashed{p}_2 \gamma^\mu\right) \operatorname{Tr}\!\left(\slashed{p}_3 \gamma_\mu \slashed{p}_4 \gamma_\nu\right)\\
         &amp;= 3\frac{4e^4Q_f^2}{s^2} (p_1^\nu p_2^\mu - p_{12}g^{\mu\nu} + p_1^\mu p_2^\nu)(p_3^\nu p_4^\mu - p_{34}g^{\mu\nu} + p_3^\mu p_4^\nu)\\
         &amp;= 3\frac{4e^4Q_f^2}{s^2}(2p_{13}p_{24} + 2p_{14}p_{23})\\
         &amp;= 3\frac{2e^4Q_f^2}{s^2}(t^2+u^2).
-    \end{aligned}\tag{5}\]
+    \end{aligned}\tag{1.5}\]
 In the centre of mass frame, we have
-\[p_1 = (E, 0, 0, E), \quad p_2 = (E, 0, 0, -E), \quad p_3 = (E, E\sin\theta, 0, E\cos\theta), \quad p_4 (E, -E\sin\theta, 0, -E\cos\theta),\tag{6}\]
+\[p_1 = (E, 0, 0, E), \quad p_2 = (E, 0, 0, -E), \quad p_3 = (E, E\sin\theta, 0, E\cos\theta), \quad p_4 (E, -E\sin\theta, 0, -E\cos\theta),\tag{1.6}\]
 which implies 
-\[t =  -2p_{13} = -2E^2(1-\cos\theta), \quad u = -2p_{14} = -2E^2(1+\cos\theta).\tag{7}\]
+\[t =  -2p_{13} = -2E^2(1-\cos\theta), \quad u = -2p_{14} = -2E^2(1+\cos\theta).\tag{1.7}\]
 Thus, the differential corss section becomes
 \[\begin{aligned}
     \frac{d\sigma}{d\Omega} &amp;= \frac{3e^4Q_f^2}{32\pi^2s^3}\left(\frac{s^2}{4}(1-\cos\theta)^2 + \frac{s^2}{4}(1+\cos\theta)^2\right)\\
     &amp;= \frac{3\alpha^2Q_f^2}{4s}(1+\cos^2\theta).
-\end{aligned}\tag{8}\]
+\end{aligned}\tag{1.8}\]
 Then,
 \[\begin{aligned}
         \sigma(e^+e^-\to\bar{q}q) &amp;= 2\pi\frac{3\alpha^2Q_f^2}{4s}\int^1_{-1}d(\cos\theta)(1+\cos^2\theta)\\
         &amp;= \frac{4\alpha^2\pi}{3s}\cdot 3Q_f^2.
-\end{aligned}\tag{9}\]</p>
+\end{aligned}\tag{1.9}\]</p>
 
 <p>Now, let us consider the diagram involving one virtual gluon, which is the diagram</p>
 
-<div class="equation-row"><span class="equation-part">$i\delta\mathcal{M} =$</span>
-
-<figure class="tikz-figure"><script type="text/tikz">
-\usetikzlibrary{decorations.markings,arrows.meta}
-\begin{tikzpicture}[every node/.style={font=\small}]
-  \node (i1) at (0.00,0.00) {$e^{-}$};
-  \node (a) at (2.20,0.00) {};
-  \node (i2) at (4.40,0.00) {$e^{+}$};
-  \node (b) at (2.20,-1.60) {};
-  \node (f2) at (-2.20,-1.60) {$\overline{q}$};
-  \node (v2) at (0.00,-1.60) {};
-  \node (v1) at (4.40,-1.60) {};
-  \node (f1) at (6.60,-1.60) {$q$};
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (i1) -- (a);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (a) -- (i2);
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- node[above, midway, font=\footnotesize] {$q$} (b);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (f2) -- (v2);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (v2) -- node[above, midway, font=\footnotesize] {$k'$} (b);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (b) -- node[above, midway, font=\footnotesize] {$k$} (v1);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (v1) -- (f1);
-  \draw[loosely dotted, line width=1.4pt, line cap=round, bend left=45] (v1) to node[above, midway, font=\footnotesize] {$p_3-k$} (v2);
-\end{tikzpicture}
-</script></figure>
-
-<p><span class="equation-part">$= (-ie)\,\bar v(p_2)\gamma^\mu u(p_1)\;\frac{-ig_{\mu\nu}}{k^2}\;(-ieQ_f)\,
-   \Big[\bar u(p_3)\,\delta\Gamma^\nu(p_3,p_4)\,v(p_4)\Big]$</span><span class="equation-part">$= \frac{(-ie)^2 Q_f}{s}\,\bar v(p_2)\gamma^\mu u(p_1)\,
-   \Big[\bar u(p_3)\,\delta\Gamma_\mu(p_3,p_4)\,v(p_4)\Big].$</span><span class="equation-num">(10)</span></div></p>
+<div class="equation-row"><span class="equation-part">$\displaystyle i\delta\mathcal{M} =$</span><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='17.243em' height='12.587em' viewBox='3.320459 -117.746436 156.750077 114.42703'>
+<defs>
+<path id='g0-0' d='M5.188543-1.57609C5.300125-1.57609 5.467497-1.57609 5.467497-1.743462C5.467497-1.917808 5.307098-1.917808 5.188543-1.917808H1.03213C.920548-1.917808 .753176-1.917808 .753176-1.750436C.753176-1.57609 .913574-1.57609 1.03213-1.57609H5.188543Z'/>
+<path id='g0-48' d='M2.022416-3.291656C2.078207-3.410212 2.085181-3.466002 2.085181-3.514819C2.085181-3.731009 1.889913-3.898381 1.673724-3.898381C1.408717-3.898381 1.325031-3.682192 1.290162-3.57061L.369614-.550934C.36264-.536986 .334745-.446326 .334745-.439352C.334745-.355666 .550934-.285928 .606725-.285928C.655542-.285928 .662516-.299875 .711333-.404483L2.022416-3.291656Z'/>
+<path id='g1-0' d='M6.56538-2.291407C6.734745-2.291407 6.914072-2.291407 6.914072-2.49066S6.734745-2.689913 6.56538-2.689913H1.175592C1.006227-2.689913 .826899-2.689913 .826899-2.49066S1.006227-2.291407 1.175592-2.291407H6.56538Z'/>
+<path id='g2-101' d='M1.863014-2.30137C2.15193-2.30137 2.889166-2.321295 3.387298-2.530511C4.084682-2.82939 4.134496-3.417186 4.134496-3.556663C4.134496-3.995019 3.755915-4.403487 3.068493-4.403487C1.96264-4.403487 .458281-3.437111 .458281-1.693649C.458281-.67746 1.046077 .109589 2.022416 .109589C3.447073 .109589 4.283935-.946451 4.283935-1.066002C4.283935-1.125778 4.224159-1.195517 4.164384-1.195517C4.11457-1.195517 4.094645-1.175592 4.034869-1.09589C3.247821-.109589 2.161893-.109589 2.042341-.109589C1.265255-.109589 1.175592-.946451 1.175592-1.265255C1.175592-1.384807 1.185554-1.693649 1.334994-2.30137H1.863014ZM1.39477-2.520548C1.783313-4.034869 2.809465-4.184309 3.068493-4.184309C3.536737-4.184309 3.805729-3.895392 3.805729-3.556663C3.805729-2.520548 2.211706-2.520548 1.803238-2.520548H1.39477Z'/>
+<path id='g2-107' d='M2.859278-6.804483C2.859278-6.814446 2.859278-6.914072 2.729763-6.914072C2.500623-6.914072 1.77335-6.834371 1.514321-6.814446C1.43462-6.804483 1.325031-6.794521 1.325031-6.615193C1.325031-6.495641 1.414695-6.495641 1.564134-6.495641C2.042341-6.495641 2.062267-6.425903 2.062267-6.326276L2.032379-6.127024L.587796-.388543C.547945-.249066 .547945-.229141 .547945-.169365C.547945 .059776 .747198 .109589 .836862 .109589C.966376 .109589 1.115816 .019925 1.175592-.099626C1.225405-.18929 1.673724-2.032379 1.733499-2.281445C2.072229-2.251557 2.889166-2.092154 2.889166-1.43462C2.889166-1.364882 2.889166-1.325031 2.859278-1.225405C2.839352-1.105853 2.819427-.986301 2.819427-.876712C2.819427-.288917 3.217933 .109589 3.73599 .109589C4.034869 .109589 4.303861-.049813 4.523039-.418431C4.772105-.856787 4.881694-1.404732 4.881694-1.424658C4.881694-1.524284 4.79203-1.524284 4.762142-1.524284C4.662516-1.524284 4.652553-1.484433 4.622665-1.344956C4.423412-.617684 4.194271-.109589 3.755915-.109589C3.566625-.109589 3.437111-.219178 3.437111-.577833C3.437111-.747198 3.476961-.976339 3.516812-1.135741C3.556663-1.305106 3.556663-1.344956 3.556663-1.444583C3.556663-2.092154 2.929016-2.381071 2.082192-2.49066C2.391034-2.669988 2.709838-2.988792 2.938979-3.227895C3.417186-3.755915 3.875467-4.184309 4.363636-4.184309C4.423412-4.184309 4.433375-4.184309 4.4533-4.174346C4.572852-4.154421 4.582814-4.154421 4.662516-4.094645C4.682441-4.084682 4.682441-4.07472 4.702366-4.054795C4.224159-4.024907 4.134496-3.636364 4.134496-3.516812C4.134496-3.35741 4.244085-3.16812 4.513076-3.16812C4.772105-3.16812 5.061021-3.387298 5.061021-3.775841C5.061021-4.07472 4.83188-4.403487 4.383562-4.403487C4.104608-4.403487 3.646326-4.323786 2.929016-3.526775C2.590286-3.148194 2.201743-2.749689 1.823163-2.600249L2.859278-6.804483Z'/>
+<path id='g2-112' d='M.448319 1.215442C.368618 1.554172 .348692 1.62391-.089664 1.62391C-.209215 1.62391-.318804 1.62391-.318804 1.8132C-.318804 1.892902-.268991 1.932752-.18929 1.932752C.079701 1.932752 .368618 1.902864 .647572 1.902864C.976339 1.902864 1.315068 1.932752 1.633873 1.932752C1.683686 1.932752 1.8132 1.932752 1.8132 1.733499C1.8132 1.62391 1.713574 1.62391 1.574097 1.62391C1.075965 1.62391 1.075965 1.554172 1.075965 1.464508C1.075965 1.344956 1.494396-.278954 1.564134-.52802C1.693649-.239103 1.972603 .109589 2.480697 .109589C3.636364 .109589 4.881694-1.344956 4.881694-2.809465C4.881694-3.745953 4.313823-4.403487 3.556663-4.403487C3.058531-4.403487 2.580324-4.044832 2.251557-3.656289C2.15193-4.194271 1.723537-4.403487 1.354919-4.403487C.896638-4.403487 .707347-4.014944 .617684-3.835616C.438356-3.496887 .308842-2.899128 .308842-2.86924C.308842-2.769614 .408468-2.769614 .428394-2.769614C.52802-2.769614 .537983-2.779577 .597758-2.998755C.767123-3.706102 .966376-4.184309 1.325031-4.184309C1.494396-4.184309 1.633873-4.104608 1.633873-3.726027C1.633873-3.496887 1.603985-3.387298 1.564134-3.217933L.448319 1.215442ZM2.201743-3.108344C2.271482-3.377335 2.540473-3.656289 2.719801-3.805729C3.068493-4.11457 3.35741-4.184309 3.526775-4.184309C3.92528-4.184309 4.164384-3.835616 4.164384-3.247821S3.835616-1.514321 3.656289-1.135741C3.317559-.438356 2.839352-.109589 2.470735-.109589C1.8132-.109589 1.683686-.936488 1.683686-.996264C1.683686-1.016189 1.683686-1.036115 1.713574-1.155666L2.201743-3.108344Z'/>
+<path id='g2-113' d='M4.503113-4.293898C4.503113-4.333748 4.473225-4.393524 4.403487-4.393524C4.293898-4.393524 3.895392-3.995019 3.726027-3.706102C3.506849-4.244085 3.118306-4.403487 2.799502-4.403487C1.62391-4.403487 .398506-2.929016 .398506-1.484433C.398506-.508095 .986301 .109589 1.713574 .109589C2.141968 .109589 2.530511-.129514 2.889166-.488169C2.799502-.139477 2.470735 1.205479 2.440847 1.295143C2.361146 1.574097 2.281445 1.613948 1.723537 1.62391C1.594022 1.62391 1.494396 1.62391 1.494396 1.823163C1.494396 1.833126 1.494396 1.932752 1.62391 1.932752C1.942715 1.932752 2.291407 1.902864 2.620174 1.902864C2.958904 1.902864 3.317559 1.932752 3.646326 1.932752C3.696139 1.932752 3.825654 1.932752 3.825654 1.733499C3.825654 1.62391 3.726027 1.62391 3.566625 1.62391C3.088418 1.62391 3.088418 1.554172 3.088418 1.464508C3.088418 1.39477 3.108344 1.334994 3.128269 1.24533L4.503113-4.293898ZM1.743462-.109589C1.145704-.109589 1.105853-.876712 1.105853-1.046077C1.105853-1.524284 1.39477-2.610212 1.564134-3.028643C1.872976-3.765878 2.391034-4.184309 2.799502-4.184309C3.447073-4.184309 3.58655-3.377335 3.58655-3.307597C3.58655-3.247821 3.038605-1.066002 3.008717-1.026152C2.859278-.747198 2.30137-.109589 1.743462-.109589Z'/>
+<path id='g3-43' d='M3.228892-1.57609H5.362889C5.453549-1.57609 5.620922-1.57609 5.620922-1.743462C5.620922-1.917808 5.460523-1.917808 5.362889-1.917808H3.228892V-4.05878C3.228892-4.14944 3.228892-4.316812 3.061519-4.316812C2.887173-4.316812 2.887173-4.156413 2.887173-4.05878V-1.917808H.746202C.655542-1.917808 .488169-1.917808 .488169-1.750436C.488169-1.57609 .648568-1.57609 .746202-1.57609H2.887173V.564882C2.887173 .655542 2.887173 .822914 3.054545 .822914C3.228892 .822914 3.228892 .662516 3.228892 .564882V-1.57609Z'/>
+<path id='g3-51' d='M1.903861-2.329265C2.447821-2.329265 2.838356-1.952677 2.838356-1.206476C2.838356-.341719 2.336239-.083686 1.931756-.083686C1.652802-.083686 1.039103-.160399 .746202-.571856C1.073973-.585803 1.150685-.81594 1.150685-.962391C1.150685-1.185554 .983313-1.345953 .767123-1.345953C.571856-1.345953 .376588-1.227397 .376588-.941469C.376588-.285928 1.101868 .139477 1.945704 .139477C2.915068 .139477 3.584558-.509091 3.584558-1.206476C3.584558-1.750436 3.138232-2.294396 2.371108-2.454795C3.103362-2.719801 3.368369-3.242839 3.368369-3.668244C3.368369-4.219178 2.733748-4.630635 1.959651-4.630635S.592777-4.254047 .592777-3.696139C.592777-3.459029 .746202-3.326526 .955417-3.326526C1.171606-3.326526 1.311083-3.486924 1.311083-3.682192C1.311083-3.884433 1.171606-4.030884 .955417-4.044832C1.199502-4.351681 1.680697-4.428394 1.93873-4.428394C2.252553-4.428394 2.691905-4.274969 2.691905-3.668244C2.691905-3.375342 2.594271-3.054545 2.412951-2.838356C2.182814-2.57335 1.987547-2.559402 1.638854-2.538481C1.464508-2.524533 1.45056-2.524533 1.415691-2.517559C1.401743-2.517559 1.345953-2.503611 1.345953-2.426899C1.345953-2.329265 1.408717-2.329265 1.527273-2.329265H1.903861Z'/>
+<path id='g4-22' d='M4.283935-5.569116V-5.877958H.687422V-5.569116H4.283935Z'/>
+</defs>
+<g id='page1'>
+<path d='M16.96875-85.19141L42.96486-60.7695' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M32.64846-70.4609L29.71096-76.9688L25.96876-72.9883Z'/>
+<path d='M42.96486-60.7695L17.12891-36.0586' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M27.39456-45.8789L34.05076-48.4648L30.27346-52.4141Z'/>
+<path d='M42.96486-60.7695H43.46876L43.97266-61.3906L44.47656-61.8477L44.98046-62.0156L45.48436-61.8477L45.98826-61.3906L46.49216-60.7695L46.99996-60.1445L47.50386-59.6914L48.00786-59.5234L48.51176-59.6914L49.01566-60.1445L49.51956-60.7695L50.02346-61.3906L50.52736-61.8477L51.03516-62.0156L51.53906-61.8477L52.04296-61.3906L52.54686-60.7695L53.05076-60.1445L53.55466-59.6914L54.05856-59.5234L54.56246-59.6914L55.07036-60.1445L55.57426-60.7695L56.07816-61.3906L56.58206-61.8477L57.08596-62.0156L57.58986-61.8477L58.09376-61.3906L58.59766-60.7695L59.10546-60.1445L59.60936-59.6914L60.11326-59.5234L60.61716-59.6914L61.12106-60.1445L61.62496-60.7695L62.12886-61.3906L62.63676-61.8477L63.14066-62.0156L63.64456-61.8477L64.14846-61.3906L64.65236-60.7695L65.15626-60.1445L65.66016-59.6914L66.16406-59.5234L66.67186-59.6914L67.17576-60.1445L67.67966-60.7695L68.18356-61.3906L68.68746-61.8477L69.19136-62.0156L69.69536-61.8477L70.19926-61.3906L70.70706-60.7695L71.21096-60.1445L71.71486-59.6914L72.21876-59.5234L72.72266-59.6914L73.22656-60.1445L73.73046-60.7695L74.23436-61.3906L74.74216-61.8477L75.24606-62.0156L75.74996-61.8477L76.25386-61.3906L76.75786-60.7695L77.26176-60.1445L77.76566-59.6914L78.26956-59.5234L78.77736-59.6914L79.28126-60.1445L79.78516-60.7695L80.28906-61.3906L80.79296-61.8477L81.29686-62.0156L81.80076-61.8477L82.30466-61.3906L82.81246-60.7695L83.31636-60.1445L83.82036-59.6914L84.32426-59.5234L85.36716-60.7695' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 52.75974 26.4527)'>
+<use x='9.002359' y='-92.678168' xlink:href='#g2-113'/>
+</g>
+<path d='M143.12936-14.3633L121.13636-41.2813' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M129.80436-30.6758L131.85936-23.8359L136.09336-27.293Z'/>
+<path d='M121.13636-41.2813L85.36716-60.7695' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M100.02346-52.7813L104.50786-47.2266L107.12496-52.0273Z'/>
+<g transform='matrix(1 0 0 1 82.43384 52.663)'>
+<use x='9.002359' y='-92.678168' xlink:href='#g2-107'/>
+<use x='14.502578' y='-96.293532' xlink:href='#g0-48'/>
+</g>
+<path d='M85.36716-60.7695L121.03936-80.3672' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M106.42576-72.3398L99.32816-71.5586L101.96096-66.7695Z'/>
+<g transform='matrix(1 0 0 1 85.17954 18.5896)'>
+<use x='9.002359' y='-92.678168' xlink:href='#g2-107'/>
+</g>
+<path d='M121.03936-80.3672L143.40636-108' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M134.53136-97.03906L128.25736-93.628906L132.50436-90.19141Z'/>
+<path d='M129.55436-74.5273L129.61736-50.2305' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M129.625274-47.734348L130.961208-51.308568L129.617454-50.128882L128.269792-51.300756Z'/>
+<path d='M129.625274-47.734348L130.961208-51.308568L129.617454-50.128882L128.269792-51.300756Z' stroke='currentColor' fill='none' stroke-width='.398489' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 123.90964 34.3224)'>
+<use x='9.002359' y='-92.678168' xlink:href='#g2-112'/>
+<use x='14.014823' y='-91.183787' xlink:href='#g3-51'/>
+<use x='20.698059' y='-92.678168' xlink:href='#g1-0'/>
+<use x='30.660673' y='-92.678168' xlink:href='#g2-107'/>
+</g>
+<path d='M121.03936-80.3672C119.65636-80.0117 118.55036-78.8242 118.55436-77.4336C118.55836-76.0391 119.66836-74.8594 121.05036-74.5078C122.43736-74.1563 123.54336-74.6367 123.54336-75.3203C123.53936-76 122.42936-76.4766 121.04736-76.1172C119.66836-75.7578 118.56236-74.5703 118.56636-73.1797S119.67936-70.6055 121.06236-70.2539C122.44536-69.9063 123.55436-70.3828 123.55036-71.0664C123.55036-71.75 122.44136-72.2227 121.05836-71.8672C119.67936-71.5078 118.57436-70.3203 118.57436-68.9297C118.57836-67.5391 119.69136-66.3555 121.07436-66.0039S123.56236-66.1328 123.56236-66.8164C123.56236-67.4961 122.45336-67.9727 121.07036-67.6133S118.58236-66.0664 118.58636-64.6758C118.58936-63.2852 119.70336-62.1016 121.08636-61.75C122.46836-61.4023 123.57436-61.8789 123.57436-62.5625C123.57036-63.2461 122.46136-63.7188 121.08236-63.3633C119.69936-63.0039 118.59336-61.8164 118.59736-60.4258S119.71136-57.8516 121.09336-57.5C122.48036-57.1484 123.58636-57.6289 123.58636-58.3125C123.58236-58.9922 122.47236-59.4688 121.08936-59.1094C119.71136-58.75 118.60536-57.5625 118.60936-56.1719S119.72236-53.5977 121.10536-53.2461C122.48836-52.8984 123.59736-53.3789 123.59336-54.0586C123.59336-54.7422 122.48436-55.2148 121.10136-54.8594C119.72236-54.5 118.61736-53.3125 118.61736-51.9219C118.62136-50.5313 119.73436-49.3477 121.11736-48.9961S123.60536-49.125 123.60536-49.8086C123.60536-50.4883 122.49636-50.9648 121.11336-50.6055C119.73036-50.25 118.62536-49.0586 118.62936-47.668C118.63236-46.2773 119.74636-45.0938 121.12936-44.7461L121.13636-41.2813' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 -5.6819 3.9663)'>
+<use x='9.002359' y='-92.678168' xlink:href='#g2-101'/>
+<use x='13.64123' y='-96.293532' xlink:href='#g0-0'/>
+</g>
+<g transform='matrix(1 0 0 1 -5.32548 68.0708)'>
+<use x='9.002359' y='-92.678168' xlink:href='#g2-101'/>
+<use x='13.64123' y='-96.293532' xlink:href='#g3-43'/>
+</g>
+<g transform='matrix(1 0 0 1 137.64563 87.42158)'>
+<use x='9.744388' y='-92.678168' xlink:href='#g4-22'/>
+<use x='9.002359' y='-92.678168' xlink:href='#g2-113'/>
+</g>
+<g transform='matrix(1 0 0 1 137.37063 -20.7788)'>
+<use x='9.002359' y='-92.678168' xlink:href='#g2-113'/>
+</g>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle = (-ie)\,\bar v(p_2)\gamma^\mu u(p_1)\;\frac{-ig_{\mu\nu}}{k^2}\;(-ieQ_f)\,
+   \Big[\bar u(p_3)\,\delta\Gamma^\nu(p_3,p_4)\,v(p_4)\Big]$</span><span class="equation-part">$\displaystyle = \frac{(-ie)^2 Q_f}{s}\,\bar v(p_2)\gamma^\mu u(p_1)\,
+   \Big[\bar u(p_3)\,\delta\Gamma_\mu(p_3,p_4)\,v(p_4)\Big].$</span><span class="equation-num">(1.10)</span></div>
 
 <p>We shall focus on evaluating $\bar u(p_3)\,\delta\Gamma_\mu(p_3,p_4)\,v(p_4)$, which gives
 \[\begin{aligned}
         \bar u(p_3)\,\delta\Gamma_\mu(p_3,p_4)\,v(p_4) &amp;= (-ig)^2\int \frac{d^4k}{(2\pi)^4}\bar{u}(p_3)\gamma^\alpha\frac{i\slashed{k}}{k^2 + i\varepsilon}\gamma_\mu\frac{i\slashed{k'}}{k'^2+i\varepsilon}\gamma^\beta v(p_4)\frac{-ig_{\alpha\beta}}{(p_3-k)^2-\mu^2+i\varepsilon}\\
         &amp;= -ig^2\int \frac{d^4k}{(2\pi)^4}\bar{u}(p_3)\frac{\gamma^\alpha\slashed{k}\gamma_\mu\slashed{k'}\gamma_\alpha}{(k^2+i\varepsilon)(k'^2+i\varepsilon)((p_3-k)^2-\mu^2+i\varepsilon)}v(p_4)\\
         &amp; = 2ig^2\int \frac{d^4k}{(2\pi)^4}\bar{u}(p_3)\frac{\slashed{k'}\gamma_\mu\slashed{k}}{(k^2+i\varepsilon)(k'^2+i\varepsilon)((p_3-k)^2-\mu^2+i\varepsilon)}v(p_4).
-    \end{aligned}\tag{11}\]</p>
+    \end{aligned}\tag{1.11}\]</p>
 
 <p>Now, we can simplify this using the Feynman parameters:
-\[\frac{1}{ABC} = \int^1_0dxdydz\delta(x+y+z-1)\frac{2}{(xA+yB+zC)^3} = \int^1_0dxdydz\delta(x+y+z-1)\frac{2}{D^3}.\tag{12}\]
+\[\frac{1}{ABC} = \int^1_0dxdydz\delta(x+y+z-1)\frac{2}{(xA+yB+zC)^3} = \int^1_0dxdydz\delta(x+y+z-1)\frac{2}{D^3}.\tag{1.12}\]
 Thus, the denominator of becomes
 \[\begin{aligned}
     D  &amp;= z(k^2+i\varepsilon) + y(k'^2+i\varepsilon)+ z((p_3-k)^2-\mu^2+i\varepsilon) \\
@@ -192,91 +257,91 @@ Thus, the denominator of becomes
     &amp;= (k-(yq+zp_3))^2 - 2zyq\cdot p_3 + y(1-y)q^2- z\mu^2 + i\varepsilon\\
     &amp;= (k-(yq+zp_3))^2 + zy(q-p_3)^2 -zyq^2 + y(1-y)q^2- z\mu^2 + i\varepsilon\\
     &amp;= (k-(yq+zp_3))^2  + y(1-y-z)q^2- z\mu^2 + i\varepsilon,
-\end{aligned}\tag{13}\]
+\end{aligned}\tag{1.13}\]
 where we have used $k' = k-q$ and $x+y+z=1$. Now, substitute $l = k-yq-zp_3$, we find
-\[D = l^2 - \Delta + i\varepsilon,\tag{14}\]
+\[D = l^2 - \Delta + i\varepsilon,\tag{1.14}\]
 where
-\[\Delta \equiv - xyq^2 + z\mu^2.\tag{15}\]
+\[\Delta \equiv - xyq^2 + z\mu^2.\tag{1.15}\]
 The numerator, $N^\mu$, now becomes
 \[\begin{aligned}
         N_\mu &amp;= \bar{u}(p_3)(\slashed{q} - \slashed{l}-y\slashed{q}-z\slashed{p}_3)\gamma_\mu(\slashed{l}+y\slashed{q}+z\slashed{p}_3)v(p_4)\\
         &amp;= \bar{u}(p_3)((1-y)\slashed{q} - \slashed{l})\gamma_\mu(\slashed{l}+y\slashed{q}+z\slashed{p}_3)v(p_4)\\
         &amp;= \bar{u}(p_3)((1-y)\slashed{q} - \slashed{l})[(-\slashed{l}-y\slashed{q}-z\slashed{p}_3)\gamma_\mu + 2l_\mu + 2yq_\mu + 2zp_{3\mu}]v(p_4).
-    \end{aligned}\tag{16}\]
+    \end{aligned}\tag{1.16}\]
 Recall that the integral involving only one $l^\mu$ vanishes:
-\[\int \frac{d^4l}{(2\pi)^4}\frac{l^\mu}{D^3} = 0.\tag{17}\]
+\[\int \frac{d^4l}{(2\pi)^4}\frac{l^\mu}{D^3} = 0.\tag{1.17}\]
 Also, recall
-\[\int \frac{d^4l}{(2\pi)^4}\frac{l^\mu l^\nu}{D^3} = \int \frac{d^4l}{(2\pi)^4}\frac{\frac{1}{4}g^{\mu\nu}l^2}{D^3}\tag{18}\]
+\[\int \frac{d^4l}{(2\pi)^4}\frac{l^\mu l^\nu}{D^3} = \int \frac{d^4l}{(2\pi)^4}\frac{\frac{1}{4}g^{\mu\nu}l^2}{D^3}\tag{1.18}\]
 Thus, the above becomes
 \[\begin{aligned}
         N_\mu &amp;\to \bar{u}(p_3)[(-y(1-y)q^2 + -2z(1-y)q\cdot p_3 + l^2 )\gamma_\mu - \frac{1}{2}l^2\gamma_\mu]v(p_4) \\
         &amp;= \bar{u}(p_3)[(-y(1-y)q^2 + z(1-y)(q+p_3)^2 - z(1-y)q^2 + l^2 )\gamma_\mu - \frac{1}{2}l^2\gamma_\mu]v(p_4)\\
         &amp;= \bar{u}(p_3)(-(y+z)(1-y)q^2  + \frac{1}{2}l^2 )\gamma_\mu v(p_4).
-    \end{aligned}\tag{19}\]
+    \end{aligned}\tag{1.19}\]
 Thus, we see that the 1-loop correction is of the form 
-\[i\delta\mathcal{M} = i\mathcal{M}_0 \frac{\delta F_1(q^2)}{Q_f^2},\tag{20}\]
+\[i\delta\mathcal{M} = i\mathcal{M}_0 \frac{\delta F_1(q^2)}{Q_f^2},\tag{1.20}\]
 where 
-\[\delta F_1(q^2) = 4ig^2Q_f^2\int^1_0dxdydz\int\frac{d^4l}{(2\pi)^4}\frac{-(y+z)(1-y)q^2  + \frac{1}{2}l^2}{D^3}\delta(x+y+z-1).\tag{21}\]
+\[\delta F_1(q^2) = 4ig^2Q_f^2\int^1_0dxdydz\int\frac{d^4l}{(2\pi)^4}\frac{-(y+z)(1-y)q^2  + \frac{1}{2}l^2}{D^3}\delta(x+y+z-1).\tag{1.21}\]
 Thus, our job now simplifies to evaluate $\delta F_1(q^2)$ and since it describes the modification of electric charge, we can then simply plug $F_1(q^2)$ instead of $Q_f$ into the cross section, which gives
-\[\sigma(e^+e^-\to\bar{q}q) = \frac{4\alpha^2\pi}{3s}\cdot 3\abs{F_1(s)}^2\tag{22}\]
+\[\sigma(e^+e^-\to\bar{q}q) = \frac{4\alpha^2\pi}{3s}\cdot 3\abs{F_1(s)}^2\tag{1.22}\]
 with 
-\[F_1(q^2) = Q_f^2 + \delta F_1(q^2)\tag{23}\]
+\[F_1(q^2) = Q_f^2 + \delta F_1(q^2)\tag{1.23}\]
 to first order of $\alpha_g$.</p>
 
 <p>Now, using Pauli-Villars regularization and Wick's rotation, we have
-\[\delta F_1(q^2) = \frac{\alpha_gQ_f^2}{2\pi} \int^1_0 dxdydz \left\{\ln\left(\frac{z\Lambda^2}{\Delta}\right) + \frac{(y+z)(1-y)q^2}{- xyq^2 + z\mu^2}\right\}\delta(x+y+z-1).\tag{24}\]</p>
+\[\delta F_1(q^2) = \frac{\alpha_gQ_f^2}{2\pi} \int^1_0 dxdydz \left\{\ln\left(\frac{z\Lambda^2}{\Delta}\right) + \frac{(y+z)(1-y)q^2}{- xyq^2 + z\mu^2}\right\}\delta(x+y+z-1).\tag{1.24}\]</p>
 
 <p>On the other hand, to maintain the condition $F_1(0)= Q_f^2$, we should renormalize $\delta F_1(q^2)$ to be
-\[\delta F_1(q^2) - \delta F_1(0).\tag{25}\]</p>
+\[\delta F_1(q^2) - \delta F_1(0).\tag{1.25}\]</p>
 
 <p>Thus, the integral becomes
-\[\delta F_1(q^2) = \frac{\alpha_gQ_f^2}{2\pi} \int^1_0 dxdydz \left\{\ln\left(\frac{z\mu^2}{- xyq^2 + z\mu^2}\right) + \frac{(y+z)(1-y)q^2}{- xyq^2 + z\mu^2}\right\}\delta(x+y+z-1).\tag{26}\]</p>
+\[\delta F_1(q^2) = \frac{\alpha_gQ_f^2}{2\pi} \int^1_0 dxdydz \left\{\ln\left(\frac{z\mu^2}{- xyq^2 + z\mu^2}\right) + \frac{(y+z)(1-y)q^2}{- xyq^2 + z\mu^2}\right\}\delta(x+y+z-1).\tag{1.26}\]</p>
 
 <p><strong>(b)</strong> Before we continue to compute the integral above, let us study the process of $e^-e^+ \to \bar{q}qg$. Let $q$ be the total 4-momentum of the process and $k_1,k_2,k_3$ be the 4-momentum of the quark, antiquark and the gluon, respectively.</p>
 
 <p>The Lorentz-invariant phase space integral is given by
-\[\int d\Pi_3 = (2\pi)^4\int \frac{d^3k_1}{(2\pi)^3}\frac{1}{2E_1}\frac{d^3k_2}{(2\pi)^3}\frac{1}{2E_2}\frac{d^3k_3}{(2\pi)^3}\frac{1}{2E_3}\delta^4(k_1+k_2+k_3-q).\tag{27}\]</p>
+\[\int d\Pi_3 = (2\pi)^4\int \frac{d^3k_1}{(2\pi)^3}\frac{1}{2E_1}\frac{d^3k_2}{(2\pi)^3}\frac{1}{2E_2}\frac{d^3k_3}{(2\pi)^3}\frac{1}{2E_3}\delta^4(k_1+k_2+k_3-q).\tag{1.27}\]</p>
 
 <p>It is convenient to define $x_i$ as
-\[x_i = \frac{2k_i\cdot q}{q^2}.\tag{28}\]
+\[x_i = \frac{2k_i\cdot q}{q^2}.\tag{1.28}\]
 In the centre of mass frame,
-\[q = (E_\text{CM},0,0,0), \quad k_i = (E_i, \vec{k}_i).\tag{29}\]
+\[q = (E_\text{CM},0,0,0), \quad k_i = (E_i, \vec{k}_i).\tag{1.29}\]
 Thus, 
-\[x_i = \frac{2E_i}{E_\text{CM}},\tag{30}\]
+\[x_i = \frac{2E_i}{E_\text{CM}},\tag{1.30}\]
 which is the ratio between the particle in the centre of mass frame to the total centre of mass energy.</p>
 
 <p><strong>(i)</strong> 
-\[\sum_ix_i = \frac{2\sum_ik_i\cdot q}{q^2} = 2.\tag{31}\]
+\[\sum_ix_i = \frac{2\sum_ik_i\cdot q}{q^2} = 2.\tag{1.31}\]
 <strong>(ii)</strong> Now, we need to show that all the Lorentz scalars involving only the final state momenta can be expressed in terms of $x_i$. We only need to consider
-\[(k_1+k_2)^2 = (q-k_3)^2 = q^2 - q^2x_3 + m_3^2 =q^2(1-x_3) + m_3^2.\tag{32}\]
+\[(k_1+k_2)^2 = (q-k_3)^2 = q^2 - q^2x_3 + m_3^2 =q^2(1-x_3) + m_3^2.\tag{1.32}\]
 The same thing applies to other combinations of $k_i$.</p>
 
 <p><strong>(iii)</strong> Now, we are ready to evaluate the phase space integral:
 \[\begin{aligned}
         \int d\Pi_3&amp;= (2\pi)^4\int\frac{d^3k_1d^3k_2}{(2\pi)^92E_12E_22E_3}\delta(E_1+E_2+E_3-E_\text{CM})\bigg|_{\vec{k}_3 = -\vec{k}_1-\vec{k}_2}
-    \end{aligned}\tag{33}\]
+    \end{aligned}\tag{1.33}\]
 The integral measure can be written as 
-\[d^3k_1d^3k_2 = k_1^2k_2^2dk_1dk_2d\Omega_1d\Omega_{12}\tag{34}\]
+\[d^3k_1d^3k_2 = k_1^2k_2^2dk_1dk_2d\Omega_1d\Omega_{12}\tag{1.34}\]
 with a slight ambiguity of notations (from now on we use $k_1=\abs{\vec{k}_1}$). $\Omega_1$ is the solid angle between $\vec{k}_1$ and $\vec{q}$ and $\Omega_{12}$ is the solid angle between $\vec{k}_1$ and $\vec{k}_2$. The delta function can be written as 
 \[\begin{aligned}
     \delta(E_1+E_2+E_3-E_\text{CM}) &amp;= \delta\left(E_1+E_2+\sqrt{\mu^2+(\vec{k}_1+\vec{k}_2)^2}-E_\text{CM}\right)\\
     &amp;= \delta\left(\sqrt{\mu^2+k_1^2+k_2^2+2k_1k_2\cos\theta_{12}}-(E_\text{CM}-E_1-E_2)\right)\\
     &amp;= \frac{E_3}{k_1k_2} \delta\left( \cos\theta_{12} - \frac{E_3^2-k_1^2-k_2^2-\mu^2}{2k_1k_2} \right).
-\end{aligned}\tag{35}\]</p>
+\end{aligned}\tag{1.35}\]</p>
 
 <p>Thus, the integral becomes
 \[\begin{aligned}
         \int d\Pi_3&amp;=\frac{2(2\pi)^2}{(2\pi)^5} \int^\infty_0dk_1dk_2\frac{k_1^2k_2^2}{2k_12k_22E_3}\int^1_{-1}d(\cos\theta_{12})\frac{E_3}{k_1k_2} \delta\left( \cos\theta_{12} - \frac{E_3^2-k_1^2-k_2^2-\mu^2}{2k_1k_2} \right)\\
         &amp;= \frac{1}{32\pi^3}\int dk_1dk_2\\
         &amp;= \frac{1}{32\pi^3}\int dE_1dE_2.
-    \end{aligned}\tag{36}\]
+    \end{aligned}\tag{1.36}\]
 Recall, in the centre of mass frame, we have 
-\[x_i = \frac{2E_i}{E_\text{CM}} \implies dx_i = \frac{2}{E_\text{CM}}dE_i.\tag{37}\]
+\[x_i = \frac{2E_i}{E_\text{CM}} \implies dx_i = \frac{2}{E_\text{CM}}dE_i.\tag{1.37}\]
 Therefore, the integral simplifies to 
-\[\int d\Pi_3 = \frac{q^2}{128\pi^3}\int dx_1dx_2.\tag{38}\]</p>
+\[\int d\Pi_3 = \frac{q^2}{128\pi^3}\int dx_1dx_2.\tag{1.38}\]</p>
 
 <p>Now, let us find the region of integration. The integration variables are bounded by the curves
-\[E_\text{CM} = E_1 + E_2 + \sqrt{\mu^2 + (E_1+E_2)^2}, \quad \text{or} \quad E_\text{CM} = E_1 + E_2 + \sqrt{\mu^2 + (E_1-E_2)^2},\tag{39}\]
+\[E_\text{CM} = E_1 + E_2 + \sqrt{\mu^2 + (E_1+E_2)^2}, \quad \text{or} \quad E_\text{CM} = E_1 + E_2 + \sqrt{\mu^2 + (E_1-E_2)^2},\tag{1.39}\]
 which implies
 \[\begin{cases}
         E_\text{CM}^2 - 2E_\text{CM}(E_1+E_2)-2E_1E_2 = \mu^2 + 2E_1E_2\\
@@ -286,14 +351,14 @@ which implies
     \begin{cases}
         (1-x_1)(1-x_2) =\mu^2/s\\
         x_1+x_2 = 1-\mu^2/s.
-    \end{cases}\tag{40}\]
+    \end{cases}\tag{1.40}\]
 Thus, the integral is bounded by these two curves. Specifically, $x_1$ is bounded by
 \[\begin{aligned}
     &amp;(1-x_1)(\frac{\mu^2}{s}+x_1) = \frac{\mu^2}{s} \\
     \implies &amp; x_1^2-\left(1-\frac{\mu^2}{s}\right)x_1 = 0 \\
     \implies &amp; x_1 = 1-\frac{\mu^2}{s}\\
     \implies &amp;0&lt;x_1 &lt; 1 - \frac{\mu^2}{s}.
-\end{aligned}\tag{41}\]
+\end{aligned}\tag{1.41}\]
 Then, the boundary of $x_2$ can be found with simple algebra:
 \[\begin{aligned}
         &amp;\begin{cases}
@@ -302,59 +367,149 @@ Then, the boundary of $x_2$ can be found with simple algebra:
     \end{cases} \\
         \implies &amp; 
         1-x_1-\frac{\mu^2}{s} &lt; x_2 &lt;1-\frac{\mu^2}{s(1-x_1)}.
-    \end{aligned}\tag{42}\]</p>
+    \end{aligned}\tag{1.42}\]</p>
 
 <p><strong>(c)</strong> Now, let us consider the diagrams contributing to the process $e^+e^-\to\bar{q}qg$ of the leading order of $\alpha$ and $\alpha_g$. The two diagrams are</p>
 
-<div class="equation-row"><span class="equation-part">$i\mathcal{M} =
-% ----------------- (A) Gluon emission from quark (quark on top) -----------------$</span>
-
-<figure class="tikz-figure"><script type="text/tikz">
-\usetikzlibrary{decorations.markings,arrows.meta}
-\begin{tikzpicture}[every node/.style={font=\small}]
-  \node (i1) at (0.00,0.00) {$e^{+}$};
-  \node (a) at (2.20,0.00) {};
-  \node (i2) at (4.40,0.00) {$e^{-}$};
-  \node (b) at (2.20,-1.60) {};
-  \node (v1) at (4.40,-1.60) {};
-  \node (f1) at (6.60,-1.60) {$q$};
-  \node (f2) at (2.20,-3.20) {$\overline{q}$};
-  \node (g1) at (4.40,-3.20) {$g$};
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (i1) -- (a);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (a) -- (i2);
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- node[above, midway, font=\footnotesize] {$q$} (b);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (b) -- node[below, midway, font=\footnotesize] {$k_1{+}k_3$} (v1);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (v1) -- node[below, midway, font=\footnotesize] {$k_1$} (f1);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (b) -- node[above, midway, font=\footnotesize] {$k_2$} (f2);
-  \draw[loosely dotted, line width=1.4pt, line cap=round] (v1) -- node[above, midway, font=\footnotesize] {$k_3$} (g1);
-\end{tikzpicture}
-</script></figure>
-
-<p><span class="equation-part">$\;+\;
-% ----------------- (B) Gluon emission from antiquark (antiquark on top) ----------$</span></p>
-
-<figure class="tikz-figure"><script type="text/tikz">
-\usetikzlibrary{decorations.markings,arrows.meta}
-\begin{tikzpicture}[every node/.style={font=\small}]
-  \node (i1) at (0.00,0.00) {$e^{+}$};
-  \node (a) at (2.20,0.00) {};
-  \node (i2) at (4.40,0.00) {$e^{-}$};
-  \node (b) at (2.20,-1.60) {};
-  \node (v2) at (4.40,-1.60) {};
-  \node (f2) at (6.60,-1.60) {$\overline{q}$};
-  \node (f1) at (2.20,-3.20) {$q$};
-  \node (g2) at (4.40,-3.20) {$g$};
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (i1) -- (a);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (a) -- (i2);
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- node[above, midway, font=\footnotesize] {$q$} (b);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (b) -- node[below, midway, font=\footnotesize] {$k_2{+}k_3$} (v2);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (v2) -- node[below, midway, font=\footnotesize] {$k_2$} (f2);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (b) -- node[above, midway, font=\footnotesize] {$k_1$} (f1);
-  \draw[loosely dotted, line width=1.4pt, line cap=round] (v2) -- node[above, midway, font=\footnotesize] {$k_3$} (g2);
-\end{tikzpicture}
-</script></figure>
-
-<p><span class="equation-part">$= \frac{-ig_{\mu\nu}}{q^2+i\varepsilon}\bar{v}(p_2)(-ie)\gamma^\mu u(p_1)\bar{u}(k_1)(-ig)\gamma^\alpha\frac{i(\slashed{k}_2 + \slashed{k}_3)}{(k_2+k_3)^2+ i\varepsilon}(-ieQ_f)\gamma^\nu v(k_2)\epsilon_\alpha^*(k_3)$</span><span class="equation-part">$\qquad - \frac{-ig_{\mu\nu}}{q^2+i\varepsilon}\bar{v}(p_2)(-ie)\gamma^\mu u(p_1)\bar{u}(k_1)(-ieQ_f)\gamma^\nu \frac{i(\slashed{k}_1 + \slashed{k}_3)}{(k_1+k_3)^2+ i\varepsilon}(-ig)\gamma^\alpha v(k_2)\epsilon_\alpha^*(k_3)$</span><span class="equation-part">$= \frac{ie^2g Q_f}{s}\bar{v}(p_2)\gamma^\mu u(p_1)\bar{u}(k_1)\left[\gamma^\alpha\frac{(\slashed{k}_2 + \slashed{k}_3)}{(k_2+k_3)^2+ i\varepsilon}\gamma_\mu - \gamma_\mu\frac{(\slashed{k}_1 + \slashed{k}_3)}{(k_1+k_3)^2+ i\varepsilon}\gamma^\alpha \right]v(k_2)\epsilon_\alpha^*(k_3),$</span><span class="equation-num">(43)</span></div></p>
+<div class="equation-row"><span class="equation-part">$\displaystyle i\mathcal{M} =
+% ----------------- (A) Gluon emission from quark (quark on top) -----------------$</span><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='16.381em' height='12.488em' viewBox='3.320469 -116.845518 148.913849 113.525557'>
+<defs>
+<path id='g0-0' d='M5.188543-1.57609C5.300125-1.57609 5.467497-1.57609 5.467497-1.743462C5.467497-1.917808 5.307098-1.917808 5.188543-1.917808H1.03213C.920548-1.917808 .753176-1.917808 .753176-1.750436C.753176-1.57609 .913574-1.57609 1.03213-1.57609H5.188543Z'/>
+<path id='g1-101' d='M1.863014-2.30137C2.15193-2.30137 2.889166-2.321295 3.387298-2.530511C4.084682-2.82939 4.134496-3.417186 4.134496-3.556663C4.134496-3.995019 3.755915-4.403487 3.068493-4.403487C1.96264-4.403487 .458281-3.437111 .458281-1.693649C.458281-.67746 1.046077 .109589 2.022416 .109589C3.447073 .109589 4.283935-.946451 4.283935-1.066002C4.283935-1.125778 4.224159-1.195517 4.164384-1.195517C4.11457-1.195517 4.094645-1.175592 4.034869-1.09589C3.247821-.109589 2.161893-.109589 2.042341-.109589C1.265255-.109589 1.175592-.946451 1.175592-1.265255C1.175592-1.384807 1.185554-1.693649 1.334994-2.30137H1.863014ZM1.39477-2.520548C1.783313-4.034869 2.809465-4.184309 3.068493-4.184309C3.536737-4.184309 3.805729-3.895392 3.805729-3.556663C3.805729-2.520548 2.211706-2.520548 1.803238-2.520548H1.39477Z'/>
+<path id='g1-103' d='M4.692403-3.755915C4.702366-3.815691 4.722291-3.865504 4.722291-3.935243C4.722291-4.104608 4.60274-4.204234 4.433375-4.204234C4.333748-4.204234 4.064757-4.134496 4.024907-3.775841C3.845579-4.144458 3.496887-4.403487 3.098381-4.403487C1.96264-4.403487 .727273-3.008717 .727273-1.574097C.727273-.587796 1.334994 0 2.052304 0C2.6401 0 3.108344-.468244 3.20797-.577833L3.217933-.56787C3.008717 .318804 2.889166 .727273 2.889166 .747198C2.849315 .836862 2.510585 1.823163 1.454545 1.823163C1.265255 1.823163 .936488 1.8132 .657534 1.723537C.956413 1.633873 1.066002 1.374844 1.066002 1.205479C1.066002 1.046077 .956413 .856787 .687422 .856787C.468244 .856787 .14944 1.036115 .14944 1.43462C.14944 1.843088 .518057 2.042341 1.474471 2.042341C2.719801 2.042341 3.437111 1.265255 3.58655 .667497L4.692403-3.755915ZM3.39726-1.275218C3.337484-1.016189 3.108344-.767123 2.889166-.577833C2.67995-.398506 2.371108-.219178 2.082192-.219178C1.58406-.219178 1.43462-.737235 1.43462-1.135741C1.43462-1.613948 1.723537-2.789539 1.992528-3.297634C2.261519-3.785803 2.689913-4.184309 3.108344-4.184309C3.765878-4.184309 3.905355-3.377335 3.905355-3.327522S3.88543-3.217933 3.875467-3.178082L3.39726-1.275218Z'/>
+<path id='g1-107' d='M2.859278-6.804483C2.859278-6.814446 2.859278-6.914072 2.729763-6.914072C2.500623-6.914072 1.77335-6.834371 1.514321-6.814446C1.43462-6.804483 1.325031-6.794521 1.325031-6.615193C1.325031-6.495641 1.414695-6.495641 1.564134-6.495641C2.042341-6.495641 2.062267-6.425903 2.062267-6.326276L2.032379-6.127024L.587796-.388543C.547945-.249066 .547945-.229141 .547945-.169365C.547945 .059776 .747198 .109589 .836862 .109589C.966376 .109589 1.115816 .019925 1.175592-.099626C1.225405-.18929 1.673724-2.032379 1.733499-2.281445C2.072229-2.251557 2.889166-2.092154 2.889166-1.43462C2.889166-1.364882 2.889166-1.325031 2.859278-1.225405C2.839352-1.105853 2.819427-.986301 2.819427-.876712C2.819427-.288917 3.217933 .109589 3.73599 .109589C4.034869 .109589 4.303861-.049813 4.523039-.418431C4.772105-.856787 4.881694-1.404732 4.881694-1.424658C4.881694-1.524284 4.79203-1.524284 4.762142-1.524284C4.662516-1.524284 4.652553-1.484433 4.622665-1.344956C4.423412-.617684 4.194271-.109589 3.755915-.109589C3.566625-.109589 3.437111-.219178 3.437111-.577833C3.437111-.747198 3.476961-.976339 3.516812-1.135741C3.556663-1.305106 3.556663-1.344956 3.556663-1.444583C3.556663-2.092154 2.929016-2.381071 2.082192-2.49066C2.391034-2.669988 2.709838-2.988792 2.938979-3.227895C3.417186-3.755915 3.875467-4.184309 4.363636-4.184309C4.423412-4.184309 4.433375-4.184309 4.4533-4.174346C4.572852-4.154421 4.582814-4.154421 4.662516-4.094645C4.682441-4.084682 4.682441-4.07472 4.702366-4.054795C4.224159-4.024907 4.134496-3.636364 4.134496-3.516812C4.134496-3.35741 4.244085-3.16812 4.513076-3.16812C4.772105-3.16812 5.061021-3.387298 5.061021-3.775841C5.061021-4.07472 4.83188-4.403487 4.383562-4.403487C4.104608-4.403487 3.646326-4.323786 2.929016-3.526775C2.590286-3.148194 2.201743-2.749689 1.823163-2.600249L2.859278-6.804483Z'/>
+<path id='g1-113' d='M4.503113-4.293898C4.503113-4.333748 4.473225-4.393524 4.403487-4.393524C4.293898-4.393524 3.895392-3.995019 3.726027-3.706102C3.506849-4.244085 3.118306-4.403487 2.799502-4.403487C1.62391-4.403487 .398506-2.929016 .398506-1.484433C.398506-.508095 .986301 .109589 1.713574 .109589C2.141968 .109589 2.530511-.129514 2.889166-.488169C2.799502-.139477 2.470735 1.205479 2.440847 1.295143C2.361146 1.574097 2.281445 1.613948 1.723537 1.62391C1.594022 1.62391 1.494396 1.62391 1.494396 1.823163C1.494396 1.833126 1.494396 1.932752 1.62391 1.932752C1.942715 1.932752 2.291407 1.902864 2.620174 1.902864C2.958904 1.902864 3.317559 1.932752 3.646326 1.932752C3.696139 1.932752 3.825654 1.932752 3.825654 1.733499C3.825654 1.62391 3.726027 1.62391 3.566625 1.62391C3.088418 1.62391 3.088418 1.554172 3.088418 1.464508C3.088418 1.39477 3.108344 1.334994 3.128269 1.24533L4.503113-4.293898ZM1.743462-.109589C1.145704-.109589 1.105853-.876712 1.105853-1.046077C1.105853-1.524284 1.39477-2.610212 1.564134-3.028643C1.872976-3.765878 2.391034-4.184309 2.799502-4.184309C3.447073-4.184309 3.58655-3.377335 3.58655-3.307597C3.58655-3.247821 3.038605-1.066002 3.008717-1.026152C2.859278-.747198 2.30137-.109589 1.743462-.109589Z'/>
+<path id='g2-43' d='M3.228892-1.57609H5.362889C5.453549-1.57609 5.620922-1.57609 5.620922-1.743462C5.620922-1.917808 5.460523-1.917808 5.362889-1.917808H3.228892V-4.05878C3.228892-4.14944 3.228892-4.316812 3.061519-4.316812C2.887173-4.316812 2.887173-4.156413 2.887173-4.05878V-1.917808H.746202C.655542-1.917808 .488169-1.917808 .488169-1.750436C.488169-1.57609 .648568-1.57609 .746202-1.57609H2.887173V.564882C2.887173 .655542 2.887173 .822914 3.054545 .822914C3.228892 .822914 3.228892 .662516 3.228892 .564882V-1.57609Z'/>
+<path id='g2-49' d='M2.336239-4.435367C2.336239-4.623661 2.322291-4.630635 2.127024-4.630635C1.680697-4.191283 1.046077-4.184309 .760149-4.184309V-3.93325C.927522-3.93325 1.387796-3.93325 1.771357-4.128518V-.571856C1.771357-.341719 1.771357-.251059 1.073973-.251059H.808966V0C.934496-.006974 1.792279-.027895 2.050311-.027895C2.266501-.027895 3.145205-.006974 3.29863 0V-.251059H3.033624C2.336239-.251059 2.336239-.341719 2.336239-.571856V-4.435367Z'/>
+<path id='g2-50' d='M3.521793-1.26924H3.284682C3.263761-1.115816 3.194022-.704359 3.103362-.63462C3.047572-.592777 2.510585-.592777 2.412951-.592777H1.129763C1.862017-1.241345 2.106102-1.436613 2.524533-1.764384C3.040598-2.175841 3.521793-2.608219 3.521793-3.270735C3.521793-4.11457 2.782565-4.630635 1.889913-4.630635C1.025156-4.630635 .439352-4.02391 .439352-3.382316C.439352-3.02665 .739228-2.991781 .808966-2.991781C.976339-2.991781 1.17858-3.110336 1.17858-3.361395C1.17858-3.486924 1.129763-3.731009 .767123-3.731009C.983313-4.226152 1.457534-4.379577 1.785305-4.379577C2.48269-4.379577 2.84533-3.835616 2.84533-3.270735C2.84533-2.66401 2.412951-2.182814 2.189788-1.931756L.509091-.27198C.439352-.209215 .439352-.195268 .439352 0H3.312578L3.521793-1.26924Z'/>
+<path id='g2-51' d='M1.903861-2.329265C2.447821-2.329265 2.838356-1.952677 2.838356-1.206476C2.838356-.341719 2.336239-.083686 1.931756-.083686C1.652802-.083686 1.039103-.160399 .746202-.571856C1.073973-.585803 1.150685-.81594 1.150685-.962391C1.150685-1.185554 .983313-1.345953 .767123-1.345953C.571856-1.345953 .376588-1.227397 .376588-.941469C.376588-.285928 1.101868 .139477 1.945704 .139477C2.915068 .139477 3.584558-.509091 3.584558-1.206476C3.584558-1.750436 3.138232-2.294396 2.371108-2.454795C3.103362-2.719801 3.368369-3.242839 3.368369-3.668244C3.368369-4.219178 2.733748-4.630635 1.959651-4.630635S.592777-4.254047 .592777-3.696139C.592777-3.459029 .746202-3.326526 .955417-3.326526C1.171606-3.326526 1.311083-3.486924 1.311083-3.682192C1.311083-3.884433 1.171606-4.030884 .955417-4.044832C1.199502-4.351681 1.680697-4.428394 1.93873-4.428394C2.252553-4.428394 2.691905-4.274969 2.691905-3.668244C2.691905-3.375342 2.594271-3.054545 2.412951-2.838356C2.182814-2.57335 1.987547-2.559402 1.638854-2.538481C1.464508-2.524533 1.45056-2.524533 1.415691-2.517559C1.401743-2.517559 1.345953-2.503611 1.345953-2.426899C1.345953-2.329265 1.408717-2.329265 1.527273-2.329265H1.903861Z'/>
+<path id='g3-22' d='M4.283935-5.569116V-5.877958H.687422V-5.569116H4.283935Z'/>
+<path id='g3-43' d='M4.07472-2.291407H6.854296C6.993773-2.291407 7.183064-2.291407 7.183064-2.49066S6.993773-2.689913 6.854296-2.689913H4.07472V-5.479452C4.07472-5.618929 4.07472-5.808219 3.875467-5.808219S3.676214-5.618929 3.676214-5.479452V-2.689913H.886675C.747198-2.689913 .557908-2.689913 .557908-2.49066S.747198-2.291407 .886675-2.291407H3.676214V.498132C3.676214 .637609 3.676214 .826899 3.875467 .826899S4.07472 .637609 4.07472 .498132V-2.291407Z'/>
+</defs>
+<g id='page1'>
+<path d='M18.09375-54.58203L43.35551-70.8516' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M25.23831-59.1836L32.26561-60.457L29.30471-65.0508Z'/>
+<path d='M43.35551-70.8516L22.87111-93.4102' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M37.50391-77.2969L35.08981-84.0156L31.04691-80.3438Z'/>
+<path d='M43.35551-70.8516H43.87891L44.39841-71.4727L44.91801-71.9297L45.44141-72.0938L45.96091-71.9297L46.48051-71.4727L47.00391-70.8516L47.52341-70.2266L48.04301-69.7695L48.56641-69.6055L49.08591-69.7695L49.60551-70.2266L50.12891-70.8516L50.64841-71.4727L51.16801-71.9297L51.69141-72.0938L52.21091-71.9297L52.73051-71.4727L53.25391-70.8516L53.77341-70.2266L54.29301-69.7695L54.81641-69.6055L55.33591-69.7695L55.85551-70.2266L56.37501-70.8516L56.89841-71.4727L57.41801-71.9297L57.93751-72.0938L58.46091-71.9297L58.98051-71.4727L59.50001-70.8516L60.02341-70.2266L60.54301-69.7695L61.06251-69.6055L61.58591-69.7695L62.10551-70.2266L62.62501-70.8516L63.14841-71.4727L63.66801-71.9297L64.18751-72.0938L64.71091-71.9297L65.23051-71.4727L65.75001-70.8516L66.27341-70.2266L66.79301-69.7695L67.31251-69.6055L67.83591-69.7695L68.35551-70.2266L68.87501-70.8516L69.39841-71.4727L69.91801-71.9297L70.43751-72.0938L70.96091-71.9297L71.48051-71.4727L72.00001-70.8516L72.52341-70.2266L73.04301-69.7695L73.56251-69.6055L74.08591-69.7695L74.60551-70.2266L75.12501-70.8516L75.64841-71.4727L76.16801-71.9297L76.68751-72.0938L77.21091-71.9297L77.73051-71.4727L78.25001-70.8516L78.77341-70.2266L79.29301-69.7695L79.81251-69.6055L80.86331-70.8516' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 50.75999 -27.6137)'>
+<use x='8.947009' y='-48.693164' xlink:href='#g1-113'/>
+</g>
+<path d='M80.86331-70.8516L109.69901-45.59375' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M98.04301-55.80078L94.88281-62.2031L91.28121-58.09375Z'/>
+<g transform='matrix(1 0 0 1 55.75359 .9099)'>
+<use x='8.947009' y='-48.693164' xlink:href='#g1-107'/>
+<use x='14.133601' y='-47.198783' xlink:href='#g2-49'/>
+<use x='18.60297' y='-48.693164' xlink:href='#g3-43'/>
+<use x='26.351714' y='-48.693164' xlink:href='#g1-107'/>
+<use x='31.538306' y='-47.198783' xlink:href='#g2-51'/>
+</g>
+<path d='M109.69901-45.59375L118.49201-13.0664' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M115.05901-25.7734L115.97301-32.8555L110.69901-31.4297Z'/>
+<g transform='matrix(1 0 0 1 91.97399 29.8016)'>
+<use x='8.947009' y='-48.693164' xlink:href='#g1-107'/>
+<use x='14.133601' y='-47.198783' xlink:href='#g2-49'/>
+</g>
+<path d='M80.86331-70.8516L94.19921-105.7305' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M85.19921-82.1953L90.10941-87.3828L85.00391-89.332Z'/>
+<g transform='matrix(1 0 0 1 65.40719 -44.6121)'>
+<use x='8.947009' y='-48.693164' xlink:href='#g1-107'/>
+<use x='14.133601' y='-47.198783' xlink:href='#g2-50'/>
+</g>
+<path d='M109.69901-45.59375C110.21501-44.26172 111.52301-43.30469 112.90601-43.46875S115.33201-44.875 115.52001-46.28906C115.70701-47.703126 115.10201-48.750001 114.42601-48.66797C113.74601-48.585938 113.40601-47.42969 113.92201-46.09766C114.43701-44.76953 115.74601-43.80859 117.12901-43.97266C118.50801-44.14063 119.55501-45.37891 119.74201-46.79688C119.93001-48.210938 119.32401-49.253907 118.64801-49.171876C117.96901-49.089845 117.62901-47.933595 118.14501-46.60547C118.66001-45.27344 119.96901-44.3125 121.35201-44.48047C122.73001-44.64453 123.77701-45.88672 123.96501-47.30078C124.15201-48.714845 123.54701-49.75781 122.86701-49.679688C122.19101-49.597657 121.84801-48.441407 122.36701-47.10938C122.88301-45.77734 124.19101-44.82031 125.57001-44.98438C126.95301-45.14844 128.00001-46.39063 128.18701-47.804688C128.37501-49.218751 127.77001-50.26563 127.09001-50.18359C126.41401-50.10156 126.07001-48.945313 126.58601-47.61328C127.10201-46.28516 128.41401-45.32422 129.79301-45.48828C131.17601-45.65625 132.21901-46.89453 132.40601-48.312501C132.59401-49.72656 131.98801-50.76953 131.31201-50.6875C130.63301-50.60547 130.29301-49.44922 130.80901-48.121095C131.32401-46.78906 132.63301-45.82813 134.01601-45.99609C135.39501-46.16016 136.44101-47.40234 136.62901-48.816407C136.81601-50.23047 136.21101-51.27344 135.53501-51.19531C134.85501-51.11328 134.51601-49.95703 135.03101-48.625001C135.54701-47.29297 136.85501-46.33594 138.23801-46.5C139.61701-46.66406 140.66401-47.906251 140.85201-49.320313L143.60501-49.652345' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 104.52999 -3.9436)'>
+<use x='8.947009' y='-48.693164' xlink:href='#g1-107'/>
+<use x='14.133601' y='-47.198783' xlink:href='#g2-51'/>
+</g>
+<g transform='matrix(1 0 0 1 -5.62654 3.9663)'>
+<use x='8.947009' y='-48.693164' xlink:href='#g1-101'/>
+<use x='13.58588' y='-52.308527' xlink:href='#g2-43'/>
+</g>
+<g transform='matrix(1 0 0 1 1.44529 -48.2386)'>
+<use x='8.947009' y='-48.693164' xlink:href='#g1-101'/>
+<use x='13.58588' y='-52.308527' xlink:href='#g0-0'/>
+</g>
+<g transform='matrix(1 0 0 1 108.93699 43.43602)'>
+<use x='8.947009' y='-48.693164' xlink:href='#g1-113'/>
+</g>
+<g transform='matrix(1 0 0 1 85.64549 -62.4958)'>
+<use x='9.689038' y='-48.693164' xlink:href='#g3-22'/>
+<use x='8.947009' y='-48.693164' xlink:href='#g1-113'/>
+</g>
+<g transform='matrix(1 0 0 1 138.17799 -.5092)'>
+<use x='8.947009' y='-48.693164' xlink:href='#g1-103'/>
+</g>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle \;+\;
+% ----------------- (B) Gluon emission from antiquark (antiquark on top) ----------$</span><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='16.381em' height='12.488em' viewBox='3.320469 -116.84548 148.913849 113.52553'>
+<defs>
+<path id='g0-0' d='M5.188543-1.57609C5.300125-1.57609 5.467497-1.57609 5.467497-1.743462C5.467497-1.917808 5.307098-1.917808 5.188543-1.917808H1.03213C.920548-1.917808 .753176-1.917808 .753176-1.750436C.753176-1.57609 .913574-1.57609 1.03213-1.57609H5.188543Z'/>
+<path id='g1-101' d='M1.863014-2.30137C2.15193-2.30137 2.889166-2.321295 3.387298-2.530511C4.084682-2.82939 4.134496-3.417186 4.134496-3.556663C4.134496-3.995019 3.755915-4.403487 3.068493-4.403487C1.96264-4.403487 .458281-3.437111 .458281-1.693649C.458281-.67746 1.046077 .109589 2.022416 .109589C3.447073 .109589 4.283935-.946451 4.283935-1.066002C4.283935-1.125778 4.224159-1.195517 4.164384-1.195517C4.11457-1.195517 4.094645-1.175592 4.034869-1.09589C3.247821-.109589 2.161893-.109589 2.042341-.109589C1.265255-.109589 1.175592-.946451 1.175592-1.265255C1.175592-1.384807 1.185554-1.693649 1.334994-2.30137H1.863014ZM1.39477-2.520548C1.783313-4.034869 2.809465-4.184309 3.068493-4.184309C3.536737-4.184309 3.805729-3.895392 3.805729-3.556663C3.805729-2.520548 2.211706-2.520548 1.803238-2.520548H1.39477Z'/>
+<path id='g1-103' d='M4.692403-3.755915C4.702366-3.815691 4.722291-3.865504 4.722291-3.935243C4.722291-4.104608 4.60274-4.204234 4.433375-4.204234C4.333748-4.204234 4.064757-4.134496 4.024907-3.775841C3.845579-4.144458 3.496887-4.403487 3.098381-4.403487C1.96264-4.403487 .727273-3.008717 .727273-1.574097C.727273-.587796 1.334994 0 2.052304 0C2.6401 0 3.108344-.468244 3.20797-.577833L3.217933-.56787C3.008717 .318804 2.889166 .727273 2.889166 .747198C2.849315 .836862 2.510585 1.823163 1.454545 1.823163C1.265255 1.823163 .936488 1.8132 .657534 1.723537C.956413 1.633873 1.066002 1.374844 1.066002 1.205479C1.066002 1.046077 .956413 .856787 .687422 .856787C.468244 .856787 .14944 1.036115 .14944 1.43462C.14944 1.843088 .518057 2.042341 1.474471 2.042341C2.719801 2.042341 3.437111 1.265255 3.58655 .667497L4.692403-3.755915ZM3.39726-1.275218C3.337484-1.016189 3.108344-.767123 2.889166-.577833C2.67995-.398506 2.371108-.219178 2.082192-.219178C1.58406-.219178 1.43462-.737235 1.43462-1.135741C1.43462-1.613948 1.723537-2.789539 1.992528-3.297634C2.261519-3.785803 2.689913-4.184309 3.108344-4.184309C3.765878-4.184309 3.905355-3.377335 3.905355-3.327522S3.88543-3.217933 3.875467-3.178082L3.39726-1.275218Z'/>
+<path id='g1-107' d='M2.859278-6.804483C2.859278-6.814446 2.859278-6.914072 2.729763-6.914072C2.500623-6.914072 1.77335-6.834371 1.514321-6.814446C1.43462-6.804483 1.325031-6.794521 1.325031-6.615193C1.325031-6.495641 1.414695-6.495641 1.564134-6.495641C2.042341-6.495641 2.062267-6.425903 2.062267-6.326276L2.032379-6.127024L.587796-.388543C.547945-.249066 .547945-.229141 .547945-.169365C.547945 .059776 .747198 .109589 .836862 .109589C.966376 .109589 1.115816 .019925 1.175592-.099626C1.225405-.18929 1.673724-2.032379 1.733499-2.281445C2.072229-2.251557 2.889166-2.092154 2.889166-1.43462C2.889166-1.364882 2.889166-1.325031 2.859278-1.225405C2.839352-1.105853 2.819427-.986301 2.819427-.876712C2.819427-.288917 3.217933 .109589 3.73599 .109589C4.034869 .109589 4.303861-.049813 4.523039-.418431C4.772105-.856787 4.881694-1.404732 4.881694-1.424658C4.881694-1.524284 4.79203-1.524284 4.762142-1.524284C4.662516-1.524284 4.652553-1.484433 4.622665-1.344956C4.423412-.617684 4.194271-.109589 3.755915-.109589C3.566625-.109589 3.437111-.219178 3.437111-.577833C3.437111-.747198 3.476961-.976339 3.516812-1.135741C3.556663-1.305106 3.556663-1.344956 3.556663-1.444583C3.556663-2.092154 2.929016-2.381071 2.082192-2.49066C2.391034-2.669988 2.709838-2.988792 2.938979-3.227895C3.417186-3.755915 3.875467-4.184309 4.363636-4.184309C4.423412-4.184309 4.433375-4.184309 4.4533-4.174346C4.572852-4.154421 4.582814-4.154421 4.662516-4.094645C4.682441-4.084682 4.682441-4.07472 4.702366-4.054795C4.224159-4.024907 4.134496-3.636364 4.134496-3.516812C4.134496-3.35741 4.244085-3.16812 4.513076-3.16812C4.772105-3.16812 5.061021-3.387298 5.061021-3.775841C5.061021-4.07472 4.83188-4.403487 4.383562-4.403487C4.104608-4.403487 3.646326-4.323786 2.929016-3.526775C2.590286-3.148194 2.201743-2.749689 1.823163-2.600249L2.859278-6.804483Z'/>
+<path id='g1-113' d='M4.503113-4.293898C4.503113-4.333748 4.473225-4.393524 4.403487-4.393524C4.293898-4.393524 3.895392-3.995019 3.726027-3.706102C3.506849-4.244085 3.118306-4.403487 2.799502-4.403487C1.62391-4.403487 .398506-2.929016 .398506-1.484433C.398506-.508095 .986301 .109589 1.713574 .109589C2.141968 .109589 2.530511-.129514 2.889166-.488169C2.799502-.139477 2.470735 1.205479 2.440847 1.295143C2.361146 1.574097 2.281445 1.613948 1.723537 1.62391C1.594022 1.62391 1.494396 1.62391 1.494396 1.823163C1.494396 1.833126 1.494396 1.932752 1.62391 1.932752C1.942715 1.932752 2.291407 1.902864 2.620174 1.902864C2.958904 1.902864 3.317559 1.932752 3.646326 1.932752C3.696139 1.932752 3.825654 1.932752 3.825654 1.733499C3.825654 1.62391 3.726027 1.62391 3.566625 1.62391C3.088418 1.62391 3.088418 1.554172 3.088418 1.464508C3.088418 1.39477 3.108344 1.334994 3.128269 1.24533L4.503113-4.293898ZM1.743462-.109589C1.145704-.109589 1.105853-.876712 1.105853-1.046077C1.105853-1.524284 1.39477-2.610212 1.564134-3.028643C1.872976-3.765878 2.391034-4.184309 2.799502-4.184309C3.447073-4.184309 3.58655-3.377335 3.58655-3.307597C3.58655-3.247821 3.038605-1.066002 3.008717-1.026152C2.859278-.747198 2.30137-.109589 1.743462-.109589Z'/>
+<path id='g2-43' d='M3.228892-1.57609H5.362889C5.453549-1.57609 5.620922-1.57609 5.620922-1.743462C5.620922-1.917808 5.460523-1.917808 5.362889-1.917808H3.228892V-4.05878C3.228892-4.14944 3.228892-4.316812 3.061519-4.316812C2.887173-4.316812 2.887173-4.156413 2.887173-4.05878V-1.917808H.746202C.655542-1.917808 .488169-1.917808 .488169-1.750436C.488169-1.57609 .648568-1.57609 .746202-1.57609H2.887173V.564882C2.887173 .655542 2.887173 .822914 3.054545 .822914C3.228892 .822914 3.228892 .662516 3.228892 .564882V-1.57609Z'/>
+<path id='g2-49' d='M2.336239-4.435367C2.336239-4.623661 2.322291-4.630635 2.127024-4.630635C1.680697-4.191283 1.046077-4.184309 .760149-4.184309V-3.93325C.927522-3.93325 1.387796-3.93325 1.771357-4.128518V-.571856C1.771357-.341719 1.771357-.251059 1.073973-.251059H.808966V0C.934496-.006974 1.792279-.027895 2.050311-.027895C2.266501-.027895 3.145205-.006974 3.29863 0V-.251059H3.033624C2.336239-.251059 2.336239-.341719 2.336239-.571856V-4.435367Z'/>
+<path id='g2-50' d='M3.521793-1.26924H3.284682C3.263761-1.115816 3.194022-.704359 3.103362-.63462C3.047572-.592777 2.510585-.592777 2.412951-.592777H1.129763C1.862017-1.241345 2.106102-1.436613 2.524533-1.764384C3.040598-2.175841 3.521793-2.608219 3.521793-3.270735C3.521793-4.11457 2.782565-4.630635 1.889913-4.630635C1.025156-4.630635 .439352-4.02391 .439352-3.382316C.439352-3.02665 .739228-2.991781 .808966-2.991781C.976339-2.991781 1.17858-3.110336 1.17858-3.361395C1.17858-3.486924 1.129763-3.731009 .767123-3.731009C.983313-4.226152 1.457534-4.379577 1.785305-4.379577C2.48269-4.379577 2.84533-3.835616 2.84533-3.270735C2.84533-2.66401 2.412951-2.182814 2.189788-1.931756L.509091-.27198C.439352-.209215 .439352-.195268 .439352 0H3.312578L3.521793-1.26924Z'/>
+<path id='g2-51' d='M1.903861-2.329265C2.447821-2.329265 2.838356-1.952677 2.838356-1.206476C2.838356-.341719 2.336239-.083686 1.931756-.083686C1.652802-.083686 1.039103-.160399 .746202-.571856C1.073973-.585803 1.150685-.81594 1.150685-.962391C1.150685-1.185554 .983313-1.345953 .767123-1.345953C.571856-1.345953 .376588-1.227397 .376588-.941469C.376588-.285928 1.101868 .139477 1.945704 .139477C2.915068 .139477 3.584558-.509091 3.584558-1.206476C3.584558-1.750436 3.138232-2.294396 2.371108-2.454795C3.103362-2.719801 3.368369-3.242839 3.368369-3.668244C3.368369-4.219178 2.733748-4.630635 1.959651-4.630635S.592777-4.254047 .592777-3.696139C.592777-3.459029 .746202-3.326526 .955417-3.326526C1.171606-3.326526 1.311083-3.486924 1.311083-3.682192C1.311083-3.884433 1.171606-4.030884 .955417-4.044832C1.199502-4.351681 1.680697-4.428394 1.93873-4.428394C2.252553-4.428394 2.691905-4.274969 2.691905-3.668244C2.691905-3.375342 2.594271-3.054545 2.412951-2.838356C2.182814-2.57335 1.987547-2.559402 1.638854-2.538481C1.464508-2.524533 1.45056-2.524533 1.415691-2.517559C1.401743-2.517559 1.345953-2.503611 1.345953-2.426899C1.345953-2.329265 1.408717-2.329265 1.527273-2.329265H1.903861Z'/>
+<path id='g3-22' d='M4.283935-5.569116V-5.877958H.687422V-5.569116H4.283935Z'/>
+<path id='g3-43' d='M4.07472-2.291407H6.854296C6.993773-2.291407 7.183064-2.291407 7.183064-2.49066S6.993773-2.689913 6.854296-2.689913H4.07472V-5.479452C4.07472-5.618929 4.07472-5.808219 3.875467-5.808219S3.676214-5.618929 3.676214-5.479452V-2.689913H.886675C.747198-2.689913 .557908-2.689913 .557908-2.49066S.747198-2.291407 .886675-2.291407H3.676214V.498132C3.676214 .637609 3.676214 .826899 3.875467 .826899S4.07472 .637609 4.07472 .498132V-2.291407Z'/>
+</defs>
+<g id='page1'>
+<path d='M18.09375-55.26562L43.35551-71.5352' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M25.23831-59.8672L32.26561-61.1406L29.30471-65.7344Z'/>
+<path d='M43.35551-71.5352L22.87111-94.0937' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M37.50391-77.9805L35.08981-84.6992L31.04691-81.0273Z'/>
+<path d='M43.35551-71.5352H43.87891L44.39841-72.1562L44.91801-72.6133L45.44141-72.7773L45.96091-72.6133L46.48051-72.1562L47.00391-71.5352L47.52341-70.9102L48.04301-70.4531L48.56641-70.2891L49.08591-70.4531L49.60551-70.9102L50.12891-71.5352L50.64841-72.1562L51.16801-72.6133L51.69141-72.7773L52.21091-72.6133L52.73051-72.1562L53.25391-71.5352L53.77341-70.9102L54.29301-70.4531L54.81641-70.2891L55.33591-70.4531L55.85551-70.9102L56.37501-71.5352L56.89841-72.1562L57.41801-72.6133L57.93751-72.7773L58.46091-72.6133L58.98051-72.1562L59.50001-71.5352L60.02341-70.9102L60.54301-70.4531L61.06251-70.2891L61.58591-70.4531L62.10551-70.9102L62.62501-71.5352L63.14841-72.1562L63.66801-72.6133L64.18751-72.7773L64.71091-72.6133L65.23051-72.1562L65.75001-71.5352L66.27341-70.9102L66.79301-70.4531L67.31251-70.2891L67.83591-70.4531L68.35551-70.9102L68.87501-71.5352L69.39841-72.1562L69.91801-72.6133L70.43751-72.7773L70.96091-72.6133L71.48051-72.1562L72.00001-71.5352L72.52341-70.9102L73.04301-70.4531L73.56251-70.2891L74.08591-70.4531L74.60551-70.9102L75.12501-71.5352L75.64841-72.1562L76.16801-72.6133L76.68751-72.7773L77.21091-72.6133L77.73051-72.1562L78.25001-71.5352L78.77341-70.9102L79.29301-70.4531L79.81251-70.2891L80.86331-71.5352' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 50.75999 -27.6137)'>
+<use x='8.947009' y='-49.376712' xlink:href='#g1-113'/>
+</g>
+<path d='M80.86331-71.5352L109.69901-46.27734' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M90.36721-63.207L93.53121-56.80859L97.12891-60.918Z'/>
+<g transform='matrix(1 0 0 1 55.75359 .9099)'>
+<use x='8.947009' y='-49.376712' xlink:href='#g1-107'/>
+<use x='14.133601' y='-47.882331' xlink:href='#g2-50'/>
+<use x='18.60297' y='-49.376712' xlink:href='#g3-43'/>
+<use x='26.351714' y='-49.376712' xlink:href='#g1-107'/>
+<use x='31.538306' y='-47.882331' xlink:href='#g2-51'/>
+</g>
+<path d='M109.69901-46.27734L118.30901-14.4336' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M112.30101-36.6523L111.38701-29.5703L116.66001-30.9961Z'/>
+<g transform='matrix(1 0 0 1 91.88199 29.4598)'>
+<use x='8.947009' y='-49.376712' xlink:href='#g1-107'/>
+<use x='14.133601' y='-47.882331' xlink:href='#g2-50'/>
+</g>
+<path d='M80.86331-71.5352L94.46091-107.0977' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M88.97661-92.7578L84.07031-87.5703L89.17191-85.6211Z'/>
+<g transform='matrix(1 0 0 1 65.53789 -44.9539)'>
+<use x='8.947009' y='-49.376712' xlink:href='#g1-107'/>
+<use x='14.133601' y='-47.882331' xlink:href='#g2-49'/>
+</g>
+<path d='M109.69901-46.27734C110.21501-44.94531 111.52301-43.98828 112.90601-44.15234S115.33201-45.55859 115.52001-46.97265C115.70701-48.386717 115.10201-49.433592 114.42601-49.351561C113.74601-49.26953 113.40601-48.11328 113.92201-46.78125C114.43701-45.45312 115.74601-44.49219 117.12901-44.65625C118.50801-44.82422 119.55501-46.0625 119.74201-47.48047C119.93001-48.89453 119.32401-49.937499 118.64801-49.855467C117.96901-49.773436 117.62901-48.617186 118.14501-47.28906C118.66001-45.95703 119.96901-44.99609 121.35201-45.16406C122.73001-45.32812 123.77701-46.57031 123.96501-47.98437C124.15201-49.398436 123.54701-50.4414 122.86701-50.359374C122.19101-50.281249 121.84801-49.124999 122.36701-47.79297C122.88301-46.46094 124.19101-45.5039 125.57001-45.66797C126.95301-45.83203 128.00001-47.07422 128.18701-48.48828C128.37501-49.902342 127.77001-50.94922 127.09001-50.86719C126.41401-50.78515 126.07001-49.628905 126.58601-48.29687C127.10201-46.96875 128.41401-46.00781 129.79301-46.17187C131.17601-46.33984 132.21901-47.57812 132.40601-48.996092C132.59401-50.41015 131.98801-51.45312 131.31201-51.37109C130.63301-51.28906 130.29301-50.132811 130.80901-48.804686C131.32401-47.47265 132.63301-46.51172 134.01601-46.67969C135.39501-46.84375 136.44101-48.08594 136.62901-49.499999C136.81601-50.91406 136.21101-51.95703 135.53501-51.8789C134.85501-51.79687 134.51601-50.64062 135.03101-49.308592C135.54701-47.97656 136.85501-47.01953 138.23801-47.18359C139.61701-47.34765 140.66401-48.589842 140.85201-50.003905L143.60501-50.335936' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 104.52999 -3.9436)'>
+<use x='8.947009' y='-49.376712' xlink:href='#g1-107'/>
+<use x='14.133601' y='-47.882331' xlink:href='#g2-51'/>
+</g>
+<g transform='matrix(1 0 0 1 -5.62654 3.9663)'>
+<use x='8.947009' y='-49.376712' xlink:href='#g1-101'/>
+<use x='13.58588' y='-52.992076' xlink:href='#g2-43'/>
+</g>
+<g transform='matrix(1 0 0 1 1.44529 -48.2386)'>
+<use x='8.947009' y='-49.376712' xlink:href='#g1-101'/>
+<use x='13.58588' y='-52.992076' xlink:href='#g0-0'/>
+</g>
+<g transform='matrix(1 0 0 1 108.93699 44.11958)'>
+<use x='9.689038' y='-49.376712' xlink:href='#g3-22'/>
+<use x='8.947009' y='-49.376712' xlink:href='#g1-113'/>
+</g>
+<g transform='matrix(1 0 0 1 85.64549 -63.1793)'>
+<use x='8.947009' y='-49.376712' xlink:href='#g1-113'/>
+</g>
+<g transform='matrix(1 0 0 1 138.17799 -.5093)'>
+<use x='8.947009' y='-49.376712' xlink:href='#g1-103'/>
+</g>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle = \frac{-ig_{\mu\nu}}{q^2+i\varepsilon}\bar{v}(p_2)(-ie)\gamma^\mu u(p_1)\bar{u}(k_1)(-ig)\gamma^\alpha\frac{i(\slashed{k}_2 + \slashed{k}_3)}{(k_2+k_3)^2+ i\varepsilon}(-ieQ_f)\gamma^\nu v(k_2)\epsilon_\alpha^*(k_3)$</span><span class="equation-part">$\displaystyle \qquad - \frac{-ig_{\mu\nu}}{q^2+i\varepsilon}\bar{v}(p_2)(-ie)\gamma^\mu u(p_1)\bar{u}(k_1)(-ieQ_f)\gamma^\nu \frac{i(\slashed{k}_1 + \slashed{k}_3)}{(k_1+k_3)^2+ i\varepsilon}(-ig)\gamma^\alpha v(k_2)\epsilon_\alpha^*(k_3)$</span><span class="equation-part">$\displaystyle = \frac{ie^2g Q_f}{s}\bar{v}(p_2)\gamma^\mu u(p_1)\bar{u}(k_1)\left[\gamma^\alpha\frac{(\slashed{k}_2 + \slashed{k}_3)}{(k_2+k_3)^2+ i\varepsilon}\gamma_\mu - \gamma_\mu\frac{(\slashed{k}_1 + \slashed{k}_3)}{(k_1+k_3)^2+ i\varepsilon}\gamma^\alpha \right]v(k_2)\epsilon_\alpha^*(k_3),$</span><span class="equation-num">(1.43)</span></div>
 
 <p>while the minus sign arises from the anticommutation relation between fermions. This can be seen by writing down the contractions individually.</p>
 
@@ -366,17 +521,17 @@ Then, the boundary of $x_2$ can be found with simple algebra:
         &amp;\qquad \qquad \qquad \qquad \qquad \qquad+ \frac{1}{(k_1+k_3)^4}\Tr[\slashed{k}_1\gamma^\mu(\slashed{k}_1 + \slashed{k}_3)\gamma^\alpha\slashed{k}_2\gamma_\alpha(\slashed{k}_1 + \slashed{k}_3)\gamma_\nu]\\
         &amp;\qquad \qquad \qquad \qquad \qquad \qquad- \frac{1}{(k_1+k_3)^2(k_2+k_3)^2}\Tr[\slashed{k}_1\gamma^\alpha(\slashed{k}_2 + \slashed{k}_3)\gamma_\mu\slashed{k}_2\gamma_\alpha(\slashed{k}_1 + \slashed{k}_3)\gamma_\nu]\\
         &amp;\qquad \qquad \qquad \qquad \qquad \qquad - \frac{1}{(k_1+k_3)^2(k_2+k_3)^2}\Tr[\slashed{k}_1\gamma_\mu(\slashed{k}_1 + \slashed{k}_3)\gamma^\alpha\slashed{k}_2\gamma_\nu(\slashed{k}_2 + \slashed{k}_3)\gamma_\alpha]\bigg\}.
-    \end{aligned}\tag{44}\]
+    \end{aligned}\tag{1.44}\]
 To proceed, let us simplify the calculation by throwing away the correlation between the initial beam axis and the direction of the final particles. To do that, consider the structure of the matrix element yielded above; we should have
-\[\int d\Pi_3 \frac{1}{4}\sum \abs{\mathcal{M}}^2 = L_{\mu\nu}\int d\Pi_3 H^{\mu\nu},\tag{45}\]
+\[\int d\Pi_3 \frac{1}{4}\sum \abs{\mathcal{M}}^2 = L_{\mu\nu}\int d\Pi_3 H^{\mu\nu},\tag{1.45}\]
 where $L_{\mu\nu}$ is the electron trace and $H^{\mu\nu}$ is the quark trace. Now, if we integrate over all parameters of the final state except $x_1$ adn $x_2$, the only preferred 4-vector characterising the final state is $q^\mu.$ On the other hand, by Ward-Takahashi, we have (can be checked explicitly)
-\[q_\mu H^{\mu\nu}=0.\tag{46}\]
+\[q_\mu H^{\mu\nu}=0.\tag{1.46}\]
 Since, after integrating over final-state vectors, $\int H^{\mu\nu}$ is only dependent on scalars ($x_1$ and $x_2$) and $q^\mu$. Thus, it must take the form
-\[\int d\Pi_3 H^{\mu\nu} = \left(g^{\mu\nu} - \frac{q^\mu q^\nu}{q^2}\right)\cdot H，\tag{47}\]
+\[\int d\Pi_3 H^{\mu\nu} = \left(g^{\mu\nu} - \frac{q^\mu q^\nu}{q^2}\right)\cdot H，\tag{1.47}\]
 where $H$ is a scalar. The minus sign is there to preserve Ward identity. $H$ can be evaluated by contracting the above with $g_{\mu\nu}$:
-\[\int d\Pi_3 g_{\mu\nu}H^{\mu\nu} = 3H \implies H = \frac{1}{3}\int d\Pi_3 g_{\mu\nu}H^{\mu\nu}.\tag{48}\]
+\[\int d\Pi_3 g_{\mu\nu}H^{\mu\nu} = 3H \implies H = \frac{1}{3}\int d\Pi_3 g_{\mu\nu}H^{\mu\nu}.\tag{1.48}\]
 Thus, 
-\[L_{\mu\nu}\int d\Pi_3 H^{\mu\nu} = L_{\mu\nu}\left(g^{\mu\nu} - \frac{q^\mu q^\nu}{q^2}\right)\frac{1}{3}\int d\Pi_3 g_{\rho\sigma}H^{\rho\sigma} = \frac{1}{3}L_{\mu\nu}g^{\mu\nu}\int d\Pi_3 g_{\rho\sigma}H^{\rho\sigma},\tag{49}\]
+\[L_{\mu\nu}\int d\Pi_3 H^{\mu\nu} = L_{\mu\nu}\left(g^{\mu\nu} - \frac{q^\mu q^\nu}{q^2}\right)\frac{1}{3}\int d\Pi_3 g_{\rho\sigma}H^{\rho\sigma} = \frac{1}{3}L_{\mu\nu}g^{\mu\nu}\int d\Pi_3 g_{\rho\sigma}H^{\rho\sigma},\tag{1.49}\]
 where we have used the Ward identity once again.</p>
 
 <p>Using this trick, we have
@@ -385,41 +540,41 @@ where we have used the Ward identity once again.</p>
         &amp;\qquad \qquad \qquad \qquad \qquad \qquad+ \frac{1}{(k_1+k_3)^4}\Tr[\slashed{k}_1\gamma^\alpha(\slashed{k}_1 + \slashed{k}_3)\gamma^\alpha\slashed{k}_2\gamma_\nu(\slashed{k}_1 + \slashed{k}_3)\gamma_\alpha]\\
         &amp;\qquad \qquad \qquad \qquad \qquad \qquad- \frac{1}{(k_1+k_3)^2(k_2+k_3)^2}\Tr[\slashed{k}_1\gamma^\alpha(\slashed{k}_2 + \slashed{k}_3)\gamma^\nu\slashed{k}_2\gamma_\alpha(\slashed{k}_1 + \slashed{k}_3)\gamma_\nu]\\
         &amp;\qquad \qquad \qquad \qquad \qquad \qquad - \frac{1}{(k_1+k_3)^2(k_2+k_3)^2}\Tr[\slashed{k}_1\gamma^\nu(\slashed{k}_1 + \slashed{k}_3)\gamma^\alpha\slashed{k}_2\gamma_\nu(\slashed{k}_2 + \slashed{k}_3)\gamma_\alpha]\bigg\}.
-    \end{aligned}\tag{50}\]
+    \end{aligned}\tag{1.50}\]
 Now, let us compute the traces:
 \[\begin{aligned}
         \Tr[\slashed{k}_1\gamma^\nu(\slashed{k}_2 + \slashed{k}_3)\gamma^\alpha\slashed{k}_2\gamma_\alpha(\slashed{k}_2 + \slashed{k}_3)\gamma_\nu] &amp;= 4\Tr[\slashed{k}_1(\slashed{k}_2 + \slashed{k}_3)\slashed{k}_2(\slashed{k}_2 + \slashed{k}_3)]\\
         &amp;= 16[2k_1\cdot(k_2+k_3)k_2\cdot(k_2+k_3)-k_{12}(k_2+k_3)^2]\\
         &amp;= 16(2k_{13}k_{23}-\mu^2k_{12}).
-    \end{aligned}\tag{51}\]
+    \end{aligned}\tag{1.51}\]
 and, similarly,
-\[\Tr[\slashed{k}_1\gamma^\nu(\slashed{k}_1 + \slashed{k}_3)\gamma^\alpha\slashed{k}_2\gamma_\alpha(\slashed{k}_1 + \slashed{k}_3)\gamma_\nu] =16(2k_{13}k_{23}-\mu^2k_{12}).\tag{52}\]
+\[\Tr[\slashed{k}_1\gamma^\nu(\slashed{k}_1 + \slashed{k}_3)\gamma^\alpha\slashed{k}_2\gamma_\alpha(\slashed{k}_1 + \slashed{k}_3)\gamma_\nu] =16(2k_{13}k_{23}-\mu^2k_{12}).\tag{1.52}\]
 At the limit $\mu\to 0$, we have
-\[16(2k_{13}k_{23}-\mu^2k_{12}) \to 8s^2(1-x_1)(1-x_2).\tag{53}\]
+\[16(2k_{13}k_{23}-\mu^2k_{12}) \to 8s^2(1-x_1)(1-x_2).\tag{1.53}\]
 On the other hand, the &ldquo;cross" traces gives
 \[\begin{aligned}
         &amp;\Tr[\slashed{k}_1\gamma^\alpha(\slashed{k}_2 + \slashed{k}_3)\gamma^\nu\slashed{k}_2\gamma_\alpha(\slashed{k}_1 + \slashed{k}_3)\gamma_\nu]+ \Tr[\slashed{k}_1\gamma^\nu(\slashed{k}_1 + \slashed{k}_3)\gamma^\alpha\slashed{k}_2\gamma_\nu(\slashed{k}_2 + \slashed{k}_3)\gamma_\alpha] \\
         &amp;= -128k_{12}(k_1+k_3)\cdot(k_2+k_3)\\
         &amp;= -16[s(1-x_3)+\mu^2](\mu^2+s).
-    \end{aligned}\tag{54}\]
+    \end{aligned}\tag{1.54}\]
 Under the massless limit, it becomes
-\[-16[s(1-x_3)+\mu^2](\mu^2+s) \to -16s^2(1-x_3).\tag{55}\]
+\[-16[s(1-x_3)+\mu^2](\mu^2+s) \to -16s^2(1-x_3).\tag{1.55}\]
 Then (under the massless limit), we find
 \[\begin{aligned}
         \int d\Pi_3 \frac{1}{4}\sum \abs{\mathcal{M}}^2 
         &amp;= -\frac{e^4g^2Q_f^2}{4s^2}(-8p_{12})\int d\Pi_3\bigg\{\frac{32(1-x_1)}{(1-x_2)} + \frac{32(1-x_2)}{(1-x_1)} + \frac{64(1-x_3)}{(1-x_1)(1-x_2)}\bigg\}\\
         &amp;=\frac{32e^4g^2Q_f^2}{s^2}\int d\Pi_3\frac{2-2(x_1+x_2+x_3)+x_1^2+x_2^2+2}{(1-x_1)(1-x_2)}\\
         &amp;=\frac{32e^4g^2Q_f^2}{s}\int d\Pi_3\frac{x_1^2 + x_2^2}{(1-x_1)(1-x_2)}.
-    \end{aligned}\tag{56}\]
+    \end{aligned}\tag{1.56}\]
 Thus, the differential cross section in the centre of mass frame is given by
 \[\begin{aligned}
         \frac{d\sigma(e^+e^-\to\bar{q}qg)}{dx_1dx_2} &amp;= \frac{s}{128\pi^2}\frac{1}{2E_12E_2\abs{\vec{v}_{p_1}-\vec{v}_{p_2}}}\frac{32e^4g^2Q_f^2}{s}\frac{x_1^2 + x_2^2}{(1-x_1)(1-x_2)}\\
         &amp;= (2\pi)^2(4\pi)\frac{s}{128\pi^2}\frac{16\alpha^2\alpha_gQ_f^2}{s^2}\frac{x_1^2 + x_2^2}{(1-x_1)(1-x_2)}\\
         &amp;= \frac{2\pi\alpha^2\alpha_gQ_f}{s}\frac{x_1^2 + x_2^2}{(1-x_1)(1-x_2)}\\
         &amp;= \frac{4\pi\alpha^2}{3s}\cdot 3Q_f \cdot \frac{\alpha_g}{2\pi}\frac{x_1^2 + x_2^2}{(1-x_1)(1-x_2)}.
-    \end{aligned}\tag{57}\]
+    \end{aligned}\tag{1.57}\]
 <strong>(d)</strong> Now, we shall no longer work under the massless limit, but assuming $\mu^2 \ll s$. The averaged squared matrix element then takes the form
-\[\frac{1}{4}\sum\abs{\mathcal{M}}^2 = \frac{e^4g^2Q_f^2}{s}F(x_1,x_2,\mu^2/s),\tag{58}\]
+\[\frac{1}{4}\sum\abs{\mathcal{M}}^2 = \frac{e^4g^2Q_f^2}{s}F(x_1,x_2,\mu^2/s),\tag{1.58}\]
 where
 \[\begin{aligned}
         F(x_1,x_2,\mu^2/s) &amp;= 4\left(\frac{1}{s^2(1-x_1)^2} + \frac{1}{s^2(1-x_2)^2}\right)\cdot 16\left(2\frac{[s(1-x_2)-\mu^2][s(1-x_1)-\mu^2]}{4} - \mu^2\frac{s(1-x_3)+\mu^2}{2}\right)\\
@@ -427,24 +582,24 @@ where
         &amp;= 32\left(\frac{1}{(1-x_1)^2} +\frac{1}{(1-x_2)^2}\right) \left([(1-x_2)-\mu^2/s][(1-x_1)-\mu^2/s] - (1-x_3)\mu^2/s+\mu^4/s^2\right)\\
         &amp;\qquad + 64\frac{[x_1+x_2-1+\mu^2/s](\mu^2/s+1)}{(1-x_1)(1-x_2)}\\
         &amp;=32\left(\frac{1}{(1-x_1)^2} +\frac{1}{(1-x_2)^2}\right) \left((1-x_2)(1-x_1) - \mu^2/s\right) + 64\frac{[x_1+x_2-1+\mu^2/s](\mu^2/s+1)}{(1-x_1)(1-x_2)}.
-\end{aligned}\tag{59}\]
+\end{aligned}\tag{1.59}\]
 Thus, we can redefine $F$ to be $F/32$, and then
-\[\frac{1}{4}\sum\abs{\mathcal{M}}^2 = \frac{32e^4g^2Q_f^2}{s}F(x_1,x_2,\mu^2/s)\tag{60}\]
+\[\frac{1}{4}\sum\abs{\mathcal{M}}^2 = \frac{32e^4g^2Q_f^2}{s}F(x_1,x_2,\mu^2/s)\tag{1.60}\]
 with
-\[F(x_1,x_2,\mu^2/s) = \left(\frac{1}{(1-x_1)^2} +\frac{1}{(1-x_2)^2}\right) \left((1-x_2)(1-x_1) - \mu^2/s\right) + 2\frac{[x_1+x_2-1+\mu^2/s](\mu^2/s+1)}{(1-x_1)(1-x_2)}.\tag{61}\]
+\[F(x_1,x_2,\mu^2/s) = \left(\frac{1}{(1-x_1)^2} +\frac{1}{(1-x_2)^2}\right) \left((1-x_2)(1-x_1) - \mu^2/s\right) + 2\frac{[x_1+x_2-1+\mu^2/s](\mu^2/s+1)}{(1-x_1)(1-x_2)}.\tag{1.61}\]
 Now integrating over the region we defined in part (b):
 \[\begin{aligned}
         \int_0^{1-\mu^2/s} dx_1\int_{1-x_1-\mu^2/s}^{1-\frac{\mu^2}{s(1-x_1)}}dx_2 F(x_1,x_2,\mu^2/s)= 5 \;+\; 3 \ln(\alpha) \;+\; \ln^{2}(\alpha) \;-\; \tfrac{\pi^{2}}{3}
 \;+\; \mathcal{O}(\alpha),
-    \end{aligned}\tag{62}\]
+    \end{aligned}\tag{1.62}\]
  where we have used $\alpha= \mu^2/s$.
 Thus, the cross section is given by 
-\[\sigma(e^+e^-\to \bar{q}qg) = \frac{4\pi\alpha^2}{3s}\cdot 3Q_f \cdot \frac{\alpha_g}{2\pi}\left[\; 5 + 3 \ln(\mu^2/s) + \ln^{2}(\mu^2/s) - \frac{\pi^{2}}{3}+ \mathcal{O}(\mu^2/s)\right].\tag{63}\]</p>
+\[\sigma(e^+e^-\to \bar{q}qg) = \frac{4\pi\alpha^2}{3s}\cdot 3Q_f \cdot \frac{\alpha_g}{2\pi}\left[\; 5 + 3 \ln(\mu^2/s) + \ln^{2}(\mu^2/s) - \frac{\pi^{2}}{3}+ \mathcal{O}(\mu^2/s)\right].\tag{1.63}\]</p>
 
 <p><strong>(e)</strong> Now, let us go back and evaluate the integral in part (a), again working in the limit $\mu^2\ll q^2 $:
 \[\begin{aligned}
         \delta F_1(q^2) &amp;= \frac{\alpha_gQ_f^2}{2\pi} \int^1_0dz\int^{1-z}_0 dy\left[\ln{\frac{z\mu^2}{z\mu^2-y(1-y-z)q^2}}+\frac{(y+z)(1-y)q^2}{z\mu^2-(1-y-z)yq^2}\right].
-    \end{aligned}\tag{64}\]
+    \end{aligned}\tag{1.64}\]
 Note that there are singularities in the region of integration. First, write $Q^2 =  -q^2$, and integrate for $Q^2&gt;0$ (spacelike 4-momentum), which avoids the logarithm having a negative value in it. Thus, integral becomes
 \[\begin{aligned}
         &amp;\int^1_0dy\int^{1-y}_0 dz\left[\ln{\frac{z\mu^2}{z\mu^2+y(1-y-z)Q^2}}-\frac{(y+z)(1-y)Q^2}{z\mu^2+(1-y-z)yQ^2}\right]\\
@@ -462,7 +617,7 @@ Note that there are singularities in the region of integration. First, write $Q^
             \Big]\\
             &amp;\quad + 12 (Q^{2} - \mu^{2})^{2} \operatorname{Li}_{2}\!\left(\frac{\mu^{2}}{Q^{2}}\right)
             \Bigg\}.
-\end{aligned}\tag{65}\]
+\end{aligned}\tag{1.65}\]
 This result is analytic. Thus, it can be generalised into the whole complex plane, including $Q^2 = -q^2-i\varepsilon$. Since we are concerned with the limit $\mu^2\ll q^2$, let us first take the limit $Q^2 \ll \mu^2$, then extend the result analytically Thus, 
 \[\begin{aligned}
         \delta F_1(Q^2) &amp;= \frac{\alpha_g Q_f^{2}}{2\pi}\left[
@@ -471,16 +626,16 @@ This result is analytic. Thus, it can be generalised into the whole complex plan
                     - \frac{3}{2}\,\ln\!\left(\frac{\mu^{2}}{Q^{2}}\right)
                     + 2 i \pi \,\ln\!\left(\frac{\mu^{2}}{Q^{2}}\right)
                     - \frac{1}{2}\,\ln^{2}\!\left(\frac{\mu^{2}}{Q^{2}}\right) + \order{\frac{\mu^2}{Q^2}}\right].
-    \end{aligned}\tag{66}\]
+    \end{aligned}\tag{1.66}\]
 Now, continue this result analytically to $Q^2 = -q^2-i\varepsilon$, the logrithm becoems
-\[\ln\frac{\mu^2}{Q^2} \to \ln \frac{\mu^2}{q^2} - i\pi.\tag{67}\]
+\[\ln\frac{\mu^2}{Q^2} \to \ln \frac{\mu^2}{q^2} - i\pi.\tag{1.67}\]
 Thus, the form factor becomes
 \[F_1(q^2) = Q_f^2 - \frac{\alpha_g}{4\pi}\left[
                     \ln^{2}\!\left(\frac{\mu^{2}}{q^{2}}\right)
                     + 3\,\ln\!\left(\frac{\mu^{2}}{q^{2}}\right)
                     + \frac{7}{2} - \frac{\pi^{2}}{3}
                     + 2 i \pi \,\ln\!\left(\frac{\mu^{2}}{q^{2}}\right)
-                    + 3 i \pi \,\right].\tag{68}\]
+                    + 3 i \pi \,\right].\tag{1.68}\]
 Since $F_1$ is the correction of electric charge, we can replace $Q_f^2$ in the cross section by it. Thus, we have
 \[\begin{aligned}
     \sigma(e^+e^-\to\bar{q}q) &amp;=\frac{4\alpha^2\pi}{3s}\cdot 3|F_1(q^2=s)|\\
@@ -488,10 +643,10 @@ Since $F_1$ is the correction of electric charge, we can replace $Q_f^2$ in the 
                     - \frac{\pi^{2}}{3}
                     + 3\,\ln\!\left(\frac{\mu^{2}}{s}\right)
                     + \ln^{2}\!\left(\frac{\mu^{2}}{s}\right) + \order{\frac{\mu^2}{s}}\right)\right].
-\end{aligned}\tag{69}\]
+\end{aligned}\tag{1.69}\]
 <strong>(e)</strong> Putting the two cross sections together, one would note that all the infrared divergence term vanishes. Thus, we have
 \[\boxed{
-    \sigma(e^+e^- \to \bar{q}q \text{ or }\bar{q}qg) = \frac{4\alpha^2\pi}{3s}\cdot 3Q_f^2\left(1+\frac{3\alpha_g}{4\pi}\right).}\tag{70}\]</p>
+    \sigma(e^+e^- \to \bar{q}q \text{ or }\bar{q}qg) = \frac{4\alpha^2\pi}{3s}\cdot 3Q_f^2\left(1+\frac{3\alpha_g}{4\pi}\right).}\tag{1.70}\]</p>
   </article>
 
   <hr class="ornament-rule">

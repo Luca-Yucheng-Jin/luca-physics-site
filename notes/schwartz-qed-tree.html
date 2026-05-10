@@ -23,7 +23,7 @@ window.MathJax = {
   tex: {
     inlineMath: [['$', '$'], ['\\(', '\\)']],
     displayMath: [['$$', '$$'], ['\\[', '\\]']],
-    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros']},
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros', 'mathtools']},
     macros: {
       R: '\\mathbb{R}',
       C: '\\mathbb{C}',
@@ -34,36 +34,43 @@ window.MathJax = {
       Lagrangian: '\\mathcal{L}',
       Cdot: '\\boldsymbol{\\cdot}',
       Tr: '\\operatorname{Tr}',
-      slashed: ['{\\not{#1}}', 1],
+      // Feynman slash: \not{x} would render the slash to the LEFT of x
+      // (it's designed for \not=). \cancel from the cancel package
+      // strikes diagonally through the centre, matching the slashed.sty
+      // package's appearance.
+      slashed: ['{\\cancel{#1}}', 1],
       // Wick contraction: top brace connector over the contracted pair —
       // closer to the standard physics notation than a plain overline.
       wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
       c:       ['{#1}', 1],
       mathds:  ['\\mathbb{#1}', 1],
       Tilde:   ['\\tilde{#1}', 1],
-      // tensor.sty: \tensor{base}{indices} — rendered as base + indices
-      tensor:  ['{#1{#2}}', 2]
+      // siunitx polyfill — \si{K}, \si{m\,s^{-1}} etc. should render
+      // the unit in upright math text, like \mathrm{X}. Doesn't try
+      // to mimic the full siunitx unit-formatting machinery; just
+      // unblocks the common bare-unit case in TDSP problems.
+      si: ['\\,\\mathrm{#1}', 1],
+      SI: ['#1\\,\\mathrm{#2}', 2]
+      // \tensor{base}{indices} is rewritten to base^a{}_b in
+      // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
+      // so no runtime macro is needed here. The empty-group trick is
+      // what makes MathJax kern the indices into separate columns.
     }
   },
-  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
 };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
-<!-- TikZJax: renders <script type="text/tikz"> blocks into SVG client-side -->
-<link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
-<script src="https://tikzjax.com/v1/tikzjax.js"></script>
-<!-- Post-process TikZJax SVGs: scale them up so they're readable in-page -->
-<script defer src="../assets/resize-tikz.js"></script>
 </head>
 <body>
 
 <header class="topbar">
-  <a href="../index.html" class="topbar__brand">Yucheng (Luca) Jin <small>MSci · Imperial</small></a>
+  <a href="../index.html" class="topbar__brand">Yucheng (Luca) Jin <small>BSc · Imperial</small></a>
   <nav class="topbar__nav">
     <a href="../index.html">About</a>
     <a href="../notes.html" class="is-active">Notes</a>
     <a href="../research.html">Research</a>
+    <a href="../reading.html">Reading</a>
     <a href="mailto:luca.jin@outlook.com">Contact</a>
     <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" title="Decrease font size">A<span class="font-toggle__small">−</span></button>
     <button class="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size" title="Increase font size">A<span class="font-toggle__large">+</span></button>
@@ -101,304 +108,431 @@ window.MathJax = {
 
 <p>First, recall that the photon propagator is given by</p>
 
-<div class="equation-row">
-
-<figure class="tikz-figure"><script type="text/tikz">
-\usetikzlibrary{decorations.markings,arrows.meta}
-\begin{tikzpicture}[every node/.style={font=\small}]
-  \node (a) at (0.00,0.00) {};
-  \node (b) at (1.60,0.00) {};
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt, bend left=45] (a) to node[above, midway, font=\footnotesize] {$p$} (b);
-\end{tikzpicture}
-</script></figure>
-
-<p><span class="equation-part">$= \frac{-i}{p^{2}+i\epsilon}\left[g_{\mu\nu}-(1-\xi)\frac{p_{\mu}p_{\nu}}{p^{2}}\right].$</span><span class="equation-num">(1)</span></div></p>
+<div class="equation-row"><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='9.442em' height='2.166em' viewBox='-.000067 -19.695067 85.836072 19.695132'>
+<defs>
+<path id='g0-112' d='M.448319 1.215442C.368618 1.554172 .348692 1.62391-.089664 1.62391C-.209215 1.62391-.318804 1.62391-.318804 1.8132C-.318804 1.892902-.268991 1.932752-.18929 1.932752C.079701 1.932752 .368618 1.902864 .647572 1.902864C.976339 1.902864 1.315068 1.932752 1.633873 1.932752C1.683686 1.932752 1.8132 1.932752 1.8132 1.733499C1.8132 1.62391 1.713574 1.62391 1.574097 1.62391C1.075965 1.62391 1.075965 1.554172 1.075965 1.464508C1.075965 1.344956 1.494396-.278954 1.564134-.52802C1.693649-.239103 1.972603 .109589 2.480697 .109589C3.636364 .109589 4.881694-1.344956 4.881694-2.809465C4.881694-3.745953 4.313823-4.403487 3.556663-4.403487C3.058531-4.403487 2.580324-4.044832 2.251557-3.656289C2.15193-4.194271 1.723537-4.403487 1.354919-4.403487C.896638-4.403487 .707347-4.014944 .617684-3.835616C.438356-3.496887 .308842-2.899128 .308842-2.86924C.308842-2.769614 .408468-2.769614 .428394-2.769614C.52802-2.769614 .537983-2.779577 .597758-2.998755C.767123-3.706102 .966376-4.184309 1.325031-4.184309C1.494396-4.184309 1.633873-4.104608 1.633873-3.726027C1.633873-3.496887 1.603985-3.387298 1.564134-3.217933L.448319 1.215442ZM2.201743-3.108344C2.271482-3.377335 2.540473-3.656289 2.719801-3.805729C3.068493-4.11457 3.35741-4.184309 3.526775-4.184309C3.92528-4.184309 4.164384-3.835616 4.164384-3.247821S3.835616-1.514321 3.656289-1.135741C3.317559-.438356 2.839352-.109589 2.470735-.109589C1.8132-.109589 1.683686-.936488 1.683686-.996264C1.683686-1.016189 1.683686-1.036115 1.713574-1.155666L2.201743-3.108344Z'/>
+</defs>
+<g id='page1'>
+<path d='M13.1523-10.14844H68.5742' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M71.54692-10.148477L67.39458-11.71879L68.77348-10.148477L67.39458-8.57816Z'/>
+<path d='M71.54692-10.148477L67.39458-11.71879L68.77348-10.148477L67.39458-8.57816Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 40.014 -13.76177)'>
+<use x='.3985' y='-1.64383' xlink:href='#g0-112'/>
+</g>
+<path d='M.398438-1.644531H.871094L1.34375-2.265625L1.81641-2.72266L2.28516-2.89063L2.75781-2.72266L3.23047-2.265625L3.70313-1.644531L4.17578-1.019531L4.64844-.56641L5.11719-.39844L5.58984-.56641L6.0625-1.019531L6.53516-1.644531L7.00781-2.265625L7.48047-2.72266L7.94922-2.89063L8.42187-2.72266L8.89453-2.265625L9.36719-1.644531L9.83984-1.019531L10.3125-.56641L10.7812-.39844L11.2539-.56641L11.7266-1.019531L12.1992-1.644531L12.6719-2.265625L13.1445-2.72266L13.6133-2.89063L14.0859-2.72266L14.5586-2.265625L15.0312-1.644531L15.5039-1.019531L15.9766-.56641L16.4453-.39844L16.918-.56641L17.3906-1.019531L17.8633-1.644531L18.3359-2.265625L18.8086-2.72266L19.2812-2.89063L19.75-2.72266L20.2227-2.265625L20.6953-1.644531L21.168-1.019531L21.6406-.56641L22.1133-.39844L22.582-.56641L23.0547-1.019531L23.5273-1.644531L24-2.265625L24.4727-2.72266L24.9453-2.89063L25.4141-2.72266L25.8867-2.265625L26.3594-1.644531L26.832-1.019531L27.3047-.56641L27.7773-.39844L28.2461-.56641L28.7187-1.019531L29.1914-1.644531L29.6641-2.265625L30.1367-2.72266L30.6094-2.89063L31.0781-2.72266L31.5508-2.265625L32.0234-1.644531L32.4961-1.019531L32.9688-.56641L33.4414-.39844L33.9102-.56641L34.3828-1.019531L34.8555-1.644531L35.3281-2.265625L35.8008-2.72266L36.2734-2.89063L36.7422-2.72266L37.2148-2.265625L37.6875-1.644531L38.1602-1.019531L38.6328-.56641L39.1055-.39844L39.5781-.56641L40.0469-1.019531L40.5195-1.644531L40.9922-2.265625L41.4648-2.72266L41.9375-2.89063L42.4102-2.72266L42.8789-2.265625L43.3516-1.644531L43.8242-1.019531L44.2969-.56641L44.7695-.39844L45.2422-.56641L45.7109-1.019531L46.1836-1.644531L46.6563-2.265625L47.1289-2.72266L47.6016-2.89063L48.0742-2.72266L48.543-2.265625L49.0156-1.644531L49.4883-1.019531L49.9609-.56641L50.4336-.39844L50.9063-.56641L51.375-1.019531L51.8477-1.644531L52.3203-2.265625L52.793-2.72266L53.2656-2.89063L53.7383-2.72266L54.207-2.265625L54.6797-1.644531L55.1523-1.019531L55.625-.56641L56.0977-.39844L56.5703-.56641L57.043-1.019531L57.5117-1.644531L57.9844-2.265625L58.457-2.72266L58.9297-2.89063L59.4023-2.72266L59.875-2.265625L60.3438-1.644531L60.8164-1.019531L61.2891-.56641L61.7617-.39844L62.2344-.56641L62.707-1.019531L63.1758-1.644531L63.6484-2.265625L64.1211-2.72266L64.5938-2.89063L65.0664-2.72266L65.5391-2.265625L66.0078-1.644531L66.4805-1.019531L66.9531-.56641L67.4258-.39844L67.8984-.56641L68.3711-1.019531L68.8398-1.644531L69.3125-2.265625L69.7852-2.72266L70.2578-2.89063L70.7305-2.72266L71.2031-2.265625L71.6719-1.644531L72.1445-1.019531L72.6172-.56641L73.0898-.39844L73.5625-.56641L74.0352-1.019531L74.5078-1.644531L74.9766-2.265625L75.4492-2.72266L75.9219-2.89063L76.3945-2.72266L76.8672-2.265625L77.3398-1.644531L77.8086-1.019531L78.2813-.56641L78.7539-.39844L79.2266-.56641L79.6992-1.019531L80.1719-1.644531L80.6406-2.265625L81.1133-2.72266L81.5859-2.89063L82.0586-2.72266L82.5313-2.265625L83.0039-1.644531L83.4727-1.019531L83.9453-.56641L84.418-.39844L85.4375-1.644531' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle = \frac{-i}{p^{2}+i\epsilon}\left[g_{\mu\nu}-(1-\xi)\frac{p_{\mu}p_{\nu}}{p^{2}}\right].$</span><span class="equation-num">(1.1)</span></div>
 
 <p>For most cases, we will use the Feynman Gauge, $\xi=1$, unless we are checking the gauge invariance explicitly. The photon propagator under the Feynman gauge is</p>
 
-<div class="equation-row">
-
-<figure class="tikz-figure"><script type="text/tikz">
-\usetikzlibrary{decorations.markings,arrows.meta}
-\begin{tikzpicture}[every node/.style={font=\small}]
-  \node (a) at (0.00,0.00) {};
-  \node (b) at (1.60,0.00) {};
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt, bend left=45] (a) to node[above, midway, font=\footnotesize] {$p$} (b);
-\end{tikzpicture}
-</script></figure>
-
-<p><span class="equation-part">$= \frac{-ig_{\mu\nu}}{p^{2}+i\epsilon}\quad\text{(Feynman gauge)}.$</span><span class="equation-num">(2)</span></div></p>
+<div class="equation-row"><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='9.442em' height='2.166em' viewBox='-.000067 -19.695067 85.836072 19.695132'>
+<defs>
+<path id='g0-112' d='M.448319 1.215442C.368618 1.554172 .348692 1.62391-.089664 1.62391C-.209215 1.62391-.318804 1.62391-.318804 1.8132C-.318804 1.892902-.268991 1.932752-.18929 1.932752C.079701 1.932752 .368618 1.902864 .647572 1.902864C.976339 1.902864 1.315068 1.932752 1.633873 1.932752C1.683686 1.932752 1.8132 1.932752 1.8132 1.733499C1.8132 1.62391 1.713574 1.62391 1.574097 1.62391C1.075965 1.62391 1.075965 1.554172 1.075965 1.464508C1.075965 1.344956 1.494396-.278954 1.564134-.52802C1.693649-.239103 1.972603 .109589 2.480697 .109589C3.636364 .109589 4.881694-1.344956 4.881694-2.809465C4.881694-3.745953 4.313823-4.403487 3.556663-4.403487C3.058531-4.403487 2.580324-4.044832 2.251557-3.656289C2.15193-4.194271 1.723537-4.403487 1.354919-4.403487C.896638-4.403487 .707347-4.014944 .617684-3.835616C.438356-3.496887 .308842-2.899128 .308842-2.86924C.308842-2.769614 .408468-2.769614 .428394-2.769614C.52802-2.769614 .537983-2.779577 .597758-2.998755C.767123-3.706102 .966376-4.184309 1.325031-4.184309C1.494396-4.184309 1.633873-4.104608 1.633873-3.726027C1.633873-3.496887 1.603985-3.387298 1.564134-3.217933L.448319 1.215442ZM2.201743-3.108344C2.271482-3.377335 2.540473-3.656289 2.719801-3.805729C3.068493-4.11457 3.35741-4.184309 3.526775-4.184309C3.92528-4.184309 4.164384-3.835616 4.164384-3.247821S3.835616-1.514321 3.656289-1.135741C3.317559-.438356 2.839352-.109589 2.470735-.109589C1.8132-.109589 1.683686-.936488 1.683686-.996264C1.683686-1.016189 1.683686-1.036115 1.713574-1.155666L2.201743-3.108344Z'/>
+</defs>
+<g id='page1'>
+<path d='M13.1523-10.14844H68.5742' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M71.54692-10.148477L67.39458-11.71879L68.77348-10.148477L67.39458-8.57816Z'/>
+<path d='M71.54692-10.148477L67.39458-11.71879L68.77348-10.148477L67.39458-8.57816Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 40.014 -13.76177)'>
+<use x='.3985' y='-1.64383' xlink:href='#g0-112'/>
+</g>
+<path d='M.398438-1.644531H.871094L1.34375-2.265625L1.81641-2.72266L2.28516-2.89063L2.75781-2.72266L3.23047-2.265625L3.70313-1.644531L4.17578-1.019531L4.64844-.56641L5.11719-.39844L5.58984-.56641L6.0625-1.019531L6.53516-1.644531L7.00781-2.265625L7.48047-2.72266L7.94922-2.89063L8.42187-2.72266L8.89453-2.265625L9.36719-1.644531L9.83984-1.019531L10.3125-.56641L10.7812-.39844L11.2539-.56641L11.7266-1.019531L12.1992-1.644531L12.6719-2.265625L13.1445-2.72266L13.6133-2.89063L14.0859-2.72266L14.5586-2.265625L15.0312-1.644531L15.5039-1.019531L15.9766-.56641L16.4453-.39844L16.918-.56641L17.3906-1.019531L17.8633-1.644531L18.3359-2.265625L18.8086-2.72266L19.2812-2.89063L19.75-2.72266L20.2227-2.265625L20.6953-1.644531L21.168-1.019531L21.6406-.56641L22.1133-.39844L22.582-.56641L23.0547-1.019531L23.5273-1.644531L24-2.265625L24.4727-2.72266L24.9453-2.89063L25.4141-2.72266L25.8867-2.265625L26.3594-1.644531L26.832-1.019531L27.3047-.56641L27.7773-.39844L28.2461-.56641L28.7187-1.019531L29.1914-1.644531L29.6641-2.265625L30.1367-2.72266L30.6094-2.89063L31.0781-2.72266L31.5508-2.265625L32.0234-1.644531L32.4961-1.019531L32.9688-.56641L33.4414-.39844L33.9102-.56641L34.3828-1.019531L34.8555-1.644531L35.3281-2.265625L35.8008-2.72266L36.2734-2.89063L36.7422-2.72266L37.2148-2.265625L37.6875-1.644531L38.1602-1.019531L38.6328-.56641L39.1055-.39844L39.5781-.56641L40.0469-1.019531L40.5195-1.644531L40.9922-2.265625L41.4648-2.72266L41.9375-2.89063L42.4102-2.72266L42.8789-2.265625L43.3516-1.644531L43.8242-1.019531L44.2969-.56641L44.7695-.39844L45.2422-.56641L45.7109-1.019531L46.1836-1.644531L46.6563-2.265625L47.1289-2.72266L47.6016-2.89063L48.0742-2.72266L48.543-2.265625L49.0156-1.644531L49.4883-1.019531L49.9609-.56641L50.4336-.39844L50.9063-.56641L51.375-1.019531L51.8477-1.644531L52.3203-2.265625L52.793-2.72266L53.2656-2.89063L53.7383-2.72266L54.207-2.265625L54.6797-1.644531L55.1523-1.019531L55.625-.56641L56.0977-.39844L56.5703-.56641L57.043-1.019531L57.5117-1.644531L57.9844-2.265625L58.457-2.72266L58.9297-2.89063L59.4023-2.72266L59.875-2.265625L60.3438-1.644531L60.8164-1.019531L61.2891-.56641L61.7617-.39844L62.2344-.56641L62.707-1.019531L63.1758-1.644531L63.6484-2.265625L64.1211-2.72266L64.5938-2.89063L65.0664-2.72266L65.5391-2.265625L66.0078-1.644531L66.4805-1.019531L66.9531-.56641L67.4258-.39844L67.8984-.56641L68.3711-1.019531L68.8398-1.644531L69.3125-2.265625L69.7852-2.72266L70.2578-2.89063L70.7305-2.72266L71.2031-2.265625L71.6719-1.644531L72.1445-1.019531L72.6172-.56641L73.0898-.39844L73.5625-.56641L74.0352-1.019531L74.5078-1.644531L74.9766-2.265625L75.4492-2.72266L75.9219-2.89063L76.3945-2.72266L76.8672-2.265625L77.3398-1.644531L77.8086-1.019531L78.2813-.56641L78.7539-.39844L79.2266-.56641L79.6992-1.019531L80.1719-1.644531L80.6406-2.265625L81.1133-2.72266L81.5859-2.89063L82.0586-2.72266L82.5313-2.265625L83.0039-1.644531L83.4727-1.019531L83.9453-.56641L84.418-.39844L85.4375-1.644531' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle = \frac{-ig_{\mu\nu}}{p^{2}+i\epsilon}\quad\text{(Feynman gauge)}.$</span><span class="equation-num">(1.2)</span></div>
 
 <p>A spinor propagator is represented by a solid line with an arrow pointing in the direction of particle flow (to the right for particles, left for antiparticles):</p>
 
-<div class="equation-row">
-
-<figure class="tikz-figure"><script type="text/tikz">
-\usetikzlibrary{decorations.markings,arrows.meta}
-\begin{tikzpicture}[every node/.style={font=\small}]
-  \node (a) at (0.00,0.00) {};
-  \node (b) at (1.60,0.00) {};
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (a) -- node[above, midway, font=\footnotesize] {$p$} (b);
-\end{tikzpicture}
-</script></figure>
-
-<p><span class="equation-part">$= \frac{i(\slashed{p}+m)}{p^{2}-m^{2}+i\epsilon}.$</span><span class="equation-num">(3)</span></div></p>
+<div class="equation-row"><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='9.442em' height='2.286em' viewBox='-.000067 -20.783565 85.836072 20.783565'>
+<defs>
+<path id='g0-112' d='M.448319 1.215442C.368618 1.554172 .348692 1.62391-.089664 1.62391C-.209215 1.62391-.318804 1.62391-.318804 1.8132C-.318804 1.892902-.268991 1.932752-.18929 1.932752C.079701 1.932752 .368618 1.902864 .647572 1.902864C.976339 1.902864 1.315068 1.932752 1.633873 1.932752C1.683686 1.932752 1.8132 1.932752 1.8132 1.733499C1.8132 1.62391 1.713574 1.62391 1.574097 1.62391C1.075965 1.62391 1.075965 1.554172 1.075965 1.464508C1.075965 1.344956 1.494396-.278954 1.564134-.52802C1.693649-.239103 1.972603 .109589 2.480697 .109589C3.636364 .109589 4.881694-1.344956 4.881694-2.809465C4.881694-3.745953 4.313823-4.403487 3.556663-4.403487C3.058531-4.403487 2.580324-4.044832 2.251557-3.656289C2.15193-4.194271 1.723537-4.403487 1.354919-4.403487C.896638-4.403487 .707347-4.014944 .617684-3.835616C.438356-3.496887 .308842-2.899128 .308842-2.86924C.308842-2.769614 .408468-2.769614 .428394-2.769614C.52802-2.769614 .537983-2.779577 .597758-2.998755C.767123-3.706102 .966376-4.184309 1.325031-4.184309C1.494396-4.184309 1.633873-4.104608 1.633873-3.726027C1.633873-3.496887 1.603985-3.387298 1.564134-3.217933L.448319 1.215442ZM2.201743-3.108344C2.271482-3.377335 2.540473-3.656289 2.719801-3.805729C3.068493-4.11457 3.35741-4.184309 3.526775-4.184309C3.92528-4.184309 4.164384-3.835616 4.164384-3.247821S3.835616-1.514321 3.656289-1.135741C3.317559-.438356 2.839352-.109589 2.470735-.109589C1.8132-.109589 1.683686-.936488 1.683686-.996264C1.683686-1.016189 1.683686-1.036115 1.713574-1.155666L2.201743-3.108344Z'/>
+</defs>
+<g id='page1'>
+<path d='M13.1523-11.23828H68.5742' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M71.54692-11.238241L67.39458-12.80855L68.77348-11.238241L67.39458-9.66402Z'/>
+<path d='M71.54692-11.238241L67.39458-12.80855L68.77348-11.238241L67.39458-9.66402Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 40.014 -13.76179)'>
+<use x='.3985' y='-2.732308' xlink:href='#g0-112'/>
+</g>
+<path d='M.398438-2.730469H85.4375' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M46.6055-2.730469L40.0078-5.46484V0Z'/>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle = \frac{i(\slashed{p}+m)}{p^{2}-m^{2}+i\epsilon}.$</span><span class="equation-num">(1.3)</span></div>
 
 <p>Just as in scalar QED, external photon lines get polarization vectors:</p>
 
-<div class="equation-row">
+<div class="equation-row"><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='11.781em' height='2.383em' viewBox='-.000067 -21.66015 107.097817 21.6602'>
+<defs>
+<pattern id='pat0-0' x='-.99628' y='-.99628' width='2.98883' height='2.98883' viewBox='-.99628 -.99628 2.98883 2.98883' patternUnits='userSpaceOnUse' patternTransform='matrix(1 0 0 -1 .3985 -10.8292)' overflow='visible'>
+<clipPath id='pc0'>
+<rect x='-.99628' y='-.99628' width='4.98138' height='4.98138'/>
+</clipPath>
+<g clip-path='url(#pc0)'>
+<path d='M0 2.98828L3.08984-.101563' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+</g>
+</pattern>
+</defs>
+<g id='page1'>
+<path d='M106.8985-10.828125C106.8985-16.69922 102.1405-21.4609 96.2695-21.4609C90.3984-21.4609 85.6367-16.69922 85.6367-10.828125C85.6367-4.95703 90.3984-.1992 96.2695-.1992C102.1405-.1992 106.8985-4.95703 106.8985-10.828125Z' fill='url(#pat0-0)'/>
+<path d='M106.8985-10.828125C106.8985-16.69922 102.1405-21.4609 96.2695-21.4609C90.3984-21.4609 85.6367-16.69922 85.6367-10.828125C85.6367-4.95703 90.3984-.1992 96.2695-.1992C102.1405-.1992 106.8985-4.95703 106.8985-10.828125Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M.398438-10.828125H.871094L1.34375-11.453125L1.81641-11.90625L2.28516-12.07422L2.75781-11.90625L3.23047-11.453125L3.70313-10.828125L4.17578-10.207031L4.64844-9.75L5.11719-9.58203L5.58984-9.75L6.0625-10.207031L6.53516-10.828125L7.00781-11.453125L7.48047-11.90625L7.94922-12.07422L8.42187-11.90625L8.89453-11.453125L9.36719-10.828125L9.83984-10.207031L10.3125-9.75L10.7812-9.58203L11.2539-9.75L11.7266-10.207031L12.1992-10.828125L12.6719-11.453125L13.1445-11.90625L13.6133-12.07422L14.0859-11.90625L14.5586-11.453125L15.0312-10.828125L15.5039-10.207031L15.9766-9.75L16.4453-9.58203L16.918-9.75L17.3906-10.207031L17.8633-10.828125L18.3359-11.453125L18.8086-11.90625L19.2812-12.07422L19.75-11.90625L20.2227-11.453125L20.6953-10.828125L21.168-10.207031L21.6406-9.75L22.1133-9.58203L22.582-9.75L23.0547-10.207031L23.5273-10.828125L24-11.453125L24.4727-11.90625L24.9453-12.07422L25.4141-11.90625L25.8867-11.453125L26.3594-10.828125L26.832-10.207031L27.3047-9.75L27.7773-9.58203L28.2461-9.75L28.7187-10.207031L29.1914-10.828125L29.6641-11.453125L30.1367-11.90625L30.6094-12.07422L31.0781-11.90625L31.5508-11.453125L32.0234-10.828125L32.4961-10.207031L32.9688-9.75L33.4414-9.58203L33.9102-9.75L34.3828-10.207031L34.8555-10.828125L35.3281-11.453125L35.8008-11.90625L36.2734-12.07422L36.7422-11.90625L37.2148-11.453125L37.6875-10.828125L38.1602-10.207031L38.6328-9.75L39.1055-9.58203L39.5781-9.75L40.0469-10.207031L40.5195-10.828125L40.9922-11.453125L41.4648-11.90625L41.9375-12.07422L42.4102-11.90625L42.8789-11.453125L43.3516-10.828125L43.8242-10.207031L44.2969-9.75L44.7695-9.58203L45.2422-9.75L45.7109-10.207031L46.1836-10.828125L46.6563-11.453125L47.1289-11.90625L47.6016-12.07422L48.0742-11.90625L48.543-11.453125L49.0156-10.828125L49.4883-10.207031L49.9609-9.75L50.4336-9.58203L50.9063-9.75L51.375-10.207031L51.8477-10.828125L52.3203-11.453125L52.793-11.90625L53.2656-12.07422L53.7383-11.90625L54.207-11.453125L54.6797-10.828125L55.1523-10.207031L55.625-9.75L56.0977-9.58203L56.5703-9.75L57.043-10.207031L57.5117-10.828125L57.9844-11.453125L58.457-11.90625L58.9297-12.07422L59.4023-11.90625L59.875-11.453125L60.3438-10.828125L60.8164-10.207031L61.2891-9.75L61.7617-9.58203L62.2344-9.75L62.707-10.207031L63.1758-10.828125L63.6484-11.453125L64.1211-11.90625L64.5938-12.07422L65.0664-11.90625L65.5391-11.453125L66.0078-10.828125L66.4805-10.207031L66.9531-9.75L67.4258-9.58203L67.8984-9.75L68.3711-10.207031L68.8398-10.828125L69.3125-11.453125L69.7852-11.90625L70.2578-12.07422L70.7305-11.90625L71.2031-11.453125L71.6719-10.828125L72.1445-10.207031L72.6172-9.75L73.0898-9.58203L73.5625-9.75L74.0352-10.207031L74.5078-10.828125L74.9766-11.453125L75.4492-11.90625L75.9219-12.07422L76.3945-11.90625L76.8672-11.453125L77.3398-10.828125L77.8086-10.207031L78.2813-9.75L78.7539-9.58203L79.2266-9.75L79.6992-10.207031L80.1719-10.828125L80.6406-11.453125L81.1133-11.90625L81.5859-12.07422L82.0586-11.90625L82.5313-11.453125L83.0039-10.828125L83.4727-10.207031L83.9453-9.75L84.418-9.58203L85.4375-10.828125' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle = \epsilon_{\mu}(p)\quad\text{(incoming)},$</span><span class="equation-num">(1.4)</span></div>
 
-<figure class="tikz-figure"><script type="text/tikz">
-\usetikzlibrary{decorations.markings,arrows.meta}
-\begin{tikzpicture}[every node/.style={font=\small}]
-  \node (a) at (0.00,0.00) {};
-  \node (b) at (1.60,0.00) {};
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt, bend left=45] (a) to (b);
-\end{tikzpicture}
-</script></figure>
-
-<p><span class="equation-part">$= \epsilon_{\mu}(p)\quad\text{(incoming)},$</span><span class="equation-num">(4)</span></div></p>
-
-<div class="equation-row">
-
-<figure class="tikz-figure"><script type="text/tikz">
-\usetikzlibrary{decorations.markings,arrows.meta}
-\begin{tikzpicture}[every node/.style={font=\small}]
-  \node (a) at (0.00,0.00) {};
-  \node (b) at (1.60,0.00) {};
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt, bend left=45] (b) to (a);
-\end{tikzpicture}
-</script></figure>
-
-<p><span class="equation-part">$= \epsilon^{*}_{\mu}(p)\quad\text{(outgoing)}.$</span><span class="equation-num">(5)</span></div></p>
+<div class="equation-row"><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='10.203em' height='2.383em' viewBox='-.00005 -21.66015 92.750155 21.6602'>
+<defs>
+<pattern id='pat0-0' x='-.99628' y='-.99628' width='2.98883' height='2.98883' viewBox='-.99628 -.99628 2.98883 2.98883' patternUnits='userSpaceOnUse' patternTransform='matrix(1 0 0 -1 10.8292 -10.8292)' overflow='visible'>
+<clipPath id='pc0'>
+<rect x='-.99628' y='-.99628' width='4.98138' height='4.98138'/>
+</clipPath>
+<g clip-path='url(#pc0)'>
+<path d='M0 2.98828L3.08984-.101563' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+</g>
+</pattern>
+</defs>
+<g id='page1'>
+<path d='M21.4609-10.828125C21.4609-16.69922 16.69922-21.4609 10.828125-21.4609C4.95703-21.4609 .1992-16.69922 .1992-10.828125C.1992-4.95703 4.95703-.1992 10.828125-.1992C16.69922-.1992 21.4609-4.95703 21.4609-10.828125Z' fill='url(#pat0-0)'/>
+<path d='M21.4609-10.828125C21.4609-16.69922 16.69922-21.4609 10.828125-21.4609C4.95703-21.4609 .1992-16.69922 .1992-10.828125C.1992-4.95703 4.95703-.1992 10.828125-.1992C16.69922-.1992 21.4609-4.95703 21.4609-10.828125Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M92.3516-10.828125H91.8594L91.3672-10.207031L90.8789-9.75L90.3867-9.58203L89.8945-9.75L89.4062-10.207031L88.9141-10.828125L88.4258-11.453125L87.9336-11.90625L87.4414-12.07422L86.9531-11.90625L86.4609-11.453125L85.9687-10.828125L85.4805-10.207031L84.9883-9.75L84.5-9.58203L84.0078-9.75L83.5156-10.207031L83.0273-10.828125L82.5352-11.453125L82.043-11.90625L81.5547-12.07422L81.0625-11.90625L80.5742-11.453125L80.082-10.828125L79.5898-10.207031L79.1016-9.75L78.6094-9.58203L78.1172-9.75L77.6289-10.207031L77.1367-10.828125L76.6484-11.453125L76.1562-11.90625L75.6641-12.07422L75.1758-11.90625L74.6836-11.453125L74.1914-10.828125L73.7031-10.207031L73.2109-9.75L72.7227-9.58203L72.2305-9.75L71.7383-10.207031L71.25-10.828125L70.7578-11.453125L70.2656-11.90625L69.7773-12.07422L69.2852-11.90625L68.7969-11.453125L68.3047-10.828125L67.8125-10.207031L67.3242-9.75L66.832-9.58203L66.3398-9.75L65.8516-10.207031L65.3594-10.828125L64.8711-11.453125L64.3789-11.90625L63.8867-12.07422L63.3984-11.90625L62.9062-11.453125L62.4141-10.828125L61.9258-10.207031L61.4336-9.75L60.9453-9.58203L60.4531-9.75L59.9609-10.207031L59.4727-10.828125L58.9805-11.453125L58.4883-11.90625L58-12.07422L57.5078-11.90625L57.0195-11.453125L56.5273-10.828125L56.0352-10.207031L55.5469-9.75L55.0547-9.58203L54.5625-9.75L54.0742-10.207031L53.582-10.828125L53.0937-11.453125L52.6016-11.90625L52.1094-12.07422L51.6211-11.90625L51.1289-11.453125L50.6367-10.828125L50.1484-10.207031L49.6562-9.75L49.168-9.58203L48.6758-9.75L48.1836-10.207031L47.6953-10.828125L47.2031-11.453125L46.7109-11.90625L46.2227-12.07422L45.7305-11.90625L45.2422-11.453125L44.75-10.828125L44.2578-10.207031L43.7695-9.75L43.2773-9.58203L42.7891-9.75L42.2969-10.207031L41.8047-10.828125L41.3164-11.453125L40.8242-11.90625L40.332-12.07422L39.8437-11.90625L39.3516-11.453125L38.8633-10.828125L38.3711-10.207031L37.8789-9.75L37.3906-9.58203L36.8984-9.75L36.4062-10.207031L35.918-10.828125L35.4258-11.453125L34.9375-11.90625L34.4453-12.07422L33.9531-11.90625L33.4648-11.453125L32.9727-10.828125L32.4805-10.207031L31.9922-9.75L31.5-9.58203L31.0117-9.75L30.5195-10.207031L30.0273-10.828125L29.5391-11.453125L29.0469-11.90625L28.5547-12.07422L28.0664-11.90625L27.5742-11.453125L27.0859-10.828125L26.5938-10.207031L26.1016-9.75L25.6133-9.58203L25.1211-9.75L24.6289-10.207031L24.1406-10.828125L23.6484-11.453125L23.1602-11.90625L22.668-12.07422L21.6602-10.828125' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle = \epsilon^{*}_{\mu}(p)\quad\text{(outgoing)}.$</span><span class="equation-num">(1.5)</span></div>
 
 <p>Similarly, external fermions get spinors, with $u$ spinors for electrons and $v$spinors for positrons:</p>
 
-<div class="equation-row">
+<div class="equation-row"><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='11.759em' height='2.383em' viewBox='-.000031 -21.66015 106.898531 21.6602'>
+<defs>
+<pattern id='pat0-0' x='-.99628' y='-.99628' width='2.98883' height='2.98883' viewBox='-.99628 -.99628 2.98883 2.98883' patternUnits='userSpaceOnUse' patternTransform='matrix(1 0 0 -1 .19925 -10.8292)' overflow='visible'>
+<clipPath id='pc0'>
+<rect x='-.99628' y='-.99628' width='4.98138' height='4.98138'/>
+</clipPath>
+<g clip-path='url(#pc0)'>
+<path d='M0 2.98828L3.08984-.101563' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+</g>
+</pattern>
+</defs>
+<g id='page1'>
+<path d='M106.69925-10.828125C106.69925-16.69922 101.94125-21.4609 96.07035-21.4609C90.19925-21.4609 85.43755-16.69922 85.43755-10.828125C85.43755-4.95703 90.19925-.1992 96.07035-.1992C101.94125-.1992 106.69925-4.95703 106.69925-10.828125Z' fill='url(#pat0-0)'/>
+<path d='M106.69925-10.828125C106.69925-16.69922 101.94125-21.4609 96.07035-21.4609C90.19925-21.4609 85.43755-16.69922 85.43755-10.828125C85.43755-4.95703 90.19925-.1992 96.07035-.1992C101.94125-.1992 106.69925-4.95703 106.69925-10.828125Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M.199219-10.828125H85.23825' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M46.40625-10.828125L39.80855-13.5625V-8.09766Z'/>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle = u^{s}(p),$</span><span class="equation-num">(1.6)</span></div>
 
-<figure class="tikz-figure"><script type="text/tikz">
-\usetikzlibrary{decorations.markings,arrows.meta}
-\begin{tikzpicture}[every node/.style={font=\small}]
-  \node (a) at (0.00,0.00) {};
-  \node (b) at (1.60,0.00) {};
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (a) -- (b);
-\end{tikzpicture}
-</script></figure>
+<div class="equation-row"><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='10.590em' height='2.383em' viewBox='-.00005 -21.66015 96.269655 21.6602'>
+<defs>
+<pattern id='pat0-0' x='-.99628' y='-.99628' width='2.98883' height='2.98883' viewBox='-.99628 -.99628 2.98883 2.98883' patternUnits='userSpaceOnUse' patternTransform='matrix(1 0 0 -1 10.8292 -10.8292)' overflow='visible'>
+<clipPath id='pc0'>
+<rect x='-.99628' y='-.99628' width='4.98138' height='4.98138'/>
+</clipPath>
+<g clip-path='url(#pc0)'>
+<path d='M0 2.98828L3.08984-.101563' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+</g>
+</pattern>
+</defs>
+<g id='page1'>
+<path d='M21.4609-10.828125C21.4609-16.69922 16.69922-21.4609 10.828125-21.4609C4.95703-21.4609 .1992-16.69922 .1992-10.828125C.1992-4.95703 4.95703-.1992 10.828125-.1992C16.69922-.1992 21.4609-4.95703 21.4609-10.828125Z' fill='url(#pat0-0)'/>
+<path d='M21.4609-10.828125C21.4609-16.69922 16.69922-21.4609 10.828125-21.4609C4.95703-21.4609 .1992-16.69922 .1992-10.828125C.1992-4.95703 4.95703-.1992 10.828125-.1992C16.69922-.1992 21.4609-4.95703 21.4609-10.828125Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M21.6602-10.828125H95.8711' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M62.4492-10.828125L55.8516-13.5625V-8.09766Z'/>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle = \bar{u}^{s}(p),$</span><span class="equation-num">(1.7)</span></div>
 
-<p><span class="equation-part">$= u^{s}(p),$</span><span class="equation-num">(6)</span></div></p>
+<div class="equation-row"><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='10.203em' height='2.383em' viewBox='6.441335 -21.66015 92.750145 21.6602'>
+<defs>
+<pattern id='pat0-0' x='-.99628' y='-.99628' width='2.98883' height='2.98883' viewBox='-.99628 -.99628 2.98883 2.98883' patternUnits='userSpaceOnUse' patternTransform='matrix(1 0 0 -1 3.32053 -10.8292)' overflow='visible'>
+<clipPath id='pc0'>
+<rect x='-.99628' y='-.99628' width='4.98138' height='4.98138'/>
+</clipPath>
+<g clip-path='url(#pc0)'>
+<path d='M0 2.98828L3.08984-.101563' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+</g>
+</pattern>
+</defs>
+<g id='page1'>
+<path d='M98.99223-10.828125C98.99223-16.69922 94.23043-21.4609 88.35933-21.4609C82.48833-21.4609 77.73043-16.69922 77.73043-10.828125C77.73043-4.95703 82.48833-.1992 88.35933-.1992C94.23043-.1992 98.99223-4.95703 98.99223-10.828125Z' fill='url(#pat0-0)'/>
+<path d='M98.99223-10.828125C98.99223-16.69922 94.23043-21.4609 88.35933-21.4609C82.48833-21.4609 77.73043-16.69922 77.73043-10.828125C77.73043-4.95703 82.48833-.1992 88.35933-.1992C94.23043-.1992 98.99223-4.95703 98.99223-10.828125Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M6.83984-10.828125H77.53123' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M35.66793-10.828125L42.26173-8.09766V-13.5625Z'/>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle = \bar{v}^{s}(p),$</span><span class="equation-num">(1.8)</span></div>
 
-<div class="equation-row">
-
-<figure class="tikz-figure"><script type="text/tikz">
-\usetikzlibrary{decorations.markings,arrows.meta}
-\begin{tikzpicture}[every node/.style={font=\small}]
-  \node (a) at (0.00,0.00) {};
-  \node (b) at (1.60,0.00) {};
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (a) -- (b);
-\end{tikzpicture}
-</script></figure>
-
-<p><span class="equation-part">$= \bar{u}^{s}(p),$</span><span class="equation-num">(7)</span></div></p>
-
-<div class="equation-row">
-
-<figure class="tikz-figure"><script type="text/tikz">
-\usetikzlibrary{decorations.markings,arrows.meta}
-\begin{tikzpicture}[every node/.style={font=\small}]
-  \node (a) at (0.00,0.00) {};
-  \node (b) at (1.60,0.00) {};
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (a) -- (b);
-\end{tikzpicture}
-</script></figure>
-
-<p><span class="equation-part">$= \bar{v}^{s}(p),$</span><span class="equation-num">(8)</span></div></p>
-
-<div class="equation-row">
-
-<figure class="tikz-figure"><script type="text/tikz">
-\usetikzlibrary{decorations.markings,arrows.meta}
-\begin{tikzpicture}[every node/.style={font=\small}]
-  \node (a) at (0.00,0.00) {};
-  \node (b) at (1.60,0.00) {};
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (a) -- (b);
-\end{tikzpicture}
-</script></figure>
-
-<p><span class="equation-part">$= v^{s}(p).$</span><span class="equation-num">(9)</span></div></p>
+<div class="equation-row"><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='10.590em' height='2.383em' viewBox='-.00005 -21.66015 96.269655 21.6602'>
+<defs>
+<pattern id='pat0-0' x='-.99628' y='-.99628' width='2.98883' height='2.98883' viewBox='-.99628 -.99628 2.98883 2.98883' patternUnits='userSpaceOnUse' patternTransform='matrix(1 0 0 -1 10.8292 -10.8292)' overflow='visible'>
+<clipPath id='pc0'>
+<rect x='-.99628' y='-.99628' width='4.98138' height='4.98138'/>
+</clipPath>
+<g clip-path='url(#pc0)'>
+<path d='M0 2.98828L3.08984-.101563' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+</g>
+</pattern>
+</defs>
+<g id='page1'>
+<path d='M21.4609-10.828125C21.4609-16.69922 16.69922-21.4609 10.828125-21.4609C4.95703-21.4609 .1992-16.69922 .1992-10.828125C.1992-4.95703 4.95703-.1992 10.828125-.1992C16.69922-.1992 21.4609-4.95703 21.4609-10.828125Z' fill='url(#pat0-0)'/>
+<path d='M21.4609-10.828125C21.4609-16.69922 16.69922-21.4609 10.828125-21.4609C4.95703-21.4609 .1992-16.69922 .1992-10.828125C.1992-4.95703 4.95703-.1992 10.828125-.1992C16.69922-.1992 21.4609-4.95703 21.4609-10.828125Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M21.6602-10.828125H95.8711' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M52.2461-10.828125L58.8398-8.09766V-13.5625Z'/>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle = v^{s}(p).$</span><span class="equation-num">(1.9)</span></div>
 
 <p>The external spinors are forced to be on-shell by the LSZ reduction formula. Thus, we can use the equations of motion to simplify the calculations:
-\[(\slashed{p}-m)u^{s}(p) = \bar{u}^{s}(p)(\slashed{p}-m)=0,\tag{10}\]
-\[(\slashed{p}+m)v^{s}(p) = \bar{v}^{s}(p)(\slashed{p}+m)=0.\tag{11}\]</p>
+\[(\slashed{p}-m)u^{s}(p) = \bar{u}^{s}(p)(\slashed{p}-m)=0,\tag{1.10}\]
+\[(\slashed{p}+m)v^{s}(p) = \bar{v}^{s}(p)(\slashed{p}+m)=0.\tag{1.11}\]</p>
 
 <p>Now, we shall investigate the interactions for QED. By expanding the Lagrangian, we find 
-\[\mathcal{L}_\text{int} = -e\bar{\psi}\gamma^\mu A_\mu \psi.\tag{12}\]
+\[\mathcal{L}_\text{int} = -e\bar{\psi}\gamma^\mu A_\mu \psi.\tag{1.12}\]
 Note, unlike scalar QED, there is no derivative, and thus no factor of momentum.</p>
 
-<div class="equation-row">
+<div class="equation-row"><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='8.044em' height='6.658em' viewBox='-.000031 -60.53125 73.125031 60.5313'>
+<g id='page1'>
+<path d='M.199219-30.265625H42.71875' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M25.14455-30.265625L18.54685-32.99609V-27.53125Z'/>
+<path d='M42.71875-30.265625L43.07815-30.621094L42.99605-31.42188L43.03125-32.10156L43.26955-32.57813L43.74605-32.81641L44.42575-32.85156L45.22265-32.76953L46.01955-32.6875L46.69925-32.72266L47.17575-32.96094L47.41795-33.4375L47.45315-34.11719L47.36715-34.91406L47.28515-35.71094L47.32035-36.39063L47.56255-36.86719L48.03515-37.10938L48.71485-37.14453L49.51565-37.05859L50.31255-36.97656L50.99215-37.01172L51.46875-37.25391L51.70705-37.72656L51.74215-38.40625L51.66015-39.20703L51.57815-40.00391L51.61325-40.6836L51.85155-41.1602L52.32815-41.3984L53.00785-41.4336L53.80465-41.3516L54.60545-41.2695L55.28515-41.3047L55.75785-41.543L56.00005-42.0195L56.03515-42.6992L55.95315-43.4961L55.87105-44.2969L55.90625-44.9766L56.14455-45.4492L56.62105-45.6914L57.30075-45.7266L58.09765-45.6445L58.89455-45.5625L59.57425-45.5977L60.05075-45.8359L60.28905-46.3125L60.32425-46.9922L60.24215-47.7891L60.16015-48.5859L60.19535-49.2656L60.43755-49.7422L60.91015-49.9805L61.58985-50.0195L62.39065-49.9336L63.18755-49.8516L63.86715-49.8867L64.34375-50.1289L64.58205-50.6016L64.61715-51.2813L64.53515-52.082L64.45315-52.8789L64.48825-53.5586L64.72655-54.0352L65.20315-54.2734L65.88285-54.3086L66.67965-54.2266L67.48045-54.1445L68.16015-54.1797L68.63285-54.418L68.87505-54.8945L68.91015-55.5742L68.82815-56.3711L68.74215-57.1719L68.78125-57.8516L69.01955-58.3242L69.49605-58.5664L70.17575-58.6016L70.97265-58.5195L71.76955-58.4375L72.44925-58.4727L72.92575-58.7109L72.78515-60.332' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M42.71875-30.265625L72.78515-.1992' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M60.34765-12.6367L57.61715-19.2305L53.75395-15.3672Z'/>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle = -ie\gamma^{\mu},$</span><span class="equation-num">(1.13)</span></div>
 
-<figure class="tikz-figure"><script type="text/tikz">
-\usetikzlibrary{decorations.markings,arrows.meta}
-\begin{tikzpicture}[every node/.style={font=\small}]
-  \node (a) at (0.00,0.00) {};
-  \node (b) at (1.60,0.00) {};
-  \node (c) at (3.00,1.00) {};
-  \node (d) at (3.00,-1.00) {};
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (a) -- (b);
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (b) -- (c);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (b) -- (d);
-\end{tikzpicture}
-</script></figure>
+<div class="equation-row"><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='8.044em' height='6.658em' viewBox='-.000031 -60.53125 73.125031 60.5313'>
+<g id='page1'>
+<path d='M.199219-30.265625H42.71875' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M14.94145-30.265625L21.53515-27.53125V-32.99609Z'/>
+<path d='M42.71875-30.265625L43.07815-30.621094L42.99605-31.42188L43.03125-32.10156L43.26955-32.57813L43.74605-32.81641L44.42575-32.85156L45.22265-32.76953L46.01955-32.6875L46.69925-32.72266L47.17575-32.96094L47.41795-33.4375L47.45315-34.11719L47.36715-34.91406L47.28515-35.71094L47.32035-36.39063L47.56255-36.86719L48.03515-37.10938L48.71485-37.14453L49.51565-37.05859L50.31255-36.97656L50.99215-37.01172L51.46875-37.25391L51.70705-37.72656L51.74215-38.40625L51.66015-39.20703L51.57815-40.00391L51.61325-40.6836L51.85155-41.1602L52.32815-41.3984L53.00785-41.4336L53.80465-41.3516L54.60545-41.2695L55.28515-41.3047L55.75785-41.543L56.00005-42.0195L56.03515-42.6992L55.95315-43.4961L55.87105-44.2969L55.90625-44.9766L56.14455-45.4492L56.62105-45.6914L57.30075-45.7266L58.09765-45.6445L58.89455-45.5625L59.57425-45.5977L60.05075-45.8359L60.28905-46.3125L60.32425-46.9922L60.24215-47.7891L60.16015-48.5859L60.19535-49.2656L60.43755-49.7422L60.91015-49.9805L61.58985-50.0195L62.39065-49.9336L63.18755-49.8516L63.86715-49.8867L64.34375-50.1289L64.58205-50.6016L64.61715-51.2813L64.53515-52.082L64.45315-52.8789L64.48825-53.5586L64.72655-54.0352L65.20315-54.2734L65.88285-54.3086L66.67965-54.2266L67.48045-54.1445L68.16015-54.1797L68.63285-54.418L68.87505-54.8945L68.91015-55.5742L68.82815-56.3711L68.74215-57.1719L68.78125-57.8516L69.01955-58.3242L69.49605-58.5664L70.17575-58.6016L70.97265-58.5195L71.76955-58.4375L72.44925-58.4727L72.92575-58.7109L72.78515-60.332' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M42.71875-30.265625L72.78515-.1992' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M53.13285-19.8516L55.86715-13.2539L59.73045-17.1172Z'/>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle = -ie\gamma^{\mu},$</span><span class="equation-num">(1.14)</span></div>
 
-<p><span class="equation-part">$= -ie\gamma^{\mu},$</span><span class="equation-num">(13)</span></div></p>
+<div class="equation-row"><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='8.028em' height='6.658em' viewBox='-.00005 -60.53125 72.984459 60.5313'>
+<g id='page1'>
+<path d='M72.785159-30.265625H72.277347L71.77344-29.640625L71.26953-29.1875L70.76172-29.01953L70.25782-29.1875L69.75-29.640625L69.2461-30.265625L68.73828-30.886719L68.23438-31.34375L67.72657-31.51172L67.22266-31.34375L66.71485-30.886719L66.21094-30.265625L65.70313-29.640625L65.19922-29.1875L64.69141-29.01953L64.1875-29.1875L63.67969-29.640625L63.17578-30.265625L62.668-30.886719L62.1641-31.34375L61.6563-31.51172L61.1523-31.34375L60.6445-30.886719L60.1406-30.265625L59.6367-29.640625L59.1289-29.1875L58.625-29.01953L58.1172-29.1875L57.6133-29.640625L57.1055-30.265625L56.6016-30.886719L56.0938-31.34375L55.5898-31.51172L55.082-31.34375L54.5781-30.886719L54.0703-30.265625L53.5664-29.640625L53.0586-29.1875L52.5547-29.01953L52.0469-29.1875L51.543-29.640625L51.0352-30.265625L50.5313-30.886719L50.0234-31.34375L49.5195-31.51172L49.0156-31.34375L48.5078-30.886719L48.0039-30.265625L47.4961-29.640625L46.9922-29.1875L46.4844-29.01953L45.9805-29.1875L45.4727-29.640625L44.9688-30.265625L44.4609-30.886719L43.957-31.34375L43.4492-31.51172L42.9453-31.34375L42.4375-30.886719L41.9336-30.265625L41.4258-29.640625L40.9219-29.1875L40.4141-29.01953L39.9102-29.1875L39.4023-29.640625L38.8984-30.265625L38.3906-30.886719L37.8867-31.34375L37.3828-31.51172L36.875-31.34375L36.3711-30.886719L35.8633-30.265625L35.3594-29.640625L34.8516-29.1875L34.3477-29.01953L33.8398-29.1875L33.3359-29.640625L32.8281-30.265625L32.3242-30.886719L31.8164-31.34375L31.3125-31.51172L30.2656-30.265625' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M.1992-.1992L30.2656-30.265625' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M10.6133-10.6133L17.207-13.3438L13.3438-17.2109Z'/>
+<path d='M30.2656-30.265625L.1992-60.332' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M12.6367-47.8945L15.3672-41.2969L19.2305-45.1641Z'/>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle = -ie\gamma^{\mu},$</span><span class="equation-num">(1.15)</span></div>
 
-<div class="equation-row">
-
-<figure class="tikz-figure"><script type="text/tikz">
-\usetikzlibrary{decorations.markings,arrows.meta}
-\begin{tikzpicture}[every node/.style={font=\small}]
-  \node (a) at (0.00,0.00) {};
-  \node (b) at (1.60,0.00) {};
-  \node (c) at (3.00,1.00) {};
-  \node (d) at (3.00,-1.00) {};
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (a) -- (b);
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (b) -- (c);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (b) -- (d);
-\end{tikzpicture}
-</script></figure>
-
-<p><span class="equation-part">$= -ie\gamma^{\mu},$</span><span class="equation-num">(14)</span></div></p>
-
-<div class="equation-row">
-
-<figure class="tikz-figure"><script type="text/tikz">
-\usetikzlibrary{decorations.markings,arrows.meta}
-\begin{tikzpicture}[every node/.style={font=\small}]
-  \node (a) at (0.00,0.00) {};
-  \node (b) at (-1.60,0.00) {};
-  \node (c) at (-3.00,1.00) {};
-  \node (d) at (-3.00,-1.00) {};
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt, bend left=45] (a) to (b);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (d) -- (b);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (b) -- (c);
-\end{tikzpicture}
-</script></figure>
-
-<p><span class="equation-part">$= -ie\gamma^{\mu},$</span><span class="equation-num">(15)</span></div></p>
-
-<div class="equation-row">
-
-<figure class="tikz-figure"><script type="text/tikz">
-\usetikzlibrary{decorations.markings,arrows.meta}
-\begin{tikzpicture}[every node/.style={font=\small}]
-  \node (a) at (0.00,0.00) {};
-  \node (b) at (1.60,0.00) {};
-  \node (c) at (3.00,1.00) {};
-  \node (d) at (3.00,-1.00) {};
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt, bend left=45] (a) to (b);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (b) -- (c);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (b) -- (d);
-\end{tikzpicture}
-</script></figure>
-
-<p><span class="equation-part">$= -ie\gamma^{\mu}.$</span><span class="equation-num">(16)</span></div></p>
+<div class="equation-row"><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='8.028em' height='6.658em' viewBox='-.000031 -60.53125 72.984431 60.5313'>
+<g id='page1'>
+<path d='M.199219-30.265625H.703125L1.21094-30.886719L1.71484-31.34375L2.22266-31.51172L2.72656-31.34375L3.23438-30.886719L3.73828-30.265625L4.24609-29.640625L4.75-29.1875L5.25781-29.01953L5.76172-29.1875L6.26953-29.640625L6.77344-30.265625L7.28125-30.886719L7.78516-31.34375L8.29297-31.51172L8.79687-31.34375L9.30469-30.886719L9.80859-30.265625L10.31645-29.640625L10.82035-29.1875L11.32425-29.01953L11.83205-29.1875L12.33595-29.640625L12.84375-30.265625L13.34765-30.886719L13.85545-31.34375L14.35935-31.51172L14.86715-31.34375L15.37105-30.886719L15.87895-30.265625L16.38285-29.640625L16.89065-29.1875L17.39455-29.01953L17.90235-29.1875L18.40625-29.640625L18.91405-30.265625L19.41795-30.886719L19.92575-31.34375L20.42965-31.51172L20.93755-31.34375L21.44145-30.886719L21.94925-30.265625L22.45315-29.640625L22.95705-29.1875L23.46485-29.01953L23.96875-29.1875L24.47655-29.640625L24.98045-30.265625L25.48825-30.886719L25.99215-31.34375L26.50005-31.51172L27.00395-31.34375L27.51175-30.886719L28.01565-30.265625L28.52345-29.640625L29.02735-29.1875L29.53515-29.01953L30.03905-29.1875L30.54685-29.640625L31.05075-30.265625L31.55855-30.886719L32.06255-31.34375L32.57035-31.51172L33.07425-31.34375L33.57815-30.886719L34.08595-30.265625L34.58985-29.640625L35.09765-29.1875L35.60155-29.01953L36.10935-29.1875L36.61325-29.640625L37.12105-30.265625L37.62505-30.886719L38.13285-31.34375L38.63675-31.51172L39.14455-31.34375L39.64845-30.886719L40.15625-30.265625L40.66015-29.640625L41.16795-29.1875L41.67185-29.01953L42.71875-30.265625' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M42.71875-30.265625L72.78515-60.332' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M60.34765-47.8945L53.75395-45.1641L57.61715-41.2969Z'/>
+<path d='M42.71875-30.265625L72.78515-.1992' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M53.13285-19.8516L55.86715-13.2539L59.73045-17.1172Z'/>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle = -ie\gamma^{\mu}.$</span><span class="equation-num">(1.16)</span></div>
 
 <p>The $\mu$ on the $\gamma^\mu$ will be contracted with the $\mu$ of the photon, which would either be the $\epsilon_\mu$ of a polarization vector or the $g_{\mu\nu}$ of the photon propagator.</p>
 
 <p>If there is an internal fermion line between ends, the fermion propagator should go between the end spinors:</p>
 
-<div class="equation-row">
-
-<figure class="tikz-figure"><script type="text/tikz">
-\usetikzlibrary{decorations.markings,arrows.meta}
-\begin{tikzpicture}[every node/.style={font=\small}]
-  \node (a) at (0.00,0.00) {};
-  \node (b) at (1.60,0.00) {};
-  \node (i) at (3.20,0.00) {};
-  \node (c) at (4.80,0.00) {};
-  \node (d) at (1.60,-1.40) {};
-  \node (e) at (3.20,-1.40) {};
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (a) -- node[above, midway, font=\footnotesize] {$p_1$} (b);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (b) -- node[above, midway, font=\footnotesize] {$p_2$} (i);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (i) -- node[above, midway, font=\footnotesize] {$p_3$} (c);
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (b) -- node[above, midway, font=\footnotesize] {$q_1$} (d);
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (i) -- node[above, midway, font=\footnotesize] {$q_2$} (e);
-\end{tikzpicture}
-</script></figure>
-
-<p><span class="equation-part">$= (-ie)^{2}\bar{u}(p_{3})\gamma^{\mu} \frac{i(\slashed{p}_{2}+m)}{p_{2}^{2}-m^{2}+i\epsilon}\gamma^{\nu}u(p_{1})\epsilon^{2}_{\mu}(q_{2})\,\epsilon^{1}_{\nu}(q_{1}),$</span><span class="equation-num">(17)</span></div></p>
+<div class="equation-row"><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='14.076em' height='5.021em' viewBox='-.000031 -48.96537 127.960531 45.645225'>
+<defs>
+<path id='g0-22' d='M.376588 1.12279C.348692 1.227397 .348692 1.262267 .348692 1.26924C.348692 1.422665 .474222 1.492403 .585803 1.492403C.836862 1.492403 .892653 1.262267 .920548 1.143711C.934496 1.108842 1.073973 .550934 1.241345-.132503C1.457534 .013948 1.736488 .069738 1.987547 .069738C2.587298 .069738 2.977833-.418431 2.991781-.432379C3.124284 .048817 3.605479 .069738 3.710087 .069738C3.961146 .069738 4.135492-.083686 4.261021-.299875C4.414446-.571856 4.505106-.969365 4.505106-.99726C4.505106-1.08792 4.414446-1.08792 4.393524-1.08792C4.29589-1.08792 4.288917-1.060025 4.2401-.871731C4.156413-.536986 4.02391-.125529 3.731009-.125529C3.549689-.125529 3.500872-.278954 3.500872-.467248C3.500872-.585803 3.556663-.836862 3.605479-1.018182C3.654296-1.206476 3.724035-1.492403 3.758904-1.645828L3.919303-2.266501C3.961146-2.440847 4.037858-2.747696 4.037858-2.782565C4.037858-2.922042 3.926276-3.005729 3.807721-3.005729C3.731009-3.005729 3.598506-2.970859 3.521793-2.838356C3.500872-2.796513 3.445081-2.57335 3.410212-2.433873L3.263761-1.855044L3.047572-.983313C2.998755-.808966 2.998755-.795019 2.93599-.704359C2.719801-.397509 2.412951-.125529 2.015442-.125529C1.443587-.125529 1.443587-.620672 1.443587-.746202C1.443587-.927522 1.464508-1.018182 1.562142-1.39477C1.63188-1.701619 1.645828-1.750436 1.715567-2.022416L1.8132-2.412951C1.84807-2.559402 1.917808-2.824408 1.917808-2.852304C1.917808-2.977833 1.820174-3.075467 1.680697-3.075467C1.429639-3.075467 1.366874-2.831382 1.345953-2.747696L.376588 1.12279Z'/>
+<path id='g0-23' d='M1.750436-2.873225C1.75741-2.901121 1.764384-2.942964 1.764384-2.977833C1.764384-2.984807 1.764384-3.075467 1.652802-3.075467C1.645828-3.075467 1.248319-3.040598 1.199502-3.040598C1.066999-3.02665 .941469-3.019676 .808966-3.005729C.697385-2.998755 .613699-2.991781 .613699-2.84533C.613699-2.747696 .711333-2.747696 .795019-2.747696C1.129763-2.747696 1.129763-2.705853 1.129763-2.643088C1.129763-2.601245 1.094894-2.461768 1.066999-2.371108L.718306-.962391C.54396-.265006 .509091-.125529 .509091-.097634C.509091 0 .613699 0 .641594 0H.753176C1.373848-.097634 2.259527-.425405 3.005729-1.08792C3.954172-1.931756 4.093649-2.838356 4.093649-2.852304C4.093649-2.977833 3.996015-3.075467 3.856538-3.075467C3.612453-3.075467 3.563636-2.880199 3.500872-2.684932C3.221918-1.694645 2.287422-.627646 1.101868-.278954L1.750436-2.873225Z'/>
+<path id='g1-13' d='M.408468-2.530511C.797011-3.676214 1.882939-3.686177 1.992528-3.686177C3.496887-3.686177 3.606476-1.942715 3.606476-1.155666C3.606476-.547945 3.556663-.37858 3.486924-.179328C3.267746 .547945 2.968867 1.703611 2.968867 1.96264C2.968867 2.072229 3.01868 2.141968 3.098381 2.141968C3.227895 2.141968 3.307597 1.92279 3.417186 1.544209C3.646326 .707347 3.745953 .139477 3.785803-.169365C3.805729-.298879 3.825654-.428394 3.865504-.557908C4.184309-1.544209 4.821918-3.028643 5.220423-3.815691C5.290162-3.935243 5.409714-4.154421 5.409714-4.194271C5.409714-4.293898 5.310087-4.293898 5.290162-4.293898C5.260274-4.293898 5.200498-4.293898 5.17061-4.224159C4.652553-3.277709 4.254047-2.281445 3.855542-1.275218C3.845579-1.58406 3.835616-2.34122 3.447073-3.307597C3.20797-3.915318 2.809465-4.403487 2.122042-4.403487C.876712-4.403487 .179328-2.889166 .179328-2.580324C.179328-2.480697 .268991-2.480697 .368618-2.480697L.408468-2.530511Z'/>
+<path id='g1-15' d='M2.968867-2.251557C3.128269-2.251557 3.307597-2.251557 3.307597-2.420922C3.307597-2.560399 3.188045-2.560399 3.01868-2.560399H1.404732C1.643836-3.407223 2.201743-3.985056 3.108344-3.985056H3.417186C3.58655-3.985056 3.745953-3.985056 3.745953-4.154421C3.745953-4.293898 3.616438-4.293898 3.447073-4.293898H3.098381C1.803238-4.293898 .468244-3.297634 .468244-1.77335C.468244-.67746 1.215442 .109589 2.271482 .109589C2.919054 .109589 3.566625-.288917 3.566625-.398506C3.566625-.428394 3.556663-.537983 3.466999-.537983C3.447073-.537983 3.427148-.537983 3.337484-.478207C3.028643-.278954 2.660025-.109589 2.291407-.109589C1.713574-.109589 1.215442-.52802 1.215442-1.404732C1.215442-1.753425 1.295143-2.132005 1.325031-2.251557H2.968867Z'/>
+<path id='g1-112' d='M.448319 1.215442C.368618 1.554172 .348692 1.62391-.089664 1.62391C-.209215 1.62391-.318804 1.62391-.318804 1.8132C-.318804 1.892902-.268991 1.932752-.18929 1.932752C.079701 1.932752 .368618 1.902864 .647572 1.902864C.976339 1.902864 1.315068 1.932752 1.633873 1.932752C1.683686 1.932752 1.8132 1.932752 1.8132 1.733499C1.8132 1.62391 1.713574 1.62391 1.574097 1.62391C1.075965 1.62391 1.075965 1.554172 1.075965 1.464508C1.075965 1.344956 1.494396-.278954 1.564134-.52802C1.693649-.239103 1.972603 .109589 2.480697 .109589C3.636364 .109589 4.881694-1.344956 4.881694-2.809465C4.881694-3.745953 4.313823-4.403487 3.556663-4.403487C3.058531-4.403487 2.580324-4.044832 2.251557-3.656289C2.15193-4.194271 1.723537-4.403487 1.354919-4.403487C.896638-4.403487 .707347-4.014944 .617684-3.835616C.438356-3.496887 .308842-2.899128 .308842-2.86924C.308842-2.769614 .408468-2.769614 .428394-2.769614C.52802-2.769614 .537983-2.779577 .597758-2.998755C.767123-3.706102 .966376-4.184309 1.325031-4.184309C1.494396-4.184309 1.633873-4.104608 1.633873-3.726027C1.633873-3.496887 1.603985-3.387298 1.564134-3.217933L.448319 1.215442ZM2.201743-3.108344C2.271482-3.377335 2.540473-3.656289 2.719801-3.805729C3.068493-4.11457 3.35741-4.184309 3.526775-4.184309C3.92528-4.184309 4.164384-3.835616 4.164384-3.247821S3.835616-1.514321 3.656289-1.135741C3.317559-.438356 2.839352-.109589 2.470735-.109589C1.8132-.109589 1.683686-.936488 1.683686-.996264C1.683686-1.016189 1.683686-1.036115 1.713574-1.155666L2.201743-3.108344Z'/>
+<path id='g1-113' d='M4.503113-4.293898C4.503113-4.333748 4.473225-4.393524 4.403487-4.393524C4.293898-4.393524 3.895392-3.995019 3.726027-3.706102C3.506849-4.244085 3.118306-4.403487 2.799502-4.403487C1.62391-4.403487 .398506-2.929016 .398506-1.484433C.398506-.508095 .986301 .109589 1.713574 .109589C2.141968 .109589 2.530511-.129514 2.889166-.488169C2.799502-.139477 2.470735 1.205479 2.440847 1.295143C2.361146 1.574097 2.281445 1.613948 1.723537 1.62391C1.594022 1.62391 1.494396 1.62391 1.494396 1.823163C1.494396 1.833126 1.494396 1.932752 1.62391 1.932752C1.942715 1.932752 2.291407 1.902864 2.620174 1.902864C2.958904 1.902864 3.317559 1.932752 3.646326 1.932752C3.696139 1.932752 3.825654 1.932752 3.825654 1.733499C3.825654 1.62391 3.726027 1.62391 3.566625 1.62391C3.088418 1.62391 3.088418 1.554172 3.088418 1.464508C3.088418 1.39477 3.108344 1.334994 3.128269 1.24533L4.503113-4.293898ZM1.743462-.109589C1.145704-.109589 1.105853-.876712 1.105853-1.046077C1.105853-1.524284 1.39477-2.610212 1.564134-3.028643C1.872976-3.765878 2.391034-4.184309 2.799502-4.184309C3.447073-4.184309 3.58655-3.377335 3.58655-3.307597C3.58655-3.247821 3.038605-1.066002 3.008717-1.026152C2.859278-.747198 2.30137-.109589 1.743462-.109589Z'/>
+<path id='g2-49' d='M2.336239-4.435367C2.336239-4.623661 2.322291-4.630635 2.127024-4.630635C1.680697-4.191283 1.046077-4.184309 .760149-4.184309V-3.93325C.927522-3.93325 1.387796-3.93325 1.771357-4.128518V-.571856C1.771357-.341719 1.771357-.251059 1.073973-.251059H.808966V0C.934496-.006974 1.792279-.027895 2.050311-.027895C2.266501-.027895 3.145205-.006974 3.29863 0V-.251059H3.033624C2.336239-.251059 2.336239-.341719 2.336239-.571856V-4.435367Z'/>
+<path id='g2-50' d='M3.521793-1.26924H3.284682C3.263761-1.115816 3.194022-.704359 3.103362-.63462C3.047572-.592777 2.510585-.592777 2.412951-.592777H1.129763C1.862017-1.241345 2.106102-1.436613 2.524533-1.764384C3.040598-2.175841 3.521793-2.608219 3.521793-3.270735C3.521793-4.11457 2.782565-4.630635 1.889913-4.630635C1.025156-4.630635 .439352-4.02391 .439352-3.382316C.439352-3.02665 .739228-2.991781 .808966-2.991781C.976339-2.991781 1.17858-3.110336 1.17858-3.361395C1.17858-3.486924 1.129763-3.731009 .767123-3.731009C.983313-4.226152 1.457534-4.379577 1.785305-4.379577C2.48269-4.379577 2.84533-3.835616 2.84533-3.270735C2.84533-2.66401 2.412951-2.182814 2.189788-1.931756L.509091-.27198C.439352-.209215 .439352-.195268 .439352 0H3.312578L3.521793-1.26924Z'/>
+<path id='g2-51' d='M1.903861-2.329265C2.447821-2.329265 2.838356-1.952677 2.838356-1.206476C2.838356-.341719 2.336239-.083686 1.931756-.083686C1.652802-.083686 1.039103-.160399 .746202-.571856C1.073973-.585803 1.150685-.81594 1.150685-.962391C1.150685-1.185554 .983313-1.345953 .767123-1.345953C.571856-1.345953 .376588-1.227397 .376588-.941469C.376588-.285928 1.101868 .139477 1.945704 .139477C2.915068 .139477 3.584558-.509091 3.584558-1.206476C3.584558-1.750436 3.138232-2.294396 2.371108-2.454795C3.103362-2.719801 3.368369-3.242839 3.368369-3.668244C3.368369-4.219178 2.733748-4.630635 1.959651-4.630635S.592777-4.254047 .592777-3.696139C.592777-3.459029 .746202-3.326526 .955417-3.326526C1.171606-3.326526 1.311083-3.486924 1.311083-3.682192C1.311083-3.884433 1.171606-4.030884 .955417-4.044832C1.199502-4.351681 1.680697-4.428394 1.93873-4.428394C2.252553-4.428394 2.691905-4.274969 2.691905-3.668244C2.691905-3.375342 2.594271-3.054545 2.412951-2.838356C2.182814-2.57335 1.987547-2.559402 1.638854-2.538481C1.464508-2.524533 1.45056-2.524533 1.415691-2.517559C1.401743-2.517559 1.345953-2.503611 1.345953-2.426899C1.345953-2.329265 1.408717-2.329265 1.527273-2.329265H1.903861Z'/>
+</defs>
+<g id='page1'>
+<g transform='matrix(1 0 0 1 37.18585 -5.457)'>
+<use x='.19925' y='-36.890378' xlink:href='#g1-13'/>
+<use x='5.910681' y='-40.505742' xlink:href='#g0-23'/>
+</g>
+<g transform='matrix(1 0 0 1 79.51355 -5.457)'>
+<use x='.19925' y='-36.890378' xlink:href='#g1-13'/>
+<use x='5.910681' y='-40.505742' xlink:href='#g0-22'/>
+</g>
+<path d='M.199219-36.890625H42.71875' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M25.14455-36.890625L18.54685-39.62109V-34.15625Z'/>
+<g transform='matrix(1 0 0 1 16.51915 -5.457)'>
+<use x='.19925' y='-36.890378' xlink:href='#g1-112'/>
+<use x='5.211714' y='-35.395997' xlink:href='#g2-49'/>
+</g>
+<path d='M42.71875-36.890625H85.23825' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M67.66405-36.890625L61.06645-39.62109V-34.15625Z'/>
+<g transform='matrix(1 0 0 1 59.03935 -5.457)'>
+<use x='.19925' y='-36.890378' xlink:href='#g1-112'/>
+<use x='5.211714' y='-35.395997' xlink:href='#g2-50'/>
+</g>
+<path d='M85.23825-36.890625H127.76125' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M110.18325-36.890625L103.59025-39.62109V-34.15625Z'/>
+<g transform='matrix(1 0 0 1 101.55975 -5.457)'>
+<use x='.19925' y='-36.890378' xlink:href='#g1-112'/>
+<use x='5.211714' y='-35.395997' xlink:href='#g2-51'/>
+</g>
+<path d='M42.71875-36.890625V-36.417969L43.34375-35.945313L43.79685-35.47266L43.96485-35.00391L43.79685-34.53125L43.34375-34.05859L42.71875-33.58594L42.09765-33.11328L41.64065-32.64063L41.47265-32.17188L41.64065-31.69922L42.09765-31.22656L42.71875-30.75391L43.34375-30.28125L43.79685-29.80859L43.96485-29.33984L43.79685-28.86719L43.34375-28.39453L42.71875-27.92188L42.09765-27.44922L41.64065-26.97656L41.47265-26.5078L41.64065-26.0352L42.09765-25.5625L42.71875-25.0898L43.34375-24.6172L43.79685-24.1445L43.96485-23.6719L43.79685-23.2031L43.34375-22.7305L42.71875-22.2578L42.09765-21.7852L41.64065-21.3125L41.47265-20.8398L41.64065-20.3711L42.09765-19.8984L42.71875-19.4258L43.34375-18.9531L43.79685-18.4805L43.96485-18.0078L43.79685-17.5391L43.34375-17.0664L42.71875-16.5938L42.09765-16.1211L41.64065-15.6484L41.47265-15.1758L41.64065-14.707L42.09765-14.2344L42.71875-13.7617L43.34375-13.2891L43.79685-12.8164L43.96485-12.3438L43.79685-11.875L43.34375-11.4023L42.71875-10.9297L42.09765-10.457L41.64065-9.9844L41.47265-9.5117L42.71875-8.543' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 46.04005 15.3496)'>
+<use x='.19925' y='-36.890378' xlink:href='#g1-113'/>
+<use x='4.646712' y='-35.395997' xlink:href='#g2-49'/>
+</g>
+<path d='M85.23825-36.890625V-36.417969L85.86325-35.945313L86.31645-35.47266L86.48435-35.00391L86.31645-34.53125L85.86325-34.05859L85.23825-33.58594L84.61715-33.11328L84.16015-32.64063L83.99605-32.17188L84.16015-31.69922L84.61715-31.22656L85.23825-30.75391L85.86325-30.28125L86.31645-29.80859L86.48435-29.33984L86.31645-28.86719L85.86325-28.39453L85.23825-27.92188L84.61715-27.44922L84.16015-26.97656L83.99605-26.5078L84.16015-26.0352L84.61715-25.5625L85.23825-25.0898L85.86325-24.6172L86.31645-24.1445L86.48435-23.6719L86.31645-23.2031L85.86325-22.7305L85.23825-22.2578L84.61715-21.7852L84.16015-21.3125L83.99605-20.8398L84.16015-20.3711L84.61715-19.8984L85.23825-19.4258L85.86325-18.9531L86.31645-18.4805L86.48435-18.0078L86.31645-17.5391L85.86325-17.0664L85.23825-16.5938L84.61715-16.1211L84.16015-15.6484L83.99605-15.1758L84.16015-14.707L84.61715-14.2344L85.23825-13.7617L85.86325-13.2891L86.31645-12.8164L86.48435-12.3438L86.31645-11.875L85.86325-11.4023L85.23825-10.9297L84.61715-10.457L84.16015-9.9844L83.99605-9.5117L85.23825-8.543' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 88.56025 15.3496)'>
+<use x='.19925' y='-36.890378' xlink:href='#g1-113'/>
+<use x='4.646712' y='-35.395997' xlink:href='#g2-50'/>
+</g>
+<g transform='matrix(1 0 0 1 29.99925 30.4194)'>
+<use x='.19925' y='-36.890378' xlink:href='#g1-15'/>
+<use x='4.243123' y='-40.505742' xlink:href='#g0-23'/>
+<use x='4.243123' y='-34.41755' xlink:href='#g2-49'/>
+</g>
+<g transform='matrix(1 0 0 1 88.56025 30.9136)'>
+<use x='.19925' y='-36.890378' xlink:href='#g1-15'/>
+<use x='4.243123' y='-41.677951' xlink:href='#g0-22'/>
+<use x='4.243123' y='-34.233745' xlink:href='#g2-50'/>
+</g>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle = (-ie)^{2}\bar{u}(p_{3})\gamma^{\mu} \frac{i(\slashed{p}_{2}+m)}{p_{2}^{2}-m^{2}+i\epsilon}\gamma^{\nu}u(p_{1})\epsilon^{2}_{\mu}(q_{2})\,\epsilon^{1}_{\nu}(q_{1}),$</span><span class="equation-num">(1.17)</span></div>
 
 <p>where, by momentum conservation, $q_1 = p_1 - p_2$ and $q_2 = p_2-p_3$. Putting the spinor indices back, we get
-\[\bar{u}(p_{3})\gamma^{\mu}\frac{i(\slashed{p}_{2}+m)}{p_{2}^{2}-m^{2}+i\epsilon}\gamma^{\nu}u(p_{1}) = \bar{u}_{\alpha}(p_{3})\,\gamma^{\mu}_{\alpha\beta}\frac{i(\slashed{p}_{2}+m)_{\beta\gamma}}{p_{2}^{2}-m^{2}+i\epsilon}\gamma^{\nu}_{\gamma\delta}u_{\delta}(p_{1}).\tag{18}\]
+\[\bar{u}(p_{3})\gamma^{\mu}\frac{i(\slashed{p}_{2}+m)}{p_{2}^{2}-m^{2}+i\epsilon}\gamma^{\nu}u(p_{1}) = \bar{u}_{\alpha}(p_{3})\,\gamma^{\mu}_{\alpha\beta}\frac{i(\slashed{p}_{2}+m)_{\beta\gamma}}{p_{2}^{2}-m^{2}+i\epsilon}\gamma^{\nu}_{\gamma\delta}u_{\delta}(p_{1}).\tag{1.18}\]
 If we tie the ends of the diagram together, we would get a loop. Thus, we must replace the $u_\delta\bar{u}_\alpha$ by a propagator, which sums over all possible spins. We should also integrate over all momenta constrained by momentum conservation at each vertex. So the loop becomes</p>
 
-<div class="equation-row"><span class="equation-part">$i\mathcal{M}
-=$</span>
-
-<figure class="tikz-figure"><script type="text/tikz">
-\usetikzlibrary{decorations.markings,arrows.meta}
-\begin{tikzpicture}[every node/.style={font=\small}]
-  \node (a) at (0.00,0.00) {};
-  \node (b) at (1.60,0.00) {};
-  \node (c) at (3.20,0.00) {};
-  \node (d) at (4.80,0.00) {};
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt, bend left=45] (a) to node[above, midway, font=\footnotesize] {$q$} (b);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (b) -- node[above, midway, font=\footnotesize] {$k$} (c);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (c) -- node[above, midway, font=\footnotesize] {$k+q$} (b);
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt, bend left=45] (c) to node[above, midway, font=\footnotesize] {$q$} (d);
-\end{tikzpicture}
-</script></figure>
-
-<p><span class="equation-part">$= -(-ie)^2 \int \frac{d^4k}{(2\pi)^4} e^{2*}_\mu (q) e^{1}_\nu (q) \left[ \gamma^\mu_{\alpha\beta} \frac{i(\slashed{k} + \slashed{q} + m)_{\beta\gamma}}{(k+q)^2 - m^2 + i\epsilon} \gamma^\nu_{\gamma\delta} \frac{i(\slashed{k} + m)_{\delta\alpha}}{k^2 - m^2 + i\epsilon} \right]$</span><span class="equation-part">$= e^2\epsilon_\mu^{2*}\epsilon_\nu^1\int \frac{d^4 k}{(2\pi)^4}\text{Tr}\left[\gamma^{\mu}\frac{i(\slashed{k}+\slashed{q}+m)}{(k+q)^2-m^2+i\epsilon}\gamma^{\nu}\frac{i(\slashed{k}+m)}{(k^2-m^2+i\epsilon)}\right].$</span><span class="equation-num">(19)</span></div></p>
+<div class="equation-row"><span class="equation-part">$\displaystyle i\mathcal{M}
+=$</span><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='15.165em' height='8.439em' viewBox='3.320478 -80.034764 137.86057 76.714724'>
+<defs>
+<path id='g0-3' d='M2.252553-1.736488C2.824408-1.987547 3.082441-2.085181 3.256787-2.168867C3.38929-2.224658 3.452055-2.252553 3.452055-2.385056C3.452055-2.503611 3.361395-2.608219 3.235866-2.608219C3.187049-2.608219 3.173101-2.608219 3.089415-2.545455L2.140971-1.910834L2.245579-2.942964C2.259527-3.068493 2.245579-3.242839 2.036364-3.242839C1.952677-3.242839 1.820174-3.187049 1.820174-3.033624C1.820174-2.970859 1.84807-2.761644 1.855044-2.691905C1.868991-2.57335 1.917808-2.071233 1.931756-1.910834L.990286-2.545455C.920548-2.587298 .899626-2.608219 .836862-2.608219C.711333-2.608219 .620672-2.503611 .620672-2.385056C.620672-2.245579 .704359-2.21071 .767123-2.182814L1.820174-1.743462C1.248319-1.492403 .990286-1.39477 .81594-1.311083C.683437-1.255293 .620672-1.227397 .620672-1.094894C.620672-.976339 .711333-.871731 .836862-.871731C.885679-.871731 .899626-.871731 .983313-.934496L1.931756-1.569116L1.820174-.446326C1.820174-.292902 1.952677-.237111 2.036364-.237111S2.252553-.292902 2.252553-.446326C2.252553-.509091 2.224658-.718306 2.217684-.788045C2.203736-.9066 2.154919-1.408717 2.140971-1.569116L2.977833-1.011208C3.159153-.871731 3.173101-.871731 3.235866-.871731C3.361395-.871731 3.452055-.976339 3.452055-1.094894C3.452055-1.234371 3.368369-1.26924 3.305604-1.297136L2.252553-1.736488Z'/>
+<path id='g1-22' d='M.376588 1.12279C.348692 1.227397 .348692 1.262267 .348692 1.26924C.348692 1.422665 .474222 1.492403 .585803 1.492403C.836862 1.492403 .892653 1.262267 .920548 1.143711C.934496 1.108842 1.073973 .550934 1.241345-.132503C1.457534 .013948 1.736488 .069738 1.987547 .069738C2.587298 .069738 2.977833-.418431 2.991781-.432379C3.124284 .048817 3.605479 .069738 3.710087 .069738C3.961146 .069738 4.135492-.083686 4.261021-.299875C4.414446-.571856 4.505106-.969365 4.505106-.99726C4.505106-1.08792 4.414446-1.08792 4.393524-1.08792C4.29589-1.08792 4.288917-1.060025 4.2401-.871731C4.156413-.536986 4.02391-.125529 3.731009-.125529C3.549689-.125529 3.500872-.278954 3.500872-.467248C3.500872-.585803 3.556663-.836862 3.605479-1.018182C3.654296-1.206476 3.724035-1.492403 3.758904-1.645828L3.919303-2.266501C3.961146-2.440847 4.037858-2.747696 4.037858-2.782565C4.037858-2.922042 3.926276-3.005729 3.807721-3.005729C3.731009-3.005729 3.598506-2.970859 3.521793-2.838356C3.500872-2.796513 3.445081-2.57335 3.410212-2.433873L3.263761-1.855044L3.047572-.983313C2.998755-.808966 2.998755-.795019 2.93599-.704359C2.719801-.397509 2.412951-.125529 2.015442-.125529C1.443587-.125529 1.443587-.620672 1.443587-.746202C1.443587-.927522 1.464508-1.018182 1.562142-1.39477C1.63188-1.701619 1.645828-1.750436 1.715567-2.022416L1.8132-2.412951C1.84807-2.559402 1.917808-2.824408 1.917808-2.852304C1.917808-2.977833 1.820174-3.075467 1.680697-3.075467C1.429639-3.075467 1.366874-2.831382 1.345953-2.747696L.376588 1.12279Z'/>
+<path id='g1-23' d='M1.750436-2.873225C1.75741-2.901121 1.764384-2.942964 1.764384-2.977833C1.764384-2.984807 1.764384-3.075467 1.652802-3.075467C1.645828-3.075467 1.248319-3.040598 1.199502-3.040598C1.066999-3.02665 .941469-3.019676 .808966-3.005729C.697385-2.998755 .613699-2.991781 .613699-2.84533C.613699-2.747696 .711333-2.747696 .795019-2.747696C1.129763-2.747696 1.129763-2.705853 1.129763-2.643088C1.129763-2.601245 1.094894-2.461768 1.066999-2.371108L.718306-.962391C.54396-.265006 .509091-.125529 .509091-.097634C.509091 0 .613699 0 .641594 0H.753176C1.373848-.097634 2.259527-.425405 3.005729-1.08792C3.954172-1.931756 4.093649-2.838356 4.093649-2.852304C4.093649-2.977833 3.996015-3.075467 3.856538-3.075467C3.612453-3.075467 3.563636-2.880199 3.500872-2.684932C3.221918-1.694645 2.287422-.627646 1.101868-.278954L1.750436-2.873225Z'/>
+<path id='g2-15' d='M2.968867-2.251557C3.128269-2.251557 3.307597-2.251557 3.307597-2.420922C3.307597-2.560399 3.188045-2.560399 3.01868-2.560399H1.404732C1.643836-3.407223 2.201743-3.985056 3.108344-3.985056H3.417186C3.58655-3.985056 3.745953-3.985056 3.745953-4.154421C3.745953-4.293898 3.616438-4.293898 3.447073-4.293898H3.098381C1.803238-4.293898 .468244-3.297634 .468244-1.77335C.468244-.67746 1.215442 .109589 2.271482 .109589C2.919054 .109589 3.566625-.288917 3.566625-.398506C3.566625-.428394 3.556663-.537983 3.466999-.537983C3.447073-.537983 3.427148-.537983 3.337484-.478207C3.028643-.278954 2.660025-.109589 2.291407-.109589C1.713574-.109589 1.215442-.52802 1.215442-1.404732C1.215442-1.753425 1.295143-2.132005 1.325031-2.251557H2.968867Z'/>
+<path id='g2-107' d='M2.859278-6.804483C2.859278-6.814446 2.859278-6.914072 2.729763-6.914072C2.500623-6.914072 1.77335-6.834371 1.514321-6.814446C1.43462-6.804483 1.325031-6.794521 1.325031-6.615193C1.325031-6.495641 1.414695-6.495641 1.564134-6.495641C2.042341-6.495641 2.062267-6.425903 2.062267-6.326276L2.032379-6.127024L.587796-.388543C.547945-.249066 .547945-.229141 .547945-.169365C.547945 .059776 .747198 .109589 .836862 .109589C.966376 .109589 1.115816 .019925 1.175592-.099626C1.225405-.18929 1.673724-2.032379 1.733499-2.281445C2.072229-2.251557 2.889166-2.092154 2.889166-1.43462C2.889166-1.364882 2.889166-1.325031 2.859278-1.225405C2.839352-1.105853 2.819427-.986301 2.819427-.876712C2.819427-.288917 3.217933 .109589 3.73599 .109589C4.034869 .109589 4.303861-.049813 4.523039-.418431C4.772105-.856787 4.881694-1.404732 4.881694-1.424658C4.881694-1.524284 4.79203-1.524284 4.762142-1.524284C4.662516-1.524284 4.652553-1.484433 4.622665-1.344956C4.423412-.617684 4.194271-.109589 3.755915-.109589C3.566625-.109589 3.437111-.219178 3.437111-.577833C3.437111-.747198 3.476961-.976339 3.516812-1.135741C3.556663-1.305106 3.556663-1.344956 3.556663-1.444583C3.556663-2.092154 2.929016-2.381071 2.082192-2.49066C2.391034-2.669988 2.709838-2.988792 2.938979-3.227895C3.417186-3.755915 3.875467-4.184309 4.363636-4.184309C4.423412-4.184309 4.433375-4.184309 4.4533-4.174346C4.572852-4.154421 4.582814-4.154421 4.662516-4.094645C4.682441-4.084682 4.682441-4.07472 4.702366-4.054795C4.224159-4.024907 4.134496-3.636364 4.134496-3.516812C4.134496-3.35741 4.244085-3.16812 4.513076-3.16812C4.772105-3.16812 5.061021-3.387298 5.061021-3.775841C5.061021-4.07472 4.83188-4.403487 4.383562-4.403487C4.104608-4.403487 3.646326-4.323786 2.929016-3.526775C2.590286-3.148194 2.201743-2.749689 1.823163-2.600249L2.859278-6.804483Z'/>
+<path id='g2-113' d='M4.503113-4.293898C4.503113-4.333748 4.473225-4.393524 4.403487-4.393524C4.293898-4.393524 3.895392-3.995019 3.726027-3.706102C3.506849-4.244085 3.118306-4.403487 2.799502-4.403487C1.62391-4.403487 .398506-2.929016 .398506-1.484433C.398506-.508095 .986301 .109589 1.713574 .109589C2.141968 .109589 2.530511-.129514 2.889166-.488169C2.799502-.139477 2.470735 1.205479 2.440847 1.295143C2.361146 1.574097 2.281445 1.613948 1.723537 1.62391C1.594022 1.62391 1.494396 1.62391 1.494396 1.823163C1.494396 1.833126 1.494396 1.932752 1.62391 1.932752C1.942715 1.932752 2.291407 1.902864 2.620174 1.902864C2.958904 1.902864 3.317559 1.932752 3.646326 1.932752C3.696139 1.932752 3.825654 1.932752 3.825654 1.733499C3.825654 1.62391 3.726027 1.62391 3.566625 1.62391C3.088418 1.62391 3.088418 1.554172 3.088418 1.464508C3.088418 1.39477 3.108344 1.334994 3.128269 1.24533L4.503113-4.293898ZM1.743462-.109589C1.145704-.109589 1.105853-.876712 1.105853-1.046077C1.105853-1.524284 1.39477-2.610212 1.564134-3.028643C1.872976-3.765878 2.391034-4.184309 2.799502-4.184309C3.447073-4.184309 3.58655-3.377335 3.58655-3.307597C3.58655-3.247821 3.038605-1.066002 3.008717-1.026152C2.859278-.747198 2.30137-.109589 1.743462-.109589Z'/>
+<path id='g3-49' d='M2.336239-4.435367C2.336239-4.623661 2.322291-4.630635 2.127024-4.630635C1.680697-4.191283 1.046077-4.184309 .760149-4.184309V-3.93325C.927522-3.93325 1.387796-3.93325 1.771357-4.128518V-.571856C1.771357-.341719 1.771357-.251059 1.073973-.251059H.808966V0C.934496-.006974 1.792279-.027895 2.050311-.027895C2.266501-.027895 3.145205-.006974 3.29863 0V-.251059H3.033624C2.336239-.251059 2.336239-.341719 2.336239-.571856V-4.435367Z'/>
+<path id='g3-50' d='M3.521793-1.26924H3.284682C3.263761-1.115816 3.194022-.704359 3.103362-.63462C3.047572-.592777 2.510585-.592777 2.412951-.592777H1.129763C1.862017-1.241345 2.106102-1.436613 2.524533-1.764384C3.040598-2.175841 3.521793-2.608219 3.521793-3.270735C3.521793-4.11457 2.782565-4.630635 1.889913-4.630635C1.025156-4.630635 .439352-4.02391 .439352-3.382316C.439352-3.02665 .739228-2.991781 .808966-2.991781C.976339-2.991781 1.17858-3.110336 1.17858-3.361395C1.17858-3.486924 1.129763-3.731009 .767123-3.731009C.983313-4.226152 1.457534-4.379577 1.785305-4.379577C2.48269-4.379577 2.84533-3.835616 2.84533-3.270735C2.84533-2.66401 2.412951-2.182814 2.189788-1.931756L.509091-.27198C.439352-.209215 .439352-.195268 .439352 0H3.312578L3.521793-1.26924Z'/>
+<path id='g4-43' d='M4.07472-2.291407H6.854296C6.993773-2.291407 7.183064-2.291407 7.183064-2.49066S6.993773-2.689913 6.854296-2.689913H4.07472V-5.479452C4.07472-5.618929 4.07472-5.808219 3.875467-5.808219S3.676214-5.618929 3.676214-5.479452V-2.689913H.886675C.747198-2.689913 .557908-2.689913 .557908-2.49066S.747198-2.291407 .886675-2.291407H3.676214V.498132C3.676214 .637609 3.676214 .826899 3.875467 .826899S4.07472 .637609 4.07472 .498132V-2.291407Z'/>
+</defs>
+<g id='page1'>
+<path d='M14.19922-51.14844H40.89843' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M43.39456-51.148406L39.824249-52.49606L41.00003-51.148406L39.824249-49.80466Z'/>
+<path d='M43.39456-51.148406L39.824249-52.49606L41.00003-51.148406L39.824249-49.80466Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 18.85757 -13.7618)'>
+<use x='7.821028' y='-42.646062' xlink:href='#g2-113'/>
+</g>
+<path d='M7.820312-42.644532H8.328125L8.83203-43.269532L9.33984-43.72266L9.84375-43.89063L10.35156-43.72266L10.85547-43.269532L11.36328-42.644532L11.86719-42.023438L12.37109-41.56641L12.87891-41.40234L13.38281-41.56641L13.89062-42.023438L14.39453-42.644532L14.90234-43.269532L15.40625-43.72266L15.91406-43.89063L16.41797-43.72266L16.92578-43.269532L17.42969-42.644532L17.93753-42.023438L18.44143-41.56641L18.94923-41.40234L19.45313-41.56641L19.96093-42.023438L20.46483-42.644532L20.97263-43.269532L21.47653-43.72266L21.98433-43.89063L22.48833-43.72266L22.99223-43.269532L23.50003-42.644532L24.00393-42.023438L24.51173-41.56641L25.01563-41.40234L25.52343-41.56641L26.02733-42.023438L26.53513-42.644532L27.03903-43.269532L27.54683-43.72266L28.05083-43.89063L28.55863-43.72266L29.06253-43.269532L29.57033-42.644532L30.07423-42.023438L30.58203-41.56641L31.08593-41.40234L31.59373-41.56641L32.09763-42.023438L32.60543-42.644532L33.10933-43.269532L33.61723-43.72266L34.12113-43.89063L34.62503-43.72266L35.13283-43.269532L35.63673-42.644532L36.14453-42.023438L36.64843-41.56641L37.15623-41.40234L37.66013-41.56641L38.16793-42.023438L38.67183-42.644532L39.17973-43.269532L39.68363-43.72266L40.19143-43.89063L40.69533-43.72266L41.20313-43.269532L41.70703-42.644532L42.21483-42.023438L42.71873-41.56641L43.22653-41.40234L43.73043-41.56641L44.23833-42.023438L44.74223-42.644532L45.24613-43.269532L45.75393-43.72266L46.25783-43.89063L46.76563-43.72266L47.26953-43.269532L47.77733-42.644532L48.28123-42.023438L48.78903-41.56641L49.29293-41.40234L50.33983-42.644532' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M46.55083-57.918L47.32033-58.9492L48.13673-59.9297L48.99223-60.8594L49.88283-61.7383L50.81253-62.5703L51.76563-63.3516L52.75003-64.082L53.75783-64.7656L54.78903-65.4023L55.83983-65.9883L56.91013-66.5352L57.99223-67.0352L59.09373-67.4883L60.20313-67.9023L61.32813-68.2695L62.46093-68.6016L63.60153-68.8867L64.75003-69.1367L65.90623-69.3438L67.06643-69.5117L68.23043-69.6445L69.39843-69.7344L70.57033-69.7891L71.74223-69.8047L72.91013-69.7773L74.08203-69.7148L75.25003-69.6172L76.41793-69.4766L77.57813-69.2969L78.73833-69.0781L79.88673-68.8203L81.03123-68.5195L82.16793-68.1797L83.29293-67.7969L84.40623-67.3711L85.50783-66.9023L86.59373-66.3867L87.66403-65.8242L88.71873-65.2188L89.75003-64.5664L90.75393-63.8633L91.73833-63.1094L92.69143-62.3086L93.60933-61.4609L94.49613-60.5586L95.34373-59.6055L96.14453-58.6055L96.90233-57.5586L95.69143-59.3984' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M97.066406-57.316449L96.222657-61.035198L95.746086-59.316443L93.976556-59.554724Z'/>
+<path d='M97.066406-57.316449L96.222657-61.035198L95.746086-59.316443L93.976556-59.554724Z' stroke='currentColor' fill='none' stroke-width='.398477' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 60.58347 -30.4702)'>
+<use x='7.821028' y='-42.646062' xlink:href='#g2-107'/>
+</g>
+<path d='M50.33983-42.644532C50.33983-67.5195 92.86333-67.5195 92.86333-42.644532' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M75.29683-61.3008L68.69923-64.0352V-58.5703Z'/>
+<path d='M96.65233-27.375L95.88283-26.3438L95.06643-25.3633L94.21093-24.4336L93.31643-23.5547L92.39063-22.7227L91.43753-21.9414L90.45313-21.2109L89.44533-20.5273L88.41403-19.8906L87.36333-19.3008L86.29293-18.7578L85.21093-18.2578L84.10933-17.8047L83.00003-17.3906L81.87503-17.0195L80.74223-16.6914L79.60153-16.4023L78.45313-16.1563L77.29683-15.9492L76.13673-15.7773L74.97263-15.6484L73.80473-15.5586L72.63283-15.5039L71.46093-15.4883L70.29293-15.5117L69.12113-15.5742L67.95313-15.6758L66.78513-15.8164L65.62503-15.9961L64.46483-16.2148L63.31643-16.4727L62.17183-16.7734L61.03513-17.1133L59.91013-17.4961L58.79683-17.9219L57.69143-18.3906L56.60543-18.9063L55.53513-19.4648L54.48433-20.0742L53.45313-20.7266L52.44533-21.4297L51.46483-22.1797L50.51173-22.9844L49.59373-23.832L48.70703-24.7344L47.85933-25.6836L47.05863-26.6836L46.29683-27.7344L47.51173-25.8945' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M46.136706-27.976532L46.980457-24.25388L47.457017-25.976532L49.22655-25.738253Z'/>
+<path d='M46.136706-27.976532L46.980457-24.25388L47.457017-25.976532L49.22655-25.738253Z' stroke='currentColor' fill='none' stroke-width='.398477' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 52.98607 37.38884)'>
+<use x='7.821028' y='-42.646062' xlink:href='#g2-107'/>
+<use x='15.535114' y='-42.646062' xlink:href='#g4-43'/>
+<use x='25.497727' y='-42.646062' xlink:href='#g2-113'/>
+</g>
+<path d='M92.86333-42.644532C92.86333-17.7734 50.33983-17.7734 50.33983-42.644532' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M67.90623-23.9922L74.50393-21.2578V-26.7227Z'/>
+<path d='M99.23833-51.14844H125.94103' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M128.43768-51.148406L124.86737-52.49606L126.03925-51.148406L124.86737-49.80466Z'/>
+<path d='M128.43768-51.148406L124.86737-52.49606L126.03925-51.148406L124.86737-49.80466Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 103.89797 -13.7618)'>
+<use x='7.821028' y='-42.646062' xlink:href='#g2-113'/>
+</g>
+<path d='M92.86333-42.644532H93.36723L93.87113-43.269532L94.37893-43.72266L94.88283-43.89063L95.39063-43.72266L95.89453-43.269532L96.40233-42.644532L96.90623-42.023438L97.41403-41.56641L97.91793-41.40234L98.42583-41.56641L98.92973-42.023438L99.43753-42.644532L99.94143-43.269532L100.44923-43.72266L100.95313-43.89063L101.46093-43.72266L101.96483-43.269532L102.47263-42.644532L102.97653-42.023438L103.48433-41.56641L103.98833-41.40234L104.49613-41.56641L105.00003-42.023438L105.50393-42.644532L106.01173-43.269532L106.51563-43.72266L107.02343-43.89063L107.52733-43.72266L108.03503-43.269532L108.53903-42.644532L109.04703-42.023438L109.55103-41.56641L110.05903-41.40234L110.56203-41.56641L111.07003-42.023438L111.57403-42.644532L112.08203-43.269532L112.58603-43.72266L113.09403-43.89063L113.59803-43.72266L114.10503-43.269532L114.60903-42.644532L115.11703-42.023438L115.62103-41.56641L116.12503-41.40234L116.63303-41.56641L117.13703-42.023438L117.64503-42.644532L118.14803-43.269532L118.65603-43.72266L119.16003-43.89063L119.66803-43.72266L120.17203-43.269532L120.68003-42.644532L121.18403-42.023438L121.69103-41.56641L122.19503-41.40234L122.70303-41.56641L123.20703-42.023438L123.71503-42.644532L124.21903-43.269532L124.72703-43.72266L125.23003-43.89063L125.73803-43.72266L126.24203-43.269532L126.75003-42.644532L127.25403-42.023438L127.75803-41.56641L128.26603-41.40234L128.77003-41.56641L129.27703-42.023438L129.78103-42.644532L130.28903-43.269532L130.79303-43.72266L131.30103-43.89063L131.80503-43.72266L132.31203-43.269532L132.81603-42.644532L133.32403-42.023438L133.82803-41.56641L134.33603-41.40234L135.38303-42.644532' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 -4.50055 -5.9828)'>
+<use x='7.821028' y='-42.646062' xlink:href='#g2-15'/>
+<use x='11.864902' y='-46.261426' xlink:href='#g3-49'/>
+<use x='11.864902' y='-40.18313' xlink:href='#g1-23'/>
+</g>
+<g transform='matrix(1 0 0 1 121.26297 -7.3388)'>
+<use x='7.821028' y='-42.646062' xlink:href='#g2-15'/>
+<use x='11.864902' y='-46.261426' xlink:href='#g3-50'/>
+<use x='15.836142' y='-46.261426' xlink:href='#g0-3'/>
+<use x='11.864902' y='-40.18313' xlink:href='#g1-22'/>
+</g>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle = -(-ie)^2 \int \frac{d^4k}{(2\pi)^4} e^{2*}_\mu (q) e^{1}_\nu (q) \left[ \gamma^\mu_{\alpha\beta} \frac{i(\slashed{k} + \slashed{q} + m)_{\beta\gamma}}{(k+q)^2 - m^2 + i\epsilon} \gamma^\nu_{\gamma\delta} \frac{i(\slashed{k} + m)_{\delta\alpha}}{k^2 - m^2 + i\epsilon} \right]$</span><span class="equation-part">$\displaystyle = e^2\epsilon_\mu^{2*}\epsilon_\nu^1\int \frac{d^4 k}{(2\pi)^4}\text{Tr}\left[\gamma^{\mu}\frac{i(\slashed{k}+\slashed{q}+m)}{(k+q)^2-m^2+i\epsilon}\gamma^{\nu}\frac{i(\slashed{k}+m)}{(k^2-m^2+i\epsilon)}\right].$</span><span class="equation-num">(1.19)</span></div>
 
 <p>A useful general rule is that the spinor matrices are always multiplied together in the direction opposite to the particle-flow arrow.</p>
 
 <h4>Signs</h4>
 
 <p>Now, the subtlety comes in. Recall that the spinors anticommute within a time-ordered product:
-\[T\{\cdots \psi(x)\psi(y) \cdots \} = - T\{\cdots \psi(y)\psi(x) \cdots \}.\tag{20}\]
+\[T\{\cdots \psi(x)\psi(y) \cdots \} = - T\{\cdots \psi(y)\psi(x) \cdots \}.\tag{1.20}\]
 These minus signs would also appear in the Feynman rules. To see it, let us consider the Møller scattering ($e^-e^-\to e^-e^-$) at tree-level. Two possible Feynman diagrams contribute at tree-level, the $t$-channel diagram:</p>
 
-<div class="equation-row"><span class="equation-part">$i\mathcal{M}_{t} =$</span>
+<div class="equation-row"><span class="equation-part">$\displaystyle i\mathcal{M}_{t} =$</span><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='8.863em' height='11.981em' viewBox='-.000031 -108.921906 80.574331 108.922156'>
+<defs>
+<path id='g0-112' d='M.448319 1.215442C.368618 1.554172 .348692 1.62391-.089664 1.62391C-.209215 1.62391-.318804 1.62391-.318804 1.8132C-.318804 1.892902-.268991 1.932752-.18929 1.932752C.079701 1.932752 .368618 1.902864 .647572 1.902864C.976339 1.902864 1.315068 1.932752 1.633873 1.932752C1.683686 1.932752 1.8132 1.932752 1.8132 1.733499C1.8132 1.62391 1.713574 1.62391 1.574097 1.62391C1.075965 1.62391 1.075965 1.554172 1.075965 1.464508C1.075965 1.344956 1.494396-.278954 1.564134-.52802C1.693649-.239103 1.972603 .109589 2.480697 .109589C3.636364 .109589 4.881694-1.344956 4.881694-2.809465C4.881694-3.745953 4.313823-4.403487 3.556663-4.403487C3.058531-4.403487 2.580324-4.044832 2.251557-3.656289C2.15193-4.194271 1.723537-4.403487 1.354919-4.403487C.896638-4.403487 .707347-4.014944 .617684-3.835616C.438356-3.496887 .308842-2.899128 .308842-2.86924C.308842-2.769614 .408468-2.769614 .428394-2.769614C.52802-2.769614 .537983-2.779577 .597758-2.998755C.767123-3.706102 .966376-4.184309 1.325031-4.184309C1.494396-4.184309 1.633873-4.104608 1.633873-3.726027C1.633873-3.496887 1.603985-3.387298 1.564134-3.217933L.448319 1.215442ZM2.201743-3.108344C2.271482-3.377335 2.540473-3.656289 2.719801-3.805729C3.068493-4.11457 3.35741-4.184309 3.526775-4.184309C3.92528-4.184309 4.164384-3.835616 4.164384-3.247821S3.835616-1.514321 3.656289-1.135741C3.317559-.438356 2.839352-.109589 2.470735-.109589C1.8132-.109589 1.683686-.936488 1.683686-.996264C1.683686-1.016189 1.683686-1.036115 1.713574-1.155666L2.201743-3.108344Z'/>
+<path id='g1-49' d='M2.336239-4.435367C2.336239-4.623661 2.322291-4.630635 2.127024-4.630635C1.680697-4.191283 1.046077-4.184309 .760149-4.184309V-3.93325C.927522-3.93325 1.387796-3.93325 1.771357-4.128518V-.571856C1.771357-.341719 1.771357-.251059 1.073973-.251059H.808966V0C.934496-.006974 1.792279-.027895 2.050311-.027895C2.266501-.027895 3.145205-.006974 3.29863 0V-.251059H3.033624C2.336239-.251059 2.336239-.341719 2.336239-.571856V-4.435367Z'/>
+<path id='g1-50' d='M3.521793-1.26924H3.284682C3.263761-1.115816 3.194022-.704359 3.103362-.63462C3.047572-.592777 2.510585-.592777 2.412951-.592777H1.129763C1.862017-1.241345 2.106102-1.436613 2.524533-1.764384C3.040598-2.175841 3.521793-2.608219 3.521793-3.270735C3.521793-4.11457 2.782565-4.630635 1.889913-4.630635C1.025156-4.630635 .439352-4.02391 .439352-3.382316C.439352-3.02665 .739228-2.991781 .808966-2.991781C.976339-2.991781 1.17858-3.110336 1.17858-3.361395C1.17858-3.486924 1.129763-3.731009 .767123-3.731009C.983313-4.226152 1.457534-4.379577 1.785305-4.379577C2.48269-4.379577 2.84533-3.835616 2.84533-3.270735C2.84533-2.66401 2.412951-2.182814 2.189788-1.931756L.509091-.27198C.439352-.209215 .439352-.195268 .439352 0H3.312578L3.521793-1.26924Z'/>
+<path id='g1-51' d='M1.903861-2.329265C2.447821-2.329265 2.838356-1.952677 2.838356-1.206476C2.838356-.341719 2.336239-.083686 1.931756-.083686C1.652802-.083686 1.039103-.160399 .746202-.571856C1.073973-.585803 1.150685-.81594 1.150685-.962391C1.150685-1.185554 .983313-1.345953 .767123-1.345953C.571856-1.345953 .376588-1.227397 .376588-.941469C.376588-.285928 1.101868 .139477 1.945704 .139477C2.915068 .139477 3.584558-.509091 3.584558-1.206476C3.584558-1.750436 3.138232-2.294396 2.371108-2.454795C3.103362-2.719801 3.368369-3.242839 3.368369-3.668244C3.368369-4.219178 2.733748-4.630635 1.959651-4.630635S.592777-4.254047 .592777-3.696139C.592777-3.459029 .746202-3.326526 .955417-3.326526C1.171606-3.326526 1.311083-3.486924 1.311083-3.682192C1.311083-3.884433 1.171606-4.030884 .955417-4.044832C1.199502-4.351681 1.680697-4.428394 1.93873-4.428394C2.252553-4.428394 2.691905-4.274969 2.691905-3.668244C2.691905-3.375342 2.594271-3.054545 2.412951-2.838356C2.182814-2.57335 1.987547-2.559402 1.638854-2.538481C1.464508-2.524533 1.45056-2.524533 1.415691-2.517559C1.401743-2.517559 1.345953-2.503611 1.345953-2.426899C1.345953-2.329265 1.408717-2.329265 1.527273-2.329265H1.903861Z'/>
+<path id='g1-52' d='M3.689166-1.143711V-1.39477H2.915068V-4.505106C2.915068-4.651557 2.915068-4.700374 2.761644-4.700374C2.677958-4.700374 2.650062-4.700374 2.580324-4.60274L.27198-1.39477V-1.143711H2.322291V-.571856C2.322291-.334745 2.322291-.251059 1.75741-.251059H1.569116V0C1.917808-.013948 2.364134-.027895 2.615193-.027895C2.873225-.027895 3.319552-.013948 3.668244 0V-.251059H3.47995C2.915068-.251059 2.915068-.334745 2.915068-.571856V-1.143711H3.689166ZM2.371108-3.947198V-1.39477H.530012L2.371108-3.947198Z'/>
+</defs>
+<g id='page1'>
+<path d='M.199219-108.722656L40.28905-68.6328' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M22.82815-86.0937L20.09375-92.6914L16.23045-88.8281Z'/>
+<g transform='matrix(1 0 0 1 23.56405 14.5872)'>
+<use x='.19925' y='-108.721627' xlink:href='#g0-112'/>
+<use x='5.211714' y='-107.227247' xlink:href='#g1-49'/>
+</g>
+<path d='M.199219-.199L40.28905-40.2852' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M22.82815-22.8242L16.23045-20.0937L20.09375-16.2305Z'/>
+<g transform='matrix(1 0 0 1 23.56405 96.2889)'>
+<use x='.19925' y='-108.721627' xlink:href='#g0-112'/>
+<use x='5.211714' y='-107.227247' xlink:href='#g1-50'/>
+</g>
+<path d='M40.28905-68.6328V-68.1602L40.91015-67.6914L41.36715-67.2187L41.53125-66.7461L41.36715-66.2734L40.91015-65.8008L40.28905-65.3281L39.66405-64.8555L39.21095-64.3867L39.04295-63.9141L39.21095-63.4414L39.66405-62.9687L40.28905-62.4961L40.91015-62.0234L41.36715-61.5547L41.53125-61.082L41.36715-60.6094L40.91015-60.1367L40.28905-59.6641L39.66405-59.1914L39.21095-58.7227L39.04295-58.25L39.21095-57.7773L39.66405-57.3047L40.28905-56.832L40.91015-56.3594L41.36715-55.8906L41.53125-55.418L41.36715-54.9453L40.91015-54.4727L40.28905-54L39.66405-53.5273L39.21095-53.0586L39.04295-52.5859L39.21095-52.1133L39.66405-51.6406L40.28905-51.168L40.91015-50.6953L41.36715-50.2266L41.53125-49.7539L41.36715-49.2812L40.91015-48.8086L40.28905-48.3359L39.66405-47.8633L39.21095-47.3906L39.04295-46.9219L39.21095-46.4492L39.66405-45.9766L40.28905-45.5039L40.91015-45.0312L41.36715-44.5586L41.53125-44.0898L41.36715-43.6172L40.91015-43.1445L40.28905-42.6719L39.66405-42.1992L39.21095-41.7266L39.04295-41.2578L40.28905-40.2852' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M40.28905-68.6328L80.37505-108.722656' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M62.91405-91.2617L56.31645-88.5273L60.18355-84.6641Z'/>
+<g transform='matrix(1 0 0 1 47.13095 14.5872)'>
+<use x='.19925' y='-108.721627' xlink:href='#g0-112'/>
+<use x='5.211714' y='-107.227247' xlink:href='#g1-51'/>
+</g>
+<path d='M40.28905-40.2852L80.37505-.199' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M62.91405-17.6602L60.18355-24.2578L56.31645-20.3906Z'/>
+<g transform='matrix(1 0 0 1 47.13095 96.2888)'>
+<use x='.19925' y='-108.721627' xlink:href='#g0-112'/>
+<use x='5.211714' y='-107.227247' xlink:href='#g1-52'/>
+</g>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle = \pm(-ie)^2 \bar{u}(p_3)\gamma^\mu u(p_1)\frac{-ig_{\mu\nu}}{(p_1-p_3)^2}\bar{u}(p_4)\gamma^\nu u(p_2)$</span><span class="equation-num">(1.21)</span></div>
 
-<figure class="tikz-figure"><script type="text/tikz">
-\usetikzlibrary{decorations.markings,arrows.meta}
-\begin{tikzpicture}[every node/.style={font=\small}]
-  \node (i1) at (0.00,0.00) {};
-  \node (a) at (1.40,-1.00) {};
-  \node (f1) at (2.80,0.00) {};
-  \node (b) at (1.40,-2.40) {};
-  \node (f2) at (2.80,-3.40) {};
-  \node (i2) at (0.00,-3.40) {};
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (i1) -- node[above, midway, font=\footnotesize] {$p_1$} (a);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (i2) -- node[below, midway, font=\footnotesize] {$p_2$} (b);
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- (b);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (a) -- node[above, midway, font=\footnotesize] {$p_3$} (f1);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (b) -- node[below, midway, font=\footnotesize] {$p_4$} (f2);
-\end{tikzpicture}
-</script></figure>
-
-<p><span class="equation-part">$= \pm(-ie)^2 \bar{u}(p_3)\gamma^\mu u(p_1)\frac{-ig_{\mu\nu}}{(p_1-p_3)^2}\bar{u}(p_4)\gamma^\nu u(p_2)$</span><span class="equation-num">(21)</span></div></p>
-
-<div class="equation-row"><span class="equation-part">$i\mathcal{M}_{u} =$</span>
-
-<figure class="tikz-figure"><script type="text/tikz">
-\usetikzlibrary{decorations.markings,arrows.meta}
-\begin{tikzpicture}[every node/.style={font=\small}]
-  \node (i1) at (0.00,0.00) {};
-  \node (a) at (1.40,-1.00) {};
-  \node (f1) at (2.80,0.00) {};
-  \node (b) at (1.40,-2.40) {};
-  \node (f2) at (2.80,-3.40) {};
-  \node (i2) at (0.00,-3.40) {};
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (i1) -- node[above, midway, font=\footnotesize] {$p_1$} (a);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (i2) -- node[below, midway, font=\footnotesize] {$p_2$} (b);
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- (b);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (a) -- node[above, midway, font=\footnotesize] {$p_4$} (f2);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (b) -- node[below, midway, font=\footnotesize] {$p_3$} (f1);
-\end{tikzpicture}
-</script></figure>
-
-<p><span class="equation-part">$= \pm(-ie)^2 \bar{u}(p_4)\gamma^\mu u(p_2)\frac{-ig_{\mu\nu}}{(p_1-p_4)^2}\bar{u}(p_4)\gamma^\nu u(p_1)$</span><span class="equation-num">(22)</span></div></p>
+<div class="equation-row"><span class="equation-part">$\displaystyle i\mathcal{M}_{u} =$</span><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='8.863em' height='11.981em' viewBox='-.000031 -108.921906 80.574331 108.922156'>
+<defs>
+<path id='g0-112' d='M.448319 1.215442C.368618 1.554172 .348692 1.62391-.089664 1.62391C-.209215 1.62391-.318804 1.62391-.318804 1.8132C-.318804 1.892902-.268991 1.932752-.18929 1.932752C.079701 1.932752 .368618 1.902864 .647572 1.902864C.976339 1.902864 1.315068 1.932752 1.633873 1.932752C1.683686 1.932752 1.8132 1.932752 1.8132 1.733499C1.8132 1.62391 1.713574 1.62391 1.574097 1.62391C1.075965 1.62391 1.075965 1.554172 1.075965 1.464508C1.075965 1.344956 1.494396-.278954 1.564134-.52802C1.693649-.239103 1.972603 .109589 2.480697 .109589C3.636364 .109589 4.881694-1.344956 4.881694-2.809465C4.881694-3.745953 4.313823-4.403487 3.556663-4.403487C3.058531-4.403487 2.580324-4.044832 2.251557-3.656289C2.15193-4.194271 1.723537-4.403487 1.354919-4.403487C.896638-4.403487 .707347-4.014944 .617684-3.835616C.438356-3.496887 .308842-2.899128 .308842-2.86924C.308842-2.769614 .408468-2.769614 .428394-2.769614C.52802-2.769614 .537983-2.779577 .597758-2.998755C.767123-3.706102 .966376-4.184309 1.325031-4.184309C1.494396-4.184309 1.633873-4.104608 1.633873-3.726027C1.633873-3.496887 1.603985-3.387298 1.564134-3.217933L.448319 1.215442ZM2.201743-3.108344C2.271482-3.377335 2.540473-3.656289 2.719801-3.805729C3.068493-4.11457 3.35741-4.184309 3.526775-4.184309C3.92528-4.184309 4.164384-3.835616 4.164384-3.247821S3.835616-1.514321 3.656289-1.135741C3.317559-.438356 2.839352-.109589 2.470735-.109589C1.8132-.109589 1.683686-.936488 1.683686-.996264C1.683686-1.016189 1.683686-1.036115 1.713574-1.155666L2.201743-3.108344Z'/>
+<path id='g1-49' d='M2.336239-4.435367C2.336239-4.623661 2.322291-4.630635 2.127024-4.630635C1.680697-4.191283 1.046077-4.184309 .760149-4.184309V-3.93325C.927522-3.93325 1.387796-3.93325 1.771357-4.128518V-.571856C1.771357-.341719 1.771357-.251059 1.073973-.251059H.808966V0C.934496-.006974 1.792279-.027895 2.050311-.027895C2.266501-.027895 3.145205-.006974 3.29863 0V-.251059H3.033624C2.336239-.251059 2.336239-.341719 2.336239-.571856V-4.435367Z'/>
+<path id='g1-50' d='M3.521793-1.26924H3.284682C3.263761-1.115816 3.194022-.704359 3.103362-.63462C3.047572-.592777 2.510585-.592777 2.412951-.592777H1.129763C1.862017-1.241345 2.106102-1.436613 2.524533-1.764384C3.040598-2.175841 3.521793-2.608219 3.521793-3.270735C3.521793-4.11457 2.782565-4.630635 1.889913-4.630635C1.025156-4.630635 .439352-4.02391 .439352-3.382316C.439352-3.02665 .739228-2.991781 .808966-2.991781C.976339-2.991781 1.17858-3.110336 1.17858-3.361395C1.17858-3.486924 1.129763-3.731009 .767123-3.731009C.983313-4.226152 1.457534-4.379577 1.785305-4.379577C2.48269-4.379577 2.84533-3.835616 2.84533-3.270735C2.84533-2.66401 2.412951-2.182814 2.189788-1.931756L.509091-.27198C.439352-.209215 .439352-.195268 .439352 0H3.312578L3.521793-1.26924Z'/>
+<path id='g1-51' d='M1.903861-2.329265C2.447821-2.329265 2.838356-1.952677 2.838356-1.206476C2.838356-.341719 2.336239-.083686 1.931756-.083686C1.652802-.083686 1.039103-.160399 .746202-.571856C1.073973-.585803 1.150685-.81594 1.150685-.962391C1.150685-1.185554 .983313-1.345953 .767123-1.345953C.571856-1.345953 .376588-1.227397 .376588-.941469C.376588-.285928 1.101868 .139477 1.945704 .139477C2.915068 .139477 3.584558-.509091 3.584558-1.206476C3.584558-1.750436 3.138232-2.294396 2.371108-2.454795C3.103362-2.719801 3.368369-3.242839 3.368369-3.668244C3.368369-4.219178 2.733748-4.630635 1.959651-4.630635S.592777-4.254047 .592777-3.696139C.592777-3.459029 .746202-3.326526 .955417-3.326526C1.171606-3.326526 1.311083-3.486924 1.311083-3.682192C1.311083-3.884433 1.171606-4.030884 .955417-4.044832C1.199502-4.351681 1.680697-4.428394 1.93873-4.428394C2.252553-4.428394 2.691905-4.274969 2.691905-3.668244C2.691905-3.375342 2.594271-3.054545 2.412951-2.838356C2.182814-2.57335 1.987547-2.559402 1.638854-2.538481C1.464508-2.524533 1.45056-2.524533 1.415691-2.517559C1.401743-2.517559 1.345953-2.503611 1.345953-2.426899C1.345953-2.329265 1.408717-2.329265 1.527273-2.329265H1.903861Z'/>
+<path id='g1-52' d='M3.689166-1.143711V-1.39477H2.915068V-4.505106C2.915068-4.651557 2.915068-4.700374 2.761644-4.700374C2.677958-4.700374 2.650062-4.700374 2.580324-4.60274L.27198-1.39477V-1.143711H2.322291V-.571856C2.322291-.334745 2.322291-.251059 1.75741-.251059H1.569116V0C1.917808-.013948 2.364134-.027895 2.615193-.027895C2.873225-.027895 3.319552-.013948 3.668244 0V-.251059H3.47995C2.915068-.251059 2.915068-.334745 2.915068-.571856V-1.143711H3.689166ZM2.371108-3.947198V-1.39477H.530012L2.371108-3.947198Z'/>
+</defs>
+<g id='page1'>
+<path d='M.199219-108.722656L40.28905-68.6328' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M22.82815-86.0937L20.09375-92.6914L16.23045-88.8281Z'/>
+<g transform='matrix(1 0 0 1 23.56405 14.5872)'>
+<use x='.19925' y='-108.721627' xlink:href='#g0-112'/>
+<use x='5.211714' y='-107.227247' xlink:href='#g1-49'/>
+</g>
+<path d='M.199219-.199L40.28905-40.2852' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M22.82815-22.8242L16.23045-20.0937L20.09375-16.2305Z'/>
+<g transform='matrix(1 0 0 1 23.56405 96.2889)'>
+<use x='.19925' y='-108.721627' xlink:href='#g0-112'/>
+<use x='5.211714' y='-107.227247' xlink:href='#g1-50'/>
+</g>
+<path d='M40.28905-68.6328V-68.1602L40.91015-67.6914L41.36715-67.2187L41.53125-66.7461L41.36715-66.2734L40.91015-65.8008L40.28905-65.3281L39.66405-64.8555L39.21095-64.3867L39.04295-63.9141L39.21095-63.4414L39.66405-62.9687L40.28905-62.4961L40.91015-62.0234L41.36715-61.5547L41.53125-61.082L41.36715-60.6094L40.91015-60.1367L40.28905-59.6641L39.66405-59.1914L39.21095-58.7227L39.04295-58.25L39.21095-57.7773L39.66405-57.3047L40.28905-56.832L40.91015-56.3594L41.36715-55.8906L41.53125-55.418L41.36715-54.9453L40.91015-54.4727L40.28905-54L39.66405-53.5273L39.21095-53.0586L39.04295-52.5859L39.21095-52.1133L39.66405-51.6406L40.28905-51.168L40.91015-50.6953L41.36715-50.2266L41.53125-49.7539L41.36715-49.2812L40.91015-48.8086L40.28905-48.3359L39.66405-47.8633L39.21095-47.3906L39.04295-46.9219L39.21095-46.4492L39.66405-45.9766L40.28905-45.5039L40.91015-45.0312L41.36715-44.5586L41.53125-44.0898L41.36715-43.6172L40.91015-43.1445L40.28905-42.6719L39.66405-42.1992L39.21095-41.7266L39.04295-41.2578L40.28905-40.2852' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M40.28905-68.6328L80.37505-.199' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M62.17185-31.2773L61.19535-38.3477L56.48045-35.5859Z'/>
+<g transform='matrix(1 0 0 1 63.65255 68.8491)'>
+<use x='.19925' y='-108.721627' xlink:href='#g0-112'/>
+<use x='5.211714' y='-107.227247' xlink:href='#g1-52'/>
+</g>
+<path d='M40.28905-40.2852L80.37505-108.722656' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M62.17185-77.6445L56.48045-73.3359L61.19535-70.5703Z'/>
+<g transform='matrix(1 0 0 1 63.65255 42.027)'>
+<use x='.19925' y='-108.721627' xlink:href='#g0-112'/>
+<use x='5.211714' y='-107.227247' xlink:href='#g1-51'/>
+</g>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle = \pm(-ie)^2 \bar{u}(p_4)\gamma^\mu u(p_2)\frac{-ig_{\mu\nu}}{(p_1-p_4)^2}\bar{u}(p_4)\gamma^\nu u(p_1)$</span><span class="equation-num">(1.22)</span></div>
 
 <p>What sign does these diagrams give?</p>
 
@@ -408,47 +542,128 @@ These minus signs would also appear in the Feynman rules. To see it, let us cons
 &amp;=(-ie)^{2}\gamma^{\mu}_{\beta_{1}\beta_{2}}\gamma^{\nu}_{\beta_{3}\beta_{4}}\int d^{4}x\int d^{4}y
 \langle 0|T\Big{\{}\psi_{\alpha_{1}}(x_{1})\bar{\psi}_{\alpha_{3}}(x_{3})\psi_{\alpha_{2}}(x_{2})\bar{\psi}_{\alpha_{4}}(x_{4})\bar{\psi}_{\beta_{1}}(x)\\
 &amp; \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad  \times A^{\mu}(x)\psi_{\beta_{2}}(x)\bar{\psi}_{\beta_{3}}(y)A^{\nu}(y)\psi_{\beta_{4}}(y)\Big{\}}|0\rangle.
-\end{aligned}\tag{23}\]
+\end{aligned}\tag{1.23}\]
 Recall Wick's theorem, which states that the vacuum matrix element of a time-ordered product is equal to all possible contractions in which all the fields are involved. For scalar field theory, a contraction is just a Feynman propagator:
-\[\wick{\c\phi(x_1)\c\phi(x_2)} = \bra{0}T\{\phi(x_1)\phi(x_2)\}\ket{0}.\tag{24}\]
+<figure class="wick-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='21.273em' height='1.329em' viewBox='93.435979 -15.64061 250.275107 15.64061'>
+<defs>
+<path id='g0-102' d='M2.819427-6.146949C2.819427-6.545455 3.078456-7.183064 4.164384-7.252802C4.214197-7.262765 4.254047-7.302615 4.254047-7.362391C4.254047-7.47198 4.174346-7.47198 4.064757-7.47198C3.068493-7.47198 2.161893-6.963885 2.15193-6.22665V-3.955168C2.15193-3.566625 2.15193-3.247821 1.753425-2.919054C1.404732-2.630137 1.026152-2.610212 .806974-2.600249C.757161-2.590286 .71731-2.550436 .71731-2.49066C.71731-2.391034 .777086-2.391034 .876712-2.381071C1.534247-2.34122 2.012453-1.982565 2.122042-1.494396C2.15193-1.384807 2.15193-1.364882 2.15193-1.006227V.966376C2.15193 1.384807 2.15193 1.703611 2.630137 2.082192C3.01868 2.381071 3.676214 2.49066 4.064757 2.49066C4.174346 2.49066 4.254047 2.49066 4.254047 2.381071C4.254047 2.281445 4.194271 2.281445 4.094645 2.271482C3.466999 2.231631 2.978829 1.912827 2.849315 1.404732C2.819427 1.315068 2.819427 1.295143 2.819427 .936488V-1.155666C2.819427-1.613948 2.739726-1.783313 2.420922-2.102117C2.211706-2.311333 1.92279-2.410959 1.643836-2.49066C2.460772-2.719801 2.819427-3.178082 2.819427-3.755915V-6.146949Z'/>
+<path id='g0-103' d='M2.15193 1.165629C2.15193 1.564134 1.892902 2.201743 .806974 2.271482C.757161 2.281445 .71731 2.321295 .71731 2.381071C.71731 2.49066 .826899 2.49066 .916563 2.49066C1.882939 2.49066 2.809465 2.002491 2.819427 1.24533V-1.026152C2.819427-1.414695 2.819427-1.733499 3.217933-2.062267C3.566625-2.351183 3.945205-2.371108 4.164384-2.381071C4.214197-2.391034 4.254047-2.430884 4.254047-2.49066C4.254047-2.590286 4.194271-2.590286 4.094645-2.600249C3.437111-2.6401 2.958904-2.998755 2.849315-3.486924C2.819427-3.596513 2.819427-3.616438 2.819427-3.975093V-5.947696C2.819427-6.366127 2.819427-6.684932 2.34122-7.063512C1.942715-7.372354 1.255293-7.47198 .916563-7.47198C.826899-7.47198 .71731-7.47198 .71731-7.362391C.71731-7.262765 .777086-7.262765 .876712-7.252802C1.504359-7.212951 1.992528-6.894147 2.122042-6.386052C2.15193-6.296389 2.15193-6.276463 2.15193-5.917808V-3.825654C2.15193-3.367372 2.231631-3.198007 2.550436-2.879203C2.759651-2.669988 3.048568-2.570361 3.327522-2.49066C2.510585-2.261519 2.15193-1.803238 2.15193-1.225405V1.165629Z'/>
+<path id='g0-104' d='M3.267746-7.0934C3.317559-7.202989 3.317559-7.222914 3.317559-7.272727C3.317559-7.382316 3.227895-7.47198 3.118306-7.47198C3.028643-7.47198 2.958904-7.422167 2.889166-7.242839L1.145704-2.669988C1.125778-2.610212 1.09589-2.550436 1.09589-2.49066C1.09589-2.460772 1.09589-2.440847 1.145704-2.321295L2.889166 2.251557C2.929016 2.361146 2.978829 2.49066 3.118306 2.49066C3.227895 2.49066 3.317559 2.400996 3.317559 2.291407C3.317559 2.261519 3.317559 2.241594 3.267746 2.132005L1.504359-2.49066L3.267746-7.0934Z'/>
+<path id='g0-105' d='M2.719801-2.321295C2.769614-2.440847 2.769614-2.460772 2.769614-2.49066S2.769614-2.540473 2.719801-2.660025L.976339-7.242839C.916563-7.412204 .856787-7.47198 .747198-7.47198S.547945-7.382316 .547945-7.272727C.547945-7.242839 .547945-7.222914 .597758-7.113325L2.361146-2.49066L.597758 2.11208C.547945 2.221669 .547945 2.241594 .547945 2.291407C.547945 2.400996 .637609 2.49066 .747198 2.49066C.876712 2.49066 .916563 2.391034 .956413 2.291407L2.719801-2.321295Z'/>
+<path id='g0-106' d='M1.58406-7.113325C1.58406-7.292653 1.58406-7.47198 1.384807-7.47198S1.185554-7.292653 1.185554-7.113325V2.132005C1.185554 2.311333 1.185554 2.49066 1.384807 2.49066S1.58406 2.311333 1.58406 2.132005V-7.113325Z'/>
+<path id='g1-30' d='M4.353674-6.674969C4.353674-6.694894 4.383562-6.804483 4.383562-6.814446S4.383562-6.914072 4.26401-6.914072C4.164384-6.914072 4.154421-6.884184 4.11457-6.714819L3.536737-4.41345C1.952677-4.363636 .488169-3.038605 .488169-1.683686C.488169-.737235 1.185554 .049813 2.400996 .119552C2.321295 .428394 2.251557 .747198 2.171856 1.05604C2.052304 1.524284 1.952677 1.902864 1.952677 1.932752C1.952677 2.032379 2.022416 2.042341 2.072229 2.042341S2.141968 2.032379 2.171856 2.002491C2.191781 1.982565 2.251557 1.743462 2.281445 1.603985L2.660025 .119552C4.26401 .069738 5.708593-1.275218 5.708593-2.610212C5.708593-3.39726 5.180573-4.313823 3.795766-4.41345L4.353674-6.674969ZM2.450809-.099626C1.853051-.129514 1.135741-.478207 1.135741-1.474471C1.135741-2.669988 1.992528-4.064757 3.476961-4.194271L2.450809-.099626ZM3.73599-4.194271C4.493151-4.154421 5.061021-3.696139 5.061021-2.819427C5.061021-1.643836 4.204234-.219178 2.709838-.099626L3.73599-4.194271Z'/>
+<path id='g1-58' d='M1.912827-.52802C1.912827-.816936 1.673724-1.05604 1.384807-1.05604S.856787-.816936 .856787-.52802S1.09589 0 1.384807 0S1.912827-.239103 1.912827-.52802Z'/>
+<path id='g1-84' d='M4.254047-6.047323C4.323786-6.326276 4.363636-6.386052 4.483188-6.41594C4.572852-6.435866 4.901619-6.435866 5.110834-6.435866C6.117061-6.435866 6.56538-6.396015 6.56538-5.618929C6.56538-5.469489 6.525529-5.080946 6.485679-4.821918C6.475716-4.782067 6.455791-4.662516 6.455791-4.632628C6.455791-4.572852 6.485679-4.503113 6.575342-4.503113C6.684932-4.503113 6.704857-4.582814 6.724782-4.732254L6.993773-6.465753C7.003736-6.505604 7.013699-6.60523 7.013699-6.635118C7.013699-6.744707 6.914072-6.744707 6.744707-6.744707H1.215442C.976339-6.744707 .966376-6.734745 .896638-6.545455L.298879-4.79203C.288917-4.772105 .239103-4.632628 .239103-4.612702C.239103-4.552927 .288917-4.503113 .358655-4.503113C.458281-4.503113 .468244-4.552927 .52802-4.712329C1.066002-6.256538 1.325031-6.435866 2.799502-6.435866H3.188045C3.466999-6.435866 3.466999-6.396015 3.466999-6.316314C3.466999-6.256538 3.437111-6.136986 3.427148-6.107098L2.092154-.787049C2.002491-.418431 1.972603-.308842 .9066-.308842C.547945-.308842 .488169-.308842 .488169-.119552C.488169 0 .597758 0 .657534 0C.926526 0 1.205479-.019925 1.474471-.019925C1.753425-.019925 2.042341-.029888 2.321295-.029888S2.879203-.019925 3.148194-.019925C3.437111-.019925 3.73599 0 4.014944 0C4.11457 0 4.234122 0 4.234122-.199253C4.234122-.308842 4.154421-.308842 3.895392-.308842C3.646326-.308842 3.516812-.308842 3.257783-.328767C2.968867-.358655 2.889166-.388543 2.889166-.547945C2.889166-.557908 2.889166-.607721 2.929016-.757161L4.254047-6.047323Z'/>
+<path id='g1-120' d='M3.327522-3.008717C3.387298-3.267746 3.616438-4.184309 4.313823-4.184309C4.363636-4.184309 4.60274-4.184309 4.811955-4.054795C4.533001-4.004981 4.333748-3.755915 4.333748-3.516812C4.333748-3.35741 4.443337-3.16812 4.712329-3.16812C4.931507-3.16812 5.250311-3.347447 5.250311-3.745953C5.250311-4.26401 4.662516-4.403487 4.323786-4.403487C3.745953-4.403487 3.39726-3.875467 3.277709-3.646326C3.028643-4.303861 2.49066-4.403487 2.201743-4.403487C1.165629-4.403487 .597758-3.118306 .597758-2.86924C.597758-2.769614 .697385-2.769614 .71731-2.769614C.797011-2.769614 .826899-2.789539 .846824-2.879203C1.185554-3.935243 1.843088-4.184309 2.181818-4.184309C2.371108-4.184309 2.719801-4.094645 2.719801-3.516812C2.719801-3.20797 2.550436-2.540473 2.181818-1.145704C2.022416-.52802 1.673724-.109589 1.235367-.109589C1.175592-.109589 .946451-.109589 .737235-.239103C.986301-.288917 1.205479-.498132 1.205479-.777086C1.205479-1.046077 .986301-1.125778 .836862-1.125778C.537983-1.125778 .288917-.86675 .288917-.547945C.288917-.089664 .787049 .109589 1.225405 .109589C1.882939 .109589 2.241594-.587796 2.271482-.647572C2.391034-.278954 2.749689 .109589 3.347447 .109589C4.373599 .109589 4.941469-1.175592 4.941469-1.424658C4.941469-1.524284 4.851806-1.524284 4.821918-1.524284C4.732254-1.524284 4.712329-1.484433 4.692403-1.414695C4.363636-.348692 3.686177-.109589 3.367372-.109589C2.978829-.109589 2.819427-.428394 2.819427-.767123C2.819427-.986301 2.879203-1.205479 2.988792-1.643836L3.327522-3.008717Z'/>
+<path id='g2-49' d='M2.336239-4.435367C2.336239-4.623661 2.322291-4.630635 2.127024-4.630635C1.680697-4.191283 1.046077-4.184309 .760149-4.184309V-3.93325C.927522-3.93325 1.387796-3.93325 1.771357-4.128518V-.571856C1.771357-.341719 1.771357-.251059 1.073973-.251059H.808966V0C.934496-.006974 1.792279-.027895 2.050311-.027895C2.266501-.027895 3.145205-.006974 3.29863 0V-.251059H3.033624C2.336239-.251059 2.336239-.341719 2.336239-.571856V-4.435367Z'/>
+<path id='g2-50' d='M3.521793-1.26924H3.284682C3.263761-1.115816 3.194022-.704359 3.103362-.63462C3.047572-.592777 2.510585-.592777 2.412951-.592777H1.129763C1.862017-1.241345 2.106102-1.436613 2.524533-1.764384C3.040598-2.175841 3.521793-2.608219 3.521793-3.270735C3.521793-4.11457 2.782565-4.630635 1.889913-4.630635C1.025156-4.630635 .439352-4.02391 .439352-3.382316C.439352-3.02665 .739228-2.991781 .808966-2.991781C.976339-2.991781 1.17858-3.110336 1.17858-3.361395C1.17858-3.486924 1.129763-3.731009 .767123-3.731009C.983313-4.226152 1.457534-4.379577 1.785305-4.379577C2.48269-4.379577 2.84533-3.835616 2.84533-3.270735C2.84533-2.66401 2.412951-2.182814 2.189788-1.931756L.509091-.27198C.439352-.209215 .439352-.195268 .439352 0H3.312578L3.521793-1.26924Z'/>
+<path id='g3-40' d='M3.297634 2.391034C3.297634 2.361146 3.297634 2.34122 3.128269 2.171856C1.882939 .916563 1.564134-.966376 1.564134-2.49066C1.564134-4.224159 1.942715-5.957659 3.16812-7.202989C3.297634-7.32254 3.297634-7.342466 3.297634-7.372354C3.297634-7.442092 3.257783-7.47198 3.198007-7.47198C3.098381-7.47198 2.201743-6.794521 1.613948-5.529265C1.105853-4.433375 .986301-3.327522 .986301-2.49066C.986301-1.713574 1.09589-.508095 1.643836 .617684C2.241594 1.843088 3.098381 2.49066 3.198007 2.49066C3.257783 2.49066 3.297634 2.460772 3.297634 2.391034Z'/>
+<path id='g3-41' d='M2.879203-2.49066C2.879203-3.267746 2.769614-4.473225 2.221669-5.599004C1.62391-6.824408 .767123-7.47198 .667497-7.47198C.607721-7.47198 .56787-7.43213 .56787-7.372354C.56787-7.342466 .56787-7.32254 .757161-7.143213C1.733499-6.156912 2.30137-4.572852 2.30137-2.49066C2.30137-.787049 1.932752 .966376 .697385 2.221669C.56787 2.34122 .56787 2.361146 .56787 2.391034C.56787 2.450809 .607721 2.49066 .667497 2.49066C.767123 2.49066 1.663761 1.8132 2.251557 .547945C2.759651-.547945 2.879203-1.653798 2.879203-2.49066Z'/>
+<path id='g3-48' d='M4.582814-3.188045C4.582814-3.985056 4.533001-4.782067 4.184309-5.519303C3.726027-6.475716 2.909091-6.635118 2.49066-6.635118C1.892902-6.635118 1.165629-6.37609 .757161-5.449564C.438356-4.762142 .388543-3.985056 .388543-3.188045C.388543-2.440847 .428394-1.544209 .836862-.787049C1.265255 .019925 1.992528 .219178 2.480697 .219178C3.01868 .219178 3.775841 .009963 4.214197-.936488C4.533001-1.62391 4.582814-2.400996 4.582814-3.188045ZM2.480697 0C2.092154 0 1.504359-.249066 1.325031-1.205479C1.215442-1.803238 1.215442-2.719801 1.215442-3.307597C1.215442-3.945205 1.215442-4.60274 1.295143-5.140722C1.484433-6.326276 2.231631-6.41594 2.480697-6.41594C2.809465-6.41594 3.466999-6.236613 3.656289-5.250311C3.755915-4.692403 3.755915-3.935243 3.755915-3.307597C3.755915-2.560399 3.755915-1.882939 3.646326-1.24533C3.496887-.298879 2.929016 0 2.480697 0Z'/>
+<path id='g3-61' d='M6.844334-3.257783C6.993773-3.257783 7.183064-3.257783 7.183064-3.457036S6.993773-3.656289 6.854296-3.656289H.886675C.747198-3.656289 .557908-3.656289 .557908-3.457036S.747198-3.257783 .896638-3.257783H6.844334ZM6.854296-1.325031C6.993773-1.325031 7.183064-1.325031 7.183064-1.524284S6.993773-1.723537 6.844334-1.723537H.896638C.747198-1.723537 .557908-1.723537 .557908-1.524284S.747198-1.325031 .886675-1.325031H6.854296Z'/>
+<path id='g4-57' d='M4.692403-1.643836V-1.952677H3.696139V-6.485679C3.696139-6.684932 3.696139-6.744707 3.536737-6.744707C3.447073-6.744707 3.417186-6.744707 3.337484-6.625156L.278954-1.952677V-1.643836H2.929016V-.777086C2.929016-.418431 2.909091-.308842 2.171856-.308842H1.96264V0C2.371108-.029888 2.889166-.029888 3.307597-.029888S4.254047-.029888 4.662516 0V-.308842H4.4533C3.716065-.308842 3.696139-.418431 3.696139-.777086V-1.643836H4.692403ZM2.988792-1.952677H.557908L2.988792-5.668742V-1.952677Z'/>
+<path id='g4-82' d='M4.174346 0V-.308842H3.855542C2.958904-.308842 2.929016-.418431 2.929016-.787049V-6.37609C2.929016-6.615193 2.929016-6.635118 2.699875-6.635118C2.082192-5.997509 1.205479-5.997509 .886675-5.997509V-5.688667C1.085928-5.688667 1.673724-5.688667 2.191781-5.947696V-.787049C2.191781-.428394 2.161893-.308842 1.265255-.308842H.946451V0C1.295143-.029888 2.161893-.029888 2.560399-.029888S3.825654-.029888 4.174346 0Z'/>
+<path id='g4-85' d='M3.297634 2.391034C3.297634 2.361146 3.297634 2.34122 3.128269 2.171856C1.882939 .916563 1.564134-.966376 1.564134-2.49066C1.564134-4.224159 1.942715-5.957659 3.16812-7.202989C3.297634-7.32254 3.297634-7.342466 3.297634-7.372354C3.297634-7.442092 3.257783-7.47198 3.198007-7.47198C3.098381-7.47198 2.201743-6.794521 1.613948-5.529265C1.105853-4.433375 .986301-3.327522 .986301-2.49066C.986301-1.713574 1.09589-.508095 1.643836 .617684C2.241594 1.843088 3.098381 2.49066 3.198007 2.49066C3.257783 2.49066 3.297634 2.460772 3.297634 2.391034Z'/>
+<path id='g4-86' d='M2.879203-2.49066C2.879203-3.267746 2.769614-4.473225 2.221669-5.599004C1.62391-6.824408 .767123-7.47198 .667497-7.47198C.607721-7.47198 .56787-7.43213 .56787-7.372354C.56787-7.342466 .56787-7.32254 .757161-7.143213C1.733499-6.156912 2.30137-4.572852 2.30137-2.49066C2.30137-.787049 1.932752 .966376 .697385 2.221669C.56787 2.34122 .56787 2.361146 .56787 2.391034C.56787 2.450809 .607721 2.49066 .667497 2.49066C.767123 2.49066 1.663761 1.8132 2.251557 .547945C2.759651-.547945 2.879203-1.653798 2.879203-2.49066Z'/>
+<path id='g4-88' d='M1.912827-.52802C1.912827-.816936 1.673724-1.05604 1.384807-1.05604S.856787-.816936 .856787-.52802S1.09589 0 1.384807 0S1.912827-.239103 1.912827-.52802Z'/>
+<path id='g4-107' d='M4.473225-1.733499H4.224159C4.174346-1.43462 4.104608-.996264 4.004981-.846824C3.935243-.767123 3.277709-.767123 3.058531-.767123H1.265255L2.321295-1.793275C3.875467-3.16812 4.473225-3.706102 4.473225-4.702366C4.473225-5.838107 3.576588-6.635118 2.361146-6.635118C1.235367-6.635118 .498132-5.718555 .498132-4.83188C.498132-4.273973 .996264-4.273973 1.026152-4.273973C1.195517-4.273973 1.544209-4.393524 1.544209-4.801993C1.544209-5.061021 1.364882-5.32005 1.016189-5.32005C.936488-5.32005 .916563-5.32005 .886675-5.310087C1.115816-5.957659 1.653798-6.326276 2.231631-6.326276C3.138232-6.326276 3.566625-5.519303 3.566625-4.702366C3.566625-3.905355 3.068493-3.118306 2.520548-2.500623L.607721-.368618C.498132-.259029 .498132-.239103 .498132 0H4.194271L4.473225-1.733499Z'/>
+</defs>
+<g id='page1'>
+<g transform='matrix(1 0 0 1 -2.9681 2.49069)'>
+<use x='96.404079' y='-4.98132' xlink:href='#g1-30'/>
+</g>
+<use x='99.372121' y='-2.49066' xlink:href='#g3-40'/>
+<use x='103.246495' y='-2.49066' xlink:href='#g1-120'/>
+<use x='108.940427' y='-.996279' xlink:href='#g2-49'/>
+<use x='113.409796' y='-2.49066' xlink:href='#g3-41'/>
+<g transform='matrix(1 0 0 1 -2.968 2.49069)'>
+<use x='120.252212' y='-4.98132' xlink:href='#g1-30'/>
+</g>
+<path d='M96.4023-12.39844V-15.44136H120.25V-12.39844' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<use x='123.220253' y='-2.49066' xlink:href='#g3-40'/>
+<use x='127.094627' y='-2.49066' xlink:href='#g1-120'/>
+<use x='132.788559' y='-.996279' xlink:href='#g2-50'/>
+<use x='137.257929' y='-2.49066' xlink:href='#g3-41'/>
+<use x='143.899635' y='-2.49066' xlink:href='#g3-61'/>
+<use x='154.415715' y='-2.49066' xlink:href='#g0-104'/>
+<use x='158.290087' y='-2.49066' xlink:href='#g3-48'/>
+<use x='163.271426' y='-2.49066' xlink:href='#g0-106'/>
+<use x='167.69923' y='-2.49066' xlink:href='#g1-84'/>
+<use x='174.904873' y='-2.49066' xlink:href='#g0-102'/>
+<use x='179.886212' y='-2.49066' xlink:href='#g1-30'/>
+<use x='185.822299' y='-2.49066' xlink:href='#g3-40'/>
+<use x='189.696673' y='-2.49066' xlink:href='#g1-120'/>
+<use x='195.390605' y='-.996279' xlink:href='#g2-49'/>
+<use x='199.859974' y='-2.49066' xlink:href='#g3-41'/>
+<use x='203.734348' y='-2.49066' xlink:href='#g1-30'/>
+<use x='209.670435' y='-2.49066' xlink:href='#g3-40'/>
+<use x='213.544809' y='-2.49066' xlink:href='#g1-120'/>
+<use x='219.238741' y='-.996279' xlink:href='#g2-50'/>
+<use x='223.708111' y='-2.49066' xlink:href='#g3-41'/>
+<use x='227.582484' y='-2.49066' xlink:href='#g0-103'/>
+<use x='234.224223' y='-2.49066' xlink:href='#g0-106'/>
+<use x='236.991631' y='-2.49066' xlink:href='#g3-48'/>
+<use x='241.972971' y='-2.49066' xlink:href='#g0-105'/>
+<use x='247.507738' y='-2.49066' xlink:href='#g1-58'/>
+<use x='318.246578' y='-2.49066' xlink:href='#g4-85'/>
+<use x='322.122045' y='-2.49066' xlink:href='#g4-82'/>
+<use x='327.103365' y='-2.49066' xlink:href='#g4-88'/>
+<use x='329.872979' y='-2.49066' xlink:href='#g4-107'/>
+<use x='334.854299' y='-2.49066' xlink:href='#g4-57'/>
+<use x='339.835619' y='-2.49066' xlink:href='#g4-86'/>
+</g>
+</svg></figure>
 The same thing also applies to spinors. Thus, the vacuum matrix element of a time-ordered product is equal to all combinations of Feynman propagators in which all the spinors are involved. Since the Feynman propagator of spinors anticommutes, we must first put them in the correct order and then contract them.</p>
 
 <p>For the above expansion, there are two possible contractions corresponding to the $t$- and $u$-channel. For the $t$-channel, the top electron line is created by $\bar{\psi}(x_3)$ annihilated by $\psi(x)$, created by $\bar{\psi}(x)$ annihilated by $\psi(x_1)$, and similarly for the bottom line. So we have
 \[\begin{aligned}
 &amp;(-ie)^{2}\gamma^{\mu}_{\beta_{1}\beta_{2}}\gamma^{\nu}_{\beta_{3}\beta_{4}}\int d^{4}x\int d^{4}y \\
 &amp; \times\langle 0|T\{A^{\mu}(x)A^{\nu}(y)\psi_{\alpha_{1}}(x_{1})\psi_{\beta_{1}}(x)\psi_{\beta_{2}}(x)\bar{\psi}_{\alpha_{3}}(x_{3})\psi_{\alpha_{2}}(x_{2})\bar{\psi}_{\beta_{3}}(y)\psi_{\beta_{4}}(y)\bar{\psi}_{\alpha_{4}}(x_{4})\}|0\rangle.
-\end{aligned}\tag{25}\]
+\end{aligned}\tag{1.25}\]
 For $u$-channel, however, we need to swap $\bar{\psi}(x_3)$ and $\bar{\psi}(x_4)$, which gives an extra negative sign:
 \[\begin{aligned}
 &amp;-(-ie)^{2}\gamma^{\mu}_{\beta_{1}\beta_{2}}\gamma^{\nu}_{\beta_{3}\beta_{4}}\int d^{4}x\int d^{4}y \\
 &amp; \times\langle 0|T\{A^{\mu}(x)A^{\nu}(y)\psi_{\alpha_{1}}(x_{1})\psi_{\beta_{1}}(x)\psi_{\beta_{2}}(x)\bar{\psi}_{\alpha_{4}}(x_{4})\psi_{\alpha_{2}}(x_{2})\bar{\psi}_{\beta_{3}}(y)\psi_{\beta_{4}}(y)\bar{\psi}_{\alpha_{3}}(x_{3})\}|0\rangle.
-\end{aligned}\tag{26}\]
+\end{aligned}\tag{1.26}\]
 Thus the matrix element of Møller scattering at tree-level has the form
-\[\mathcal{M} = \mathcal{M}_t + \mathcal{M}_u = e^2\bigg\{ \frac{[\bar{u}(p_3)\gamma^\mu u(p_1)][\bar{u}(p_4)\gamma^\mu u(p_2)]}{(p_1-p_3)^2} - \frac{[\bar{u}(p_4)\gamma^\mu u(p_1)][\bar{u}(p_3)\gamma^\mu u(p_2)]}{(p_1-p_4)^2} \bigg\}.\tag{27}\]
+\[\mathcal{M} = \mathcal{M}_t + \mathcal{M}_u = e^2\bigg\{ \frac{[\bar{u}(p_3)\gamma^\mu u(p_1)][\bar{u}(p_4)\gamma^\mu u(p_2)]}{(p_1-p_3)^2} - \frac{[\bar{u}(p_4)\gamma^\mu u(p_1)][\bar{u}(p_3)\gamma^\mu u(p_2)]}{(p_1-p_4)^2} \bigg\}.\tag{1.27}\]
 In the above, we have assumed the $t$-channel to be positive, but we could also have chosen the $u$-channel to be positive. However, the only physical quantity is $\abs{\mathcal{M}}^2$. Thus, only the difference in sign would matter.</p>
 
 <p>Now, consider a loop such as</p>
 
-<div class="equation-row">
-
-<figure class="tikz-figure"><script type="text/tikz">
-\usetikzlibrary{decorations.markings,arrows.meta}
-\begin{tikzpicture}[every node/.style={font=\small}]
-  \node (a) at (0.00,0.00) {};
-  \node (b) at (1.60,0.00) {};
-  \node (c) at (3.20,0.00) {};
-  \node (d) at (4.80,0.00) {};
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt, bend left=45] (a) to (b);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (b) -- (c);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (c) -- (b);
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt, bend left=45] (c) to (d);
-\end{tikzpicture}
-</script></figure>
-
-<p><span class="equation-num">(28)</span></div></p>
+<div class="equation-row"><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='15.095em' height='5.516em' viewBox='3.320462 -50.14455 137.225713 50.1446'>
+<defs>
+<path id='g0-120' d='M3.327522-3.008717C3.387298-3.267746 3.616438-4.184309 4.313823-4.184309C4.363636-4.184309 4.60274-4.184309 4.811955-4.054795C4.533001-4.004981 4.333748-3.755915 4.333748-3.516812C4.333748-3.35741 4.443337-3.16812 4.712329-3.16812C4.931507-3.16812 5.250311-3.347447 5.250311-3.745953C5.250311-4.26401 4.662516-4.403487 4.323786-4.403487C3.745953-4.403487 3.39726-3.875467 3.277709-3.646326C3.028643-4.303861 2.49066-4.403487 2.201743-4.403487C1.165629-4.403487 .597758-3.118306 .597758-2.86924C.597758-2.769614 .697385-2.769614 .71731-2.769614C.797011-2.769614 .826899-2.789539 .846824-2.879203C1.185554-3.935243 1.843088-4.184309 2.181818-4.184309C2.371108-4.184309 2.719801-4.094645 2.719801-3.516812C2.719801-3.20797 2.550436-2.540473 2.181818-1.145704C2.022416-.52802 1.673724-.109589 1.235367-.109589C1.175592-.109589 .946451-.109589 .737235-.239103C.986301-.288917 1.205479-.498132 1.205479-.777086C1.205479-1.046077 .986301-1.125778 .836862-1.125778C.537983-1.125778 .288917-.86675 .288917-.547945C.288917-.089664 .787049 .109589 1.225405 .109589C1.882939 .109589 2.241594-.587796 2.271482-.647572C2.391034-.278954 2.749689 .109589 3.347447 .109589C4.373599 .109589 4.941469-1.175592 4.941469-1.424658C4.941469-1.524284 4.851806-1.524284 4.821918-1.524284C4.732254-1.524284 4.712329-1.484433 4.692403-1.414695C4.363636-.348692 3.686177-.109589 3.367372-.109589C2.978829-.109589 2.819427-.428394 2.819427-.767123C2.819427-.986301 2.879203-1.205479 2.988792-1.643836L3.327522-3.008717Z'/>
+<path id='g0-121' d='M4.841843-3.795766C4.881694-3.935243 4.881694-3.955168 4.881694-4.024907C4.881694-4.204234 4.742217-4.293898 4.592777-4.293898C4.493151-4.293898 4.333748-4.234122 4.244085-4.084682C4.224159-4.034869 4.144458-3.726027 4.104608-3.5467C4.034869-3.287671 3.965131-3.01868 3.905355-2.749689L3.457036-.956413C3.417186-.806974 2.988792-.109589 2.331258-.109589C1.823163-.109589 1.713574-.547945 1.713574-.916563C1.713574-1.374844 1.882939-1.992528 2.221669-2.86924C2.381071-3.277709 2.420922-3.387298 2.420922-3.58655C2.420922-4.034869 2.102117-4.403487 1.603985-4.403487C.657534-4.403487 .288917-2.958904 .288917-2.86924C.288917-2.769614 .388543-2.769614 .408468-2.769614C.508095-2.769614 .518057-2.789539 .56787-2.948941C.836862-3.88543 1.235367-4.184309 1.574097-4.184309C1.653798-4.184309 1.823163-4.184309 1.823163-3.865504C1.823163-3.616438 1.723537-3.35741 1.653798-3.16812C1.255293-2.11208 1.075965-1.544209 1.075965-1.075965C1.075965-.18929 1.703611 .109589 2.291407 .109589C2.67995 .109589 3.01868-.059776 3.297634-.33873C3.16812 .179328 3.048568 .667497 2.650062 1.195517C2.391034 1.534247 2.012453 1.823163 1.554172 1.823163C1.414695 1.823163 .966376 1.793275 .797011 1.404732C.956413 1.404732 1.085928 1.404732 1.225405 1.285181C1.325031 1.195517 1.424658 1.066002 1.424658 .876712C1.424658 .56787 1.155666 .52802 1.05604 .52802C.826899 .52802 .498132 .687422 .498132 1.175592C.498132 1.673724 .936488 2.042341 1.554172 2.042341C2.580324 2.042341 3.606476 1.135741 3.88543 .009963L4.841843-3.795766Z'/>
+<path id='g1-49' d='M2.336239-4.435367C2.336239-4.623661 2.322291-4.630635 2.127024-4.630635C1.680697-4.191283 1.046077-4.184309 .760149-4.184309V-3.93325C.927522-3.93325 1.387796-3.93325 1.771357-4.128518V-.571856C1.771357-.341719 1.771357-.251059 1.073973-.251059H.808966V0C.934496-.006974 1.792279-.027895 2.050311-.027895C2.266501-.027895 3.145205-.006974 3.29863 0V-.251059H3.033624C2.336239-.251059 2.336239-.341719 2.336239-.571856V-4.435367Z'/>
+<path id='g1-50' d='M3.521793-1.26924H3.284682C3.263761-1.115816 3.194022-.704359 3.103362-.63462C3.047572-.592777 2.510585-.592777 2.412951-.592777H1.129763C1.862017-1.241345 2.106102-1.436613 2.524533-1.764384C3.040598-2.175841 3.521793-2.608219 3.521793-3.270735C3.521793-4.11457 2.782565-4.630635 1.889913-4.630635C1.025156-4.630635 .439352-4.02391 .439352-3.382316C.439352-3.02665 .739228-2.991781 .808966-2.991781C.976339-2.991781 1.17858-3.110336 1.17858-3.361395C1.17858-3.486924 1.129763-3.731009 .767123-3.731009C.983313-4.226152 1.457534-4.379577 1.785305-4.379577C2.48269-4.379577 2.84533-3.835616 2.84533-3.270735C2.84533-2.66401 2.412951-2.182814 2.189788-1.931756L.509091-.27198C.439352-.209215 .439352-.195268 .439352 0H3.312578L3.521793-1.26924Z'/>
+</defs>
+<g id='page1'>
+<path d='M8.402344-25.070313H8.90625L9.41406-25.695313L9.91797-26.14844L10.42578-26.31641L10.92969-26.14844L11.4375-25.695313L11.94141-25.070313L12.44922-24.449219L12.95313-23.99219L13.46094-23.82422L13.96484-23.99219L14.47266-24.449219L14.97656-25.070313L15.48438-25.695313L15.98828-26.14844L16.49609-26.31641L17-26.14844L17.50781-25.695313L18.01172-25.070313L18.51566-24.449219L19.02346-23.99219L19.52736-23.82422L20.03516-23.99219L20.53906-24.449219L21.04686-25.070313L21.55076-25.695313L22.05856-26.14844L22.56246-26.31641L23.07036-26.14844L23.57426-25.695313L24.08206-25.070313L24.58596-24.449219L25.09376-23.99219L25.59766-23.82422L26.10546-23.99219L26.60936-24.449219L27.11716-25.070313L27.62106-25.695313L28.12886-26.14844L28.63286-26.31641L29.14066-26.14844L29.64456-25.695313L30.14846-25.070313L30.65626-24.449219L31.16016-23.99219L31.66796-23.82422L32.17186-23.99219L32.67966-24.449219L33.18356-25.070313L33.69136-25.695313L34.19536-26.14844L34.70316-26.31641L35.20706-26.14844L35.71486-25.695313L36.21876-25.070313L36.72656-24.449219L37.23046-23.99219L37.73826-23.82422L38.24216-23.99219L38.74996-24.449219L39.25386-25.070313L39.76176-25.695313L40.26566-26.14844L40.76956-26.31641L41.27736-26.14844L41.78126-25.695313L42.28906-25.070313L42.79296-24.449219L43.30076-23.99219L43.80466-23.82422L44.31246-23.99219L44.81636-24.449219L45.32426-25.070313L45.82816-25.695313L46.33596-26.14844L46.83986-26.31641L47.34766-26.14844L47.85156-25.695313L48.35936-25.070313L48.86326-24.449219L49.37106-23.99219L49.87496-23.82422L50.92186-25.070313' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M50.92186-25.070313C50.92186-49.9453 93.44136-49.9453 93.44136-25.070313' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M75.87886-43.7227L69.28126-46.457V-40.9961Z'/>
+<path d='M93.44136-25.070313C93.44136-.1992 50.92186-.1992 50.92186-25.070313' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M68.48826-6.418L75.08206-3.6836L75.08596-9.1484Z'/>
+<path d='M93.44136-25.070313H93.94926L94.45316-25.695313L94.96096-26.14844L95.46486-26.31641L95.97266-26.14844L96.47656-25.695313L96.98436-25.070313L97.48826-24.449219L97.99606-23.99219L98.49996-23.82422L99.00786-23.99219L99.51176-24.449219L100.01956-25.070313L100.52346-25.695313L101.02736-26.14844L101.53516-26.31641L102.03906-26.14844L102.54686-25.695313L103.05076-25.070313L103.55856-24.449219L104.06246-23.99219L104.57036-23.82422L105.07426-23.99219L105.58206-24.449219L106.08596-25.070313L106.59376-25.695313L107.09766-26.14844L107.60546-26.31641L108.10936-26.14844L108.61716-25.695313L109.12116-25.070313L109.62916-24.449219L110.13316-23.99219L110.64016-23.82422L111.14416-23.99219L111.64816-24.449219L112.15616-25.070313L112.66016-25.695313L113.16816-26.14844L113.67216-26.31641L114.18016-26.14844L114.68316-25.695313L115.19116-25.070313L115.69516-24.449219L116.20316-23.99219L116.70716-23.82422L117.21516-23.99219L117.71916-24.449219L118.22616-25.070313L118.73016-25.695313L119.23816-26.14844L119.74216-26.31641L120.25016-26.14844L120.75416-25.695313L121.26216-25.070313L121.76516-24.449219L122.27316-23.99219L122.77716-23.82422L123.28116-23.99219L123.78916-24.449219L124.29316-25.070313L124.80116-25.695313L125.30516-26.14844L125.81216-26.31641L126.31616-26.14844L126.82416-25.695313L127.32816-25.070313L127.83616-24.449219L128.34016-23.99219L128.84716-23.82422L129.35116-23.99219L129.85916-24.449219L130.36316-25.070313L130.87116-25.695313L131.37516-26.14844L131.88316-26.31641L132.38716-26.14844L132.89416-25.695313L133.39816-25.070313L133.90216-24.449219L134.41016-23.99219L134.91416-23.82422L135.96116-25.070313' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 -5.0817 -5.0142)'>
+<use x='8.402162' y='-25.071357' xlink:href='#g0-120'/>
+<use x='14.096094' y='-23.576976' xlink:href='#g1-49'/>
+</g>
+<g transform='matrix(1 0 0 1 122.47884 -5.0142)'>
+<use x='8.402162' y='-25.071357' xlink:href='#g0-120'/>
+<use x='14.096094' y='-23.576976' xlink:href='#g1-50'/>
+</g>
+<g transform='matrix(1 0 0 1 33.30644 -3.5198)'>
+<use x='8.402162' y='-25.071357' xlink:href='#g0-120'/>
+</g>
+<g transform='matrix(1 0 0 1 88.56024 -5.457)'>
+<use x='8.402162' y='-25.071357' xlink:href='#g0-121'/>
+</g>
+</g>
+</svg></figure><span class="equation-num">(1.28)</span></div>
 
 <p>which comes from the expansion
-\[(-ie)^2\gamma^\mu\gamma^\nu\gamma^\alpha\gamma^\beta\int d^4x \int d^4y \bra{0}T\{ A^\mu(x_1) A^\nu(x_2)\bar{\psi}(x)A^\alpha(x)\psi(x)\bar{\psi}(y)A^\beta(y)\psi(y) \}\ket{0}.\tag{29}\]
+\[(-ie)^2\gamma^\mu\gamma^\nu\gamma^\alpha\gamma^\beta\int d^4x \int d^4y \bra{0}T\{ A^\mu(x_1) A^\nu(x_2)\bar{\psi}(x)A^\alpha(x)\psi(x)\bar{\psi}(y)A^\beta(y)\psi(y) \}\ket{0}.\tag{1.29}\]
 To get the spinors into the order such that they are created then immediately destroyed, we need to anticommute $\psi(y)$ from the right to the left. That is, we use</p>
 
 <p>\[\bar{\psi}_{\alpha}(x)\psi_{\beta}(x)\bar{\psi}_{\gamma}(y)\psi_{\delta}(y)=- \psi_{\delta}(y)\bar{\psi}_{\alpha}(x)\psi_{\beta}(x)\bar{\psi}_{\gamma}(y).\]</p>
@@ -457,31 +672,35 @@ To get the spinors into the order such that they are created then immediately de
 
 <p>In summary, the Feynman rules for fermions must be supplemented by a factor of</p>
 
+<aside class="boxed-equation">
+
 <ul>
   <li>$-1$ for interchange of external identical fermions. Diagrams such as $s$- and $t$-channel exchanges, which would be present even for non-identical particles, do not get an extra minus sign. The $-1$ is a relative minus sign between two diagrams that are related by interchanging two external identical particles.</li>
   <li>$-1$ for each fermion loop.</li>
 </ul>
 
+</aside>
+
 <h2 id="gamma-matrix-identities">$\gamma$-matrix Identities</h2>
 
 <p>Before doing any QED calculations, let us first derive some useful identities. We will often be dealing with traces of products of $\gamma$-matrices. These can often be simplified using the cyclic propety of traces:
-\[\Tr[AB\cdots C] = \Tr[B \cdots CA].\tag{1}\]</p>
+\[\Tr[AB\cdots C] = \Tr[B \cdots CA].\tag{2.1}\]</p>
 
 <p>Another useful thing to note is that
-\[\gamma_5^2 = 1, \quad \gamma_5\gamma_\mu = -\gamma_\mu\gamma_5.\tag{2}\]</p>
+\[\gamma_5^2 = 1, \quad \gamma_5\gamma_\mu = -\gamma_\mu\gamma_5.\tag{2.2}\]</p>
 
 <p>First, compute
-\[\Tr[g^{\mu\nu}] = \Tr[g^{\mu\nu}\mathds{1}] + g^{\mu\nu}\Tr[\mathds{1}] = 4g^{\mu\nu},\tag{3}\]
+\[\Tr[g^{\mu\nu}] = \Tr[g^{\mu\nu}\mathds{1}] + g^{\mu\nu}\Tr[\mathds{1}] = 4g^{\mu\nu},\tag{2.3}\]
 where we have used $\mathds{1}$ to denote the identity matrix of the spinor indices.</p>
 
 <p>Next, we evaluate
-\[\Tr[\gamma^\mu] = \Tr[\gamma^5\gamma^5\gamma^\mu] = -Tr[\gamma^5\gamma^\mu\gamma^5]  = -\Tr[\gamma^5\gamma^5\gamma^\mu] = -\Tr[\gamma^\mu] \implies \Tr[\gamma^\mu] = 0.\tag{4}\]</p>
+\[\Tr[\gamma^\mu] = \Tr[\gamma^5\gamma^5\gamma^\mu] = -Tr[\gamma^5\gamma^\mu\gamma^5]  = -\Tr[\gamma^5\gamma^5\gamma^\mu] = -\Tr[\gamma^\mu] \implies \Tr[\gamma^\mu] = 0.\tag{2.4}\]</p>
 
 <p>Then for the trace of a product of two $\gamma$-matrices, we find
-\[\Tr[\gamma^\mu\gamma^\nu] = \Tr[2g^{\mu\nu}-\gamma^\nu\gamma^\mu] = 8g^{\mu\nu} -\Tr[\gamma^\mu\gamma^\nu] \implies \Tr[\gamma^\mu\gamma^\nu] = 4g^{\mu\nu}.\tag{5}\]</p>
+\[\Tr[\gamma^\mu\gamma^\nu] = \Tr[2g^{\mu\nu}-\gamma^\nu\gamma^\mu] = 8g^{\mu\nu} -\Tr[\gamma^\mu\gamma^\nu] \implies \Tr[\gamma^\mu\gamma^\nu] = 4g^{\mu\nu}.\tag{2.5}\]</p>
 
 <p>For three $\gamma$-matrices, we have
-\[\Tr[\gamma^\mu\gamma^\nu\gamma^\alpha] = \Tr[\gamma^5\gamma^5\gamma^\mu\gamma^\nu\gamma^\alpha] = -\Tr [\gamma^5\gamma^\mu\gamma^\nu\gamma^\alpha\gamma^5] =  -\Tr[\gamma^\mu\gamma^\nu\gamma^\alpha] \implies \Tr[\gamma^\mu\gamma^\nu\gamma^\alpha] = 0.\tag{6}\]
+\[\Tr[\gamma^\mu\gamma^\nu\gamma^\alpha] = \Tr[\gamma^5\gamma^5\gamma^\mu\gamma^\nu\gamma^\alpha] = -\Tr [\gamma^5\gamma^\mu\gamma^\nu\gamma^\alpha\gamma^5] =  -\Tr[\gamma^\mu\gamma^\nu\gamma^\alpha] \implies \Tr[\gamma^\mu\gamma^\nu\gamma^\alpha] = 0.\tag{2.6}\]
 Since we can always do the same thing for traces of odd number of $\gamma$-matrices, they must be zero.</p>
 
 <p>Now, for four $\gamma$-matrices, we find
@@ -492,51 +711,70 @@ Since we can always do the same thing for traces of odd number of $\gamma$-matri
         &amp;= 8g^{\alpha\mu}g^{\beta\nu} - 8g^{\alpha\beta}g^{\mu\nu} +2g^{\alpha\nu}\Tr[\gamma^\mu\gamma^\beta] - \Tr[\gamma^\mu\gamma^\beta\gamma^\nu\gamma^\alpha]\\
         &amp;=  8g^{\alpha\mu}g^{\beta\nu} - 8g^{\alpha\beta}g^{\mu\nu} +8g^{\alpha\nu}g^{\beta\mu} -\Tr[\gamma^\alpha\gamma^\mu\gamma^\beta\gamma^\nu]\\
         &amp;\implies \Tr[\gamma^\alpha\gamma^\mu\gamma^\beta\gamma^\nu] = 4(g^{\alpha\mu}g^{\beta\nu} - g^{\alpha\beta}g^{\mu\nu} +g^{\alpha\nu}g^{\beta\mu}).
-\end{aligned}\tag{7}\]
+\end{aligned}\tag{2.7}\]
 Such method can be trivially applied to traces with more $\gamma$-matrices.</p>
 
 <h2 id="ee-to-mumu-">$e^+e^-\to \mu^+\mu^-$</h2>
 
 <p>As far as the QED is concerned, the muon, $\mu^-$, is a particle identical to the electron, except heavier. $e^+e^-\to\mu^+\mu^-$, is the simplest tree-level scattering process in QED. We will calculate at tree-level here and give the 1-loop correction later. The leading order contribution is</p>
 
-<div class="equation-row"><span class="equation-part">$i\mathcal{M}
-        =$</span>
-
-<figure class="tikz-figure"><script type="text/tikz">
-\usetikzlibrary{decorations.markings,arrows.meta}
-\begin{tikzpicture}[every node/.style={font=\small}]
-  \node (i1) at (0.00,0.00) {$e^{+}$};
-  \node (a) at (2.20,0.00) {};
-  \node (i2) at (4.40,0.00) {$e^{-}$};
-  \node (b) at (2.20,-1.60) {};
-  \node (f1) at (0.00,-1.60) {$\mu^{-}$};
-  \node (f2) at (4.40,-1.60) {$\mu^{+}$};
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (i1) -- (a);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (a) -- (i2);
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- node[above, midway, font=\footnotesize] {$k$} (b);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (f1) -- (b);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (b) -- (f2);
-\end{tikzpicture}
-</script></figure>
-
-<p><span class="equation-part">$= (-ie)\bar{v}_\alpha(p_2)\gamma^\mu_{\alpha\beta}u_\beta(p_1) \frac{-i\left[g_{\mu\nu} - (1-\xi)\frac{k_\mu k_\nu}{k^2} \right]}{k^2}(-ie)\bar{u}_\delta(p_3)\gamma^\nu_{\delta\tau}v_\tau(p_4),$</span><span class="equation-num">(1)</span></div></p>
+<div class="equation-row"><span class="equation-part">$\displaystyle i\mathcal{M}
+        =$</span><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='12.921em' height='8.657em' viewBox='21.811188 3.32047 117.463464 78.69666'>
+<defs>
+<path id='g0-0' d='M5.188543-1.57609C5.300125-1.57609 5.467497-1.57609 5.467497-1.743462C5.467497-1.917808 5.307098-1.917808 5.188543-1.917808H1.03213C.920548-1.917808 .753176-1.917808 .753176-1.750436C.753176-1.57609 .913574-1.57609 1.03213-1.57609H5.188543Z'/>
+<path id='g1-22' d='M2.30137-3.496887C2.351183-3.706102 2.450809-4.084682 2.450809-4.134496C2.450809-4.303861 2.331258-4.403487 2.161893-4.403487C2.132005-4.403487 1.853051-4.393524 1.763387-4.044832L.328767 1.723537C.298879 1.843088 .298879 1.863014 .298879 1.882939C.298879 2.032379 .408468 2.15193 .577833 2.15193C.787049 2.15193 .9066 1.972603 .926526 1.942715C.966376 1.853051 1.09589 1.334994 1.474471-.199253C1.793275 .069738 2.241594 .109589 2.440847 .109589C3.138232 .109589 3.526775-.33873 3.765878-.617684C3.855542-.169365 4.224159 .109589 4.662516 .109589C5.011208 .109589 5.240349-.119552 5.399751-.438356C5.569116-.797011 5.69863-1.404732 5.69863-1.424658C5.69863-1.524284 5.608966-1.524284 5.579078-1.524284C5.479452-1.524284 5.469489-1.484433 5.439601-1.344956C5.270237-.697385 5.090909-.109589 4.682441-.109589C4.41345-.109589 4.383562-.368618 4.383562-.56787C4.383562-.787049 4.503113-1.255293 4.582814-1.603985L4.861768-2.67995C4.891656-2.82939 4.991283-3.20797 5.031133-3.35741C5.080946-3.58655 5.180573-3.965131 5.180573-4.024907C5.180573-4.204234 5.041096-4.293898 4.891656-4.293898C4.841843-4.293898 4.582814-4.283935 4.503113-3.945205L4.034869-2.082192C3.915318-1.58406 3.805729-1.165629 3.775841-1.066002C3.765878-1.016189 3.287671-.109589 2.480697-.109589C1.982565-.109589 1.743462-.438356 1.743462-.976339C1.743462-1.265255 1.8132-1.544209 1.882939-1.823163L2.30137-3.496887Z'/>
+<path id='g1-101' d='M1.863014-2.30137C2.15193-2.30137 2.889166-2.321295 3.387298-2.530511C4.084682-2.82939 4.134496-3.417186 4.134496-3.556663C4.134496-3.995019 3.755915-4.403487 3.068493-4.403487C1.96264-4.403487 .458281-3.437111 .458281-1.693649C.458281-.67746 1.046077 .109589 2.022416 .109589C3.447073 .109589 4.283935-.946451 4.283935-1.066002C4.283935-1.125778 4.224159-1.195517 4.164384-1.195517C4.11457-1.195517 4.094645-1.175592 4.034869-1.09589C3.247821-.109589 2.161893-.109589 2.042341-.109589C1.265255-.109589 1.175592-.946451 1.175592-1.265255C1.175592-1.384807 1.185554-1.693649 1.334994-2.30137H1.863014ZM1.39477-2.520548C1.783313-4.034869 2.809465-4.184309 3.068493-4.184309C3.536737-4.184309 3.805729-3.895392 3.805729-3.556663C3.805729-2.520548 2.211706-2.520548 1.803238-2.520548H1.39477Z'/>
+<path id='g1-107' d='M2.859278-6.804483C2.859278-6.814446 2.859278-6.914072 2.729763-6.914072C2.500623-6.914072 1.77335-6.834371 1.514321-6.814446C1.43462-6.804483 1.325031-6.794521 1.325031-6.615193C1.325031-6.495641 1.414695-6.495641 1.564134-6.495641C2.042341-6.495641 2.062267-6.425903 2.062267-6.326276L2.032379-6.127024L.587796-.388543C.547945-.249066 .547945-.229141 .547945-.169365C.547945 .059776 .747198 .109589 .836862 .109589C.966376 .109589 1.115816 .019925 1.175592-.099626C1.225405-.18929 1.673724-2.032379 1.733499-2.281445C2.072229-2.251557 2.889166-2.092154 2.889166-1.43462C2.889166-1.364882 2.889166-1.325031 2.859278-1.225405C2.839352-1.105853 2.819427-.986301 2.819427-.876712C2.819427-.288917 3.217933 .109589 3.73599 .109589C4.034869 .109589 4.303861-.049813 4.523039-.418431C4.772105-.856787 4.881694-1.404732 4.881694-1.424658C4.881694-1.524284 4.79203-1.524284 4.762142-1.524284C4.662516-1.524284 4.652553-1.484433 4.622665-1.344956C4.423412-.617684 4.194271-.109589 3.755915-.109589C3.566625-.109589 3.437111-.219178 3.437111-.577833C3.437111-.747198 3.476961-.976339 3.516812-1.135741C3.556663-1.305106 3.556663-1.344956 3.556663-1.444583C3.556663-2.092154 2.929016-2.381071 2.082192-2.49066C2.391034-2.669988 2.709838-2.988792 2.938979-3.227895C3.417186-3.755915 3.875467-4.184309 4.363636-4.184309C4.423412-4.184309 4.433375-4.184309 4.4533-4.174346C4.572852-4.154421 4.582814-4.154421 4.662516-4.094645C4.682441-4.084682 4.682441-4.07472 4.702366-4.054795C4.224159-4.024907 4.134496-3.636364 4.134496-3.516812C4.134496-3.35741 4.244085-3.16812 4.513076-3.16812C4.772105-3.16812 5.061021-3.387298 5.061021-3.775841C5.061021-4.07472 4.83188-4.403487 4.383562-4.403487C4.104608-4.403487 3.646326-4.323786 2.929016-3.526775C2.590286-3.148194 2.201743-2.749689 1.823163-2.600249L2.859278-6.804483Z'/>
+<path id='g2-43' d='M3.228892-1.57609H5.362889C5.453549-1.57609 5.620922-1.57609 5.620922-1.743462C5.620922-1.917808 5.460523-1.917808 5.362889-1.917808H3.228892V-4.05878C3.228892-4.14944 3.228892-4.316812 3.061519-4.316812C2.887173-4.316812 2.887173-4.156413 2.887173-4.05878V-1.917808H.746202C.655542-1.917808 .488169-1.917808 .488169-1.750436C.488169-1.57609 .648568-1.57609 .746202-1.57609H2.887173V.564882C2.887173 .655542 2.887173 .822914 3.054545 .822914C3.228892 .822914 3.228892 .662516 3.228892 .564882V-1.57609Z'/>
+</defs>
+<g id='page1'>
+<path d='M34.59371 15.67578L59.0859 42.40234' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M42.4218 24.21874L48.8945 27.23434L44.8671 30.92964Z'/>
+<path d='M59.0859 42.40234L34.31246 69.59374' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M51.0976 51.17184L48.6718 57.88674L44.6328 54.20704Z'/>
+<path d='M59.0859 42.40234H59.5976L60.1132 43.02344L60.625 43.48044L61.1406 43.64844L61.6523 43.48044L62.1679 43.02344L62.6796 42.40234L63.1914 41.77734L63.707 41.32424L64.2187 41.15624L64.7343 41.32424L65.2461 41.77734L65.7617 42.40234L66.2734 43.02344L66.789 43.48044L67.3007 43.64844L67.8164 43.48044L68.3281 43.02344L68.8437 42.40234L69.3554 41.77734L69.8671 41.32424L70.3828 41.15624L70.8945 41.32424L71.4101 41.77734L71.9218 42.40234L72.4375 43.02344L72.9492 43.48044L73.4648 43.64844L73.9765 43.48044L74.4921 43.02344L75.0039 42.40234L75.5195 41.77734L76.0312 41.32424L76.5429 41.15624L77.0586 41.32424L77.5703 41.77734L78.0859 42.40234L78.5976 43.02344L79.1132 43.48044L79.625 43.64844L80.1406 43.48044L80.6523 43.02344L81.1679 42.40234L81.6796 41.77734L82.1953 41.32424L82.707 41.15624L83.2187 41.32424L83.7343 41.77734L84.2461 42.40234L84.7617 43.02344L85.2734 43.48044L85.789 43.64844L86.3007 43.48044L86.8164 43.02344L87.3281 42.40234L87.8437 41.77734L88.3554 41.32424L88.8711 41.15624L89.3828 41.32424L89.8945 41.77734L90.4101 42.40234L90.9218 43.02344L91.4375 43.48044L91.9492 43.64844L92.4648 43.48044L92.9765 43.02344L93.4921 42.40234L94.0039 41.77734L94.5195 41.32424L95.0312 41.15624L95.5468 41.32424L96.0586 41.77734L96.5703 42.40234L97.0859 43.02344L97.5976 43.48044L98.1132 43.64844L98.625 43.48044L99.1406 43.02344L99.6523 42.40234L100.1679 41.77734L100.6796 41.32424L101.1953 41.15624L102.2226 42.40234' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 59.4127 62.3008)'>
+<use x='18.490688' y='-16.379312' xlink:href='#g1-107'/>
+</g>
+<path d='M125.8046 68.62894L102.2226 42.40234' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M118.3867 60.37504L111.9414 57.29684L116.0078 53.64454Z'/>
+<path d='M102.2226 42.40234L125.4375 16.71094' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M109.4492 34.40624L111.8437 27.67964L115.8984 31.34374Z'/>
+<g transform='matrix(1 0 0 1 3.6188 20.6027)'>
+<use x='18.490688' y='-16.379312' xlink:href='#g1-101'/>
+<use x='23.129559' y='-19.994676' xlink:href='#g2-43'/>
+</g>
+<g transform='matrix(1 0 0 1 3.3205 89.4915)'>
+<use x='18.490688' y='-16.379312' xlink:href='#g1-101'/>
+<use x='23.129559' y='-19.994676' xlink:href='#g0-0'/>
+</g>
+<g transform='matrix(1 0 0 1 108.5543 90.4639)'>
+<use x='18.490688' y='-16.379312' xlink:href='#g1-22'/>
+<use x='24.493672' y='-19.994676' xlink:href='#g0-0'/>
+</g>
+<g transform='matrix(1 0 0 1 108.2793 21.637)'>
+<use x='18.490688' y='-16.379312' xlink:href='#g1-22'/>
+<use x='24.493672' y='-19.994676' xlink:href='#g2-43'/>
+</g>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle = (-ie)\bar{v}_\alpha(p_2)\gamma^\mu_{\alpha\beta}u_\beta(p_1) \frac{-i\left[g_{\mu\nu} - (1-\xi)\frac{k_\mu k_\nu}{k^2} \right]}{k^2}(-ie)\bar{u}_\delta(p_3)\gamma^\nu_{\delta\tau}v_\tau(p_4),$</span><span class="equation-num">(3.1)</span></div>
 
 <p>where $k^\mu = p_1^\mu + p_2^\mu = p_3^\mu + p_4^\mu$. The external spinors are forced to be on-shell, thus we can use the equations of motion $\slashed{p}_1u(p_1)=mu(p_1)$ and $\bar{v}(p)_2\slashed{p_2} = -m\bar{v}(p_2)$. Thus, 
 \[\begin{aligned}
         \bar{v}_\alpha(p_2)\gamma^\mu_{\alpha\beta}u_\beta(p_1)k_\mu &amp;= \bar{v}(p_2)\slashed{p}_1u(p_1) + \bar{v}(p_2)\slashed{p}_2u(p_1) \\
         &amp;= \bar{v}(p_2)mu(p_1) - \bar{v}(p_2)mu(p_1)  = 0.
-    \end{aligned}\tag{2}\]
-Similarly, for the other term contracted with $k^\nu$. Thus, the $k^\mu k^\nu$ term vanishes, which is expected by gauge invariance. Hence, (1) becomes
+    \end{aligned}\tag{3.2}\]
+Similarly, for the other term contracted with $k^\nu$. Thus, the $k^\mu k^\nu$ term vanishes, which is expected by gauge invariance. Hence, (3.1) becomes
 \[\mathcal{M} = \frac{e^2}{s}[\bar{v}(p_2)\gamma^\mu u(p_1)][\bar{u}(p_3)\gamma^\mu v(p_4)].
-    \tag{3}\]</p>
+    \tag{3.3}\]</p>
 
 <p>Now, we need to find the conjugate amplitude to calculate $\abs{\mathcal{M}}^2$. Using $\gamma^{0\dagger} = \gamma^0$ and $\gamma^{\mu^\dagger}\gamma^0 = \gamma^0 \gamma^\mu$, we find
-\[(\bar{\psi}_1\gamma^\mu\psi_2)^\dagger = \psi_2^\dagger\gamma^{\mu\dagger}\gamma^0\psi_1 = \psi_2^\dagger\gamma^0\gamma^{\mu}\psi_1 = \bar{\psi}_2 \gamma^\mu \psi_1,\tag{4}\]</p>
+\[(\bar{\psi}_1\gamma^\mu\psi_2)^\dagger = \psi_2^\dagger\gamma^{\mu\dagger}\gamma^0\psi_1 = \psi_2^\dagger\gamma^0\gamma^{\mu}\psi_1 = \bar{\psi}_2 \gamma^\mu \psi_1,\tag{3.4}\]</p>
 
-<p>Hence, the conjugate of (3) is given by
-\[\mathcal{M}^\dagger = \frac{e^2}{s}[\bar{v}(p_4)\gamma^\mu u(p_3)][\bar{u}(p_1)\gamma^\mu v(p_2)],\tag{5}\]
+<p>Hence, the conjugate of (3.3) is given by
+\[\mathcal{M}^\dagger = \frac{e^2}{s}[\bar{v}(p_4)\gamma^\mu u(p_3)][\bar{u}(p_1)\gamma^\mu v(p_2)],\tag{3.5}\]
 and thus
-\[\abs{\mathcal{M}}^2 = \frac{e^4}{s^2}[\bar{v}(p_2)\gamma^\mu u(p_1)][\bar{u}(p_3)\gamma^\mu v(p_4)][\bar{v}(p_4)\gamma^\nu u(p_3)][\bar{u}(p_1)\gamma^\nu v(p_2)].\tag{6}\]</p>
+\[\abs{\mathcal{M}}^2 = \frac{e^4}{s^2}[\bar{v}(p_2)\gamma^\mu u(p_1)][\bar{u}(p_3)\gamma^\mu v(p_4)][\bar{v}(p_4)\gamma^\nu u(p_3)][\bar{u}(p_1)\gamma^\nu v(p_2)].\tag{3.6}\]</p>
 
 <h4>Unpolarized Scattering</h4>
 
@@ -547,22 +785,22 @@ and thus
         &amp;= \frac{e^4}{s^2}[\bar{v}^r(p_2)\gamma^\mu u^{r'}(p_1)][\bar{u}^{r'}(p_1)\gamma^\nu v^r(p_2)]\sum_{s}[\bar{u}_\alpha^s(p_3)\gamma^\mu_{\alpha\beta} (\slashed{p}_4-m_\mu)_{\beta\gamma}\gamma^\nu_{\gamma\delta} u^s_\delta(p_3)] \\
         &amp;= \frac{e^4}{s^2}[\bar{v}^r(p_2)\gamma^\mu u^{r'}(p_1)][\bar{u}^{r'}(p_1)\gamma^\nu v^r(p_2)][(\slashed{p}_3+m_\mu)_{\delta\alpha}\gamma^\mu_{\alpha\beta} (\slashed{p}_4-m_\mu)_{\beta\gamma}\gamma^\nu_{\gamma\delta}] \\
         &amp;= \frac{e^4}{s^2}[\bar{v}^r(p_2)\gamma^\mu u^{r'}(p_1)][\bar{u}^{r'}(p_1)\gamma^\nu v^r(p_2)]\Tr[(\slashed{p}_3+m_\mu)\gamma^\mu (\slashed{p}_4-m_\mu)\gamma^\nu],
-\end{aligned}\tag{7}\]
+\end{aligned}\tag{3.7}\]
 where we have used
-\[\sum_s u_\alpha(p)\bar{u}_\beta(p) = \sum_s \bar{u}_\beta(p)u_\alpha(p) = (\slashed{p}+m)_{\alpha\beta}.\tag{8}\]</p>
+\[\sum_s u_\alpha(p)\bar{u}_\beta(p) = \sum_s \bar{u}_\beta(p)u_\alpha(p) = (\slashed{p}+m)_{\alpha\beta}.\tag{3.8}\]</p>
 
 <p>We shall also assume that we do not know the spins of the initial states. If we do the measurements for many times, we would get the average over each spin. Therefore, we shall take the average of the initial spins, which is
 \[\begin{aligned}
         \frac{1}{4}\sum_{r,r'}\sum_{s,s'}\abs{\mathcal{M}}^2 &amp;= \frac{1}{4}\sum_\text{spins}\abs{\mathcal{M}}^2\\
         &amp;= \frac{e^4}{4s^2}\Tr[(\slashed{p}_1 + m_e)\gamma^\nu(\slashed{p}_2-m_e)\gamma^\mu]\Tr[(\slashed{p}_3+m_\mu)\gamma^\mu (\slashed{p}_4-m_\mu)\gamma^\nu].
         
-    \end{aligned}\tag{9}\]
+    \end{aligned}\tag{3.9}\]
 The trace can be simplified as
 \[\begin{aligned}
         \Tr[(\slashed{p}_3+m_\mu)\gamma^\mu (\slashed{p}_4-m_\mu)\gamma^\nu] &amp;= p_3^\alpha p_4^\beta\Tr[\gamma^\alpha\gamma^\mu\gamma^\beta\gamma^\nu] - m_\mu^2\Tr[\gamma^\mu\gamma^\nu] \\
         &amp;= 4p_3^\alpha p_4^\beta(g^{\alpha\mu}g^{\beta\nu} - g^{\alpha\beta}g^{\mu\nu} +g^{\alpha\nu}g^{\beta\mu}) - 4m_\mu^2g^{\mu\nu}\\
         &amp;= 4p_3^\mu p_4^\nu - 4p_{34}g^{\mu\nu} + 4p_3^\nu p_4^\mu - 4m_\mu^2g^{\mu\nu}
-    \end{aligned}\tag{10}\]
+    \end{aligned}\tag{3.10}\]
 with $p_{ij} \equiv p_i \cdot p_j$. Thus,
 \[\begin{aligned}
         \frac{1}{4}\sum_\text{spins}\abs{\mathcal{M}}^2 &amp;= \frac{e^4}{4s^2}[4p_1^\mu p_2^\nu - 4p_{12}g^{\mu\nu} + 4p_1^\nu p_2^\mu - 4m_e^2g^{\mu\nu}
@@ -571,13 +809,13 @@ with $p_{ij} \equiv p_i \cdot p_j$. Thus,
         ][4p_3^\mu p_4^\nu  + 4p_3^\nu p_4^\mu - 4(p_{34} + m_\mu^2)g^{\mu\nu}]\\
         &amp;= \frac{4e^4}{s^2}[2p_{13}p_{24} + 2p_{14}p_{23} + 4(p_{12} +m_e^2)(p_{34} + m_\mu^2) - 2(p_{12} +m_e^2)p_{34} - 2(p_{34} + m_\mu^2)p_{12}] \\
         &amp;= \frac{8e^4}{s^2}(p_{13}p_{24} + p_{14}p_{23} + p_{12}m_\mu^2 + p_{34}m_e^2 + 2m_\mu^2m_e^2).
-    \end{aligned}\tag{11}\]
+    \end{aligned}\tag{3.11}\]
 This can be written in terms of the Mandelstam variables:
 \[\begin{aligned}
         s &amp;= (p_{1} + p_{2})^{2} = (p_{3} + p_{4})^{2} = 2m_{e}^{2} + 2p_{12} = 2m_{\mu}^{2} + 2p_{34}, \\
         t &amp;= (p_{1} - p_{3})^{2} = (p_{2} - p_{4})^{2} = m_{e}^{2} + m_{\mu}^{2} - 2p_{13} = m_{e}^{2} + m_{\mu}^{2} - 2p_{24}, \\
         u &amp;= (p_{1} - p_{4})^{2} = (p_{2} - p_{3})^{2} = m_{e}^{2} + m_{\mu}^{2} - 2p_{14} = m_{e}^{2} + m_{\mu}^{2} - 2p_{23}. \\
-    \end{aligned}\tag{12}\]</p>
+    \end{aligned}\tag{3.12}\]</p>
 
 <p>Plugging these in, we have
 \[\begin{aligned}
@@ -586,23 +824,27 @@ This can be written in terms of the Mandelstam variables:
         &amp;= \frac{2e^4}{s^2}\bigg[ 2m_e^4 + 2m_\mu^4 + 4m_e^2m_\mu^2 -2t(m_e^2+m_\mu^2) -2u(m_e^2+m_\mu^2) \\
         &amp;\qquad \qquad \qquad \qquad+ t^2 + u^2 + 2s(m_e^2 + m_\mu^2) -8m_e^2m_\mu^2 + 8m_e^2m_\mu^2 \bigg] \\
         &amp;= \frac{2e^4}{s^2}\bigg[ t^2 + u^2 + 2(s-t-u)(m_e^2+m_\mu^2) + 2m_e^4 + 2m_\mu^4 \bigg].
-    \end{aligned}\tag{13}\]
+    \end{aligned}\tag{3.13}\]
 Also, note
 \[\begin{aligned}
         s+u+t &amp;= (2m_{e}^{2} + 2p_{12}) + (m_{e}^{2} + m_{\mu}^{2} - 2p_{13}) +( m_{e}^{2} + m_{\mu}^{2} - 2p_{14}) \\
         &amp;= 4m_e^2 + 2m_\mu^2 + 2p_1 \cdot (p_2-p_3-p_4) \\
         &amp;= 4m_e^2 + 2m_\mu^2 - 2p_1^2 \\
         &amp;= 2(m_e^2+m_\mu^2).
-    \end{aligned}\tag{14}\]
+    \end{aligned}\tag{3.14}\]
 Thus, we have</p>
 
+<aside class="boxed-equation">
+
 <p>\[\frac{1}{4}\sum_\text{spins}\abs{\mathcal{M}}^2 = \frac{2e^4}{s^2}\bigg[ t^2 + u^2 + 4s(m_e^2+m_\mu^2) - 2(m_e^2+m_\mu^2)^2\bigg].
-        \tag{15}\]</p>
+        \tag{3.15}\]</p>
+
+</aside>
 
 <h4>Differential Cross Section</h4>
 
 <p>Now, let us compute the cross section in the centre of mass frame. Since the initial and final masses are different, the cross section is given by
-\[\frac{d\sigma}{d\Omega} = \frac{1}{64\pi^2E_{\text{CM}}^2}\frac{\abs{\vec{p_f}}}{\abs{\vec{p_i}}}\abs{\mathcal{M}}^2.\tag{16}\]</p>
+\[\frac{d\sigma}{d\Omega} = \frac{1}{64\pi^2E_{\text{CM}}^2}\frac{\abs{\vec{p_f}}}{\abs{\vec{p_i}}}\abs{\mathcal{M}}^2.\tag{3.16}\]</p>
 
 <p>In the centre of mass frame, let us define the energy of all the particles to be $E$ (by energy conservation), and define the momenta of the incoming particles to be $\vec{p}$, the momenta of the outgoing particles to be $\vec{q}$. So that
 \[\begin{aligned}
@@ -610,26 +852,26 @@ Thus, we have</p>
         &amp;p_2^\mu = (E, -\vec{p}),\\
         &amp;p_3^\mu = (E, \vec{q}),\\
         &amp;p_4^\mu = (E, -\vec{q}).\\
-    \end{aligned}\tag{17}\]
+    \end{aligned}\tag{3.17}\]
 The Mandelstam variables become,
 \[\begin{aligned}
         s &amp;= (p_{1} + p_{2})^{2} = 4E^2 = E_\text{CM}^2, \\
         t &amp;= (p_{1} - p_{3})^{2} = -(\vec{p}-\vec{q})^2 = -\vec{p}^2 - \vec{q}^2 +2\vec{p}\cdot\vec{q} =  -2E^2 + m_2^2 + m_\mu^2 + 2\vec{p}\cdot\vec{q}, \\
         u &amp;= (p_{1} - p_{4})^{2} = -(\vec{p}+\vec{q})^2 = -\vec{p}^2 - \vec{q}^2 -2\vec{p}\cdot\vec{q} = - 2E^2 + m_2^2 + m_\mu^2 -2\vec{p}\cdot\vec{q}. \\
-    \end{aligned}\tag{18}\]
-Thus, (15) becomes
+    \end{aligned}\tag{3.18}\]
+Thus, (3.15) becomes
 \[\begin{aligned}
         \frac{1}{4}\sum_\text{spins}\abs{\mathcal{M}}^2 &amp;= \frac{2e^4}{s^2}\bigg[ (2E^2 - m_2^2 - m_\mu^2 -2\vec{p}\cdot\vec{q})^2 + (2E^2 - m_2^2 - m_\mu^2 +2\vec{p}\cdot\vec{q})^2 \\
         &amp;\qquad \qquad + 16E^2(m_e^2+m_\mu^2) - 2(m_e^2+m_\mu^2)^2\bigg] \\
         &amp;= \frac{2e^4}{s^2}\bigg[8E^4 + 8E^2(m_e^2+m_\mu^2) + 8(\vec{p}\cdot\vec{q})^2 \bigg].
-    \end{aligned}\tag{19}\]
+    \end{aligned}\tag{3.19}\]
 We define the angle between $\vec{p}$ and $\vec{q}$ to be $\theta$, so that
-\[\vec{p}\cdot\vec{q} = \abs{\vec{p}}\abs{\vec{q}}\cos\theta.\tag{20}\]
+\[\vec{p}\cdot\vec{q} = \abs{\vec{p}}\abs{\vec{q}}\cos\theta.\tag{3.20}\]
 The cross section then becomes
 \[\begin{aligned}
         \frac{d\sigma}{d\Omega} &amp;= \frac{e^4}{4\pi^2(4E^2)^3}\frac{\abs{\vec{p}}}{\abs{\vec{q}}}\bigg[E^4 + E^2(m_e^2+m_\mu^2) + \abs{\vec{p}}^2\abs{\vec{q}}^2\cos^2\theta \bigg] \\
         &amp;= \frac{\alpha^4}{16E^6}\frac{\sqrt{E^2-m_\mu^2}}{\sqrt{E^2-m_e^2}}\bigg[E^4 + E^2(m_e^2+m_\mu^2) + (E^2-m_e^2)(E^2-m_\mu^2)\cos^2\theta \bigg],
-    \end{aligned}\tag{21}\]
+    \end{aligned}\tag{3.21}\]
 where $\alpha=\frac{e^2}{4\pi}$ is the fine structure constant.</p>
 
 <p>For simplicity, take $m_e=0$, we find
@@ -637,16 +879,20 @@ where $\alpha=\frac{e^2}{4\pi}$ is the fine structure constant.</p>
         \frac{d\sigma}{d\Omega} 
         &amp;= \frac{\alpha^4}{16E^6}\sqrt{1-\frac{m_\mu^2}{E^2}}\bigg[E^4 + E^2m_\mu + E^2(E^2-m_\mu^2)\cos^2\theta \bigg] \\
         &amp;= \frac{\alpha^4}{4E_\text{CM}^2}\sqrt{1-\frac{m_\mu^2}{E^2}}\bigg[\left(1+\frac{m_\mu^2}{E^2}\right) + \left(1-\frac{m_\mu^2}{E^2}\right)\cos^2\theta  \bigg].
-    \end{aligned}\tag{22}\]</p>
+    \end{aligned}\tag{3.22}\]</p>
 
 <p>Under the ultra-high-energy limit we can take $m_\mu=0$, which gives</p>
 
-<p>\[\frac{d\sigma}{d\Omega} = \frac{\alpha^4}{4E_\text{CM}^2}(1+\cos^2\theta).\tag{23}\]</p>
+<aside class="boxed-equation">
+
+<p>\[\frac{d\sigma}{d\Omega} = \frac{\alpha^4}{4E_\text{CM}^2}(1+\cos^2\theta).\tag{3.23}\]</p>
+
+</aside>
 
 <h2 id="rutherford-scattering-e-p-to-e-p">Rutherford Scattering $e^-p^+ \to e^-p^+$</h2>
 
 <p>The classical Rutherford scattering formula is
-\[\frac{d\sigma}{d\Omega} = \frac{m_e^2e^4}{4p^4\sin^4\frac{\theta}{2}},\tag{1}\]
+\[\frac{d\sigma}{d\Omega} = \frac{m_e^2e^4}{4p^4\sin^4\frac{\theta}{2}},\tag{4.1}\]
 where $p = \abs{\vec{p}_i} = \abs{\vec{p}_f}$ is the magnitude of the incoming electron momentum, which is the same as the magnitude of the outgoing electron.</p>
 
 <p>Here, we will do the calculation in QED, while neglecting any internal structure of the proton, treating it as a point-like particle.</p>
@@ -655,80 +901,107 @@ where $p = \abs{\vec{p}_i} = \abs{\vec{p}_f}$ is the magnitude of the incoming e
 
 <p>As far as QED is concerned, a proton and a muon are the same thing, up to a sign of the charge which gets squared anyway. Since the proton and the electron are distinguishable, the only contribution to the amplitude at tree-level is the $t$-channel:</p>
 
-<div class="equation-row"><span class="equation-part">$i\mathcal{M}
-        =$</span>
-
-<figure class="tikz-figure"><script type="text/tikz">
-\usetikzlibrary{decorations.markings,arrows.meta}
-\begin{tikzpicture}[every node/.style={font=\small}]
-  \node (i1) at (0.00,0.00) {$e^{-}$};
-  \node (a) at (2.20,0.00) {};
-  \node (f1) at (4.40,0.00) {$e^{-}$};
-  \node (b) at (2.20,-1.60) {};
-  \node (f2) at (0.00,-1.60) {$p^+$};
-  \node (i2) at (4.40,-1.60) {$p^+$};
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (i1) -- (a);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow{Stealth}}}}] (a) -- (f1);
-  \draw[dash pattern=on 2pt off 2pt, line width=0.7pt] (a) -- node[above, midway, font=\footnotesize] {$k$} (b);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (f2) -- (b);
-  \draw[postaction={decorate, decoration={markings, mark=at position 0.45 with {\arrowreversed{Stealth}}}}] (b) -- (i2);
-\end{tikzpicture}
-</script></figure>
-
-<p><span class="equation-part">$= (-ie)\bar{u}(p_3)\gamma^\mu u(p_1) \frac{-i\left[g_{\mu\nu} - (1-\xi)\frac{k_\mu k_\nu}{k^2} \right]}{k^2}(ie)\bar{u}(p_4)\gamma^\nu u(p_2).$</span><span class="equation-num">(2)</span></div></p>
+<div class="equation-row"><span class="equation-part">$\displaystyle i\mathcal{M}
+        =$</span><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='8.795em' height='12.630em' viewBox='21.456582 3.31874 79.955449 114.817'>
+<defs>
+<path id='g0-0' d='M5.188543-1.57609C5.300125-1.57609 5.467497-1.57609 5.467497-1.743462C5.467497-1.917808 5.307098-1.917808 5.188543-1.917808H1.03213C.920548-1.917808 .753176-1.917808 .753176-1.750436C.753176-1.57609 .913574-1.57609 1.03213-1.57609H5.188543Z'/>
+<path id='g1-101' d='M1.863014-2.30137C2.15193-2.30137 2.889166-2.321295 3.387298-2.530511C4.084682-2.82939 4.134496-3.417186 4.134496-3.556663C4.134496-3.995019 3.755915-4.403487 3.068493-4.403487C1.96264-4.403487 .458281-3.437111 .458281-1.693649C.458281-.67746 1.046077 .109589 2.022416 .109589C3.447073 .109589 4.283935-.946451 4.283935-1.066002C4.283935-1.125778 4.224159-1.195517 4.164384-1.195517C4.11457-1.195517 4.094645-1.175592 4.034869-1.09589C3.247821-.109589 2.161893-.109589 2.042341-.109589C1.265255-.109589 1.175592-.946451 1.175592-1.265255C1.175592-1.384807 1.185554-1.693649 1.334994-2.30137H1.863014ZM1.39477-2.520548C1.783313-4.034869 2.809465-4.184309 3.068493-4.184309C3.536737-4.184309 3.805729-3.895392 3.805729-3.556663C3.805729-2.520548 2.211706-2.520548 1.803238-2.520548H1.39477Z'/>
+<path id='g1-107' d='M2.859278-6.804483C2.859278-6.814446 2.859278-6.914072 2.729763-6.914072C2.500623-6.914072 1.77335-6.834371 1.514321-6.814446C1.43462-6.804483 1.325031-6.794521 1.325031-6.615193C1.325031-6.495641 1.414695-6.495641 1.564134-6.495641C2.042341-6.495641 2.062267-6.425903 2.062267-6.326276L2.032379-6.127024L.587796-.388543C.547945-.249066 .547945-.229141 .547945-.169365C.547945 .059776 .747198 .109589 .836862 .109589C.966376 .109589 1.115816 .019925 1.175592-.099626C1.225405-.18929 1.673724-2.032379 1.733499-2.281445C2.072229-2.251557 2.889166-2.092154 2.889166-1.43462C2.889166-1.364882 2.889166-1.325031 2.859278-1.225405C2.839352-1.105853 2.819427-.986301 2.819427-.876712C2.819427-.288917 3.217933 .109589 3.73599 .109589C4.034869 .109589 4.303861-.049813 4.523039-.418431C4.772105-.856787 4.881694-1.404732 4.881694-1.424658C4.881694-1.524284 4.79203-1.524284 4.762142-1.524284C4.662516-1.524284 4.652553-1.484433 4.622665-1.344956C4.423412-.617684 4.194271-.109589 3.755915-.109589C3.566625-.109589 3.437111-.219178 3.437111-.577833C3.437111-.747198 3.476961-.976339 3.516812-1.135741C3.556663-1.305106 3.556663-1.344956 3.556663-1.444583C3.556663-2.092154 2.929016-2.381071 2.082192-2.49066C2.391034-2.669988 2.709838-2.988792 2.938979-3.227895C3.417186-3.755915 3.875467-4.184309 4.363636-4.184309C4.423412-4.184309 4.433375-4.184309 4.4533-4.174346C4.572852-4.154421 4.582814-4.154421 4.662516-4.094645C4.682441-4.084682 4.682441-4.07472 4.702366-4.054795C4.224159-4.024907 4.134496-3.636364 4.134496-3.516812C4.134496-3.35741 4.244085-3.16812 4.513076-3.16812C4.772105-3.16812 5.061021-3.387298 5.061021-3.775841C5.061021-4.07472 4.83188-4.403487 4.383562-4.403487C4.104608-4.403487 3.646326-4.323786 2.929016-3.526775C2.590286-3.148194 2.201743-2.749689 1.823163-2.600249L2.859278-6.804483Z'/>
+<path id='g1-112' d='M.448319 1.215442C.368618 1.554172 .348692 1.62391-.089664 1.62391C-.209215 1.62391-.318804 1.62391-.318804 1.8132C-.318804 1.892902-.268991 1.932752-.18929 1.932752C.079701 1.932752 .368618 1.902864 .647572 1.902864C.976339 1.902864 1.315068 1.932752 1.633873 1.932752C1.683686 1.932752 1.8132 1.932752 1.8132 1.733499C1.8132 1.62391 1.713574 1.62391 1.574097 1.62391C1.075965 1.62391 1.075965 1.554172 1.075965 1.464508C1.075965 1.344956 1.494396-.278954 1.564134-.52802C1.693649-.239103 1.972603 .109589 2.480697 .109589C3.636364 .109589 4.881694-1.344956 4.881694-2.809465C4.881694-3.745953 4.313823-4.403487 3.556663-4.403487C3.058531-4.403487 2.580324-4.044832 2.251557-3.656289C2.15193-4.194271 1.723537-4.403487 1.354919-4.403487C.896638-4.403487 .707347-4.014944 .617684-3.835616C.438356-3.496887 .308842-2.899128 .308842-2.86924C.308842-2.769614 .408468-2.769614 .428394-2.769614C.52802-2.769614 .537983-2.779577 .597758-2.998755C.767123-3.706102 .966376-4.184309 1.325031-4.184309C1.494396-4.184309 1.633873-4.104608 1.633873-3.726027C1.633873-3.496887 1.603985-3.387298 1.564134-3.217933L.448319 1.215442ZM2.201743-3.108344C2.271482-3.377335 2.540473-3.656289 2.719801-3.805729C3.068493-4.11457 3.35741-4.184309 3.526775-4.184309C3.92528-4.184309 4.164384-3.835616 4.164384-3.247821S3.835616-1.514321 3.656289-1.135741C3.317559-.438356 2.839352-.109589 2.470735-.109589C1.8132-.109589 1.683686-.936488 1.683686-.996264C1.683686-1.016189 1.683686-1.036115 1.713574-1.155666L2.201743-3.108344Z'/>
+<path id='g2-43' d='M3.228892-1.57609H5.362889C5.453549-1.57609 5.620922-1.57609 5.620922-1.743462C5.620922-1.917808 5.460523-1.917808 5.362889-1.917808H3.228892V-4.05878C3.228892-4.14944 3.228892-4.316812 3.061519-4.316812C2.887173-4.316812 2.887173-4.156413 2.887173-4.05878V-1.917808H.746202C.655542-1.917808 .488169-1.917808 .488169-1.750436C.488169-1.57609 .648568-1.57609 .746202-1.57609H2.887173V.564882C2.887173 .655542 2.887173 .822914 3.054545 .822914C3.228892 .822914 3.228892 .662516 3.228892 .564882V-1.57609Z'/>
+</defs>
+<g id='page1'>
+<path d='M35.37501 106.44141L61.418 82.5781' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M51.1055 92.0273L48.0859 98.4961L44.3945 94.4688Z'/>
+<path d='M61.418 82.5781L87.875 106.6836' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M77.3594 97.1016L70.6445 94.6797L74.3242 90.6406Z'/>
+<path d='M61.418 82.5781V82.0625L62.0391 81.5508L62.4961 81.0352L62.6602 80.5234L62.4961 80.0078L62.0391 79.4961L61.418 78.9844L60.793 78.4688L60.3359 77.957L60.1719 77.4414L60.3359 76.9297L60.793 76.4141L61.418 75.9023L62.0391 75.3867L62.4961 74.875L62.6602 74.3594L62.4961 73.8477L62.0391 73.332L61.418 72.8203L60.793 72.3086L60.3359 71.793L60.1719 71.2813L60.3359 70.7656L60.793 70.2539L61.418 69.7383L62.0391 69.2266L62.4961 68.7109L62.6602 68.1992L62.4961 67.6836L62.0391 67.1719L61.418 66.6563L60.793 66.1445L60.3359 65.6328L60.1719 65.1172L60.3359 64.6055L60.793 64.0898L61.418 63.5781L62.0391 63.0625L62.4961 62.5508L62.6602 62.0352L62.4961 61.5234L62.0391 61.0078L61.418 60.4961L60.793 59.9805L60.3359 59.4688L60.1719 58.9531L60.3359 58.4414L60.793 57.9297L61.418 57.4141L62.0391 56.9023L62.4961 56.3867L62.6602 55.875L62.4961 55.3594L62.0391 54.8477L61.418 54.332L60.793 53.8203L60.3359 53.3047L60.1719 52.793L60.3359 52.2773L60.793 51.7656L61.418 51.2539L62.0391 50.7383L62.4961 50.2266L62.6602 49.7109L62.4961 49.1992L62.0391 48.6836L61.418 48.1719L60.793 47.6563L60.3359 47.1445L60.1719 46.6289L60.3359 46.1172L60.793 45.6016L61.418 45.0898L62.0391 44.5781L62.4961 44.0625L62.6602 43.5508L62.4961 43.0352L62.0391 42.5234L61.418 42.0078L60.793 41.4961L60.3359 40.9805L60.1719 40.4688L61.418 39.4414' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 46.7999 285.403)'>
+<use x='18.136182' y='-227.853223' xlink:href='#g1-107'/>
+</g>
+<path d='M86.7656 16.6445L61.418 39.4414' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M78.9375 23.6836L75.8594 30.125L72.207 26.0625Z'/>
+<path d='M61.418 39.4414L36.60157 17.0156' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M53.8555 32.6055L47.1289 30.2109L50.793 26.1563Z'/>
+<g transform='matrix(1 0 0 1 3.3862 337.813)'>
+<use x='18.136182' y='-227.853223' xlink:href='#g1-101'/>
+<use x='22.775054' y='-231.468586' xlink:href='#g0-0'/>
+</g>
+<g transform='matrix(1 0 0 1 72.2751 338.056)'>
+<use x='18.136182' y='-227.853223' xlink:href='#g1-101'/>
+<use x='22.775054' y='-231.468586' xlink:href='#g0-0'/>
+</g>
+<g transform='matrix(1 0 0 1 72.1474 233.109)'>
+<use x='18.136182' y='-227.853223' xlink:href='#g1-112'/>
+<use x='23.148647' y='-231.468586' xlink:href='#g2-43'/>
+</g>
+<g transform='matrix(1 0 0 1 3.3204 233.439)'>
+<use x='18.136182' y='-227.853223' xlink:href='#g1-112'/>
+<use x='23.148647' y='-231.468586' xlink:href='#g2-43'/>
+</g>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle = (-ie)\bar{u}(p_3)\gamma^\mu u(p_1) \frac{-i\left[g_{\mu\nu} - (1-\xi)\frac{k_\mu k_\nu}{k^2} \right]}{k^2}(ie)\bar{u}(p_4)\gamma^\nu u(p_2).$</span><span class="equation-num">(4.2)</span></div>
 
 <p>This is almost identical to what we had before, and thus we can read off
-\[\abs{\mathcal{M}}^2 = \frac{e^2}{t}[\bar{u}(p_3)\gamma^\mu u(p_1)][\bar{u}(p_1)\gamma^\nu u(p_3)][\bar{u}(p_4)\gamma^\mu u(p_2)][\bar{u}(p_2)\gamma^\nu u(p_4)].\tag{3}\]
+\[\abs{\mathcal{M}}^2 = \frac{e^2}{t}[\bar{u}(p_3)\gamma^\mu u(p_1)][\bar{u}(p_1)\gamma^\nu u(p_3)][\bar{u}(p_4)\gamma^\mu u(p_2)][\bar{u}(p_2)\gamma^\nu u(p_4)].\tag{4.3}\]
 Assuming we do not have any knowledge of the initial spins and do not measure the final spins, we have
-\[\frac{1}{4}\sum _\text{spins}\abs{\mathcal{M}}^2 = \frac{e^4}{4t^2}\Tr[(\slashed{p}_3+m_e)\gamma^\mu(\slashed{p}_1+m_e)\gamma^\nu]\Tr[(\slashed{p}_4+m_p)\gamma^\mu(\slashed{p}_2+m_p)\gamma^\nu].\tag{4}\]
-Comparing this with (9), we find they are identical up to the masses after the replacement
-\[(p_1,p_2,p_3,p_4) \to (p_1, -p_3, p_4, -p_2).\tag{5}\]
+\[\frac{1}{4}\sum _\text{spins}\abs{\mathcal{M}}^2 = \frac{e^4}{4t^2}\Tr[(\slashed{p}_3+m_e)\gamma^\mu(\slashed{p}_1+m_e)\gamma^\nu]\Tr[(\slashed{p}_4+m_p)\gamma^\mu(\slashed{p}_2+m_p)\gamma^\nu].\tag{4.4}\]
+Comparing this with (3.9), we find they are identical up to the masses after the replacement
+\[(p_1,p_2,p_3,p_4) \to (p_1, -p_3, p_4, -p_2).\tag{4.5}\]
 These changes send
-\[s = (p_1+p_2)^2 \to (p_1-p_3)^2 = t,\tag{6}\]
-\[t = (p_1-p_3)^2 \to (p_1-p_4)^2 = u,\tag{7}\]
-\[u = (p_1 -p_4)^2 \to (p_1+p_2)^2 = s.\tag{8}\]
+\[s = (p_1+p_2)^2 \to (p_1-p_3)^2 = t,\tag{4.6}\]
+\[t = (p_1-p_3)^2 \to (p_1-p_4)^2 = u,\tag{4.7}\]
+\[u = (p_1 -p_4)^2 \to (p_1+p_2)^2 = s.\tag{4.8}\]
 Thus, we find
 \[\frac{1}{4}\sum_\text{spins}\abs{\mathcal{M}}^2 = \frac{2e^4}{t^2}\bigg[ u^2 + s^2 + 4t(m_e^2+m_p^2) - 2(m_e^2+m_p^2)^2\bigg].
-    \tag{9}\]</p>
+    \tag{4.9}\]</p>
 
 <h4>Cross Section</h4>
 
 <p>Now, let us take the $m_p \gg m_e$ limit to get the relativistic corrections to Rutherford's formula. Thus, the momenta are
-\[p_1^\mu = (E, \vec{p}_i), \quad p_2^\mu = (m_p,0), \quad p_3^\mu=(E, \vec{p}_f), \quad p_4^\mu=(m_p,0).\tag{10}\]
+\[p_1^\mu = (E, \vec{p}_i), \quad p_2^\mu = (m_p,0), \quad p_3^\mu=(E, \vec{p}_f), \quad p_4^\mu=(m_p,0).\tag{4.10}\]
 The scattering angle, $\theta$, is defined as
-\[\vec{p}_i\cdot\vec{p}_f = p^2\cos\theta,\tag{11}\]
+\[\vec{p}_i\cdot\vec{p}_f = p^2\cos\theta,\tag{4.11}\]
 where $p = \abs{\vec{p}_i} =\abs{\vec{p}_f}$.</p>
 
 <p>Using 
-\[v = \frac{p}{E} = \sqrt{1-\frac{m_e^2}{E^2}},\tag{12}\]
+\[v = \frac{p}{E} = \sqrt{1-\frac{m_e^2}{E^2}},\tag{4.12}\]
 the above becomes
-\[\vec{p}_i\cdot\vec{p}_f = p^2\cos\theta = v^2E^2\cos\theta.\tag{13}\]</p>
+\[\vec{p}_i\cdot\vec{p}_f = p^2\cos\theta = v^2E^2\cos\theta.\tag{4.13}\]</p>
 
 <p>In the limit $m_p \gg m_e$ is the electron's relativistic velocity, the relevant momentum products are:
-\[p_{13}=E^{2}(1-v^{2}\cos\theta),\tag{14}\]
-\[p_{12}=p_{23}=p_{34}=p_{14}=E m_{p},\tag{15}\]
-\[p_{24}=m_{p}^{2},\tag{16}\]
+\[p_{13}=E^{2}(1-v^{2}\cos\theta),\tag{4.14}\]
+\[p_{12}=p_{23}=p_{34}=p_{14}=E m_{p},\tag{4.15}\]
+\[p_{24}=m_{p}^{2},\tag{4.16}\]
 where $p_{ij}\equiv p_{i}^{\mu}p_{j\mu}$ and
-\[t=(p_{1}-p_{3})^{2}=-(\vec{p}_{i}-\vec{p}_{f})^{2}=-2p^{2}(1-\cos\theta),\tag{17}\]
+\[t=(p_{1}-p_{3})^{2}=-(\vec{p}_{i}-\vec{p}_{f})^{2}=-2p^{2}(1-\cos\theta),\tag{4.17}\]
 so that
 \[\begin{aligned}\frac{1}{4}\sum_{\text{spins}}|\mathcal{M}|^{2}
 &amp;=\frac{8e^{4}}{t^{2}}[p_{14}p_{23}+p_{12}p_{34}-m_{p}^{2}p_{13}-m_{e}^{2}p_{24}+2m_{e}^{2}m_{p}^{2}] \nonumber \\
 &amp;=\frac{8e^{4}}{4v^{4}E^{4}(1-\cos\theta)^{2}}[E^{2}m_{p}^{2}+E^{2}m_{p}^{2}v^{2}\cos\theta+m_{e}^{2}m_{p}^{2}] \nonumber \\
 &amp;=\frac{2e^{4}m_{p}^{2}}{v^{4}E^{2}(1-\cos\theta)^{2}}[2-v^{2}(1-\cos\theta)] \nonumber \\
-&amp;=\frac{e^{4}m_{p}^{2}}{v^{4}E^{2}\sin^{4}\frac{\theta}{2}}\left[1-v^{2}\sin^{2}\frac{\theta}{2}\right].\end{aligned}\tag{22}\]
+&amp;=\frac{e^{4}m_{p}^{2}}{v^{4}E^{2}\sin^{4}\frac{\theta}{2}}\left[1-v^{2}\sin^{2}\frac{\theta}{2}\right].\end{aligned}\tag{4.18}\]
 Thus,</p>
 
-<p>\[\frac{d\sigma}{d\Omega}=\frac{e^{4}}{64\pi^{2}v^{2}p^{2}\sin^{4}\frac{\theta}{2}}\left(1-v^{2}\sin^{2}\frac{\theta}{2}\right), \qquad E\ll m_{p}.\tag{18}\]</p>
+<aside class="boxed-equation">
+
+<p>\[\frac{d\sigma}{d\Omega}=\frac{e^{4}}{64\pi^{2}v^{2}p^{2}\sin^{4}\frac{\theta}{2}}\left(1-v^{2}\sin^{2}\frac{\theta}{2}\right), \qquad E\ll m_{p}.\tag{4.19}\]</p>
+
+</aside>
 
 <p>This is known as the Mott formula. Note that the limit $m_{p}\rightarrow\infty$ exists: there is no dependence on the proton mass. For slow velocities we can use $v\ll 1$ and $p\ll E\sim m_{e}$ so $v\sim\frac{p}{m_{e}}$. Thus,
-\[\frac{d\sigma}{d\Omega}=\frac{e^{4}m_{e}^{2}}{64\pi^{2}p^{4}\sin^{4}\frac{\theta}{2}}, \qquad v\ll 1 \text{ and } E\ll m_{p}.\tag{19}\]
+\[\frac{d\sigma}{d\Omega}=\frac{e^{4}m_{e}^{2}}{64\pi^{2}p^{4}\sin^{4}\frac{\theta}{2}}, \qquad v\ll 1 \text{ and } E\ll m_{p}.\tag{4.20}\]
 which is the Rutherford formula. In particular, note that the normalization factors, $m_{e}^{2}$, worked out correctly.</p>
 
 <p>In the very high energy limit, $E\gg m_{e}$, one can no longer assume that the final state proton is also at rest. However, one can now neglect the electron mass, so that $v=1$. Then the momenta are
-\[p_{1}^{\mu}=(E,\vec{p}_{i}), \quad p_{2}^{\mu}=(m_{p},0), \quad p_{3}^{\mu}=(E^{\prime},\vec{p}_{f}), \quad p_{4}^{\mu}=p_{1}^{\mu}+p_{2}^{\mu}-p_{3}^{\mu}\tag{20}\]
+\[p_{1}^{\mu}=(E,\vec{p}_{i}), \quad p_{2}^{\mu}=(m_{p},0), \quad p_{3}^{\mu}=(E^{\prime},\vec{p}_{f}), \quad p_{4}^{\mu}=p_{1}^{\mu}+p_{2}^{\mu}-p_{3}^{\mu}\tag{4.21}\]
 with $|\vec{p}_{i}|=E$ and $|\vec{p}_{f}|=E^{\prime}$. For $m_{e}=0$ in the proton rest frame, following the same steps as above, we find the cross section:</p>
 
-<p>\[\frac{d\sigma}{d\Omega}=\frac{e^{4}}{64\pi^{2}E^{2}\sin ^{4}\frac{\theta}{2}}\frac{E^{\prime}}{E}\left(\cos ^{2}\frac{\theta}{2}+\frac{E-E^{\prime}}{m_{p}}\sin ^{2}\frac{\theta}{2}\right), \quad m_{e}\ll E.\tag{21}\]</p>
+<aside class="boxed-equation">
+
+<p>\[\frac{d\sigma}{d\Omega}=\frac{e^{4}}{64\pi^{2}E^{2}\sin ^{4}\frac{\theta}{2}}\frac{E^{\prime}}{E}\left(\cos ^{2}\frac{\theta}{2}+\frac{E-E^{\prime}}{m_{p}}\sin ^{2}\frac{\theta}{2}\right), \quad m_{e}\ll E.\tag{4.22}\]</p>
+
+</aside>
 
 <p>where $E^{\prime}$ is the final state electron's energy. As $m_{p}\rightarrow\infty$, $E\rightarrow E^{\prime}$ and this reduces to the $v\rightarrow 1$ limit of the Mott formula.</p>
 

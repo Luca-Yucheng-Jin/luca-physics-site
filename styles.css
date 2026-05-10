@@ -22,7 +22,6 @@
   --accent-line:  rgba(107, 31, 31, 0.25);
   --highlight:    #b08732;          /* old gold */
   --callout-bg:   #fdf5dc;
-  --solution-bg:  #f1eadb;
   --shadow:       0 1px 2px rgba(20, 17, 13, 0.04);
   --shadow-soft:  0 6px 24px -12px rgba(20, 17, 13, 0.18);
 
@@ -31,11 +30,14 @@
   --body:    'EB Garamond', Garamond, 'Times New Roman', serif;
   --mono:    'JetBrains Mono', 'Courier New', monospace;
 
-  /* layout */
+  /* layout — measures in `ch` so text column scales with font.
+     --measure-wide is generous (170ch) for the math notes so display
+     equations like Schwartz P^μ derivations fit without overflowing
+     onto a horizontal scrollbar on most desktop viewports. */
   --measure: 92ch;
   --measure-narrow: 60ch;
-  --measure-wide: 140ch;
-  --gutter: clamp(1rem, 3vw, 4rem);
+  --measure-wide: 170ch;
+  --gutter: clamp(0.6rem, 2vw, 2.5rem);
   --rad: 2px;
 
   /* User-controlled multiplier on the root font-size, persisted in
@@ -44,6 +46,16 @@
      almost every size in the stylesheet is in `rem` or `ch`, this
      scales the entire page (text, gutters, headings) uniformly. */
   --font-scale: 1;
+
+  /* Motion tokens — single place for all animation curves and durations
+     so the navigation chrome feels coherent. --ease-out is the gentle
+     "ease-out-quint" curve used for reveals (drawers, fades, panels);
+     --ease-snappy is the standard material ease for tiny hover states. */
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-snappy: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur-fast:    0.18s;
+  --dur-base:    0.28s;
+  --dur-slow:    0.42s;
 }
 
 /* Dark "midnight study" theme — warm dark, terracotta accent */
@@ -63,7 +75,6 @@
   --accent-line:  rgba(214, 138, 110, 0.32);
   --highlight:    #d4a857;          /* lit gold */
   --callout-bg:   #2a2218;
-  --solution-bg:  #25211a;
   --shadow:       0 1px 2px rgba(0, 0, 0, 0.4);
   --shadow-soft:  0 8px 28px -14px rgba(0, 0, 0, 0.6);
 }
@@ -262,6 +273,10 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
   font-family: var(--display);
   font-size: 0.95rem;
   border-bottom: 1px solid var(--rule-soft);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--paper);
 }
 
 .topbar > * { flex-shrink: 1; min-width: 0; }
@@ -295,20 +310,154 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
   font-variant: small-caps;
   letter-spacing: 0.08em;
   font-size: 0.85rem;
-}
-
-.topbar__nav a:hover, .topbar__nav a:focus-visible { color: var(--accent); }
-
-.topbar__nav a.is-active {
-  color: var(--accent);
-  border-bottom: 1px solid var(--accent);
+  position: relative;
   padding-bottom: 2px;
+  transition: color var(--dur-fast) var(--ease-snappy);
 }
+
+/* Animated under-rule that grows from the centre on hover and stays full
+   width when the link is active. Replaces the old `border-bottom` swap so
+   the underline visibly slides in instead of snapping. */
+.topbar__nav a::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 0;
+  height: 1px;
+  background: var(--accent);
+  transform: translateX(-50%);
+  transition: width var(--dur-base) var(--ease-out);
+}
+.topbar__nav a:hover, .topbar__nav a:focus-visible { color: var(--accent); }
+.topbar__nav a:hover::after,
+.topbar__nav a:focus-visible::after { width: 100%; }
+
+.topbar__nav a.is-active { color: var(--accent); }
+.topbar__nav a.is-active::after { width: 100%; }
 
 /* ---------- Back to top ----------
    Floating circular button, fades in once the user has scrolled past the
    first viewport. Lives at body level (injected by theme.js) so it's
    independent of the reading-column layout. */
+/* Floating page-controls cluster: Prev / Up / Next pill in the
+   bottom-right of every page. The Up button always exists; Prev / Next
+   are added by theme.js only on note pages. The cluster fades in once
+   the user scrolls past the first viewport. */
+.page-controls {
+  position: fixed;
+  right: clamp(16px, 2vw, 32px);
+  bottom: clamp(16px, 2vw, 32px);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  border: 1px solid var(--rule);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: var(--shadow-soft);
+  opacity: 0;
+  transform: translateY(10px) scale(0.96);
+  pointer-events: none;
+  transition: opacity var(--dur-base) var(--ease-out),
+              transform var(--dur-base) var(--ease-out);
+  z-index: 10;
+}
+.page-controls.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+.page-controls__btn {
+  appearance: none;
+  background: transparent;
+  border: none;
+  color: var(--ink-soft);
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease-snappy),
+              background-color var(--dur-fast) var(--ease-snappy),
+              transform var(--dur-fast) var(--ease-snappy);
+  position: relative;
+}
+.page-controls__btn:hover,
+.page-controls__btn:focus-visible {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+.page-controls__btn:active { transform: scale(0.92); }
+.page-controls__btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.page-controls__btn svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.page-controls__btn[aria-disabled="true"] {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.page-controls__sep {
+  width: 1px;
+  height: 22px;
+  background: var(--rule);
+  flex: none;
+}
+
+/* Tooltip: shown on hover/focus of prev/next buttons so the user can
+   see which note they're about to jump to without leaving the page. */
+.page-controls__btn[data-tip]::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 10px);
+  right: 0;
+  white-space: nowrap;
+  max-width: 16rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--rad);
+  box-shadow: var(--shadow-soft);
+  opacity: 0;
+  transform: translateY(4px);
+  pointer-events: none;
+  transition: opacity var(--dur-fast) var(--ease-snappy),
+              transform var(--dur-fast) var(--ease-snappy);
+}
+.page-controls__btn[data-tip][data-side="left"]::after {
+  right: auto;
+  left: 0;
+}
+.page-controls__btn[data-tip]:hover::after,
+.page-controls__btn[data-tip]:focus-visible::after {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Back-to-top retained as standalone button for backwards compatibility
+   with any page that doesn't have the controls cluster — but the new
+   cluster is preferred and built by theme.js on every page. */
 .back-to-top {
   position: fixed;
   right: clamp(16px, 2vw, 32px);
@@ -330,8 +479,11 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
   -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
   box-shadow: var(--shadow-soft);
-  transition: opacity 0.25s ease, transform 0.25s ease,
-              color 0.2s, border-color 0.2s, background-color 0.2s;
+  transition: opacity var(--dur-base) var(--ease-out),
+              transform var(--dur-base) var(--ease-out),
+              color var(--dur-fast) var(--ease-snappy),
+              border-color var(--dur-fast) var(--ease-snappy),
+              background-color var(--dur-fast) var(--ease-snappy);
   z-index: 10;
 }
 .back-to-top.is-visible {
@@ -424,6 +576,377 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
   color: var(--accent);
 }
 
+/* ---------- Site nav toggle (plain-text label) ----------
+   Renders as a single line of small-caps text — "Topics ▾" — pinned
+   below the topbar. Click to drop the sidebar down. No background,
+   border, or shadow: it should read as text, not a button. */
+.site-nav-toggle {
+  appearance: none;
+  background: transparent;
+  border: none;
+  color: var(--ink-soft);
+  cursor: pointer;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.34rem;
+  font-family: var(--display);
+  font-variant: small-caps;
+  letter-spacing: 0.14em;
+  font-size: 0.82rem;
+  position: fixed;
+  /* Below the topbar — never overlapping it. The top value tracks the
+     topbar's lower edge so the label sits just below it both at the
+     top of the page and after scroll. */
+  top: clamp(4.6rem, 5.4vw, 5.4rem);
+  left: clamp(0.8rem, 1.6vw, 1.8rem);
+  z-index: 35;
+  transition: color var(--dur-fast) var(--ease-snappy);
+}
+.site-nav-toggle:hover,
+.site-nav-toggle:focus-visible {
+  color: var(--accent);
+  background: transparent;
+}
+.site-nav-toggle__chevron {
+  width: 12px;
+  height: 12px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+:root.nav-on .site-nav-toggle__chevron,
+body.nav-on .site-nav-toggle__chevron {
+  transform: rotate(180deg);
+}
+
+/* (no inline close button — the "Topics ▾" pill above the sidebar
+   acts as the toggle for both opening and closing) */
+
+/* ---------- Site nav (cross-page navigator) ----------
+   Fixed-position panel listing every category and its notes. Built by
+   theme.js from assets/nav-manifest.json. Visibility on both desktop
+   and mobile is gated by body.nav-on so the user can hide/show via the
+   topbar toggle or the × button on the rail. */
+.site-nav {
+  position: fixed;
+  display: block;
+  font-family: var(--display);
+  font-size: 0.86rem;
+  z-index: 30;
+  scrollbar-width: thin;
+}
+.site-nav__label {
+  font-variant: small-caps;
+  letter-spacing: 0.12em;
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-bottom: 0.55rem;
+  padding-left: 0.7rem;
+}
+.site-nav__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-left: 1px solid var(--rule-soft);
+}
+.site-nav__cat { margin: 0; }
+.site-nav__cat-head {
+  appearance: none;
+  background: transparent;
+  border: none;
+  color: var(--ink-soft);
+  font: inherit;
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  padding: 0.34rem 0.7rem;
+  margin-left: -1px;
+  border-left: 2px solid transparent;
+  cursor: pointer;
+  line-height: 1.3;
+  transition: color var(--dur-fast) var(--ease-snappy),
+              border-color var(--dur-base) var(--ease-out),
+              background-color var(--dur-fast) var(--ease-snappy);
+}
+.site-nav__cat-head:hover {
+  background: color-mix(in srgb, var(--accent) 4%, transparent);
+}
+.site-nav__caret {
+  display: inline-block;
+  font-size: 0.85em;
+  color: var(--muted);
+  transform: rotate(0deg);
+  transform-origin: 50% 55%;
+  transition: transform var(--dur-base) var(--ease-out),
+              color var(--dur-fast) var(--ease-snappy);
+  width: 0.6em;
+  flex: none;
+}
+.site-nav__cat.is-current .site-nav__caret,
+.site-nav__cat.is-open    .site-nav__caret {
+  transform: rotate(90deg);
+  color: var(--accent);
+}
+
+.site-nav__cat-title {
+  border: none;
+  color: inherit;
+  flex: 1 1 auto;
+  transition: color var(--dur-fast) var(--ease-snappy);
+}
+.site-nav__cat-head:hover .site-nav__cat-title,
+.site-nav__cat-head:focus-visible .site-nav__cat-title { color: var(--accent); }
+.site-nav__cat.is-current .site-nav__cat-title { color: var(--accent); }
+.site-nav__cat.is-current .site-nav__cat-head { border-left-color: var(--accent); }
+
+/* Smooth grid-row collapse: animating grid-template-rows from 0fr → 1fr
+   gives a perfectly content-sized slide regardless of how many notes
+   are inside, and avoids the easing distortion that comes from picking
+   an arbitrary max-height. Falls back gracefully in older browsers. */
+.site-nav__notes-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--dur-base) var(--ease-out);
+}
+.site-nav__cat.is-current .site-nav__notes-wrap,
+.site-nav__cat.is-open    .site-nav__notes-wrap {
+  grid-template-rows: 1fr;
+}
+.site-nav__notes-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+.site-nav__notes {
+  list-style: none;
+  padding: 0.15rem 0 0.5rem 0;
+  margin: 0;
+  /* Stagger reveal of notes — applied by JS when category opens */
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity var(--dur-base) var(--ease-out) 0.05s,
+              transform var(--dur-base) var(--ease-out) 0.05s;
+}
+.site-nav__cat.is-current .site-nav__notes,
+.site-nav__cat.is-open    .site-nav__notes {
+  opacity: 1;
+  transform: translateY(0);
+}
+.site-nav__notes li { margin: 0; }
+.site-nav__notes a {
+  display: block;
+  border: none;
+  color: var(--muted);
+  padding: 0.22rem 0.7rem 0.22rem 1.6rem;
+  font-size: 0.8rem;
+  line-height: 1.34;
+  border-left: 2px solid transparent;
+  margin-left: -1px;
+  transition: color var(--dur-fast) var(--ease-snappy),
+              border-color var(--dur-fast) var(--ease-snappy),
+              padding-left var(--dur-base) var(--ease-out),
+              background-color var(--dur-fast) var(--ease-snappy);
+}
+.site-nav__notes a:hover,
+.site-nav__notes a:focus-visible {
+  color: var(--accent);
+  padding-left: 1.75rem;
+  background: color-mix(in srgb, var(--accent) 4%, transparent);
+}
+.site-nav__notes a.is-active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  font-weight: 500;
+}
+.site-nav__foot {
+  display: inline-block;
+  border: none;
+  color: var(--muted);
+  font-variant: small-caps;
+  letter-spacing: 0.1em;
+  font-size: 0.72rem;
+  margin-top: 0.8rem;
+  padding: 0.25rem 0.6rem 0.25rem 0.7rem;
+  border-radius: 999px;
+  transition: color var(--dur-fast) var(--ease-snappy),
+              background-color var(--dur-fast) var(--ease-snappy);
+}
+.site-nav__foot:hover, .site-nav__foot:focus-visible {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+}
+
+/* ---------- Sidebar visibility: shared mechanism ----------
+   On every viewport, the sidebar is hidden by default and revealed by
+   adding body.nav-on. The transform drives the slide animation; the
+   media queries below customise where the rail sits and (on desktop)
+   how the page content shifts to make room for it. */
+
+/* Desktop: rail sits in the left margin; body padding shifts the
+   content right so the sidebar never covers it. Hidden state slides
+   the rail off-screen and removes the padding, returning content to
+   its centered, full-width position. */
+@media (min-width: 1280px) {
+  .site-nav {
+    /* Sits just below the "Topics ▾" pill. Top edge stays put across
+       open/close — only the bottom edge animates, so the contents
+       gently fall down out of the pill and back up into it on close.
+       Borderless and shadowless: the rail reads as paper-on-paper,
+       so it feels like the page itself unfolded. */
+    top: clamp(6.4rem, 7vw, 7.2rem);
+    left: clamp(0.8rem, 1.6vw, 1.8rem);
+    width: 13.5rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0.7rem 0.7rem 0.9rem 0.9rem;
+    background: var(--paper);
+    /* Hidden: clipped to zero height, faded out, no clicks. */
+    max-height: 0;
+    opacity: 0;
+    pointer-events: none;
+    /* Slow, gentle glide — paired with the tighter max-height cap above
+       so the height genuinely animates across the full duration. */
+    transition: max-height 1.1s var(--ease-out),
+                opacity   0.7s var(--ease-out) 0.05s;
+  }
+  :root.nav-on .site-nav,
+  body.nav-on .site-nav {
+    /* Open: cap max-height to a value close to typical content
+       (≈ 7 categories collapsed) so the animation actually traverses
+       the full duration instead of finishing the visual change in the
+       first 0.3 s. The viewport-relative cap still wins on shorter
+       windows, and overflow-y: auto handles the case where the user
+       has many categories expanded. */
+    max-height: min(calc(100vh - 8.5rem), 34rem);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  /* Drawer overlays the left margin instead of nudging body content
+     right — the page column stays put and the rail simply "falls down"
+     from beneath the Topics ▾ pill via its own max-height transition.
+     Reading column on most viewports is centred with margins wider than
+     the 14.5 rem rail, so it never overlaps; on narrow desktops the
+     rail just floats over the gutter. */
+
+  /* On-page TOC (h2/h3) lives on the right edge, opposite the rail. */
+  .note__sidebar { left: auto; right: clamp(0.5rem, 1.4vw, 1.8rem); }
+}
+
+/* Mobile / tablet: drawer overlay with backdrop. No content shift —
+   instead an overlay tints the rest of the page until dismissed. */
+@media (max-width: 1279.98px) {
+  .site-nav {
+    top: 0;
+    left: 0;
+    width: min(18rem, 80vw);
+    height: 100dvh;
+    max-height: 100dvh;
+    background: var(--paper);
+    border-right: 1px solid var(--rule);
+    box-shadow: var(--shadow-soft);
+    padding: 1.4rem 0.8rem 1.4rem 1.1rem;
+    transform: translateX(-105%);
+    transition: transform var(--dur-slow) var(--ease-out);
+  }
+  :root.nav-on .site-nav,
+  body.nav-on .site-nav { transform: translateX(0); }
+  body.nav-on::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 20;
+    animation: backdrop-in var(--dur-slow) var(--ease-out);
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+  }
+}
+@keyframes backdrop-in {
+  from { opacity: 0; -webkit-backdrop-filter: blur(0); backdrop-filter: blur(0); }
+  to   { opacity: 1; -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); }
+}
+
+/* ---------- Prev / Next pager ----------
+   Two-column row injected at the end of every note. Left = previous,
+   right = next, within the current category. The label arrows nudge in
+   the travel direction on hover for a tactile feel. */
+.note__pager {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 3rem 0 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule-soft);
+}
+.note__pager-side { min-width: 0; }
+.note__pager-side--next { text-align: right; }
+.note__pager-link {
+  display: block;
+  border: 1px solid var(--rule-soft);
+  border-radius: var(--rad);
+  padding: 0.75rem 0.95rem;
+  text-decoration: none;
+  color: var(--ink-soft);
+  background: color-mix(in srgb, var(--paper-deep) 30%, transparent);
+  transition: border-color var(--dur-base) var(--ease-out),
+              color      var(--dur-fast) var(--ease-snappy),
+              background-color var(--dur-fast) var(--ease-snappy),
+              transform   var(--dur-base) var(--ease-out),
+              box-shadow  var(--dur-base) var(--ease-out);
+}
+.note__pager-link:hover,
+.note__pager-link:focus-visible {
+  color: var(--accent);
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-soft);
+  background: var(--paper);
+}
+.note__pager-link:active { transform: translateY(0); box-shadow: none; }
+.note__pager-label {
+  display: block;
+  font-family: var(--display);
+  font-variant: small-caps;
+  letter-spacing: 0.1em;
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-bottom: 0.22rem;
+  transition: color var(--dur-fast) var(--ease-snappy),
+              transform var(--dur-base) var(--ease-out);
+}
+.note__pager-link:hover .note__pager-label,
+.note__pager-link:focus-visible .note__pager-label { color: var(--accent); }
+.note__pager-side--prev .note__pager-link:hover .note__pager-label,
+.note__pager-side--prev .note__pager-link:focus-visible .note__pager-label {
+  transform: translateX(-3px);
+}
+.note__pager-side--next .note__pager-link:hover .note__pager-label,
+.note__pager-side--next .note__pager-link:focus-visible .note__pager-label {
+  transform: translateX(3px);
+}
+.note__pager-title {
+  display: block;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 1.02rem;
+  line-height: 1.3;
+  color: inherit;
+}
+@media (max-width: 540px) {
+  .note__pager { grid-template-columns: 1fr; }
+  .note__pager-side--next { text-align: left; }
+}
+
+/* Make the current crumb visually distinct. */
+.note__breadcrumb-here {
+  color: var(--ink-soft);
+}
+
 /* ---------- Theme toggle ----------
    A small icon button at the right edge of the topbar nav. Houses two icons
    (sun / moon); CSS hides whichever doesn't match the current theme. */
@@ -456,7 +979,11 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
-.theme-toggle:active { transform: rotate(-12deg); }
+.theme-toggle:active { transform: rotate(-12deg) scale(0.92); }
+.theme-toggle {
+  position: relative;
+  overflow: hidden;
+}
 .theme-toggle svg {
   width: 1rem;
   height: 1rem;
@@ -465,12 +992,20 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
   stroke-width: 1.4;
   stroke-linecap: round;
   stroke-linejoin: round;
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  transition: opacity var(--dur-base) var(--ease-snappy),
+              transform var(--dur-base) var(--ease-out);
+  transform-origin: center;
 }
-/* Show sun on dark theme (click → go light), moon on light theme (click → go dark) */
-.theme-toggle .icon-sun  { display: none; }
-.theme-toggle .icon-moon { display: block; }
-[data-theme="dark"] .theme-toggle .icon-sun  { display: block; }
-[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+/* Both icons stay in the DOM; we crossfade + rotate so the swap looks
+   like the moon spins out as the sun rises in (and vice versa) instead
+   of one snapping over the other. */
+.theme-toggle .icon-sun  { opacity: 0; transform: rotate(-90deg) scale(0.6); }
+.theme-toggle .icon-moon { opacity: 1; transform: rotate(0deg) scale(1); }
+[data-theme="dark"] .theme-toggle .icon-sun  { opacity: 1; transform: rotate(0deg) scale(1); }
+[data-theme="dark"] .theme-toggle .icon-moon { opacity: 0; transform: rotate(90deg) scale(0.6); }
 
 /* ---------- Font-size control ----------
    A−/A+ pair in the topbar that nudges the root font-size by 10% per
@@ -696,8 +1231,11 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
   padding: 1rem 0;
   border-bottom: 1px solid var(--rule);
   display: grid;
-  grid-template-columns: minmax(2.2rem, 3rem) 1fr;
-  gap: 0.4rem 1rem;
+  /* Widened a touch so long markers ("PS4.") don't crowd the title;
+     column gap also bumped from 1rem → 1.4rem so even short Roman
+     numerals get a comfortable separation from the heading. */
+  grid-template-columns: minmax(2.6rem, 4.4rem) 1fr;
+  gap: 0.4rem 1.4rem;
   align-items: baseline;
 }
 
@@ -773,6 +1311,16 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
   border: 1px solid var(--rule);
   color: var(--muted);
   border-radius: var(--rad);
+  transition: color var(--dur-fast) var(--ease-snappy),
+              border-color var(--dur-fast) var(--ease-snappy),
+              background-color var(--dur-fast) var(--ease-snappy),
+              transform var(--dur-fast) var(--ease-snappy);
+}
+.tag:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+  transform: translateY(-1px);
 }
 
 /* ---------- Footer ----------
@@ -881,6 +1429,17 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
   border: 1px solid var(--rule);
   border-radius: var(--rad);
   max-width: min(100%, 32rem);
+  transition: filter 0.35s ease;
+}
+
+/* Dark mode: raster line-drawing figures (PNGs from LaTeX, etc.) ship
+   with white backgrounds and dark strokes. invert + hue-rotate flips
+   them so the "paper" becomes near-black (0.92 stops just shy of full
+   so it sits at ≈ rgb(20,20,20), matching the page paper) and any
+   colour content keeps its hue. Opt-out for any figure that is a
+   photograph or already dark-themed: add class="no-invert" to <img>. */
+[data-theme="dark"] .note figure img:not(.no-invert) {
+  filter: invert(0.92) hue-rotate(180deg);
 }
 .note figcaption {
   font-family: var(--display);
@@ -890,12 +1449,10 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
   margin-top: 0.5rem;
 }
 
-/* TikZ figures rendered by TikZJax. No box / border / background — the
+/* TikZ figures (pre-rendered to inline SVG by build/svg_render.py). The
    diagram sits inline with the surrounding prose like a math display.
-   The actual size adjustment happens in JS (see resize-tikz.js): once
-   TikZJax has finished rendering, we measure every SVG's natural pt
-   size and CSS-scale it up so it's readable in-page while still
-   reserving the right amount of vertical space (no whitespace gaps). */
+   SVG uses currentColor for strokes/fills, so it inherits the page's
+   text color and just works in light + dark mode. */
 .note figure.tikz-figure {
   background: transparent;
   padding: 0.2rem 0;
@@ -907,40 +1464,53 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
   margin: 1.4rem auto;
   overflow: visible;
 }
-.note figure.tikz-figure svg { color: var(--ink); }
-
-/* Dark mode: TikZJax bakes literal #000 into stroke/fill attributes, so the
-   diagrams render as invisible black on dark paper. Recolor those exact
-   attributes; non-black colors (e.g. styled gluons) pass through untouched. */
-[data-theme="dark"] .note figure.tikz-figure svg [stroke="#000"],
-[data-theme="dark"] .note figure.tikz-figure svg [stroke="#000000"],
-[data-theme="dark"] .note figure.tikz-figure svg [stroke="black"] {
-  stroke: var(--ink);
+.note figure.tikz-figure svg {
+  color: var(--ink);
+  /* SVG carries its natural width/height in `em` units (build/svg_render
+     bakes `pt × 0.135 em` into each SVG so it scales with the user's
+     font-size while keeping LaTeX-faithful proportions). max-height
+     caps very tall diagrams (Rutherford, t/u-channel Møller, etc.) so
+     they don't dominate the page; max-width caps wide schematics on
+     small viewports. The cap is intentionally generous (≈ 18em) so
+     that intrinsically tall-narrow diagrams render close to their
+     LaTeX size — clipping them harder makes them appear smaller than
+     wider diagrams of comparable intrinsic area, which inverts the
+     visual hierarchy the LaTeX source intended. */
+  max-width: 100%;
+  max-height: 18em;
+  height: auto;
+  width: auto;
 }
-[data-theme="dark"] .note figure.tikz-figure svg [fill="#000"],
-[data-theme="dark"] .note figure.tikz-figure svg [fill="#000000"],
-[data-theme="dark"] .note figure.tikz-figure svg [fill="black"] {
-  fill: var(--ink);
+
+/* Wick-contraction equations are pre-rendered to SVG (simpler-wick is
+   not supported by MathJax). The figure sits in the document flow like
+   a numbered display equation. */
+.note figure.wick-figure {
+  display: block;
+  margin: 1.4rem auto;
+  text-align: center;
+  background: transparent;
+  border: none;
+  padding: 0.2rem 0;
+  max-width: 100%;
+  overflow-x: auto;
+}
+.note figure.wick-figure svg {
+  color: var(--ink);
+  /* SVG carries its natural em-based width — same scheme as tikz-figure. */
+  max-width: 100%;
+  height: auto;
 }
 
-/* Inside an equation row the figure is a flex item; smaller zoom so the
-   row doesn't grow too tall but keep the SVG fully visible. */
+/* Inside an equation row the figure is a flex item — let the SVG's
+   intrinsic dimensions drive sizing; no border, no padding override. */
 .equation-row figure.tikz-figure {
   padding: 0;
+  margin: 0 0.4rem;
   background: transparent;
   border: none;
   flex: 0 0 auto;
-  margin: 0 0.4rem;
-}
-
-/* Inside an equation row the diagram sits next to math chunks; keep it
-   compact so the row doesn't break in awkward places. */
-.equation-row figure.tikz-figure {
-  padding: 0.3rem 0.6rem;
-  border-style: dashed;
-  background: transparent;
-  width: clamp(180px, 22vw, 260px);
-  flex: 0 0 auto;
+  max-width: 100%;
 }
 
 /* Equation rows that contain inline TikZ figures.  Visually presents the
@@ -1033,36 +1603,57 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
   .note__toc-list { columns: 1; }
 }
 
-/* tcolorbox callouts — yellow-paper aside boxes for highlighted derivations */
+/* tcolorbox callouts — warm-paper aside boxes for highlighted derivations. */
 .note aside.callout {
   background: var(--callout-bg);
-  border-left: 3px solid var(--highlight);
-  border-radius: var(--rad);
-  padding: 1rem 1.4rem;
+  border-left: 2px solid var(--highlight);
+  border-radius: 0;
+  padding: 0.85rem 1.2rem;
   margin: 1.5rem 0;
   color: var(--ink);
 }
 .note aside.callout > :first-child { margin-top: 0; }
 .note aside.callout > :last-child  { margin-bottom: 0; }
 
-/* solution environments — same shape, oxblood accent */
+/* Boxed-equation environments — saturated warm-accent tint as fill, no
+   border. The deeper colour gives the result presence without harsh
+   lines, distinct from the lighter callout fill. */
+.note aside.boxed-equation {
+  background: color-mix(in srgb, var(--accent) 15%, var(--paper));
+  border: none;
+  border-radius: 0;
+  padding: 0.8rem 1.4rem;
+  margin: 1.6rem auto;
+  width: fit-content;
+  max-width: 100%;
+  color: var(--ink);
+  text-align: center;
+}
+.note aside.boxed-equation > :first-child { margin-top: 0; }
+.note aside.boxed-equation > :last-child  { margin-bottom: 0; }
+.note aside.boxed-equation .equation-row { margin: 0.4rem 0; }
+.note aside.boxed-equation mjx-container[display="true"] { margin: 0 !important; }
+
+/* Solution environments — refined warm-paper variant of elegantphys.sty's
+   tcolorbox. Cream fill ties into the rest of the palette; thin oxblood
+   left bar and italicised "Solution." label match the accent. */
 .note aside.solution {
-  background: var(--solution-bg);
-  border-left: 3px solid var(--accent);
-  border-radius: var(--rad);
-  padding: 0.9rem 1.3rem 1rem;
+  background: var(--paper-deep);
+  border-left: 2px solid var(--accent);
+  border-radius: 0;
+  padding: 0.7rem 1.1rem;
   margin: 1.2rem 0;
   color: var(--ink);
 }
 .note aside.solution > :first-child { margin-top: 0; }
 .note aside.solution > :last-child  { margin-bottom: 0; }
-.note .solution__label {
-  font-family: var(--display);
-  font-variant: small-caps;
-  letter-spacing: 0.12em;
+.note aside.solution::before {
+  content: "Solution.";
+  font-style: italic;
+  font-weight: 600;
+  margin-right: 0.6em;
+  float: left;
   color: var(--accent);
-  font-size: 0.78rem;
-  margin-bottom: 0.4rem;
 }
 
 /* tabular tables */
@@ -1103,12 +1694,25 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
   font-size: 0.85rem;
 }
 
-/* MathJax tweaks: keep displays from overflowing on phones */
+/* MathJax tweaks: keep displays from overflowing on phones. MathJax sets
+   an inline `min-width: <natural-em>` on display containers — that's
+   the equation's intrinsic width — which beats our cascade `min-width: 0`
+   without `!important`. With it, a too-wide equation gets a horizontal
+   scrollbar inside its container instead of pushing the page sideways. */
 mjx-container[display="true"] {
   margin: 1.4rem 0 !important;
   overflow-x: auto;
   overflow-y: hidden;
   max-width: 100%;
+  min-width: 0 !important;
+}
+/* Asides containing math also need to allow horizontal scroll for any
+   single equation that's still wider than the column on small screens. */
+.note aside.solution,
+.note aside.boxed-equation,
+.note aside.callout {
+  overflow-x: auto;
+  min-width: 0;
 }
 
 /* ---------- Decorative Feynman ornaments ---------- */
@@ -1157,6 +1761,120 @@ mjx-container[display="true"] {
 .section:nth-child(4) { animation-delay: 0.24s; }
 .section:nth-child(5) { animation-delay: 0.32s; }
 
+/* ---------- Smooth cross-page navigation ----------
+   Cross-document View Transitions: in supporting browsers (Chromium 126+),
+   navigating between pages on this site does a soft crossfade of the whole
+   document instead of the usual hard repaint. Browsers without support
+   ignore the rule and navigate normally — no JS shim needed. */
+@view-transition { navigation: auto; }
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.32s;
+  animation-timing-function: var(--ease-out);
+}
+::view-transition-old(root) {
+  animation-name: page-fade-out;
+}
+::view-transition-new(root) {
+  animation-name: page-fade-in;
+}
+@keyframes page-fade-out {
+  to   { opacity: 0; transform: translateY(-4px); }
+}
+@keyframes page-fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+}
+
+/* Fallback for browsers without view transitions: a single soft fade-up
+   on the whole main column at first paint. Cheap, runs once, doesn't
+   compound with the existing per-section `rise` animation. */
+@keyframes page-enter {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@supports not (view-transition-name: none) {
+  main.page, main.note {
+    animation: page-enter 0.42s var(--ease-out) both;
+  }
+}
+
+/* ---------- Feynman cell markers ----------
+   Tiny stroked SVG (vertex / propagator / loop / s-channel / box) injected
+   by theme.js as a decorative bullet on each catalogue row and research
+   entry. Same line-art language as .ornament / .hero__vertex so they read
+   as part of the same visual family. */
+.feyn-mark {
+  display: inline-block;
+  width: 1.6em;
+  height: 1.6em;
+  vertical-align: -0.45em;
+  flex: none;
+  color: var(--accent);
+  opacity: 0.7;
+  transition: opacity var(--dur-base) var(--ease-out),
+              transform var(--dur-base) var(--ease-out);
+}
+.feyn-mark svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+.feyn-mark svg line,
+.feyn-mark svg path,
+.feyn-mark svg ellipse,
+.feyn-mark svg rect,
+.feyn-mark svg circle {
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+.feyn-mark svg .vertex-dot {
+  fill: currentColor;
+  stroke: none;
+}
+
+/* When the catalogue row is hovered or focused, the diagram lights up and
+   tilts subtly — a tactile cue that this row is the active target. */
+.catalogue__item:hover .feyn-mark,
+.catalogue__item:focus-within .feyn-mark,
+.entry:hover .feyn-mark,
+.entry:focus-within .feyn-mark {
+  opacity: 1;
+  transform: rotate(-6deg) scale(1.08);
+}
+
+/* In the catalogue grid the diagram sits inline beside the Roman
+   numeral inside the first column — the glyph reads as a tiny marker,
+   the numeral keeps the chronological signal. Both are vertically
+   aligned to the baseline so the row height doesn't change. */
+.catalogue__num.is-feyn {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.45em;
+  white-space: nowrap;
+}
+.catalogue__num .feyn-mark {
+  width: 1.15em;
+  height: 1.15em;
+  vertical-align: -0.18em;
+  flex: none;
+}
+
+/* On research / education entries, the diagram sits to the left of the
+   title in the head row. Doesn't shift layout because .entry__head
+   already uses flex with baseline alignment. */
+.entry__head .feyn-mark {
+  width: 1.3em;
+  height: 1.3em;
+  margin-right: 0.5em;
+  vertical-align: -0.32em;
+}
+
 /* ---------- Responsive breakpoints ----------
    Most sizing is fluid (clamp + ch-based measure); the rules below only
    handle layout regrouping that fluid sizing can't do.                  */
@@ -1195,6 +1913,544 @@ mjx-container[display="true"] {
   .page { padding-top: 3rem; }
 }
 
+/* ---------- Reading list ----------
+   Personal reading-list page (reading.html). Lives only on that route, so
+   class names are namespaced .reading-* and .reading-row__* to keep the
+   global stylesheet uncrowded. Uses the existing design tokens — no new
+   colours, no new fonts.
+
+   Two display modes, set by body classes:
+     body.reading-locked    → published view (visitors)
+     body.reading-unlocked  → edit view (owner) */
+/* The [hidden] attribute alone has the same specificity as a class
+   selector, so .reading-add { display: grid } would beat it. Scope an
+   explicit override to the reading-list elements that override their
+   own display so toggling .hidden on them actually hides them. */
+.reading-add[hidden],
+.reading-stats[hidden],
+.reading-toolbar__btn[hidden],
+.reading-warn[hidden],
+.reading-status[hidden] { display: none; }
+
+.reading-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 0 0 1rem;
+}
+.reading-toolbar__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--display);
+  font-variant: small-caps;
+  letter-spacing: 0.1em;
+  font-size: 0.78rem;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--rule);
+  border-radius: var(--rad);
+  padding: 0.35rem 0.7rem;
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-snappy),
+              border-color var(--dur-fast) var(--ease-snappy),
+              background-color var(--dur-fast) var(--ease-snappy);
+}
+.reading-toolbar__btn svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.reading-toolbar__btn:hover,
+.reading-toolbar__btn:focus-visible {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 5%, transparent);
+  outline: none;
+}
+.reading-toolbar__btn:focus-visible {
+  box-shadow: 0 0 0 3px var(--accent-line);
+}
+.reading-toolbar__btn[aria-pressed="true"] {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.reading-toolbar__icon-unlocked { display: none; }
+body.reading-unlocked .reading-toolbar__icon-locked   { display: none; }
+body.reading-unlocked .reading-toolbar__icon-unlocked { display: inline-block; }
+
+.reading-toolbar__btn--publish.is-dirty {
+  color: var(--paper);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.reading-toolbar__btn--publish.is-dirty:hover,
+.reading-toolbar__btn--publish.is-dirty:focus-visible {
+  background: var(--accent-soft);
+  border-color: var(--accent-soft);
+  color: var(--paper);
+}
+.reading-toolbar__btn.is-busy {
+  opacity: 0.6;
+  cursor: progress;
+  pointer-events: none;
+}
+
+.reading-toolbar__btn--secondary {
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  padding: 0.25rem 0.55rem;
+}
+.reading-toolbar__btn--secondary svg { width: 12px; height: 12px; }
+
+.reading-status {
+  font-family: var(--display);
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+  background: color-mix(in srgb, var(--paper-deep) 35%, var(--paper));
+  border: 1px solid var(--rule);
+  border-radius: var(--rad);
+  padding: 0.55rem 0.75rem;
+  margin: 0 0 1rem;
+  transition: background-color var(--dur-base) var(--ease-out),
+              border-color   var(--dur-base) var(--ease-out),
+              color          var(--dur-base) var(--ease-out);
+}
+.reading-status[data-kind="success"] {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, var(--paper));
+}
+.reading-status[data-kind="error"] {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, var(--paper));
+  font-weight: 500;
+}
+
+.reading-warn {
+  font-family: var(--body);
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+  background: color-mix(in srgb, var(--highlight) 12%, var(--paper));
+  border: 1px solid color-mix(in srgb, var(--highlight) 35%, var(--rule));
+  border-radius: var(--rad);
+  padding: 0.6rem 0.8rem;
+  margin: 0 0 1rem;
+}
+.reading-warn code {
+  font-family: var(--mono);
+  font-size: 0.85em;
+  background: var(--paper);
+  padding: 0.05rem 0.3rem;
+  border-radius: var(--rad);
+}
+
+/* In read-only mode the page-counter widget is shown as plain text — no
+   dashed-border affordance, no hover state, not focusable. */
+body.reading-locked .reading-row__pages {
+  border-color: transparent;
+  cursor: default;
+  padding-left: 0;
+  color: var(--ink-soft);
+}
+body.reading-locked .reading-row__pages:hover {
+  color: var(--ink-soft);
+  border-color: transparent;
+}
+
+.reading-add {
+  display: grid;
+  grid-template-columns: 1fr 1fr 7rem auto;
+  gap: 0.6rem 0.9rem;
+  align-items: end;
+  padding: 1rem 1rem 1.1rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--rad);
+  background: color-mix(in srgb, var(--paper-deep) 35%, var(--paper));
+  margin: 0 0 1.6rem;
+}
+
+.reading-add__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.reading-add__field--title { grid-column: 1 / 3; }
+
+.reading-add__label {
+  font-family: var(--display);
+  font-variant: small-caps;
+  letter-spacing: 0.1em;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+.reading-add__label small {
+  color: var(--muted);
+  font-style: italic;
+  font-variant: normal;
+  letter-spacing: 0;
+}
+
+.reading-add input {
+  font: inherit;
+  font-family: var(--body);
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: var(--rad);
+  padding: 0.5rem 0.65rem;
+  width: 100%;
+  transition: border-color var(--dur-fast) var(--ease-snappy),
+              box-shadow var(--dur-fast) var(--ease-snappy);
+}
+.reading-add input:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-line);
+}
+.reading-add input[aria-invalid="true"] {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, var(--paper));
+}
+
+.reading-add__submit {
+  font-family: var(--display);
+  font-variant: small-caps;
+  letter-spacing: 0.12em;
+  font-size: 0.85rem;
+  color: var(--paper);
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: var(--rad);
+  padding: 0.55rem 1.1rem;
+  cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease-snappy),
+              transform var(--dur-fast) var(--ease-snappy);
+}
+.reading-add__submit:hover,
+.reading-add__submit:focus-visible {
+  background: var(--accent-soft);
+  outline: none;
+}
+.reading-add__submit:active { transform: translateY(1px); }
+.reading-add__submit:focus-visible {
+  box-shadow: 0 0 0 3px var(--accent-line);
+}
+
+.reading-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.4rem;
+  align-items: baseline;
+  padding: 0.7rem 0 1rem;
+  border-bottom: 1px solid var(--rule-soft);
+  margin-bottom: 1rem;
+}
+.reading-stat {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  font-family: var(--display);
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+.reading-stat strong {
+  font-family: var(--display);
+  font-weight: 500;
+  font-style: italic;
+  font-size: 1.4rem;
+  color: var(--accent);
+}
+.reading-stat span {
+  font-variant: small-caps;
+  letter-spacing: 0.08em;
+  font-size: 0.78rem;
+}
+.reading-stat--pages { margin-left: auto; }
+
+.reading-filter {
+  display: inline-flex;
+  gap: 0.4rem;
+  padding: 0.2rem;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--paper-deep) 25%, var(--paper));
+  margin: 0 0 1rem;
+}
+.reading-filter__btn {
+  font-family: var(--display);
+  font-variant: small-caps;
+  letter-spacing: 0.1em;
+  font-size: 0.78rem;
+  color: var(--muted);
+  background: transparent;
+  border: none;
+  border-radius: 999px;
+  padding: 0.3rem 0.85rem;
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-snappy),
+              background-color var(--dur-fast) var(--ease-snappy);
+}
+.reading-filter__btn:hover { color: var(--accent); }
+.reading-filter__btn.is-active {
+  color: var(--accent);
+  background: var(--paper);
+  box-shadow: 0 0 0 1px var(--rule);
+}
+.reading-filter__btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-line);
+}
+
+.reading-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.reading-empty {
+  padding: 1.6rem 0;
+  font-style: italic;
+  color: var(--muted);
+  text-align: center;
+}
+
+.reading-row {
+  display: grid;
+  gap: 0.45rem;
+  padding: 1rem 0;
+  border-bottom: 1px dotted var(--rule);
+  /* Reset overrides any in-flight leave animation when the row is
+     re-created on the next render. */
+  opacity: 1;
+}
+.reading-row:last-child { border-bottom: none; }
+
+/* Row mount/leave animations. Gentle, brief — re-runs on every render
+   but kept short enough that filter switches and progress bumps still
+   feel responsive rather than choreographed. Disabled under
+   prefers-reduced-motion via the existing global rule. */
+@keyframes reading-row-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes reading-row-out {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+    max-height: 12rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-bottom-color: var(--rule);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-12px);
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-bottom-color: transparent;
+  }
+}
+.reading-row {
+  animation: reading-row-in var(--dur-base) var(--ease-out) both;
+}
+.reading-row.is-leaving {
+  /* Take the row out of normal flow space smoothly. overflow:hidden
+     so the inner content clips as max-height collapses. */
+  overflow: hidden;
+  animation: reading-row-out 240ms var(--ease-snappy) both;
+  pointer-events: none;
+}
+
+/* Edit-mode chrome: form + Download button fade in when the page
+   transitions from locked to unlocked. @starting-style is the modern
+   way to animate from display:none — supported by all current
+   evergreen browsers; older ones just skip the animation. */
+.reading-add,
+.reading-toolbar__btn--publish,
+.reading-warn {
+  transition: opacity var(--dur-base) var(--ease-out),
+              transform var(--dur-base) var(--ease-out);
+}
+@starting-style {
+  body.reading-unlocked .reading-add,
+  body.reading-unlocked .reading-toolbar__btn--publish,
+  body.reading-unlocked .reading-warn {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+/* Filter pill: subtle slide on the active background. */
+.reading-filter__btn {
+  transition: color var(--dur-fast) var(--ease-snappy),
+              background-color var(--dur-base) var(--ease-out),
+              box-shadow var(--dur-fast) var(--ease-snappy),
+              transform var(--dur-fast) var(--ease-snappy);
+}
+.reading-filter__btn.is-active { transform: translateY(-1px); }
+
+/* Dirty-indicator dot on the Download button: a soft pulse to draw the
+   eye without becoming a nag. */
+@keyframes reading-dirty-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 var(--accent-line); }
+  50%      { box-shadow: 0 0 0 4px transparent; }
+}
+.reading-toolbar__btn--publish.is-dirty {
+  animation: reading-dirty-pulse 2.4s var(--ease-out) infinite;
+}
+
+.reading-row__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.3rem 0.8rem;
+}
+
+.reading-row__title {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: clamp(1.05rem, 1.6vw, 1.18rem);
+  color: var(--ink);
+  word-break: break-word;
+}
+
+.reading-row--finished .reading-row__title {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+
+.reading-row__author {
+  font-style: italic;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.reading-row__bar {
+  position: relative;
+  height: 6px;
+  background: var(--rule-soft);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.reading-row__bar-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: linear-gradient(90deg, var(--accent), var(--accent-soft));
+  width: 0%;
+  transition: width var(--dur-base) var(--ease-out);
+}
+.reading-row--finished .reading-row__bar-fill {
+  background: var(--muted);
+}
+
+.reading-row__ctrl {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.reading-row__pages {
+  font-family: var(--mono);
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 1px dashed transparent;
+  border-radius: var(--rad);
+  padding: 0.2rem 0.45rem;
+  cursor: text;
+  transition: border-color var(--dur-fast) var(--ease-snappy),
+              color var(--dur-fast) var(--ease-snappy);
+}
+.reading-row__pages:hover {
+  border-color: var(--rule);
+  color: var(--accent);
+}
+.reading-row__pages:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-line);
+}
+
+.reading-row__page-input {
+  font-family: var(--mono);
+  font-size: 0.88rem;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--accent);
+  border-radius: var(--rad);
+  padding: 0.2rem 0.45rem;
+  width: 6.5rem;
+}
+.reading-row__page-input:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-line);
+}
+
+.reading-row__btn {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: var(--rad);
+  padding: 0.25rem 0.55rem;
+  cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease-snappy),
+              border-color var(--dur-fast) var(--ease-snappy),
+              color var(--dur-fast) var(--ease-snappy);
+}
+.reading-row__btn:hover:not(:disabled),
+.reading-row__btn:focus-visible:not(:disabled) {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 5%, var(--paper));
+  outline: none;
+}
+.reading-row__btn:focus-visible {
+  box-shadow: 0 0 0 3px var(--accent-line);
+}
+.reading-row__btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.reading-row__btn--done { margin-left: auto; }
+.reading-row__btn--del {
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0.2rem 0.5rem;
+  color: var(--muted);
+}
+.reading-row__btn--del:hover:not(:disabled) {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* On narrow screens, stack the controls and let the page-counter widen. */
+@media (max-width: 560px) {
+  .reading-add {
+    grid-template-columns: 1fr 7rem;
+  }
+  .reading-add__field--title { grid-column: 1 / -1; }
+  .reading-add__submit { grid-column: 1 / -1; }
+  .reading-stat--pages { margin-left: 0; }
+  .reading-row__btn--done { margin-left: 0; }
+}
+
 /* ---------- Print ---------- */
 @media print {
   body {
@@ -1203,7 +2459,9 @@ mjx-container[display="true"] {
     font-size: 11pt;
     line-height: 1.45;
   }
-  .topbar, .footer, .ornament, .hero__vertex, .hero__formula { display: none; }
+  .topbar, .footer, .ornament, .hero__vertex, .hero__formula,
+  .site-nav, .site-nav-toggle, .note__pager,
+  .back-to-top, .note__sidebar { display: none; }
   a { color: var(--ink); border: none; }
   h1, h2, h3 { break-after: avoid-page; }
   .note__problem, .note__abstract { break-inside: avoid; }

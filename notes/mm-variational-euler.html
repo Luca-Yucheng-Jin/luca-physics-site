@@ -23,7 +23,7 @@ window.MathJax = {
   tex: {
     inlineMath: [['$', '$'], ['\\(', '\\)']],
     displayMath: [['$$', '$$'], ['\\[', '\\]']],
-    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros']},
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros', 'mathtools']},
     macros: {
       R: '\\mathbb{R}',
       C: '\\mathbb{C}',
@@ -34,36 +34,43 @@ window.MathJax = {
       Lagrangian: '\\mathcal{L}',
       Cdot: '\\boldsymbol{\\cdot}',
       Tr: '\\operatorname{Tr}',
-      slashed: ['{\\not{#1}}', 1],
+      // Feynman slash: \not{x} would render the slash to the LEFT of x
+      // (it's designed for \not=). \cancel from the cancel package
+      // strikes diagonally through the centre, matching the slashed.sty
+      // package's appearance.
+      slashed: ['{\\cancel{#1}}', 1],
       // Wick contraction: top brace connector over the contracted pair —
       // closer to the standard physics notation than a plain overline.
       wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
       c:       ['{#1}', 1],
       mathds:  ['\\mathbb{#1}', 1],
       Tilde:   ['\\tilde{#1}', 1],
-      // tensor.sty: \tensor{base}{indices} — rendered as base + indices
-      tensor:  ['{#1{#2}}', 2]
+      // siunitx polyfill — \si{K}, \si{m\,s^{-1}} etc. should render
+      // the unit in upright math text, like \mathrm{X}. Doesn't try
+      // to mimic the full siunitx unit-formatting machinery; just
+      // unblocks the common bare-unit case in TDSP problems.
+      si: ['\\,\\mathrm{#1}', 1],
+      SI: ['#1\\,\\mathrm{#2}', 2]
+      // \tensor{base}{indices} is rewritten to base^a{}_b in
+      // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
+      // so no runtime macro is needed here. The empty-group trick is
+      // what makes MathJax kern the indices into separate columns.
     }
   },
-  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
 };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
-<!-- TikZJax: renders <script type="text/tikz"> blocks into SVG client-side -->
-<link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
-<script src="https://tikzjax.com/v1/tikzjax.js"></script>
-<!-- Post-process TikZJax SVGs: scale them up so they're readable in-page -->
-<script defer src="../assets/resize-tikz.js"></script>
 </head>
 <body>
 
 <header class="topbar">
-  <a href="../index.html" class="topbar__brand">Yucheng (Luca) Jin <small>MSci · Imperial</small></a>
+  <a href="../index.html" class="topbar__brand">Yucheng (Luca) Jin <small>BSc · Imperial</small></a>
   <nav class="topbar__nav">
     <a href="../index.html">About</a>
     <a href="../notes.html" class="is-active">Notes</a>
     <a href="../research.html">Research</a>
+    <a href="../reading.html">Reading</a>
     <a href="mailto:luca.jin@outlook.com">Contact</a>
     <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" title="Decrease font size">A<span class="font-toggle__small">−</span></button>
     <button class="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size" title="Increase font size">A<span class="font-toggle__large">+</span></button>
@@ -89,35 +96,39 @@ window.MathJax = {
 <p>The mass density $\rho(t,\mathbf{x})$ and velocity field
 $\mathbf{v}(t,\mathbf{x})$ of a compressible fluid are constrained by
 conservation of mass to satisfy the continuity equation
-\[\dot{\rho} + \nabla\cdot(\rho\mathbf{v}) = 0\,. \tag{$*$}
-  \tag{1}\]
+\[\dot{\rho} + \nabla\cdot(\rho\mathbf{v}) = 0\,. 
+  \tag{1.1}\]
 Given that the energy density of the fluid is $u(\rho)$, the action (for
 inviscid irrotational flow) is
 \[S[\rho,\mathbf{v},\phi] = \int d t\int d^3x\left\{
     \tfrac{1}{2}\rho|\mathbf{v}|^2 - u(\rho)
     + \phi\left[\dot{\rho}+\nabla\cdot(\rho\mathbf{v})\right]
-  \right\},\tag{2}\]
+  \right\},\tag{1.2}\]
 where $\phi(t,\mathbf{x})$ is a Lagrange multiplier field imposing the
-continuity condition (1). Find the Euler--Lagrange equations
+continuity condition (1.1). Find the Euler--Lagrange equations
 for this action. Show that they imply $\mathbf{v}=\nabla\phi$ (so $\phi$ is
 the velocity potential). Given that the fluid pressure $P(t,\mathbf{x})$
 satisfies
-\[\nabla P = \rho\nabla h(t,\mathbf{x})\,, \qquad h = u'(\rho)\,,\tag{3}\]
+\[\nabla P = \rho\nabla h(t,\mathbf{x})\,, \qquad h = u'(\rho)\,,\tag{1.3}\]
 deduce Euler's equation for inviscid irrotational flow:
 \[\rho\left[\dot{\mathbf{v}} + (\mathbf{v}\cdot\nabla)\mathbf{v}\right]
-  = -\nabla P\,.\tag{4}\]</p>
+  = -\nabla P\,.\tag{1.4}\]</p>
 
-<p><u><strong>Solution</strong></u> First, we consider the equation of motion of $\mathbf{v}$:
-\[\frac{\partial \mathcal{L}}{\partial v_i} = -\rho v_i + \phi(\partial_i \rho), \quad \frac{\partial \mathcal{L}}{\partial (\partial_i v_j )} = \rho \phi \delta_{ij} \implies \nabla\phi = \mathbf{v}.\tag{5}\]
+<aside class="solution">
+
+<p>First, we consider the equation of motion of $\mathbf{v}$:
+\[\frac{\partial \mathcal{L}}{\partial v_i} = -\rho v_i + \phi(\partial_i \rho), \quad \frac{\partial \mathcal{L}}{\partial (\partial_i v_j )} = \rho \phi \delta_{ij} \implies \nabla\phi = \mathbf{v}.\tag{1.5}\]
 Then, for the EoM with respect to $\rho$, we find
 \[\frac{\partial \mathcal{L}}{\partial \rho} = -\frac{1}{2}|\mathbf{v}|^2 - u'(\rho), \quad \frac{\partial \mathcal{L}}{\partial \dot{\rho}} = \phi
- \implies \dot{\phi} = -\frac{1}{2}|\mathbf{v}|^2 - u'(\rho).\tag{6}\]
+ \implies \dot{\phi} = -\frac{1}{2}|\mathbf{v}|^2 - u'(\rho).\tag{1.6}\]
  Finally, the constraint is
- \[\dot{\rho} + \nabla\cdot(\rho\mathbf{v}) = 0.\tag{7}\]</p>
+ \[\dot{\rho} + \nabla\cdot(\rho\mathbf{v}) = 0.\tag{1.7}\]</p>
 
 <p>Putting them together, one can easily find
  \[\rho\left[\dot{\mathbf{v}} + (\mathbf{v}\cdot\nabla)\mathbf{v}\right]
-  = -\nabla P.\tag{8}\]</p>
+  = -\nabla P.\tag{1.8}\]</p>
+
+</aside>
   </article>
 
   <hr class="ornament-rule">

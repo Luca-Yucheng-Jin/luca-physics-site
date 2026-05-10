@@ -1,0 +1,69 @@
+{
+  "items": [
+    {
+      "id": "r_monj3ggo_g18qkrq",
+      "title": "QFT II",
+      "author": "David Skinner",
+      "totalPages": 150,
+      "currentPage": 20,
+      "addedAt": "2026-05-01T23:13:02.232Z"
+    },
+    {
+      "id": "r_monj48x7_oo2lcvy",
+      "title": "General Relativity",
+      "author": "David Tong",
+      "totalPages": 280,
+      "currentPage": 190,
+      "addedAt": "2026-05-01T23:13:39.115Z"
+    },
+    {
+      "id": "r_monj5jpd_yzjlv6v",
+      "title": "Group Theory",
+      "author": "Hugh Osborn",
+      "totalPages": 251,
+      "currentPage": 0,
+      "addedAt": "2026-05-01T23:14:39.745Z"
+    },
+    {
+      "id": "r_mox6lt89_dyaa5ne",
+      "title": "Introduction to Quantum Field Theory",
+      "author": "Peskin & Schröder",
+      "totalPages": 842,
+      "currentPage": 400,
+      "addedAt": "2026-05-08T17:21:05.337Z"
+    },
+    {
+      "id": "r_mox6n9dt_26cwgpm",
+      "title": "Quantum Field Theory and Standard Model",
+      "author": "Schwartz",
+      "totalPages": 850,
+      "currentPage": 340,
+      "addedAt": "2026-05-08T17:22:12.929Z"
+    },
+    {
+      "id": "r_mox6ofvi_u87p28p",
+      "title": "Electromagnetism",
+      "author": "David Tong",
+      "totalPages": 436,
+      "currentPage": 436,
+      "addedAt": "2026-05-08T17:23:07.998Z"
+    },
+    {
+      "id": "r_mox6pqvm_4euasvi",
+      "title": "Introduction to Quantum Mechancis",
+      "author": "David J. Griffiths",
+      "totalPages": 495,
+      "currentPage": 495,
+      "addedAt": "2026-05-08T17:24:08.914Z"
+    },
+    {
+      "id": "r_mozjlgl2_a2o68ra",
+      "title": "Quantum Field Theory",
+      "author": "Srednicki",
+      "totalPages": 635,
+      "currentPage": 0,
+      "addedAt": "2026-05-10T09:00:16.310Z"
+    }
+  ],
+  "updatedAt": "2026-05-10T09:00:18.168Z"
+}

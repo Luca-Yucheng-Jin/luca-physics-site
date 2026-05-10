@@ -23,7 +23,7 @@ window.MathJax = {
   tex: {
     inlineMath: [['$', '$'], ['\\(', '\\)']],
     displayMath: [['$$', '$$'], ['\\[', '\\]']],
-    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros']},
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros', 'mathtools']},
     macros: {
       R: '\\mathbb{R}',
       C: '\\mathbb{C}',
@@ -34,36 +34,43 @@ window.MathJax = {
       Lagrangian: '\\mathcal{L}',
       Cdot: '\\boldsymbol{\\cdot}',
       Tr: '\\operatorname{Tr}',
-      slashed: ['{\\not{#1}}', 1],
+      // Feynman slash: \not{x} would render the slash to the LEFT of x
+      // (it's designed for \not=). \cancel from the cancel package
+      // strikes diagonally through the centre, matching the slashed.sty
+      // package's appearance.
+      slashed: ['{\\cancel{#1}}', 1],
       // Wick contraction: top brace connector over the contracted pair —
       // closer to the standard physics notation than a plain overline.
       wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
       c:       ['{#1}', 1],
       mathds:  ['\\mathbb{#1}', 1],
       Tilde:   ['\\tilde{#1}', 1],
-      // tensor.sty: \tensor{base}{indices} — rendered as base + indices
-      tensor:  ['{#1{#2}}', 2]
+      // siunitx polyfill — \si{K}, \si{m\,s^{-1}} etc. should render
+      // the unit in upright math text, like \mathrm{X}. Doesn't try
+      // to mimic the full siunitx unit-formatting machinery; just
+      // unblocks the common bare-unit case in TDSP problems.
+      si: ['\\,\\mathrm{#1}', 1],
+      SI: ['#1\\,\\mathrm{#2}', 2]
+      // \tensor{base}{indices} is rewritten to base^a{}_b in
+      // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
+      // so no runtime macro is needed here. The empty-group trick is
+      // what makes MathJax kern the indices into separate columns.
     }
   },
-  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros'] }
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
 };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
-<!-- TikZJax: renders <script type="text/tikz"> blocks into SVG client-side -->
-<link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
-<script src="https://tikzjax.com/v1/tikzjax.js"></script>
-<!-- Post-process TikZJax SVGs: scale them up so they're readable in-page -->
-<script defer src="../assets/resize-tikz.js"></script>
 </head>
 <body>
 
 <header class="topbar">
-  <a href="../index.html" class="topbar__brand">Yucheng (Luca) Jin <small>MSci · Imperial</small></a>
+  <a href="../index.html" class="topbar__brand">Yucheng (Luca) Jin <small>BSc · Imperial</small></a>
   <nav class="topbar__nav">
     <a href="../index.html">About</a>
     <a href="../notes.html" class="is-active">Notes</a>
     <a href="../research.html">Research</a>
+    <a href="../reading.html">Reading</a>
     <a href="mailto:luca.jin@outlook.com">Contact</a>
     <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" title="Decrease font size">A<span class="font-toggle__small">−</span></button>
     <button class="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size" title="Increase font size">A<span class="font-toggle__large">+</span></button>
@@ -90,15 +97,19 @@ window.MathJax = {
   <li>By integrating the function
   \[z^n (z - a)^{-1} (z - a^{-1})^{-1}\]
   around the unit circle and applying the residue theorem, evaluate
-  \[\int_{0}^{2\pi} \frac{\cos n\theta}{1 - 2a\cos\theta + a^2}\, d\theta,\tag{1}\]
+  \[\int_{0}^{2\pi} \frac{\cos n\theta}{1 - 2a\cos\theta + a^2}\, d\theta,\tag{1.1}\]
   where $a$ is real, $a &gt; 1$, and $n$ is a non-negative integer.</li>
   <li>Obtain the same result using Cauchy’s integral formula instead of the residue theorem.</li>
 </ol>
 
-<p><u><strong>Solution</strong></u> Parametrise the integration by $z=e^{i\theta}$ with $\theta\in[0,2\pi)$. The integral becomes
-\[I = \int^{2\pi}_0d\theta\frac{aie^{in\theta}}{-1+2a\cos\theta-a^2}  =\int^{2\pi}_0d\theta\frac{aie^{-in\theta}}{-1+2a\cos\theta-a^2} = -2\pi i\frac{a^{-n+1}}{a^2-1}\tag{2}\]
+<aside class="solution">
+
+<p>Parametrise the integration by $z=e^{i\theta}$ with $\theta\in[0,2\pi)$. The integral becomes
+\[I = \int^{2\pi}_0d\theta\frac{aie^{in\theta}}{-1+2a\cos\theta-a^2}  =\int^{2\pi}_0d\theta\frac{aie^{-in\theta}}{-1+2a\cos\theta-a^2} = -2\pi i\frac{a^{-n+1}}{a^2-1}\tag{1.2}\]
 Therefore, 
-\[\int_{0}^{2\pi} \frac{\cos n\theta}{1 - 2a\cos\theta + a^2}\, d\theta = -\frac{I}{ai} = 2\pi\frac{a^{-n}}{a^2-1}.\tag{3}\]</p>
+\[\int_{0}^{2\pi} \frac{\cos n\theta}{1 - 2a\cos\theta + a^2}\, d\theta = -\frac{I}{ai} = 2\pi\frac{a^{-n}}{a^2-1}.\tag{1.3}\]</p>
+
+</aside>
   </article>
 
   <hr class="ornament-rule">
