@@ -53,6 +53,8 @@ PREAMBLE = r"""
 \usepackage{mathrsfs}
 \usepackage{cancel}
 \usepackage{simpler-wick}
+\usepackage[outline]{contour}
+\contourlength{0.7pt}
 \usepackage{tikz}
 \usepackage[compat=1.1.0]{tikz-feynman}
 \usepackage{pgfplots}

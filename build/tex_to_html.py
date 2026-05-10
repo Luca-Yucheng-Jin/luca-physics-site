@@ -723,14 +723,23 @@ def stash_tikz(text, stash):
     """Pull tikz / feynmandiagram blocks out of the source, replacing them
     with placeholder sentinels so they survive math-stashing and paragraphing.
     The stashed source is later rendered to inline SVG by svg_render."""
-    # tikzpicture environment
-    pat = re.compile(r"\\begin\{tikzpicture\}(\[[^\]]*\])?(.*?)\\end\{tikzpicture\}",
-                     re.DOTALL)
+    # tikzpicture environment, optionally preceded by a contiguous block of
+    # figure-local setup commands (\colorlet, \pgfmathsetmacro,
+    # \pgfdeclarelayer, \pgfsetlayers, \newcommand, \def, \providecommand).
+    # Standalone compilation needs those macros, so prepend them to the
+    # extracted snippet.
+    SETUP_CMDS = r"colorlet|pgfmathsetmacro|pgfdeclarelayer|pgfsetlayers|providecommand|newcommand|def"
+    pat = re.compile(
+        r"((?:^[ \t]*\\(?:" + SETUP_CMDS + r")\b[^\n]*\n[ \t]*\n*)*)"
+        r"\\begin\{tikzpicture\}(\[[^\]]*\])?(.*?)\\end\{tikzpicture\}",
+        re.DOTALL | re.MULTILINE,
+    )
 
     def tikz_repl(m):
-        opts = m.group(1) or ""
-        body = m.group(2)
-        full_src = f"\\begin{{tikzpicture}}{opts}{body}\\end{{tikzpicture}}"
+        setup = m.group(1) or ""
+        opts = m.group(2) or ""
+        body = m.group(3)
+        full_src = f"{setup}\\begin{{tikzpicture}}{opts}{body}\\end{{tikzpicture}}"
         idx = len(stash["tikz"])
         stash["tikz"].append(full_src)
         return f"\x00TIKZ{idx}\x00"
