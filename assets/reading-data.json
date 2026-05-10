@@ -55,7 +55,15 @@
       "totalPages": 495,
       "currentPage": 495,
       "addedAt": "2026-05-08T17:24:08.914Z"
+    },
+    {
+      "id": "r_mozjlgl2_a2o68ra",
+      "title": "Quantum Field Theory",
+      "author": "Srednicki",
+      "totalPages": 635,
+      "currentPage": 0,
+      "addedAt": "2026-05-10T09:00:16.310Z"
     }
   ],
-  "updatedAt": "2026-05-08T17:24:51.715Z"
+  "updatedAt": "2026-05-10T09:00:18.168Z"
 }
