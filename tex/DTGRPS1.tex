@@ -1,0 +1,435 @@
+\section{David Tong GR, PS1}
+\subsection{Integral Curves of Vector Fields, Q1}
+
+Draw the integral curves corresponding to a vector field in $\mathbb{R}^2$ with components, in Cartesian coordinates, given by
+\begin{itemize}
+    \item $X^\mu = (y,\,-x)$
+    \item $X^\mu = (x-y,\,x+y)$
+\end{itemize}
+[Hint: you might find life easier in polar coordinates.]
+\begin{solution}
+    Recall that a vector field can be defined as the tangent to the streamlines at each point, which means
+    \begin{equation}
+        X^\mu = \frac{dx^\mu(t)}{dt}\implies\begin{cases}
+            \dot x =y,\\
+            \dot y = -x,
+        \end{cases}
+    \end{equation}
+    which are solved by the circles on $\mathbb{R}^2$. 
+
+    For the second vector field, we have
+    \begin{equation}
+        \begin{cases}
+            \dot x = x-y,\\
+            \dot y = x+y.
+        \end{cases}
+    \end{equation}
+    This is solved by spirals of the form
+    \begin{equation}
+        x^2+y^2 = r^2e^{2\tan^{-1}(y/x)}.
+    \end{equation}
+\end{solution}
+\begin{figure}
+    \centering
+    \input{fig/flow.tex}
+    \caption{The integral curves.}
+    \label{fig:placeholder}
+\end{figure}
+\subsection{Tensors from Linear Maps, Q2}
+
+Let $\hat{H}: T_p(M)\to T_p^*(M)$ be a linear map. Define
+\begin{equation}
+    H(X,Y) = [\hat{H}(Y)](X).
+\end{equation}
+Show that this map is linear in both arguments (e.g.\ $H(fX+gY,Z) = fH(X,Z)+gH(Y,Z)$ for $f,g\in C^\infty$ and $X,Y,Z\in T_p(M)$) and hence defines a rank $(0,2)$ tensor. Similarly, show that a linear map $T_p(M)\to T_p(M)$ defines a tensor of rank $(1,1)$. What tensor $\delta$ arises from the identity map?
+
+\begin{solution}
+    Proof of linearity:
+    \begin{equation}
+        H(fX+gY,Z) = [\hat{H}(Z)](fX+gY).
+    \end{equation}
+    Since $\hat{H}(Y)$ is a covariant vector, we have
+    \begin{equation}
+        H(fX+gY,Z) =f[\hat{H}(Z)](X) + g[\hat{H}(Z)](Y) = fH(X,Z) + gH(Y,Z).
+    \end{equation}
+    \begin{equation}
+        H(X,fY+gZ) = [\hat{H}(fY+gZ)](X).
+    \end{equation}
+    By linearity of the linear map $\hat{H}$, we have
+    \begin{equation}
+        H(X,fY+gZ)  = f[\hat{H}(Y)](X) + g[\hat{H}(Z)](X) = fH(X,Y)+gH(X,Z).
+    \end{equation}
+    \qed
+    
+    Therefore, $H$ defines a multi-linear map,
+    \begin{equation}
+        H: T_p(M)\times T_p(M) \to \mathbb{R},
+    \end{equation}
+    which is a rank $(0,2)$ tensor.
+
+    Use he linear map,
+    \begin{equation}
+        \hat{G}: T_p(M) \to T_p(M),
+    \end{equation}
+    to define 
+    \begin{equation}
+        G(\omega,X) = \omega(\hat{G}(X)),
+    \end{equation}
+    with $\omega\in T_p^*(M)$. Now, we shall check the linearity of the $G$ constructed in both entries:
+    \begin{equation}
+        G(f\omega+g\eta,X) = fG(\omega,X) +gG(\eta,X)
+    \end{equation}
+    by linearity of covariant vectors, and
+    \begin{equation}
+        G(\omega,fX+gY) = fG(\omega,X) +gG(\omega,Y)
+    \end{equation}
+    by linearity of $\hat{G}$.
+    Therefore, $G$ is a rank $(1,1)$ tensor
+    \begin{equation}
+        G:T_p^*(M)\times T_p(M) \to \mathbb{R}.
+    \end{equation}
+    The identity map is
+    \begin{equation}
+        \hat{\delta}(X) = X.
+    \end{equation}
+    Therefore, it defines the tensor
+    \begin{equation}
+        \delta(\omega, X) = \omega_\mu X^\mu
+    \end{equation}
+    with
+    \begin{equation}
+        \delta(f^\mu, e_\nu) = \delta^\mu_\nu.
+    \end{equation}
+
+\end{solution}
+\subsection{The Hessian, Q3}
+
+Let $M$ be a manifold and $f:M\to\mathbb{R}$ be a smooth function such that $df=0$ at some point $p\in M$. Let $x^\mu$ be a coordinate chart defined in a neighbourhood of $p$. Define
+\begin{equation}
+    F_{\mu\nu} = \frac{\partial^2 f}{\partial x^\mu\partial x^\nu}.
+\end{equation}
+By considering the transformation law for components show that $F_{\mu\nu}$ defines a rank $(0,2)$ tensor. (This is called the Hessian of $f$ at $p$.) Construct also a coordinate-free definition and demonstrate its tensorial properties.
+\begin{solution}
+    Under the transformation $\tilde{x}^\mu \to x^\mu$, $F_{\mu\nu}$ transforms as 
+    \begin{equation}
+        \tilde{F}_{\mu\nu}\bigg|_p \to F_{\mu\nu}\bigg|_p 
+        = \frac{\partial x^\rho}{\partial \tilde{x}^\mu}
+        \frac{\partial}{\partial x^\rho}
+        \left(
+            \frac{\partial x^\sigma}{\partial \tilde{x}^\nu}
+            \frac{\partial f}{\partial x^\sigma}
+        \right)\bigg|_p
+        = \frac{\partial x^\rho}{\partial \tilde{x}^\mu}
+        \frac{\partial x^\sigma}{\partial \tilde{x}^\nu}
+        \frac{\partial^2 f}{\partial x^\rho \partial x^\sigma}\bigg|_p
+        + \frac{\partial^2 x^\sigma}{\partial \tilde{x}^\mu \partial \tilde{x}^\nu}
+        \frac{\partial f}{\partial x^\sigma}\bigg|_p.
+    \end{equation}
+    Given $df|_p = 0$, the second term vanishes, so
+    \begin{equation}
+        \tilde{F}_{\mu\nu}\bigg|_p \to 
+        \frac{\partial x^\rho}{\partial \tilde{x}^\mu}
+        \frac{\partial x^\sigma}{\partial \tilde{x}^\nu}
+        F_{\rho\sigma}\bigg|_p.
+    \end{equation}
+    This is exactly the transformation law of a rank $(0,2)$ tensor. Therefore, $f$ defines a rank $(0,2)$ tensor at $p$.
+
+    We can also write the tensor in a coordinate-free way as
+    \begin{equation}
+        F(X_p,Y_p) = X(Y(f))|_p 
+        = X^\mu Y^\nu \frac{\partial^2 f}{\partial x^\mu \partial x^\nu}\bigg|_p 
+        + X^\mu \frac{\partial Y^\nu}{\partial x^\mu} \frac{\partial f}{\partial x^\nu}\bigg|_p.
+    \end{equation}
+    Since $df|_p = 0$, this reduces to
+    \begin{equation}
+        F(X_p,Y_p) 
+        = X^\mu Y^\nu \frac{\partial^2 f}{\partial x^\mu \partial x^\nu}\bigg|_p,
+    \end{equation}
+    which is bilinear and symmetric.
+\end{solution}
+
+\subsection{Transformation of the Metric Determinant, Q4}
+
+Let $g_{\mu\nu}$ be a rank $(0,2)$ tensor. In a basis, one can regard the components $g_{\mu\nu}$ as elements of an $n\times n$ matrix, so that one may define the determinant $g = \det(g_{\mu\nu})$. How does $g$ transform under a change of basis?
+\begin{solution}
+    Under a coordinate transformation $x^\mu \to \tilde{x}^\mu$, we have
+    \begin{equation}
+        g \to \tilde{g} = \det\left(\frac{\partial x^\rho}{\partial \tilde{x}^\mu}\frac{\partial x^\sigma}{\partial \tilde{x}^\nu}g_{\rho\sigma}\right) = \left[\det\left(\frac{\partial x}{\partial \tilde{x}}\right)\right]^2g.
+    \end{equation}
+\end{solution}
+
+\subsection{Lie Derivatives and Cartan's Magic Formula, Q5}
+
+Use the Leibniz rule to derive the formula for the Lie derivative of a 1-form $\omega$, valid in any coordinate basis:
+\begin{equation}
+    (\mathcal{L}_X\omega)_\mu = X^\nu\partial_\nu\omega_\mu + \omega_\nu\partial_\mu X^\nu.
+\end{equation}
+[Hint: consider $(\mathcal{L}_X\omega)(Y)$ for a vector field $Y$.] Show that the Lie derivative of a $(0,2)$ tensor $g$ is
+\begin{equation}
+    (\mathcal{L}_X g)_{\mu\nu} = X^\rho\partial_\rho g_{\mu\nu} + g_{\mu\rho}\partial_\nu X^\rho + g_{\rho\nu}\partial_\mu X^\rho.
+\end{equation}
+For a $p$-form $\eta$, define $\iota_X\eta$ to be the $(p-1)$-form that results from contracting a vector field $X$ with the first index of $\eta$. Show that for a 1-form $\omega$,
+\begin{equation}
+    \mathcal{L}_X\omega = \iota_X(d\omega) + d(\iota_X\omega).
+\end{equation}
+\begin{solution}
+    Consider 
+    \begin{equation}
+        (\mathcal{L}_X\omega)(Y) = \mathcal{L}_X(\omega_\mu dx^\mu)(Y^\nu\partial_\nu) = X^\sigma(\partial_\sigma\omega_\mu)Y^\mu + \omega_\mu\mathcal{L}_X(dx^\mu)(Y^\nu \partial_\nu),
+    \end{equation}
+    and use the fact that $d$ and $\mathcal{L}_X$ commute,
+    \begin{equation}
+        \mathcal{L}_X(dx^\mu) =d\mathcal{L}_X(x^\mu) = dX^\mu =\partial_\nu X^\mu dx^\nu.
+    \end{equation}
+    Therefore, we find
+    \begin{equation}
+        (\mathcal{L}_X\omega)(Y) = X^\sigma(\partial_\sigma\omega_\mu)Y^\mu + \omega_\mu(\partial_\sigma X^\mu)Y^\sigma \implies (\mathcal{L}_X\omega)_\mu = X^\nu\partial_\nu\omega_\mu + \omega_\nu\partial_\mu X^\nu.
+    \end{equation}
+    For a rank $(0,2)$ tensor, the Lie derivative is defined as
+    \begin{equation}
+        \mathcal{L}_Xg = \lim_{t\to0}\frac{((\sigma_{-t}) _*g)_p -g_p}{t},
+    \end{equation}
+    where the push-forward is given by 
+    \begin{equation}
+        (\varphi_* g)(X,Y)\bigg|_p =g(\varphi^{-1}_*X,\varphi^{-1}_*Y)\bigg|_{\varphi^{-1}(p)},
+    \end{equation}
+    and $\sigma_{-t}$ is the flow generated by $X\in \mathfrak{X}(M)$. The flow equation, in a local coordinate, is given by
+    \begin{equation}
+        X^\mu(x) = \frac{dx^\mu}{dt},
+    \end{equation}
+    which is satisfied by
+    \begin{equation}
+        x^\mu(t) = x^\mu(0) +tX^\mu(x) + \mathcal{O}(t^2)
+        \label{eq:flow}
+    \end{equation}
+    to first order in $t$ (note the slight abuse of notation $x^\mu(\sigma_t) = x^\mu (t)$). In a chart, the push-forward is given by
+    \begin{equation}
+        (\varphi_* g)_{\mu\nu}\bigg|_p  = \frac{\partial x^\sigma}{\partial x^\mu(\varphi)}\frac{\partial x^\rho}{\partial x^\nu(\varphi)}g_{\sigma\rho}\bigg|_{\varphi^{-1}(p)},
+    \end{equation}
+    which gives
+    \begin{equation}
+    \begin{aligned}
+        ((\sigma_{-t}) _*g)_{\mu\nu}\bigg|_p &= (\delta^\sigma_\mu - t\partial_\mu X^\sigma)^{-1}(\delta^\rho_\nu - t\partial_\nu X^\rho)^{-1}g_{\sigma\rho}\bigg|_{\sigma_t(p)} + \mathcal{O}(t^2)   \\
+        &= (\delta^\sigma_\mu + t\partial_\mu X^\sigma)(\delta^\rho_\nu + t\partial_\nu X^\rho)\left(g_{\mu\nu} + tX^\lambda\partial_\lambda g_{\mu\nu}\right)\bigg|_p + \cdots\\
+        &=g_{\mu\nu}\bigg|_p + t(X^\rho\partial_\rho g_{\mu\nu} + g_{\mu\rho}\partial_\nu X^\rho + g_{\rho\nu}\partial_\mu X^\rho)\bigg|_p + \mathcal{O}(t^2),
+    \end{aligned}
+    \end{equation}
+    where we have used (\ref{eq:flow}) to Taylor expand $g$ around $p$. Therefore, we find
+    \begin{equation}
+        (\mathcal{L}_X g)_{\mu\nu} = X^\rho\partial_\rho g_{\mu\nu} + g_{\mu\rho}\partial_\nu X^\rho + g_{\rho\nu}\partial_\mu X^\rho.
+    \end{equation}
+    First, consider
+    \begin{equation}
+    \begin{aligned}
+        \iota_X(d\omega) &= \iota_X\frac{1}{2}(\partial_\mu\omega_\nu - \partial_\nu \omega_\mu) dx^\mu \wedge dx^\nu \\&= \frac{1}{2}(\partial_\mu\omega_\nu - \partial_\nu \omega_\mu)X^\mu dx^\nu - \frac{1}{2}(\partial_\mu\omega_\nu - \partial_\nu \omega_\mu)X^\nu dx^\mu\\& = X^\mu\partial_\mu\omega_\nu dx^\nu - X^\mu \partial_\nu\omega_\mu dx^\nu.
+    \end{aligned}
+    \end{equation}
+    Then, 
+    \begin{equation}
+        d(\iota_X\omega) = d(\omega_\mu X^\mu) = X^\mu\partial_\nu\omega_\mu dx^\nu +  \omega_\mu \partial_\nu X^\mu dx^\nu.
+    \end{equation}
+    Therefore, we find
+    \begin{equation}
+        \mathcal{L}_X\omega = \iota_X(d\omega) + d(\iota_X\omega).   
+    \end{equation}
+
+\end{solution}
+
+\subsection{Properties of the Exterior Derivative, Q6}
+
+Let $\omega$ be a $p$-form and $\eta$ a $q$-form. Show that the exterior derivative satisfies the properties
+\begin{itemize}
+    \item $d(d\omega) = 0$
+    \item $d(\omega\wedge\eta) = (d\omega)\wedge\eta + (-1)^p\omega\wedge d\eta$
+    \item $d(\varphi^*\omega) = \varphi^*(d\omega)$ where $\varphi:M\to N$ for some manifolds $M$ and $N$
+\end{itemize}
+
+\begin{solution}
+    \begin{equation}
+    \begin{aligned}
+        d(d\omega) &= d\left(\frac{1}{p!}\frac{\partial\omega_{\mu_1\cdots\mu_p}}{\partial x^\nu} dx^\nu \wedge dx^{\mu_1} \wedge \cdots \wedge dx^{\mu_p}\right)\\ &=\frac{1}{p!}\frac{\partial^2\omega_{\mu_1\cdots\mu_p}}{\partial x^\rho\partial x^\nu}dx^\rho \wedge dx^\nu \wedge dx^{\mu_1} \wedge \cdots \wedge dx^{\mu_p}\\
+        &=0
+    \end{aligned}
+    \end{equation}
+    by antisymmetry of the wedge product. 
+
+    \begin{equation}
+        \begin{aligned}
+            d(\omega\wedge\eta) &= d\left(\frac{1}{p!q!}\omega_{[\mu_1\cdots\mu_p}\eta_{\nu_1\cdots\nu_q]} dx^{\mu_1} \wedge \cdots \wedge dx^{\mu_p}\wedge dx^{\nu_1}\wedge \cdots \wedge dx^{\nu_q} \right)\\
+            &=\frac{1}{p!q!}\left((\partial_{[\mu} \omega_{[\mu_1\cdots\mu_p})\eta_{\nu_1\cdots\nu_q]]} +\omega_{[\mu_1\cdots\mu_p} \partial_{[\mu} \eta_{\nu_1\cdots\nu_q]]}\right)dx^\mu \wedge dx^{\mu_1} \wedge \cdots \wedge dx^{\nu_q}.
+            \label{eq:exd}
+        \end{aligned}
+    \end{equation}
+    Now consider the wedge product
+    \begin{equation}
+    \begin{aligned}
+        (d\omega \wedge \eta)_{\mu\mu_1\cdots\nu_q} &= \frac{(p+1)}{(p+1)!q!}(\partial_{[[\mu}\omega_{\mu_1\cdots\mu_p]})\eta_{\nu_1\cdots\nu_q]} \\&= \frac{1}{p!q!}(\partial_{[\mu}\omega_{\mu_1\cdots\mu_p})\eta_{\nu_1\cdots\nu_q]},
+    \end{aligned}
+    \end{equation}
+    which is exactly the first term in (\ref{eq:exd}). Similarly, the second term of (\ref{eq:exd}) can also be written as  $\omega \wedge d\eta$ by permuting $\mu$ to the left, which gives a factor of $(-1)^p$. Therefore, we find
+    \begin{equation}
+        d(\omega\wedge\eta) = (d\omega)\wedge\eta + (-1)^p\omega\wedge d\eta.
+    \end{equation}
+
+    The pull-back can be written as $\partial \tilde{x}^\mu /\partial x^\nu$. By antisymmetry of the exterior derivative, any term involving $d(\partial \tilde{x}^\mu /\partial x^\nu)$ must vanish. Therefore, the exterior derivative must pass through the pull-back and act on the $p$-form, $\omega$. That is
+    \begin{equation}
+        d(\varphi^*\omega) = \varphi^*d\omega.
+    \end{equation}
+\end{solution}
+
+\subsection{Coordinate-Free Definition of the Exterior Derivative, Q7}
+
+The exterior derivative of $\omega\in\Lambda^p(M)$ can be defined as
+\begin{equation}
+\begin{aligned}
+    d\omega(X_1,\ldots,X_{p+1}) &= \sum_{j=1}^{p+1}(-1)^{j-1}X_j\!\left(\omega(X_1,\ldots,\hat{X}_j,\ldots,X_{p+1})\right)\\
+    &\quad +\sum_{j<k}(-1)^{j+k}\omega([X_j,X_k],X_1,\ldots,\hat{X}_j,\ldots,\hat{X}_k,\ldots,X_{p+1})
+\end{aligned}
+\end{equation}
+where a hat denotes omission. In a coordinate basis $\omega = \frac{1}{p!}\omega_{\mu_1\cdots\mu_p}\,dx^{\mu_1}\wedge\cdots\wedge dx^{\mu_p}$, use this definition to determine the components of $d\omega$ in the cases $p=1$ and $p=2$.
+\begin{solution}
+    For $p=1$, we have
+    \begin{equation}
+        \begin{aligned}
+            d\omega(X,Y) &= X(\omega(Y)) - Y(\omega(X)) - \omega([X,Y])\\
+            &= X^\mu\partial_\mu(\omega_\nu Y^\nu) - Y^\nu\partial_\nu(\omega_\mu X^\mu) - \omega_\rho(X^\mu\partial_\mu Y^\rho - Y^\mu\partial_\mu X^\rho)\\
+            &= (\partial_\mu\omega_\nu - \partial_\nu\omega_\mu)X^\mu Y^\nu,
+        \end{aligned}
+    \end{equation}
+    so the components read $(d\omega)_{\mu\nu} = \partial_\mu\omega_\nu - \partial_\nu\omega_\mu = 2\,\partial_{[\mu}\omega_{\nu]}$, and
+    \begin{equation}
+        d\omega = \partial_\mu\omega_\nu\,dx^\mu\wedge dx^\nu.
+    \end{equation}
+    For $p=2$, with $\omega = \frac{1}{2}\omega_{\mu\nu}dx^\mu\wedge dx^\nu$, we have $\omega(Y,Z) = \omega_{\mu\nu}Y^\mu Z^\nu$, and
+    \begin{equation}
+        \begin{aligned}
+            d\omega(X,Y,Z) &= X(\omega(Y,Z)) - Y(\omega(X,Z)) + Z(\omega(X,Y))\\
+            &\quad - \omega([X,Y],Z) + \omega([X,Z],Y) - \omega([Y,Z],X).
+        \end{aligned}
+    \end{equation}
+    Expanding the first piece,
+    \begin{equation}
+        X(\omega(Y,Z)) = X^\rho(\partial_\rho\omega_{\mu\nu})Y^\mu Z^\nu + \omega_{\mu\nu}X^\rho(\partial_\rho Y^\mu)Z^\nu + \omega_{\mu\nu}X^\rho Y^\mu(\partial_\rho Z^\nu),
+    \end{equation}
+    and similarly for the other two, while each commutator contributes terms such as
+    \begin{equation}
+        \omega([X,Y],Z) = \omega_{\rho\nu}(X^\sigma\partial_\sigma Y^\rho - Y^\sigma\partial_\sigma X^\rho)Z^\nu.
+    \end{equation}
+    All terms involving derivatives of the vector fields cancel pairwise after relabeling dummy indices and using antisymmetry of $\omega_{\mu\nu}$. What remains is
+    \begin{equation}
+        d\omega(X,Y,Z) = \left(\partial_\rho\omega_{\mu\nu} + \partial_\mu\omega_{\nu\rho} + \partial_\nu\omega_{\rho\mu}\right)X^\rho Y^\mu Z^\nu,
+    \end{equation}
+    so the components read
+    \begin{equation}
+        (d\omega)_{\rho\mu\nu} = \partial_\rho\omega_{\mu\nu} + \partial_\mu\omega_{\nu\rho} + \partial_\nu\omega_{\rho\mu} = 3\,\partial_{[\rho}\omega_{\mu\nu]},
+    \end{equation}
+    which gives
+    \begin{equation}
+        d\omega = \frac{1}{2}\,\partial_\rho\omega_{\mu\nu}\,dx^\rho\wedge dx^\mu\wedge dx^\nu.
+    \end{equation}
+    Both cases fit the general pattern $(d\omega)_{\mu_0\mu_1\cdots\mu_p} = (p+1)\,\partial_{[\mu_0}\omega_{\mu_1\cdots\mu_p]}$.
+\end{solution}
+
+\subsection{Maurer-Cartan Structure Equations on $S^3$, Q8}
+
+A three-sphere can be parameterized by Euler angles $(\theta,\phi,\psi)$ where $0<\theta<\pi$, $0<\phi<2\pi$, $0<\psi<4\pi$. Define the following 1-forms
+\begin{align*}
+    \sigma^1 &= -\sin\psi\,d\theta + \cos\psi\sin\theta\,d\phi,\\
+    \sigma^2 &= \cos\psi\,d\theta + \sin\psi\sin\theta\,d\phi,\\
+    \sigma^3 &= d\psi + \cos\theta\,d\phi.
+\end{align*}
+Show that $d\sigma^1 = \sigma^2\wedge\sigma^3$ with analogous results for $d\sigma^2$ and $d\sigma^3$.
+\begin{solution}
+    \begin{equation}
+        d\sigma^1 = -\cos\theta \,d\psi\wedge d\theta - \sin\psi\sin\theta\,d\psi\wedge d\phi + \cos\psi\cos\theta \, d\theta\wedge d\phi,
+    \end{equation}
+    and
+    \begin{equation}
+    \begin{aligned}
+        \sigma^2 \wedge \sigma^3 &= (\cos\psi\,d\theta + \sin\psi\sin\theta\,d\phi) \wedge (d\psi + \cos\theta\,d\phi)\\ 
+        &= \cos\, d\theta \wedge d\psi + \sin\psi\sin\theta \, d\phi \wedge d\psi +\cos\psi\cos\theta\,d\theta \wedge d\phi,
+    \end{aligned}
+    \end{equation} 
+    which clearly shows
+    \begin{equation}
+        d\sigma^1 = \sigma^2\wedge\sigma^3.
+    \end{equation}
+    Similarly, one can obtain analogous results for $d\sigma^2$ and $d\sigma^3$.
+    
+\end{solution}
+
+\subsection{Coordinate-Induced Bases and the Poincaré Lemma, Q9}
+
+Let $\{e_\mu\}$ be a basis of vector fields, with
+\begin{equation}
+    [e_\mu, e_\nu] = \gamma^\rho{}_{\mu\nu}\,e_\rho.
+\end{equation}
+The functions $\gamma^\rho{}_{\mu\nu}$ are known as commutator components. For a choice of coordinates $\{x^\mu\}$, we often work with the coordinate induced basis $e_\mu = \{\partial_\mu\}$. Show that, in this case, $[e_\mu, e_\nu] = 0$.
+
+The purpose of this question is to show the converse: that $[e_\mu,e_\nu]=0$ only for a coordinate induced basis. Consider a general basis $\{e_\mu\}$ and the dual basis $\{f^\mu\}$ of one-forms. In general, these can be expanded as
+\begin{equation}
+    e_\mu = e_\mu{}^\rho\frac{\partial}{\partial x^\rho} \qquad \text{and} \qquad f^\mu = f^\mu{}_\rho\,dx^\rho
+\end{equation}
+where $e_\mu{}^\rho f^\nu{}_\rho = \delta^\mu_\nu$. Show that
+\begin{equation}
+    e_\mu{}^\sigma\frac{\partial e_\nu{}^\lambda}{\partial x^\sigma} - e_\nu{}^\sigma\frac{\partial e_\mu{}^\lambda}{\partial x^\sigma} = \gamma^\rho{}_{\mu\nu}\,e_\rho{}^\lambda.
+\end{equation}
+Hence deduce that
+\begin{equation}
+    e_\mu{}^\sigma e_\nu{}^\lambda\frac{\partial f^\rho{}_\lambda}{\partial x^\sigma} - e_\nu{}^\sigma e_\mu{}^\lambda\frac{\partial f^\rho{}_\lambda}{\partial x^\sigma} = -\gamma^\rho{}_{\mu\nu},
+\end{equation}
+and finally that
+\begin{equation}
+    \frac{\partial f^\rho{}_\sigma}{\partial x^\lambda} - \frac{\partial f^\rho{}_\lambda}{\partial x^\sigma} = -\gamma^\rho{}_{\mu\nu}f^\mu{}_\lambda f^\nu{}_\sigma.
+\end{equation}
+Use this result, together with the Poincar\'e lemma, to show that if $[e_\mu,e_\nu]=0$ $\forall\,\mu,\nu$ then the basis is coordinate induced.
+\begin{solution}
+    For coordinate bases, we clearly have
+    \begin{equation}
+        [\partial_\mu, \partial_\nu] = 0.
+    \end{equation}
+
+    Now, consider the commutation relation
+    \begin{equation}
+        [e_\mu{}^\rho\partial_\rho,e_\nu{}^\sigma\partial_\sigma] = \gamma^\lambda{}_{\mu\nu}e_\lambda{}^\delta\partial_\delta.
+    \end{equation}
+    The left-hand side is
+    \begin{equation}
+        [e_\mu{}^\rho\partial_\rho,e_\nu{}^\sigma\partial_\sigma] = e_\mu{}^\rho(\partial_\rho e_\nu{}^\sigma)\partial_\sigma - e_\nu{}^\sigma(\partial_\sigma e_\mu{}^\rho)\partial_\rho.
+    \end{equation}
+    After relabeling, we find
+    \begin{equation}
+        e_\mu{}^\sigma\frac{\partial e_\nu{}^\lambda}{\partial x^\sigma} - e_\nu{}^\sigma\frac{\partial e_\mu{}^\lambda}{\partial x^\sigma} = \gamma^\rho{}_{\mu\nu}\,e_\rho{}^\lambda.
+    \end{equation}
+    Then, consider the expression
+    \begin{equation}
+        e_\mu{}^\sigma\frac{\partial (e_\nu{}^\lambda f^\rho{}_\lambda)}{\partial x^\sigma} - e_\nu{}^\sigma\frac{\partial (e_\mu{}^\lambda f^\rho{}_\lambda)}{\partial x^\sigma}.
+    \end{equation}
+    Since $e_\mu{}^\rho f^\nu{}_\rho = \delta^\mu_\nu$, the above expression must vanish. Therefore, we must have
+    \begin{equation}
+    \begin{aligned}
+        0=\;&e_\mu{}^\sigma\frac{\partial (e_\nu{}^\lambda f^\rho{}_\lambda)}{\partial x^\sigma} - e_\nu{}^\sigma\frac{\partial (e_\mu{}^\lambda f^\rho{}_\lambda)}{\partial x^\sigma} \\
+        =\;& e_\mu{}^\sigma f^\rho{}_\lambda \frac{\partial e_\nu{}^\lambda}{\partial x^\sigma} - e_\nu{}^\sigma f^\rho{}_\lambda\frac{\partial e_\mu{}^\lambda }{\partial x^\sigma} + e_\mu{}^\sigma e_\nu{}^\lambda\frac{\partial  f^\rho{}_\lambda}{\partial x^\sigma} - e_\nu{}^\sigma e_\mu{}^\lambda\frac{\partial  f^\rho{}_\lambda}{\partial x^\sigma}\\
+        =\; & \gamma^\rho{}_{\mu\nu} + e_\mu{}^\sigma e_\nu{}^\lambda\frac{\partial  f^\rho{}_\lambda}{\partial x^\sigma} - e_\nu{}^\sigma e_\mu{}^\lambda\frac{\partial  f^\rho{}_\lambda}{\partial x^\sigma}.
+    \end{aligned}
+    \end{equation}
+    Therefore, we find
+    \begin{equation}
+        e_\mu{}^\sigma e_\nu{}^\lambda\frac{\partial f^\rho{}_\lambda}{\partial x^\sigma} - e_\nu{}^\sigma e_\mu{}^\lambda\frac{\partial f^\rho{}_\lambda}{\partial x^\sigma} = -\gamma^\rho{}_{\mu\nu}.
+    \end{equation}
+    Then, contracting with $f$, we find
+    \begin{equation}
+        \frac{\partial f^\rho{}_\sigma}{\partial x^\lambda} - \frac{\partial f^\rho{}_\lambda}{\partial x^\sigma} = -\gamma^\rho{}_{\mu\nu}f^\mu{}_\lambda f^\nu{}_\sigma.
+    \end{equation}
+    The Poincaré lemma states that, on $M = \mathbb{R}^n$, closed implies exact. Multiplying the previous expression by $dx^\lambda \wedge dx^\sigma$ and using antisymmetry of the wedge,
+    \begin{equation}
+        d\theta^\rho = \frac{1}{2}\!\left(\frac{\partial f^\rho{}_\sigma}{\partial x^\lambda} - \frac{\partial f^\rho{}_\lambda}{\partial x^\sigma}\right)dx^\lambda\wedge dx^\sigma = -\frac{1}{2}\gamma^\rho{}_{\mu\nu}\,\theta^\mu\wedge\theta^\nu,
+    \end{equation}
+    where $\theta^\rho = f^\rho{}_\sigma\,dx^\sigma$ is the dual basis to $e_\mu = e_\mu{}^\rho\partial_\rho$. Now suppose $\gamma^\rho{}_{\mu\nu}$ vanish. Then $d\theta^\rho = 0$, so $\theta^\rho$ is a closed 1-form. By the Poincaré lemma, on $M = \mathbb{R}^n$ (or any contractible neighbourhood) closed forms are exact, so there exist functions $y^\rho$ with
+    \begin{equation}
+        \theta^\rho = dy^\rho.
+    \end{equation}
+    The $y^\rho$ are functionally independent because $\theta^\rho$ are linearly independent at every point, so they form a coordinate system. In these coordinates, $\theta^\rho(e_\mu) = \delta^\rho_\mu$ becomes $\partial y^\rho/\partial y^\mu_{(e)} = \delta^\rho_\mu$, i.e.\ $e_\mu = \partial/\partial y^\mu$, a coordinate basis.
+
+    Conversely, if $e_\mu = \partial/\partial y^\mu$ for some coordinates $y^\mu$, then $[e_\mu, e_\nu] = [\partial_{y^\mu}, \partial_{y^\nu}] = 0$, so $\gamma^\rho{}_{\mu\nu} = 0$. Therefore $\{e_\mu\}$ is (locally) a coordinate basis if and only if $\gamma^\rho{}_{\mu\nu} = 0$.
+\end{solution}

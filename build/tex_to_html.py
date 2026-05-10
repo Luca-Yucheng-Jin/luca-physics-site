@@ -225,6 +225,58 @@ DISPLAY_ENVS = ["equation", "equation*", "align", "align*", "gather", "gather*",
                 "multline", "multline*"]
 
 
+def _strip_two_arg_keep_first(text, command):
+    """For commands of the form \\command{arg1}{arg2} where arg1 is the
+    content we want to keep (e.g. \\texorpdfstring{TeX}{text} — keep the
+    TeX form for HTML+MathJax). Optional `[opt]` arguments are tolerated."""
+    out = []
+    i = 0
+    pat = re.compile(r"\\" + re.escape(command) + r"\*?")
+    while i < len(text):
+        m = pat.search(text, i)
+        if not m:
+            out.append(text[i:])
+            break
+        out.append(text[i:m.start()])
+        j = m.end()
+        while j < len(text) and text[j] == " ": j += 1
+        if j < len(text) and text[j] == "[":
+            depth = 1; j += 1
+            while j < len(text) and depth > 0:
+                if text[j] == "[": depth += 1
+                elif text[j] == "]": depth -= 1
+                j += 1
+        while j < len(text) and text[j] == " ": j += 1
+        if j >= len(text) or text[j] != "{":
+            out.append(text[m.start():m.end()])
+            i = m.end()
+            continue
+        depth = 1; j += 1; arg1_start = j
+        while j < len(text) and depth > 0:
+            if text[j] == "{": depth += 1
+            elif text[j] == "}":
+                depth -= 1
+                if depth == 0: break
+            j += 1
+        arg1 = text[arg1_start:j]
+        j += 1   # past closing brace of arg1
+        while j < len(text) and text[j] in " \n\t": j += 1
+        if j >= len(text) or text[j] != "{":
+            out.append(arg1)
+            i = j
+            continue
+        depth = 1; j += 1
+        while j < len(text) and depth > 0:
+            if text[j] == "{": depth += 1
+            elif text[j] == "}":
+                depth -= 1
+                if depth == 0: break
+            j += 1
+        out.append(arg1)
+        i = j + 1
+    return "".join(out)
+
+
 def _strip_two_arg_keep_second(text, command):
     """For commands of the form \\command[opt]{arg1}{arg2} (where arg1 is
     decoration metadata we don't care about and arg2 is the actual content
@@ -347,6 +399,8 @@ def strip_tex_only_constructs(text):
     # \raisebox{lift}{content} → keep only content
     for cmd in ("raisebox", "makebox", "framebox", "fbox", "parbox", "mbox"):
         text = _strip_two_arg_keep_second(text, cmd)
+    # \texorpdfstring{TeX}{text} → keep TeX (HTML can render math via MathJax)
+    text = _strip_two_arg_keep_first(text, "texorpdfstring")
     # Single-arg layout commands like \vcenter{...}, \hbox{...}, \text{...}
     # used inline with math to wrap a tikzpicture. Keep the inner content.
     for cmd in ("vcenter", "hbox", "vbox"):
@@ -1090,6 +1144,22 @@ WHOLE_FILE_PAGES = [
         "Tong QFT — Problem Sheet 3",
         "Quantum Field Theory · Tong QFT PS3",
         "D. Tong, <em>Quantum Field Theory</em>, Problem Sheet 3 (Dirac fields)."),
+    ("DTQFTPS4.tex", "tong-qft-ps4",
+        "Tong QFT — Problem Sheet 4",
+        "Quantum Field Theory · Tong QFT PS4",
+        "D. Tong, <em>Quantum Field Theory</em>, Problem Sheet 4 (interactions, Wick's theorem, scattering amplitudes)."),
+    ("DTGRPS1.tex", "tong-gr-ps1",
+        "Tong GR — Problem Sheet 1",
+        "General Relativity &amp; Beyond · Tong GR PS1",
+        "D. Tong, <em>General Relativity</em>, Problem Sheet 1 (manifolds, vector fields, tensors, differential forms)."),
+    ("DTGRPS2.tex", "tong-gr-ps2",
+        "Tong GR — Problem Sheet 2",
+        "General Relativity &amp; Beyond · Tong GR PS2",
+        "D. Tong, <em>General Relativity</em>, Problem Sheet 2 (connections, curvature, parallel transport)."),
+    ("DTGRPS3.tex", "tong-gr-ps3",
+        "Tong GR — Problem Sheet 3",
+        "General Relativity &amp; Beyond · Tong GR PS3",
+        "D. Tong, <em>General Relativity</em>, Problem Sheet 3 (geodesics, Killing vectors, energy conditions)."),
 ]
 
 
@@ -1330,7 +1400,7 @@ def write_whole_file_page(tex_path, slug, title, breadcrumb, source_long):
             if pre:
                 out_chunks.append(latex_to_html(pre, stash=shared))
             for i, (cstart, cend, sub_title) in enumerate(matches):
-                sub_title = sub_title.strip()
+                sub_title = _strip_two_arg_keep_first(sub_title, "texorpdfstring").strip()
                 display = re.sub(r"\s*\([^)]*\)\s*$", "", sub_title).strip() or sub_title
                 start = cend
                 end_pos = matches[i + 1][0] if i + 1 < len(matches) else len(text)
@@ -1347,7 +1417,7 @@ def write_whole_file_page(tex_path, slug, title, breadcrumb, source_long):
             if pre:
                 out_chunks.append(latex_to_html(pre, stash=shared))
             for i, (cstart, cend, sec_title) in enumerate(matches):
-                sec_title = sec_title.strip()
+                sec_title = _strip_two_arg_keep_first(sec_title, "texorpdfstring").strip()
                 display = re.sub(r"\s*\([^)]*\)\s*$", "", sec_title).strip() or sec_title
                 start = cend
                 end_pos = matches[i + 1][0] if i + 1 < len(matches) else len(text)
