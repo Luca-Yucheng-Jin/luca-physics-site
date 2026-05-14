@@ -249,8 +249,8 @@ CATEGORIES = [
     {
         "slug": "advanced",
         "title": "GR",
-        "blurb": "Manifolds and tensors, connections and curvature, geodesics and Killing vectors, Brans–Dicke scalar-tensor gravity, and 11-dimensional supergravity.",
-        "tag": "3 notes",
+        "blurb": "Manifolds and tensors, connections and curvature, geodesics and Killing vectors, Brans–Dicke scalar-tensor gravity, 11-dimensional supergravity, and linearised gravity / gravitational waves.",
+        "tag": "4 notes",
         "body": """    <h3>Solutions</h3>
     <ul class="catalogue">
       <li class="catalogue__item">
@@ -276,6 +276,14 @@ CATEGORIES = [
           <span class="catalogue__desc">Timelike geodesics, Brans–Dicke scalar-tensor gravity, 11-d supergravity, Killing vectors, conformal compactification, energy conditions.</span>
         </span>
         <span class="catalogue__tag">Tong GR PS3</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">PS4.</span>
+        <span class="catalogue__main">
+          <a href="notes/tong-gr-ps4.html">Linearised Gravity &amp; Gravitational Waves</a>
+          <span class="catalogue__desc">Linearised gravity from a point mass, cosmic strings, Lense–Thirring, Fierz–Pauli, transverse-traceless gauge, binary gravitational-wave emission.</span>
+        </span>
+        <span class="catalogue__tag">Tong GR PS4</span>
       </li>
     </ul>""",
     },
