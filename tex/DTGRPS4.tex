@@ -1,0 +1,443 @@
+\section{David Tong GR PS4}
+
+\subsection{Linearised Gravity from a Point Mass, Q1}
+
+In almost-inertial coordinates, the energy-momentum tensor describing a stationary point mass at the origin is $T^{00}(t,\mathbf{x}) = M\delta^3(\mathbf{x})$ with $T^{0i} = T^{ij} = 0$. Determine the linearised gravitational field produced by this energy-momentum tensor, assuming it to be independent of $t$. For what values of $R = |\mathbf{x}|$ is the linear approximation valid?
+\begin{solution}
+    We have
+    \begin{equation}
+        \square \bar h_{\mu\nu} =- 16\pi G T_{\mu\nu}.
+    \end{equation} 
+    Given there is no time dependence, $\square = \nabla^2$. Then, we simply have
+    \begin{equation}
+        \nabla^2 \bar h_{00} = - 16\pi G M \delta^3 (\mathbf{x}), \quad \nabla^2 \bar h_{0i} = \nabla^2 \bar h_{ij} = 0.
+    \end{equation}
+    We impose the Dirichlet boundary condition, such that $h_{\mu\nu} \to 0$ as $|\mathbf{x}| \to \infty$. Then, the above takes the familiar solutions,
+    \begin{equation}
+        \bar h_{00} = \frac{4GM}{r}, \quad \bar h_{0j} = \bar h_{ij} =  0.
+    \end{equation}
+    Recall,
+    \begin{equation}
+        h_{\mu\nu} = \bar h_{\mu\nu} -\frac{1}{2}\bar h \eta_{\mu\nu},
+    \end{equation}
+    we find
+    \begin{equation}
+        h_{00} = \frac{2GM}{r},\quad  h_{ii} = \frac{2GM}{r},
+    \end{equation}
+    with the off-diagonal terms vanishing. Then, the metric is
+    \begin{equation}
+        g_{\mu\nu} = \eta_{\mu\nu } + h_{\mu\nu} \implies ds^2 = -\left(1-\frac{2GM}{r}\right)dt^2 + \left(1+\frac{2GM}{r}\right)(dr^2 + r^2 d\Omega_2^2).
+    \end{equation}
+    The approximation is valid when $h_{\mu\nu} \ll 1$ i.e. $r \gg 2GM = r_s$, where $r_s$ is the Schwarzchild radius.
+\end{solution}
+
+\subsection{Cosmic String Metric, Q2}
+
+In almost inertial coordinates the energy-momentum tensor of a straight cosmic string aligned along the $z$-axis is
+\begin{equation}
+    T^{\mu\nu} = \mu\,\delta(x)\delta(y)\,\mathrm{diag}(1,0,0,-1),
+\end{equation}
+where $\mu > 0$ is constant. Show that the linearised Einstein equations admit a solution with non-vanishing metric perturbation components
+\begin{equation}
+    h_{11} = h_{22} = -\lambda \quad \text{with} \quad \lambda = 8\mu G\log\!\left(\frac{r}{r_0}\right)
+\end{equation}
+where $r = \sqrt{x^2+y^2}$ and $r_0$ is an arbitrary length.
+
+Show that the perturbed metric can be written in cylindrical polar coordinates as
+\begin{equation}
+    ds^2 = -dt^2 + dz^2 + (1-\lambda)(dr^2 + r^2 d\phi^2).
+\end{equation}
+Working to leading order in $\mu G$, make a change of radial coordinate given by $(1-\lambda)r^2 = (1-8\mu G)\tilde r^2$ to obtain
+\begin{equation}
+    ds^2 = -dt^2 + dz^2 + d\tilde r^2 + (1-8\mu G)\tilde r^2\,d\phi^2.
+\end{equation}
+Finally, change the angular coordinate to obtain
+\begin{equation}
+    ds^2 = -dt^2 + dz^2 + d\tilde r^2 + \tilde r^2\,d\tilde\phi^2.
+\end{equation}
+Is this Minkowski spacetime? Show intuitively how a distant object behind a cosmic string may appear as a double image.
+\begin{solution}
+    Similarly, as above, we find
+    \begin{equation}
+        \nabla^2\bar h_{00} = -16\pi G\mu\delta(x)\delta(y), \quad \nabla^2 \bar h_{33} = -16\pi G\mu\delta(x)\delta(y),
+    \end{equation}
+    where the rest of the components satisfy Laplace's equation and hence vanish by the Dirichlet boundary condition. The equation above can be solved by using Gauss's law. We find
+    \begin{equation}
+        \bar h_{00} = - \bar h_{33} =  8\mu G\ln \frac{r}{r_0} = \lambda,
+    \end{equation}
+    where $r_0$ is some reference radius chosen to specify the potential. Then, we have $\bar h = -2\lambda$, and hence
+    \begin{equation}
+        h_{11} = h_{22} = - \lambda,
+    \end{equation}
+    and the other components vanish. Hence, the metric is given by
+    \begin{equation}
+        ds^2 = -dt^2 + (1-\lambda)(dx^2 + dy^2) + dz^2,
+    \end{equation}
+    which is
+    \begin{equation}
+        ds^2 = -dt^2 +dz^2 +(1-\lambda)(dr^2 + r^2 d\phi^2)
+    \end{equation}
+    in cylindrical coordinates.
+
+    Now, we substitute $(1-\lambda)r^2 = (1 - 8\mu G)\tilde{r}^2$. To leading order in $\mu G$, 
+    \begin{equation}
+        (1-\lambda)dr^2 = (1-8\mu G) d\tilde{r}^2,
+    \end{equation}
+    and hence the metric becomes
+    \begin{equation}
+        ds^2 = -dt^2 + dz^2 + d\tilde{r}^2 + (1-8\mu G)\tilde{r}^2d\phi^2.
+    \end{equation}
+    Finally, by setting $\tilde{\phi}^2 = (1-8\mu G) \phi^2$, the metric is simplified to the Minkowski metric in cylindrical coordinates i.e.
+    \begin{equation}
+        ds^2 = -dt^2 + dz^2 + d\tilde{r}^2 +\tilde{r}^2d\tilde{\phi}^2.
+    \end{equation}
+    Note that $\tilde{\phi} \in [0,2\pi\sqrt{1-8\mu G})$. This is like taking a flat piece of paper, cutting off a wedge of angle $\Delta$, and glueing the two edges together. The originally parallel geodesics converge, and therefore the light from the back of the cosmic string has two paths to reach the observer, which appears to be a double image.
+
+    
+\end{solution}
+\subsection{Frame Dragging and the Lense-Thirring Effect, Q3}
+
+Consider a large thin spherical shell of mass $M$ and radius $R$ which rotates slowly about the $z$-axis with angular velocity $\Omega$. The energy density is
+\begin{equation}
+    \rho = \frac{M}{4\pi R^2}\delta(r-R)
+\end{equation}
+and the 4-velocity is $u^\mu = (1,-\Omega y, \Omega x, 0)$.
+
+\begin{enumerate}[label=\roman*)]
+    \item Solve the linearised Einstein equations sourced by $T^{00}$. Show that the result agrees with Newtonian theory.
+    \begin{solution}
+        We solve for
+        \begin{equation}
+            \nabla^2 \bar h_{00} = -\frac{4GM}{R^2}\delta(r-R) \implies \frac{1}{r^2}\frac{d}{dr}\left(r^2\frac{d\bar h_{00}}{dr}\right) = -\frac{4GM}{R^2}\delta (r-R).
+        \end{equation}
+         Integrate over $r$, we find
+         \begin{equation}
+             r'^2\frac{d\bar h_{00}}{dr'}\bigg|^r_0 = \begin{cases}
+                 0, &r<R,\\
+                 -4GM, & r>R.
+             \end{cases}
+         \end{equation}
+        Integrate once again and impose appropriate boundary conditions, giving
+        \begin{equation}
+            \bar h_{00} = \begin{cases}
+                0, & r<R,\\
+                \dfrac{4GM}{r}, &r>R.
+            \end{cases}
+        \end{equation}
+        $h_{ii} = 0$, and hence we find 
+        \begin{equation}
+            h_{00} = \bar h_{00} - \frac{1}{2}\bar h\eta_{00} = \begin{cases}
+                0, & r<R\\
+                \dfrac{2GM}{r}, & r>R.
+            \end{cases}
+        \end{equation}
+    \end{solution}
+    
+    \item Solve the linearised Einstein equations sourced by $T^{0i}$. Show that the solution is given by
+    \begin{equation}
+        h_{0i} = \begin{cases} \omega(y,-x,0) & r < R \\ \dfrac{\omega R^3}{r^3}(y,-x,0) & r > R \end{cases}
+    \end{equation}
+    where $\omega = 4MG\Omega/3R$.\\
+    \textit{[Hint: Introduce the complex combination $H = h_{01}+ih_{02}$ and work in spherical polar coordinates. Look for a solution of the form $H = f(r)\sin\theta\, e^{i\phi}$.]}
+
+    \begin{solution}
+        \begin{equation}
+            T^{0\mu} = \rho u^\mu \implies T_{0i} = \frac{M\Omega}{4\pi R^2}\delta(r-R)(y,-x,0).
+        \end{equation}
+        We wish to solve
+        \begin{equation}
+            \nabla^2 \bar h_{0a} = -\frac{4MG\Omega}{ R^2}\delta(r-R)(y,-x,0), \quad \bar h_{03} = 0,
+        \end{equation}
+        where $a=1,2$. We can introduce the complex combination $H = h_{01} + ih_{02}$ so that the equation becomes
+        \begin{equation}
+            \nabla^2 H = \frac{4iMG\Omega}{R^2}\delta(r-R) re^{i\phi}\sin\theta.
+        \end{equation}
+        We shall try a solution of the form $H = f(r)\sin\theta e^{i\phi}$, which gives
+        \begin{equation}
+            \frac{\sin\theta e^{i\phi}}{r^2}\frac{d}{dr}\left(r^2\frac{df}{dr}\right) + \frac{f(r)e^{i\phi}}{r^2\sin\theta}\cos2\theta - \frac{f(r)e^{i\phi}}{r^2\sin\theta} = \frac{4MG\Omega}{ R^2}\delta(r-R) ire^{i\phi}\sin\theta.
+        \end{equation}
+        This simplifies to 
+        \begin{equation}
+            \frac{d}{dr}\left(r^2\frac{df}{dr}\right) - 2f(r) = i\frac{4MG\Omega}{R^2}r^3\delta(r-R) \implies \frac{f''}{r} + \frac{2}{r^2}f' - \frac{2}{r^3}f = i\frac{4MG\Omega}{ R^2}\delta(r-R).     
+        \end{equation}
+        The homogeneous differential equation has the general solution
+        \begin{equation}
+            f(r) =  Ar + \frac{B}{r^2}.
+        \end{equation}
+        By imposing appropriate boundary conditions, we find
+        \begin{equation}
+            f(r)  = -i\frac{4MG\Omega}{3R}\begin{cases}
+                r, & r<R,\\[6pt]
+                \dfrac{R^3}{r^2}, & r>R.
+            \end{cases}
+        \end{equation}
+        This gives
+        \begin{equation}
+        h_{0i} = \bar h_{0i}= \begin{cases} \omega(y,-x,0) & r < R \\ \dfrac{\omega R^3}{r^3}(y,-x,0) & r > R \end{cases}
+        \end{equation}
+        where $\omega = 4MG\Omega/3R$.
+    \end{solution}
+    \item Consider a free particle moving inside the shell. For slowly moving particles, we may take the 4-velocity to be $v^\mu = (1,\dot{\mathbf{x}})$ with $|\dot{\mathbf{x}}|\ll 1$. Working to leading order in both $|\dot{\mathbf{x}}|$ and $\omega$, show the geodesic equation implies
+    \begin{equation}
+        \ddot{\mathbf{x}} = 2\dot{\mathbf{x}}\times\boldsymbol\omega
+    \end{equation}
+    where $\boldsymbol\omega = (0,0,\omega)$.\\
+    \textit{[Note: this is the equation associated with a rotating frame, where the right-hand side is identified as the Coriolis force. In GR this phenomenon is known as frame-dragging, or the Lense-Thirring effect.]}
+    \begin{solution}
+        The metric inside the rotating shell is given by
+        \begin{equation}
+            ds^2 = -dt^2 + d\mathbf{x}\cdot d\mathbf{x} + 2\omega (y\, dx\,dt - x\,dy\, dt)
+        \end{equation}
+        Consider the action
+        \begin{equation}
+            S = \int dt [-1 + \dot{\mathbf{x}}^2 + 2\omega (y\dot{x} -x \dot{y})],
+        \end{equation}
+        which gives the geodesic equation
+        \begin{equation}
+            \ddot{\mathbf{x}} + \omega(\dot{y}-\dot{x}) = \omega(\dot{x}-\dot{y}) \implies \ddot{\mathbf{x}} = 2\dot{\mathbf{x}}\times \boldsymbol{\omega}.
+        \end{equation}
+    \end{solution}
+\end{enumerate}
+
+\subsection{The Fierz-Pauli Action, Q4 [Health Warning: This question is not short]}
+
+Show that the expansion of the Ricci tensor to second order around Minkowski spacetime is
+\begin{equation}
+\begin{aligned}
+    R^{(2)}_{\mu\nu}[h] = \frac{1}{2}h^{\rho\sigma}\partial_\mu\partial_\nu h_{\rho\sigma} - h^{\rho\sigma}\partial_\rho\partial_{(\mu}h_{\nu)\sigma} + \frac{1}{2}\partial_\sigma(h^{\sigma\rho}\partial_\rho h_{\mu\nu}) + \frac{1}{4}\partial_\mu h_{\rho\sigma}\partial_\nu h^{\rho\sigma}\\
+    + \partial^\sigma h^\rho{}_\nu\partial_{[\sigma}h_{\rho]\mu} - \frac{1}{4}\partial^\rho h\,\partial_\rho h_{\mu\nu} - \left(\partial_\sigma h^{\rho\sigma} - \frac{1}{2}\partial^\rho h\right)\partial_{(\mu}h_{\nu)\rho}.
+\end{aligned}
+\end{equation}
+Hence show that, to quadratic order and ignoring total derivatives, the expansion of the Einstein-Hilbert action gives the Fierz-Pauli action,
+\begin{equation}
+    S_{FP} = \frac{1}{8\pi G}\int d^4x\left(-\frac{1}{4}\partial_\rho h_{\mu\nu}\partial^\rho h^{\mu\nu} + \frac{1}{2}\partial_\rho h_{\mu\nu}\partial^\nu h^{\rho\mu} + \frac{1}{4}\partial_\mu h\,\partial^\mu h - \frac{1}{2}\partial_\nu h^{\mu\nu}\partial_\mu h\right).
+\end{equation}
+Confirm that varying this action with respect to $h_{\mu\nu}$ gives the linearised Einstein equations $G_{\mu\nu} = 0$.
+
+\begin{solution}
+
+We expand $g_{\mu\nu}=\eta_{\mu\nu}+h_{\mu\nu}$ and $g^{\mu\nu}=\eta^{\mu\nu}-h^{\mu\nu}+\cdots$. The Christoffel symbols expand as $\Gamma^\rho{}_{\mu\nu}=\Gamma^{(1)\rho}{}_{\mu\nu}+\Gamma^{(2)\rho}{}_{\mu\nu}+\cdots$ where
+\begin{align}
+    \Gamma^{(1)\rho}{}_{\mu\nu} &= \frac{1}{2}\left(\partial_\mu h^\rho{}_\nu+\partial_\nu h^\rho{}_\mu-\partial^\rho h_{\mu\nu}\right),\\
+    \Gamma^{(2)\rho}{}_{\mu\nu} &= -\frac{1}{2}h^{\rho\sigma}\left(\partial_\mu h_{\nu\sigma}+\partial_\nu h_{\mu\sigma}-\partial_\sigma h_{\mu\nu}\right),
+\end{align}
+with the useful contractions $\Gamma^{(1)\rho}{}_{\rho\mu}=\frac{1}{2}\partial_\mu h$ and $\Gamma^{(2)\rho}{}_{\mu\rho}=-\frac{1}{2}h^{\rho\sigma}\partial_\mu h_{\rho\sigma}$, where $h=\eta^{\mu\nu}h_{\mu\nu}$.
+
+The Ricci tensor at second order is
+\begin{equation}
+    R^{(2)}_{\mu\nu} = \partial_\rho\Gamma^{(2)\rho}{}_{\mu\nu}-\partial_\nu\Gamma^{(2)\rho}{}_{\mu\rho}+\Gamma^{(1)\rho}{}_{\rho\lambda}\Gamma^{(1)\lambda}{}_{\mu\nu}-\Gamma^{(1)\rho}{}_{\nu\lambda}\Gamma^{(1)\lambda}{}_{\mu\rho}.
+\end{equation}
+Using the expressions above,
+\begin{align}
+    \partial_\rho\Gamma^{(2)\rho}{}_{\mu\nu} &= -\frac{1}{2}(\partial_\rho h^{\rho\sigma})(\partial_\mu h_{\nu\sigma}+\partial_\nu h_{\mu\sigma}-\partial_\sigma h_{\mu\nu})-\frac{1}{2}h^{\rho\sigma}(\partial_\rho\partial_\mu h_{\nu\sigma}+\partial_\rho\partial_\nu h_{\mu\sigma}-\partial_\rho\partial_\sigma h_{\mu\nu}),\\
+    -\partial_\nu\Gamma^{(2)\rho}{}_{\mu\rho} &= \frac{1}{2}(\partial_\nu h^{\rho\sigma})(\partial_\mu h_{\rho\sigma})+\frac{1}{2}h^{\rho\sigma}\partial_\nu\partial_\mu h_{\rho\sigma},\\
+    \Gamma^{(1)\rho}{}_{\rho\lambda}\Gamma^{(1)\lambda}{}_{\mu\nu} &= \frac{1}{4}\partial_\lambda h\left(\partial_\mu h^\lambda{}_\nu+\partial_\nu h^\lambda{}_\mu-\partial^\lambda h_{\mu\nu}\right),\\
+    -\Gamma^{(1)\rho}{}_{\nu\lambda}\Gamma^{(1)\lambda}{}_{\mu\rho} &= -\frac{1}{4}\left(\partial_\nu h^\rho{}_\lambda+\partial_\lambda h^\rho{}_\nu-\partial^\rho h_{\nu\lambda}\right)\left(\partial_\mu h^\lambda{}_\rho+\partial_\rho h^\lambda{}_\mu-\partial^\lambda h_{\mu\rho}\right).
+\end{align}
+Collecting all terms, using $\partial_\rho(h^{\rho\sigma}\partial_\sigma h_{\mu\nu})=(\partial_\rho h^{\rho\sigma})\partial_\sigma h_{\mu\nu}+h^{\rho\sigma}\partial_\rho\partial_\sigma h_{\mu\nu}$ and symmetrising where appropriate, one arrives at
+\begin{equation}
+\begin{aligned}
+    R^{(2)}_{\mu\nu} = \frac{1}{2}h^{\rho\sigma}\partial_\mu\partial_\nu h_{\rho\sigma} - h^{\rho\sigma}\partial_\rho\partial_{(\mu}h_{\nu)\sigma} + \frac{1}{2}\partial_\sigma(h^{\sigma\rho}\partial_\rho h_{\mu\nu}) + \frac{1}{4}\partial_\mu h_{\rho\sigma}\partial_\nu h^{\rho\sigma}\\
+    + \partial^\sigma h^\rho{}_\nu\partial_{[\sigma}h_{\rho]\mu} - \frac{1}{4}\partial^\rho h\,\partial_\rho h_{\mu\nu} - \left(\partial_\sigma h^{\rho\sigma} - \frac{1}{2}\partial^\rho h\right)\partial_{(\mu}h_{\nu)\rho}.
+\end{aligned}
+\end{equation}
+
+The Einstein-Hilbert action expanded to quadratic order gives
+\begin{equation}
+    S = \frac{1}{16\pi G}\int d^4x\left(\eta^{\mu\nu}R^{(2)}_{\mu\nu}-h^{\mu\nu}R^{(1)}_{\mu\nu}+\frac{h}{2}R^{(1)}\right)+\cdots
+\end{equation}
+where the first-order Ricci tensor and scalar are
+\begin{equation}
+    R^{(1)}_{\mu\nu} = \frac{1}{2}\left(\partial^\rho\partial_\mu h_{\nu\rho}+\partial^\rho\partial_\nu h_{\mu\rho}-\Box h_{\mu\nu}-\partial_\mu\partial_\nu h\right), \qquad R^{(1)} = \partial^\mu\partial^\nu h_{\mu\nu}-\Box h.
+\end{equation}
+Contracting $R^{(2)}_{\mu\nu}$ with $\eta^{\mu\nu}$, collecting the remaining contributions, and integrating by parts, one obtains the Fierz-Pauli action
+\begin{equation}
+    S_{FP} = \frac{1}{8\pi G}\int d^4x\left(-\frac{1}{4}\partial_\rho h_{\mu\nu}\partial^\rho h^{\mu\nu}+\frac{1}{2}\partial_\rho h_{\mu\nu}\partial^\nu h^{\rho\mu}+\frac{1}{4}\partial_\mu h\,\partial^\mu h-\frac{1}{2}\partial_\nu h^{\mu\nu}\partial_\mu h\right).
+\end{equation}
+
+The corresponding equation of motion is
+\begin{equation}
+    \Box h_{\mu\nu}-2\partial^\rho\partial_{(\mu}h_{\nu)\rho}+\partial_\mu\partial_\nu h+\eta_{\mu\nu}\left(\partial^\rho\partial^\sigma h_{\rho\sigma}-\Box h\right)=0,
+\end{equation}
+which is precisely the linearised Einstein tensor $G^{(1)}_{\mu\nu}=R^{(1)}_{\mu\nu}-\frac{1}{2}\eta_{\mu\nu}R^{(1)}=0$. 
+
+\end{solution}
+
+\subsection{Transverse-Traceless Gauge, Q5}
+
+A gravitational wave has polarisation $H_{\mu\nu}$ satisfying the de Donder gauge condition $k^\mu H_{\mu\nu} = 0$. Show that one can use residual gauge transformations to impose the transverse-traceless condition
+\begin{equation}
+    H_{0\mu} = H^\mu{}_\mu = 0.
+\end{equation}
+\begin{solution}
+    A gauge transformation gives
+    \begin{equation}
+        \bar h_{\mu\nu} \to \bar h_{\mu\nu} + \partial _\mu \xi _\nu + \partial_\nu \xi _\mu - \partial_\rho \xi ^\rho \eta_{\mu\nu}.
+    \end{equation}
+    The de Donder gauge condition, $\partial^\mu \bar h_{\mu\nu} = 0$ is preserved as long as 
+    \begin{equation}
+        \square\xi_\mu = 0.
+    \end{equation}
+    In the case of gravitational wave, we take
+    \begin{equation}
+        \bar h_{\mu\nu} = \text{Re}(H_{\mu\nu}e^{ik\cdot x}),\quad \xi_\mu = \lambda_\mu e^{ik \cdot x},
+    \end{equation}
+    where the latter obeys $\square\xi_\mu = 0$ naturally by $k_\mu k^\mu = 0$. Now, the gauge transformation becomes
+    \begin{equation}
+        H_{\mu\nu} \to H_{\mu\nu} + ik_\mu \lambda_\nu + i k_\nu \lambda_\mu - i k_\rho \lambda^\rho \eta_{\mu\nu}.
+    \end{equation}
+    To set $H_{0\mu}$, we need
+    \begin{equation}
+        H_{0\mu} + i k_0 \lambda_\mu + ik_\mu \lambda_0 = 0. 
+    \end{equation}
+    For the traceless condition, we need
+    \begin{equation}
+        H^\mu {}_\mu - 2ik^\mu \lambda_\mu =0.
+        \label{eq:traceless}
+    \end{equation}
+    We can compute $\lambda_0$ directly  to get $\lambda_0 = iH_{00}/2k_0$. Consequently, we can obtain expression for $\lambda_i$ by
+    \begin{equation}
+        \lambda_j = i\frac{H_{0j}}{k_0} - i\frac{k_j}{2k_0^2}H_{00}.
+    \end{equation}
+    Plugging them into (\ref{eq:traceless}), we find
+    \begin{equation}
+        2ik^\mu \lambda_\mu  = H_{00} -\left(2\frac{k^j}{k_0}H_{0j} - \frac{\mathbf{k}^2}{k_0^2}H_{00}\right).
+    \end{equation}
+    Using the gauge condition $k^\mu H_{\mu\nu} = 0$, we find
+    \begin{equation}
+        2ik^\mu \lambda_\mu = H_{00} - (2H_{00}- H_{00}) = 0.
+    \end{equation}
+\end{solution}
+\subsection{Gravitational Wave Emission from a Binary System, Q6}
+
+Two bodies with masses $m_1$ and $m_2$ move in a circular Newtonian orbit in the $(x,y)$-plane. Choosing coordinates so that the centre of mass sits at the origin, the bodies have positions $\mathbf{x}_1 = (r_1\cos\omega t, r_1\sin\omega t, 0)$ and $\mathbf{x}_2 = (-r_2\cos\omega t, -r_2\sin\omega t, 0)$ where $m_1 r_1 = m_2 r_2 = \mu R$ and $\mu = m_1 m_2/(m_1+m_2)$ is the reduced mass. The bodies orbit with frequency
+\begin{equation}
+    \omega^2 = \frac{G(m_1+m_2)}{R^3}.
+\end{equation}
+
+\begin{enumerate}[label=\roman*)]
+    \item Treating the bodies as non-relativistic point masses, compute the corresponding energy-momentum tensor, the second moment of the energy distribution $I_{ij}$, and the metric perturbation $\bar h_{ij}$. Show that the power emitted in gravitational waves is
+    \begin{equation}
+        P = \frac{32}{5}\frac{G^4 m_1^2 m_2^2(m_1+m_2)}{R^5}.
+    \end{equation}
+\begin{solution}
+        Let us first write down the equations we need
+        \begin{equation}
+            \bar h_{\mu\nu} (\mathbf{x},t) = 4G \int _\Sigma d^3x' \frac{T_{\mu\nu}(\mathbf{x}',t_\text{ret})}{|\mathbf{x}-\mathbf{x}'|} \approx \frac{4G}{r}\int_\Sigma d^3 x'T_{\mu\nu}(\mathbf{x}',t_\text{ret}).
+        \end{equation}
+        Note that 
+        \begin{equation}
+            \bar h_{0i} = -\frac{4G}{r} P_i,
+        \end{equation}
+        where 
+        \begin{equation}
+            P_i = -\int _\Sigma d^3x'T_{0i}(\mathbf{x}',t-r)
+        \end{equation}
+        is the total momentum, which is conserved, in the spatial region $\Sigma$. We can always choose a inertial frame to set this to zero, so that $\bar h_{0i} = 0$.
+        The energy density of the system is given by
+        \begin{equation}
+            T^{00}(\mathbf{x}, t) = m_1\delta(z) \delta(x-r_1\cos\omega t)\delta(y-r_1\sin \omega t) + m_2\delta(z) \delta(x+r_2\cos\omega t)\delta(y+r_2\sin\omega t).
+        \end{equation}
+        Then, we use the identity
+        \begin{equation}
+            \int_\Sigma d^3x' T_{ij}(\mathbf{x}',t) = \frac{1}{2}\ddot{I}_{ij}(t) \equiv  \frac{1}{2}\partial_0^2\int _\Sigma d^3x' T^{00}(\mathbf{x},t) x_i' x_j'
+        \end{equation}
+        to compute
+        \begin{equation}
+        \bar h_{ij}(\mathbf{x},t) = \frac{2G}{r}\ddot{I}_{ij}(t-r).
+        \end{equation}
+        Now, we compute the quadrupole moment of energy
+        \begin{equation}
+            \begin{aligned}
+                I_{ij}(t) &= \int_\Sigma d^3x\left[ m_1\delta(z) \delta(x-r_1\cos\omega t)\delta(y-r_1\sin \omega t) + m_2\delta(z) \delta(x+r_2\cos\omega t)\delta(y+r_2\sin\omega t)\right]x_i x_j\\
+                &= m_1(x_1)_i(x_1)_j + m_2(x_2)_i(x_2)_j\\
+                &=\mu R^2\begin{pmatrix}
+                    \cos^2\omega t & \sin\omega t\cos\omega t & 0\\
+                    \sin\omega t\cos\omega t & \sin^2\omega t & 0\\
+                    0 & 0 & 0
+                \end{pmatrix},
+            \end{aligned}   
+        \end{equation}
+        where we used $m_1r_1^2 + m_2r_2^2 = \mu R^2$. The radiation power is given by 
+        \begin{equation}
+            P = \frac{G}{5} \dddot{\mathcal{Q}}_{ij}\dddot{\mathcal{Q}}^{ij},
+        \end{equation}
+        where $\mathcal{Q}_{ij}$ is the traceless part of the quadrupole moment of energy,
+        \begin{equation}
+            \mathcal{Q}_{ij} =  I_{ij} - \frac{1}{3}\delta_{ij}I^k{}_k. 
+        \end{equation}
+        Since $I^k{}_k = \mu R^2$ is constant, we have $\dddot{\mathcal{Q}}_{ij} = \dddot{I}_{ij}$. Computing the third time derivatives,
+        \begin{align}
+            \dddot{I}_{11} &= 4\mu R^2\omega^3\sin 2\omega t, \quad
+            \dddot{I}_{22} = -4\mu R^2\omega^3\sin 2\omega t, \quad
+            \dddot{I}_{12} = \dddot{I}_{21} = -4\mu R^2\omega^3\cos 2\omega t.
+        \end{align}
+        After some rather tedious algebra, one would find
+        \begin{equation}
+            \dddot{\mathcal{Q}}_{ij}\dddot{\mathcal{Q}}^{ij} = (\dddot{I}_{11})^2 + (\dddot{I}_{22})^2 + 2(\dddot{I}_{12})^2 = (4\mu R^2\omega^3)^2\cdot 2 = 32\mu^2R^4\omega^6.
+        \end{equation}
+        Therefore, we end up with
+        \begin{equation}
+            P = \frac{32G\mu^2 R^4\omega^6}{5} = \frac{32}{5}\frac{G^4m_1^2m_2^2(m_1+m_2)}{R^5},
+        \end{equation}
+        where in the last step we substituted $\mu^2 = m_1^2m_2^2/(m_1+m_2)^2$ and $\omega^6 = G^3(m_1+m_2)^3/R^9$.
+    \end{solution}
+    \item The energy of the Newtonian orbit is $E = -Gm_1 m_2/2R$. As the system emits gravitational radiation, the two bodies get closer. Set $dE/dt = -P$ to get an expression for how the radius of the orbit shrinks with time. Show that if the two bodies sit at distance $R_0$ at time $t=0$, then they collide at time
+    \begin{equation}
+        T = \frac{5}{256}\frac{R_0^4}{G^3 m_1 m_2(m_1+m_2)}.
+    \end{equation}
+    \begin{solution}
+        \begin{equation}
+            dE = \frac{Gm_1m_2}{2R^2}dR.
+        \end{equation}
+        Therefore,
+        \begin{equation}
+            \int_0^Tdt = -\frac{5}{64G^3m_1m_2(m_1+m_2)}\int_{R_0}^0 dR\, R^3 \implies T = \frac{5}{256}\frac{R_0^4}{G^3 m_1 m_2(m_1+m_2)}..
+        \end{equation}
+    \end{solution}
+    \item Consider two black holes in a circular orbit, each with mass $30M_\odot$ where $M_\odot$ is the mass of the Sun, separated by the Earth-Sun distance. How long do they take to collide? How far apart are such black holes when the merger time is a year?\\
+    \textit{[Some numbers: the Schwarzschild radius of the Sun is $2GM_\odot\approx 3\,\mathrm{km}$. The Earth-Sun distance is around $1.5\times 10^8\,\mathrm{km}$. The age of the universe is about $10^{10}$ years and the radius of the Sun is about $7\times 10^5\,\mathrm{km}$.]}
+    \begin{solution}
+        With $m_1 = m_2 = 30M_\odot$, we have $m_1m_2(m_1+m_2) = 54000\,M_\odot^3$. Writing $GM_\odot = \frac{3}{2}c^2\,\text{km}$ (from $2GM_\odot \approx 3\,\text{km}$), we find
+        \begin{equation}
+            G^3m_1m_2(m_1+m_2) = 54000\,(GM_\odot)^3 = 54000\times\left(\frac{3}{2}\right)^3 c^6\,\text{km}^3 \approx 2.3\times 10^5\, c^6\,\text{km}^3.
+        \end{equation}
+        Substituting $R_0 = 1.5\times 10^8\,\text{km}$,
+        \begin{equation}
+            T = \frac{5}{256}\cdot\frac{(1.5\times 10^8)^4}{2.3\times 10^5\cdot c}\,\text{km} \approx \frac{1.8\times 10^{20}}{c}\,\text{km} \approx 1.8\times 10^{20}\,\text{s} \approx 6\times 10^{12}\,\text{years}.
+        \end{equation}
+        This is roughly $600$ times the age of the universe, so the two black holes will not collide for a very long time.
+    
+        We invert the formula for $T=1$ year $\approx 3.15\times 10^7\,\text{s}$:
+        \begin{equation}
+            R_0 = \left(\frac{256\, G^3 m_1 m_2(m_1+m_2)\,T}{5c^5}\right)^{1/4}.
+        \end{equation}
+        Using $T/T_{\rm AU} = (R_0/R_{\rm AU})^4$ with $T_{\rm AU} \approx 6\times 10^{12}$ years,
+        \begin{equation}
+            \frac{R_0}{R_{\rm AU}} = \left(\frac{1\,\text{year}}{6\times 10^{12}\,\text{years}}\right)^{1/4} \approx \frac{1}{1.57\times 10^3},
+        \end{equation}
+        giving
+        \begin{equation}
+            R_0 \approx \frac{1.5\times 10^8\,\text{km}}{1.57\times 10^3} \approx 10^5\,\text{km}.
+        \end{equation}
+        This is smaller than the radius of the Sun ($7\times 10^5\,\text{km}$), but still much larger than the Schwarzschild radius of each black hole ($\sim 90\,\text{km}$), so the linear approximation remains marginally valid.
+    \end{solution}
+    \item As the radius decreases, the frequency of the orbit, and hence of the emitted gravitational waves, increases. Show that by measuring $\omega$ and $\dot\omega$, one can extract a characteristic mass scale for the binary system, known as the chirp mass,
+    \begin{equation}
+        \mathcal{M}_{\rm chirp} = \frac{(m_1 m_2)^{3/5}}{(m_1+m_2)^{1/5}}.
+    \end{equation}
+    \begin{solution}
+        Use
+        \begin{equation}
+            R = \left(\frac{G(m_1+m_2)}{\omega^2}\right)^{1/3}.
+        \end{equation}
+        Then
+        \begin{equation}
+            \frac{dE}{dt} = \frac{Gm_1m_2}{2R^2}\dot{R} = -\frac{Gm_1m_2}{2}\left(\frac{\omega^2}{G(m_1+m_2)}\right)^{2/3}\left(G(m_1+m_2)\right)^{1/3}\frac{2}{3}\omega^{5/3}\dot{\omega} =  -P.
+        \end{equation}
+        Rearranging, oen would eventually find
+        \begin{equation}
+            \mathcal{M}_{\rm chirp} = \frac{c^3}{G}\left(\frac{5}{96}\right)^{3/5}\omega^{-11/5}\dot\omega^{3/5}.
+        \end{equation}
+    \end{solution}
+\end{enumerate}

@@ -1547,6 +1547,10 @@ WHOLE_FILE_PAGES = [
         "Geodesics, Killing Vectors &amp; Energy Conditions",
         "GR · Tong GR PS3",
         "D. Tong, <em>General Relativity</em>, Problem Sheet 3 (timelike geodesics, Brans–Dicke, 11-d supergravity, Killing vectors, conformal compactification, energy conditions)."),
+    ("DTGRPS4.tex", "tong-gr-ps4",
+        "Linearised Gravity &amp; Gravitational Waves",
+        "GR · Tong GR PS4",
+        "D. Tong, <em>General Relativity</em>, Problem Sheet 4 (linearised gravity, cosmic strings, Lense–Thirring, Fierz–Pauli, transverse-traceless gauge, binary GW emission)."),
 ]
 
 
