@@ -13,7 +13,7 @@
       "title": "General Relativity",
       "author": "David Tong",
       "totalPages": 280,
-      "currentPage": 190,
+      "currentPage": 220,
       "addedAt": "2026-05-01T23:13:39.115Z"
     },
     {
@@ -61,9 +61,17 @@
       "title": "Quantum Field Theory",
       "author": "Srednicki",
       "totalPages": 635,
-      "currentPage": 0,
+      "currentPage": 120,
       "addedAt": "2026-05-10T09:00:16.310Z"
+    },
+    {
+      "id": "r_mp5spfw8_ov7oqsk",
+      "title": "6 Lectures on QFT, RG and SUSY",
+      "author": "Timothy J. Hollowood",
+      "totalPages": 51,
+      "currentPage": 0,
+      "addedAt": "2026-05-14T18:01:55.640Z"
     }
   ],
-  "updatedAt": "2026-05-10T09:00:18.168Z"
+  "updatedAt": "2026-05-16T19:13:56.918Z"
 }
