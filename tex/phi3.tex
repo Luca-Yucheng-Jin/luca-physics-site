@@ -1,0 +1,481 @@
+\section{Computation for $\phi^3$ Theory}
+All of the calculation below is based on Srednicki, and Peskin and Schroeder, so nothing here is original at all.
+
+Here, we will use the metric signature $(-,+,+,+)$. The Lagrangian of $\phi^3$ is given by
+\begin{equation}
+    \mathcal{L} = -\frac{1}{2}\partial_\mu \phi \partial^\mu \phi - \frac{1}{2}m^2\phi^2 + \frac{1}{3!}g\phi^3.
+\end{equation}
+To make the theory satisfying
+\begin{equation}
+    \bra{k}\phi(x)\ket{\Omega} = e^{-ik\cdot x},\quad \bra{\Omega}\phi(x)\ket{\Omega} = 0,
+\end{equation}
+we make field redefinitions so that the Lagrangian becomes
+\begin{equation}
+    \mathcal{L} = -\frac{1}{2}Z_\phi\partial_\mu \phi \partial^\mu \phi - \frac{1}{2}Z_mm^2\phi^2 + \frac{1}{3!}Z_gg\phi^3 + Y\phi = \mathcal{L}_0 + \mathcal{L}_1,
+\end{equation}
+where 
+\begin{equation}
+    \mathcal{L}_0 = -\frac{1}{2}\partial_\mu \phi \partial^\mu \phi - \frac{1}{2}m^2\phi^2,
+\end{equation}
+and
+\begin{equation}
+    \mathcal{L}_1 = -\frac{1}{2}(Z_\phi-1)\partial_\mu \phi \partial^\mu \phi - \frac{1}{2}(Z_m-1)m^2\phi^2 + \frac{1}{3!}Z_gg\phi^3 + Y\phi.
+\end{equation}
+
+The partition functional can be written as
+\begin{equation}
+    Z = \int\mathcal{D}\phi(x) e^{i\int d^dx (\mathcal{L}_0 + J\phi + \mathcal{L}_1)} =  e^{i\int d^dx \mathcal{L}_1(-i\delta/\delta J(x))}\int\mathcal{D}\phi(x) e^{i\int d^dx (\mathcal{L}_0 + J\phi)} = e^{i\int d^dx \mathcal{L}_1(-i\delta/\delta J(x))} Z_0,
+\end{equation}
+where
+\begin{equation}
+    Z_0 = \int\mathcal{D}\phi(x) e^{i\int d^dx (\mathcal{L}_0 + J\phi)}.
+\end{equation}
+Making the field redefinition
+\begin{equation}
+    \chi(x) = \phi(x) - iD_F(x-y) J(y),
+\end{equation}
+where
+\begin{equation}
+    (\partial^2 - m^2)D_F(x-y)= i\delta^d(x-y).
+\end{equation}
+Note that since the above is just a shift of field, the measure is unchanged $\mathcal{D}\phi = \mathcal{D}\chi$.
+Then, the integrand of $Z_0$ becomes
+\begin{equation}
+\begin{aligned}
+    \exp\left[i\int d^dx \left(\frac{1}{2}\chi(x)(\partial^2-m^2)\chi(x) +\frac{i}{2}\int d^dy J(x)D_F(x-y)J(y) \right)\right],
+\end{aligned}
+\end{equation}
+and hence
+\begin{equation}
+    Z_0 = \mathcal{N}\exp\left[-\frac{1}{2}\int d^dx \int d^dy J(x)D_F(x-y)J(y) \right],
+\end{equation}
+where $\mathcal{N}$ is formally infinite, but since it is not a measurable quantity, it does not boarder us. Now the full partition functional becomes
+\begin{equation}
+    Z  = e^{i\int d^dx \mathcal{L}_1(-i\delta/\delta J(x))}\exp\left[-\frac{1}{2}\int d^dx \int d^dy J(x)D_F(x-y)J(y) \right]
+\end{equation}
+up to some irrelevant constant.
+
+Now, we are interested in finding the exact two-point correlation function to one-loop order. That is
+\begin{equation}
+    \bra{\Omega}T\phi(x_1)\phi(x_2)\ket{\Omega} = (-i)^2 \frac{\delta^2}{\delta J(x_1)\delta J(x_2)}\ln{Z[J]}\bigg|_{J=0} = i(-i)^2\frac{\delta^2}{\delta J(x_1)\delta J(x_2)}W[J]\bigg|_{J=0},
+\end{equation}
+where $W[J]$ is the connected diagram generating functional
+\begin{equation}
+    Z[J] \equiv e^{iW[J]}.
+\end{equation}
+
+In practice, one can simply write down the Feynman rules and compute the correlation functions. However, for our purpose, we shall compute it directly from functional derivatives. We shall first compute $Z[J]$:
+\begin{equation}
+    \begin{aligned}
+        Z[J] &= \left[1 + i\int d^dx \frac{1}{2}\left(-i\frac{\delta}{\delta J(x)}\right)(A\partial_x^2 - Bm^2)\left(-i\frac{\delta}{\delta J(x)}\right) + \cdots \right]Z_0\\
+        &=Z_0 -\frac{i}{2}\int d^dx\left(-i\frac{\delta}{\delta J(x)}\right)(A\partial_x^2 - Bm^2)\left(-\int d^dy J(y)D_F(x-y)\right)Z_0 + \cdots\\
+        &=Z_0- \frac{i}{2}\int d^dx \left(\int d^dz J(z)D_F(x-z)\right)(A\partial_x^2 - Bm^2)\left(\int d^dy J(y)D_F(x-y)\right)Z_0 + \cdots ,
+    \end{aligned}
+\end{equation}
+where we have focused on the connected two-point term since we will eventually take $J=0$ after the functional derivative. However, one should not forget the other term
+\begin{equation}
+\begin{aligned}
+    &\frac{i^2}{(3!)^2}g^2\int d^dx \int d^dy\left(-i\frac{\delta}{\delta J(x)}\right)^3\left(-i\frac{\delta}{\delta J(y)}\right)^3 Z_0 \\
+    =&-\frac{g^2}{2}\int d^dx \int d^dy J(x)D_F(x-y)^2 J(y) Z_0 + \cdots
+\end{aligned}
+\end{equation}
+Now, we can compute the two-point correlation function; that is
+\begin{equation}
+\begin{aligned}
+    D(x_1-x_2) =\bra{\Omega}T\phi(x_1)\phi(x_2)\ket{\Omega} &= -\frac{\delta^2}{\delta J(x_1)\delta J(x_2)}Z[J]\bigg|_{J=0} \\
+    &=D_F(x_1-x_2) +i\int d^dx D_F(x-x_1)(A\partial_x^2 - Bm^2) D_F(x-x_2)\\
+    &\qquad- \frac{g^2}{2}\int d^dx \int d^dy D_F(x_1-x)D_F(x-y)^2D_F(y-x_2) + \mathcal{O}(g^4),
+\end{aligned}
+\end{equation}
+where we have been quite sloppy with the overall constant throughout. These are exactly the diagrams one would expect from Feynman rules
+\begin{center}
+\begin{tikzpicture}[
+  thick,
+  every node/.style={font=\small},
+]
+ 
+% ============================================================
+% Diagram (a): counterterm insertion
+%   i \int d^dx  D_F(x-x_1) (A \partial^2 - B m^2) D_F(x-x_2)
+%   Topology: x_1 ----- (x, counterterm "x") ----- x_2
+% ============================================================
+ 
+  \begin{scope}[local bounding box=A]
+    % named coordinates
+    \coordinate (x1a) at (-2.0, 0);
+    \coordinate (xa)  at ( 0.0, 0);
+    \coordinate (x2a) at ( 2.0, 0);
+ 
+    % propagators
+    \draw (x1a) -- (xa);
+    \draw (xa)  -- (x2a);
+ 
+    % counterterm insertion: a clean cross at x
+    \def\ctlen{0.16}
+    \draw[line width=1pt]
+      ($(xa)+(-\ctlen,-\ctlen)$) -- ($(xa)+(\ctlen,\ctlen)$);
+    \draw[line width=1pt]
+      ($(xa)+(-\ctlen, \ctlen)$) -- ($(xa)+(\ctlen,-\ctlen)$);
+ 
+    % endpoint dots for external points x_1, x_2
+    \fill (x1a) circle (1.6pt);
+    \fill (x2a) circle (1.6pt);
+ 
+    % labels
+    \node[below=4pt] at (x1a) {$x_1$};
+    \node[below=4pt] at (x2a) {$x_2$};
+    \node[above=8pt] at (xa)  {$x$};
+    \node[above=22pt] at (xa) {$i(A\partial^2 - Bm^2)$};
+ 
+    % sub-caption
+    \node[below=20pt] at (xa) {(a)};
+  \end{scope}
+ 
+% ============================================================
+% Diagram (b): one-loop self-energy ("fish")
+%   g^2 \int d^dx \int d^dy  D_F(x_1-x) D_F(x-y)^2 D_F(y-x_2)
+%   Topology: x_1 -- x ==(two arcs)== y -- x_2  (phi^3, V=2, L=1)
+% ============================================================
+ 
+  \begin{scope}[xshift=8cm, local bounding box=B]
+    % named coordinates
+    \coordinate (x1b) at (-3.0, 0);
+    \coordinate (xb)  at (-1.0, 0);
+    \coordinate (yb)  at ( 1.0, 0);
+    \coordinate (x2b) at ( 3.0, 0);
+ 
+    % external propagators
+    \draw (x1b) -- (xb);
+    \draw (yb)  -- (x2b);
+ 
+    % two propagators between x and y (the loop)
+    \draw (xb) to[bend left=60]  (yb);
+    \draw (xb) to[bend right=60] (yb);
+ 
+    % interaction vertices: filled dots (phi^3 vertices, valence 3)
+    \fill (xb) circle (1.8pt);
+    \fill (yb) circle (1.8pt);
+ 
+    % external endpoints
+    \fill (x1b) circle (1.6pt);
+    \fill (x2b) circle (1.6pt);
+ 
+    % labels
+    \node[below=4pt] at (x1b) {$x_1$};
+    \node[below=4pt] at (x2b) {$x_2$};
+    \node[below=6pt] at (xb)  {$x$};
+    \node[below=6pt] at (yb)  {$y$};
+ 
+    % coupling annotation (one g at each vertex --> g^2 total)
+    \node[above=20pt] at ($(xb)!0.5!(yb)$) {$g^2$};
+ 
+    % sub-caption
+    \node[below=20pt] at ($(xb)!0.5!(yb)$) {(b)};
+  \end{scope}
+ 
+\end{tikzpicture}
+\end{center}
+
+In momentum space, we have
+\begin{equation}
+    \tilde{D}(k^2) = \tilde{D}(k^2) + \tilde{D}_F(k^2)i\Pi(k^2)\tilde{D}_F(k^2) + \mathcal{O}(g^4) ,
+\end{equation}
+where
+\begin{equation}
+    i\Pi(k^2) =-i(Ak^2+Bm^2) - \frac{g^2}{2}\int \frac{d^dl}{(2\pi)^d} \frac{i}{l^2+m^2-i\epsilon}\frac{i}{(k+l)^2+m^2-i\epsilon} + \mathcal{O}(g^4).
+\end{equation}
+Consider the con exact propagator, where $\Pi(k^2)$ is now to all order of $g$,
+\begin{equation}
+    \tilde{D}(k^2) = \tilde{D}(k^2)\sum_{n=0}^\infty[i\Pi(k^2)\tilde{D}_F(k^2)]^2 = \frac{i}{k^2+m^2-i\epsilon -\Pi(k^2)}.
+\end{equation}
+For the particle to have mass $m$, we need the exact propagator with residue one at $k^2=-m^2$. Therefore, we require
+\begin{equation}
+    \Pi(-m^2) = \Pi'(-m^2) = 0,
+\end{equation}
+which helps us fix $A$ and $B$. Now, we need to compute the integral above. 
+
+Now, we shall perform the integral in $d$ dimensions. To do that, we use the Feynman's formula.
+
+\noindent\textbf{Claim:}
+\begin{equation}
+    \prod_{j=1}^n\frac{1}{A_j^{\alpha_j}} = \frac{\Gamma(\sum_i\alpha_i)}{\prod_i\Gamma(\alpha_i)}\frac{1}{(n-1)!}\int dF_n \frac{\prod_ix_i^{\alpha_i-1}}{(\sum_ix_iA_i)^{\sum_i\alpha_i}},
+\end{equation}
+where
+\begin{equation}
+    dF_n = (n-1)!\int_0^1dx_1\cdots\int^1_0 dx_n \delta(1-\sum_ix_i).
+\end{equation}
+\noindent\textbf{Proof:}
+Consider
+\begin{equation}
+    \frac{\Gamma(\alpha_i)}{A_i^{\alpha_i}} = \int_0^\infty dt_i\, t_i^{\alpha_i-1}e^{-A_it_i}.
+\end{equation}
+Then, we take
+\begin{equation}
+    \prod_{i=1}^n \frac{\Gamma(\alpha_i)}{A_i^{\alpha_i}} = \prod_{i=1}^n\int_0^\infty dt_i\, t_i^{\alpha_i-1}e^{-A_it_i}.
+\end{equation}
+We can multiply the right-hand side by
+\begin{equation}
+    1 = \int^\infty_0ds\,\delta(s-\sum_it_i),
+\end{equation}
+which gives
+\begin{equation}
+\begin{aligned}
+    \prod_{i=1}^n \frac{\Gamma(\alpha_i)}{A_i^{\alpha_i}} &= \int^\infty_0ds\,\delta(s-\sum_it_i)\prod_{i=1}^n\int_0^\infty dt_i\, t_i^{\alpha_i-1}e^{-A_it_i}.
+\end{aligned}
+\end{equation}
+Now, making the substitution $t_i =sx_i$, we find
+\begin{equation}
+\begin{aligned}
+    \prod_{i=1}^n \frac{\Gamma(\alpha_i)}{A_i^{\alpha_i}} &= \int^\infty_0ds\,\delta(s-s\sum_ix_i)\prod_{i=1}^n\int_0^\infty dx_i\, s^{\alpha_i}x_i^{\alpha_i-1}e^{-sA_ix_i}\\
+    &=\frac{1}{(n-1)!}\int dF_n\left(\prod_{i=1}^nx_i^{\alpha_i-1}\right)\int ^\infty_0 ds\,s^{\sum_i \alpha_i -1}e^{-\sum_isA_ix_i}\\
+    &=\frac{1}{(n-1)!}\int dF_n\left(\prod_{i=1}^nx_i^{\alpha_i-1}\right)\frac{\Gamma(\sum_i\alpha_i)}{(\sum_iA_ix_i)^{\sum_i\alpha_i}}.
+\end{aligned}
+\end{equation}
+\qed
+
+We use 
+\begin{equation}
+    \frac{1}{A_1A_2} = \int^1_0dx_1\int^1_0dx_2\,\delta(x_1+x_2-1)\frac{1}{(x_1A_1 + x_2A_2)^2} = \int^1_0 dx\frac{1}{[xA_1 +(1-x)A_2]^2}.
+\end{equation}
+Therefore, we have
+\begin{equation}
+    \begin{aligned}
+        \frac{1}{l^2+m^2}\frac{1}{(k+l)^2+m^2} &= \int^1_0dx[(1-x)(l^2+m^2) + x((k+l)^2+m^2)]^{-2}\\
+        &=\int^1_0 dx [l^2+2xkl+m^2+xk^2]^{-2}\\
+        &=\int^1_0 dx [(l+xk)^2+m^2 +x(1-x)k^2]^{-2},
+    \end{aligned}
+\end{equation}
+where we have abbreviated $m^2-i\epsilon$ as $m^2$.
+Now, we write $q\equiv l+xk$ and $D \equiv m^2 +x(1-x)k^2$. So that the integral is now
+\begin{equation}
+    \begin{aligned}
+        - \frac{g^2}{2}\int \frac{d^dl}{(2\pi)^d} \frac{i}{l^2+m^2-i\epsilon}\frac{i}{(k+l)^2+m^2-i\epsilon} &=\frac{g^2}{2}\int^1_0dx\int\frac{d^dq}{(2\pi)^d}\frac{1}{(q^2+D)^2}.
+    \end{aligned}
+\end{equation}
+Then, we perform the Wick rotation so that $q^0 = iq^0_E$, $\mathbf{q} = \mathbf{q}_E$, $q^2 = q^2_E$, and $d^dq = id^dq_E$. Therefore, the above integral becomes
+\begin{equation}
+    I(k^2) = i\int^1_0dx\int\frac{d^dq_E}{(2\pi)^d}\frac{1}{(q_E^2+D)^2},
+\end{equation}
+where 
+\begin{equation}
+    i\Pi(k^2) = \frac{g^2}{2}I(k^2)-i(Ak^2+Bm^2) + \mathcal{O}(g^4).
+\end{equation}
+With a slight abbreviation of notation, we now write the integral measure as $d^dq_E = q_E^{d-1}dq_Ed\Omega_{d-1}$, where $q_E$ is now the length of the vector $q_E$.
+
+\noindent \textbf{Claim:}
+\begin{equation}
+    \Omega_{d-1} = \frac{2\pi^{d/2}}{\Gamma(d/2)}.
+\end{equation}
+
+\noindent \textbf{Proof:} Consider the integral
+\begin{equation}
+    \int_{\mathbb{R}^d}d^dx\, e^{-x^2} = \int d\Omega_{d-1}\int_0^\infty dr\,r^{d-1}e^{-r^2}. 
+\end{equation}
+The left-hand side gives
+\begin{equation}
+    \left(\int_\mathbb{R}dx\, e^{-x^2}\right)^d =  \pi^{d/2},
+\end{equation}
+and the right-hand side gives
+\begin{equation}
+    \Omega_{d-1}\,\frac{1}{2}\int_0^\infty dr \, r^{d/2-1}e^{-r} = \Omega_{d-1}\frac{\Gamma(d/2)}{2}.
+\end{equation}
+\qed
+
+We shall also prove the general identity, that would turn out to be useful in many cases when dealing with loop corrections.
+
+\noindent \textbf{Claim:}
+\begin{equation}
+    \int\frac{d^dq_E}{(2\pi)^d}\frac{(q_E^2)^n}{(q_E^2+D)^{m}} = \frac{\Gamma(m-n-d/2)\Gamma(n+d/2)}{(4\pi)^{d/2}\Gamma(m)\Gamma(d/2)}D^{-(m-n-d/2)}.
+\end{equation}
+
+\noindent \textbf{Proof:}
+\begin{equation}
+    \begin{aligned}
+        \int\frac{d^dq_E}{(2\pi)^d}\frac{(q_E^2)^n}{(q_E^2+D)^{m}} = \frac{2\pi^{d/2}}{\Gamma(d/2)}\frac{1}{(2\pi)^d}\int_0^\infty dq_E\frac{q_E^{2n+d-1}}{(q_E^2+D)^m}.
+    \end{aligned}
+\end{equation}
+Making the substitution $s^2 = q^2/D +1$, we find
+\begin{equation}
+        \begin{aligned}
+        \int\frac{d^dq_E}{(2\pi)^d}\frac{(q_E^2)^n}{(q_E^2+D)^{m}} = \frac{2D^{n+d-m-1}}{(4\pi)^{d/2}\Gamma(d/2)}\int^\infty_1ds \frac{(s^2-1)^{n+d/2-1}}{s^{2m-1}}.
+    \end{aligned}
+\end{equation}
+Then, we substitute $t = 1/s^2$, we find
+\begin{equation}
+\begin{aligned}
+    \int\frac{d^dq_E}{(2\pi)^d}\frac{(q_E^2)^n}{(q_E^2+D)^{m}} &= \frac{D^{n+d-m}}{(4\pi)^{d/2}\Gamma(d/2)}\int^1_0 dt\, t^{m-n-d/2-1}(t-1)^{n+d/2-1}\\
+    &=\frac{D^{n+d-m}}{(4\pi)^{d/2}\Gamma(d/2)}\beta(m-n-d/2,n+d/2-1)\\
+    &=\frac{D^{n+d-m}}{(4\pi)^{d/2}\Gamma(d/2)}\frac{\Gamma(m-n-d/2)\Gamma(n+d/2)}{\Gamma(m)}.
+\end{aligned}
+\end{equation}
+\qed
+
+For our case, we have $n=0$ and $m=2$, and hence
+\begin{equation}
+    I(k^2) = i \int^1_0dx\frac{\Gamma(2-d/2)}{(4\pi)^{d/2}}D^{-2+d/2}.
+\end{equation}
+
+Now let us focus on the $\phi^3$ theory in $d=6$, where $[g] =0$ and the theory is renormalizable. For general dimensions, $[g] = 3-d/2\equiv \varepsilon/2$. We shall redefine the coupling constant to make it dimension less, that is
+\begin{equation}
+    g \to g\tilde{\mu}^{\varepsilon/2}.
+\end{equation}
+Now, we find
+\begin{equation}
+    g^2\tilde{\mu}I(k^2) = i g^2\tilde{\mu}\int^1_0dx\frac{\Gamma(\varepsilon/2-1)}{(4\pi)^{3-\varepsilon/2}}D^{-\varepsilon/2+1} = ig^2\frac{\Gamma(-1+\varepsilon/2)}{(4\pi)^3}\int^1_0 dx\, D \left(\frac{4\pi\tilde{\mu}^2}{D}\right)^{\varepsilon/2}.
+\end{equation}
+Using dimensional regularization, we take $\varepsilon\to 0$ so that
+\begin{equation}
+    \Gamma(-1+\varepsilon/2) \sim -\frac{2}{\varepsilon}+\gamma-1+ \cdots,
+\end{equation}
+and
+\begin{equation}
+    \left(\frac{4\pi\tilde{\mu}^2}{D}\right)^{\varepsilon/2} \sim 1 + \frac{\varepsilon}{2}\ln\left(\frac{4\pi\tilde{\mu}^2}{D}\right) + \cdots.
+\end{equation}
+Then,
+\begin{equation}
+    \Gamma(-1+\varepsilon/2)\left(\frac{4\pi\tilde{\mu}^2}{D}\right)^{\varepsilon/2} \sim -\frac{2}{\varepsilon} + \gamma -1 - \ln\left(\frac{4\pi\tilde{\mu}^2}{D}\right) + \mathcal{O}(\varepsilon).
+\end{equation}
+Defining
+\begin{equation}
+    \mu = \sqrt{4\pi}e^{-\gamma/2}\tilde{\mu},\quad \alpha = \frac{g^2}{(4\pi)^3}
+\end{equation}
+we find
+\begin{equation}
+    g^2\tilde{\mu}I(k^2) \sim i\alpha \int^1_0 dx\,D\left[-\frac{2}{\varepsilon} -1 + \ln\left(\frac{m^2}{\mu^2}\right)- \ln\left(\frac{m^2}{D}\right) + \mathcal{O}(\varepsilon)\right].
+\end{equation}
+Now, we evaluate
+\begin{equation}
+    \int ^1_0 dx D = \int ^1_0 dx (m^2+x(1-x)k^2) = m^2 + k^2/6.
+\end{equation}
+Therefore, we find
+\begin{equation}
+\begin{aligned}
+    \Pi(k^2) &\sim \frac{\alpha}{2}\left[-(2/\varepsilon+1+2\ln(\mu/m))(m^2+k^2/6)+\int^1_0 dx \,D\ln(D/m^2)\right] - (Ak^2 + Bm^2) + \mathcal{O}(\alpha^2)\\
+    &= \frac{\alpha}{2}\int^1_0 dx \,D\ln(D/m^2) - \left[\frac{1}{6}\alpha(\varepsilon+\ln(\mu/m)+1/2) + A\right]k^2 \\
+    &\qquad \qquad\qquad\qquad\qquad\qquad\qquad- \left[\alpha(\varepsilon+\ln(\mu/m)+1/2) + A\right]m^2 + \mathcal{O}(\alpha^2).
+\end{aligned}
+\end{equation}
+To further simplify the expression, we shall let $A$ and $B$ to take the form 
+\begin{equation}
+    A = -\frac{1}{6}\alpha(\varepsilon+\ln(\mu/m)+1/2) +\alpha \kappa_A - \mathcal{O}(\alpha^2),
+\end{equation}
+\begin{equation}
+    B = -\alpha(\varepsilon+\ln(\mu/m)+1/2) - \alpha\kappa_B + \mathcal{O}(\alpha^2).
+\end{equation}
+Then, we find
+\begin{equation}
+    \Pi(k^2) \sim \frac{\alpha}{2}\int^1_0 dx \,D\ln(D/m^2) - \alpha\left(\frac{1}{6}\kappa_A k^2 + \kappa_B m^2\right) + \mathcal{O}(\alpha^2).
+\end{equation}
+Now, we impose the renormalization condition $\Pi(-m^2) = \Pi'(-m^2) = 0$ to fix $\kappa_A$ and $\kappa_B$. To do that, we note that $\Pi(-k^2)$ must take the form
+\begin{equation}
+    \Pi(-k^2) \sim \frac{\alpha}{2}\int^1_0dx\, D\ln(D/D_0) + c(k^2+m^2) + \mathcal{O}(\alpha^2),
+\end{equation}
+where $c\in \mathbb{R}$ and
+\begin{equation}
+    D_0 = D\big|_{k^2=-m^2} = [1-x(1-x)]m^2.
+\end{equation}
+Then, we differentiate with respect to $k^2$ to find
+\begin{equation}
+    \Pi'(-k^2) \sim \frac{\alpha}{2}\int^1_0dx\,\left[x(1-x)\ln(D/D_0) + D_0x(1-x)\right] +c +\mathcal{O}(\alpha^2).
+\end{equation}
+Therefore,
+\begin{equation}
+    \Pi'(-m^2) = 0\implies c = -\frac{\alpha}{12}.
+\end{equation}
+Finally we obtain the 1-loop correction for the two-point correlation function, which is
+\begin{equation}
+    \Pi(-k^2) \sim \frac{\alpha}{2}\int^1_0dx\, D\ln(D/D_0) -\frac{\alpha}{12}(k^2+m^2) + \mathcal{O}(\alpha^2).
+\end{equation}
+We might as well right down the asymptotic value for $\kappa_A$ and $\kappa_B$. That is
+\begin{equation}
+    \kappa_A = \frac{1}{4},\quad \kappa_B = \frac{1}{24}.
+\end{equation}
+
+Note that the integral in our final expression is real if $D>0$. That is $x(1-x)k^2>-m^2$, and since $x(1-x) \in[0,1/4)$ we must have $k^2 >-4m^2$ for real $\Pi(k^2)$. Then, one might be tempting to ask: what happens if $k^2 < -4m^2$, and $\text{Im}\,\Pi(k^2)\neq 0$? To understand what is happening, let us write the one-loop correction in Lehmann-Källén form,
+\begin{equation}
+    \tilde{D}(k^2) = \frac{i}{k^2+m^2-i\epsilon} + \int _{4m^2}^\infty ds \,\rho(s)\frac{i}{k^2+s-i\epsilon} = \frac{i}{k^2 +m^2-i\epsilon - \Pi(k^2)}.
+\end{equation}
+Using the identity
+\begin{equation}
+    \frac{1}{x-i\epsilon} = P\frac{1}{x} + i\pi\delta(x),
+\end{equation}
+we find
+\begin{equation}
+    \text{Im}(-i\tilde{D}(k^2)) = \pi\delta(k^2+m^2) + \pi\rho(-k^2) = \pi\delta(k^2+m^2-\Pi(k^2)),
+\end{equation}
+where $k^2 >-4m^2$. Therefore, for $k^2 >-4m^2$, $\rho(-k^2) = \rho(s)= 0$. However, for $k^2 <-4m^2$, $\text{Im}\, \Pi(k^2) \neq 0$. Hence, one would find
+\begin{equation}
+    \pi\rho(s)  = \frac{\text{Im}\, \Pi(-s)}{(-s+m^2+\text{Re}\, \Pi(-s))^2 + (\text{Im}\, \Pi(-s))^2}.
+\end{equation}
+
+Now, let us compute the vertex correction for the $\phi^3$ theory. In the previous computation we took a slightly more complicated root by evaluating the path integral straight away. Now, let us go back and write down the momentum space vertex Feynman rules of the theory:
+\begin{equation}
+    iZ_gg.
+\end{equation}
+
+We can define an exact three-point vertex $iV_3(k_1,k_2,k_3)$, where $k_1+k_2+k_3 =0$. To one-loop correction, the exact three-point is given by
+\begin{equation}
+    iV_3(k_1, k_2,k_3)/g = iZ_g  + i(ig)^2\int\frac{d^dl}{(2\pi)^d}\tilde{D}_F(l^2)\tilde{D}_F((l-k_1)^2) \tilde{D}_F((l+k_2)^2) + \mathcal{O}(g^5),    
+\end{equation}
+where we have used the fact that $Z_g = 1 + \mathcal{O}(g^2)$. We shall impose the natural renormalization condition,
+\begin{equation}
+    iV_3(0,0,0) = 0,
+\end{equation}
+to fix the value of $Z_g$. Just like before, we use the Feynman integration formula to get
+\begin{equation}
+\begin{aligned}
+    &\tilde{D}_F(l^2)\tilde{D}_F((l-k_1)^2) \tilde{D}_F((l+k_2)^2)\\ =& i^3\int dF_3\frac{1}{[x_1(l^2+m^2) + x_2((l-k_1)^2+m^2) + x_3((l+k_2)^2+m^2)]^3}\\
+    =&-i\int dF_3\frac{1}{[l^2+m^2-2x_2k_1l + 2x_3k_2l+x_2k_1^2 + x_3k_2^2]^3}\\
+    =&-i\int dF_3\frac{1}{[(l - x_2k_1 + x_3k_2)^2 + m^2 + x_2k_1^2 + x_3k_2^2]^3}\\
+    =&-i\int dF_3 \frac{1}{(q^2+D)^3},
+\end{aligned}
+\end{equation}
+where $q\equiv l -x_2k_1 + x_3k_2$ and $D \equiv m^2 + x_2k_1^2 + x_3k_2^2$. Then, we have
+\begin{equation}
+\begin{aligned}
+    \int\frac{d^dl}{(2\pi)^d}\tilde{D}_F(l^2)\tilde{D}_F((l-k_1)^2) \tilde{D}_F((l+k_2)^2) & = -i\int dF_3 \int\frac{d^dq}{(2\pi)^d}\frac{1}{(q^2+D)^3}.
+\end{aligned}
+\end{equation}
+Perform a Wick rotation, we find
+\begin{equation}
+\begin{aligned}
+    -i\int\frac{d^dq}{(2\pi)^d}\frac{1}{(q^2+D)^3} &= \int\frac{d^dq_E}{(2\pi)^d}\frac{1}{(q_E^2+D)^3}\\
+    &=\frac{\Gamma(3-d/2)}{2(4\pi)^{d/2}}D^{-3+d/2}.
+\end{aligned}
+\end{equation}
+Now, substitute $\varepsilon = 6-d$ and redefine the coupling constant just as before. We look for the asymptotic series of $\varepsilon\to0$. That is
+\begin{equation}
+\begin{aligned}
+    -i(i^3g^2)\tilde{\mu}^{\varepsilon}\int\frac{d^dq}{(2\pi)^d}\frac{1}{(q^2+D)^3} &=\frac{ig^2}{2(4\pi)^3}\Gamma(\varepsilon/2)\left(\frac{4\pi \tilde{\mu}^2}{D}\right)^{\varepsilon/2}\\
+    &\sim\frac{ig^2}{2(4\pi)^3}(2/\varepsilon-\gamma+\cdots)\left(1+\frac{\varepsilon}{2}\ln\left(\frac{4\pi \tilde{\mu}^2}{D}\right)+ \cdots\right)\\
+    &=\frac{ig^2}{2(4\pi)^3}\left(\frac{2}{\varepsilon}-\gamma +\ln\left(\frac{4\pi \tilde{\mu}^2}{D}\right) + \cdots\right)\\
+    &=\frac{i\alpha}2\left(\frac{2}{\varepsilon}+\ln\left(\frac{\mu^2}{D}\right) + \cdots\right),
+\end{aligned}
+\end{equation}
+where we have used $\mu^2 = 4\pi e^{-\gamma}\tilde{\mu}^2$ and $\alpha \equiv g^2/(4\pi)^3$. Finally, we find the three-point vertex to be
+\begin{equation}
+    iV_3(k_1, k_2,k_3)/g \sim iZ_g  + i\frac{\alpha}{2}\left(\frac{2}{\varepsilon} + \int dF_3\ln(\mu^2/D) + \cdots \right) + \mathcal{O}(g^5).
+\end{equation}
+By setting $Z_g = 1 +C$, we find
+\begin{equation}
+    V_3(k_1, k_2,k_3)/g \sim 1 + \alpha\left[\frac{1}{\varepsilon}+\ln(\mu/m)+\frac{1}{2}\int dF_3\ln(m^2/D) + \dots\right] +C + \mathcal{O}(\alpha^2).
+\end{equation}
+Again, we let $C$ to take the form
+\begin{equation}
+    C = -\alpha\left[\frac{1}{\varepsilon}+\ln(\mu/m) + \kappa_C\right] + \mathcal{O}(\alpha^2),
+\end{equation}
+which gives
+\begin{equation}
+    V_3(k_1, k_2,k_3)/g \sim 1 - \frac{\alpha}{2}\int dF_3\ln (D/m^2) -\alpha\kappa_C  + \mathcal{O}(\alpha^2).
+\end{equation}
+Now, we impose the renormalization condition, $V_3(0,0,0) = 0$, which gives $D = m^2$, and hence
+\begin{equation}
+    \kappa_C= 0.
+\end{equation}
+Therefore, our final expression for the three-point vertex to first order in $\alpha$ is given by
+\begin{equation}
+    V_3(k_1, k_2,k_3)/g \sim 1 - \frac{\alpha}{2}\int dF_3\ln (D/m^2)C  + \mathcal{O}(\alpha^2).
+\end{equation}
+
+Now, we have determined all three of the renormalization factor to one-loop order.
+

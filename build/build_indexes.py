@@ -112,8 +112,8 @@ CATEGORIES = [
     {
         "slug": "qft",
         "title": "Quantum Field Theory",
-        "blurb": "Path-integral essay, Peskin / Tong / PSI solutions, Schwartz chapter notes.",
-        "tag": "15 entries",
+        "blurb": "Path-integral essay, Peskin / Tong / PSI solutions, Schwartz chapter notes, φ³ computation.",
+        "tag": "16 entries",
         "body": """    <h3>Papers</h3>
     <ul class="catalogue">
       <li class="catalogue__item">
@@ -243,6 +243,14 @@ CATEGORIES = [
           <span class="catalogue__desc">Schwartz, Ch. 14 — from QM to functional integrals over fields.</span>
         </span>
         <span class="catalogue__tag">Schwartz Ch. 14</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">VII.</span>
+        <span class="catalogue__main">
+          <a href="notes/phi3-theory.html">Computation for φ³ Theory</a>
+          <span class="catalogue__desc">Counter-terms, partition functional, and one-loop diagrams in φ³ scalar theory; follows Srednicki and Peskin &amp; Schroeder.</span>
+        </span>
+        <span class="catalogue__tag">φ³</span>
       </li>
     </ul>""",
     },

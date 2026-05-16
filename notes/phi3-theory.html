@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computation for φ³ Theory — Yucheng (Luca) Jin</title>
+<meta name="description" content="Computation for φ³ Theory. Source: Follows Srednicki and Peskin &amp; Schroeder — counter-terms.">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../styles.css">
+
+<script src="../assets/theme.js"></script>
+<script src="../assets/font-size.js"></script>
+
+<!-- MathJax with custom macros mirroring the original .tex preamble -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros', 'mathtools']},
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      Q: '\\mathbb{Q}',
+      A: '\\mathcal{A}',
+      Lagrangian: '\\mathcal{L}',
+      Cdot: '\\boldsymbol{\\cdot}',
+      Tr: '\\operatorname{Tr}',
+      // Feynman slash: \not{x} would render the slash to the LEFT of x
+      // (it's designed for \not=). \cancel from the cancel package
+      // strikes diagonally through the centre, matching the slashed.sty
+      // package's appearance.
+      slashed: ['{\\cancel{#1}}', 1],
+      // Wick contraction: top brace connector over the contracted pair —
+      // closer to the standard physics notation than a plain overline.
+      wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // siunitx polyfill — \si{K}, \si{m\,s^{-1}} etc. should render
+      // the unit in upright math text, like \mathrm{X}. Doesn't try
+      // to mimic the full siunitx unit-formatting machinery; just
+      // unblocks the common bare-unit case in TDSP problems.
+      si: ['\\,\\mathrm{#1}', 1],
+      SI: ['#1\\,\\mathrm{#2}', 2]
+      // \tensor{base}{indices} is rewritten to base^a{}_b in
+      // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
+      // so no runtime macro is needed here. The empty-group trick is
+      // what makes MathJax kern the indices into separate columns.
+    }
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="topbar__brand">Yucheng (Luca) Jin <small>BSc · Imperial</small></a>
+  <nav class="topbar__nav">
+    <a href="../index.html">About</a>
+    <a href="../notes.html" class="is-active">Notes</a>
+    <a href="../research.html">Research</a>
+    <a href="../reading.html">Reading</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+    <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" title="Decrease font size">A<span class="font-toggle__small">−</span></button>
+    <button class="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size" title="Increase font size">A<span class="font-toggle__large">+</span></button>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Toggle theme">
+      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    </button>
+  </nav>
+</header>
+
+<main class="note">
+
+  <div class="note__breadcrumb">
+    <a href="../notes.html">Notes</a> &nbsp;·&nbsp; Quantum Field Theory · φ³ perturbative computation
+  </div>
+
+  <h1 class="note__title">Computation for φ³ Theory</h1>
+  <p class="note__subtitle">Source: Follows Srednicki and Peskin &amp; Schroeder — counter-terms, partition functional, and one-loop diagrams in φ³.</p>
+
+  
+
+  <article class="note__body">
+<h2 id="computation-for-phi3-theory">Computation for $\phi^3$ Theory</h2>
+
+<p>All of the calculation below is based on Srednicki, and Peskin and Schroeder, so nothing here is original at all.</p>
+
+<p>Here, we will use the metric signature $(-,+,+,+)$. The Lagrangian of $\phi^3$ is given by
+\[\mathcal{L} = -\frac{1}{2}\partial_\mu \phi \partial^\mu \phi - \frac{1}{2}m^2\phi^2 + \frac{1}{3!}g\phi^3.\tag{1.1}\]
+To make the theory satisfying
+\[\bra{k}\phi(x)\ket{\Omega} = e^{-ik\cdot x},\quad \bra{\Omega}\phi(x)\ket{\Omega} = 0,\tag{1.2}\]
+we make field redefinitions so that the Lagrangian becomes
+\[\mathcal{L} = -\frac{1}{2}Z_\phi\partial_\mu \phi \partial^\mu \phi - \frac{1}{2}Z_mm^2\phi^2 + \frac{1}{3!}Z_gg\phi^3 + Y\phi = \mathcal{L}_0 + \mathcal{L}_1,\tag{1.3}\]
+where 
+\[\mathcal{L}_0 = -\frac{1}{2}\partial_\mu \phi \partial^\mu \phi - \frac{1}{2}m^2\phi^2,\tag{1.4}\]
+and
+\[\mathcal{L}_1 = -\frac{1}{2}(Z_\phi-1)\partial_\mu \phi \partial^\mu \phi - \frac{1}{2}(Z_m-1)m^2\phi^2 + \frac{1}{3!}Z_gg\phi^3 + Y\phi.\tag{1.5}\]</p>
+
+<p>The partition functional can be written as
+\[Z = \int\mathcal{D}\phi(x) e^{i\int d^dx (\mathcal{L}_0 + J\phi + \mathcal{L}_1)} =  e^{i\int d^dx \mathcal{L}_1(-i\delta/\delta J(x))}\int\mathcal{D}\phi(x) e^{i\int d^dx (\mathcal{L}_0 + J\phi)} = e^{i\int d^dx \mathcal{L}_1(-i\delta/\delta J(x))} Z_0,\tag{1.6}\]
+where
+\[Z_0 = \int\mathcal{D}\phi(x) e^{i\int d^dx (\mathcal{L}_0 + J\phi)}.\tag{1.7}\]
+Making the field redefinition
+\[\chi(x) = \phi(x) - iD_F(x-y) J(y),\tag{1.8}\]
+where
+\[(\partial^2 - m^2)D_F(x-y)= i\delta^d(x-y).\tag{1.9}\]
+Note that since the above is just a shift of field, the measure is unchanged $\mathcal{D}\phi = \mathcal{D}\chi$.
+Then, the integrand of $Z_0$ becomes
+\[\begin{aligned}
+    \exp\left[i\int d^dx \left(\frac{1}{2}\chi(x)(\partial^2-m^2)\chi(x) +\frac{i}{2}\int d^dy J(x)D_F(x-y)J(y) \right)\right],
+\end{aligned}\tag{1.10}\]
+and hence
+\[Z_0 = \mathcal{N}\exp\left[-\frac{1}{2}\int d^dx \int d^dy J(x)D_F(x-y)J(y) \right],\tag{1.11}\]
+where $\mathcal{N}$ is formally infinite, but since it is not a measurable quantity, it does not boarder us. Now the full partition functional becomes
+\[Z  = e^{i\int d^dx \mathcal{L}_1(-i\delta/\delta J(x))}\exp\left[-\frac{1}{2}\int d^dx \int d^dy J(x)D_F(x-y)J(y) \right]\tag{1.12}\]
+up to some irrelevant constant.</p>
+
+<p>Now, we are interested in finding the exact two-point correlation function to one-loop order. That is
+\[\bra{\Omega}T\phi(x_1)\phi(x_2)\ket{\Omega} = (-i)^2 \frac{\delta^2}{\delta J(x_1)\delta J(x_2)}\ln{Z[J]}\bigg|_{J=0} = i(-i)^2\frac{\delta^2}{\delta J(x_1)\delta J(x_2)}W[J]\bigg|_{J=0},\tag{1.13}\]
+where $W[J]$ is the connected diagram generating functional
+\[Z[J] \equiv e^{iW[J]}.\tag{1.14}\]</p>
+
+<p>In practice, one can simply write down the Feynman rules and compute the correlation functions. However, for our purpose, we shall compute it directly from functional derivatives. We shall first compute $Z[J]$:
+\[\begin{aligned}
+        Z[J] &amp;= \left[1 + i\int d^dx \frac{1}{2}\left(-i\frac{\delta}{\delta J(x)}\right)(A\partial_x^2 - Bm^2)\left(-i\frac{\delta}{\delta J(x)}\right) + \cdots \right]Z_0\\
+        &amp;=Z_0 -\frac{i}{2}\int d^dx\left(-i\frac{\delta}{\delta J(x)}\right)(A\partial_x^2 - Bm^2)\left(-\int d^dy J(y)D_F(x-y)\right)Z_0 + \cdots\\
+        &amp;=Z_0- \frac{i}{2}\int d^dx \left(\int d^dz J(z)D_F(x-z)\right)(A\partial_x^2 - Bm^2)\left(\int d^dy J(y)D_F(x-y)\right)Z_0 + \cdots ,
+    \end{aligned}\tag{1.15}\]
+where we have focused on the connected two-point term since we will eventually take $J=0$ after the functional derivative. However, one should not forget the other term
+\[\begin{aligned}
+    &amp;\frac{i^2}{(3!)^2}g^2\int d^dx \int d^dy\left(-i\frac{\delta}{\delta J(x)}\right)^3\left(-i\frac{\delta}{\delta J(y)}\right)^3 Z_0 \\
+    =&amp;-\frac{g^2}{2}\int d^dx \int d^dy J(x)D_F(x-y)^2 J(y) Z_0 + \cdots
+\end{aligned}\tag{1.16}\]
+Now, we can compute the two-point correlation function; that is
+\[\begin{aligned}
+    D(x_1-x_2) =\bra{\Omega}T\phi(x_1)\phi(x_2)\ket{\Omega} &amp;= -\frac{\delta^2}{\delta J(x_1)\delta J(x_2)}Z[J]\bigg|_{J=0} \\
+    &amp;=D_F(x_1-x_2) +i\int d^dx D_F(x-x_1)(A\partial_x^2 - Bm^2) D_F(x-x_2)\\
+    &amp;\qquad- \frac{g^2}{2}\int d^dx \int d^dy D_F(x_1-x)D_F(x-y)^2D_F(y-x_2) + \mathcal{O}(g^4),
+\end{aligned}\tag{1.17}\]
+where we have been quite sloppy with the overall constant throughout. These are exactly the diagrams one would expect from Feynman rules</p>
+
+<figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='41.512em' height='7.496em' viewBox='3.319736 -71.462263 377.384602 68.142133'>
+<defs>
+<path id='g0-0' d='M6.052304-2.0533C6.213699-2.0533 6.38406-2.0533 6.38406-2.25056C6.38406-2.438854 6.204732-2.438854 6.052304-2.438854H1.102864C.950436-2.438854 .771108-2.438854 .771108-2.25056C.771108-2.0533 .941469-2.0533 1.102864-2.0533H6.052304Z'/>
+<path id='g1-64' d='M4.250062-3.057534C4.151432-3.622416 3.747945-4.097634 3.048568-4.097634C2.223661-4.097634 1.587049-3.694147 1.093898-3.183064C.394521-2.447821 .367621-1.560149 .367621-1.407721C.367621-.869738 .762142 .19726 2.080199 .19726C4.303861 .19726 5.200498-2.878207 5.200498-4.070735C5.200498-5.433624 4.393524-6.419925 3.19203-6.419925C1.838107-6.419925 1.43462-5.263263 1.43462-5.003238C1.43462-4.841843 1.551183-4.680448 1.784309-4.680448C2.044334-4.680448 2.268493-4.913574 2.268493-5.164633S2.044334-5.496389 1.873973-5.496389C2.125031-5.917808 2.600249-6.195766 3.174097-6.195766C4.00797-6.195766 4.501121-5.514321 4.501121-4.554919C4.501121-4.474222 4.492154-3.918306 4.259029-3.057534H4.250062ZM2.098132-.053798C1.282192-.053798 1.093898-.672478 1.093898-1.084932C1.093898-1.398755 1.318057-2.591283 1.685679-3.0934C2.044334-3.577584 2.492653-3.873474 3.048568-3.873474C3.936239-3.873474 4.079701-3.0934 4.079701-2.680946C4.079701-2.008468 3.478954-.053798 2.098132-.053798Z'/>
+<path id='g1-65' d='M1.63188-1.049066C1.192528-.331756 .798007-.304857 .439352-.277958C.376588-.268991 .331756-.19726 .331756-.116563C.331756-.062765 .367621 0 .457285 0C.627646 0 1.049066-.026899 1.219427-.026899C1.416687-.026899 1.900872 0 2.098132 0C2.15193 0 2.268493 0 2.268493-.161395C2.268493-.268991 2.160897-.277958 2.133998-.277958C2.0533-.286924 1.712578-.304857 1.712578-.573848C1.712578-.699377 1.811208-.869738 1.838107-.91457L2.546451-2.071233H4.886675C4.913574-1.865006 4.940473-1.560149 4.967372-1.33599C5.003238-.986301 5.057036-.591781 5.057036-.564882C5.057036-.430386 4.931507-.277958 4.411457-.277958C4.321793-.277958 4.20523-.277958 4.20523-.116563C4.20523-.017933 4.276961 0 4.339726 0C4.510087 0 4.72528-.017933 4.904608-.017933S5.299128-.026899 5.44259-.026899C5.738481-.026899 5.756413-.026899 5.971606-.017933C6.115068-.008966 6.321295 0 6.464757 0C6.518555 0 6.635118 0 6.635118-.161395C6.635118-.277958 6.536488-.277958 6.428892-.277958C5.890909-.277958 5.881943-.340722 5.855044-.600747L5.227397-6.177833C5.209465-6.375093 5.200498-6.419925 5.04807-6.419925C4.92254-6.419925 4.868742-6.357161 4.797011-6.240598L1.63188-1.049066ZM2.716812-2.349191L4.52802-5.308095L4.859776-2.349191H2.716812Z'/>
+<path id='g1-66' d='M1.461519-.681445C1.380822-.358655 1.362889-.277958 .690411-.277958C.52005-.277958 .42142-.277958 .42142-.116563C.42142 0 .511083 0 .672478 0H3.936239C5.388792 0 6.455791-1.058032 6.455791-1.927771C6.455791-2.564384 5.926775-3.102366 5.039103-3.200996C6.06127-3.398257 6.931009-4.079701 6.931009-4.877709C6.931009-5.577086 6.28543-6.124035 5.218431-6.124035H2.15193C1.990535-6.124035 1.882939-6.124035 1.882939-5.96264C1.882939-5.846077 1.963636-5.846077 2.15193-5.846077C2.187796-5.846077 2.349191-5.846077 2.492653-5.828144C2.645081-5.810212 2.707846-5.792279 2.707846-5.693649C2.707846-5.648817 2.698879-5.612951 2.67198-5.514321L1.461519-.681445ZM2.860274-3.299626L3.407223-5.496389C3.48792-5.819178 3.505853-5.846077 3.882441-5.846077H5.092902C6.025405-5.846077 6.106102-5.137733 6.106102-4.913574C6.106102-4.115567 5.272229-3.299626 4.259029-3.299626H2.860274ZM2.429888-.277958C2.304359-.277958 2.286426-.277958 2.25056-.286924C2.160897-.29589 2.133998-.304857 2.133998-.367621C2.133998-.394521 2.133998-.412453 2.178829-.573848L2.797509-3.075467H4.483188C5.039103-3.075467 5.603985-2.833375 5.603985-2.017435C5.603985-1.129763 4.788045-.277958 3.71208-.277958H2.429888Z'/>
+<path id='g1-103' d='M4.366625-3.523786C4.366625-3.667248 4.250062-3.783811 4.088667-3.783811C3.936239-3.783811 3.747945-3.676214 3.703113-3.425156C3.505853-3.765878 3.218929-3.963138 2.851308-3.963138C1.766376-3.963138 .663512-2.689913 .663512-1.43462C.663512-.591781 1.192528 0 1.909838 0C2.313325 0 2.67198-.224159 2.96787-.493151C2.851308 0 2.707846 .600747 2.636115 .762142C2.591283 .860772 2.268493 1.613948 1.362889 1.613948C1.183562 1.613948 .896638 1.604981 .672478 1.542217C.842839 1.470486 .995268 1.273225 .995268 1.084932C.995268 .887671 .842839 .762142 .654545 .762142C.448319 .762142 .161395 .923537 .161395 1.291158C.161395 1.730511 .663512 1.838107 1.380822 1.838107C2.537484 1.838107 3.200996 1.174595 3.344458 .600747L4.366625-3.523786ZM3.138232-1.165629C3.102366-1.004234 3.0934-.986301 2.949938-.81594C2.492653-.29589 2.116065-.224159 1.936737-.224159C1.497385-.224159 1.33599-.654545 1.33599-1.058032C1.33599-1.407721 1.551183-2.411955 1.820174-2.932005C2.0533-3.353425 2.447821-3.738979 2.860274-3.738979C3.434122-3.738979 3.58655-3.057534 3.58655-2.976837C3.58655-2.958904 3.568618-2.887173 3.559651-2.842341L3.138232-1.165629Z'/>
+<path id='g1-105' d='M2.600249-5.595019C2.600249-5.792279 2.456787-5.926775 2.259527-5.926775C2.017435-5.926775 1.775342-5.693649 1.775342-5.451557C1.775342-5.272229 1.909838-5.119801 2.116065-5.119801C2.358157-5.119801 2.600249-5.34396 2.600249-5.595019ZM2.725778-1.282192C2.725778-1.327024 2.698879-1.389788 2.609215-1.389788C2.510585-1.389788 2.501619-1.344956 2.465753-1.228394C2.25056-.493151 1.882939-.125529 1.542217-.125529C1.398755-.125529 1.327024-.19726 1.327024-.42142C1.327024-.636613 1.398755-.833873 1.470486-1.004234C1.63188-1.43462 1.63188-1.452553 1.748443-1.730511C1.891905-2.116065 2.089166-2.627148 2.178829-2.878207C2.241594-3.039601 2.241594-3.129265 2.241594-3.209963C2.241594-3.721046 1.838107-3.963138 1.479452-3.963138C.609714-3.963138 .260025-2.680946 .260025-2.582316C.260025-2.501619 .32279-2.47472 .385554-2.47472C.484184-2.47472 .493151-2.528518 .529016-2.645081C.71731-3.281694 1.058032-3.738979 1.452553-3.738979C1.542217-3.738979 1.667746-3.721046 1.667746-3.452055C1.667746-3.227895 1.578082-2.99477 1.497385-2.788543L.860772-1.129763C.798007-.959402 .744209-.81594 .744209-.654545C.744209-.233126 1.058032 .09863 1.515318 .09863C2.385056 .09863 2.725778-1.192528 2.725778-1.282192Z'/>
+<path id='g1-109' d='M1.694645-1.407721C1.793275-1.829141 1.963636-2.483686 1.972603-2.555417C1.990535-2.609215 2.214695-3.039601 2.537484-3.353425C2.797509-3.595517 3.138232-3.738979 3.48792-3.738979C3.972105-3.738979 3.972105-3.263761 3.972105-3.111333C3.972105-3.003736 3.972105-2.878207 3.864508-2.438854L3.658281-1.640847C3.371357-.484184 3.299626-.206227 3.299626-.161395C3.299626-.044832 3.380324 .09863 3.577584 .09863C3.703113 .09863 3.837609 .017933 3.900374-.089664C3.927273-.143462 3.999004-.430386 4.043836-.609714L4.250062-1.407721C4.348692-1.829141 4.519054-2.483686 4.52802-2.555417C4.545953-2.609215 4.770112-3.039601 5.092902-3.353425C5.352927-3.595517 5.693649-3.738979 6.043337-3.738979C6.527522-3.738979 6.527522-3.263761 6.527522-3.111333C6.527522-2.564384 6.106102-1.470486 6.007472-1.192528C5.899875-.91457 5.86401-.824907 5.86401-.654545C5.86401-.170361 6.231631 .09863 6.635118 .09863C7.49589 .09863 7.845579-1.183562 7.845579-1.282192C7.845579-1.327024 7.81868-1.389788 7.729016-1.389788C7.630386-1.389788 7.62142-1.344956 7.585554-1.228394C7.361395-.466252 6.984807-.125529 6.662017-.125529C6.599253-.125529 6.437858-.125529 6.437858-.412453C6.437858-.636613 6.527522-.869738 6.599253-1.066999C6.77858-1.524284 7.137235-2.47472 7.137235-2.976837C7.137235-3.774844 6.545455-3.963138 6.070237-3.963138C5.218431-3.963138 4.752179-3.326526 4.590785-3.102366C4.501121-3.846575 3.891407-3.963138 3.514819-3.963138C2.680946-3.963138 2.241594-3.371357 2.098132-3.183064C2.044334-3.667248 1.676712-3.963138 1.228394-3.963138C.851806-3.963138 .663512-3.685181 .537983-3.443088C.385554-3.129265 .260025-2.618182 .260025-2.582316C.260025-2.501619 .32279-2.47472 .385554-2.47472C.484184-2.47472 .502117-2.519552 .546949-2.698879C.71731-3.407223 .905604-3.738979 1.210461-3.738979C1.479452-3.738979 1.479452-3.452055 1.479452-3.317559C1.479452-3.129265 1.407721-2.851308 1.353923-2.618182C1.291158-2.385056 1.201494-1.999502 1.165629-1.891905L.806974-.42142C.744209-.206227 .744209-.188294 .744209-.161395C.744209-.044832 .824907 .09863 1.022167 .09863C1.147696 .09863 1.282192 .017933 1.344956-.089664C1.371856-.143462 1.443587-.430386 1.488418-.609714L1.694645-1.407721Z'/>
+<path id='g1-120' d='M4.411457-3.622416C4.079701-3.559651 3.981071-3.272727 3.981071-3.138232C3.981071-2.96787 4.1066-2.815442 4.33076-2.815442C4.581818-2.815442 4.82391-3.030635 4.82391-3.344458C4.82391-3.756912 4.375592-3.963138 3.954172-3.963138C3.416189-3.963138 3.102366-3.48792 2.99477-3.299626C2.824408-3.738979 2.429888-3.963138 1.999502-3.963138C1.0401-3.963138 .52005-2.815442 .52005-2.582316C.52005-2.501619 .582814-2.47472 .645579-2.47472C.726276-2.47472 .753176-2.519552 .771108-2.57335C1.049066-3.461021 1.640847-3.738979 1.981569-3.738979C2.241594-3.738979 2.47472-3.568618 2.47472-3.147198C2.47472-2.824408 2.089166-1.389788 1.972603-.959402C1.900872-.681445 1.63188-.125529 1.13873-.125529C.959402-.125529 .771108-.188294 .681445-.242092C.923537-.286924 1.102864-.493151 1.102864-.726276C1.102864-.950436 .932503-1.049066 .762142-1.049066C.502117-1.049066 .268991-.824907 .268991-.52005C.268991-.080697 .753176 .09863 1.129763 .09863C1.649813 .09863 1.95467-.331756 2.089166-.573848C2.313325 .017933 2.842341 .09863 3.084433 .09863C4.052802 .09863 4.563885-1.066999 4.563885-1.282192C4.563885-1.327024 4.536986-1.389788 4.447323-1.389788C4.348692-1.389788 4.339726-1.353923 4.294894-1.219427C4.097634-.573848 3.577584-.125529 3.111333-.125529C2.851308-.125529 2.609215-.286924 2.609215-.71731C2.609215-.91457 2.734745-1.407721 2.815442-1.748443C2.851308-1.909838 3.0934-2.878207 3.111333-2.940971C3.218929-3.263761 3.48792-3.738979 3.945205-3.738979C4.1066-3.738979 4.276961-3.71208 4.411457-3.622416Z'/>
+<path id='g1-121' d='M4.501121-3.452055C4.510087-3.496887 4.52802-3.550685 4.52802-3.604483C4.52802-3.721046 4.447323-3.864508 4.250062-3.864508C4.133499-3.864508 3.972105-3.792777 3.900374-3.622416C3.891407-3.58655 3.801743-3.218929 3.747945-3.021669L3.299626-1.228394C3.227895-.968369 3.227895-.950436 3.209963-.869738C3.200996-.833873 2.824408-.125529 2.178829-.125529C1.622914-.125529 1.622914-.690411 1.622914-.860772C1.622914-1.264259 1.739477-1.703611 2.125031-2.707846C2.196762-2.914072 2.25056-3.039601 2.25056-3.209963C2.25056-3.649315 1.918804-3.963138 1.479452-3.963138C.61868-3.963138 .260025-2.689913 .260025-2.582316C.260025-2.501619 .32279-2.47472 .385554-2.47472C.484184-2.47472 .493151-2.528518 .529016-2.645081C.71731-3.308593 1.075965-3.738979 1.452553-3.738979C1.667746-3.738979 1.667746-3.568618 1.667746-3.443088C1.667746-3.29066 1.63188-3.129265 1.551183-2.914072C1.129763-1.802242 1.0132-1.425654 1.0132-.995268C1.0132 0 1.820174 .09863 2.15193 .09863C2.591283 .09863 2.905106-.134496 3.066501-.29589C2.949938 .161395 2.851308 .564882 2.501619 1.0132C2.232628 1.371856 1.873973 1.613948 1.479452 1.613948C1.228394 1.613948 .932503 1.524284 .806974 1.273225C1.282192 1.273225 1.344956 .878705 1.344956 .789041C1.344956 .591781 1.201494 .466252 1.004234 .466252C.789041 .466252 .502117 .636613 .502117 1.049066C.502117 1.515318 .91457 1.838107 1.479452 1.838107C2.394022 1.838107 3.371357 1.058032 3.631382 .008966L4.501121-3.452055Z'/>
+<path id='g2-49' d='M2.145953-3.795766C2.145953-3.975093 2.122042-3.975093 1.942715-3.975093C1.548194-3.592528 .938481-3.592528 .723288-3.592528V-3.359402C.878705-3.359402 1.273225-3.359402 1.63188-3.526775V-.508095C1.63188-.310834 1.63188-.233126 1.016189-.233126H.759153V0C1.08792-.02391 1.554172-.02391 1.888917-.02391S2.689913-.02391 3.01868 0V-.233126H2.761644C2.145953-.233126 2.145953-.310834 2.145953-.508095V-3.795766Z'/>
+<path id='g2-50' d='M3.21594-1.117808H2.99477C2.982814-1.034122 2.923039-.639601 2.833375-.573848C2.791532-.537983 2.307347-.537983 2.223661-.537983H1.105853L1.870984-1.159651C2.074222-1.321046 2.606227-1.703611 2.791532-1.882939C2.970859-2.062267 3.21594-2.367123 3.21594-2.791532C3.21594-3.53873 2.540473-3.975093 1.739477-3.975093C.968369-3.975093 .430386-3.466999 .430386-2.905106C.430386-2.600249 .687422-2.564384 .753176-2.564384C.902615-2.564384 1.075965-2.67198 1.075965-2.887173C1.075965-3.01868 .998257-3.209963 .735243-3.209963C.872727-3.514819 1.23736-3.741968 1.649813-3.741968C2.27746-3.741968 2.612204-3.275716 2.612204-2.791532C2.612204-2.367123 2.331258-1.93076 1.912827-1.548194L.496139-.251059C.436364-.191283 .430386-.185305 .430386 0H3.030635L3.21594-1.117808Z'/>
+<path id='g3-40' d='M3.057534 2.133998C3.057534 2.089166 3.030635 2.062267 2.976837 1.999502C1.820174 .941469 1.470486-.672478 1.470486-2.241594C1.470486-3.631382 1.739477-5.317061 3.003736-6.518555C3.039601-6.554421 3.057534-6.58132 3.057534-6.626152C3.057534-6.688917 3.012702-6.724782 2.949938-6.724782C2.842341-6.724782 2.035367-6.079203 1.551183-5.101868C1.120797-4.241096 .905604-3.317559 .905604-2.25056C.905604-1.604981 .986301-.582814 1.479452 .475218C2.008468 1.578082 2.842341 2.232628 2.949938 2.232628C3.012702 2.232628 3.057534 2.196762 3.057534 2.133998Z'/>
+<path id='g3-41' d='M2.67198-2.25056C2.67198-2.985803 2.564384-3.972105 2.098132-4.967372C1.569116-6.070237 .735243-6.724782 .627646-6.724782C.537983-6.724782 .52005-6.653051 .52005-6.626152C.52005-6.58132 .537983-6.554421 .600747-6.491656C1.120797-6.025405 2.107098-4.805978 2.107098-2.25056C2.107098-.968369 1.873973 .81594 .573848 2.026401C.555915 2.0533 .52005 2.089166 .52005 2.133998C.52005 2.160897 .537983 2.232628 .627646 2.232628C.735243 2.232628 1.542217 1.587049 2.026401 .609714C2.456787-.251059 2.67198-1.174595 2.67198-2.25056Z'/>
+<path id='g4-28' d='M4.456289-.798007V-1.300125H4.20523V-.806974C4.20523-.708344 4.20523-.260025 3.882441-.260025S3.559651-.690411 3.559651-.833873V-2.402989C3.559651-2.914072 3.559651-3.218929 3.156164-3.58655C2.824408-3.882441 2.394022-4.016936 1.945704-4.016936C1.192528-4.016936 .564882-3.640349 .564882-3.066501C.564882-2.788543 .753176-2.636115 .986301-2.636115C1.228394-2.636115 1.398755-2.815442 1.398755-3.048568C1.398755-3.434122 .995268-3.478954 .995268-3.478954C1.23736-3.71208 1.667746-3.792777 1.927771-3.792777C2.385056-3.792777 2.896139-3.452055 2.896139-2.663014V-2.367123C2.411955-2.349191 1.739477-2.304359 1.13873-2.017435C.493151-1.703611 .29589-1.23736 .29589-.878705C.29589-.143462 1.165629 .09863 1.766376 .09863C2.510585 .09863 2.851308-.394521 2.976837-.645579C3.021669-.268991 3.281694 .053798 3.667248 .053798C3.891407 .053798 4.456289-.080697 4.456289-.798007ZM2.896139-1.264259C2.896139-.394521 2.223661-.125529 1.829141-.125529C1.407721-.125529 1.0132-.430386 1.0132-.878705C1.0132-1.470486 1.524284-2.098132 2.896139-2.15193V-1.264259Z'/>
+<path id='g4-35' d='M4.805978-1.936737C4.805978-3.057534 3.918306-3.963138 2.842341-3.963138C2.232628-3.963138 1.811208-3.649315 1.596015-3.407223V-6.222665L.268991-6.124035V-5.846077C.878705-5.846077 .959402-5.783313 .959402-5.34396V0H1.210461L1.542217-.546949C1.820174-.152428 2.268493 .09863 2.752677 .09863C3.819676 .09863 4.805978-.762142 4.805978-1.936737ZM4.034869-1.945704C4.034869-1.524284 3.981071-1.049066 3.747945-.690411C3.550685-.403487 3.183064-.125529 2.707846-.125529C2.304359-.125529 1.963636-.340722 1.748443-.672478C1.622914-.860772 1.622914-.869738 1.622914-1.0401V-2.860274C1.622914-3.030635 1.622914-3.039601 1.721544-3.183064C2.026401-3.595517 2.465753-3.738979 2.806476-3.738979C3.19203-3.738979 3.550685-3.523786 3.783811-3.147198C4.016936-2.761644 4.034869-2.232628 4.034869-1.945704Z'/>
+<path id='g4-85' d='M3.057534 2.133998C3.057534 2.089166 3.030635 2.062267 2.976837 1.999502C1.820174 .941469 1.470486-.672478 1.470486-2.241594C1.470486-3.631382 1.739477-5.317061 3.003736-6.518555C3.039601-6.554421 3.057534-6.58132 3.057534-6.626152C3.057534-6.688917 3.012702-6.724782 2.949938-6.724782C2.842341-6.724782 2.035367-6.079203 1.551183-5.101868C1.120797-4.241096 .905604-3.317559 .905604-2.25056C.905604-1.604981 .986301-.582814 1.479452 .475218C2.008468 1.578082 2.842341 2.232628 2.949938 2.232628C3.012702 2.232628 3.057534 2.196762 3.057534 2.133998Z'/>
+<path id='g4-86' d='M2.67198-2.25056C2.67198-2.985803 2.564384-3.972105 2.098132-4.967372C1.569116-6.070237 .735243-6.724782 .627646-6.724782C.537983-6.724782 .52005-6.653051 .52005-6.626152C.52005-6.58132 .537983-6.554421 .600747-6.491656C1.120797-6.025405 2.107098-4.805978 2.107098-2.25056C2.107098-.968369 1.873973 .81594 .573848 2.026401C.555915 2.0533 .52005 2.089166 .52005 2.133998C.52005 2.160897 .537983 2.232628 .627646 2.232628C.735243 2.232628 1.542217 1.587049 2.026401 .609714C2.456787-.251059 2.67198-1.174595 2.67198-2.25056Z'/>
+</defs>
+<g id='page1'>
+<path d='M8.0078-35.921876H64.69922' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M64.69922-35.921876H121.3945' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M60.16406-31.38672L69.23438-40.45703' stroke='currentColor' fill='none' stroke-width='.99628' stroke-miterlimit='10'/>
+<path d='M60.16406-40.45703L69.23438-31.38672' stroke='currentColor' fill='none' stroke-width='.99628' stroke-miterlimit='10'/>
+<path d='M9.6016-35.921876C9.6016-36.800782 8.8867-37.51563 8.0078-37.51563C7.125-37.51563 6.4141-36.800782 6.4141-35.921876C6.4141-35.04297 7.125-34.32813 8.0078-34.32813C8.8867-34.32813 9.6016-35.04297 9.6016-35.921876Z'/>
+<path d='M122.9883-35.921876C122.9883-36.800782 122.2734-37.51563 121.3945-37.51563S119.8008-36.800782 119.8008-35.921876C119.8008-35.04297 120.5156-34.32813 121.3945-34.32813S122.9883-35.04297 122.9883-35.921876Z'/>
+<g transform='matrix(1 0 0 1 -61.38092 11.5647)'>
+<use x='64.700656' y='-35.922237' xlink:href='#g1-120'/>
+<use x='69.924113' y='-34.925989' xlink:href='#g2-49'/>
+</g>
+<g transform='matrix(1 0 0 1 52.0063 11.5647)'>
+<use x='64.700656' y='-35.922237' xlink:href='#g1-120'/>
+<use x='69.924113' y='-34.925989' xlink:href='#g2-50'/>
+</g>
+<g transform='matrix(1 0 0 1 -2.6118 -11.6893)'>
+<use x='64.700656' y='-35.922237' xlink:href='#g1-120'/>
+</g>
+<g transform='matrix(1 0 0 1 -28.8613 -27.8788)'>
+<use x='64.700656' y='-35.922237' xlink:href='#g1-105'/>
+<use x='67.854026' y='-35.922237' xlink:href='#g3-40'/>
+<use x='71.437785' y='-35.922237' xlink:href='#g1-65'/>
+<use x='78.347936' y='-35.922237' xlink:href='#g1-64'/>
+<use x='83.734991' y='-39.731242' xlink:href='#g2-50'/>
+<use x='89.933898' y='-35.922237' xlink:href='#g0-0'/>
+<use x='99.149279' y='-35.922237' xlink:href='#g1-66'/>
+<use x='106.568962' y='-35.922237' xlink:href='#g1-109'/>
+<use x='114.68778' y='-39.731242' xlink:href='#g2-50'/>
+<use x='118.838824' y='-35.922237' xlink:href='#g3-41'/>
+</g>
+<g transform='matrix(1 0 0 1 -5.891 30.36948)'>
+<use x='64.700656' y='-35.922237' xlink:href='#g4-85'/>
+<use x='68.287206' y='-35.922237' xlink:href='#g4-28'/>
+<use x='72.895923' y='-35.922237' xlink:href='#g4-86'/>
+</g>
+<path d='M206.4337-35.921876H263.1287' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M319.8207-35.921876H376.5157' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M263.1287-35.921876C274.1837-55.0703 308.7697-55.0703 319.8207-35.921876' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M263.1287-35.921876C274.1837-16.7734 308.7697-16.7734 319.8207-35.921876' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M264.9217-35.921876C264.9217-36.914063 264.1167-37.71484 263.1287-37.71484C262.1367-37.71484 261.3357-36.914063 261.3357-35.921876C261.3357-34.933595 262.1367-34.12891 263.1287-34.12891C264.1167-34.12891 264.9217-34.933595 264.9217-35.921876Z'/>
+<path d='M321.6177-35.921876C321.6177-36.914063 320.8127-37.71484 319.8207-37.71484C318.8317-37.71484 318.0277-36.914063 318.0277-35.921876C318.0277-34.933595 318.8317-34.12891 319.8207-34.12891C320.8127-34.12891 321.6177-34.933595 321.6177-35.921876Z'/>
+<path d='M208.0277-35.921876C208.0277-36.800782 207.3167-37.51563 206.4337-37.51563C205.5547-37.51563 204.8397-36.800782 204.8397-35.921876C204.8397-35.04297 205.5547-34.32813 206.4337-34.32813C207.3167-34.32813 208.0277-35.04297 208.0277-35.921876Z'/>
+<path d='M378.1097-35.921876C378.1097-36.800782 377.3947-37.51563 376.5157-37.51563S374.9217-36.800782 374.9217-35.921876C374.9217-35.04297 375.6367-34.32813 376.5157-34.32813S378.1097-35.04297 378.1097-35.921876Z'/>
+<g transform='matrix(1 0 0 1 137.0473 11.5647)'>
+<use x='64.700656' y='-35.922237' xlink:href='#g1-120'/>
+<use x='69.924113' y='-34.925989' xlink:href='#g2-49'/>
+</g>
+<g transform='matrix(1 0 0 1 307.1273 11.5647)'>
+<use x='64.700656' y='-35.922237' xlink:href='#g1-120'/>
+<use x='69.924113' y='-34.925989' xlink:href='#g2-50'/>
+</g>
+<g transform='matrix(1 0 0 1 195.8163 13.5573)'>
+<use x='64.700656' y='-35.922237' xlink:href='#g1-120'/>
+</g>
+<g transform='matrix(1 0 0 1 252.6913 13.5573)'>
+<use x='64.700656' y='-35.922237' xlink:href='#g1-121'/>
+</g>
+<g transform='matrix(1 0 0 1 222.3413 -25.3881)'>
+<use x='64.700656' y='-35.922237' xlink:href='#g1-103'/>
+<use x='69.416596' y='-39.731242' xlink:href='#g2-50'/>
+</g>
+<g transform='matrix(1 0 0 1 220.6283 30.36948)'>
+<use x='64.700656' y='-35.922237' xlink:href='#g4-85'/>
+<use x='68.287206' y='-35.922237' xlink:href='#g4-35'/>
+<use x='73.407007' y='-35.922237' xlink:href='#g4-86'/>
+</g>
+</g>
+</svg></figure>
+
+<p>In momentum space, we have
+\[\tilde{D}(k^2) = \tilde{D}(k^2) + \tilde{D}_F(k^2)i\Pi(k^2)\tilde{D}_F(k^2) + \mathcal{O}(g^4) ,\tag{1.18}\]
+where
+\[i\Pi(k^2) =-i(Ak^2+Bm^2) - \frac{g^2}{2}\int \frac{d^dl}{(2\pi)^d} \frac{i}{l^2+m^2-i\epsilon}\frac{i}{(k+l)^2+m^2-i\epsilon} + \mathcal{O}(g^4).\tag{1.19}\]
+Consider the con exact propagator, where $\Pi(k^2)$ is now to all order of $g$,
+\[\tilde{D}(k^2) = \tilde{D}(k^2)\sum_{n=0}^\infty[i\Pi(k^2)\tilde{D}_F(k^2)]^2 = \frac{i}{k^2+m^2-i\epsilon -\Pi(k^2)}.\tag{1.20}\]
+For the particle to have mass $m$, we need the exact propagator with residue one at $k^2=-m^2$. Therefore, we require
+\[\Pi(-m^2) = \Pi'(-m^2) = 0,\tag{1.21}\]
+which helps us fix $A$ and $B$. Now, we need to compute the integral above.</p>
+
+<p>Now, we shall perform the integral in $d$ dimensions. To do that, we use the Feynman's formula.</p>
+
+<p><strong>Claim:</strong>
+\[\prod_{j=1}^n\frac{1}{A_j^{\alpha_j}} = \frac{\Gamma(\sum_i\alpha_i)}{\prod_i\Gamma(\alpha_i)}\frac{1}{(n-1)!}\int dF_n \frac{\prod_ix_i^{\alpha_i-1}}{(\sum_ix_iA_i)^{\sum_i\alpha_i}},\tag{1.22}\]
+where
+\[dF_n = (n-1)!\int_0^1dx_1\cdots\int^1_0 dx_n \delta(1-\sum_ix_i).\tag{1.23}\]
+<strong>Proof:</strong>
+Consider
+\[\frac{\Gamma(\alpha_i)}{A_i^{\alpha_i}} = \int_0^\infty dt_i\, t_i^{\alpha_i-1}e^{-A_it_i}.\tag{1.24}\]
+Then, we take
+\[\prod_{i=1}^n \frac{\Gamma(\alpha_i)}{A_i^{\alpha_i}} = \prod_{i=1}^n\int_0^\infty dt_i\, t_i^{\alpha_i-1}e^{-A_it_i}.\tag{1.25}\]
+We can multiply the right-hand side by
+\[1 = \int^\infty_0ds\,\delta(s-\sum_it_i),\tag{1.26}\]
+which gives
+\[\begin{aligned}
+    \prod_{i=1}^n \frac{\Gamma(\alpha_i)}{A_i^{\alpha_i}} &amp;= \int^\infty_0ds\,\delta(s-\sum_it_i)\prod_{i=1}^n\int_0^\infty dt_i\, t_i^{\alpha_i-1}e^{-A_it_i}.
+\end{aligned}\tag{1.27}\]
+Now, making the substitution $t_i =sx_i$, we find
+\[\begin{aligned}
+    \prod_{i=1}^n \frac{\Gamma(\alpha_i)}{A_i^{\alpha_i}} &amp;= \int^\infty_0ds\,\delta(s-s\sum_ix_i)\prod_{i=1}^n\int_0^\infty dx_i\, s^{\alpha_i}x_i^{\alpha_i-1}e^{-sA_ix_i}\\
+    &amp;=\frac{1}{(n-1)!}\int dF_n\left(\prod_{i=1}^nx_i^{\alpha_i-1}\right)\int ^\infty_0 ds\,s^{\sum_i \alpha_i -1}e^{-\sum_isA_ix_i}\\
+    &amp;=\frac{1}{(n-1)!}\int dF_n\left(\prod_{i=1}^nx_i^{\alpha_i-1}\right)\frac{\Gamma(\sum_i\alpha_i)}{(\sum_iA_ix_i)^{\sum_i\alpha_i}}.
+\end{aligned}\tag{1.28}\]
+\qed</p>
+
+<p>We use 
+\[\frac{1}{A_1A_2} = \int^1_0dx_1\int^1_0dx_2\,\delta(x_1+x_2-1)\frac{1}{(x_1A_1 + x_2A_2)^2} = \int^1_0 dx\frac{1}{[xA_1 +(1-x)A_2]^2}.\tag{1.29}\]
+Therefore, we have
+\[\begin{aligned}
+        \frac{1}{l^2+m^2}\frac{1}{(k+l)^2+m^2} &amp;= \int^1_0dx[(1-x)(l^2+m^2) + x((k+l)^2+m^2)]^{-2}\\
+        &amp;=\int^1_0 dx [l^2+2xkl+m^2+xk^2]^{-2}\\
+        &amp;=\int^1_0 dx [(l+xk)^2+m^2 +x(1-x)k^2]^{-2},
+    \end{aligned}\tag{1.30}\]
+where we have abbreviated $m^2-i\epsilon$ as $m^2$.
+Now, we write $q\equiv l+xk$ and $D \equiv m^2 +x(1-x)k^2$. So that the integral is now
+\[\begin{aligned}
+        - \frac{g^2}{2}\int \frac{d^dl}{(2\pi)^d} \frac{i}{l^2+m^2-i\epsilon}\frac{i}{(k+l)^2+m^2-i\epsilon} &amp;=\frac{g^2}{2}\int^1_0dx\int\frac{d^dq}{(2\pi)^d}\frac{1}{(q^2+D)^2}.
+    \end{aligned}\tag{1.31}\]
+Then, we perform the Wick rotation so that $q^0 = iq^0_E$, $\mathbf{q} = \mathbf{q}_E$, $q^2 = q^2_E$, and $d^dq = id^dq_E$. Therefore, the above integral becomes
+\[I(k^2) = i\int^1_0dx\int\frac{d^dq_E}{(2\pi)^d}\frac{1}{(q_E^2+D)^2},\tag{1.32}\]
+where 
+\[i\Pi(k^2) = \frac{g^2}{2}I(k^2)-i(Ak^2+Bm^2) + \mathcal{O}(g^4).\tag{1.33}\]
+With a slight abbreviation of notation, we now write the integral measure as $d^dq_E = q_E^{d-1}dq_Ed\Omega_{d-1}$, where $q_E$ is now the length of the vector $q_E$.</p>
+
+<p><strong>Claim:</strong>
+\[\Omega_{d-1} = \frac{2\pi^{d/2}}{\Gamma(d/2)}.\tag{1.34}\]</p>
+
+<p><strong>Proof:</strong> Consider the integral
+\[\int_{\mathbb{R}^d}d^dx\, e^{-x^2} = \int d\Omega_{d-1}\int_0^\infty dr\,r^{d-1}e^{-r^2}.\tag{1.35}\]
+The left-hand side gives
+\[\left(\int_\mathbb{R}dx\, e^{-x^2}\right)^d =  \pi^{d/2},\tag{1.36}\]
+and the right-hand side gives
+\[\Omega_{d-1}\,\frac{1}{2}\int_0^\infty dr \, r^{d/2-1}e^{-r} = \Omega_{d-1}\frac{\Gamma(d/2)}{2}.\tag{1.37}\]
+\qed</p>
+
+<p>We shall also prove the general identity, that would turn out to be useful in many cases when dealing with loop corrections.</p>
+
+<p><strong>Claim:</strong>
+\[\int\frac{d^dq_E}{(2\pi)^d}\frac{(q_E^2)^n}{(q_E^2+D)^{m}} = \frac{\Gamma(m-n-d/2)\Gamma(n+d/2)}{(4\pi)^{d/2}\Gamma(m)\Gamma(d/2)}D^{-(m-n-d/2)}.\tag{1.38}\]</p>
+
+<p><strong>Proof:</strong>
+\[\begin{aligned}
+        \int\frac{d^dq_E}{(2\pi)^d}\frac{(q_E^2)^n}{(q_E^2+D)^{m}} = \frac{2\pi^{d/2}}{\Gamma(d/2)}\frac{1}{(2\pi)^d}\int_0^\infty dq_E\frac{q_E^{2n+d-1}}{(q_E^2+D)^m}.
+    \end{aligned}\tag{1.39}\]
+Making the substitution $s^2 = q^2/D +1$, we find
+\[\begin{aligned}
+        \int\frac{d^dq_E}{(2\pi)^d}\frac{(q_E^2)^n}{(q_E^2+D)^{m}} = \frac{2D^{n+d-m-1}}{(4\pi)^{d/2}\Gamma(d/2)}\int^\infty_1ds \frac{(s^2-1)^{n+d/2-1}}{s^{2m-1}}.
+    \end{aligned}\tag{1.40}\]
+Then, we substitute $t = 1/s^2$, we find
+\[\begin{aligned}
+    \int\frac{d^dq_E}{(2\pi)^d}\frac{(q_E^2)^n}{(q_E^2+D)^{m}} &amp;= \frac{D^{n+d-m}}{(4\pi)^{d/2}\Gamma(d/2)}\int^1_0 dt\, t^{m-n-d/2-1}(t-1)^{n+d/2-1}\\
+    &amp;=\frac{D^{n+d-m}}{(4\pi)^{d/2}\Gamma(d/2)}\beta(m-n-d/2,n+d/2-1)\\
+    &amp;=\frac{D^{n+d-m}}{(4\pi)^{d/2}\Gamma(d/2)}\frac{\Gamma(m-n-d/2)\Gamma(n+d/2)}{\Gamma(m)}.
+\end{aligned}\tag{1.41}\]
+\qed</p>
+
+<p>For our case, we have $n=0$ and $m=2$, and hence
+\[I(k^2) = i \int^1_0dx\frac{\Gamma(2-d/2)}{(4\pi)^{d/2}}D^{-2+d/2}.\tag{1.42}\]</p>
+
+<p>Now let us focus on the $\phi^3$ theory in $d=6$, where $[g] =0$ and the theory is renormalizable. For general dimensions, $[g] = 3-d/2\equiv \varepsilon/2$. We shall redefine the coupling constant to make it dimension less, that is
+\[g \to g\tilde{\mu}^{\varepsilon/2}.\tag{1.43}\]
+Now, we find
+\[g^2\tilde{\mu}I(k^2) = i g^2\tilde{\mu}\int^1_0dx\frac{\Gamma(\varepsilon/2-1)}{(4\pi)^{3-\varepsilon/2}}D^{-\varepsilon/2+1} = ig^2\frac{\Gamma(-1+\varepsilon/2)}{(4\pi)^3}\int^1_0 dx\, D \left(\frac{4\pi\tilde{\mu}^2}{D}\right)^{\varepsilon/2}.\tag{1.44}\]
+Using dimensional regularization, we take $\varepsilon\to 0$ so that
+\[\Gamma(-1+\varepsilon/2) \sim -\frac{2}{\varepsilon}+\gamma-1+ \cdots,\tag{1.45}\]
+and
+\[\left(\frac{4\pi\tilde{\mu}^2}{D}\right)^{\varepsilon/2} \sim 1 + \frac{\varepsilon}{2}\ln\left(\frac{4\pi\tilde{\mu}^2}{D}\right) + \cdots.\tag{1.46}\]
+Then,
+\[\Gamma(-1+\varepsilon/2)\left(\frac{4\pi\tilde{\mu}^2}{D}\right)^{\varepsilon/2} \sim -\frac{2}{\varepsilon} + \gamma -1 - \ln\left(\frac{4\pi\tilde{\mu}^2}{D}\right) + \mathcal{O}(\varepsilon).\tag{1.47}\]
+Defining
+\[\mu = \sqrt{4\pi}e^{-\gamma/2}\tilde{\mu},\quad \alpha = \frac{g^2}{(4\pi)^3}\tag{1.48}\]
+we find
+\[g^2\tilde{\mu}I(k^2) \sim i\alpha \int^1_0 dx\,D\left[-\frac{2}{\varepsilon} -1 + \ln\left(\frac{m^2}{\mu^2}\right)- \ln\left(\frac{m^2}{D}\right) + \mathcal{O}(\varepsilon)\right].\tag{1.49}\]
+Now, we evaluate
+\[\int ^1_0 dx D = \int ^1_0 dx (m^2+x(1-x)k^2) = m^2 + k^2/6.\tag{1.50}\]
+Therefore, we find
+\[\begin{aligned}
+    \Pi(k^2) &amp;\sim \frac{\alpha}{2}\left[-(2/\varepsilon+1+2\ln(\mu/m))(m^2+k^2/6)+\int^1_0 dx \,D\ln(D/m^2)\right] - (Ak^2 + Bm^2) + \mathcal{O}(\alpha^2)\\
+    &amp;= \frac{\alpha}{2}\int^1_0 dx \,D\ln(D/m^2) - \left[\frac{1}{6}\alpha(\varepsilon+\ln(\mu/m)+1/2) + A\right]k^2 \\
+    &amp;\qquad \qquad\qquad\qquad\qquad\qquad\qquad- \left[\alpha(\varepsilon+\ln(\mu/m)+1/2) + A\right]m^2 + \mathcal{O}(\alpha^2).
+\end{aligned}\tag{1.51}\]
+To further simplify the expression, we shall let $A$ and $B$ to take the form 
+\[A = -\frac{1}{6}\alpha(\varepsilon+\ln(\mu/m)+1/2) +\alpha \kappa_A - \mathcal{O}(\alpha^2),\tag{1.52}\]
+\[B = -\alpha(\varepsilon+\ln(\mu/m)+1/2) - \alpha\kappa_B + \mathcal{O}(\alpha^2).\tag{1.53}\]
+Then, we find
+\[\Pi(k^2) \sim \frac{\alpha}{2}\int^1_0 dx \,D\ln(D/m^2) - \alpha\left(\frac{1}{6}\kappa_A k^2 + \kappa_B m^2\right) + \mathcal{O}(\alpha^2).\tag{1.54}\]
+Now, we impose the renormalization condition $\Pi(-m^2) = \Pi'(-m^2) = 0$ to fix $\kappa_A$ and $\kappa_B$. To do that, we note that $\Pi(-k^2)$ must take the form
+\[\Pi(-k^2) \sim \frac{\alpha}{2}\int^1_0dx\, D\ln(D/D_0) + c(k^2+m^2) + \mathcal{O}(\alpha^2),\tag{1.55}\]
+where $c\in \mathbb{R}$ and
+\[D_0 = D\big|_{k^2=-m^2} = [1-x(1-x)]m^2.\tag{1.56}\]
+Then, we differentiate with respect to $k^2$ to find
+\[\Pi'(-k^2) \sim \frac{\alpha}{2}\int^1_0dx\,\left[x(1-x)\ln(D/D_0) + D_0x(1-x)\right] +c +\mathcal{O}(\alpha^2).\tag{1.57}\]
+Therefore,
+\[\Pi'(-m^2) = 0\implies c = -\frac{\alpha}{12}.\tag{1.58}\]
+Finally we obtain the 1-loop correction for the two-point correlation function, which is
+\[\Pi(-k^2) \sim \frac{\alpha}{2}\int^1_0dx\, D\ln(D/D_0) -\frac{\alpha}{12}(k^2+m^2) + \mathcal{O}(\alpha^2).\tag{1.59}\]
+We might as well right down the asymptotic value for $\kappa_A$ and $\kappa_B$. That is
+\[\kappa_A = \frac{1}{4},\quad \kappa_B = \frac{1}{24}.\tag{1.60}\]</p>
+
+<p>Note that the integral in our final expression is real if $D&gt;0$. That is $x(1-x)k^2&gt;-m^2$, and since $x(1-x) \in[0,1/4)$ we must have $k^2 &gt;-4m^2$ for real $\Pi(k^2)$. Then, one might be tempting to ask: what happens if $k^2 &lt; -4m^2$, and $\text{Im}\,\Pi(k^2)\neq 0$? To understand what is happening, let us write the one-loop correction in Lehmann-Källén form,
+\[\tilde{D}(k^2) = \frac{i}{k^2+m^2-i\epsilon} + \int _{4m^2}^\infty ds \,\rho(s)\frac{i}{k^2+s-i\epsilon} = \frac{i}{k^2 +m^2-i\epsilon - \Pi(k^2)}.\tag{1.61}\]
+Using the identity
+\[\frac{1}{x-i\epsilon} = P\frac{1}{x} + i\pi\delta(x),\tag{1.62}\]
+we find
+\[\text{Im}(-i\tilde{D}(k^2)) = \pi\delta(k^2+m^2) + \pi\rho(-k^2) = \pi\delta(k^2+m^2-\Pi(k^2)),\tag{1.63}\]
+where $k^2 &gt;-4m^2$. Therefore, for $k^2 &gt;-4m^2$, $\rho(-k^2) = \rho(s)= 0$. However, for $k^2 &lt;-4m^2$, $\text{Im}\, \Pi(k^2) \neq 0$. Hence, one would find
+\[\pi\rho(s)  = \frac{\text{Im}\, \Pi(-s)}{(-s+m^2+\text{Re}\, \Pi(-s))^2 + (\text{Im}\, \Pi(-s))^2}.\tag{1.64}\]</p>
+
+<p>Now, let us compute the vertex correction for the $\phi^3$ theory. In the previous computation we took a slightly more complicated root by evaluating the path integral straight away. Now, let us go back and write down the momentum space vertex Feynman rules of the theory:
+\[iZ_gg.\tag{1.65}\]</p>
+
+<p>We can define an exact three-point vertex $iV_3(k_1,k_2,k_3)$, where $k_1+k_2+k_3 =0$. To one-loop correction, the exact three-point is given by
+\[iV_3(k_1, k_2,k_3)/g = iZ_g  + i(ig)^2\int\frac{d^dl}{(2\pi)^d}\tilde{D}_F(l^2)\tilde{D}_F((l-k_1)^2) \tilde{D}_F((l+k_2)^2) + \mathcal{O}(g^5),\tag{1.66}\]
+where we have used the fact that $Z_g = 1 + \mathcal{O}(g^2)$. We shall impose the natural renormalization condition,
+\[iV_3(0,0,0) = 0,\tag{1.67}\]
+to fix the value of $Z_g$. Just like before, we use the Feynman integration formula to get
+\[\begin{aligned}
+    &amp;\tilde{D}_F(l^2)\tilde{D}_F((l-k_1)^2) \tilde{D}_F((l+k_2)^2)\\ =&amp; i^3\int dF_3\frac{1}{[x_1(l^2+m^2) + x_2((l-k_1)^2+m^2) + x_3((l+k_2)^2+m^2)]^3}\\
+    =&amp;-i\int dF_3\frac{1}{[l^2+m^2-2x_2k_1l + 2x_3k_2l+x_2k_1^2 + x_3k_2^2]^3}\\
+    =&amp;-i\int dF_3\frac{1}{[(l - x_2k_1 + x_3k_2)^2 + m^2 + x_2k_1^2 + x_3k_2^2]^3}\\
+    =&amp;-i\int dF_3 \frac{1}{(q^2+D)^3},
+\end{aligned}\tag{1.68}\]
+where $q\equiv l -x_2k_1 + x_3k_2$ and $D \equiv m^2 + x_2k_1^2 + x_3k_2^2$. Then, we have
+\[\begin{aligned}
+    \int\frac{d^dl}{(2\pi)^d}\tilde{D}_F(l^2)\tilde{D}_F((l-k_1)^2) \tilde{D}_F((l+k_2)^2) &amp; = -i\int dF_3 \int\frac{d^dq}{(2\pi)^d}\frac{1}{(q^2+D)^3}.
+\end{aligned}\tag{1.69}\]
+Perform a Wick rotation, we find
+\[\begin{aligned}
+    -i\int\frac{d^dq}{(2\pi)^d}\frac{1}{(q^2+D)^3} &amp;= \int\frac{d^dq_E}{(2\pi)^d}\frac{1}{(q_E^2+D)^3}\\
+    &amp;=\frac{\Gamma(3-d/2)}{2(4\pi)^{d/2}}D^{-3+d/2}.
+\end{aligned}\tag{1.70}\]
+Now, substitute $\varepsilon = 6-d$ and redefine the coupling constant just as before. We look for the asymptotic series of $\varepsilon\to0$. That is
+\[\begin{aligned}
+    -i(i^3g^2)\tilde{\mu}^{\varepsilon}\int\frac{d^dq}{(2\pi)^d}\frac{1}{(q^2+D)^3} &amp;=\frac{ig^2}{2(4\pi)^3}\Gamma(\varepsilon/2)\left(\frac{4\pi \tilde{\mu}^2}{D}\right)^{\varepsilon/2}\\
+    &amp;\sim\frac{ig^2}{2(4\pi)^3}(2/\varepsilon-\gamma+\cdots)\left(1+\frac{\varepsilon}{2}\ln\left(\frac{4\pi \tilde{\mu}^2}{D}\right)+ \cdots\right)\\
+    &amp;=\frac{ig^2}{2(4\pi)^3}\left(\frac{2}{\varepsilon}-\gamma +\ln\left(\frac{4\pi \tilde{\mu}^2}{D}\right) + \cdots\right)\\
+    &amp;=\frac{i\alpha}2\left(\frac{2}{\varepsilon}+\ln\left(\frac{\mu^2}{D}\right) + \cdots\right),
+\end{aligned}\tag{1.71}\]
+where we have used $\mu^2 = 4\pi e^{-\gamma}\tilde{\mu}^2$ and $\alpha \equiv g^2/(4\pi)^3$. Finally, we find the three-point vertex to be
+\[iV_3(k_1, k_2,k_3)/g \sim iZ_g  + i\frac{\alpha}{2}\left(\frac{2}{\varepsilon} + \int dF_3\ln(\mu^2/D) + \cdots \right) + \mathcal{O}(g^5).\tag{1.72}\]
+By setting $Z_g = 1 +C$, we find
+\[V_3(k_1, k_2,k_3)/g \sim 1 + \alpha\left[\frac{1}{\varepsilon}+\ln(\mu/m)+\frac{1}{2}\int dF_3\ln(m^2/D) + \dots\right] +C + \mathcal{O}(\alpha^2).\tag{1.73}\]
+Again, we let $C$ to take the form
+\[C = -\alpha\left[\frac{1}{\varepsilon}+\ln(\mu/m) + \kappa_C\right] + \mathcal{O}(\alpha^2),\tag{1.74}\]
+which gives
+\[V_3(k_1, k_2,k_3)/g \sim 1 - \frac{\alpha}{2}\int dF_3\ln (D/m^2) -\alpha\kappa_C  + \mathcal{O}(\alpha^2).\tag{1.75}\]
+Now, we impose the renormalization condition, $V_3(0,0,0) = 0$, which gives $D = m^2$, and hence
+\[\kappa_C= 0.\tag{1.76}\]
+Therefore, our final expression for the three-point vertex to first order in $\alpha$ is given by
+\[V_3(k_1, k_2,k_3)/g \sim 1 - \frac{\alpha}{2}\int dF_3\ln (D/m^2)C  + \mathcal{O}(\alpha^2).\tag{1.77}\]</p>
+
+<p>Now, we have determined all three of the renormalization factor to one-loop order.</p>
+  </article>
+
+  <hr class="ornament-rule">
+
+  <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
+    <a href="../notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="../index.html">About</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>
