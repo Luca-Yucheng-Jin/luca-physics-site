@@ -3,8 +3,8 @@
     {
       "slug": "qft",
       "title": "Quantum Field Theory",
-      "blurb": "Path-integral essay, Peskin / Tong / PSI solutions, Schwartz chapter notes.",
-      "tag": "15 entries",
+      "blurb": "Path-integral essay, Peskin / Tong / PSI solutions, Schwartz chapter notes, φ³ computation.",
+      "tag": "16 entries",
       "groups": [
         {
           "title": "Papers",
@@ -123,6 +123,13 @@
               "label": "VI.",
               "desc": "Schwartz, Ch. 14 — from QM to functional integrals over fields.",
               "tag": "Schwartz Ch. 14"
+            },
+            {
+              "href": "notes/phi3-theory.html",
+              "title": "Computation for φ³ Theory",
+              "label": "VII.",
+              "desc": "Counter-terms, partition functional, and one-loop diagrams in φ³ scalar theory; follows Srednicki and Peskin &amp; Schroeder.",
+              "tag": "φ³"
             }
           ]
         }
