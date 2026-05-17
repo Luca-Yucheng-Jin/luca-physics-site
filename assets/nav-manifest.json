@@ -3,8 +3,8 @@
     {
       "slug": "qft",
       "title": "Quantum Field Theory",
-      "blurb": "Path-integral essay, Peskin / Tong / PSI solutions, Schwartz chapter notes, φ³ computation.",
-      "tag": "16 entries",
+      "blurb": "Path-integral essay, Peskin / Tong / PSI / Srednicki solutions, Schwartz chapter notes, φ³ computation.",
+      "tag": "17 entries",
       "groups": [
         {
           "title": "Papers",
@@ -76,6 +76,13 @@
               "label": "Ψ1.",
               "desc": "PSI QFT II PS1 — Euclidean / real-time path-integral propagators of the harmonic oscillator at finite temperature.",
               "tag": "PSI QFT II"
+            },
+            {
+              "href": "notes/srednicki-nonabelian.html",
+              "title": "Nonabelian Symmetries",
+              "label": "S1.",
+              "desc": "Srednicki Ch. 24 — antisymmetry of the generator, structure constants from SO(N), Noether current and charge algebra, generators of Sp(2N). (Q24.1–24.4)",
+              "tag": "Srednicki Ch. 24"
             }
           ]
         },
