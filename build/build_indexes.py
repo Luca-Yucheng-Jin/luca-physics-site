@@ -582,6 +582,54 @@ def category_page(cat: dict) -> str:
     )
 
 
+_HTML_TAG_RE = _re.compile(r"<[^>]+>") if False else None  # placeholder so import order ok
+
+import re as __re_for_stats
+import html as __html_for_stats
+
+_STATS_TAG_RE = __re_for_stats.compile(r"<[^>]+>")
+_STATS_SCRIPT_RE = __re_for_stats.compile(r"<(script|style|svg)\b[^>]*>.*?</\1>",
+                                          __re_for_stats.DOTALL | __re_for_stats.IGNORECASE)
+_STATS_MATH_DISP_RE = __re_for_stats.compile(r"\\\[.*?\\\]", __re_for_stats.DOTALL)
+_STATS_MATH_INL_RE = __re_for_stats.compile(r"\\\(.*?\\\)", __re_for_stats.DOTALL)
+
+
+def _extract_prose(html: str) -> str:
+    """Strip HTML/SVG/scripts and TeX math from a notes page; return the
+    plain prose that a reader would actually see (modulo MathJax rendering).
+    Used by compute_stats() to give a meaningful word/char count."""
+    t = _STATS_SCRIPT_RE.sub(" ", html)
+    t = _STATS_MATH_DISP_RE.sub(" ", t)
+    t = _STATS_MATH_INL_RE.sub(" ", t)
+    t = _STATS_TAG_RE.sub(" ", t)
+    t = __html_for_stats.unescape(t)
+    t = __re_for_stats.sub(r"\s+", " ", t).strip()
+    return t
+
+
+def compute_stats() -> dict:
+    """Walk notes/*.html, return {pages, words, chars}."""
+    notes_dir = os.path.join(ROOT, "notes")
+    pages = 0
+    words = 0
+    chars = 0
+    for name in sorted(os.listdir(notes_dir)):
+        if not name.endswith(".html"):
+            continue
+        path = os.path.join(notes_dir, name)
+        with open(path, encoding="utf-8") as f:
+            prose = _extract_prose(f.read())
+        pages += 1
+        # Count words; len(prose) gives char count (sans collapsed runs of WS).
+        words += len(prose.split())
+        chars += len(prose)
+    return {"pages": pages, "words": words, "chars": chars}
+
+
+def _fmt(n: int) -> str:
+    return f"{n:,}"
+
+
 def top_index_page(categories: list[dict]) -> str:
     cards = []
     for cat in categories:
@@ -594,6 +642,13 @@ def top_index_page(categories: list[dict]) -> str:
       <span class="catalogue__tag">{cat['tag']}</span>
     </li>""")
     cards_html = "\n".join(cards)
+    stats = compute_stats()
+    stats_html = f"""
+    <ul class="stats" aria-label="Notebook statistics">
+      <li><span class="stats__num">{_fmt(stats['pages'])}</span><span class="stats__label">pages</span></li>
+      <li><span class="stats__num">{_fmt(stats['words'])}</span><span class="stats__label">words</span></li>
+      <li><span class="stats__num">{_fmt(stats['chars'])}</span><span class="stats__label">characters</span></li>
+    </ul>"""
     return (
         page_chrome_head(
             "Notes",
@@ -615,6 +670,7 @@ def top_index_page(categories: list[dict]) -> str:
       derivations from textbooks, lecture courses, and other published sources.
       Sources are credited on every page.
     </p>
+{stats_html}
 
     <svg class="hero__vertex" viewBox="0 0 60 60" aria-hidden="true">
       <line x1="6" y1="6" x2="30" y2="30"/>

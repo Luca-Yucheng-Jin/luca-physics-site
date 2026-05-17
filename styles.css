@@ -1656,6 +1656,46 @@ body.nav-on .site-nav-toggle__chevron {
   color: var(--accent);
 }
 
+/* Q.E.D. tombstone (rendered from \qed) */
+.note .qed {
+  float: right;
+  color: var(--muted);
+  font-size: 1.05em;
+  margin-left: 0.5em;
+}
+
+/* Notebook stats panel (top of notes.html) */
+.stats {
+  list-style: none;
+  padding: 0;
+  margin: 1.4rem 0 0;
+  display: flex;
+  gap: 2.6rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-family: var(--display);
+}
+.stats > li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 5rem;
+}
+.stats__num {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--accent);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+.stats__label {
+  font-size: 0.85em;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+  margin-top: 0.15rem;
+}
+
 /* tabular tables */
 .note table.note__table {
   border-collapse: collapse;
