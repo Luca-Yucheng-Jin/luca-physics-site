@@ -1,0 +1,121 @@
+\section{Nonabelian Symmetris, Srednicki}
+\subsection{Antisymmetry of the Generator, Q24.1}
+
+Show that $\theta_{ij}$ in eq.~(24.4) must be antisymmetric if $R$ is orthogonal.
+\begin{solution}
+    Consider an infinitesimal transformation of $SO(N)$,
+    \begin{equation}
+        R_{ij} = \delta_{ij} + \theta_{ij}.
+    \end{equation}
+    By property of $SO(N)$, we have
+    \begin{equation}
+        R_{ij}R_{ik} = \delta_{jk} \implies(\delta_{ij} + \theta_{ij})(\delta_{ik} + \theta_{ik})  = \delta_{jk} + \theta_{jk} + \theta_{kj} = \delta_{jk} \implies \theta_{jk} = -\theta_{kj}.
+    \end{equation}
+    \qed
+\end{solution}
+
+\subsection{Structure Constants from SO$(N)$ Transformations, Q24.2}
+
+By considering the $\mathrm{SO}(N)$ transformation $R'^{-1}R^{-1}R'R$, where $R$ and $R'$ are independent infinitesimal $\mathrm{SO}(N)$ transformations, prove eq.~(24.7).
+\begin{solution}
+    Now, we write the $\theta_{ij} = -i\theta^a(T^a)_{ij}$, where $a = 1, \dots , N(N-1)/2$ and $T^a$ is a set of basis Hermitian matrices with normalization condition
+    \begin{equation}
+        \Tr(T^aT^b) = 2\delta^{ab}. 
+    \end{equation}
+    Then, we consider 
+    \begin{equation}
+    \begin{aligned}
+        R'^{-1}R^{-1}R'R &= (1+i\theta'^aT^a)(1+i\theta^bT^b)(1-i\theta'^cT^c)(1-i\theta^dT^d)\\
+        &=1 - 2\theta'^a\theta^bT^aT^b + 2\theta'^a\theta^bT^bT^a + \mathcal{O}(\theta^2).
+    \end{aligned}
+    \end{equation}
+    By the definition of group, the left-hand side is also an infinitesimal transformation
+    \begin{equation}
+        1 - i\theta''^cT^c = 1 - 2\theta'^a\theta^bT^aT^b + 2\theta'^a\theta^bT^bT^a + \mathcal{O}(\theta^2),
+    \end{equation}
+    which gives
+    \begin{equation}
+        [T^a, T^b] =  i\frac{\theta''^c}{\theta'^a\theta^b}T^c = i f^{abc}T^c.
+    \end{equation}
+\end{solution}
+
+\subsection{Noether Current and Charge Algebra, Q24.3}
+\begin{itemize}
+    \item Find the Noether current $j^{a\mu}$ for the transformation of eq.~(24.6).
+    \item Show that $[\phi_i, Q^a] = (T^a)_{ij}\phi_j$, where $Q^a$ is the Noether charge.
+    \item Use this result, eq.~(24.7), and the Jacobi identity (see problem 2.8) to show that $[Q^a, Q^b] = if^{abc}Q^c$.
+\end{itemize}
+
+\begin{solution}
+    For scalar field theories that is invariant under $SO(N)$ ($\delta \mathcal{L} = 0$). The infinitesimal transformation is given by
+    \begin{equation}
+        \phi_i(x) \to \phi'_i(x) = \phi_i(x) -i\theta^a(T^a)_{ij}\phi_j(x).
+    \end{equation}
+    Therefore, the Noether current is given by
+    \begin{equation}
+        j^\mu = \frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi_i(x))}\delta\phi_i(x) = i\theta^a\partial^\mu \phi_i(x)(T^a)_{ij}\phi_j(x).
+    \end{equation}
+    Getting rid of the parameter, we find
+    \begin{equation}
+        j^{a\mu} = i\partial^\mu \phi_i(x)(T^a)_{ij}\phi_j(x).
+    \end{equation}
+
+    Then, we can defined the conserved charge
+    \begin{equation}
+        Q^a = \int_{\Sigma}d^{d-1}x\, j^{a0} = -i(T^a)_{ij}\int_{\Sigma}d^{d-1}x\,\pi_i(x)\phi_j(x).
+    \end{equation}
+    Using the equal time commutation relation, 
+    \begin{equation}
+        [\phi_i(\mathbf{x},t), \pi_j(\mathbf{y},t)] = i\delta_{ij}\delta^{d-1}(\mathbf{x}-\mathbf{y}),\quad [\phi_i(\mathbf{x},t), \phi_j(\mathbf{y},t)] = 0,
+    \end{equation}
+    we find
+    \begin{equation}
+        [\phi_i(\mathbf{x},t), Q^a] = (T^a)_{ij}\phi_j(\mathbf{x},t),
+    \end{equation}
+    where we have used the fact that $Q_a$ is conserved, and therefore the same for any $t$.
+    Similarly
+    \begin{equation}
+        [\pi_i(\mathbf{x},t), Q^a] = - (T^a)_{ij}\pi_i(\mathbf{x},t).
+    \end{equation}
+    Then, we consider
+    \begin{equation}
+    \begin{aligned}
+        [Q^a,Q^b] &= i(T^a)_{ij}\int_{\Sigma}d^{d-1}x\,[\pi_i(x)\phi_j(x), Q^b]\\
+        &= i(T^a)_{ij}\int_{\Sigma}d^{d-1}x\,\left(\pi_i(x)[\phi_j(x), Q^b] +[\pi_i(x), Q^b]\phi_j(x)\right)\\
+        &=i(T^a)_{ij}\int_{\Sigma}d^{d-1}x\,(\pi_i(x)(T^b)_{jk}\phi_k(x) - \pi_k(T^b)_{ki}\phi_j(x))\\
+        &=i[T^a,T^b]_{ik}\int_{\Sigma}d^{d-1}x\,\pi_i(x)\phi_k(x) = if^{abc}Q^c.
+    \end{aligned}
+    \end{equation}
+\end{solution}
+
+\subsection{Generators of Sp$(2N)$, Q24.4}
+
+The elements of the group $\mathrm{SO}(N)$ can be defined as $N\times N$ matrices $R$ that satisfy
+\begin{equation}
+    R_{ii'}R_{jj'}\delta_{i'j'} = \delta_{ij}.
+\end{equation}
+The elements of the \emph{symplectic group} $\mathrm{Sp}(2N)$ can be defined as $2N\times 2N$ matrices $S$ that satisfy
+\begin{equation}
+    S_{ii'}S_{jj'}\eta_{i'j'} = \eta_{ij},
+\end{equation}
+where the \emph{symplectic metric} $\eta_{ij}$ is antisymmetric, $\eta_{ij}=-\eta_{ji}$, and squares to minus the identity: $\eta^2 = -I$. One way to write $\eta$ is
+\begin{equation}
+    \eta = \begin{pmatrix} 0 & I \\ -I & 0 \end{pmatrix},
+\end{equation}
+where $I$ is the $N\times N$ identity matrix. Find the number of generators of $\mathrm{Sp}(2N)$.
+
+\begin{solution}
+    We shall write down an infinitesimal transformation of $Sp(2N)$,
+    \begin{equation}
+        S_{ij} = \delta_{ij} -i\theta^a(T^a)_{ij},
+    \end{equation}
+    so that
+    \begin{equation}
+        (\delta_{ij} -i\theta^a(T^a)_{ij})(\delta_{lk} -i\theta^a(T^a)_{lk})\eta_{jk} = \eta_{il} + i\theta^a(T^a)_{lk}\eta_{ik} + i\theta^a(T^a)_{ij}\eta_{jl} = \eta_{il}.
+    \end{equation}
+    This implies that
+    \begin{equation}
+        (T^a)_{lj}\eta_{ij} + (T^a)_{ij}\eta_{jl} = 0,
+    \end{equation}
+    which means that $T^a\eta$ must be symmetric. Therefore, there are $N(2N+1)$ independent components for $T^a\eta$, and hence for $T^a$.
+\end{solution}

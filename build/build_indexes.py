@@ -112,8 +112,8 @@ CATEGORIES = [
     {
         "slug": "qft",
         "title": "Quantum Field Theory",
-        "blurb": "Path-integral essay, Peskin / Tong / PSI solutions, Schwartz chapter notes, φ³ computation.",
-        "tag": "16 entries",
+        "blurb": "Path-integral essay, Peskin / Tong / PSI / Srednicki solutions, Schwartz chapter notes, φ³ computation.",
+        "tag": "17 entries",
         "body": """    <h3>Papers</h3>
     <ul class="catalogue">
       <li class="catalogue__item">
@@ -191,6 +191,14 @@ CATEGORIES = [
           <span class="catalogue__desc">PSI QFT II PS1 — Euclidean / real-time path-integral propagators of the harmonic oscillator at finite temperature.</span>
         </span>
         <span class="catalogue__tag">PSI QFT II</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">S1.</span>
+        <span class="catalogue__main">
+          <a href="notes/srednicki-nonabelian.html">Nonabelian Symmetries</a>
+          <span class="catalogue__desc">Srednicki Ch. 24 — antisymmetry of the generator, structure constants from SO(N), Noether current and charge algebra, generators of Sp(2N). (Q24.1–24.4)</span>
+        </span>
+        <span class="catalogue__tag">Srednicki Ch. 24</span>
       </li>
     </ul>
 

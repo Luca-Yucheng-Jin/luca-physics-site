@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nonabelian Symmetries — Srednicki Ch. 24 — Yucheng (Luca) Jin</title>
+<meta name="description" content="Nonabelian Symmetries — Srednicki Ch. 24. Source: M. Srednicki.">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../styles.css">
+
+<script src="../assets/theme.js"></script>
+<script src="../assets/font-size.js"></script>
+
+<!-- MathJax with custom macros mirroring the original .tex preamble -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros', 'mathtools']},
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      Q: '\\mathbb{Q}',
+      A: '\\mathcal{A}',
+      Lagrangian: '\\mathcal{L}',
+      Cdot: '\\boldsymbol{\\cdot}',
+      Tr: '\\operatorname{Tr}',
+      // Feynman slash: \not{x} would render the slash to the LEFT of x
+      // (it's designed for \not=). \cancel from the cancel package
+      // strikes diagonally through the centre, matching the slashed.sty
+      // package's appearance.
+      slashed: ['{\\cancel{#1}}', 1],
+      // Wick contraction: top brace connector over the contracted pair —
+      // closer to the standard physics notation than a plain overline.
+      wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // siunitx polyfill — \si{K}, \si{m\,s^{-1}} etc. should render
+      // the unit in upright math text, like \mathrm{X}. Doesn't try
+      // to mimic the full siunitx unit-formatting machinery; just
+      // unblocks the common bare-unit case in TDSP problems.
+      si: ['\\,\\mathrm{#1}', 1],
+      SI: ['#1\\,\\mathrm{#2}', 2]
+      // \tensor{base}{indices} is rewritten to base^a{}_b in
+      // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
+      // so no runtime macro is needed here. The empty-group trick is
+      // what makes MathJax kern the indices into separate columns.
+    }
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="topbar__brand">Yucheng (Luca) Jin <small>BSc · Imperial</small></a>
+  <nav class="topbar__nav">
+    <a href="../index.html">About</a>
+    <a href="../notes.html" class="is-active">Notes</a>
+    <a href="../research.html">Research</a>
+    <a href="../reading.html">Reading</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+    <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" title="Decrease font size">A<span class="font-toggle__small">−</span></button>
+    <button class="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size" title="Increase font size">A<span class="font-toggle__large">+</span></button>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Toggle theme">
+      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    </button>
+  </nav>
+</header>
+
+<main class="note">
+
+  <div class="note__breadcrumb">
+    <a href="../notes.html">Notes</a> &nbsp;·&nbsp; Quantum Field Theory · Srednicki Ch. 24
+  </div>
+
+  <h1 class="note__title">Nonabelian Symmetries — Srednicki Ch. 24</h1>
+  <p class="note__subtitle">Source: M. Srednicki, <em>Quantum Field Theory</em>, Chapter 24 (Nonabelian Symmetries), Problems 24.1–24.4.</p>
+
+  <nav class="note__toc" aria-label="Contents">
+  <div class="note__toc-label">On this page</div>
+  <ol class="note__toc-list">
+    <li class="toc-h2"><a href="#antisymmetry-of-the-generator-q241">Antisymmetry of the Generator, Q24.1</a></li>
+    <li class="toc-h2"><a href="#structure-constants-from-son-transformations-q242">Structure Constants from SO$(N)$ Transformations, Q24.2</a></li>
+    <li class="toc-h2"><a href="#noether-current-and-charge-algebra-q243">Noether Current and Charge Algebra, Q24.3</a></li>
+    <li class="toc-h2"><a href="#generators-of-sp2n-q244">Generators of Sp$(2N)$, Q24.4</a></li>
+  </ol>
+</nav>
+
+  <article class="note__body">
+<h2 id="antisymmetry-of-the-generator-q241">Antisymmetry of the Generator, Q24.1</h2>
+
+<p>Show that $\theta_{ij}$ in eq.&nbsp;(24.4) must be antisymmetric if $R$ is orthogonal.</p>
+
+<aside class="solution">
+
+<p>Consider an infinitesimal transformation of $SO(N)$,
+    \[R_{ij} = \delta_{ij} + \theta_{ij}.\tag{1.1}\]
+    By property of $SO(N)$, we have
+    \[R_{ij}R_{ik} = \delta_{jk} \implies(\delta_{ij} + \theta_{ij})(\delta_{ik} + \theta_{ik})  = \delta_{jk} + \theta_{jk} + \theta_{kj} = \delta_{jk} \implies \theta_{jk} = -\theta_{kj}.\tag{1.2}\]
+    \qed</p>
+
+</aside>
+
+<h2 id="structure-constants-from-son-transformations-q242">Structure Constants from SO$(N)$ Transformations, Q24.2</h2>
+
+<p>By considering the $\mathrm{SO}(N)$ transformation $R'^{-1}R^{-1}R'R$, where $R$ and $R'$ are independent infinitesimal $\mathrm{SO}(N)$ transformations, prove eq.&nbsp;(24.7).</p>
+
+<aside class="solution">
+
+<p>Now, we write the $\theta_{ij} = -i\theta^a(T^a)_{ij}$, where $a = 1, \dots , N(N-1)/2$ and $T^a$ is a set of basis Hermitian matrices with normalization condition
+    \[\Tr(T^aT^b) = 2\delta^{ab}.\tag{2.1}\]
+    Then, we consider 
+    \[\begin{aligned}
+        R'^{-1}R^{-1}R'R &amp;= (1+i\theta'^aT^a)(1+i\theta^bT^b)(1-i\theta'^cT^c)(1-i\theta^dT^d)\\
+        &amp;=1 - 2\theta'^a\theta^bT^aT^b + 2\theta'^a\theta^bT^bT^a + \mathcal{O}(\theta^2).
+    \end{aligned}\tag{2.2}\]
+    By the definition of group, the left-hand side is also an infinitesimal transformation
+    \[1 - i\theta''^cT^c = 1 - 2\theta'^a\theta^bT^aT^b + 2\theta'^a\theta^bT^bT^a + \mathcal{O}(\theta^2),\tag{2.3}\]
+    which gives
+    \[[T^a, T^b] =  i\frac{\theta''^c}{\theta'^a\theta^b}T^c = i f^{abc}T^c.\tag{2.4}\]</p>
+
+</aside>
+
+<h2 id="noether-current-and-charge-algebra-q243">Noether Current and Charge Algebra, Q24.3</h2>
+
+<ul>
+  <li>Find the Noether current $j^{a\mu}$ for the transformation of eq.&nbsp;(24.6).</li>
+  <li>Show that $[\phi_i, Q^a] = (T^a)_{ij}\phi_j$, where $Q^a$ is the Noether charge.</li>
+  <li>Use this result, eq.&nbsp;(24.7), and the Jacobi identity (see problem 2.8) to show that $[Q^a, Q^b] = if^{abc}Q^c$.</li>
+</ul>
+
+<aside class="solution">
+
+<p>For scalar field theories that is invariant under $SO(N)$ ($\delta \mathcal{L} = 0$). The infinitesimal transformation is given by
+    \[\phi_i(x) \to \phi'_i(x) = \phi_i(x) -i\theta^a(T^a)_{ij}\phi_j(x).\tag{3.1}\]
+    Therefore, the Noether current is given by
+    \[j^\mu = \frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi_i(x))}\delta\phi_i(x) = i\theta^a\partial^\mu \phi_i(x)(T^a)_{ij}\phi_j(x).\tag{3.2}\]
+    Getting rid of the parameter, we find
+    \[j^{a\mu} = i\partial^\mu \phi_i(x)(T^a)_{ij}\phi_j(x).\tag{3.3}\]</p>
+
+<p>Then, we can defined the conserved charge
+    \[Q^a = \int_{\Sigma}d^{d-1}x\, j^{a0} = -i(T^a)_{ij}\int_{\Sigma}d^{d-1}x\,\pi_i(x)\phi_j(x).\tag{3.4}\]
+    Using the equal time commutation relation, 
+    \[[\phi_i(\mathbf{x},t), \pi_j(\mathbf{y},t)] = i\delta_{ij}\delta^{d-1}(\mathbf{x}-\mathbf{y}),\quad [\phi_i(\mathbf{x},t), \phi_j(\mathbf{y},t)] = 0,\tag{3.5}\]
+    we find
+    \[[\phi_i(\mathbf{x},t), Q^a] = (T^a)_{ij}\phi_j(\mathbf{x},t),\tag{3.6}\]
+    where we have used the fact that $Q_a$ is conserved, and therefore the same for any $t$.
+    Similarly
+    \[[\pi_i(\mathbf{x},t), Q^a] = - (T^a)_{ij}\pi_i(\mathbf{x},t).\tag{3.7}\]
+    Then, we consider
+    \[\begin{aligned}
+        [Q^a,Q^b] &amp;= i(T^a)_{ij}\int_{\Sigma}d^{d-1}x\,[\pi_i(x)\phi_j(x), Q^b]\\
+        &amp;= i(T^a)_{ij}\int_{\Sigma}d^{d-1}x\,\left(\pi_i(x)[\phi_j(x), Q^b] +[\pi_i(x), Q^b]\phi_j(x)\right)\\
+        &amp;=i(T^a)_{ij}\int_{\Sigma}d^{d-1}x\,(\pi_i(x)(T^b)_{jk}\phi_k(x) - \pi_k(T^b)_{ki}\phi_j(x))\\
+        &amp;=i[T^a,T^b]_{ik}\int_{\Sigma}d^{d-1}x\,\pi_i(x)\phi_k(x) = if^{abc}Q^c.
+    \end{aligned}\tag{3.8}\]</p>
+
+</aside>
+
+<h2 id="generators-of-sp2n-q244">Generators of Sp$(2N)$, Q24.4</h2>
+
+<p>The elements of the group $\mathrm{SO}(N)$ can be defined as $N\times N$ matrices $R$ that satisfy
+\[R_{ii'}R_{jj'}\delta_{i'j'} = \delta_{ij}.\tag{4.1}\]
+The elements of the <em>symplectic group</em> $\mathrm{Sp}(2N)$ can be defined as $2N\times 2N$ matrices $S$ that satisfy
+\[S_{ii'}S_{jj'}\eta_{i'j'} = \eta_{ij},\tag{4.2}\]
+where the <em>symplectic metric</em> $\eta_{ij}$ is antisymmetric, $\eta_{ij}=-\eta_{ji}$, and squares to minus the identity: $\eta^2 = -I$. One way to write $\eta$ is
+\[\eta = \begin{pmatrix} 0 &amp; I \\ -I &amp; 0 \end{pmatrix},\tag{4.3}\]
+where $I$ is the $N\times N$ identity matrix. Find the number of generators of $\mathrm{Sp}(2N)$.</p>
+
+<aside class="solution">
+
+<p>We shall write down an infinitesimal transformation of $Sp(2N)$,
+    \[S_{ij} = \delta_{ij} -i\theta^a(T^a)_{ij},\tag{4.4}\]
+    so that
+    \[(\delta_{ij} -i\theta^a(T^a)_{ij})(\delta_{lk} -i\theta^a(T^a)_{lk})\eta_{jk} = \eta_{il} + i\theta^a(T^a)_{lk}\eta_{ik} + i\theta^a(T^a)_{ij}\eta_{jl} = \eta_{il}.\tag{4.5}\]
+    This implies that
+    \[(T^a)_{lj}\eta_{ij} + (T^a)_{ij}\eta_{jl} = 0,\tag{4.6}\]
+    which means that $T^a\eta$ must be symmetric. Therefore, there are $N(2N+1)$ independent components for $T^a\eta$, and hence for $T^a$.</p>
+
+</aside>
+  </article>
+
+  <hr class="ornament-rule">
+
+  <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
+    <a href="../notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="../index.html">About</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>
