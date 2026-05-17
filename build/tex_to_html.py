@@ -1159,6 +1159,10 @@ def transform_text(text, stash=None):
     text = re.sub(r"\\medskip\b\s*", "", text)
     text = re.sub(r"\\bigskip\b\s*", "", text)
     text = re.sub(r"\\smallskip\b\s*", "", text)
+    # \qed marks the end of a proof. MathJax doesn't define it outside an
+    # amsthm proof environment, so it leaks as literal "\qed" text. Render
+    # the Q.E.D. tombstone explicitly.
+    text = re.sub(r"\\qed\b\s*", '<span class="qed">∎</span>', text)
     # \hfill is layout-only — strip in prose. (In math it'd never reach
     # this stage since math regions are already stashed.)
     text = re.sub(r"\\hfill\b\s*", "", text)

@@ -14,6 +14,8 @@ cd "$ROOT"
 build_once() {
     echo "▶ Converting tex/*.tex → notes/*.html ..."
     python3 build/tex_to_html.py
+    echo "▶ Rebuilding indexes + notebook stats ..."
+    python3 build/build_indexes.py
     echo "✔ Build complete."
 }
 
