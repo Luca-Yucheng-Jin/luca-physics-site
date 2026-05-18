@@ -200,6 +200,14 @@ CATEGORIES = [
         </span>
         <span class="catalogue__tag">Srednicki Ch. 24</span>
       </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">S2.</span>
+        <span class="catalogue__main">
+          <a href="notes/srednicki-rg-phi-chi.html">Renormalization Group for φ-χ Theory</a>
+          <span class="catalogue__desc">Srednicki Ch. 28 — one-loop Z-factors in MS-bar, β-functions for the φ³ + φχ² couplings, and asymptotic freedom condition on h/g. (Q28.3)</span>
+        </span>
+        <span class="catalogue__tag">Srednicki Ch. 28</span>
+      </li>
     </ul>
 
     <h3>Notes</h3>

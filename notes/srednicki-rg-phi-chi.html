@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Renormalization Group for φ-χ Theory — Srednicki Q28.3 — Yucheng (Luca) Jin</title>
+<meta name="description" content="Renormalization Group for φ-χ Theory — Srednicki Q28.3. Source: M. Srednicki.">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../styles.css">
+
+<script src="../assets/theme.js"></script>
+<script src="../assets/font-size.js"></script>
+
+<!-- MathJax with custom macros mirroring the original .tex preamble -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros', 'mathtools']},
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      Q: '\\mathbb{Q}',
+      A: '\\mathcal{A}',
+      Lagrangian: '\\mathcal{L}',
+      Cdot: '\\boldsymbol{\\cdot}',
+      Tr: '\\operatorname{Tr}',
+      // Feynman slash: \not{x} would render the slash to the LEFT of x
+      // (it's designed for \not=). \cancel from the cancel package
+      // strikes diagonally through the centre, matching the slashed.sty
+      // package's appearance.
+      slashed: ['{\\cancel{#1}}', 1],
+      // Wick contraction: top brace connector over the contracted pair —
+      // closer to the standard physics notation than a plain overline.
+      wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // siunitx polyfill — \si{K}, \si{m\,s^{-1}} etc. should render
+      // the unit in upright math text, like \mathrm{X}. Doesn't try
+      // to mimic the full siunitx unit-formatting machinery; just
+      // unblocks the common bare-unit case in TDSP problems.
+      si: ['\\,\\mathrm{#1}', 1],
+      SI: ['#1\\,\\mathrm{#2}', 2]
+      // \tensor{base}{indices} is rewritten to base^a{}_b in
+      // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
+      // so no runtime macro is needed here. The empty-group trick is
+      // what makes MathJax kern the indices into separate columns.
+    }
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="topbar__brand">Yucheng (Luca) Jin <small>BSc · Imperial</small></a>
+  <nav class="topbar__nav">
+    <a href="../index.html">About</a>
+    <a href="../notes.html" class="is-active">Notes</a>
+    <a href="../research.html">Research</a>
+    <a href="../reading.html">Reading</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+    <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" title="Decrease font size">A<span class="font-toggle__small">−</span></button>
+    <button class="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size" title="Increase font size">A<span class="font-toggle__large">+</span></button>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Toggle theme">
+      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    </button>
+  </nav>
+</header>
+
+<main class="note">
+
+  <div class="note__breadcrumb">
+    <a href="../notes.html">Notes</a> &nbsp;·&nbsp; Quantum Field Theory · Srednicki Ch. 28
+  </div>
+
+  <h1 class="note__title">Renormalization Group for φ-χ Theory — Srednicki Q28.3</h1>
+  <p class="note__subtitle">Source: M. Srednicki, <em>Quantum Field Theory</em>, Chapter 28 (Renormalization Group), Problem 28.3.</p>
+
+  
+
+  <article class="note__body">
+<h2 id="renormalization-group-for-phi-chi-theory-srednicki-q283">Renormalization Group for $\phi$-$\chi$ Theory, Srednicki Q28.3</h2>
+
+<p>Consider the Lagrangian density
+\[\begin{aligned}
+        \mathcal{L} &amp;= -\tfrac{1}{2}Z_\phi\partial^\mu\phi\partial_\mu\phi - \tfrac{1}{2}Z_m m^2\phi^2 + Y\phi\\
+        &amp;\quad -\tfrac{1}{2}Z_\chi\partial^\mu\chi\partial_\mu\chi - \tfrac{1}{2}Z_M M^2\chi^2\\
+        &amp;\quad +\tfrac{1}{6}Z_g g\mu^{\varepsilon/2}\phi^3 + \tfrac{1}{2}Z_h h\mu^{\varepsilon/2}\phi\chi^2
+    \end{aligned}\tag{1.1}\]
+in $d=6-\varepsilon$ dimensions, where $\phi$ and $\chi$ are real scalar fields, and $Y$ is adjusted to make $\langle 0|\phi(x)|0\rangle = 0$. (Why is no such term needed for $\chi$?)</p>
+
+<ol>
+  <li>Compute the one-loop contributions to each of the $Z$'s in the $\overline{\mathrm{MS}}$ renormalization scheme.
+
+<aside class="solution">
+
+<p>The self-interaction of $\phi^3$ theory is already computed in the on-shell renormalisation scheme. We shall switch to $\overline{\mathrm{MS}}$ renormalisation scheme. Let us first go back to the two-point correlation function at one-loop level,
+        \[\Pi_\phi(k^2) \sim \frac{\alpha_g}{2}\left[-(2/\varepsilon+1)(m^2+k^2/6)+\int^1_0 dx \,D\ln(D/\mu^2)\right] - (Ak^2 + Bm^2) + \mathcal{O}(\alpha_g^2).
+            \tag{1.2}\]
+        However, we also have a contribution by replacing the internal propagators by $\phi$ with $\chi$, which is equivalent to replacing the vertices. Therefore, the full propagator in this case is
+        \[\Pi_\phi(k^2) \sim \frac{g^2 + h^2}{2(4\pi)^3}\left[-(2/\varepsilon+1)(m^2+k^2/6)+\int^1_0 dx \,D\ln(D/\mu^2)\right] - (Ak^2 + Bm^2) + \mathcal{O}(\alpha_g^2).
+            \tag{1.3}\]
+        Now, we let $A$ and $B$ absorb only the UV divergence part of the theory. That is
+        \[A = -\frac{g^2 + h^2}{6(4\pi)^3}\frac{1}{\varepsilon} + \mathcal{O}(g^2), \quad B = -\frac{g^2 + h^2}{(4\pi)^3}\frac{1}{\varepsilon} + \mathcal{O}(g^2).\tag{1.4}\]
+        The story for vertices is more complicated, and we shall postpone that to later.</p>
+
+<p>Let us compute the exact propagator for $\chi$ fields.
+        Since the $\Pi_\phi(k^2)$ is of order $g^2$, to one loop we simply have one $\phi$ and one $\chi$ propagator connecting two vertices. That is, we simply replace one of the $g$ by $h$, and $Z_\phi, Z_m$ by $Z_\chi, Z_M$ respectively in (1.3), which gives
+        \[D = -\frac{gh}{3(4\pi)^3}\frac{1}{\varepsilon} + \mathcal{O}(h^2), \quad E = - \frac{gh}{(4\pi)^3}\frac{1}{\varepsilon} + \mathcal{O}(h^2),\tag{1.5}\]
+        where $D = Z_\chi-1$, and $E = Z_M -1$. Note that the factor of $1/6$ becomes $1/3$ by breaking the internal line exchange symmetry.</p>
+
+<p>For the three-point $\phi^3$ vertex, we had
+        \[V_3(k_1, k_2,k_3)/g \sim 1 + \alpha_g\left[\frac{1}{\varepsilon}+\frac{1}{2}\int dF_3\ln(\mu^2/D) + \dots\right] +C + \mathcal{O}(\alpha_g^2),\tag{1.6}\]
+        where $C = Z_g -1$. However, we could replace the $\phi^3$ vertices with $\phi\chi\chi$. Therefore, we should have 
+        \[\begin{aligned}
+                V_3(k_1, k_2,k_3)/g \sim 1 &amp;+ \frac{h^3/g}{(4\pi)^3}\left[\frac{1}{\varepsilon}+\frac{1}{2}\int dF_3\ln(\mu^2/D) + \dots\right] \\
+                &amp;+\frac{g^2}{(4\pi)^3}\left[\frac{1}{\varepsilon}+\frac{1}{2}\int dF_3\ln(\mu^2/D) + \cdots\right] +C + \mathcal{O}(g^4),
+            \end{aligned}\tag{1.7}\]
+        which gives
+        \[C = - \frac{1}{\varepsilon}\left(\frac{g^2}{(4\pi)^3} + \frac{h^3/g}{(4\pi)^3}\right) + \mathcal{O}(g^2),\tag{1.8}\]
+        where we have assumed $g\sim h$.</p>
+
+<p>For the three-point vertex, we could also have two types of vertices. One with three $\phi\chi\chi$ vertices and one with two $\phi\chi\chi$ vertices and a $\phi^3$ vertex. Therefore, we have
+        \[\begin{aligned}
+                V_3(k_1, k_2,k_3)/h \sim 1 &amp;+ \frac{gh}{(4\pi)^3}\left[\frac{1}{\varepsilon}+\frac{1}{2}\int dF_3\ln(\mu^2/D) + \dots\right] \\
+                &amp;+\frac{h^2}{(4\pi)^3}\left[\frac{1}{\varepsilon}+\frac{1}{2}\int dF_3\ln(\mu^2/D) + \cdots\right] +F + \mathcal{O}(g^4),
+            \end{aligned}\tag{1.9}\]
+        where $F = Z_h -1$. Hence, we find
+        \[F = - \frac{1}{\varepsilon}\left(\frac{h^2}{(4\pi)^3} + \frac{gh}{(4\pi)^3}\right) + \mathcal{O}(h^2).\tag{1.10}\]</p>
+
+</aside></li>
+  <li>The bare couplings are related to the renormalised ones via
+    \[\begin{aligned}g_0 &amp;= Z_\phi^{-3/2}Z_g\, g\mu^{\varepsilon/2},\\
+        h_0 &amp;= Z_\phi^{-1/2}Z_\chi^{-1}Z_h\, h\mu^{\varepsilon/2}.
+        \end{aligned}\tag{1.11}\]
+    Define
+    \[\begin{aligned}G(g,h,\varepsilon) &amp;= \sum_{n=1}^\infty G_n(g,h)\varepsilon^{-n} \equiv \ln(Z_\phi^{-3/2}Z_g),\\
+        H(g,h,\varepsilon) &amp;= \sum_{n=1}^\infty H_n(g,h)\varepsilon^{-n} \equiv \ln(Z_\phi^{-1/2}Z_\chi^{-1}Z_h).\end{aligned}\tag{1.12}\]
+    By requiring $g_0$ and $h_0$ to be independent of $\mu$, and by assuming that $dg/d\mu$ and $dh/d\mu$ are finite as $\varepsilon\to 0$, show that
+    \[\begin{aligned}\mu\frac{dg}{d\mu} &amp;= -\tfrac{1}{2}\varepsilon g + \tfrac{1}{2}g\!\left(g\frac{\partial G_1}{\partial g}+h\frac{\partial G_1}{\partial h}\right),\\
+        \mu\frac{dh}{d\mu} &amp;= -\tfrac{1}{2}\varepsilon h + \tfrac{1}{2}h\!\left(g\frac{\partial H_1}{\partial g}+h\frac{\partial H_1}{\partial h}\right).\end{aligned}\tag{1.13}\]
+
+<aside class="solution">
+
+<p>From (1.11), we have
+        \[\ln g_0 = \ln g + \frac{\varepsilon}{2}\ln\mu + G(g,h,\varepsilon),\tag{1.14}\]
+        \[\ln h_0 = \ln h + \frac{\varepsilon}{2}\ln\mu + H(g,h,\varepsilon).\tag{1.15}\]
+        Since the bare coupling constant is fixed for any values of $\mu$, we have
+        \[0 = \frac{1}{g}\frac{dg}{d\ln\mu} + \frac{\varepsilon}{2} + \frac{\partial G}{\partial h}\frac{dh}{d\ln\mu} + \frac{\partial G}{\partial g}\frac{dg}{d\ln\mu},\tag{1.16}\]
+        \[0 = \frac{1}{h}\frac{dh}{d\ln\mu} + \frac{\varepsilon}{2} + \frac{\partial H}{\partial h}\frac{dh}{d\ln\mu} + \frac{\partial H}{\partial g}\frac{dg}{d\ln\mu}.\tag{1.17}\]
+        Since the rate at which the coupling constants change should be finite for $\varepsilon\to0$, we should have
+        \[\frac{dg}{d\ln\mu} = -\frac{\varepsilon}{2}g + \beta_g(g,,h),\tag{1.18}\]
+        \[\frac{dh}{d\ln\mu} = -\frac{\varepsilon}{2}h + \beta_h(g,h),\tag{1.19}\]
+        where $\beta$ functions can be fixed by matching higher order terms in $1/\varepsilon$. Rearranging and expanding $G$ and $H$, we find
+        \[0 = \left(1 + \frac{g}{\varepsilon}\frac{\partial G_1}{\partial g} + \cdots\right)\frac{dg}{d\ln\mu} + \left(\frac{g}{\varepsilon}\frac{\partial G_1}{\partial g} + \cdots\right)\frac{dh}{d\ln\mu} + \frac{\varepsilon}{2}g.\tag{1.20}\]
+        Matching the $\mathcal{O}(\varepsilon^0)$ terms, we find
+        \[-\frac{g^2}{2}\frac{\partial G_1}{\partial g} -\frac{gh}{2}\frac{\partial G_1}{\partial g} + \beta_g(g,h) = 0.\tag{1.21}\]
+        Then, $G_n$ for $n\geq2$ are obtained by matching higher order terms, which are fixed by $G_1$. In other words, we have implicitly required $\beta$ functions to have no $\varepsilon$ dependence. Therefore, the above equation is exact. Hence, we find
+        \[\begin{aligned}\mu\frac{dg}{d\mu} &amp;= -\tfrac{1}{2}\varepsilon g + \tfrac{1}{2}g\!\left(g\frac{\partial G_1}{\partial g}+h\frac{\partial G_1}{\partial h}\right),\end{aligned}\tag{1.22}\]
+        and similarly
+        \[\begin{aligned}\mu\frac{dh}{d\mu} &amp;= -\tfrac{1}{2}\varepsilon h + \tfrac{1}{2}h\!\left(g\frac{\partial H_1}{\partial g}+h\frac{\partial H_1}{\partial h}\right).\end{aligned}\tag{1.23}\]</p>
+
+</aside></li>
+  <li>Use your results from part (a) to compute the beta functions $\beta_g(g,h)\equiv\lim_{\varepsilon\to 0}\mu\,dg/d\mu$ and $\beta_h(g,h)\equiv\lim_{\varepsilon\to 0}\mu\,dh/d\mu$. You should find terms of order $g^3$, $gh^2$, and $h^3$ in $\beta_g$, and terms of order $g^2h$, $gh^2$, and $h^3$ in $\beta_h$.
+
+<aside class="solution">
+
+<p>By definition of $G$ and $H$, we have
+        \[\frac{G_1}{\varepsilon} + \cdots = \ln\left[\left(1 - \frac{g^2 + h^2}{6(4\pi)^3}\frac{1}{\varepsilon} + \cdots\right)^{-3/2}\left(1 - \left(\frac{g^2}{(4\pi)^3} + \frac{h^3/g}{(4\pi)^3}\right)\frac{1}{\varepsilon} + \cdots\right)\right]\tag{1.24}\]
+        and
+        \[\frac{H_1}{\varepsilon} + \cdots = \ln\left[\left(1 - \frac{g^2 + h^2}{6(4\pi)^3}\frac{1}{\varepsilon} + \cdots\right)^{-1/2}\left(1 - \frac{gh}{3(4\pi)^3}\frac{1}{\varepsilon} + \cdots\right)^{-1}\left(1 - \left(\frac{h^2}{(4\pi)^3} + \frac{gh}{(4\pi)^3}\right)\frac{1}{\varepsilon} + \cdots\right)\right].\tag{1.25}\]
+        Therefore, we have
+        \[G_1(g,h,\varepsilon) = \frac{1}{(4\pi)^3}(-3g^2/4 +h^2/4 -h^3/g),\tag{1.26}\]
+        and
+        \[H_1(g,h,\varepsilon) = \frac{1}{(4\pi)^3}(g^2/12 - 11h^2/12+gh/6).\tag{1.27}\]
+        Therefore, we find
+        \[\beta_g(g,h) = \frac{1}{2(4\pi)^3}(-3g^3/2 -2h^3+h^2g/2) = \frac{1}{4(4\pi)^3}(-3g^3 -4h^3+h^2g),\tag{1.28}\]
+        and
+        \[\beta_h(g,h) = \frac{1}{12(4\pi)^3}(g^2h-12gh^2- 7h^3).\tag{1.29}\]</p>
+
+</aside></li>
+  <li>Without loss of generality, we can choose $g$ to be positive; $h$ can then be positive or negative, and the difference is physically significant. (You should understand why this is true.) For what numerical range(s) of $h/g$ are $\beta_g$ and $\beta_h/h$ both negative? Why is this an interesting question?
+
+<aside class="solution">
+
+<p>Since the bare coupling constant is constant and determined by $g$ and $h$. Therefore, by fixing the value of $g$, we have constrained the value of $h$.</p>
+
+<p>Solving the equality using Mathematica, we find
+        \[h/g &gt; \frac{1}{11}(-6+\sqrt{47}) \simeq 0.079634.\tag{1.30}\]
+        If the above is satisfied, then the theory is asymptotically free. We can use the above to infer the range of the bare coupling constant for which the theory is asymptotically free.</p>
+
+</aside></li>
+</ol>
+  </article>
+
+  <hr class="ornament-rule">
+
+  <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
+    <a href="../notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="../index.html">About</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>
