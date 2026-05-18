@@ -83,6 +83,13 @@
               "label": "S1.",
               "desc": "Srednicki Ch. 24 — antisymmetry of the generator, structure constants from SO(N), Noether current and charge algebra, generators of Sp(2N). (Q24.1–24.4)",
               "tag": "Srednicki Ch. 24"
+            },
+            {
+              "href": "notes/srednicki-rg-phi-chi.html",
+              "title": "Renormalization Group for φ-χ Theory",
+              "label": "S2.",
+              "desc": "Srednicki Ch. 28 — one-loop Z-factors in MS-bar, β-functions for the φ³ + φχ² couplings, and asymptotic freedom condition on h/g. (Q28.3)",
+              "tag": "Srednicki Ch. 28"
             }
           ]
         },
