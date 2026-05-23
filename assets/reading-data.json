@@ -61,7 +61,7 @@
       "title": "Quantum Field Theory",
       "author": "Srednicki",
       "totalPages": 635,
-      "currentPage": 150,
+      "currentPage": 200,
       "addedAt": "2026-05-10T09:00:16.310Z"
     },
     {
@@ -71,7 +71,15 @@
       "totalPages": 51,
       "currentPage": 0,
       "addedAt": "2026-05-14T18:01:55.640Z"
+    },
+    {
+      "id": "r_mpi83oez_uem6ti6",
+      "title": "Geometry, Topology and Physics",
+      "author": "M Nakahara",
+      "totalPages": 573,
+      "currentPage": 40,
+      "addedAt": "2026-05-23T10:46:08.219Z"
     }
   ],
-  "updatedAt": "2026-05-17T14:13:58.673Z"
+  "updatedAt": "2026-05-23T10:46:16.335Z"
 }
