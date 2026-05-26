@@ -78,6 +78,13 @@
               "tag": "PSI QFT II"
             },
             {
+              "href": "notes/osborn-aqft-ps2.html",
+              "title": "Functional Methods &amp; Grassmann Integrals",
+              "label": "O2.",
+              "desc": "Osborn AQFT PS2 — Legendre transform, 1PI effective action, Green's-function/vertex relations, Grassmann Gaussian integrals, Pfaffians, fermionic partition function, SUSY QM. (Q1–Q8)",
+              "tag": "Osborn AQFT PS2"
+            },
+            {
               "href": "notes/srednicki-nonabelian.html",
               "title": "Nonabelian Symmetries",
               "label": "S1.",

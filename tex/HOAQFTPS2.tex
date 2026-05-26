@@ -1,0 +1,715 @@
+\section{Functional Methods and Grassmann Integrals, Hugh Osborn AQFT PS2}
+
+
+\subsection{Legendre Transform and Perturbative Expansion, Q1}
+
+Let, with $x_i, b_i, a_i \in \mathbb{R}^n$,
+\begin{equation}
+    e^{W(b)} = \int d^n x\, e^{-S + b\cdot x}, \quad S = \tfrac{1}{2}x\cdot\mathbf{A} x + V(x), \quad \frac{\partial}{\partial b_i}W(b) = a_i, \quad \Gamma(a) + W(b) = b\cdot a.
+\end{equation}
+Show that
+\begin{equation}
+    \frac{\partial}{\partial a_i}\Gamma(a) = b_i, \qquad W''_{ij}{\Gamma}''_{jk} = \delta_{ik}, \qquad \frac{\partial}{\partial b_i} = W''_{ij}\frac{\partial}{\partial a_j},
+\end{equation}
+where $W''$, $\Gamma''$ are matrices formed by $\frac{\partial^2}{\partial b_i\partial b_j}W$ and $\frac{\partial^2}{\partial a_i\partial a_j}\Gamma$. Find the first few terms in the perturbative expansion of $W(b)$ and correspondingly for $\Gamma(a)$.
+\begin{solution}
+    \begin{equation}
+        \frac{\partial}{\partial a_i}\left(\Gamma(a) + W(b)\right) = \frac{\partial}{\partial a_i}\Gamma(a) = b_i.
+    \end{equation}
+    \begin{equation}
+        W''_{ij}{\Gamma}''_{jk} = \frac{\partial a_i}{\partial b_j}\frac{\partial b_j}{\partial a_k} = \delta_{ik}.
+    \end{equation}
+    \begin{equation}
+        \frac{\partial}{\partial b_i} = \frac{\partial a_j}{\partial b_i}\frac{\partial}{\partial a_j} = W''_{ij}\frac{\partial}{\partial a_j}.
+    \end{equation}
+
+    Now, Taylor expands the zero-dimensional Euclidean path integral, we find
+    \begin{equation}
+        \begin{aligned}
+            e^{W(b)} &= e^{-V(\partial/\partial b)}\int_{\mathbb{R}^n} d^n x \,e^{-\frac{1}{2}(x_i-A_{il}^{-1}b_l)A_{ij}(x_j-A_{jk}^{-1}b_k) + \frac{1}{2}b_i A_{ij}^{-1}b_j}\\
+            &=e^{-V(\partial/\partial b)}\int_{\mathbb{R}^n} d^n \xi \, e^{-\frac{1}{2}\xi_i A_{ij}\xi_j + \frac{1}{2}b_i A_{ij}^{-1}b_j}\\
+            &=\left(\int_{\mathbb{R}^n}d^n \xi\, e^{-\frac{1}{2}\xi_i A_{ij}\xi_j}\right)e^{-V(\partial/\partial b)}e^{\frac{1}{2}b_iA_{ij}^{-1}b_j}\\
+            &=\frac{(2\pi)^{n/2}}{\sqrt{\det A}}\sum_{j=0}^\infty\frac{(-1)^j}{j!}\left[V\left(\frac{\partial}{\partial b}\right)\right]^je^{\frac{1}{2}b_iA_{ij}^{-1}b_j}.
+        \end{aligned}
+    \end{equation}
+    where we have made the substitution $\xi_i = x_i -A_{ij}^{-1}b_j$. Now, we shall take natural log on both side, which gives
+    \begin{equation}
+        \begin{aligned}
+            W(b) &=\ln\left(\frac{(2\pi)^{n/2}}{\sqrt{\det A}}\right) + \ln\left\{\left(1 + \sum_{j=1}^\infty\frac{(-1)^j}{j!}\left[V\left(\frac{\partial}{\partial b}\right)\right]^j\right)e^{\frac{1}{2}b_iA_{ij}^{-1}b_j}\right\}.
+        \end{aligned}
+    \end{equation}
+    Now, given
+    \begin{equation}
+        e^{-\frac{1}{2}b_iA_{ij}^{-1}b_j}\frac{\partial}{\partial b_i}e^{\frac{1}{2}b_iA_{ij}^{-1}b_j} = \frac{\partial}{\partial b_i} + A_{ij}^{-1}b_j,
+    \end{equation}
+    we have
+    \begin{equation}
+        e^{-\frac{1}{2}b_iA_{ij}^{-1}b_j}V\left(\frac{\partial}{\partial b}\right)e^{\frac{1}{2}b_iA_{ij}^{-1}b_j} = V\left(\frac{\partial}{\partial b} + A^{-1}b\right).
+    \end{equation}
+    Therefore,
+    \begin{equation}
+        \begin{aligned}
+            W(b) &= W_0(0) + \frac{1}{2}b_iA_{ij}^{-1}b_j+ \sum_{l=1}^\infty\frac{1}{l}\sum_{j=1}^\infty\frac{(-1)^{j+2l+1}}{(j!)^l}\left[V\left(\frac{\partial}{\partial b} + A^{-1}b\right)\right]^{j+l},
+        \end{aligned}
+    \end{equation}
+    where the derivative is understood to act on $1$.
+
+    Let us take the potential to be
+    \begin{equation}
+        V(x) = \frac{\lambda}{4!}x^4,
+    \end{equation}
+    the connected generating function becomes
+    \begin{equation}
+        W(b) = W_0(0) + \frac{1}{2}b_iA_{ij}^{-1}b_j + \sum_{n=1}^\infty\frac{1}{n}\left\{\sum_{m=1}^\infty\frac{(-1)^{m+1}\lambda^m}{m!4!}\left[\left(\frac{\partial}{\partial b_i} + A^{-1}_{ij}b_j\right)^4\right]^{m}\right\}^n.
+    \end{equation}
+    Now, let us compute the first few terms of the above,
+    \begin{equation}
+        \begin{aligned}
+            \left(\frac{\partial}{\partial b_i} + A^{-1}_{ij}b_j\right)^4 &=\left(\frac{\partial}{\partial b_i} + A^{-1}_{ij}b_j\right)^3A_{ik}^{-1}b_k\\
+            &=\left(\frac{\partial}{\partial b_i} + A^{-1}_{ij}b_j\right)^2(A_{ii}^{-1}+A_{ik}^{-1}A_{il}^{-1}b_lb_k)\\
+            &=\left(\frac{\partial}{\partial b_i} + A^{-1}_{ij}b_j\right)(3A_{ii}^{-1}A_{ip}^{-1}b_p + A_{ik}^{-1}A_{il}^{-1}A_{ip}^{-1}b_lb_kb_p)\\
+            &=(3A_{ii}^{-1}A_{ii}^{-1} + 6 A_{ii}^{-1}A_{ij}^{-1}A_{il}^{-1}b_jb_l + A_{ik}^{-1}A_{il}^{-1}A_{ip}^{-1}A_{iq}^{-1}b_lb_kb_pb_q),
+        \end{aligned}
+    \end{equation}
+    which corresponds to the diagrams
+\newcommand{\FDone}{%
+\vcenter{\hbox{\begin{tikzpicture}[thick]
+  \coordinate (v) at (0,0);
+  \fill (v) circle (1.5pt);
+  \draw (v) ++(-0.4,0) circle (0.4);
+  \draw (v) ++( 0.4,0) circle (0.4);
+\end{tikzpicture}}}%
+}
+
+\newcommand{\FDtwo}{%
+\vcenter{\hbox{\begin{tikzpicture}[thick]
+  \coordinate (v) at (0,0);
+  \fill (v) circle (1.5pt);
+  \draw (v) ++(0,0.4) circle (0.4);
+  \draw (-0.9,0) -- (v) -- (0.9,0);
+  \node[left,  font=\small] at (-0.9,0) {$b$};
+  \node[right, font=\small] at ( 0.9,0) {$b$};
+\end{tikzpicture}}}%
+}
+
+\newcommand{\FDthree}{%
+\vcenter{\hbox{\begin{tikzpicture}[thick]
+  \coordinate (v) at (0,0);
+  \fill (v) circle (1.5pt);
+  \draw (-0.8, 0.8) -- (v); \draw (-0.8,-0.8) -- (v);
+  \draw ( 0.8, 0.8) -- (v); \draw ( 0.8,-0.8) -- (v);
+  \node[above left,  font=\small] at (-0.8, 0.8) {$b$};
+  \node[below left,  font=\small] at (-0.8,-0.8) {$b$};
+  \node[above right, font=\small] at ( 0.8, 0.8) {$b$};
+  \node[below right, font=\small] at ( 0.8,-0.8) {$b$};
+\end{tikzpicture}}}%
+}
+
+\begin{equation}
+    \frac{\lambda}{4!}\left(\frac{\partial}{\partial b_i} + A^{-1}_{ij}b_j\right)^{\!4}
+    \;=\;
+    \frac{1}{8}\;\FDone
+    \;+\;
+    \frac{1}{4}\;\FDtwo
+    \;+\;\frac{1}{24}\;
+    \FDthree.
+\end{equation}
+Therefore, to one-loop order, we have
+\newcommand{\Wprop}{%
+\vcenter{\hbox{\begin{tikzpicture}[thick]
+  \draw (-0.7,0) -- (0.7,0);
+  \node[left,  font=\small] at (-0.7,0) {$b$};
+  \node[right, font=\small] at ( 0.7,0) {$b$};
+\end{tikzpicture}}}%
+}
+% \FDone, \FDtwo, \FDthree as defined before
+
+\begin{equation}
+    W(b) = W_0 \;+\; \frac{1}{2}\;\Wprop
+    \;-\; \frac{1}{8}\;\FDone
+    \;-\; \frac{1}{4}\;\FDtwo
+    \;-\; \frac{1}{24}\;\FDthree
+    \;+\; O(\lambda^2).
+\end{equation}
+
+The quantum action can be obtained by performing a Legendre transformation, which is
+\begin{equation}
+    \Gamma(a) =-W(b) + b\cdot a,
+\end{equation}
+where
+\begin{equation}
+    a_i = \frac{\partial W(b)}{\partial b_i} = A_{ij}^{-1}b_j - \frac{1}{2}\lambda A_{ll}^{-1}A_{li}^{-1}A_{lj}^{-1}b_j - \frac{1}{6}\lambda A_{li}^{-1}A_{lj}^{-1}A_{lk}^{-1}A_{lp}^{-1}b_jb_kb_p + \mathcal{O}(\lambda^2).
+\end{equation}
+Therefore, to first order in $\lambda$, we can replace $b_i$ with $A_{ij}a_j$
+\begin{equation}
+    \Gamma(a) = -W_0(0) + \frac{1}{2}A_{ij}a_ia_j + \frac{\lambda}{8}(A^{-1}_{ii})^2 + \frac{\lambda}{4}A^{-1}_{ii}a_i^2 + \frac{\lambda}{24}a_i^4 + \mathcal{O}(\lambda^2).
+\end{equation}
+
+
+\end{solution}
+
+\subsection{Effective Action for Free Scalar Field, Q2}
+
+Starting from $Z[J]$, determine $W[J]$ and $\Gamma[\phi]$ for the free field theory for a scalar field $\phi(x)$ of mass $m$. What are
+\begin{equation}
+    \frac{\delta^2}{\delta J(x)\delta J(y)}W[J]\bigg|_{J=0}, \qquad \frac{\delta^2}{\delta\phi(x)\delta\phi(y)}\Gamma[\phi]\bigg|_{\phi=0}
+\end{equation}
+in this case? Verify that they satisfy the expected inverse relations.
+\begin{solution}
+For a free scalar field theory,
+\begin{equation}
+    Z[J] = \int \mathcal{D}\phi\, e^{iS[\phi] + i\int d^dx\, J\phi},
+\end{equation}
+where 
+\begin{equation}
+    S[\phi] = \int d^dx \left[\frac{1}{2}\partial_\mu\phi \partial^\mu\phi -\frac{1}{2}(m^2 -i\epsilon)\phi^2\right].
+\end{equation}
+We define
+\begin{equation}
+    \phi_J(x) = \phi(x) - i\int d^dy\, D_F(x-y)J(y),
+\end{equation}
+where
+\begin{equation}
+    D_F(x-y) = \int \frac{d^dk}{(2\pi)^d}\frac{i\,e^{-ik\cdot (x-y)}}{k^2 - m^2 + i\epsilon}.
+\end{equation}
+The exponent of the generating functional becomes
+\begin{equation}
+\begin{aligned}
+    &-\frac{i}{2}\int d^dx\,\phi(x)(\square   + m^2 -i\epsilon)\phi(x) + i\int d^dx\, J(x)\phi(x) \\
+    =\;& -\frac{i}{2}\int d^dx\,\phi_J(x)(\square   + m^2 -i\epsilon)\phi_J(x) -\frac{1}{2}\int d^dx\int d^dy \, J(x)D_F(x-y)J(y).
+\end{aligned}
+\end{equation}
+Therefore, we have
+\begin{equation}
+    Z[J] = \exp\!\left[-\frac{1}{2}\int d^dx\int d^dy \, J(x)D_F(x-y)J(y)\right]\frac{(2\pi)^{\infty/2}}{\sqrt{\operatorname{Det}(m^2 - \bar\square) }},
+\end{equation}
+where $\bar\square = \partial_\tau^2 + \nabla^2$ is the Euclidean Laplace operator.
+Then, the connected diagram generating functional is given by
+\begin{equation}
+    iW[J] = \ln Z[0] - \frac{1}{2}\int d^dx\int d^dy \, J(x)D_F(x-y)J(y).
+\end{equation}
+The quantum action is defined by the Legendre transformation
+\begin{equation}
+    \Gamma[\phi_J] = -W[J] + \int d^dx\, J(x)\phi_J(x),
+\end{equation}
+where 
+\begin{equation}
+    \frac{\delta\Gamma[\phi_J]}{\delta\phi_J(x)} = J(x),\quad \frac{\delta W[J]}{\delta J(x)} = \phi_J(x).
+\end{equation}
+Therefore,
+\begin{equation}
+    \phi_J(x) = i\int d^dy\, D_F(x-y) J(y),
+\end{equation}
+and hence
+\begin{equation}
+    \Gamma[\phi_J] = i\ln Z[0] + \frac{1}{2}\int d^dx \, \phi_J(x)(\square +m^2 - i\epsilon)\phi_J(x).
+\end{equation}
+
+Now, we compute 
+\begin{equation}
+    \frac{\delta^2}{\delta J(x)\delta J(y)}W[J]\bigg|_{J=0} = iD_F(x-y), \quad \frac{\delta^2}{\delta\phi(x)\delta\phi(y)}\Gamma[\phi]\bigg|_{\phi=0} =  (\square + m^2 - i\epsilon),
+\end{equation}
+which verifies
+\begin{equation}
+    \frac{\delta^2}{\delta J(x)\delta J(y)}W[J]\bigg|_{J=0}\frac{\delta^2}{\delta\phi(y)\delta\phi(z)}\Gamma[\phi]\bigg|_{\phi=0} = \delta^d(x-z).
+\end{equation}
+    
+\end{solution}
+
+\subsection{Relations Between Green's Functions and 1PI Vertices, Q3}
+
+Starting from the definition of the effective action $\Gamma[\phi]$ in terms of the generating functional for connected graphs $W[J]$,
+\begin{equation}
+    W[J] + \Gamma[\phi] = \int d^d x\, J\phi, \qquad \frac{\delta}{\delta J(x)}W[J] = \phi(x),
+    \label{eq:def}
+\end{equation}
+obtain
+\begin{equation}
+    -\int d^dz\, G_2(x,z)\,\Gamma_2(z,y) = \delta^d(x-y), \qquad -i\frac{\delta}{\delta J(x)} = \int d^dy\, G_2(x,y)\frac{\delta}{\delta\phi(y)},
+\end{equation}
+where
+\begin{equation}
+    G_n(x_1,\ldots,x_n) = (-i)^{n-1}\frac{\delta}{\delta J(x_1)}\cdots\frac{\delta}{\delta J(x_n)}W[J], \qquad \Gamma_n(x_1,\ldots,x_n) = -i\frac{\delta}{\delta\phi(x_1)}\cdots\frac{\delta}{\delta\phi(x_n)}\Gamma[\phi].
+\end{equation}
+Show that
+\begin{equation}
+    G_3(x_1,x_2,x_3) = \int d^dy_1\,d^dy_2\,d^dy_3\, G_2(x_1,y_1)G_2(x_2,y_2)G_2(x_3,y_3)\,\Gamma_3(y_1,y_2,y_3).
+\end{equation}
+Also obtain relations in diagrammatic form for $G_4$, $G_5$ in terms of $G_2$, $\Gamma_3$, $\Gamma_4$ and $\Gamma_5$.
+\begin{solution}
+    \begin{equation}
+        \frac{\delta \phi(x)}{\delta \phi(y)} = \delta^d(x-y) = \int d^dz\frac{\delta\phi(x)}{\delta J(z)}\frac{\delta J(z)}{\delta \phi(y)} .
+    \end{equation}
+    Recall
+    \begin{equation}
+        \frac{\delta\Gamma[\phi]}{\delta\phi(x)} = J(x) ,\quad \frac{\delta W[J]}{\delta J (x)} = \phi(x),
+    \end{equation}
+    which gives
+    \begin{equation}
+        \delta^d (x-y) = \int d^dz \,\frac{\delta^2 W[J]}{\delta J(x)\delta J(z)}\frac{\delta^2\Gamma[\phi]}{\delta \phi(z) \delta \phi(y)} = -\int d^dz \, G_2(x,z)\Gamma_2(z,y).
+    \end{equation}
+    Similarly,
+    \begin{equation}
+        -i\frac{\delta}{\delta J(x)} = -i\int d^dy \frac{\delta\phi(y)}{\delta J(x)}\frac{\delta}{\delta\phi(y)} = \int d^dy G_2(x,y) \frac{\delta}{\delta\phi(y)}.
+    \end{equation}
+
+    Now, we turn to the exact connected three point function
+    \begin{equation}
+    \begin{aligned}
+        G_3(x_1,x_2,x_3) &= -\int d^dy_1d^dy_2d^dy_3 \left(iG_2(x_1,y_1)\frac{\delta}{\delta \phi(y_1)}\right)\left(iG_2(x_2,y_2)\frac{\delta}{\delta \phi(y_2)}\right) \\
+        &\qquad \qquad\left(iG_2(x_3,y_3)\frac{\delta}{\delta \phi(y_3)}\right)\left(-\Gamma[\phi] + \int d^dx\,J(x)\phi(x)\right)\\
+        &=\int d^dy_1\,d^dy_2\,d^dy_3\, G_2(x_1,y_1)G_2(x_2,y_2)G_2(x_3,y_3)\,\Gamma_3(y_1,y_2,y_3),
+    \end{aligned}
+    \end{equation}
+    where we have jumped a few lines of algebra.
+
+    For higher-order connected correlation functions, we have the diagrammatic expressions:
+    \tikzset{
+  >=Stealth, thick,
+  % G_2 propagator: gray circle labelled "G_2" at the midpoint of the line
+  G2 line/.style={
+    postaction={decorate},
+    decoration={markings, mark=at position 0.5 with {
+      \node[fill=gray!50, draw=black, line width=0.4pt, circle,
+            minimum size=0.65cm, inner sep=0pt, font=\scriptsize] {$G_2$};
+    }}
+  },
+  oneP/.style={draw, circle, fill=white, line width=0.6pt,
+               minimum size=0.95cm, inner sep=1pt, font=\scriptsize},
+  fullG/.style={draw, circle, fill=gray!50, line width=0.6pt,
+                minimum size=1.05cm, inner sep=1pt, font=\small}
+}
+ 
+% Shortcut: \D{<tikzpicture>} drops a tikz into a math expression on the math axis
+\newcommand{\D}[1]{\vcenter{\hbox{#1}}}
+
+ 
+% =================== G_4 ===================
+\begin{equation}
+\D{\begin{tikzpicture}
+  \node[fullG] (G) at (0,0) {$G_4$};
+  \draw (G) -- ++(-1.0, 0.8) node[above left,  font=\small] {$x_1$};
+  \draw (G) -- ++( 1.0, 0.8) node[above right, font=\small] {$x_2$};
+  \draw (G) -- ++(-1.0,-0.8) node[below left,  font=\small] {$x_3$};
+  \draw (G) -- ++( 1.0,-0.8) node[below right, font=\small] {$x_4$};
+\end{tikzpicture}}
+\;=\;
+\D{\begin{tikzpicture}
+  \node[oneP] (V) at (0,0) {1PI};
+  \draw[G2 line] (V) -- ++(-1.30, 0.95) node[above left,  font=\small] {$x_1$};
+  \draw[G2 line] (V) -- ++( 1.30, 0.95) node[above right, font=\small] {$x_2$};
+  \draw[G2 line] (V) -- ++(-1.30,-0.95) node[below left,  font=\small] {$x_3$};
+  \draw[G2 line] (V) -- ++( 1.30,-0.95) node[below right, font=\small] {$x_4$};
+\end{tikzpicture}}
+\;+\;\sum_{(ij)(kl)}\;
+\D{\begin{tikzpicture}
+  \node[oneP] (Va) at (-1.05, 0) {1PI};
+  \node[oneP] (Vb) at ( 1.05, 0) {1PI};
+  \draw[G2 line] (Va) -- (Vb);
+  \draw[G2 line] (Va) -- ++(-1.05, 0.95) node[above left,  font=\small] {$x_i$};
+  \draw[G2 line] (Va) -- ++(-1.05,-0.95) node[below left,  font=\small] {$x_j$};
+  \draw[G2 line] (Vb) -- ++( 1.05, 0.95) node[above right, font=\small] {$x_k$};
+  \draw[G2 line] (Vb) -- ++( 1.05,-0.95) node[below right, font=\small] {$x_l$};
+\end{tikzpicture}}
+\end{equation}
+ 
+% =================== G_5 ===================
+\begin{align}
+\D{\begin{tikzpicture}
+  \node[fullG] (G) at (0,0) {$G_5$};
+  \draw (G) -- ( 0.00,  1.35) node[above,       font=\small] {$x_1$};
+  \draw (G) -- ( 1.28,  0.42) node[above right, font=\small] {$x_2$};
+  \draw (G) -- ( 0.79, -1.09) node[below right, font=\small] {$x_3$};
+  \draw (G) -- (-0.79, -1.09) node[below left,  font=\small] {$x_4$};
+  \draw (G) -- (-1.28,  0.42) node[above left,  font=\small] {$x_5$};
+\end{tikzpicture}}
+&\;=\;
+\D{\begin{tikzpicture}
+  \node[oneP] (V) at (0,0) {1PI};
+  \draw[G2 line] (V) -- ( 0.00,  1.50) node[above,       font=\small] {$x_1$};
+  \draw[G2 line] (V) -- ( 1.42,  0.46) node[above right, font=\small] {$x_2$};
+  \draw[G2 line] (V) -- ( 0.88, -1.20) node[below right, font=\small] {$x_3$};
+  \draw[G2 line] (V) -- (-0.88, -1.20) node[below left,  font=\small] {$x_4$};
+  \draw[G2 line] (V) -- (-1.42,  0.46) node[above left,  font=\small] {$x_5$};
+\end{tikzpicture}}
+\;+\;\sum_{10\text{ ch.}}\;
+\D{\begin{tikzpicture}
+  \node[oneP] (Va) at (-1.05, 0) {1PI};
+  \node[oneP] (Vb) at ( 1.05, 0) {1PI};
+  \draw[G2 line] (Va) -- (Vb);
+  \draw[G2 line] (Va) -- ++(-1.10, 1.05);
+  \draw[G2 line] (Va) -- ++(-1.35, 0.00);
+  \draw[G2 line] (Va) -- ++(-1.10,-1.05);
+  \draw[G2 line] (Vb) -- ++( 1.10, 0.95);
+  \draw[G2 line] (Vb) -- ++( 1.10,-0.95);
+\end{tikzpicture}}
+\notag\\[8pt]
+&\quad +\;\sum_{15\text{ ch.}}\;
+\D{\begin{tikzpicture}
+  \node[oneP] (VL) at (-1.75, 0) {1PI};
+  \node[oneP] (VM) at ( 0.00, 0) {1PI};
+  \node[oneP] (VR) at ( 1.75, 0) {1PI};
+  \draw[G2 line] (VL) -- (VM);
+  \draw[G2 line] (VM) -- (VR);
+  \draw[G2 line] (VL) -- ++(-1.15, 1.00);
+  \draw[G2 line] (VL) -- ++(-1.15,-1.00);
+  \draw[G2 line] (VM) -- ++( 0.00, 1.40);
+  \draw[G2 line] (VR) -- ++( 1.15, 1.00);
+  \draw[G2 line] (VR) -- ++( 1.15,-1.00);
+\end{tikzpicture}}
+\end{align}
+
+    
+\end{solution}
+
+\subsection{Grassmann Gaussian Integral with Bosonic Background, Q4}
+
+Evaluate, for $\theta_i$, $\bar\theta_i$ Grassmann variables,
+\begin{equation}
+    Z = \frac{1}{(2\pi)^{n/2}}\int d^nx\prod_{i=1}^n d\bar\theta_i\,d\theta_i\,e^{-S(x,\theta,\bar\theta)}, \qquad S(x,\theta,\bar\theta) = \tfrac{1}{2}w_i(x)w_i(x) + \bar\theta_i w_{i,j}(x)\theta_j,
+\end{equation}
+where $w_{i,j}(x) = \frac{\partial}{\partial x_j}w_i(x)$ and assuming $\det[w_{i,j}(x)] > 0$.
+
+If $w_i(x) = x_i + \frac{1}{2}g_{ijk}x_jx_k$, $g_{ijk} = g_{ikj}$, what are the Feynman rules for a perturbative expansion? Work out the two-loop contributions to $Z(g)$ (this is much simpler if $g_{ijk}$ is completely symmetric).
+
+If $w_i(x)\to\lambda w_i(x)$ in $S$, show that
+\begin{equation}
+    \frac{d}{d\lambda}e^{-S(x,\theta,\bar\theta)} = -\left(\theta_j\frac{\partial}{\partial x_j} + \lambda w_j(x)\frac{\partial}{\partial\bar\theta_j}\right)\bar\theta_i w_i(x)\,e^{-S(x,\theta,\bar\theta)}.
+\end{equation}
+By letting $x_i\to\lambda x_i$, $g_{ijk}\to g_{ijk}/\lambda$, what does this imply for $Z(g)$?
+\begin{solution}
+    Let us first evaluate the Grassmann integral by making the substitution $\theta_i' = w_{i,j}\theta_j$
+    \begin{equation}
+        \int \prod_{k=1}^nd\bar \theta_k d\theta_k e^{-\bar\theta_iw_{i,j}\theta_j} = \prod_{k=1}^n\frac{\partial}{\partial\bar\theta_k}\frac{\partial}{\partial \theta_k} (1 - \bar\theta_i w_{i,j}\theta_j) = \det w_{i,j}\left(\frac{\partial}{\partial \bar\theta}\frac{\partial}{\partial\theta'}(1-\bar\theta\theta')\right)^n = \det w_{i,j}.
+    \end{equation}
+    Then, we make the substitution $d^nx = d^nw/\det w_{i,j}$, which gives
+    \begin{equation}
+        Z = \frac{1}{(2\pi)^{n/2}}\int d^nw\, e^{-w_iw_i/2} = 1.
+    \end{equation}
+
+    For $w_i(x) = x_i + \frac{1}{2}g_{ijk}x_jx_k$, $w_{i,j}(x) = \delta_{ij} + g_{ijk}x_k$ the action becomes
+    \begin{equation}
+        S = \frac{1}{2}x_ix_i + \frac{1}{2}g_{ijk}x_ix_jx_k + \frac{1}{8}g_{ijk}g_{ilm}x_jx_kx_lx_m + \bar\theta_i\theta_i +g_{ijk}\bar\theta_ix_j\theta_k.
+    \end{equation}
+    We can read off the Feynman rules:
+% in preamble:
+\usetikzlibrary{arrows.meta, decorations.markings}
+\tikzset{
+  >=Stealth, thick,
+  scalar/.style={dashed},
+  fermion/.style={postaction={decorate},
+    decoration={markings, mark=at position 0.55 with
+      {\arrow{Stealth[length=2mm]}}}},
+}
+
+% Feynman rules:
+\begin{equation}
+\vcenter{\hbox{\begin{tikzpicture}[thick, every node/.style={font=\small}]
+  \draw[scalar] (0,0)--(2.0,0);
+  \node[left] at (0,0){$i$}; \node[right] at (2.0,0){$j$};
+\end{tikzpicture}}}
+\;=\; \delta_{ij},
+\end{equation}
+
+\begin{equation}
+\vcenter{\hbox{\begin{tikzpicture}[thick, every node/.style={font=\small}]
+  \draw[fermion] (0,0)--(2.0,0);
+  \node[left] at (0,0){$i$}; \node[right] at (2.0,0){$j$};
+\end{tikzpicture}}}
+\;=\; \delta_{ij},
+\end{equation}
+
+\begin{equation}
+\vcenter{\hbox{\begin{tikzpicture}[thick, every node/.style={font=\small}]
+  \draw[scalar] (-1.1,0)--(0,0);
+  \draw[scalar] (0,0)--(0.85, 0.9); \draw[scalar] (0,0)--(0.85,-0.9);
+  \fill (0,0) circle(1.5pt);
+  \node[left] at (-1.1,0){$i$};
+  \node[above right] at (0.85, 0.9){$j$};
+  \node[below right] at (0.85,-0.9){$k$};
+\end{tikzpicture}}}
+\;=\; -g_{ijk},
+\end{equation}
+
+\begin{equation}
+\vcenter{\hbox{\begin{tikzpicture}[thick, every node/.style={font=\small}]
+  \draw[scalar] (-0.85, 0.85)--(0,0); \draw[scalar] ( 0.85, 0.85)--(0,0);
+  \draw[scalar] (-0.85,-0.85)--(0,0); \draw[scalar] ( 0.85,-0.85)--(0,0);
+  \fill (0,0) circle(1.5pt);
+  \node[above left]  at (-0.85, 0.85){$j$}; \node[above right] at ( 0.85, 0.85){$k$};
+  \node[below left]  at (-0.85,-0.85){$l$}; \node[below right] at ( 0.85,-0.85){$m$};
+\end{tikzpicture}}}
+\;=\; -g_{ijk}g_{ilm},
+\end{equation}
+
+\begin{equation}
+\vcenter{\hbox{\begin{tikzpicture}[thick, every node/.style={font=\small}]
+  \draw[fermion] (-1.2,0)--(0,0); \draw[fermion] (0,0)--(1.2,0);
+  \draw[scalar]  (0,1.1)--(0,0);
+  \fill (0,0) circle(1.5pt);
+  \node[left] at (-1.2,0){$i$}; \node[right] at (1.2,0){$k$};
+  \node[above] at (0,1.1){$j$};
+\end{tikzpicture}}}
+\;=\; -g_{ijk}.
+\end{equation}
+Since we have already shown that $Z=1$, the loop expansions should be cancelled order by order in $g$. There are no diagrams of order $g$. For order $g^2$, the diagram should cancel, but we shall not show it explicitly here.
+
+Now, we take $w_i \to \lambda w_i$, which the action becomes
+\begin{equation}
+    S = \frac{1}{2}\lambda^2 w_i(x)w_i(x) + \lambda\bar\theta_i w_{i,j}(x)\theta_j.
+\end{equation}
+Then,
+\begin{equation}
+\begin{aligned}
+    \frac{d}{d\lambda}e^{-S(x,\theta,\bar\theta)} = -(\lambda w_i(x)w_i(x) + \bar\theta_i w_{i,j}(x)\theta_j)e^{-S(x,\theta,\bar\theta)},
+\end{aligned}
+\end{equation}
+while
+\begin{equation}
+    \begin{aligned}
+        &-\left(\theta_j\frac{\partial}{\partial x_j} + \lambda w_j(x)\frac{\partial}{\partial\bar\theta_j}\right)\bar\theta_i w_i(x)\,e^{-S(x,\theta,\bar\theta)}\\
+        =&-\bigg(\theta_j w_{i,j}(x)\bar\theta_i - \theta_j\bar\theta_i w_i(x)[\lambda^2w_k(x)w_{k,j}(x) + \lambda\bar\theta_kw_{i,lj}(x)\theta_l] \\
+        &\qquad \qquad\qquad \qquad+ \lambda w_i(x)w_i(x) - \lambda^2\bar\theta_iw_j(x)w_i(x)w_{l,j}(x)\theta_l\bigg)e^{-S(x,\theta,\bar\theta)}\\
+        =&-(\lambda w_i(x)w_i(x) + \bar\theta_i w_{i,j}(x)\theta_j)e^{-S(x,\theta,\bar\theta)},
+    \end{aligned}
+\end{equation}
+where the term containing $w_{i,jl}$ vanishes by anti-commutation of Grassmann numbers.
+
+Letting $x_i \to \lambda x_i$ and $g_{ijk}\to g_{ijk}/\lambda$ is equivalent to letting $w_i\to \lambda w_i$. In other words,
+\begin{equation}
+    w_i(\lambda x, g/\lambda) = \lambda w_i(x).
+\end{equation}
+
+
+\end{solution}
+
+\subsection{Fermionic Gaussian Integral, Q5}
+
+Show that, for $\theta_i$, $\bar\theta_i$, $\eta_i$, $\bar\eta_i$, $i=1,2,\ldots,n$ independent Grassmann variables and $B$ an invertible $n\times n$ matrix,
+\begin{equation}
+    \int\prod_{i=1}^n d\bar\theta_i\,d\theta_i\,\exp\!\left(-\bar\theta_i B_{ij}\theta_j + \bar\eta_i\theta_i + \bar\theta_i\eta_i\right) = \det B\,\exp\!\left(\bar\eta_i(B^{-1})_{ij}\eta_j\right),
+\end{equation}
+and
+\begin{equation}
+    \langle\theta_i\bar\theta_j\rangle = -\frac{\partial}{\partial\bar\eta_i}\frac{\partial}{\partial\eta_j}\exp\!\left(\bar\eta_i(B^{-1})_{ij}\eta_j\right)\bigg|_{\eta=\bar\eta=0} = (B^{-1})_{ij}.
+\end{equation}
+
+\begin{solution}
+    Making the substitution $\chi_i = \theta_i -B_{ij}^{-1}\eta_j$, and $\bar\chi_i = \bar\theta_i - \bar\eta_jB_{ji}^{-1}$, the integral becomes
+    \begin{equation}
+        \int\prod_{i=1}^nd\bar\chi_id\chi_i \exp\left(-\bar\chi_i B_{ij}\chi_j + \bar\eta_jB_{ji}^{-1}\eta_i\right) = \exp\!\left(\bar\eta_i(B^{-1})_{ij}\eta_j\right)\int\prod_{i=1}^nd\bar\chi_id\chi_i \exp\left(-\bar\chi_i B_{ij}\chi_j\right),
+    \end{equation}
+    where the latter integral is equal to $\det B$. Then,
+    \begin{equation}
+        \langle \theta_i \bar\theta_j\rangle = - \frac{\partial}{\partial\bar\eta_i}\frac{\partial}{\partial\eta_j}\exp\!\left(\bar\eta_i(B^{-1})_{ij}\eta_j\right)\bigg|_{\eta=\bar\eta=0} =- \frac{\partial}{\partial\bar\eta_i}\frac{\partial}{\partial\eta_j}(1+\bar\eta_iB_{ij}^{-1}\eta_j)\bigg|_{\eta=\bar\eta=0} = B_{ij}^{-1}.
+    \end{equation}
+\end{solution}
+
+
+\subsection{Pfaffian and Real Grassmann Integrals, Q6}
+
+Show that
+\begin{equation}
+    \int d^{2n}\theta\,\exp\!\left(\tfrac{1}{2}\theta_i A_{ij}\theta_j + \eta_i\theta_i\right) = \mathrm{Pf}(A)\exp\!\left(\tfrac{1}{2}\eta_i(A^{-1})_{ij}\eta_j\right), \qquad d^{2n}\theta = d\theta_{2n}\cdots d\theta_1,
+\end{equation}
+where $\theta_i$ and $\eta_i$ are Grassmann variables, $A$ is an invertible antisymmetric matrix and the Pfaffian is
+\begin{equation}
+    \mathrm{Pf}(A) = \frac{1}{2^n n!}\varepsilon_{i_1\cdots i_{2n}}A_{i_1 i_2}\cdots A_{i_{2n-1}i_{2n}}.
+\end{equation}
+Why does $\mathrm{Pf}(A)^2 = \det A$? Hence obtain
+\begin{equation}
+    \langle\theta_i\theta_j\rangle = \frac{\partial}{\partial\eta_i}\frac{\partial}{\partial\eta_j}\exp\!\left(\tfrac{1}{2}\eta_i(A^{-1})_{ij}\eta_j\right)\bigg|_{\eta=0} = -(A^{-1})_{ij}.
+\end{equation}
+Show that $\delta(\theta) = \theta_1\cdots\theta_{2n}$ plays the role of a $\delta$-function for Grassmann integrals over $\theta_1,\ldots,\theta_{2n}$.
+
+\begin{solution}
+    Similarly, we perform the substitution $\chi_i = \theta_i- A_{ij}^{-1}\eta_j$, which gives
+    \begin{equation}
+        \int d^{2n}\chi\,\exp\!\left(\frac{1}{2}(\chi_i +A_{il}^{-1}\eta_l)A_{ij}(\chi_j +A_{jk}^{-1}\eta_k) + \eta_i (\chi_i +A_{ij}^{-1}\eta_j)  \right).
+    \end{equation}
+    The exponent is 
+    \begin{equation}
+        \frac{1}{2}\chi_iA_{ij}\chi_j + \frac{1}{2}\chi_iA_{ij}A_{jk}^{-1}\eta_k + \frac{1}{2}A_{il}^{-1}\eta_lA_{ij}\chi_j + \frac{1}{2}A_{il}^{-1}\eta_l A_{ij}A_{jk}^{-1}\eta_k + \eta_i\chi_i + \eta_iA_{ij}^{-1}\eta_j.
+    \end{equation}
+    For the $\theta A\theta$ term to be non-vanishing, we need $A$ to be antisymmetric. Therefore,
+    \begin{equation}
+        \frac{1}{2}A_{il}^{-1}\eta_lA_{ij}\chi_j = -\frac{1}{2}\eta_i \chi_i.
+    \end{equation}
+    The integral becomes
+    \begin{equation}
+        \int d^{2n}\theta\,\exp\!\left(\tfrac{1}{2}\theta_i A_{ij}\theta_j + \eta_i\theta_i\right) = \exp\!\left(\tfrac{1}{2}\eta_i(A^{-1})_{ij}\eta_j\right)\int d^{2n}\chi \exp\left(\frac{1}{2}\chi_i A_{ij} \chi_j\right).
+    \end{equation}
+   The integral on the right-hand side is
+   \begin{equation}
+       \begin{aligned}
+           \int d^{2n}\chi \exp\left(\frac{1}{2}\chi_i A_{ij} \chi_j\right) &= \frac{\partial}{\partial \chi_{2n}}\cdots \frac{\partial}{\partial \chi_1}\sum_{m=0}^n\frac{1}{m!}\left(\frac{1}{2}\chi_i A_{ij} \chi_j\right)^m\\
+           &=\frac{1}{2^nn!}\frac{\partial}{\partial \chi_{2n}}\cdots \frac{\partial}{\partial \chi_1}\left(\chi_i A_{ij} \chi_j\right)^n\\
+           &=\frac{1}{2^n n!}\varepsilon_{i_1\cdots i_{2n}}A_{i_1 i_2}\cdots A_{i_{2n-1}i_{2n}}\\
+           &= \mathrm{Pf}(A).
+       \end{aligned}
+   \end{equation}
+
+   Now, we consider
+   \begin{equation}
+   \begin{aligned}
+          \mathrm{Pf}^2(A)&= \left(\int d^{2n}\chi \exp\left(\frac{1}{2}\chi_i A_{ij} \chi_j\right)\right)^2\\
+          &=\int d^{2n}\chi d^{2n}\chi' \exp\left(\frac{1}{2}\chi_i A_{ij} \chi_j + \frac{1}{2}\chi_i' A_{ij} \chi_j'\right).
+   \end{aligned}
+   \end{equation}
+   Let $\eta_i = \frac{1}{\sqrt{2}}(\chi_i + \chi_i')$ and $\eta_i' = \frac{i}{\sqrt{2}}(\chi_i - \chi_i')$, so that the above becomes
+   \begin{equation}
+       \mathrm{Pf}^2(A) = \int  \prod_{i=1}^{2n}d\eta_i d\eta'_i\exp\left(\eta'_i A_{ij}\eta_j\right) = \det (-A) = (-1)^{2n}\det (A) = \det(A).
+   \end{equation}
+   
+   It is easy to see that
+   \begin{equation}
+       \langle \theta_i \theta_j \rangle = \frac{\partial}{\partial\eta_i}\frac{\partial}{\partial\eta_j}\exp\!\left(\tfrac{1}{2}\eta_i(A^{-1})_{ij}\eta_j\right)\bigg|_{\eta=0} = -(A^{-1})_{ij}
+   \end{equation}
+   is true.
+
+   Now, consider a Grassmann function, which can be expanded as $f(\theta) = f(0) + (\text{terms with } \theta_i)$. Therefore, 
+   \begin{equation}
+       \int d^{2n}\theta\, \theta_1 \cdots \theta_{2n} f(\theta) = \int d^{2n}\,\theta\theta_1 \cdots \theta_{2n} f(0)  = f(0).
+   \end{equation}
+\end{solution}
+
+\subsection{Fermionic Path Integral and Partition Function, Q7}
+
+For the simple fermionic oscillator with energy eigenstates $|0\rangle$, $|1\rangle$ and $H = b^\dagger b\,\omega$, let $|\theta\rangle = |0\rangle + \theta|1\rangle$, $\langle\bar\theta| = \langle 0| + \bar\theta\langle 1|$ where $\theta$, $\bar\theta$ are Grassmann variables. Show that
+\begin{equation}
+    \mathrm{tr}\,e^{-\beta H} = \int d\theta\,d\bar\theta\,e^{\theta\bar\theta}\langle\bar\theta|e^{-\beta H}|\theta\rangle, \qquad \int d\bar\theta\,d\theta\,e^{\theta\bar\theta}|\theta\rangle\langle\bar\theta| = 1.
+\end{equation}
+Let $\beta = (N+1)\epsilon$ and show that this can be expressed for large $N$ as a path integral over products of $\langle\bar\theta_{i+1}|e^{-H}|\theta_i\rangle \approx \exp\!\left((1-\epsilon\omega)\bar\theta_{i+1}\theta_i\right)$ so that
+\begin{equation}
+    \mathrm{tr}\,e^{-\beta H} \approx \int\prod_{i=1}^{N+1}d\bar\theta_i\,d\theta_i\,\exp\!\left(-\bar\theta_i B_{ij}\theta_j\right) = \det(B),
+\end{equation}
+where we take $\bar\theta_{N+1}=\bar\theta$, $\theta_{N+1}=-\theta$ and $B$ is an $(N+1)\times(N+1)$ matrix of the form
+\begin{equation}
+    B = \begin{pmatrix}
+        1 & 0 & \cdots & 0 & 1-\epsilon\omega\\
+        -1+\epsilon\omega & 1 & \cdots & 0 & 0\\
+        0 & -1+\epsilon\omega & \cdots & 0 & 0\\
+        \vdots & \vdots & \ddots & \vdots & \vdots\\
+        0 & 0 & \cdots & 1 & 0\\
+        0 & 0 & \cdots & -1+\epsilon\omega & 1
+    \end{pmatrix}.
+\end{equation}
+Show that $\det B = 1 + (1-\epsilon\omega)^{N+1} \to 1 + e^{-\beta\omega}$ as $N\to\infty$.
+
+\begin{solution}
+    The completeness relation is given by
+    \begin{equation}
+        \ket{0}\bra{0} + \ket{1}\bra{1} =1 = \int d\bar\theta\,d\theta\,e^{\theta\bar\theta}|\theta\rangle\langle\bar\theta|.
+    \end{equation}
+    Then
+    \begin{equation}
+    \begin{aligned}
+        \tr e^{-\beta H} &= \bra{0}e^{-\beta H}\ket{ 0} + \bra{1}e^{-\beta H}\ket{1} \\
+        &= \int d\bar\theta\,d\theta\,e^{\theta\bar\theta} (\langle\bar\theta|e^{-\beta H}\ket{0}+\theta \langle\bar\theta|e^{-\beta H}\ket{1})\\
+        &=\int d\bar\theta\,d\theta\,e^{\theta\bar\theta} \langle\bar\theta|e^{-\beta H}\ket{\theta}.
+    \end{aligned}
+    \end{equation}
+
+    Taking $\beta = N+1$, so that the path integral becomes
+    \begin{equation}
+        \begin{aligned}
+            \tr e^{-\beta H} = \int d\bar\theta\,d\theta e^{\theta\bar\theta}\int \prod_{i=1}^{N} \left(d\bar\theta_i d\theta_i e^{\theta_i \bar\theta_i}\right)\langle\bar\theta|e^{- H}\ket{\theta_1}\langle\bar\theta_1|e^{- H}\ket{\theta_2}\cdots \langle\bar\theta_N|e^{- H}\ket{\theta}.
+        \end{aligned}
+    \end{equation}
+    For large $N$, 
+    \begin{equation}
+        \langle\bar\theta_{i+1}|e^{-\epsilon H}|\theta_i\rangle = \langle\bar\theta_{i+1}|e^{-\epsilon\omega b^\dagger b}|\theta_i\rangle \approx e^{-\epsilon\omega\bar\theta_{i+1}\theta_i}\langle\bar\theta_{i+1}|\theta_i\rangle = e^{-\epsilon\omega\bar\theta_{i+1}\theta_i}(1 +\bar\theta_{i+1}\theta_i)= e^{(1-\epsilon\omega)\bar\theta_{i+1}\theta_i},
+    \end{equation}
+    where we have neglected terms of order $\epsilon^2$ or higher. Plugging this back into the path integral, we find
+    \begin{equation}
+        \tr e^{-\beta H} \approx \int_{\theta_1 = \theta_{N+2}} \prod_{i=1}^{N+1}d\bar\theta_i d\theta_i e^{\theta_i \bar\theta_i}e^{(1-\epsilon\omega)\bar\theta_{i+1}\theta_i} = \int\prod_{i=1}^{N+1}d\bar\theta_i\,d\theta_i\,\exp\!\left(-\bar\theta_i B_{ij}\theta_j\right) = \det(B).
+    \end{equation}
+
+    The determinant is given by
+    \begin{equation}
+    \begin{aligned}
+                \det(B) &= \det\begin{pmatrix}
+    1 & \cdots & 0 & 0\\
+        -1+\epsilon\omega & \cdots & 0 & 0\\
+         \vdots & \ddots & \vdots & \vdots\\
+         0 & \cdots & 1 & 0\\
+         0 & \cdots & -1+\epsilon\omega & 1
+        \end{pmatrix} + (-1)^N(1-\epsilon\omega)\det\begin{pmatrix}
+        
+        -1+\epsilon\omega & 1 & \cdots & 0 \\
+        0 & -1+\epsilon\omega & \cdots & 0 \\
+        \vdots & \vdots & \ddots & \vdots \\
+        0 & 0 & \cdots & 1 \\
+        0 & 0 & \cdots & -1+\epsilon\omega 
+    \end{pmatrix}\\
+    &= 1 + (-1)^N (1-\epsilon\omega)(-1+\epsilon\omega)^N = 1 + (1-\epsilon\omega)^{N+1} \to 1 + e^{-\beta\omega}.
+    \end{aligned}
+    \end{equation}
+\end{solution}
+
+\subsection{Supersymmetric Quantum Mechanics, Q8}
+
+Let
+\begin{equation}
+    S = \int_0^\beta d\tau\left(\tfrac{1}{2}\dot x^2 + \bar\theta\dot\theta + \tfrac{1}{2}\lambda^2 w'(x)^2 + \lambda w''(x)\bar\theta\theta\right).
+\end{equation}
+Assume $x(\tau)$ and the Grassmannian $\theta(\tau)$, $\bar\theta(\tau)$ are all periodic with period $\beta$. Show that
+\begin{equation}
+    Q\!\left(\bar\theta\cdot w'\,e^{-S}\right) = -\frac{\partial}{\partial\lambda}e^{-S}, \qquad Q = \int_0^\beta d\tau\left(\theta\frac{\delta}{\delta x} + \left(\lambda w'(x)+\dot x\right)\frac{\delta}{\delta\bar\theta}\right), \qquad \bar\theta\cdot w' = \int_0^\beta d\tau\,\bar\theta w'(x).
+\end{equation}
+Hence show that
+\begin{equation}
+    Z = \int \mathcal{D}x\mathcal{D}\bar\theta\mathcal{D}\theta\,e^{-S}
+\end{equation}
+is independent of $\lambda$ if $\lambda\neq 0$. Calculate $Z$ for $\lambda w'(x) = \omega x$ if $Z=1$ for $\omega=0$.
+\begin{solution}
+\begin{equation}
+    \begin{aligned}
+        Q\left(\bar\theta \cdot w' e^{-S}\right)&=
+        \int_0^\beta d\tau\left(\theta\frac{\delta}{\delta x} + \left(\lambda w'(x)+\dot x\right)\frac{\delta}{\delta\bar\theta}\right)\left(\int_0^\beta d\tau'\,\bar\theta w'(x)e^{-S}\right)\\
+        &=\int_0^\beta d\tau d\tau'\bigg(\theta(\tau)\bar\theta(\tau')w''(x(\tau'))\delta(\tau-\tau') + \theta(\tau)\bar\theta(\tau')w'(x(\tau'))\\
+        &\qquad\qquad\times\int_0^\beta d\tau''[\ddot x(\tau)\delta(\tau-\tau'') - \lambda^2w'(x(\tau''))w''(x(\tau''))\delta(\tau-\tau'') \\
+        &\qquad\qquad - \lambda w'''(x(\tau''))\bar\theta(\tau'')\theta(\tau'')\delta(\tau-\tau'')]\bigg)e^{-S}\\
+        &+ \int_0^\beta d\tau d\tau'[\lambda w'(x(\tau)) + \dot{x}(\tau)]\bigg(\delta(\tau-\tau')w'(x(\tau'))\\
+        &\qquad\qquad+\bar\theta(\tau')w'(x(\tau'))\int^\beta_0 d\tau''[\dot\theta(\tau'')\delta(\tau -\tau'') + \lambda w''(x(\tau''))\theta(\tau'')\delta(\tau -\tau'')]\bigg)e^{-S}\\
+        &=\int^\beta_0 d\tau\, \theta\bar\theta w''(x) e^{-S} \\
+        &\qquad+ \int^\beta_0 d\tau d\tau'\,\theta(\tau)\bar\theta(\tau')w'(x(\tau'))[\ddot x(\tau) - \lambda^2w'(x(\tau))w''(x(\tau))]e^{-S}\\
+        &\qquad+\int^\beta_0 d\tau\,[\lambda w'(x) + \dot{x}]w'(x)e^{-S} \\
+        &\qquad+ \int^\beta_0 d\tau d\tau'\,[\lambda w'(x(\tau)) + \dot{x}(\tau)]\bar\theta(\tau')w'(x(\tau'))[\dot\theta(\tau) + \lambda w''(x(\tau))\theta(\tau)]e^{-S}\\
+        &=\int^\beta_0 d\tau [w''(x)\bar\theta\theta+ \lambda w'(x)w'(x) + \dot{x}w'(x)]e^{-S}\\
+        &= - \frac{d}{d\lambda}e^{-S},
+    \end{aligned}
+\end{equation}
+where we have used the fact that $\dot{x}w'(x) = \frac{d}{d\tau}w(x)$ is a total derivative, and thus vanishes.
+
+Now consider
+\begin{equation}
+\begin{aligned}
+    \frac{dZ}{d\lambda} &= -\int\mathcal{D}x\mathcal{D}\bar\theta\mathcal{D}\theta \,Q(\bar\theta \cdot w'e^{-S}),
+\end{aligned}
+\end{equation}
+which only contains boundary terms of $x$ and $\bar\theta$. Therefore, we have $dZ/d\lambda = 0$, which means $Z$ is independent of $\lambda$ for SUSY QM. Now, take $\lambda w'(x) = \omega x$, and then
+\begin{equation}
+    S = \int^\beta_0 d\tau\left(\frac{1}{2}\dot{x}^2 + \bar\theta\dot{\theta} + \frac{1}{2}\omega^2 x^2  + \omega\bar\theta\theta\right).
+\end{equation}
+The partition function is then given by
+\begin{equation}
+\begin{aligned}
+        Z &= \int\mathcal{D}x\, e^{-\int d\tau \frac{1}{2}(\dot{x}^2 + \omega^2 x^2)}\int\mathcal{D}\bar\theta\mathcal{D}\theta\, e^{-\int d\tau (\bar\theta\dot{\theta} +\omega\bar\theta\theta)} \\
+        &= \int\mathcal{D}x\, e^{-\int d\tau \frac{1}{2}x(-\frac{d^2}{d\tau^2} + \omega^2 )x}\int\mathcal{D}\bar\theta\mathcal{D}\theta\, e^{-\int d\tau \bar\theta(\frac{d}{d\tau} +\omega)\theta}\\
+        &=\frac{\mathrm{Det}_{\text{AP}}(\frac{d}{d\tau} + \omega)}{\sqrt{\mathrm{Det}_\text{P}(-\frac{d^2}{d\tau^2} + \omega^2)}}.
+\end{aligned}
+\end{equation}
+The determinants can be evaluated as
+\begin{equation}
+    \mathrm{Det}_{\text{AP}}\left(\frac{d}{d\tau} + \omega\right) = \prod_n\lambda_n = \prod_n\left[\frac{(2n-1)\pi i}{\beta} + \omega\right] = \mathrm{Det}_{\text{AP}}\left(\frac{d}{d\tau}\right)\prod_n\left[1 - \frac{i\omega\beta}{(2n-1)\pi}\right],
+\end{equation}
+and
+\begin{equation}
+    \mathrm{Det}_\text{P}\left(-\frac{d^2}{d\tau^2} + \omega^2\right) = \prod_n\left[\left(\frac{2\pi n}{\beta}\right)^2 + \omega^2\right] = \mathrm{Det}_\text{P}\left(-\frac{d^2}{d\tau^2}\right) \prod_n\left[1 + \left(\frac{\omega\beta}{2\pi n}\right)^2\right].
+\end{equation}
+Using the normalisation, $Z=1$ for $\omega=0$, we find
+\begin{equation}
+    Z = \prod_n\frac{1 - \frac{i\omega\beta}{(2n-1)\pi}}{\sqrt{1 + \left(\frac{\omega\beta}{2\pi n}\right)^2}}.
+\end{equation}
+\end{solution}

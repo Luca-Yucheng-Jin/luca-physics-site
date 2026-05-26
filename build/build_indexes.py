@@ -193,6 +193,14 @@ CATEGORIES = [
         <span class="catalogue__tag">PSI QFT II</span>
       </li>
       <li class="catalogue__item">
+        <span class="catalogue__num">O2.</span>
+        <span class="catalogue__main">
+          <a href="notes/osborn-aqft-ps2.html">Functional Methods &amp; Grassmann Integrals</a>
+          <span class="catalogue__desc">Osborn AQFT PS2 — Legendre transform, 1PI effective action, Green's-function/vertex relations, Grassmann Gaussian integrals, Pfaffians, fermionic partition function, SUSY QM. (Q1–Q8)</span>
+        </span>
+        <span class="catalogue__tag">Osborn AQFT PS2</span>
+      </li>
+      <li class="catalogue__item">
         <span class="catalogue__num">S1.</span>
         <span class="catalogue__main">
           <a href="notes/srednicki-nonabelian.html">Nonabelian Symmetries</a>

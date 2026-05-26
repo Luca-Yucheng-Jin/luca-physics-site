@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Functional Methods &amp; Grassmann Integrals — Osborn AQFT PS2 — Yucheng (Luca) Jin</title>
+<meta name="description" content="Functional Methods &amp; Grassmann Integrals — Osborn AQFT PS2. Source: H. Osborn.">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../styles.css">
+
+<script src="../assets/theme.js"></script>
+<script src="../assets/font-size.js"></script>
+
+<!-- MathJax with custom macros mirroring the original .tex preamble -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros', 'mathtools']},
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      Q: '\\mathbb{Q}',
+      A: '\\mathcal{A}',
+      Lagrangian: '\\mathcal{L}',
+      Cdot: '\\boldsymbol{\\cdot}',
+      Tr: '\\operatorname{Tr}',
+      // Feynman slash: \not{x} would render the slash to the LEFT of x
+      // (it's designed for \not=). \cancel from the cancel package
+      // strikes diagonally through the centre, matching the slashed.sty
+      // package's appearance.
+      slashed: ['{\\cancel{#1}}', 1],
+      // Wick contraction: top brace connector over the contracted pair —
+      // closer to the standard physics notation than a plain overline.
+      wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // siunitx polyfill — \si{K}, \si{m\,s^{-1}} etc. should render
+      // the unit in upright math text, like \mathrm{X}. Doesn't try
+      // to mimic the full siunitx unit-formatting machinery; just
+      // unblocks the common bare-unit case in TDSP problems.
+      si: ['\\,\\mathrm{#1}', 1],
+      SI: ['#1\\,\\mathrm{#2}', 2]
+      // \tensor{base}{indices} is rewritten to base^a{}_b in
+      // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
+      // so no runtime macro is needed here. The empty-group trick is
+      // what makes MathJax kern the indices into separate columns.
+    }
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="topbar__brand">Yucheng (Luca) Jin <small>BSc · Imperial</small></a>
+  <nav class="topbar__nav">
+    <a href="../index.html">About</a>
+    <a href="../notes.html" class="is-active">Notes</a>
+    <a href="../research.html">Research</a>
+    <a href="../reading.html">Reading</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+    <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" title="Decrease font size">A<span class="font-toggle__small">−</span></button>
+    <button class="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size" title="Increase font size">A<span class="font-toggle__large">+</span></button>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Toggle theme">
+      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    </button>
+  </nav>
+</header>
+
+<main class="note">
+
+  <div class="note__breadcrumb">
+    <a href="../notes.html">Notes</a> &nbsp;·&nbsp; Quantum Field Theory · Osborn AQFT PS2
+  </div>
+
+  <h1 class="note__title">Functional Methods &amp; Grassmann Integrals — Osborn AQFT PS2</h1>
+  <p class="note__subtitle">Source: H. Osborn, <em>Advanced Quantum Field Theory</em>, Problem Sheet 2 (functional methods, effective action, Grassmann integrals, SUSY QM).</p>
+
+  <nav class="note__toc" aria-label="Contents">
+  <div class="note__toc-label">On this page</div>
+  <ol class="note__toc-list">
+    <li class="toc-h2"><a href="#legendre-transform-and-perturbative-expansion-q1">Legendre Transform and Perturbative Expansion, Q1</a></li>
+    <li class="toc-h2"><a href="#effective-action-for-free-scalar-field-q2">Effective Action for Free Scalar Field, Q2</a></li>
+    <li class="toc-h2"><a href="#relations-between-greens-functions-and-1pi-vertices-q3">Relations Between Green's Functions and 1PI Vertices, Q3</a></li>
+    <li class="toc-h2"><a href="#grassmann-gaussian-integral-with-bosonic-background-q4">Grassmann Gaussian Integral with Bosonic Background, Q4</a></li>
+    <li class="toc-h2"><a href="#fermionic-gaussian-integral-q5">Fermionic Gaussian Integral, Q5</a></li>
+    <li class="toc-h2"><a href="#pfaffian-and-real-grassmann-integrals-q6">Pfaffian and Real Grassmann Integrals, Q6</a></li>
+    <li class="toc-h2"><a href="#fermionic-path-integral-and-partition-function-q7">Fermionic Path Integral and Partition Function, Q7</a></li>
+    <li class="toc-h2"><a href="#supersymmetric-quantum-mechanics-q8">Supersymmetric Quantum Mechanics, Q8</a></li>
+  </ol>
+</nav>
+
+  <article class="note__body">
+<h2 id="legendre-transform-and-perturbative-expansion-q1">Legendre Transform and Perturbative Expansion, Q1</h2>
+
+<p>Let, with $x_i, b_i, a_i \in \mathbb{R}^n$,
+\[e^{W(b)} = \int d^n x\, e^{-S + b\cdot x}, \quad S = \tfrac{1}{2}x\cdot\mathbf{A} x + V(x), \quad \frac{\partial}{\partial b_i}W(b) = a_i, \quad \Gamma(a) + W(b) = b\cdot a.\tag{1.1}\]
+Show that
+\[\frac{\partial}{\partial a_i}\Gamma(a) = b_i, \qquad W''_{ij}{\Gamma}''_{jk} = \delta_{ik}, \qquad \frac{\partial}{\partial b_i} = W''_{ij}\frac{\partial}{\partial a_j},\tag{1.2}\]
+where $W''$, $\Gamma''$ are matrices formed by $\frac{\partial^2}{\partial b_i\partial b_j}W$ and $\frac{\partial^2}{\partial a_i\partial a_j}\Gamma$. Find the first few terms in the perturbative expansion of $W(b)$ and correspondingly for $\Gamma(a)$.</p>
+
+<aside class="solution">
+
+<p>\[\frac{\partial}{\partial a_i}\left(\Gamma(a) + W(b)\right) = \frac{\partial}{\partial a_i}\Gamma(a) = b_i.\tag{1.3}\]
+    \[W''_{ij}{\Gamma}''_{jk} = \frac{\partial a_i}{\partial b_j}\frac{\partial b_j}{\partial a_k} = \delta_{ik}.\tag{1.4}\]
+    \[\frac{\partial}{\partial b_i} = \frac{\partial a_j}{\partial b_i}\frac{\partial}{\partial a_j} = W''_{ij}\frac{\partial}{\partial a_j}.\tag{1.5}\]</p>
+
+<p>Now, Taylor expands the zero-dimensional Euclidean path integral, we find
+    \[\begin{aligned}
+            e^{W(b)} &amp;= e^{-V(\partial/\partial b)}\int_{\mathbb{R}^n} d^n x \,e^{-\frac{1}{2}(x_i-A_{il}^{-1}b_l)A_{ij}(x_j-A_{jk}^{-1}b_k) + \frac{1}{2}b_i A_{ij}^{-1}b_j}\\
+            &amp;=e^{-V(\partial/\partial b)}\int_{\mathbb{R}^n} d^n \xi \, e^{-\frac{1}{2}\xi_i A_{ij}\xi_j + \frac{1}{2}b_i A_{ij}^{-1}b_j}\\
+            &amp;=\left(\int_{\mathbb{R}^n}d^n \xi\, e^{-\frac{1}{2}\xi_i A_{ij}\xi_j}\right)e^{-V(\partial/\partial b)}e^{\frac{1}{2}b_iA_{ij}^{-1}b_j}\\
+            &amp;=\frac{(2\pi)^{n/2}}{\sqrt{\det A}}\sum_{j=0}^\infty\frac{(-1)^j}{j!}\left[V\left(\frac{\partial}{\partial b}\right)\right]^je^{\frac{1}{2}b_iA_{ij}^{-1}b_j}.
+        \end{aligned}\tag{1.6}\]
+    where we have made the substitution $\xi_i = x_i -A_{ij}^{-1}b_j$. Now, we shall take natural log on both side, which gives
+    \[\begin{aligned}
+            W(b) &amp;=\ln\left(\frac{(2\pi)^{n/2}}{\sqrt{\det A}}\right) + \ln\left\{\left(1 + \sum_{j=1}^\infty\frac{(-1)^j}{j!}\left[V\left(\frac{\partial}{\partial b}\right)\right]^j\right)e^{\frac{1}{2}b_iA_{ij}^{-1}b_j}\right\}.
+        \end{aligned}\tag{1.7}\]
+    Now, given
+    \[e^{-\frac{1}{2}b_iA_{ij}^{-1}b_j}\frac{\partial}{\partial b_i}e^{\frac{1}{2}b_iA_{ij}^{-1}b_j} = \frac{\partial}{\partial b_i} + A_{ij}^{-1}b_j,\tag{1.8}\]
+    we have
+    \[e^{-\frac{1}{2}b_iA_{ij}^{-1}b_j}V\left(\frac{\partial}{\partial b}\right)e^{\frac{1}{2}b_iA_{ij}^{-1}b_j} = V\left(\frac{\partial}{\partial b} + A^{-1}b\right).\tag{1.9}\]
+    Therefore,
+    \[\begin{aligned}
+            W(b) &amp;= W_0(0) + \frac{1}{2}b_iA_{ij}^{-1}b_j+ \sum_{l=1}^\infty\frac{1}{l}\sum_{j=1}^\infty\frac{(-1)^{j+2l+1}}{(j!)^l}\left[V\left(\frac{\partial}{\partial b} + A^{-1}b\right)\right]^{j+l},
+        \end{aligned}\tag{1.10}\]
+    where the derivative is understood to act on $1$.</p>
+
+<p>Let us take the potential to be
+    \[V(x) = \frac{\lambda}{4!}x^4,\tag{1.11}\]
+    the connected generating function becomes
+    \[W(b) = W_0(0) + \frac{1}{2}b_iA_{ij}^{-1}b_j + \sum_{n=1}^\infty\frac{1}{n}\left\{\sum_{m=1}^\infty\frac{(-1)^{m+1}\lambda^m}{m!4!}\left[\left(\frac{\partial}{\partial b_i} + A^{-1}_{ij}b_j\right)^4\right]^{m}\right\}^n.\tag{1.12}\]
+    Now, let us compute the first few terms of the above,
+    \[\begin{aligned}
+            \left(\frac{\partial}{\partial b_i} + A^{-1}_{ij}b_j\right)^4 &amp;=\left(\frac{\partial}{\partial b_i} + A^{-1}_{ij}b_j\right)^3A_{ik}^{-1}b_k\\
+            &amp;=\left(\frac{\partial}{\partial b_i} + A^{-1}_{ij}b_j\right)^2(A_{ii}^{-1}+A_{ik}^{-1}A_{il}^{-1}b_lb_k)\\
+            &amp;=\left(\frac{\partial}{\partial b_i} + A^{-1}_{ij}b_j\right)(3A_{ii}^{-1}A_{ip}^{-1}b_p + A_{ik}^{-1}A_{il}^{-1}A_{ip}^{-1}b_lb_kb_p)\\
+            &amp;=(3A_{ii}^{-1}A_{ii}^{-1} + 6 A_{ii}^{-1}A_{ij}^{-1}A_{il}^{-1}b_jb_l + A_{ik}^{-1}A_{il}^{-1}A_{ip}^{-1}A_{iq}^{-1}b_lb_kb_pb_q),
+        \end{aligned}\tag{1.13}\]
+    which corresponds to the diagrams
+\newcommand{\FDone}{</p>
+
+<figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='5.077em' height='2.582em' viewBox='-.000105 -23.472705 46.15251 23.47281'>
+<g id='page1'>
+<path d='M24.57031-11.738281C24.57031-12.5625 23.902344-13.23047 23.074219-13.23047C22.25-13.23047 21.58203-12.5625 21.58203-11.738281C21.58203-10.910156 22.25-10.24219 23.074219-10.24219C23.902344-10.24219 24.57031-10.910156 24.57031-11.738281Z'/>
+<path d='M23.074219-11.738281C23.074219-18 18-23.0742 11.7383-23.0742C5.4727-23.0742 .3984-18 .3984-11.738281C.3984-5.47656 5.4727-.3984 11.7383-.3984C18-.3984 23.074219-5.47656 23.074219-11.738281Z' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M45.7539-11.738281C45.7539-18 40.6758-23.0742 34.4141-23.0742C28.15234-23.0742 23.074219-18 23.074219-11.738281C23.074219-5.47656 28.15234-.3984 34.4141-.3984C40.6758-.3984 45.7539-5.47656 45.7539-11.738281Z' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+</g>
+</svg></figure>
+
+<p>}</p>
+
+<p>\newcommand{\FDtwo}{</p>
+
+<figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='7.300em' height='2.881em' viewBox='3.320114 -29.507855 66.360168 26.187365'>
+<defs>
+<path id='g0-98' d='M2.142964-5.917808C2.178829-6.043337 2.178829-6.06127 2.178829-6.097136C2.178829-6.177833 2.125031-6.222665 2.044334-6.222665C1.918804-6.222665 1.129763-6.150934 .950436-6.133001C.860772-6.124035 .762142-6.115068 .762142-5.96264C.762142-5.846077 .860772-5.846077 1.004234-5.846077C1.425654-5.846077 1.425654-5.783313 1.425654-5.702615C1.425654-5.648817 1.425654-5.630884 1.362889-5.388792L.887671-3.496887C.762142-2.99477 .645579-2.537484 .546949-2.116065C.484184-1.891905 .42142-1.622914 .42142-1.33599C.42142-.564882 .851806 .09863 1.622914 .09863C2.67198 .09863 3.819676-1.165629 3.819676-2.510585C3.819676-3.425156 3.254795-3.963138 2.582316-3.963138C2.125031-3.963138 1.730511-3.649315 1.524284-3.452055L2.142964-5.917808ZM1.398755-2.940971C1.649813-3.299626 2.107098-3.738979 2.564384-3.738979C2.985803-3.738979 3.156164-3.317559 3.156164-2.896139C3.156164-2.492653 2.905106-1.380822 2.627148-.905604C2.295392-.331756 1.900872-.125529 1.622914-.125529C1.174595-.125529 .995268-.573848 .995268-1.031133C.995268-1.344956 1.058032-1.587049 1.264259-2.402989L1.398755-2.940971Z'/>
+</defs>
+<g id='page1'>
+<path d='M37.9961-6.433594C37.9961-7.257813 37.32422-7.92969 36.500002-7.92969C35.675783-7.92969 35.00391-7.257813 35.00391-6.433594C35.00391-5.609375 35.675783-4.9375 36.500002-4.9375C37.32422-4.9375 37.9961-5.609375 37.9961-6.433594Z'/>
+<path d='M47.8398-17.77345C47.8398-24.03515 42.76172-29.10935 36.500002-29.10935C30.23828-29.10935 25.1602-24.03515 25.1602-17.77345C25.1602-11.51172 30.23828-6.433594 36.500002-6.433594C42.76172-6.433594 47.8398-11.51172 47.8398-17.77345Z' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M10.9883-6.433594H36.500002H62.0117' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 -33.18011 3.11336)'>
+<use x='36.500224' y='-6.43385' xlink:href='#g0-98'/>
+</g>
+<g transform='matrix(1 0 0 1 29.231 3.11336)'>
+<use x='36.500224' y='-6.43385' xlink:href='#g0-98'/>
+</g>
+</g>
+</svg></figure>
+
+<p>}</p>
+
+<p>\newcommand{\FDthree}{</p>
+
+<figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='6.676em' height='7.177em' viewBox='3.320147 -68.566681 60.691348 65.246572'>
+<defs>
+<path id='g0-98' d='M2.142964-5.917808C2.178829-6.043337 2.178829-6.06127 2.178829-6.097136C2.178829-6.177833 2.125031-6.222665 2.044334-6.222665C1.918804-6.222665 1.129763-6.150934 .950436-6.133001C.860772-6.124035 .762142-6.115068 .762142-5.96264C.762142-5.846077 .860772-5.846077 1.004234-5.846077C1.425654-5.846077 1.425654-5.783313 1.425654-5.702615C1.425654-5.648817 1.425654-5.630884 1.362889-5.388792L.887671-3.496887C.762142-2.99477 .645579-2.537484 .546949-2.116065C.484184-1.891905 .42142-1.622914 .42142-1.33599C.42142-.564882 .851806 .09863 1.622914 .09863C2.67198 .09863 3.819676-1.165629 3.819676-2.510585C3.819676-3.425156 3.254795-3.963138 2.582316-3.963138C2.125031-3.963138 1.730511-3.649315 1.524284-3.452055L2.142964-5.917808ZM1.398755-2.940971C1.649813-3.299626 2.107098-3.738979 2.564384-3.738979C2.985803-3.738979 3.156164-3.317559 3.156164-2.896139C3.156164-2.492653 2.905106-1.380822 2.627148-.905604C2.295392-.331756 1.900872-.125529 1.622914-.125529C1.174595-.125529 .995268-.573848 .995268-1.031133C.995268-1.344956 1.058032-1.587049 1.264259-2.402989L1.398755-2.940971Z'/>
+</defs>
+<g id='page1'>
+<path d='M35.16016-35.945311C35.16016-36.76953 34.492189-37.4375 33.664064-37.4375C32.839846-37.4375 32.17188-36.76953 32.17188-35.945311C32.17188-35.117186 32.839846-34.44922 33.664064-34.44922C34.492189-34.44922 35.16016-35.117186 35.16016-35.945311Z'/>
+<path d='M10.9883-58.6211L33.664064-35.945311' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M10.9883-13.2656L33.664064-35.945311' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M56.3438-58.6211L33.664064-35.945311' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M56.3438-13.2656L33.664064-35.945311' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 -30.34569 -26.3966)'>
+<use x='33.665837' y='-35.943429' xlink:href='#g0-98'/>
+</g>
+<g transform='matrix(1 0 0 1 -30.34569 32.62332)'>
+<use x='33.665837' y='-35.943429' xlink:href='#g0-98'/>
+</g>
+<g transform='matrix(1 0 0 1 26.3966 -26.3966)'>
+<use x='33.665837' y='-35.943429' xlink:href='#g0-98'/>
+</g>
+<g transform='matrix(1 0 0 1 26.3966 32.62332)'>
+<use x='33.665837' y='-35.943429' xlink:href='#g0-98'/>
+</g>
+</g>
+</svg></figure>
+
+<p>}</p>
+
+<p>\[\frac{\lambda}{4!}\left(\frac{\partial}{\partial b_i} + A^{-1}_{ij}b_j\right)^{\!4}
+    \;=\;
+    \frac{1}{8}\;\FDone
+    \;+\;
+    \frac{1}{4}\;\FDtwo
+    \;+\;\frac{1}{24}\;
+    \FDthree.\tag{1.14}\]
+Therefore, to one-loop order, we have
+\newcommand{\Wprop}{</p>
+
+<figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='6.052em' height='0.685em' viewBox='3.320174 -9.547142 55.021608 6.226652'>
+<defs>
+<path id='g0-98' d='M2.142964-5.917808C2.178829-6.043337 2.178829-6.06127 2.178829-6.097136C2.178829-6.177833 2.125031-6.222665 2.044334-6.222665C1.918804-6.222665 1.129763-6.150934 .950436-6.133001C.860772-6.124035 .762142-6.115068 .762142-5.96264C.762142-5.846077 .860772-5.846077 1.004234-5.846077C1.425654-5.846077 1.425654-5.783313 1.425654-5.702615C1.425654-5.648817 1.425654-5.630884 1.362889-5.388792L.887671-3.496887C.762142-2.99477 .645579-2.537484 .546949-2.116065C.484184-1.891905 .42142-1.622914 .42142-1.33599C.42142-.564882 .851806 .09863 1.622914 .09863C2.67198 .09863 3.819676-1.165629 3.819676-2.510585C3.819676-3.425156 3.254795-3.963138 2.582316-3.963138C2.125031-3.963138 1.730511-3.649315 1.524284-3.452055L2.142964-5.917808ZM1.398755-2.940971C1.649813-3.299626 2.107098-3.738979 2.564384-3.738979C2.985803-3.738979 3.156164-3.317559 3.156164-2.896139C3.156164-2.492653 2.905106-1.380822 2.627148-.905604C2.295392-.331756 1.900872-.125529 1.622914-.125529C1.174595-.125529 .995268-.573848 .995268-1.031133C.995268-1.344956 1.058032-1.587049 1.264259-2.402989L1.398755-2.940971Z'/>
+</defs>
+<g id='page1'>
+<path d='M10.9883-6.433594H50.6719' stroke='currentColor' fill='none' stroke-width='.79701'/>
+<g transform='matrix(1 0 0 1 -27.51085 3.11336)'>
+<use x='30.831024' y='-6.43385' xlink:href='#g0-98'/>
+</g>
+<g transform='matrix(1 0 0 1 23.5617 3.11336)'>
+<use x='30.831024' y='-6.43385' xlink:href='#g0-98'/>
+</g>
+</g>
+</svg></figure>
+
+<p>}</p>
+
+<p>\[W(b) = W_0 \;+\; \frac{1}{2}\;\Wprop
+    \;-\; \frac{1}{8}\;\FDone
+    \;-\; \frac{1}{4}\;\FDtwo
+    \;-\; \frac{1}{24}\;\FDthree
+    \;+\; O(\lambda^2).\tag{1.15}\]</p>
+
+<p>The quantum action can be obtained by performing a Legendre transformation, which is
+\[\Gamma(a) =-W(b) + b\cdot a,\tag{1.16}\]
+where
+\[a_i = \frac{\partial W(b)}{\partial b_i} = A_{ij}^{-1}b_j - \frac{1}{2}\lambda A_{ll}^{-1}A_{li}^{-1}A_{lj}^{-1}b_j - \frac{1}{6}\lambda A_{li}^{-1}A_{lj}^{-1}A_{lk}^{-1}A_{lp}^{-1}b_jb_kb_p + \mathcal{O}(\lambda^2).\tag{1.17}\]
+Therefore, to first order in $\lambda$, we can replace $b_i$ with $A_{ij}a_j$
+\[\Gamma(a) = -W_0(0) + \frac{1}{2}A_{ij}a_ia_j + \frac{\lambda}{8}(A^{-1}_{ii})^2 + \frac{\lambda}{4}A^{-1}_{ii}a_i^2 + \frac{\lambda}{24}a_i^4 + \mathcal{O}(\lambda^2).\tag{1.18}\]</p>
+
+</aside>
+
+<h2 id="effective-action-for-free-scalar-field-q2">Effective Action for Free Scalar Field, Q2</h2>
+
+<p>Starting from $Z[J]$, determine $W[J]$ and $\Gamma[\phi]$ for the free field theory for a scalar field $\phi(x)$ of mass $m$. What are
+\[\frac{\delta^2}{\delta J(x)\delta J(y)}W[J]\bigg|_{J=0}, \qquad \frac{\delta^2}{\delta\phi(x)\delta\phi(y)}\Gamma[\phi]\bigg|_{\phi=0}\tag{2.1}\]
+in this case? Verify that they satisfy the expected inverse relations.</p>
+
+<aside class="solution">
+
+<p>For a free scalar field theory,
+\[Z[J] = \int \mathcal{D}\phi\, e^{iS[\phi] + i\int d^dx\, J\phi},\tag{2.2}\]
+where 
+\[S[\phi] = \int d^dx \left[\frac{1}{2}\partial_\mu\phi \partial^\mu\phi -\frac{1}{2}(m^2 -i\epsilon)\phi^2\right].\tag{2.3}\]
+We define
+\[\phi_J(x) = \phi(x) - i\int d^dy\, D_F(x-y)J(y),\tag{2.4}\]
+where
+\[D_F(x-y) = \int \frac{d^dk}{(2\pi)^d}\frac{i\,e^{-ik\cdot (x-y)}}{k^2 - m^2 + i\epsilon}.\tag{2.5}\]
+The exponent of the generating functional becomes
+\[\begin{aligned}
+    &amp;-\frac{i}{2}\int d^dx\,\phi(x)(\square   + m^2 -i\epsilon)\phi(x) + i\int d^dx\, J(x)\phi(x) \\
+    =\;&amp; -\frac{i}{2}\int d^dx\,\phi_J(x)(\square   + m^2 -i\epsilon)\phi_J(x) -\frac{1}{2}\int d^dx\int d^dy \, J(x)D_F(x-y)J(y).
+\end{aligned}\tag{2.6}\]
+Therefore, we have
+\[Z[J] = \exp\!\left[-\frac{1}{2}\int d^dx\int d^dy \, J(x)D_F(x-y)J(y)\right]\frac{(2\pi)^{\infty/2}}{\sqrt{\operatorname{Det}(m^2 - \bar\square) }},\tag{2.7}\]
+where $\bar\square = \partial_\tau^2 + \nabla^2$ is the Euclidean Laplace operator.
+Then, the connected diagram generating functional is given by
+\[iW[J] = \ln Z[0] - \frac{1}{2}\int d^dx\int d^dy \, J(x)D_F(x-y)J(y).\tag{2.8}\]
+The quantum action is defined by the Legendre transformation
+\[\Gamma[\phi_J] = -W[J] + \int d^dx\, J(x)\phi_J(x),\tag{2.9}\]
+where 
+\[\frac{\delta\Gamma[\phi_J]}{\delta\phi_J(x)} = J(x),\quad \frac{\delta W[J]}{\delta J(x)} = \phi_J(x).\tag{2.10}\]
+Therefore,
+\[\phi_J(x) = i\int d^dy\, D_F(x-y) J(y),\tag{2.11}\]
+and hence
+\[\Gamma[\phi_J] = i\ln Z[0] + \frac{1}{2}\int d^dx \, \phi_J(x)(\square +m^2 - i\epsilon)\phi_J(x).\tag{2.12}\]</p>
+
+<p>Now, we compute 
+\[\frac{\delta^2}{\delta J(x)\delta J(y)}W[J]\bigg|_{J=0} = iD_F(x-y), \quad \frac{\delta^2}{\delta\phi(x)\delta\phi(y)}\Gamma[\phi]\bigg|_{\phi=0} =  (\square + m^2 - i\epsilon),\tag{2.13}\]
+which verifies
+\[\frac{\delta^2}{\delta J(x)\delta J(y)}W[J]\bigg|_{J=0}\frac{\delta^2}{\delta\phi(y)\delta\phi(z)}\Gamma[\phi]\bigg|_{\phi=0} = \delta^d(x-z).\tag{2.14}\]</p>
+
+</aside>
+
+<h2 id="relations-between-greens-functions-and-1pi-vertices-q3">Relations Between Green's Functions and 1PI Vertices, Q3</h2>
+
+<p>Starting from the definition of the effective action $\Gamma[\phi]$ in terms of the generating functional for connected graphs $W[J]$,
+\[W[J] + \Gamma[\phi] = \int d^d x\, J\phi, \qquad \frac{\delta}{\delta J(x)}W[J] = \phi(x),
+    \tag{3.1}\]
+obtain
+\[-\int d^dz\, G_2(x,z)\,\Gamma_2(z,y) = \delta^d(x-y), \qquad -i\frac{\delta}{\delta J(x)} = \int d^dy\, G_2(x,y)\frac{\delta}{\delta\phi(y)},\tag{3.2}\]
+where
+\[G_n(x_1,\ldots,x_n) = (-i)^{n-1}\frac{\delta}{\delta J(x_1)}\cdots\frac{\delta}{\delta J(x_n)}W[J], \qquad \Gamma_n(x_1,\ldots,x_n) = -i\frac{\delta}{\delta\phi(x_1)}\cdots\frac{\delta}{\delta\phi(x_n)}\Gamma[\phi].\tag{3.3}\]
+Show that
+\[G_3(x_1,x_2,x_3) = \int d^dy_1\,d^dy_2\,d^dy_3\, G_2(x_1,y_1)G_2(x_2,y_2)G_2(x_3,y_3)\,\Gamma_3(y_1,y_2,y_3).\tag{3.4}\]
+Also obtain relations in diagrammatic form for $G_4$, $G_5$ in terms of $G_2$, $\Gamma_3$, $\Gamma_4$ and $\Gamma_5$.</p>
+
+<aside class="solution">
+
+<p>\[\frac{\delta \phi(x)}{\delta \phi(y)} = \delta^d(x-y) = \int d^dz\frac{\delta\phi(x)}{\delta J(z)}\frac{\delta J(z)}{\delta \phi(y)} .\tag{3.5}\]
+    Recall
+    \[\frac{\delta\Gamma[\phi]}{\delta\phi(x)} = J(x) ,\quad \frac{\delta W[J]}{\delta J (x)} = \phi(x),\tag{3.6}\]
+    which gives
+    \[\delta^d (x-y) = \int d^dz \,\frac{\delta^2 W[J]}{\delta J(x)\delta J(z)}\frac{\delta^2\Gamma[\phi]}{\delta \phi(z) \delta \phi(y)} = -\int d^dz \, G_2(x,z)\Gamma_2(z,y).\tag{3.7}\]
+    Similarly,
+    \[-i\frac{\delta}{\delta J(x)} = -i\int d^dy \frac{\delta\phi(y)}{\delta J(x)}\frac{\delta}{\delta\phi(y)} = \int d^dy G_2(x,y) \frac{\delta}{\delta\phi(y)}.\tag{3.8}\]</p>
+
+<p>Now, we turn to the exact connected three point function
+    \[\begin{aligned}
+        G_3(x_1,x_2,x_3) &amp;= -\int d^dy_1d^dy_2d^dy_3 \left(iG_2(x_1,y_1)\frac{\delta}{\delta \phi(y_1)}\right)\left(iG_2(x_2,y_2)\frac{\delta}{\delta \phi(y_2)}\right) \\
+        &amp;\qquad \qquad\left(iG_2(x_3,y_3)\frac{\delta}{\delta \phi(y_3)}\right)\left(-\Gamma[\phi] + \int d^dx\,J(x)\phi(x)\right)\\
+        &amp;=\int d^dy_1\,d^dy_2\,d^dy_3\, G_2(x_1,y_1)G_2(x_2,y_2)G_2(x_3,y_3)\,\Gamma_3(y_1,y_2,y_3),
+    \end{aligned}\tag{3.9}\]
+    where we have jumped a few lines of algebra.</p>
+
+<p>For higher-order connected correlation functions, we have the diagrammatic expressions:
+    \tikzset{
+  >=Stealth, thick,</p>
+
+<p>G2 line/.style={
+    postaction={decorate},
+    decoration={markings, mark=at position 0.5 with {
+      \node[fill=gray!50, draw=black, line width=0.4pt, circle,
+            minimum size=0.65cm, inner sep=0pt, font=] {$G_2$};
+    }}
+  },
+  oneP/.style={draw, circle, fill=white, line width=0.6pt,
+               minimum size=0.95cm, inner sep=1pt, font=},
+  fullG/.style={draw, circle, fill=gray!50, line width=0.6pt,
+                minimum size=1.05cm, inner sep=1pt, font=}
+}</p>
+
+<p>\newcommand{\D}[1]{#1}</p>
+
+<div class="equation-row"><span class="equation-part">$\displaystyle \D$</span><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='9.018em' height='6.832em' viewBox='3.319998 -65.428407 81.984212 62.10826'>
+<defs>
+<path id='g0-120' d='M4.411457-3.622416C4.079701-3.559651 3.981071-3.272727 3.981071-3.138232C3.981071-2.96787 4.1066-2.815442 4.33076-2.815442C4.581818-2.815442 4.82391-3.030635 4.82391-3.344458C4.82391-3.756912 4.375592-3.963138 3.954172-3.963138C3.416189-3.963138 3.102366-3.48792 2.99477-3.299626C2.824408-3.738979 2.429888-3.963138 1.999502-3.963138C1.0401-3.963138 .52005-2.815442 .52005-2.582316C.52005-2.501619 .582814-2.47472 .645579-2.47472C.726276-2.47472 .753176-2.519552 .771108-2.57335C1.049066-3.461021 1.640847-3.738979 1.981569-3.738979C2.241594-3.738979 2.47472-3.568618 2.47472-3.147198C2.47472-2.824408 2.089166-1.389788 1.972603-.959402C1.900872-.681445 1.63188-.125529 1.13873-.125529C.959402-.125529 .771108-.188294 .681445-.242092C.923537-.286924 1.102864-.493151 1.102864-.726276C1.102864-.950436 .932503-1.049066 .762142-1.049066C.502117-1.049066 .268991-.824907 .268991-.52005C.268991-.080697 .753176 .09863 1.129763 .09863C1.649813 .09863 1.95467-.331756 2.089166-.573848C2.313325 .017933 2.842341 .09863 3.084433 .09863C4.052802 .09863 4.563885-1.066999 4.563885-1.282192C4.563885-1.327024 4.536986-1.389788 4.447323-1.389788C4.348692-1.389788 4.339726-1.353923 4.294894-1.219427C4.097634-.573848 3.577584-.125529 3.111333-.125529C2.851308-.125529 2.609215-.286924 2.609215-.71731C2.609215-.91457 2.734745-1.407721 2.815442-1.748443C2.851308-1.909838 3.0934-2.878207 3.111333-2.940971C3.218929-3.263761 3.48792-3.738979 3.945205-3.738979C4.1066-3.738979 4.276961-3.71208 4.411457-3.622416Z'/>
+<path id='g1-49' d='M2.145953-3.795766C2.145953-3.975093 2.122042-3.975093 1.942715-3.975093C1.548194-3.592528 .938481-3.592528 .723288-3.592528V-3.359402C.878705-3.359402 1.273225-3.359402 1.63188-3.526775V-.508095C1.63188-.310834 1.63188-.233126 1.016189-.233126H.759153V0C1.08792-.02391 1.554172-.02391 1.888917-.02391S2.689913-.02391 3.01868 0V-.233126H2.761644C2.145953-.233126 2.145953-.310834 2.145953-.508095V-3.795766Z'/>
+<path id='g1-50' d='M3.21594-1.117808H2.99477C2.982814-1.034122 2.923039-.639601 2.833375-.573848C2.791532-.537983 2.307347-.537983 2.223661-.537983H1.105853L1.870984-1.159651C2.074222-1.321046 2.606227-1.703611 2.791532-1.882939C2.970859-2.062267 3.21594-2.367123 3.21594-2.791532C3.21594-3.53873 2.540473-3.975093 1.739477-3.975093C.968369-3.975093 .430386-3.466999 .430386-2.905106C.430386-2.600249 .687422-2.564384 .753176-2.564384C.902615-2.564384 1.075965-2.67198 1.075965-2.887173C1.075965-3.01868 .998257-3.209963 .735243-3.209963C.872727-3.514819 1.23736-3.741968 1.649813-3.741968C2.27746-3.741968 2.612204-3.275716 2.612204-2.791532C2.612204-2.367123 2.331258-1.93076 1.912827-1.548194L.496139-.251059C.436364-.191283 .430386-.185305 .430386 0H3.030635L3.21594-1.117808Z'/>
+<path id='g1-51' d='M1.75741-1.984558C2.265504-1.984558 2.606227-1.643836 2.606227-1.034122C2.606227-.376588 2.211706-.089664 1.775342-.089664C1.613948-.089664 .998257-.125529 .729265-.472229C.962391-.496139 1.058032-.651557 1.058032-.812951C1.058032-1.016189 .91457-1.153674 .71731-1.153674C.555915-1.153674 .376588-1.052055 .376588-.800996C.376588-.209215 1.034122 .125529 1.793275 .125529C2.677958 .125529 3.269738-.442341 3.269738-1.034122C3.269738-1.470486 2.934994-1.93076 2.223661-2.110087C2.69589-2.265504 3.078456-2.64807 3.078456-3.138232C3.078456-3.616438 2.516563-3.975093 1.799253-3.975093C1.099875-3.975093 .56787-3.652304 .56787-3.162142C.56787-2.905106 .765131-2.833375 .884682-2.833375C1.0401-2.833375 1.201494-2.940971 1.201494-3.150187C1.201494-3.335492 1.069988-3.443088 .908593-3.466999C1.189539-3.777833 1.733499-3.777833 1.787298-3.777833C2.092154-3.777833 2.47472-3.634371 2.47472-3.138232C2.47472-2.809465 2.289415-2.235616 1.691656-2.199751C1.58406-2.193773 1.422665-2.181818 1.368867-2.181818C1.309091-2.175841 1.243337-2.169863 1.243337-2.080199C1.243337-1.984558 1.309091-1.984558 1.41071-1.984558H1.75741Z'/>
+<path id='g1-52' d='M3.371357-.980324V-1.21345H2.67198V-3.855542C2.67198-3.993026 2.67198-4.034869 2.52254-4.034869C2.414944-4.034869 2.402989-4.016936 2.349191-3.945205L.274969-1.21345V-.980324H2.133998V-.502117C2.133998-.304857 2.133998-.233126 1.63188-.233126H1.458531V0C1.578082-.005978 2.139975-.02391 2.402989-.02391S3.227895-.005978 3.347447 0V-.233126H3.174097C2.67198-.233126 2.67198-.304857 2.67198-.502117V-.980324H3.371357ZM2.175841-3.383313V-1.21345H.532005L2.175841-3.383313Z'/>
+<path id='g2-71' d='M7.571606-6.924035C7.571606-6.953923 7.551681-7.023661 7.462017-7.023661C7.43213-7.023661 7.422167-7.013699 7.312578-6.90411L6.615193-6.136986C6.525529-6.276463 6.067248-7.023661 4.961395-7.023661C2.739726-7.023661 .498132-4.821918 .498132-2.510585C.498132-.926526 1.603985 .219178 3.217933 .219178C3.656289 .219178 4.104608 .129514 4.463263-.019925C4.961395-.219178 5.150685-.428394 5.330012-.627646C5.419676-.37858 5.678705-.009963 5.778331-.009963C5.828144-.009963 5.84807-.039851 5.84807-.049813C5.867995-.069738 5.967621-.448319 6.017435-.657534L6.206725-1.424658C6.246575-1.594022 6.296389-1.763387 6.336239-1.932752C6.445828-2.381071 6.455791-2.400996 7.023661-2.410959C7.073474-2.410959 7.183064-2.420922 7.183064-2.610212C7.183064-2.67995 7.13325-2.719801 7.053549-2.719801C6.824408-2.719801 6.236613-2.689913 6.007472-2.689913C5.69863-2.689913 4.921544-2.719801 4.612702-2.719801C4.523039-2.719801 4.403487-2.719801 4.403487-2.520548C4.403487-2.410959 4.483188-2.410959 4.702366-2.410959C4.712329-2.410959 5.001245-2.410959 5.230386-2.391034C5.489415-2.361146 5.539228-2.331258 5.539228-2.201743C5.539228-2.11208 5.429639-1.663761 5.330012-1.295143C5.051059-.199253 3.755915-.089664 3.407223-.089664C2.450809-.089664 1.404732-.657534 1.404732-2.181818C1.404732-2.49066 1.504359-4.134496 2.550436-5.429639C3.088418-6.107098 4.054795-6.714819 5.041096-6.714819C6.057285-6.714819 6.645081-5.947696 6.645081-4.79203C6.645081-4.393524 6.615193-4.383562 6.615193-4.283935S6.724782-4.184309 6.764633-4.184309C6.894147-4.184309 6.894147-4.204234 6.94396-4.383562L7.571606-6.924035Z'/>
+<path id='g3-52' d='M3.689166-1.143711V-1.39477H2.915068V-4.505106C2.915068-4.651557 2.915068-4.700374 2.761644-4.700374C2.677958-4.700374 2.650062-4.700374 2.580324-4.60274L.27198-1.39477V-1.143711H2.322291V-.571856C2.322291-.334745 2.322291-.251059 1.75741-.251059H1.569116V0C1.917808-.013948 2.364134-.027895 2.615193-.027895C2.873225-.027895 3.319552-.013948 3.668244 0V-.251059H3.47995C2.915068-.251059 2.915068-.334745 2.915068-.571856V-1.143711H3.689166ZM2.371108-3.947198V-1.39477H.530012L2.371108-3.947198Z'/>
+</defs>
+<g id='page1'>
+<g transform='matrix(1 0 0 1 -6.1513 2.6567)'>
+<use x='44.561228' y='-34.374286' xlink:href='#g2-71'/>
+<use x='52.394345' y='-32.879905' xlink:href='#g3-52'/>
+</g>
+<path d='M34.97266-42.04688L16.2148-57.0508' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 -41.24123 -27.1936)'>
+<use x='44.561228' y='-34.374286' xlink:href='#g0-120'/>
+<use x='49.784685' y='-33.378037' xlink:href='#g1-49'/>
+</g>
+<path d='M54.14844-42.04688L72.9063-57.0508' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 31.8666 -27.1936)'>
+<use x='44.561228' y='-34.374286' xlink:href='#g0-120'/>
+<use x='49.784685' y='-33.378037' xlink:href='#g1-50'/>
+</g>
+<path d='M34.97266-26.70313L16.2148-11.6953' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 -41.24123 30.05789)'>
+<use x='44.561228' y='-34.374286' xlink:href='#g0-120'/>
+<use x='49.784685' y='-33.378037' xlink:href='#g1-51'/>
+</g>
+<path d='M54.14844-26.70313L72.9063-11.6953' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 31.8666 30.05789)'>
+<use x='44.561228' y='-34.374286' xlink:href='#g0-120'/>
+<use x='49.784685' y='-33.378037' xlink:href='#g1-52'/>
+</g>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle \;=\;
+\D$</span><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='10.889em' height='7.767em' viewBox='3.319892 -73.932008 98.992432 70.61192'>
+<defs>
+<path id='g0-120' d='M4.411457-3.622416C4.079701-3.559651 3.981071-3.272727 3.981071-3.138232C3.981071-2.96787 4.1066-2.815442 4.33076-2.815442C4.581818-2.815442 4.82391-3.030635 4.82391-3.344458C4.82391-3.756912 4.375592-3.963138 3.954172-3.963138C3.416189-3.963138 3.102366-3.48792 2.99477-3.299626C2.824408-3.738979 2.429888-3.963138 1.999502-3.963138C1.0401-3.963138 .52005-2.815442 .52005-2.582316C.52005-2.501619 .582814-2.47472 .645579-2.47472C.726276-2.47472 .753176-2.519552 .771108-2.57335C1.049066-3.461021 1.640847-3.738979 1.981569-3.738979C2.241594-3.738979 2.47472-3.568618 2.47472-3.147198C2.47472-2.824408 2.089166-1.389788 1.972603-.959402C1.900872-.681445 1.63188-.125529 1.13873-.125529C.959402-.125529 .771108-.188294 .681445-.242092C.923537-.286924 1.102864-.493151 1.102864-.726276C1.102864-.950436 .932503-1.049066 .762142-1.049066C.502117-1.049066 .268991-.824907 .268991-.52005C.268991-.080697 .753176 .09863 1.129763 .09863C1.649813 .09863 1.95467-.331756 2.089166-.573848C2.313325 .017933 2.842341 .09863 3.084433 .09863C4.052802 .09863 4.563885-1.066999 4.563885-1.282192C4.563885-1.327024 4.536986-1.389788 4.447323-1.389788C4.348692-1.389788 4.339726-1.353923 4.294894-1.219427C4.097634-.573848 3.577584-.125529 3.111333-.125529C2.851308-.125529 2.609215-.286924 2.609215-.71731C2.609215-.91457 2.734745-1.407721 2.815442-1.748443C2.851308-1.909838 3.0934-2.878207 3.111333-2.940971C3.218929-3.263761 3.48792-3.738979 3.945205-3.738979C4.1066-3.738979 4.276961-3.71208 4.411457-3.622416Z'/>
+<path id='g1-49' d='M2.145953-3.795766C2.145953-3.975093 2.122042-3.975093 1.942715-3.975093C1.548194-3.592528 .938481-3.592528 .723288-3.592528V-3.359402C.878705-3.359402 1.273225-3.359402 1.63188-3.526775V-.508095C1.63188-.310834 1.63188-.233126 1.016189-.233126H.759153V0C1.08792-.02391 1.554172-.02391 1.888917-.02391S2.689913-.02391 3.01868 0V-.233126H2.761644C2.145953-.233126 2.145953-.310834 2.145953-.508095V-3.795766Z'/>
+<path id='g1-50' d='M3.21594-1.117808H2.99477C2.982814-1.034122 2.923039-.639601 2.833375-.573848C2.791532-.537983 2.307347-.537983 2.223661-.537983H1.105853L1.870984-1.159651C2.074222-1.321046 2.606227-1.703611 2.791532-1.882939C2.970859-2.062267 3.21594-2.367123 3.21594-2.791532C3.21594-3.53873 2.540473-3.975093 1.739477-3.975093C.968369-3.975093 .430386-3.466999 .430386-2.905106C.430386-2.600249 .687422-2.564384 .753176-2.564384C.902615-2.564384 1.075965-2.67198 1.075965-2.887173C1.075965-3.01868 .998257-3.209963 .735243-3.209963C.872727-3.514819 1.23736-3.741968 1.649813-3.741968C2.27746-3.741968 2.612204-3.275716 2.612204-2.791532C2.612204-2.367123 2.331258-1.93076 1.912827-1.548194L.496139-.251059C.436364-.191283 .430386-.185305 .430386 0H3.030635L3.21594-1.117808Z'/>
+<path id='g1-51' d='M1.75741-1.984558C2.265504-1.984558 2.606227-1.643836 2.606227-1.034122C2.606227-.376588 2.211706-.089664 1.775342-.089664C1.613948-.089664 .998257-.125529 .729265-.472229C.962391-.496139 1.058032-.651557 1.058032-.812951C1.058032-1.016189 .91457-1.153674 .71731-1.153674C.555915-1.153674 .376588-1.052055 .376588-.800996C.376588-.209215 1.034122 .125529 1.793275 .125529C2.677958 .125529 3.269738-.442341 3.269738-1.034122C3.269738-1.470486 2.934994-1.93076 2.223661-2.110087C2.69589-2.265504 3.078456-2.64807 3.078456-3.138232C3.078456-3.616438 2.516563-3.975093 1.799253-3.975093C1.099875-3.975093 .56787-3.652304 .56787-3.162142C.56787-2.905106 .765131-2.833375 .884682-2.833375C1.0401-2.833375 1.201494-2.940971 1.201494-3.150187C1.201494-3.335492 1.069988-3.443088 .908593-3.466999C1.189539-3.777833 1.733499-3.777833 1.787298-3.777833C2.092154-3.777833 2.47472-3.634371 2.47472-3.138232C2.47472-2.809465 2.289415-2.235616 1.691656-2.199751C1.58406-2.193773 1.422665-2.181818 1.368867-2.181818C1.309091-2.175841 1.243337-2.169863 1.243337-2.080199C1.243337-1.984558 1.309091-1.984558 1.41071-1.984558H1.75741Z'/>
+<path id='g1-52' d='M3.371357-.980324V-1.21345H2.67198V-3.855542C2.67198-3.993026 2.67198-4.034869 2.52254-4.034869C2.414944-4.034869 2.402989-4.016936 2.349191-3.945205L.274969-1.21345V-.980324H2.133998V-.502117C2.133998-.304857 2.133998-.233126 1.63188-.233126H1.458531V0C1.578082-.005978 2.139975-.02391 2.402989-.02391S3.227895-.005978 3.347447 0V-.233126H3.174097C2.67198-.233126 2.67198-.304857 2.67198-.502117V-.980324H3.371357ZM2.175841-3.383313V-1.21345H.532005L2.175841-3.383313Z'/>
+<path id='g2-65' d='M3.317559 0V-.308842H3.058531C2.271482-.308842 2.241594-.418431 2.241594-.777086V-6.027397C2.241594-6.386052 2.271482-6.495641 3.058531-6.495641H3.317559V-6.804483C2.968867-6.774595 2.181818-6.774595 1.803238-6.774595C1.414695-6.774595 .627646-6.774595 .278954-6.804483V-6.495641H.537983C1.325031-6.495641 1.354919-6.386052 1.354919-6.027397V-.777086C1.354919-.418431 1.325031-.308842 .537983-.308842H.278954V0C.627646-.029888 1.414695-.029888 1.793275-.029888C2.181818-.029888 2.968867-.029888 3.317559 0Z'/>
+<path id='g2-82' d='M4.174346 0V-.308842H3.855542C2.958904-.308842 2.929016-.418431 2.929016-.787049V-6.37609C2.929016-6.615193 2.929016-6.635118 2.699875-6.635118C2.082192-5.997509 1.205479-5.997509 .886675-5.997509V-5.688667C1.085928-5.688667 1.673724-5.688667 2.191781-5.947696V-.787049C2.191781-.428394 2.161893-.308842 1.265255-.308842H.946451V0C1.295143-.029888 2.161893-.029888 2.560399-.029888S3.825654-.029888 4.174346 0Z'/>
+<path id='g2-83' d='M6.216687-4.951432C6.216687-5.927771 5.230386-6.804483 3.865504-6.804483H.348692V-6.495641H.587796C1.354919-6.495641 1.374844-6.386052 1.374844-6.027397V-.777086C1.374844-.418431 1.354919-.308842 .587796-.308842H.348692V0C.697385-.029888 1.43462-.029888 1.8132-.029888S2.938979-.029888 3.287671 0V-.308842H3.048568C2.281445-.308842 2.261519-.418431 2.261519-.777086V-3.148194H3.945205C5.140722-3.148194 6.216687-3.955168 6.216687-4.951432ZM5.190535-4.951432C5.190535-4.483188 5.190535-3.407223 3.606476-3.407223H2.231631V-6.097136C2.231631-6.425903 2.251557-6.495641 2.719801-6.495641H3.606476C5.190535-6.495641 5.190535-5.439601 5.190535-4.951432Z'/>
+</defs>
+<g id='page1'>
+<g transform='matrix(1 0 0 1 -7.6813 3.4023)'>
+<use x='53.065242' y='-38.626087' xlink:href='#g2-82'/>
+<use x='58.046562' y='-38.626087' xlink:href='#g2-83'/>
+<use x='64.83112' y='-38.626087' xlink:href='#g2-65'/>
+</g>
+<path d='M43.59375-45.54688L16.2148-65.5547' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 -49.74535 -31.4454)'>
+<use x='53.065242' y='-38.626087' xlink:href='#g0-120'/>
+<use x='58.288699' y='-37.629838' xlink:href='#g1-49'/>
+</g>
+<path d='M62.53516-45.54688L89.918-65.5547' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 40.3707 -31.4454)'>
+<use x='53.065242' y='-38.626087' xlink:href='#g0-120'/>
+<use x='58.288699' y='-37.629838' xlink:href='#g1-50'/>
+</g>
+<path d='M43.59375-31.70313L16.2148-11.6953' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 -49.74535 34.30975)'>
+<use x='53.065242' y='-38.626087' xlink:href='#g0-120'/>
+<use x='58.288699' y='-37.629838' xlink:href='#g1-51'/>
+</g>
+<path d='M62.53516-31.70313L89.918-11.6953' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 40.3707 34.30975)'>
+<use x='53.065242' y='-38.626087' xlink:href='#g0-120'/>
+<use x='58.288699' y='-37.629838' xlink:href='#g1-52'/>
+</g>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle \;+\;\sum_{(ij)(kl)}\;
+\D$</span><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='15.897em' height='7.902em' viewBox='3.319605 -75.160806 144.520821 71.840725'>
+<defs>
+<path id='g0-105' d='M2.080199-3.730012C2.080199-3.873474 1.972603-3.969116 1.835118-3.969116C1.673724-3.969116 1.500374-3.813699 1.500374-3.640349C1.500374-3.490909 1.60797-3.401245 1.739477-3.401245C1.93076-3.401245 2.080199-3.580573 2.080199-3.730012ZM1.721544-1.643836C1.745455-1.703611 1.799253-1.847073 1.823163-1.900872C1.841096-1.95467 1.865006-2.014446 1.865006-2.116065C1.865006-2.450809 1.566127-2.636115 1.267248-2.636115C.657534-2.636115 .364633-1.847073 .364633-1.715567C.364633-1.685679 .388543-1.63188 .472229-1.63188S.573848-1.667746 .591781-1.721544C.759153-2.30137 1.075965-2.438854 1.243337-2.438854C1.362889-2.438854 1.404732-2.361146 1.404732-2.223661C1.404732-2.10411 1.368867-2.014446 1.356912-1.972603L1.046077-1.207472C.974346-1.034122 .974346-1.022167 .896638-.818929C.818929-.639601 .789041-.561893 .789041-.460274C.789041-.155417 1.06401 .059776 1.392777 .059776C1.996513 .059776 2.295392-.729265 2.295392-.860772C2.295392-.872727 2.289415-.944458 2.181818-.944458C2.098132-.944458 2.092154-.91457 2.056289-.800996C1.960648-.496139 1.715567-.137484 1.41071-.137484C1.303113-.137484 1.249315-.209215 1.249315-.352677C1.249315-.472229 1.285181-.561893 1.362889-.747198L1.721544-1.643836Z'/>
+<path id='g0-106' d='M2.773599-3.730012C2.773599-3.90934 2.630137-3.969116 2.534496-3.969116C2.343213-3.969116 2.193773-3.783811 2.193773-3.640349C2.193773-3.514819 2.289415-3.401245 2.438854-3.401245C2.594271-3.401245 2.773599-3.550685 2.773599-3.730012ZM1.500374 .268991C1.3868 .71731 1.034122 1.022167 .687422 1.022167C.669489 1.022167 .502117 1.016189 .502117 .992279C.502117 .986301 .52005 .974346 .52005 .968369C.609714 .896638 .651557 .800996 .651557 .711333C.651557 .52005 .496139 .478207 .412453 .478207C.251059 .478207 .071731 .609714 .071731 .830884C.071731 1.147696 .448319 1.219427 .6934 1.219427C1.093898 1.219427 1.811208 .992279 1.990535 .274969L2.528518-1.865006C2.540473-1.924782 2.558406-1.97858 2.558406-2.062267C2.558406-2.397011 2.259527-2.636115 1.876961-2.636115C1.201494-2.636115 .783064-1.829141 .783064-1.715567C.783064-1.679701 .806974-1.63188 .89066-1.63188S.980324-1.655791 1.022167-1.739477C1.195517-2.12802 1.530262-2.438854 1.859029-2.438854C2.038356-2.438854 2.080199-2.289415 2.080199-2.139975C2.080199-2.062267 2.068244-1.97858 2.062267-1.960648L1.500374 .268991Z'/>
+<path id='g0-107' d='M1.984558-3.969116C1.990535-3.993026 2.002491-4.028892 2.002491-4.05878C2.002491-4.154421 1.882939-4.148443 1.811208-4.142466L1.141719-4.088667C1.0401-4.08269 .962391-4.076712 .962391-3.93325C.962391-3.843587 1.0401-3.843587 1.135741-3.843587C1.309091-3.843587 1.350934-3.825654 1.428643-3.801743C1.428643-3.730012 1.428643-3.718057 1.404732-3.622416L.56787-.280946C.54396-.185305 .54396-.155417 .54396-.143462C.54396 .005978 .663512 .059776 .753176 .059776C.812951 .059776 .920548 .035866 .998257-.077709C1.0401-.155417 1.279203-1.147696 1.321046-1.338979C1.721544-1.309091 2.15193-1.21345 2.15193-.860772C2.15193-.830884 2.15193-.800996 2.133998-.735243C2.116065-.645579 2.116065-.609714 2.116065-.561893C2.116065-.167372 2.450809 .059776 2.791532 .059776C3.371357 .059776 3.580573-.812951 3.580573-.860772C3.580573-.872727 3.574595-.944458 3.466999-.944458C3.383313-.944458 3.371357-.908593 3.341469-.806974C3.281694-.591781 3.114321-.137484 2.809465-.137484C2.582316-.137484 2.582316-.394521 2.582316-.460274C2.582316-.555915 2.582316-.561893 2.612204-.681445C2.612204-.687422 2.642092-.806974 2.642092-.878705C2.642092-1.338979 2.122042-1.482441 1.661768-1.524284C1.80523-1.613948 1.93076-1.709589 2.169863-1.918804C2.468742-2.181818 2.779577-2.438854 3.108344-2.438854C3.186052-2.438854 3.257783-2.420922 3.311582-2.361146C3.102366-2.319303 3.012702-2.15193 3.012702-2.026401C3.012702-1.835118 3.16812-1.793275 3.251806-1.793275C3.383313-1.793275 3.598506-1.888917 3.598506-2.187796C3.598506-2.444832 3.407223-2.636115 3.114321-2.636115C2.737733-2.636115 2.385056-2.349191 2.110087-2.110087C1.799253-1.841096 1.613948-1.685679 1.392777-1.601993L1.984558-3.969116Z'/>
+<path id='g0-108' d='M1.793275-3.969116C1.799253-3.993026 1.811208-4.028892 1.811208-4.05878C1.811208-4.154421 1.691656-4.148443 1.619925-4.142466L.950436-4.088667C.848817-4.08269 .771108-4.076712 .771108-3.93325C.771108-3.843587 .848817-3.843587 .944458-3.843587C1.117808-3.843587 1.159651-3.825654 1.23736-3.801743C1.23736-3.730012 1.23736-3.718057 1.21345-3.622416L.484184-.71731C.466252-.651557 .454296-.597758 .454296-.514072C.454296-.14944 .789041 .059776 1.123786 .059776C1.374844 .059776 1.518306-.101619 1.601993-.239103C1.763387-.496139 1.841096-.836862 1.841096-.860772C1.841096-.872727 1.835118-.944458 1.727522-.944458C1.637858-.944458 1.625903-.902615 1.601993-.806974C1.494396-.382565 1.356912-.137484 1.147696-.137484C.926526-.137484 .926526-.376588 .926526-.436364C.926526-.532005 .938481-.579826 .956413-.645579L1.793275-3.969116Z'/>
+<path id='g1-120' d='M4.411457-3.622416C4.079701-3.559651 3.981071-3.272727 3.981071-3.138232C3.981071-2.96787 4.1066-2.815442 4.33076-2.815442C4.581818-2.815442 4.82391-3.030635 4.82391-3.344458C4.82391-3.756912 4.375592-3.963138 3.954172-3.963138C3.416189-3.963138 3.102366-3.48792 2.99477-3.299626C2.824408-3.738979 2.429888-3.963138 1.999502-3.963138C1.0401-3.963138 .52005-2.815442 .52005-2.582316C.52005-2.501619 .582814-2.47472 .645579-2.47472C.726276-2.47472 .753176-2.519552 .771108-2.57335C1.049066-3.461021 1.640847-3.738979 1.981569-3.738979C2.241594-3.738979 2.47472-3.568618 2.47472-3.147198C2.47472-2.824408 2.089166-1.389788 1.972603-.959402C1.900872-.681445 1.63188-.125529 1.13873-.125529C.959402-.125529 .771108-.188294 .681445-.242092C.923537-.286924 1.102864-.493151 1.102864-.726276C1.102864-.950436 .932503-1.049066 .762142-1.049066C.502117-1.049066 .268991-.824907 .268991-.52005C.268991-.080697 .753176 .09863 1.129763 .09863C1.649813 .09863 1.95467-.331756 2.089166-.573848C2.313325 .017933 2.842341 .09863 3.084433 .09863C4.052802 .09863 4.563885-1.066999 4.563885-1.282192C4.563885-1.327024 4.536986-1.389788 4.447323-1.389788C4.348692-1.389788 4.339726-1.353923 4.294894-1.219427C4.097634-.573848 3.577584-.125529 3.111333-.125529C2.851308-.125529 2.609215-.286924 2.609215-.71731C2.609215-.91457 2.734745-1.407721 2.815442-1.748443C2.851308-1.909838 3.0934-2.878207 3.111333-2.940971C3.218929-3.263761 3.48792-3.738979 3.945205-3.738979C4.1066-3.738979 4.276961-3.71208 4.411457-3.622416Z'/>
+<path id='g2-65' d='M3.317559 0V-.308842H3.058531C2.271482-.308842 2.241594-.418431 2.241594-.777086V-6.027397C2.241594-6.386052 2.271482-6.495641 3.058531-6.495641H3.317559V-6.804483C2.968867-6.774595 2.181818-6.774595 1.803238-6.774595C1.414695-6.774595 .627646-6.774595 .278954-6.804483V-6.495641H.537983C1.325031-6.495641 1.354919-6.386052 1.354919-6.027397V-.777086C1.354919-.418431 1.325031-.308842 .537983-.308842H.278954V0C.627646-.029888 1.414695-.029888 1.793275-.029888C2.181818-.029888 2.968867-.029888 3.317559 0Z'/>
+<path id='g2-82' d='M4.174346 0V-.308842H3.855542C2.958904-.308842 2.929016-.418431 2.929016-.787049V-6.37609C2.929016-6.615193 2.929016-6.635118 2.699875-6.635118C2.082192-5.997509 1.205479-5.997509 .886675-5.997509V-5.688667C1.085928-5.688667 1.673724-5.688667 2.191781-5.947696V-.787049C2.191781-.428394 2.161893-.308842 1.265255-.308842H.946451V0C1.295143-.029888 2.161893-.029888 2.560399-.029888S3.825654-.029888 4.174346 0Z'/>
+<path id='g2-83' d='M6.216687-4.951432C6.216687-5.927771 5.230386-6.804483 3.865504-6.804483H.348692V-6.495641H.587796C1.354919-6.495641 1.374844-6.386052 1.374844-6.027397V-.777086C1.374844-.418431 1.354919-.308842 .587796-.308842H.348692V0C.697385-.029888 1.43462-.029888 1.8132-.029888S2.938979-.029888 3.287671 0V-.308842H3.048568C2.281445-.308842 2.261519-.418431 2.261519-.777086V-3.148194H3.945205C5.140722-3.148194 6.216687-3.955168 6.216687-4.951432ZM5.190535-4.951432C5.190535-4.483188 5.190535-3.407223 3.606476-3.407223H2.231631V-6.097136C2.231631-6.425903 2.251557-6.495641 2.719801-6.495641H3.606476C5.190535-6.495641 5.190535-5.439601 5.190535-4.951432Z'/>
+</defs>
+<g id='page1'>
+<g transform='matrix(1 0 0 1 -37.4455 3.4023)'>
+<use x='75.494195' y='-39.788385' xlink:href='#g2-82'/>
+<use x='80.475515' y='-39.788385' xlink:href='#g2-83'/>
+<use x='87.260073' y='-39.788385' xlink:href='#g2-65'/>
+</g>
+<g transform='matrix(1 0 0 1 22.0829 3.4023)'>
+<use x='75.494195' y='-39.788385' xlink:href='#g2-82'/>
+<use x='80.475515' y='-39.788385' xlink:href='#g2-83'/>
+<use x='87.260073' y='-39.788385' xlink:href='#g2-65'/>
+</g>
+<path d='M56.9297-39.789064H94.0586' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M38.082-46.71094L15.9648-66.7188' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 -71.4336 -31.4454)'>
+<use x='75.494195' y='-39.788385' xlink:href='#g1-120'/>
+<use x='80.717652' y='-38.792136' xlink:href='#g0-105'/>
+</g>
+<path d='M38.082-32.86719L15.9648-12.8594' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 -72.17459 34.30974)'>
+<use x='75.494195' y='-39.788385' xlink:href='#g1-120'/>
+<use x='80.717652' y='-38.792136' xlink:href='#g0-106'/>
+</g>
+<path d='M112.9062-46.71094L135.0234-66.7188' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 63.0478 -31.5119)'>
+<use x='75.494195' y='-39.788385' xlink:href='#g1-120'/>
+<use x='80.717652' y='-38.725674' xlink:href='#g0-107'/>
+</g>
+<path d='M112.9062-32.86719L135.0234-12.8594' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 63.0478 34.30975)'>
+<use x='75.494195' y='-39.788385' xlink:href='#g1-120'/>
+<use x='80.717652' y='-38.725674' xlink:href='#g0-108'/>
+</g>
+</g>
+</svg></figure><span class="equation-num">(3.10)</span></div>
+
+<div class="equation-row"><span class="equation-part">$\displaystyle \D$</span><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='10.764em' height='9.451em' viewBox='3.319905 -89.239494 97.858362 85.91946'>
+<defs>
+<path id='g0-120' d='M4.411457-3.622416C4.079701-3.559651 3.981071-3.272727 3.981071-3.138232C3.981071-2.96787 4.1066-2.815442 4.33076-2.815442C4.581818-2.815442 4.82391-3.030635 4.82391-3.344458C4.82391-3.756912 4.375592-3.963138 3.954172-3.963138C3.416189-3.963138 3.102366-3.48792 2.99477-3.299626C2.824408-3.738979 2.429888-3.963138 1.999502-3.963138C1.0401-3.963138 .52005-2.815442 .52005-2.582316C.52005-2.501619 .582814-2.47472 .645579-2.47472C.726276-2.47472 .753176-2.519552 .771108-2.57335C1.049066-3.461021 1.640847-3.738979 1.981569-3.738979C2.241594-3.738979 2.47472-3.568618 2.47472-3.147198C2.47472-2.824408 2.089166-1.389788 1.972603-.959402C1.900872-.681445 1.63188-.125529 1.13873-.125529C.959402-.125529 .771108-.188294 .681445-.242092C.923537-.286924 1.102864-.493151 1.102864-.726276C1.102864-.950436 .932503-1.049066 .762142-1.049066C.502117-1.049066 .268991-.824907 .268991-.52005C.268991-.080697 .753176 .09863 1.129763 .09863C1.649813 .09863 1.95467-.331756 2.089166-.573848C2.313325 .017933 2.842341 .09863 3.084433 .09863C4.052802 .09863 4.563885-1.066999 4.563885-1.282192C4.563885-1.327024 4.536986-1.389788 4.447323-1.389788C4.348692-1.389788 4.339726-1.353923 4.294894-1.219427C4.097634-.573848 3.577584-.125529 3.111333-.125529C2.851308-.125529 2.609215-.286924 2.609215-.71731C2.609215-.91457 2.734745-1.407721 2.815442-1.748443C2.851308-1.909838 3.0934-2.878207 3.111333-2.940971C3.218929-3.263761 3.48792-3.738979 3.945205-3.738979C4.1066-3.738979 4.276961-3.71208 4.411457-3.622416Z'/>
+<path id='g1-49' d='M2.145953-3.795766C2.145953-3.975093 2.122042-3.975093 1.942715-3.975093C1.548194-3.592528 .938481-3.592528 .723288-3.592528V-3.359402C.878705-3.359402 1.273225-3.359402 1.63188-3.526775V-.508095C1.63188-.310834 1.63188-.233126 1.016189-.233126H.759153V0C1.08792-.02391 1.554172-.02391 1.888917-.02391S2.689913-.02391 3.01868 0V-.233126H2.761644C2.145953-.233126 2.145953-.310834 2.145953-.508095V-3.795766Z'/>
+<path id='g1-50' d='M3.21594-1.117808H2.99477C2.982814-1.034122 2.923039-.639601 2.833375-.573848C2.791532-.537983 2.307347-.537983 2.223661-.537983H1.105853L1.870984-1.159651C2.074222-1.321046 2.606227-1.703611 2.791532-1.882939C2.970859-2.062267 3.21594-2.367123 3.21594-2.791532C3.21594-3.53873 2.540473-3.975093 1.739477-3.975093C.968369-3.975093 .430386-3.466999 .430386-2.905106C.430386-2.600249 .687422-2.564384 .753176-2.564384C.902615-2.564384 1.075965-2.67198 1.075965-2.887173C1.075965-3.01868 .998257-3.209963 .735243-3.209963C.872727-3.514819 1.23736-3.741968 1.649813-3.741968C2.27746-3.741968 2.612204-3.275716 2.612204-2.791532C2.612204-2.367123 2.331258-1.93076 1.912827-1.548194L.496139-.251059C.436364-.191283 .430386-.185305 .430386 0H3.030635L3.21594-1.117808Z'/>
+<path id='g1-51' d='M1.75741-1.984558C2.265504-1.984558 2.606227-1.643836 2.606227-1.034122C2.606227-.376588 2.211706-.089664 1.775342-.089664C1.613948-.089664 .998257-.125529 .729265-.472229C.962391-.496139 1.058032-.651557 1.058032-.812951C1.058032-1.016189 .91457-1.153674 .71731-1.153674C.555915-1.153674 .376588-1.052055 .376588-.800996C.376588-.209215 1.034122 .125529 1.793275 .125529C2.677958 .125529 3.269738-.442341 3.269738-1.034122C3.269738-1.470486 2.934994-1.93076 2.223661-2.110087C2.69589-2.265504 3.078456-2.64807 3.078456-3.138232C3.078456-3.616438 2.516563-3.975093 1.799253-3.975093C1.099875-3.975093 .56787-3.652304 .56787-3.162142C.56787-2.905106 .765131-2.833375 .884682-2.833375C1.0401-2.833375 1.201494-2.940971 1.201494-3.150187C1.201494-3.335492 1.069988-3.443088 .908593-3.466999C1.189539-3.777833 1.733499-3.777833 1.787298-3.777833C2.092154-3.777833 2.47472-3.634371 2.47472-3.138232C2.47472-2.809465 2.289415-2.235616 1.691656-2.199751C1.58406-2.193773 1.422665-2.181818 1.368867-2.181818C1.309091-2.175841 1.243337-2.169863 1.243337-2.080199C1.243337-1.984558 1.309091-1.984558 1.41071-1.984558H1.75741Z'/>
+<path id='g1-52' d='M3.371357-.980324V-1.21345H2.67198V-3.855542C2.67198-3.993026 2.67198-4.034869 2.52254-4.034869C2.414944-4.034869 2.402989-4.016936 2.349191-3.945205L.274969-1.21345V-.980324H2.133998V-.502117C2.133998-.304857 2.133998-.233126 1.63188-.233126H1.458531V0C1.578082-.005978 2.139975-.02391 2.402989-.02391S3.227895-.005978 3.347447 0V-.233126H3.174097C2.67198-.233126 2.67198-.304857 2.67198-.502117V-.980324H3.371357ZM2.175841-3.383313V-1.21345H.532005L2.175841-3.383313Z'/>
+<path id='g1-53' d='M1.016189-3.317559C1.21345-3.263761 1.422665-3.239851 1.625903-3.239851C1.75741-3.239851 2.092154-3.239851 2.468742-3.449066C2.570361-3.508842 2.940971-3.753923 2.940971-3.879452C2.940971-3.957161 2.881196-3.975093 2.857285-3.975093C2.839352-3.975093 2.833375-3.975093 2.767621-3.951183C2.552428-3.867497 2.247572-3.783811 1.859029-3.783811C1.566127-3.783811 1.243337-3.837609 .974346-3.939228C.91457-3.963138 .89066-3.975093 .86675-3.975093C.783064-3.975093 .783064-3.90934 .783064-3.813699V-2.020423C.783064-1.918804 .783064-1.847073 .89066-1.847073C.944458-1.847073 .962391-1.870984 1.004234-1.918804C1.153674-2.110087 1.416687-2.313325 1.882939-2.313325C2.618182-2.313325 2.618182-1.416687 2.618182-1.225405C2.618182-.992279 2.600249-.657534 2.402989-.412453C2.217684-.185305 1.942715-.089664 1.685679-.089664C1.273225-.089664 .860772-.316812 .71731-.663512C1.010212-.669489 1.046077-.902615 1.046077-.974346C1.046077-1.135741 .920548-1.279203 .735243-1.279203C.681445-1.279203 .430386-1.249315 .430386-.950436C.430386-.400498 .950436 .125529 1.703611 .125529C2.52254 .125529 3.21594-.454296 3.21594-1.201494C3.21594-1.882939 2.666002-2.504608 1.894894-2.504608C1.506351-2.504608 1.207472-2.379078 1.016189-2.217684V-3.317559Z'/>
+<path id='g2-71' d='M7.571606-6.924035C7.571606-6.953923 7.551681-7.023661 7.462017-7.023661C7.43213-7.023661 7.422167-7.013699 7.312578-6.90411L6.615193-6.136986C6.525529-6.276463 6.067248-7.023661 4.961395-7.023661C2.739726-7.023661 .498132-4.821918 .498132-2.510585C.498132-.926526 1.603985 .219178 3.217933 .219178C3.656289 .219178 4.104608 .129514 4.463263-.019925C4.961395-.219178 5.150685-.428394 5.330012-.627646C5.419676-.37858 5.678705-.009963 5.778331-.009963C5.828144-.009963 5.84807-.039851 5.84807-.049813C5.867995-.069738 5.967621-.448319 6.017435-.657534L6.206725-1.424658C6.246575-1.594022 6.296389-1.763387 6.336239-1.932752C6.445828-2.381071 6.455791-2.400996 7.023661-2.410959C7.073474-2.410959 7.183064-2.420922 7.183064-2.610212C7.183064-2.67995 7.13325-2.719801 7.053549-2.719801C6.824408-2.719801 6.236613-2.689913 6.007472-2.689913C5.69863-2.689913 4.921544-2.719801 4.612702-2.719801C4.523039-2.719801 4.403487-2.719801 4.403487-2.520548C4.403487-2.410959 4.483188-2.410959 4.702366-2.410959C4.712329-2.410959 5.001245-2.410959 5.230386-2.391034C5.489415-2.361146 5.539228-2.331258 5.539228-2.201743C5.539228-2.11208 5.429639-1.663761 5.330012-1.295143C5.051059-.199253 3.755915-.089664 3.407223-.089664C2.450809-.089664 1.404732-.657534 1.404732-2.181818C1.404732-2.49066 1.504359-4.134496 2.550436-5.429639C3.088418-6.107098 4.054795-6.714819 5.041096-6.714819C6.057285-6.714819 6.645081-5.947696 6.645081-4.79203C6.645081-4.393524 6.615193-4.383562 6.615193-4.283935S6.724782-4.184309 6.764633-4.184309C6.894147-4.184309 6.894147-4.204234 6.94396-4.383562L7.571606-6.924035Z'/>
+<path id='g3-53' d='M1.080946-3.891407C1.436613-3.800747 1.645828-3.800747 1.75741-3.800747C2.677958-3.800747 3.221918-4.428394 3.221918-4.533001C3.221918-4.609714 3.173101-4.630635 3.138232-4.630635C3.124284-4.630635 3.110336-4.630635 3.082441-4.609714C2.915068-4.546949 2.545455-4.407472 2.02939-4.407472C1.834122-4.407472 1.464508-4.42142 1.011208-4.595766C.941469-4.630635 .927522-4.630635 .920548-4.630635C.829888-4.630635 .829888-4.553923 .829888-4.442341V-2.385056C.829888-2.266501 .829888-2.182814 .941469-2.182814C1.004234-2.182814 1.011208-2.196762 1.080946-2.280448C1.380822-2.66401 1.806227-2.719801 2.050311-2.719801C2.468742-2.719801 2.657036-2.385056 2.691905-2.329265C2.817435-2.099128 2.859278-1.834122 2.859278-1.429639C2.859278-1.220423 2.859278-.808966 2.650062-.502117C2.475716-.251059 2.175841-.083686 1.834122-.083686C1.380822-.083686 .913574-.334745 .739228-.795019C1.004234-.774097 1.136737-.948443 1.136737-1.136737C1.136737-1.436613 .878705-1.492403 .788045-1.492403C.774097-1.492403 .439352-1.492403 .439352-1.115816C.439352-.488169 1.011208 .139477 1.84807 .139477C2.740722 .139477 3.521793-.523039 3.521793-1.401743C3.521793-2.189788 2.922042-2.915068 2.057285-2.915068C1.750436-2.915068 1.387796-2.838356 1.080946-2.57335V-3.891407Z'/>
+</defs>
+<g id='page1'>
+<g transform='matrix(1 0 0 1 -6.1513 2.6567)'>
+<use x='52.498185' y='-42.594573' xlink:href='#g2-71'/>
+<use x='60.331302' y='-41.100193' xlink:href='#g3-53'/>
+</g>
+<path d='M52.500001-50.26562V-80.8633' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 -4.6873 -42.7844)'>
+<use x='52.498185' y='-42.594573' xlink:href='#g0-120'/>
+<use x='57.721642' y='-41.598325' xlink:href='#g1-49'/>
+</g>
+<path d='M62.16797-45.76562L88.7813-54.5' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 39.8037 -16.4217)'>
+<use x='52.498185' y='-42.594573' xlink:href='#g0-120'/>
+<use x='57.721642' y='-41.598325' xlink:href='#g1-50'/>
+</g>
+<path d='M58.05859-34.92187L74.8906-11.6953' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 25.9136 38.27829)'>
+<use x='52.498185' y='-42.594573' xlink:href='#g0-120'/>
+<use x='57.721642' y='-41.598325' xlink:href='#g1-51'/>
+</g>
+<path d='M46.9375-34.92187L30.1055-11.6953' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 -35.2882 38.27829)'>
+<use x='52.498185' y='-42.594573' xlink:href='#g0-120'/>
+<use x='57.721642' y='-41.598325' xlink:href='#g1-52'/>
+</g>
+<path d='M42.82813-45.76562L16.2148-54.5' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 -49.17828 -16.4217)'>
+<use x='52.498185' y='-42.594573' xlink:href='#g0-120'/>
+<use x='57.721642' y='-41.598325' xlink:href='#g1-53'/>
+</g>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle \;=\;
+\D$</span><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='11.638em' height='10.262em' viewBox='3.319851 -96.609523 105.795502 93.28952'>
+<defs>
+<path id='g0-120' d='M4.411457-3.622416C4.079701-3.559651 3.981071-3.272727 3.981071-3.138232C3.981071-2.96787 4.1066-2.815442 4.33076-2.815442C4.581818-2.815442 4.82391-3.030635 4.82391-3.344458C4.82391-3.756912 4.375592-3.963138 3.954172-3.963138C3.416189-3.963138 3.102366-3.48792 2.99477-3.299626C2.824408-3.738979 2.429888-3.963138 1.999502-3.963138C1.0401-3.963138 .52005-2.815442 .52005-2.582316C.52005-2.501619 .582814-2.47472 .645579-2.47472C.726276-2.47472 .753176-2.519552 .771108-2.57335C1.049066-3.461021 1.640847-3.738979 1.981569-3.738979C2.241594-3.738979 2.47472-3.568618 2.47472-3.147198C2.47472-2.824408 2.089166-1.389788 1.972603-.959402C1.900872-.681445 1.63188-.125529 1.13873-.125529C.959402-.125529 .771108-.188294 .681445-.242092C.923537-.286924 1.102864-.493151 1.102864-.726276C1.102864-.950436 .932503-1.049066 .762142-1.049066C.502117-1.049066 .268991-.824907 .268991-.52005C.268991-.080697 .753176 .09863 1.129763 .09863C1.649813 .09863 1.95467-.331756 2.089166-.573848C2.313325 .017933 2.842341 .09863 3.084433 .09863C4.052802 .09863 4.563885-1.066999 4.563885-1.282192C4.563885-1.327024 4.536986-1.389788 4.447323-1.389788C4.348692-1.389788 4.339726-1.353923 4.294894-1.219427C4.097634-.573848 3.577584-.125529 3.111333-.125529C2.851308-.125529 2.609215-.286924 2.609215-.71731C2.609215-.91457 2.734745-1.407721 2.815442-1.748443C2.851308-1.909838 3.0934-2.878207 3.111333-2.940971C3.218929-3.263761 3.48792-3.738979 3.945205-3.738979C4.1066-3.738979 4.276961-3.71208 4.411457-3.622416Z'/>
+<path id='g1-49' d='M2.145953-3.795766C2.145953-3.975093 2.122042-3.975093 1.942715-3.975093C1.548194-3.592528 .938481-3.592528 .723288-3.592528V-3.359402C.878705-3.359402 1.273225-3.359402 1.63188-3.526775V-.508095C1.63188-.310834 1.63188-.233126 1.016189-.233126H.759153V0C1.08792-.02391 1.554172-.02391 1.888917-.02391S2.689913-.02391 3.01868 0V-.233126H2.761644C2.145953-.233126 2.145953-.310834 2.145953-.508095V-3.795766Z'/>
+<path id='g1-50' d='M3.21594-1.117808H2.99477C2.982814-1.034122 2.923039-.639601 2.833375-.573848C2.791532-.537983 2.307347-.537983 2.223661-.537983H1.105853L1.870984-1.159651C2.074222-1.321046 2.606227-1.703611 2.791532-1.882939C2.970859-2.062267 3.21594-2.367123 3.21594-2.791532C3.21594-3.53873 2.540473-3.975093 1.739477-3.975093C.968369-3.975093 .430386-3.466999 .430386-2.905106C.430386-2.600249 .687422-2.564384 .753176-2.564384C.902615-2.564384 1.075965-2.67198 1.075965-2.887173C1.075965-3.01868 .998257-3.209963 .735243-3.209963C.872727-3.514819 1.23736-3.741968 1.649813-3.741968C2.27746-3.741968 2.612204-3.275716 2.612204-2.791532C2.612204-2.367123 2.331258-1.93076 1.912827-1.548194L.496139-.251059C.436364-.191283 .430386-.185305 .430386 0H3.030635L3.21594-1.117808Z'/>
+<path id='g1-51' d='M1.75741-1.984558C2.265504-1.984558 2.606227-1.643836 2.606227-1.034122C2.606227-.376588 2.211706-.089664 1.775342-.089664C1.613948-.089664 .998257-.125529 .729265-.472229C.962391-.496139 1.058032-.651557 1.058032-.812951C1.058032-1.016189 .91457-1.153674 .71731-1.153674C.555915-1.153674 .376588-1.052055 .376588-.800996C.376588-.209215 1.034122 .125529 1.793275 .125529C2.677958 .125529 3.269738-.442341 3.269738-1.034122C3.269738-1.470486 2.934994-1.93076 2.223661-2.110087C2.69589-2.265504 3.078456-2.64807 3.078456-3.138232C3.078456-3.616438 2.516563-3.975093 1.799253-3.975093C1.099875-3.975093 .56787-3.652304 .56787-3.162142C.56787-2.905106 .765131-2.833375 .884682-2.833375C1.0401-2.833375 1.201494-2.940971 1.201494-3.150187C1.201494-3.335492 1.069988-3.443088 .908593-3.466999C1.189539-3.777833 1.733499-3.777833 1.787298-3.777833C2.092154-3.777833 2.47472-3.634371 2.47472-3.138232C2.47472-2.809465 2.289415-2.235616 1.691656-2.199751C1.58406-2.193773 1.422665-2.181818 1.368867-2.181818C1.309091-2.175841 1.243337-2.169863 1.243337-2.080199C1.243337-1.984558 1.309091-1.984558 1.41071-1.984558H1.75741Z'/>
+<path id='g1-52' d='M3.371357-.980324V-1.21345H2.67198V-3.855542C2.67198-3.993026 2.67198-4.034869 2.52254-4.034869C2.414944-4.034869 2.402989-4.016936 2.349191-3.945205L.274969-1.21345V-.980324H2.133998V-.502117C2.133998-.304857 2.133998-.233126 1.63188-.233126H1.458531V0C1.578082-.005978 2.139975-.02391 2.402989-.02391S3.227895-.005978 3.347447 0V-.233126H3.174097C2.67198-.233126 2.67198-.304857 2.67198-.502117V-.980324H3.371357ZM2.175841-3.383313V-1.21345H.532005L2.175841-3.383313Z'/>
+<path id='g1-53' d='M1.016189-3.317559C1.21345-3.263761 1.422665-3.239851 1.625903-3.239851C1.75741-3.239851 2.092154-3.239851 2.468742-3.449066C2.570361-3.508842 2.940971-3.753923 2.940971-3.879452C2.940971-3.957161 2.881196-3.975093 2.857285-3.975093C2.839352-3.975093 2.833375-3.975093 2.767621-3.951183C2.552428-3.867497 2.247572-3.783811 1.859029-3.783811C1.566127-3.783811 1.243337-3.837609 .974346-3.939228C.91457-3.963138 .89066-3.975093 .86675-3.975093C.783064-3.975093 .783064-3.90934 .783064-3.813699V-2.020423C.783064-1.918804 .783064-1.847073 .89066-1.847073C.944458-1.847073 .962391-1.870984 1.004234-1.918804C1.153674-2.110087 1.416687-2.313325 1.882939-2.313325C2.618182-2.313325 2.618182-1.416687 2.618182-1.225405C2.618182-.992279 2.600249-.657534 2.402989-.412453C2.217684-.185305 1.942715-.089664 1.685679-.089664C1.273225-.089664 .860772-.316812 .71731-.663512C1.010212-.669489 1.046077-.902615 1.046077-.974346C1.046077-1.135741 .920548-1.279203 .735243-1.279203C.681445-1.279203 .430386-1.249315 .430386-.950436C.430386-.400498 .950436 .125529 1.703611 .125529C2.52254 .125529 3.21594-.454296 3.21594-1.201494C3.21594-1.882939 2.666002-2.504608 1.894894-2.504608C1.506351-2.504608 1.207472-2.379078 1.016189-2.217684V-3.317559Z'/>
+<path id='g2-65' d='M3.317559 0V-.308842H3.058531C2.271482-.308842 2.241594-.418431 2.241594-.777086V-6.027397C2.241594-6.386052 2.271482-6.495641 3.058531-6.495641H3.317559V-6.804483C2.968867-6.774595 2.181818-6.774595 1.803238-6.774595C1.414695-6.774595 .627646-6.774595 .278954-6.804483V-6.495641H.537983C1.325031-6.495641 1.354919-6.386052 1.354919-6.027397V-.777086C1.354919-.418431 1.325031-.308842 .537983-.308842H.278954V0C.627646-.029888 1.414695-.029888 1.793275-.029888C2.181818-.029888 2.968867-.029888 3.317559 0Z'/>
+<path id='g2-82' d='M4.174346 0V-.308842H3.855542C2.958904-.308842 2.929016-.418431 2.929016-.787049V-6.37609C2.929016-6.615193 2.929016-6.635118 2.699875-6.635118C2.082192-5.997509 1.205479-5.997509 .886675-5.997509V-5.688667C1.085928-5.688667 1.673724-5.688667 2.191781-5.947696V-.787049C2.191781-.428394 2.161893-.308842 1.265255-.308842H.946451V0C1.295143-.029888 2.161893-.029888 2.560399-.029888S3.825654-.029888 4.174346 0Z'/>
+<path id='g2-83' d='M6.216687-4.951432C6.216687-5.927771 5.230386-6.804483 3.865504-6.804483H.348692V-6.495641H.587796C1.354919-6.495641 1.374844-6.386052 1.374844-6.027397V-.777086C1.374844-.418431 1.354919-.308842 .587796-.308842H.348692V0C.697385-.029888 1.43462-.029888 1.8132-.029888S2.938979-.029888 3.287671 0V-.308842H3.048568C2.281445-.308842 2.261519-.418431 2.261519-.777086V-3.148194H3.945205C5.140722-3.148194 6.216687-3.955168 6.216687-4.951432ZM5.190535-4.951432C5.190535-4.483188 5.190535-3.407223 3.606476-3.407223H2.231631V-6.097136C2.231631-6.425903 2.251557-6.495641 2.719801-6.495641H3.606476C5.190535-6.495641 5.190535-5.439601 5.190535-4.951432Z'/>
+</defs>
+<g id='page1'>
+<g transform='matrix(1 0 0 1 -7.6813 3.4023)'>
+<use x='56.466671' y='-45.712702' xlink:href='#g2-82'/>
+<use x='61.447991' y='-45.712702' xlink:href='#g2-83'/>
+<use x='68.232549' y='-45.712702' xlink:href='#g2-65'/>
+</g>
+<path d='M56.464842-52.63672V-88.2344' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 -4.6873 -47.0363)'>
+<use x='56.466671' y='-45.712702' xlink:href='#g0-120'/>
+<use x='61.690128' y='-44.716453' xlink:href='#g1-49'/>
+</g>
+<path d='M67.668-49.33984L96.7187-58.7539' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 43.7723 -17.5558)'>
+<use x='56.466671' y='-45.712702' xlink:href='#g0-120'/>
+<use x='61.690128' y='-44.716453' xlink:href='#g1-50'/>
+</g>
+<path d='M61.54297-38.78906L81.4102-11.6953' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 28.4651 41.39645)'>
+<use x='56.466671' y='-45.712702' xlink:href='#g0-120'/>
+<use x='61.690128' y='-44.716453' xlink:href='#g1-51'/>
+</g>
+<path d='M51.39062-38.78906L31.5195-11.6953' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 -37.8397 41.39645)'>
+<use x='56.466671' y='-45.712702' xlink:href='#g0-120'/>
+<use x='61.690128' y='-44.716453' xlink:href='#g1-52'/>
+</g>
+<path d='M45.2656-49.33984L16.2148-58.7539' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 -53.14682 -17.5558)'>
+<use x='56.466671' y='-45.712702' xlink:href='#g0-120'/>
+<use x='61.690128' y='-44.716453' xlink:href='#g1-53'/>
+</g>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle \;+\;\sum_{10\text{ ch.}}\;
+\D$</span><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='14.231em' height='6.592em' viewBox='-.00005 -59.92585 129.3751 59.9259'>
+<defs>
+<path id='g0-65' d='M3.317559 0V-.308842H3.058531C2.271482-.308842 2.241594-.418431 2.241594-.777086V-6.027397C2.241594-6.386052 2.271482-6.495641 3.058531-6.495641H3.317559V-6.804483C2.968867-6.774595 2.181818-6.774595 1.803238-6.774595C1.414695-6.774595 .627646-6.774595 .278954-6.804483V-6.495641H.537983C1.325031-6.495641 1.354919-6.386052 1.354919-6.027397V-.777086C1.354919-.418431 1.325031-.308842 .537983-.308842H.278954V0C.627646-.029888 1.414695-.029888 1.793275-.029888C2.181818-.029888 2.968867-.029888 3.317559 0Z'/>
+<path id='g0-82' d='M4.174346 0V-.308842H3.855542C2.958904-.308842 2.929016-.418431 2.929016-.787049V-6.37609C2.929016-6.615193 2.929016-6.635118 2.699875-6.635118C2.082192-5.997509 1.205479-5.997509 .886675-5.997509V-5.688667C1.085928-5.688667 1.673724-5.688667 2.191781-5.947696V-.787049C2.191781-.428394 2.161893-.308842 1.265255-.308842H.946451V0C1.295143-.029888 2.161893-.029888 2.560399-.029888S3.825654-.029888 4.174346 0Z'/>
+<path id='g0-83' d='M6.216687-4.951432C6.216687-5.927771 5.230386-6.804483 3.865504-6.804483H.348692V-6.495641H.587796C1.354919-6.495641 1.374844-6.386052 1.374844-6.027397V-.777086C1.374844-.418431 1.354919-.308842 .587796-.308842H.348692V0C.697385-.029888 1.43462-.029888 1.8132-.029888S2.938979-.029888 3.287671 0V-.308842H3.048568C2.281445-.308842 2.261519-.418431 2.261519-.777086V-3.148194H3.945205C5.140722-3.148194 6.216687-3.955168 6.216687-4.951432ZM5.190535-4.951432C5.190535-4.483188 5.190535-3.407223 3.606476-3.407223H2.231631V-6.097136C2.231631-6.425903 2.251557-6.495641 2.719801-6.495641H3.606476C5.190535-6.495641 5.190535-5.439601 5.190535-4.951432Z'/>
+</defs>
+<g id='page1'>
+<g transform='matrix(1 0 0 1 -37.4455 3.4023)'>
+<use x='68.230966' y='-29.963093' xlink:href='#g0-82'/>
+<use x='73.212286' y='-29.963093' xlink:href='#g0-83'/>
+<use x='79.996844' y='-29.963093' xlink:href='#g0-65'/>
+</g>
+<g transform='matrix(1 0 0 1 22.0829 3.4023)'>
+<use x='68.230966' y='-29.963093' xlink:href='#g0-82'/>
+<use x='73.212286' y='-29.963093' xlink:href='#g0-83'/>
+<use x='79.996844' y='-29.963093' xlink:href='#g0-65'/>
+</g>
+<path d='M49.668-29.964843H86.793' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M31.2187-36.88672L7.2852-59.7266' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M27.2656-29.964843H.1992' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M31.2187-23.03906L7.2852-.1992' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M106.0078-36.88672L129.1758-56.8906' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M106.0078-23.03906L129.1758-3.0352' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle \notag$</span><span class="equation-part">$\displaystyle \quad +\;\sum_{15\text{ ch.}}\;
+\D$</span><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='18.129em' height='7.527em' viewBox='-.00005 -68.42975 164.8087 68.4298'>
+<defs>
+<path id='g0-65' d='M3.317559 0V-.308842H3.058531C2.271482-.308842 2.241594-.418431 2.241594-.777086V-6.027397C2.241594-6.386052 2.271482-6.495641 3.058531-6.495641H3.317559V-6.804483C2.968867-6.774595 2.181818-6.774595 1.803238-6.774595C1.414695-6.774595 .627646-6.774595 .278954-6.804483V-6.495641H.537983C1.325031-6.495641 1.354919-6.386052 1.354919-6.027397V-.777086C1.354919-.418431 1.325031-.308842 .537983-.308842H.278954V0C.627646-.029888 1.414695-.029888 1.793275-.029888C2.181818-.029888 2.968867-.029888 3.317559 0Z'/>
+<path id='g0-82' d='M4.174346 0V-.308842H3.855542C2.958904-.308842 2.929016-.418431 2.929016-.787049V-6.37609C2.929016-6.615193 2.929016-6.635118 2.699875-6.635118C2.082192-5.997509 1.205479-5.997509 .886675-5.997509V-5.688667C1.085928-5.688667 1.673724-5.688667 2.191781-5.947696V-.787049C2.191781-.428394 2.161893-.308842 1.265255-.308842H.946451V0C1.295143-.029888 2.161893-.029888 2.560399-.029888S3.825654-.029888 4.174346 0Z'/>
+<path id='g0-83' d='M6.216687-4.951432C6.216687-5.927771 5.230386-6.804483 3.865504-6.804483H.348692V-6.495641H.587796C1.354919-6.495641 1.374844-6.386052 1.374844-6.027397V-.777086C1.374844-.418431 1.354919-.308842 .587796-.308842H.348692V0C.697385-.029888 1.43462-.029888 1.8132-.029888S2.938979-.029888 3.287671 0V-.308842H3.048568C2.281445-.308842 2.261519-.418431 2.261519-.777086V-3.148194H3.945205C5.140722-3.148194 6.216687-3.955168 6.216687-4.951432ZM5.190535-4.951432C5.190535-4.483188 5.190535-3.407223 3.606476-3.407223H2.231631V-6.097136C2.231631-6.425903 2.251557-6.495641 2.719801-6.495641H3.606476C5.190535-6.495641 5.190535-5.439601 5.190535-4.951432Z'/>
+</defs>
+<g id='page1'>
+<g transform='matrix(1 0 0 1 -57.2882 3.4023)'>
+<use x='82.403754' y='-28.545694' xlink:href='#g0-82'/>
+<use x='87.385075' y='-28.545694' xlink:href='#g0-83'/>
+<use x='94.169632' y='-28.545694' xlink:href='#g0-65'/>
+</g>
+<g transform='matrix(1 0 0 1 -7.6813 3.4023)'>
+<use x='82.403754' y='-28.545694' xlink:href='#g0-82'/>
+<use x='87.385075' y='-28.545694' xlink:href='#g0-83'/>
+<use x='94.169632' y='-28.545694' xlink:href='#g0-65'/>
+</g>
+<g transform='matrix(1 0 0 1 41.9252 3.4023)'>
+<use x='82.403754' y='-28.545694' xlink:href='#g0-82'/>
+<use x='87.385075' y='-28.545694' xlink:href='#g0-83'/>
+<use x='94.169632' y='-28.545694' xlink:href='#g0-65'/>
+</g>
+<path d='M43.9961-28.546875H71.2031' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M93.6055-28.546875H120.8086' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M24.8359-35.46875L.1992-56.8906' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M24.8359-21.625L.1992-.1992' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M82.402343-35.46875V-68.2305' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M139.9687-35.46875L164.6094-56.8906' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M139.9687-21.625L164.6094-.1992' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+</g>
+</svg></figure><span class="equation-num">(3.11)</span></div>
+
+</aside>
+
+<h2 id="grassmann-gaussian-integral-with-bosonic-background-q4">Grassmann Gaussian Integral with Bosonic Background, Q4</h2>
+
+<p>Evaluate, for $\theta_i$, $\bar\theta_i$ Grassmann variables,
+\[Z = \frac{1}{(2\pi)^{n/2}}\int d^nx\prod_{i=1}^n d\bar\theta_i\,d\theta_i\,e^{-S(x,\theta,\bar\theta)}, \qquad S(x,\theta,\bar\theta) = \tfrac{1}{2}w_i(x)w_i(x) + \bar\theta_i w_{i,j}(x)\theta_j,\tag{4.1}\]
+where $w_{i,j}(x) = \frac{\partial}{\partial x_j}w_i(x)$ and assuming $\det[w_{i,j}(x)] &gt; 0$.</p>
+
+<p>If $w_i(x) = x_i + \frac{1}{2}g_{ijk}x_jx_k$, $g_{ijk} = g_{ikj}$, what are the Feynman rules for a perturbative expansion? Work out the two-loop contributions to $Z(g)$ (this is much simpler if $g_{ijk}$ is completely symmetric).</p>
+
+<p>If $w_i(x)\to\lambda w_i(x)$ in $S$, show that
+\[\frac{d}{d\lambda}e^{-S(x,\theta,\bar\theta)} = -\left(\theta_j\frac{\partial}{\partial x_j} + \lambda w_j(x)\frac{\partial}{\partial\bar\theta_j}\right)\bar\theta_i w_i(x)\,e^{-S(x,\theta,\bar\theta)}.\tag{4.2}\]
+By letting $x_i\to\lambda x_i$, $g_{ijk}\to g_{ijk}/\lambda$, what does this imply for $Z(g)$?</p>
+
+<aside class="solution">
+
+<p>Let us first evaluate the Grassmann integral by making the substitution $\theta_i' = w_{i,j}\theta_j$
+    \[\int \prod_{k=1}^nd\bar \theta_k d\theta_k e^{-\bar\theta_iw_{i,j}\theta_j} = \prod_{k=1}^n\frac{\partial}{\partial\bar\theta_k}\frac{\partial}{\partial \theta_k} (1 - \bar\theta_i w_{i,j}\theta_j) = \det w_{i,j}\left(\frac{\partial}{\partial \bar\theta}\frac{\partial}{\partial\theta'}(1-\bar\theta\theta')\right)^n = \det w_{i,j}.\tag{4.3}\]
+    Then, we make the substitution $d^nx = d^nw/\det w_{i,j}$, which gives
+    \[Z = \frac{1}{(2\pi)^{n/2}}\int d^nw\, e^{-w_iw_i/2} = 1.\tag{4.4}\]</p>
+
+<p>For $w_i(x) = x_i + \frac{1}{2}g_{ijk}x_jx_k$, $w_{i,j}(x) = \delta_{ij} + g_{ijk}x_k$ the action becomes
+    \[S = \frac{1}{2}x_ix_i + \frac{1}{2}g_{ijk}x_ix_jx_k + \frac{1}{8}g_{ijk}g_{ilm}x_jx_kx_lx_m + \bar\theta_i\theta_i +g_{ijk}\bar\theta_ix_j\theta_k.\tag{4.5}\]
+    We can read off the Feynman rules:</p>
+
+<p>\tikzset{
+  >=Stealth, thick,
+  scalar/.style={dashed},
+  fermion/.style={postaction={decorate},
+    decoration={markings, mark=at position 0.55 with
+      {\arrow{Stealth[length=2mm]}}}},
+}</p>
+
+<div class="equation-row"><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='7.872em' height='0.843em' viewBox='3.320447 -10.980281 71.566238 7.659783'>
+<defs>
+<path id='g0-105' d='M2.600249-5.595019C2.600249-5.792279 2.456787-5.926775 2.259527-5.926775C2.017435-5.926775 1.775342-5.693649 1.775342-5.451557C1.775342-5.272229 1.909838-5.119801 2.116065-5.119801C2.358157-5.119801 2.600249-5.34396 2.600249-5.595019ZM2.725778-1.282192C2.725778-1.327024 2.698879-1.389788 2.609215-1.389788C2.510585-1.389788 2.501619-1.344956 2.465753-1.228394C2.25056-.493151 1.882939-.125529 1.542217-.125529C1.398755-.125529 1.327024-.19726 1.327024-.42142C1.327024-.636613 1.398755-.833873 1.470486-1.004234C1.63188-1.43462 1.63188-1.452553 1.748443-1.730511C1.891905-2.116065 2.089166-2.627148 2.178829-2.878207C2.241594-3.039601 2.241594-3.129265 2.241594-3.209963C2.241594-3.721046 1.838107-3.963138 1.479452-3.963138C.609714-3.963138 .260025-2.680946 .260025-2.582316C.260025-2.501619 .32279-2.47472 .385554-2.47472C.484184-2.47472 .493151-2.528518 .529016-2.645081C.71731-3.281694 1.058032-3.738979 1.452553-3.738979C1.542217-3.738979 1.667746-3.721046 1.667746-3.452055C1.667746-3.227895 1.578082-2.99477 1.497385-2.788543L.860772-1.129763C.798007-.959402 .744209-.81594 .744209-.654545C.744209-.233126 1.058032 .09863 1.515318 .09863C2.385056 .09863 2.725778-1.192528 2.725778-1.282192Z'/>
+<path id='g0-106' d='M3.622416-5.595019C3.622416-5.76538 3.496887-5.926775 3.281694-5.926775C3.048568-5.926775 2.797509-5.720548 2.797509-5.451557C2.797509-5.227397 2.96787-5.119801 3.129265-5.119801C3.407223-5.119801 3.622416-5.379826 3.622416-5.595019ZM1.793275 .412453C1.604981 1.174595 1.129763 1.613948 .681445 1.613948C.493151 1.613948 .466252 1.596015 .358655 1.560149C.529016 1.497385 .71731 1.309091 .71731 1.084932C.71731 .887671 .564882 .762142 .376588 .762142C.125529 .762142-.116563 .968369-.116563 1.273225C-.116563 1.65878 .277958 1.838107 .690411 1.838107C1.33599 1.838107 2.196762 1.362889 2.420922 .475218L3.254795-2.842341C3.29066-2.985803 3.29066-3.120299 3.29066-3.129265C3.29066-3.622416 2.923039-3.963138 2.420922-3.963138C1.488418-3.963138 .959402-2.680946 .959402-2.582316C.959402-2.501619 1.022167-2.47472 1.084932-2.47472C1.174595-2.47472 1.183562-2.501619 1.255293-2.67198C1.506351-3.245828 1.936737-3.738979 2.402989-3.738979C2.67198-3.738979 2.680946-3.48792 2.680946-3.326526C2.680946-3.317559 2.680946-3.147198 2.654047-3.039601L1.793275 .412453Z'/>
+</defs>
+<g id='page1'>
+<path d='M10.191407-7.152344H66.8867' stroke='currentColor' fill='none' stroke-width='.79701'/>
+<g transform='matrix(1 0 0 1 -6.87247 2.95818)'>
+<use x='10.192917' y='-7.150402' xlink:href='#g0-105'/>
+</g>
+<g transform='matrix(1 0 0 1 60.4127 2.08644)'>
+<use x='10.192917' y='-7.150402' xlink:href='#g0-106'/>
+</g>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle \;=\; \delta_{ij},$</span><span class="equation-num">(4.6)</span></div>
+
+<div class="equation-row"><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='7.872em' height='0.843em' viewBox='3.320447 -10.980281 71.566238 7.659783'>
+<defs>
+<path id='g0-105' d='M2.600249-5.595019C2.600249-5.792279 2.456787-5.926775 2.259527-5.926775C2.017435-5.926775 1.775342-5.693649 1.775342-5.451557C1.775342-5.272229 1.909838-5.119801 2.116065-5.119801C2.358157-5.119801 2.600249-5.34396 2.600249-5.595019ZM2.725778-1.282192C2.725778-1.327024 2.698879-1.389788 2.609215-1.389788C2.510585-1.389788 2.501619-1.344956 2.465753-1.228394C2.25056-.493151 1.882939-.125529 1.542217-.125529C1.398755-.125529 1.327024-.19726 1.327024-.42142C1.327024-.636613 1.398755-.833873 1.470486-1.004234C1.63188-1.43462 1.63188-1.452553 1.748443-1.730511C1.891905-2.116065 2.089166-2.627148 2.178829-2.878207C2.241594-3.039601 2.241594-3.129265 2.241594-3.209963C2.241594-3.721046 1.838107-3.963138 1.479452-3.963138C.609714-3.963138 .260025-2.680946 .260025-2.582316C.260025-2.501619 .32279-2.47472 .385554-2.47472C.484184-2.47472 .493151-2.528518 .529016-2.645081C.71731-3.281694 1.058032-3.738979 1.452553-3.738979C1.542217-3.738979 1.667746-3.721046 1.667746-3.452055C1.667746-3.227895 1.578082-2.99477 1.497385-2.788543L.860772-1.129763C.798007-.959402 .744209-.81594 .744209-.654545C.744209-.233126 1.058032 .09863 1.515318 .09863C2.385056 .09863 2.725778-1.192528 2.725778-1.282192Z'/>
+<path id='g0-106' d='M3.622416-5.595019C3.622416-5.76538 3.496887-5.926775 3.281694-5.926775C3.048568-5.926775 2.797509-5.720548 2.797509-5.451557C2.797509-5.227397 2.96787-5.119801 3.129265-5.119801C3.407223-5.119801 3.622416-5.379826 3.622416-5.595019ZM1.793275 .412453C1.604981 1.174595 1.129763 1.613948 .681445 1.613948C.493151 1.613948 .466252 1.596015 .358655 1.560149C.529016 1.497385 .71731 1.309091 .71731 1.084932C.71731 .887671 .564882 .762142 .376588 .762142C.125529 .762142-.116563 .968369-.116563 1.273225C-.116563 1.65878 .277958 1.838107 .690411 1.838107C1.33599 1.838107 2.196762 1.362889 2.420922 .475218L3.254795-2.842341C3.29066-2.985803 3.29066-3.120299 3.29066-3.129265C3.29066-3.622416 2.923039-3.963138 2.420922-3.963138C1.488418-3.963138 .959402-2.680946 .959402-2.582316C.959402-2.501619 1.022167-2.47472 1.084932-2.47472C1.174595-2.47472 1.183562-2.501619 1.255293-2.67198C1.506351-3.245828 1.936737-3.738979 2.402989-3.738979C2.67198-3.738979 2.680946-3.48792 2.680946-3.326526C2.680946-3.317559 2.680946-3.147198 2.654047-3.039601L1.793275 .412453Z'/>
+</defs>
+<g id='page1'>
+<path d='M10.191407-7.152344H66.8867' stroke='currentColor' fill='none' stroke-width='.79701'/>
+<g transform='matrix(1 0 0 1 -6.87247 2.95818)'>
+<use x='10.192917' y='-7.150402' xlink:href='#g0-105'/>
+</g>
+<g transform='matrix(1 0 0 1 60.4127 2.08644)'>
+<use x='10.192917' y='-7.150402' xlink:href='#g0-106'/>
+</g>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle \;=\; \delta_{ij},$</span><span class="equation-num">(4.7)</span></div>
+
+<div class="equation-row"><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='7.802em' height='7.958em' viewBox='3.320034 -75.668635 70.929 72.348549'>
+<defs>
+<path id='g0-105' d='M2.600249-5.595019C2.600249-5.792279 2.456787-5.926775 2.259527-5.926775C2.017435-5.926775 1.775342-5.693649 1.775342-5.451557C1.775342-5.272229 1.909838-5.119801 2.116065-5.119801C2.358157-5.119801 2.600249-5.34396 2.600249-5.595019ZM2.725778-1.282192C2.725778-1.327024 2.698879-1.389788 2.609215-1.389788C2.510585-1.389788 2.501619-1.344956 2.465753-1.228394C2.25056-.493151 1.882939-.125529 1.542217-.125529C1.398755-.125529 1.327024-.19726 1.327024-.42142C1.327024-.636613 1.398755-.833873 1.470486-1.004234C1.63188-1.43462 1.63188-1.452553 1.748443-1.730511C1.891905-2.116065 2.089166-2.627148 2.178829-2.878207C2.241594-3.039601 2.241594-3.129265 2.241594-3.209963C2.241594-3.721046 1.838107-3.963138 1.479452-3.963138C.609714-3.963138 .260025-2.680946 .260025-2.582316C.260025-2.501619 .32279-2.47472 .385554-2.47472C.484184-2.47472 .493151-2.528518 .529016-2.645081C.71731-3.281694 1.058032-3.738979 1.452553-3.738979C1.542217-3.738979 1.667746-3.721046 1.667746-3.452055C1.667746-3.227895 1.578082-2.99477 1.497385-2.788543L.860772-1.129763C.798007-.959402 .744209-.81594 .744209-.654545C.744209-.233126 1.058032 .09863 1.515318 .09863C2.385056 .09863 2.725778-1.192528 2.725778-1.282192Z'/>
+<path id='g0-106' d='M3.622416-5.595019C3.622416-5.76538 3.496887-5.926775 3.281694-5.926775C3.048568-5.926775 2.797509-5.720548 2.797509-5.451557C2.797509-5.227397 2.96787-5.119801 3.129265-5.119801C3.407223-5.119801 3.622416-5.379826 3.622416-5.595019ZM1.793275 .412453C1.604981 1.174595 1.129763 1.613948 .681445 1.613948C.493151 1.613948 .466252 1.596015 .358655 1.560149C.529016 1.497385 .71731 1.309091 .71731 1.084932C.71731 .887671 .564882 .762142 .376588 .762142C.125529 .762142-.116563 .968369-.116563 1.273225C-.116563 1.65878 .277958 1.838107 .690411 1.838107C1.33599 1.838107 2.196762 1.362889 2.420922 .475218L3.254795-2.842341C3.29066-2.985803 3.29066-3.120299 3.29066-3.129265C3.29066-3.622416 2.923039-3.963138 2.420922-3.963138C1.488418-3.963138 .959402-2.680946 .959402-2.582316C.959402-2.501619 1.022167-2.47472 1.084932-2.47472C1.174595-2.47472 1.183562-2.501619 1.255293-2.67198C1.506351-3.245828 1.936737-3.738979 2.402989-3.738979C2.67198-3.738979 2.680946-3.48792 2.680946-3.326526C2.680946-3.317559 2.680946-3.147198 2.654047-3.039601L1.793275 .412453Z'/>
+<path id='g0-107' d='M2.57335-5.917808C2.609215-6.043337 2.609215-6.06127 2.609215-6.097136C2.609215-6.177833 2.555417-6.222665 2.47472-6.222665C2.349191-6.222665 1.560149-6.150934 1.380822-6.133001C1.291158-6.124035 1.192528-6.115068 1.192528-5.96264C1.192528-5.846077 1.291158-5.846077 1.43462-5.846077C1.85604-5.846077 1.85604-5.783313 1.85604-5.702615C1.85604-5.66675 1.85604-5.648817 1.811208-5.487422L.529016-.331756C.493151-.206227 .493151-.188294 .493151-.161395C.493151-.017933 .609714 .09863 .771108 .09863C1.066999 .09863 1.129763-.161395 1.174595-.340722L1.596015-2.035367C2.205729-1.981569 2.663014-1.739477 2.663014-1.291158C2.663014-1.23736 2.663014-1.201494 2.636115-1.066999C2.627148-1.031133 2.600249-.905604 2.600249-.806974C2.600249-.277958 2.96787 .09863 3.461021 .09863C3.801743 .09863 4.016936-.107597 4.178331-.367621C4.402491-.708344 4.52802-1.246326 4.52802-1.282192C4.52802-1.327024 4.501121-1.389788 4.411457-1.389788C4.312827-1.389788 4.294894-1.344956 4.250062-1.183562C4.133499-.726276 3.90934-.125529 3.48792-.125529C3.227895-.125529 3.200996-.358655 3.200996-.555915C3.200996-.780075 3.254795-1.0132 3.263761-1.031133C3.281694-1.084932 3.299626-1.192528 3.299626-1.300125C3.299626-1.927771 2.645081-2.169863 1.95467-2.25056C2.223661-2.420922 2.420922-2.609215 2.707846-2.896139C3.165131-3.353425 3.541719-3.738979 4.016936-3.738979C4.124533-3.738979 4.241096-3.71208 4.312827-3.631382C3.90934-3.595517 3.81071-3.263761 3.81071-3.138232C3.81071-2.96787 3.936239-2.815442 4.160399-2.815442C4.366625-2.815442 4.653549-2.976837 4.653549-3.371357C4.653549-3.667248 4.438356-3.963138 4.016936-3.963138C3.469988-3.963138 3.030635-3.523786 2.654047-3.138232C2.223661-2.716812 2.008468-2.501619 1.676712-2.358157L2.57335-5.917808Z'/>
+</defs>
+<g id='page1'>
+<path d='M10.1914-38.777342H41.375001' stroke='currentColor' fill='none' stroke-width='.79701'/>
+<path d='M41.375001-38.777342L65.4688-64.2891' stroke='currentColor' fill='none' stroke-width='.79701'/>
+<path d='M41.375001-38.777342L65.4688-13.2656' stroke='currentColor' fill='none' stroke-width='.79701'/>
+<path d='M42.86719-38.777342C42.86719-39.601561 42.19922-40.27344 41.375001-40.27344C40.550782-40.27344 39.87891-39.601561 39.87891-38.777342C39.87891-37.953123 40.550782-37.28515 41.375001-37.28515C42.19922-37.28515 42.86719-37.953123 42.86719-38.777342Z'/>
+<g transform='matrix(1 0 0 1 -38.05414 2.9582)'>
+<use x='41.374174' y='-38.777816' xlink:href='#g0-105'/>
+</g>
+<g transform='matrix(1 0 0 1 27.814 -30.9745)'>
+<use x='41.374174' y='-38.777816' xlink:href='#g0-106'/>
+</g>
+<g transform='matrix(1 0 0 1 27.814 35.45773)'>
+<use x='41.374174' y='-38.777816' xlink:href='#g0-107'/>
+</g>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle \;=\; -g_{ijk},$</span><span class="equation-num">(4.8)</span></div>
+
+<div class="equation-row"><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='7.483em' height='7.647em' viewBox='3.320118 -72.834662 68.027958 69.514579'>
+<defs>
+<path id='g0-106' d='M3.622416-5.595019C3.622416-5.76538 3.496887-5.926775 3.281694-5.926775C3.048568-5.926775 2.797509-5.720548 2.797509-5.451557C2.797509-5.227397 2.96787-5.119801 3.129265-5.119801C3.407223-5.119801 3.622416-5.379826 3.622416-5.595019ZM1.793275 .412453C1.604981 1.174595 1.129763 1.613948 .681445 1.613948C.493151 1.613948 .466252 1.596015 .358655 1.560149C.529016 1.497385 .71731 1.309091 .71731 1.084932C.71731 .887671 .564882 .762142 .376588 .762142C.125529 .762142-.116563 .968369-.116563 1.273225C-.116563 1.65878 .277958 1.838107 .690411 1.838107C1.33599 1.838107 2.196762 1.362889 2.420922 .475218L3.254795-2.842341C3.29066-2.985803 3.29066-3.120299 3.29066-3.129265C3.29066-3.622416 2.923039-3.963138 2.420922-3.963138C1.488418-3.963138 .959402-2.680946 .959402-2.582316C.959402-2.501619 1.022167-2.47472 1.084932-2.47472C1.174595-2.47472 1.183562-2.501619 1.255293-2.67198C1.506351-3.245828 1.936737-3.738979 2.402989-3.738979C2.67198-3.738979 2.680946-3.48792 2.680946-3.326526C2.680946-3.317559 2.680946-3.147198 2.654047-3.039601L1.793275 .412453Z'/>
+<path id='g0-107' d='M2.57335-5.917808C2.609215-6.043337 2.609215-6.06127 2.609215-6.097136C2.609215-6.177833 2.555417-6.222665 2.47472-6.222665C2.349191-6.222665 1.560149-6.150934 1.380822-6.133001C1.291158-6.124035 1.192528-6.115068 1.192528-5.96264C1.192528-5.846077 1.291158-5.846077 1.43462-5.846077C1.85604-5.846077 1.85604-5.783313 1.85604-5.702615C1.85604-5.66675 1.85604-5.648817 1.811208-5.487422L.529016-.331756C.493151-.206227 .493151-.188294 .493151-.161395C.493151-.017933 .609714 .09863 .771108 .09863C1.066999 .09863 1.129763-.161395 1.174595-.340722L1.596015-2.035367C2.205729-1.981569 2.663014-1.739477 2.663014-1.291158C2.663014-1.23736 2.663014-1.201494 2.636115-1.066999C2.627148-1.031133 2.600249-.905604 2.600249-.806974C2.600249-.277958 2.96787 .09863 3.461021 .09863C3.801743 .09863 4.016936-.107597 4.178331-.367621C4.402491-.708344 4.52802-1.246326 4.52802-1.282192C4.52802-1.327024 4.501121-1.389788 4.411457-1.389788C4.312827-1.389788 4.294894-1.344956 4.250062-1.183562C4.133499-.726276 3.90934-.125529 3.48792-.125529C3.227895-.125529 3.200996-.358655 3.200996-.555915C3.200996-.780075 3.254795-1.0132 3.263761-1.031133C3.281694-1.084932 3.299626-1.192528 3.299626-1.300125C3.299626-1.927771 2.645081-2.169863 1.95467-2.25056C2.223661-2.420922 2.420922-2.609215 2.707846-2.896139C3.165131-3.353425 3.541719-3.738979 4.016936-3.738979C4.124533-3.738979 4.241096-3.71208 4.312827-3.631382C3.90934-3.595517 3.81071-3.263761 3.81071-3.138232C3.81071-2.96787 3.936239-2.815442 4.160399-2.815442C4.366625-2.815442 4.653549-2.976837 4.653549-3.371357C4.653549-3.667248 4.438356-3.963138 4.016936-3.963138C3.469988-3.963138 3.030635-3.523786 2.654047-3.138232C2.223661-2.716812 2.008468-2.501619 1.676712-2.358157L2.57335-5.917808Z'/>
+<path id='g0-108' d='M2.313325-5.917808C2.349191-6.043337 2.349191-6.06127 2.349191-6.097136C2.349191-6.177833 2.295392-6.222665 2.214695-6.222665C2.062267-6.222665 1.318057-6.150934 1.120797-6.133001C1.049066-6.124035 .941469-6.115068 .941469-5.96264C.941469-5.846077 1.0401-5.846077 1.174595-5.846077C1.596015-5.846077 1.596015-5.774346 1.596015-5.702615C1.596015-5.66675 1.596015-5.648817 1.551183-5.487422L.448319-1.075965C.403487-.896638 .403487-.771108 .403487-.735243C.403487-.170361 .860772 .09863 1.255293 .09863C1.65878 .09863 1.847073-.224159 1.945704-.42142C2.107098-.744209 2.214695-1.255293 2.214695-1.282192C2.214695-1.327024 2.187796-1.389788 2.098132-1.389788C1.990535-1.389788 1.981569-1.344956 1.945704-1.174595C1.793275-.564882 1.613948-.125529 1.282192-.125529C1.102864-.125529 1.004234-.251059 1.004234-.537983C1.004234-.726276 1.022167-.789041 1.058032-.932503L2.313325-5.917808Z'/>
+<path id='g0-109' d='M1.694645-1.407721C1.793275-1.829141 1.963636-2.483686 1.972603-2.555417C1.990535-2.609215 2.214695-3.039601 2.537484-3.353425C2.797509-3.595517 3.138232-3.738979 3.48792-3.738979C3.972105-3.738979 3.972105-3.263761 3.972105-3.111333C3.972105-3.003736 3.972105-2.878207 3.864508-2.438854L3.658281-1.640847C3.371357-.484184 3.299626-.206227 3.299626-.161395C3.299626-.044832 3.380324 .09863 3.577584 .09863C3.703113 .09863 3.837609 .017933 3.900374-.089664C3.927273-.143462 3.999004-.430386 4.043836-.609714L4.250062-1.407721C4.348692-1.829141 4.519054-2.483686 4.52802-2.555417C4.545953-2.609215 4.770112-3.039601 5.092902-3.353425C5.352927-3.595517 5.693649-3.738979 6.043337-3.738979C6.527522-3.738979 6.527522-3.263761 6.527522-3.111333C6.527522-2.564384 6.106102-1.470486 6.007472-1.192528C5.899875-.91457 5.86401-.824907 5.86401-.654545C5.86401-.170361 6.231631 .09863 6.635118 .09863C7.49589 .09863 7.845579-1.183562 7.845579-1.282192C7.845579-1.327024 7.81868-1.389788 7.729016-1.389788C7.630386-1.389788 7.62142-1.344956 7.585554-1.228394C7.361395-.466252 6.984807-.125529 6.662017-.125529C6.599253-.125529 6.437858-.125529 6.437858-.412453C6.437858-.636613 6.527522-.869738 6.599253-1.066999C6.77858-1.524284 7.137235-2.47472 7.137235-2.976837C7.137235-3.774844 6.545455-3.963138 6.070237-3.963138C5.218431-3.963138 4.752179-3.326526 4.590785-3.102366C4.501121-3.846575 3.891407-3.963138 3.514819-3.963138C2.680946-3.963138 2.241594-3.371357 2.098132-3.183064C2.044334-3.667248 1.676712-3.963138 1.228394-3.963138C.851806-3.963138 .663512-3.685181 .537983-3.443088C.385554-3.129265 .260025-2.618182 .260025-2.582316C.260025-2.501619 .32279-2.47472 .385554-2.47472C.484184-2.47472 .502117-2.519552 .546949-2.698879C.71731-3.407223 .905604-3.738979 1.210461-3.738979C1.479452-3.738979 1.479452-3.452055 1.479452-3.317559C1.479452-3.129265 1.407721-2.851308 1.353923-2.618182C1.291158-2.385056 1.201494-1.999502 1.165629-1.891905L.806974-.42142C.744209-.206227 .744209-.188294 .744209-.161395C.744209-.044832 .824907 .09863 1.022167 .09863C1.147696 .09863 1.282192 .017933 1.344956-.089664C1.371856-.143462 1.443587-.430386 1.488418-.609714L1.694645-1.407721Z'/>
+</defs>
+<g id='page1'>
+<path d='M11.3203-61.457L35.414064-37.359373' stroke='currentColor' fill='none' stroke-width='.79701'/>
+<path d='M59.5117-61.457L35.414064-37.359373' stroke='currentColor' fill='none' stroke-width='.79701'/>
+<path d='M11.3203-13.2656L35.414064-37.359373' stroke='currentColor' fill='none' stroke-width='.79701'/>
+<path d='M59.5117-13.2656L35.414064-37.359373' stroke='currentColor' fill='none' stroke-width='.79701'/>
+<path d='M36.91016-37.359373C36.91016-38.187498 36.242189-38.85547 35.414064-38.85547C34.589845-38.85547 33.92188-38.187498 33.92188-37.359373C33.92188-36.535155 34.589845-35.86719 35.414064-35.86719C36.242189-35.86719 36.91016-36.535155 36.91016-37.359373Z'/>
+<g transform='matrix(1 0 0 1 -32.09514 -29.5575)'>
+<use x='35.415258' y='-37.360843' xlink:href='#g0-106'/>
+</g>
+<g transform='matrix(1 0 0 1 27.814 -27.814)'>
+<use x='35.415258' y='-37.360843' xlink:href='#g0-107'/>
+</g>
+<g transform='matrix(1 0 0 1 -30.71289 34.04076)'>
+<use x='35.415258' y='-37.360843' xlink:href='#g0-108'/>
+</g>
+<g transform='matrix(1 0 0 1 27.814 31.67456)'>
+<use x='35.415258' y='-37.360843' xlink:href='#g0-109'/>
+</g>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle \;=\; -g_{ijk}g_{ilm},$</span><span class="equation-num">(4.9)</span></div>
+
+<div class="equation-row"><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='9.205em' height='5.024em' viewBox='3.320012 -48.994419 83.68451 45.673929'>
+<defs>
+<path id='g0-105' d='M2.600249-5.595019C2.600249-5.792279 2.456787-5.926775 2.259527-5.926775C2.017435-5.926775 1.775342-5.693649 1.775342-5.451557C1.775342-5.272229 1.909838-5.119801 2.116065-5.119801C2.358157-5.119801 2.600249-5.34396 2.600249-5.595019ZM2.725778-1.282192C2.725778-1.327024 2.698879-1.389788 2.609215-1.389788C2.510585-1.389788 2.501619-1.344956 2.465753-1.228394C2.25056-.493151 1.882939-.125529 1.542217-.125529C1.398755-.125529 1.327024-.19726 1.327024-.42142C1.327024-.636613 1.398755-.833873 1.470486-1.004234C1.63188-1.43462 1.63188-1.452553 1.748443-1.730511C1.891905-2.116065 2.089166-2.627148 2.178829-2.878207C2.241594-3.039601 2.241594-3.129265 2.241594-3.209963C2.241594-3.721046 1.838107-3.963138 1.479452-3.963138C.609714-3.963138 .260025-2.680946 .260025-2.582316C.260025-2.501619 .32279-2.47472 .385554-2.47472C.484184-2.47472 .493151-2.528518 .529016-2.645081C.71731-3.281694 1.058032-3.738979 1.452553-3.738979C1.542217-3.738979 1.667746-3.721046 1.667746-3.452055C1.667746-3.227895 1.578082-2.99477 1.497385-2.788543L.860772-1.129763C.798007-.959402 .744209-.81594 .744209-.654545C.744209-.233126 1.058032 .09863 1.515318 .09863C2.385056 .09863 2.725778-1.192528 2.725778-1.282192Z'/>
+<path id='g0-106' d='M3.622416-5.595019C3.622416-5.76538 3.496887-5.926775 3.281694-5.926775C3.048568-5.926775 2.797509-5.720548 2.797509-5.451557C2.797509-5.227397 2.96787-5.119801 3.129265-5.119801C3.407223-5.119801 3.622416-5.379826 3.622416-5.595019ZM1.793275 .412453C1.604981 1.174595 1.129763 1.613948 .681445 1.613948C.493151 1.613948 .466252 1.596015 .358655 1.560149C.529016 1.497385 .71731 1.309091 .71731 1.084932C.71731 .887671 .564882 .762142 .376588 .762142C.125529 .762142-.116563 .968369-.116563 1.273225C-.116563 1.65878 .277958 1.838107 .690411 1.838107C1.33599 1.838107 2.196762 1.362889 2.420922 .475218L3.254795-2.842341C3.29066-2.985803 3.29066-3.120299 3.29066-3.129265C3.29066-3.622416 2.923039-3.963138 2.420922-3.963138C1.488418-3.963138 .959402-2.680946 .959402-2.582316C.959402-2.501619 1.022167-2.47472 1.084932-2.47472C1.174595-2.47472 1.183562-2.501619 1.255293-2.67198C1.506351-3.245828 1.936737-3.738979 2.402989-3.738979C2.67198-3.738979 2.680946-3.48792 2.680946-3.326526C2.680946-3.317559 2.680946-3.147198 2.654047-3.039601L1.793275 .412453Z'/>
+<path id='g0-107' d='M2.57335-5.917808C2.609215-6.043337 2.609215-6.06127 2.609215-6.097136C2.609215-6.177833 2.555417-6.222665 2.47472-6.222665C2.349191-6.222665 1.560149-6.150934 1.380822-6.133001C1.291158-6.124035 1.192528-6.115068 1.192528-5.96264C1.192528-5.846077 1.291158-5.846077 1.43462-5.846077C1.85604-5.846077 1.85604-5.783313 1.85604-5.702615C1.85604-5.66675 1.85604-5.648817 1.811208-5.487422L.529016-.331756C.493151-.206227 .493151-.188294 .493151-.161395C.493151-.017933 .609714 .09863 .771108 .09863C1.066999 .09863 1.129763-.161395 1.174595-.340722L1.596015-2.035367C2.205729-1.981569 2.663014-1.739477 2.663014-1.291158C2.663014-1.23736 2.663014-1.201494 2.636115-1.066999C2.627148-1.031133 2.600249-.905604 2.600249-.806974C2.600249-.277958 2.96787 .09863 3.461021 .09863C3.801743 .09863 4.016936-.107597 4.178331-.367621C4.402491-.708344 4.52802-1.246326 4.52802-1.282192C4.52802-1.327024 4.501121-1.389788 4.411457-1.389788C4.312827-1.389788 4.294894-1.344956 4.250062-1.183562C4.133499-.726276 3.90934-.125529 3.48792-.125529C3.227895-.125529 3.200996-.358655 3.200996-.555915C3.200996-.780075 3.254795-1.0132 3.263761-1.031133C3.281694-1.084932 3.299626-1.192528 3.299626-1.300125C3.299626-1.927771 2.645081-2.169863 1.95467-2.25056C2.223661-2.420922 2.420922-2.609215 2.707846-2.896139C3.165131-3.353425 3.541719-3.738979 4.016936-3.738979C4.124533-3.738979 4.241096-3.71208 4.312827-3.631382C3.90934-3.595517 3.81071-3.263761 3.81071-3.138232C3.81071-2.96787 3.936239-2.815442 4.160399-2.815442C4.366625-2.815442 4.653549-2.976837 4.653549-3.371357C4.653549-3.667248 4.438356-3.963138 4.016936-3.963138C3.469988-3.963138 3.030635-3.523786 2.654047-3.138232C2.223661-2.716812 2.008468-2.501619 1.676712-2.358157L2.57335-5.917808Z'/>
+</defs>
+<g id='page1'>
+<path d='M10.1914-6.433594H44.207032' stroke='currentColor' fill='none' stroke-width='.79701'/>
+<path d='M44.207032-6.433594H78.2266' stroke='currentColor' fill='none' stroke-width='.79701'/>
+<path d='M44.207032-37.61715V-6.433594' stroke='currentColor' fill='none' stroke-width='.79701'/>
+<path d='M45.70313-6.433594C45.70313-7.257813 45.035157-7.92969 44.207032-7.92969C43.382813-7.92969 42.71484-7.257813 42.71484-6.433594C42.71484-5.609375 43.382813-4.9375 44.207032-4.9375C45.035157-4.9375 45.70313-5.609375 45.70313-6.433594Z'/>
+<g transform='matrix(1 0 0 1 -40.88855 2.95818)'>
+<use x='44.208562' y='-6.43385' xlink:href='#g0-105'/>
+</g>
+<g transform='matrix(1 0 0 1 37.7351 3.11336)'>
+<use x='44.208562' y='-6.43385' xlink:href='#g0-107'/>
+</g>
+<g transform='matrix(1 0 0 1 -2.1405 -36.64425)'>
+<use x='44.208562' y='-6.43385' xlink:href='#g0-106'/>
+</g>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle \;=\; -g_{ijk}.$</span><span class="equation-num">(4.10)</span></div>
+
+<p>Since we have already shown that $Z=1$, the loop expansions should be cancelled order by order in $g$. There are no diagrams of order $g$. For order $g^2$, the diagram should cancel, but we shall not show it explicitly here.</p>
+
+<p>Now, we take $w_i \to \lambda w_i$, which the action becomes
+\[S = \frac{1}{2}\lambda^2 w_i(x)w_i(x) + \lambda\bar\theta_i w_{i,j}(x)\theta_j.\tag{4.11}\]
+Then,
+\[\begin{aligned}
+    \frac{d}{d\lambda}e^{-S(x,\theta,\bar\theta)} = -(\lambda w_i(x)w_i(x) + \bar\theta_i w_{i,j}(x)\theta_j)e^{-S(x,\theta,\bar\theta)},
+\end{aligned}\tag{4.12}\]
+while
+\[\begin{aligned}
+        &amp;-\left(\theta_j\frac{\partial}{\partial x_j} + \lambda w_j(x)\frac{\partial}{\partial\bar\theta_j}\right)\bar\theta_i w_i(x)\,e^{-S(x,\theta,\bar\theta)}\\
+        =&amp;-\bigg(\theta_j w_{i,j}(x)\bar\theta_i - \theta_j\bar\theta_i w_i(x)[\lambda^2w_k(x)w_{k,j}(x) + \lambda\bar\theta_kw_{i,lj}(x)\theta_l] \\
+        &amp;\qquad \qquad\qquad \qquad+ \lambda w_i(x)w_i(x) - \lambda^2\bar\theta_iw_j(x)w_i(x)w_{l,j}(x)\theta_l\bigg)e^{-S(x,\theta,\bar\theta)}\\
+        =&amp;-(\lambda w_i(x)w_i(x) + \bar\theta_i w_{i,j}(x)\theta_j)e^{-S(x,\theta,\bar\theta)},
+    \end{aligned}\tag{4.13}\]
+where the term containing $w_{i,jl}$ vanishes by anti-commutation of Grassmann numbers.</p>
+
+<p>Letting $x_i \to \lambda x_i$ and $g_{ijk}\to g_{ijk}/\lambda$ is equivalent to letting $w_i\to \lambda w_i$. In other words,
+\[w_i(\lambda x, g/\lambda) = \lambda w_i(x).\tag{4.14}\]</p>
+
+</aside>
+
+<h2 id="fermionic-gaussian-integral-q5">Fermionic Gaussian Integral, Q5</h2>
+
+<p>Show that, for $\theta_i$, $\bar\theta_i$, $\eta_i$, $\bar\eta_i$, $i=1,2,\ldots,n$ independent Grassmann variables and $B$ an invertible $n\times n$ matrix,
+\[\int\prod_{i=1}^n d\bar\theta_i\,d\theta_i\,\exp\!\left(-\bar\theta_i B_{ij}\theta_j + \bar\eta_i\theta_i + \bar\theta_i\eta_i\right) = \det B\,\exp\!\left(\bar\eta_i(B^{-1})_{ij}\eta_j\right),\tag{5.1}\]
+and
+\[\langle\theta_i\bar\theta_j\rangle = -\frac{\partial}{\partial\bar\eta_i}\frac{\partial}{\partial\eta_j}\exp\!\left(\bar\eta_i(B^{-1})_{ij}\eta_j\right)\bigg|_{\eta=\bar\eta=0} = (B^{-1})_{ij}.\tag{5.2}\]</p>
+
+<aside class="solution">
+
+<p>Making the substitution $\chi_i = \theta_i -B_{ij}^{-1}\eta_j$, and $\bar\chi_i = \bar\theta_i - \bar\eta_jB_{ji}^{-1}$, the integral becomes
+    \[\int\prod_{i=1}^nd\bar\chi_id\chi_i \exp\left(-\bar\chi_i B_{ij}\chi_j + \bar\eta_jB_{ji}^{-1}\eta_i\right) = \exp\!\left(\bar\eta_i(B^{-1})_{ij}\eta_j\right)\int\prod_{i=1}^nd\bar\chi_id\chi_i \exp\left(-\bar\chi_i B_{ij}\chi_j\right),\tag{5.3}\]
+    where the latter integral is equal to $\det B$. Then,
+    \[\langle \theta_i \bar\theta_j\rangle = - \frac{\partial}{\partial\bar\eta_i}\frac{\partial}{\partial\eta_j}\exp\!\left(\bar\eta_i(B^{-1})_{ij}\eta_j\right)\bigg|_{\eta=\bar\eta=0} =- \frac{\partial}{\partial\bar\eta_i}\frac{\partial}{\partial\eta_j}(1+\bar\eta_iB_{ij}^{-1}\eta_j)\bigg|_{\eta=\bar\eta=0} = B_{ij}^{-1}.\tag{5.4}\]</p>
+
+</aside>
+
+<h2 id="pfaffian-and-real-grassmann-integrals-q6">Pfaffian and Real Grassmann Integrals, Q6</h2>
+
+<p>Show that
+\[\int d^{2n}\theta\,\exp\!\left(\tfrac{1}{2}\theta_i A_{ij}\theta_j + \eta_i\theta_i\right) = \mathrm{Pf}(A)\exp\!\left(\tfrac{1}{2}\eta_i(A^{-1})_{ij}\eta_j\right), \qquad d^{2n}\theta = d\theta_{2n}\cdots d\theta_1,\tag{6.1}\]
+where $\theta_i$ and $\eta_i$ are Grassmann variables, $A$ is an invertible antisymmetric matrix and the Pfaffian is
+\[\mathrm{Pf}(A) = \frac{1}{2^n n!}\varepsilon_{i_1\cdots i_{2n}}A_{i_1 i_2}\cdots A_{i_{2n-1}i_{2n}}.\tag{6.2}\]
+Why does $\mathrm{Pf}(A)^2 = \det A$? Hence obtain
+\[\langle\theta_i\theta_j\rangle = \frac{\partial}{\partial\eta_i}\frac{\partial}{\partial\eta_j}\exp\!\left(\tfrac{1}{2}\eta_i(A^{-1})_{ij}\eta_j\right)\bigg|_{\eta=0} = -(A^{-1})_{ij}.\tag{6.3}\]
+Show that $\delta(\theta) = \theta_1\cdots\theta_{2n}$ plays the role of a $\delta$-function for Grassmann integrals over $\theta_1,\ldots,\theta_{2n}$.</p>
+
+<aside class="solution">
+
+<p>Similarly, we perform the substitution $\chi_i = \theta_i- A_{ij}^{-1}\eta_j$, which gives
+    \[\int d^{2n}\chi\,\exp\!\left(\frac{1}{2}(\chi_i +A_{il}^{-1}\eta_l)A_{ij}(\chi_j +A_{jk}^{-1}\eta_k) + \eta_i (\chi_i +A_{ij}^{-1}\eta_j)  \right).\tag{6.4}\]
+    The exponent is 
+    \[\frac{1}{2}\chi_iA_{ij}\chi_j + \frac{1}{2}\chi_iA_{ij}A_{jk}^{-1}\eta_k + \frac{1}{2}A_{il}^{-1}\eta_lA_{ij}\chi_j + \frac{1}{2}A_{il}^{-1}\eta_l A_{ij}A_{jk}^{-1}\eta_k + \eta_i\chi_i + \eta_iA_{ij}^{-1}\eta_j.\tag{6.5}\]
+    For the $\theta A\theta$ term to be non-vanishing, we need $A$ to be antisymmetric. Therefore,
+    \[\frac{1}{2}A_{il}^{-1}\eta_lA_{ij}\chi_j = -\frac{1}{2}\eta_i \chi_i.\tag{6.6}\]
+    The integral becomes
+    \[\int d^{2n}\theta\,\exp\!\left(\tfrac{1}{2}\theta_i A_{ij}\theta_j + \eta_i\theta_i\right) = \exp\!\left(\tfrac{1}{2}\eta_i(A^{-1})_{ij}\eta_j\right)\int d^{2n}\chi \exp\left(\frac{1}{2}\chi_i A_{ij} \chi_j\right).\tag{6.7}\]
+   The integral on the right-hand side is
+   \[\begin{aligned}
+           \int d^{2n}\chi \exp\left(\frac{1}{2}\chi_i A_{ij} \chi_j\right) &amp;= \frac{\partial}{\partial \chi_{2n}}\cdots \frac{\partial}{\partial \chi_1}\sum_{m=0}^n\frac{1}{m!}\left(\frac{1}{2}\chi_i A_{ij} \chi_j\right)^m\\
+           &amp;=\frac{1}{2^nn!}\frac{\partial}{\partial \chi_{2n}}\cdots \frac{\partial}{\partial \chi_1}\left(\chi_i A_{ij} \chi_j\right)^n\\
+           &amp;=\frac{1}{2^n n!}\varepsilon_{i_1\cdots i_{2n}}A_{i_1 i_2}\cdots A_{i_{2n-1}i_{2n}}\\
+           &amp;= \mathrm{Pf}(A).
+       \end{aligned}\tag{6.8}\]</p>
+
+<p>Now, we consider
+   \[\begin{aligned}
+          \mathrm{Pf}^2(A)&amp;= \left(\int d^{2n}\chi \exp\left(\frac{1}{2}\chi_i A_{ij} \chi_j\right)\right)^2\\
+          &amp;=\int d^{2n}\chi d^{2n}\chi' \exp\left(\frac{1}{2}\chi_i A_{ij} \chi_j + \frac{1}{2}\chi_i' A_{ij} \chi_j'\right).
+   \end{aligned}\tag{6.9}\]
+   Let $\eta_i = \frac{1}{\sqrt{2}}(\chi_i + \chi_i')$ and $\eta_i' = \frac{i}{\sqrt{2}}(\chi_i - \chi_i')$, so that the above becomes
+   \[\mathrm{Pf}^2(A) = \int  \prod_{i=1}^{2n}d\eta_i d\eta'_i\exp\left(\eta'_i A_{ij}\eta_j\right) = \det (-A) = (-1)^{2n}\det (A) = \det(A).\tag{6.10}\]</p>
+
+<p>It is easy to see that
+   \[\langle \theta_i \theta_j \rangle = \frac{\partial}{\partial\eta_i}\frac{\partial}{\partial\eta_j}\exp\!\left(\tfrac{1}{2}\eta_i(A^{-1})_{ij}\eta_j\right)\bigg|_{\eta=0} = -(A^{-1})_{ij}\tag{6.11}\]
+   is true.</p>
+
+<p>Now, consider a Grassmann function, which can be expanded as $f(\theta) = f(0) + (\text{terms with } \theta_i)$. Therefore, 
+   \[\int d^{2n}\theta\, \theta_1 \cdots \theta_{2n} f(\theta) = \int d^{2n}\,\theta\theta_1 \cdots \theta_{2n} f(0)  = f(0).\tag{6.12}\]</p>
+
+</aside>
+
+<h2 id="fermionic-path-integral-and-partition-function-q7">Fermionic Path Integral and Partition Function, Q7</h2>
+
+<p>For the simple fermionic oscillator with energy eigenstates $|0\rangle$, $|1\rangle$ and $H = b^\dagger b\,\omega$, let $|\theta\rangle = |0\rangle + \theta|1\rangle$, $\langle\bar\theta| = \langle 0| + \bar\theta\langle 1|$ where $\theta$, $\bar\theta$ are Grassmann variables. Show that
+\[\mathrm{tr}\,e^{-\beta H} = \int d\theta\,d\bar\theta\,e^{\theta\bar\theta}\langle\bar\theta|e^{-\beta H}|\theta\rangle, \qquad \int d\bar\theta\,d\theta\,e^{\theta\bar\theta}|\theta\rangle\langle\bar\theta| = 1.\tag{7.1}\]
+Let $\beta = (N+1)\epsilon$ and show that this can be expressed for large $N$ as a path integral over products of $\langle\bar\theta_{i+1}|e^{-H}|\theta_i\rangle \approx \exp\!\left((1-\epsilon\omega)\bar\theta_{i+1}\theta_i\right)$ so that
+\[\mathrm{tr}\,e^{-\beta H} \approx \int\prod_{i=1}^{N+1}d\bar\theta_i\,d\theta_i\,\exp\!\left(-\bar\theta_i B_{ij}\theta_j\right) = \det(B),\tag{7.2}\]
+where we take $\bar\theta_{N+1}=\bar\theta$, $\theta_{N+1}=-\theta$ and $B$ is an $(N+1)\times(N+1)$ matrix of the form
+\[B = \begin{pmatrix}
+        1 &amp; 0 &amp; \cdots &amp; 0 &amp; 1-\epsilon\omega\\
+        -1+\epsilon\omega &amp; 1 &amp; \cdots &amp; 0 &amp; 0\\
+        0 &amp; -1+\epsilon\omega &amp; \cdots &amp; 0 &amp; 0\\
+        \vdots &amp; \vdots &amp; \ddots &amp; \vdots &amp; \vdots\\
+        0 &amp; 0 &amp; \cdots &amp; 1 &amp; 0\\
+        0 &amp; 0 &amp; \cdots &amp; -1+\epsilon\omega &amp; 1
+    \end{pmatrix}.\tag{7.3}\]
+Show that $\det B = 1 + (1-\epsilon\omega)^{N+1} \to 1 + e^{-\beta\omega}$ as $N\to\infty$.</p>
+
+<aside class="solution">
+
+<p>The completeness relation is given by
+    \[\ket{0}\bra{0} + \ket{1}\bra{1} =1 = \int d\bar\theta\,d\theta\,e^{\theta\bar\theta}|\theta\rangle\langle\bar\theta|.\tag{7.4}\]
+    Then
+    \[\begin{aligned}
+        \tr e^{-\beta H} &amp;= \bra{0}e^{-\beta H}\ket{ 0} + \bra{1}e^{-\beta H}\ket{1} \\
+        &amp;= \int d\bar\theta\,d\theta\,e^{\theta\bar\theta} (\langle\bar\theta|e^{-\beta H}\ket{0}+\theta \langle\bar\theta|e^{-\beta H}\ket{1})\\
+        &amp;=\int d\bar\theta\,d\theta\,e^{\theta\bar\theta} \langle\bar\theta|e^{-\beta H}\ket{\theta}.
+    \end{aligned}\tag{7.5}\]</p>
+
+<p>Taking $\beta = N+1$, so that the path integral becomes
+    \[\begin{aligned}
+            \tr e^{-\beta H} = \int d\bar\theta\,d\theta e^{\theta\bar\theta}\int \prod_{i=1}^{N} \left(d\bar\theta_i d\theta_i e^{\theta_i \bar\theta_i}\right)\langle\bar\theta|e^{- H}\ket{\theta_1}\langle\bar\theta_1|e^{- H}\ket{\theta_2}\cdots \langle\bar\theta_N|e^{- H}\ket{\theta}.
+        \end{aligned}\tag{7.6}\]
+    For large $N$, 
+    \[\langle\bar\theta_{i+1}|e^{-\epsilon H}|\theta_i\rangle = \langle\bar\theta_{i+1}|e^{-\epsilon\omega b^\dagger b}|\theta_i\rangle \approx e^{-\epsilon\omega\bar\theta_{i+1}\theta_i}\langle\bar\theta_{i+1}|\theta_i\rangle = e^{-\epsilon\omega\bar\theta_{i+1}\theta_i}(1 +\bar\theta_{i+1}\theta_i)= e^{(1-\epsilon\omega)\bar\theta_{i+1}\theta_i},\tag{7.7}\]
+    where we have neglected terms of order $\epsilon^2$ or higher. Plugging this back into the path integral, we find
+    \[\tr e^{-\beta H} \approx \int_{\theta_1 = \theta_{N+2}} \prod_{i=1}^{N+1}d\bar\theta_i d\theta_i e^{\theta_i \bar\theta_i}e^{(1-\epsilon\omega)\bar\theta_{i+1}\theta_i} = \int\prod_{i=1}^{N+1}d\bar\theta_i\,d\theta_i\,\exp\!\left(-\bar\theta_i B_{ij}\theta_j\right) = \det(B).\tag{7.8}\]</p>
+
+<p>The determinant is given by
+    \[\begin{aligned}
+                \det(B) &amp;= \det\begin{pmatrix}
+    1 &amp; \cdots &amp; 0 &amp; 0\\
+        -1+\epsilon\omega &amp; \cdots &amp; 0 &amp; 0\\
+         \vdots &amp; \ddots &amp; \vdots &amp; \vdots\\
+         0 &amp; \cdots &amp; 1 &amp; 0\\
+         0 &amp; \cdots &amp; -1+\epsilon\omega &amp; 1
+        \end{pmatrix} + (-1)^N(1-\epsilon\omega)\det\begin{pmatrix}
+        
+        -1+\epsilon\omega &amp; 1 &amp; \cdots &amp; 0 \\
+        0 &amp; -1+\epsilon\omega &amp; \cdots &amp; 0 \\
+        \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+        0 &amp; 0 &amp; \cdots &amp; 1 \\
+        0 &amp; 0 &amp; \cdots &amp; -1+\epsilon\omega 
+    \end{pmatrix}\\
+    &amp;= 1 + (-1)^N (1-\epsilon\omega)(-1+\epsilon\omega)^N = 1 + (1-\epsilon\omega)^{N+1} \to 1 + e^{-\beta\omega}.
+    \end{aligned}\tag{7.9}\]</p>
+
+</aside>
+
+<h2 id="supersymmetric-quantum-mechanics-q8">Supersymmetric Quantum Mechanics, Q8</h2>
+
+<p>Let
+\[S = \int_0^\beta d\tau\left(\tfrac{1}{2}\dot x^2 + \bar\theta\dot\theta + \tfrac{1}{2}\lambda^2 w'(x)^2 + \lambda w''(x)\bar\theta\theta\right).\tag{8.1}\]
+Assume $x(\tau)$ and the Grassmannian $\theta(\tau)$, $\bar\theta(\tau)$ are all periodic with period $\beta$. Show that
+\[Q\!\left(\bar\theta\cdot w'\,e^{-S}\right) = -\frac{\partial}{\partial\lambda}e^{-S}, \qquad Q = \int_0^\beta d\tau\left(\theta\frac{\delta}{\delta x} + \left(\lambda w'(x)+\dot x\right)\frac{\delta}{\delta\bar\theta}\right), \qquad \bar\theta\cdot w' = \int_0^\beta d\tau\,\bar\theta w'(x).\tag{8.2}\]
+Hence show that
+\[Z = \int \mathcal{D}x\mathcal{D}\bar\theta\mathcal{D}\theta\,e^{-S}\tag{8.3}\]
+is independent of $\lambda$ if $\lambda\neq 0$. Calculate $Z$ for $\lambda w'(x) = \omega x$ if $Z=1$ for $\omega=0$.</p>
+
+<aside class="solution">
+
+<p>\[\begin{aligned}
+        Q\left(\bar\theta \cdot w' e^{-S}\right)&amp;=
+        \int_0^\beta d\tau\left(\theta\frac{\delta}{\delta x} + \left(\lambda w'(x)+\dot x\right)\frac{\delta}{\delta\bar\theta}\right)\left(\int_0^\beta d\tau'\,\bar\theta w'(x)e^{-S}\right)\\
+        &amp;=\int_0^\beta d\tau d\tau'\bigg(\theta(\tau)\bar\theta(\tau')w''(x(\tau'))\delta(\tau-\tau') + \theta(\tau)\bar\theta(\tau')w'(x(\tau'))\\
+        &amp;\qquad\qquad\times\int_0^\beta d\tau''[\ddot x(\tau)\delta(\tau-\tau'') - \lambda^2w'(x(\tau''))w''(x(\tau''))\delta(\tau-\tau'') \\
+        &amp;\qquad\qquad - \lambda w'''(x(\tau''))\bar\theta(\tau'')\theta(\tau'')\delta(\tau-\tau'')]\bigg)e^{-S}\\
+        &amp;+ \int_0^\beta d\tau d\tau'[\lambda w'(x(\tau)) + \dot{x}(\tau)]\bigg(\delta(\tau-\tau')w'(x(\tau'))\\
+        &amp;\qquad\qquad+\bar\theta(\tau')w'(x(\tau'))\int^\beta_0 d\tau''[\dot\theta(\tau'')\delta(\tau -\tau'') + \lambda w''(x(\tau''))\theta(\tau'')\delta(\tau -\tau'')]\bigg)e^{-S}\\
+        &amp;=\int^\beta_0 d\tau\, \theta\bar\theta w''(x) e^{-S} \\
+        &amp;\qquad+ \int^\beta_0 d\tau d\tau'\,\theta(\tau)\bar\theta(\tau')w'(x(\tau'))[\ddot x(\tau) - \lambda^2w'(x(\tau))w''(x(\tau))]e^{-S}\\
+        &amp;\qquad+\int^\beta_0 d\tau\,[\lambda w'(x) + \dot{x}]w'(x)e^{-S} \\
+        &amp;\qquad+ \int^\beta_0 d\tau d\tau'\,[\lambda w'(x(\tau)) + \dot{x}(\tau)]\bar\theta(\tau')w'(x(\tau'))[\dot\theta(\tau) + \lambda w''(x(\tau))\theta(\tau)]e^{-S}\\
+        &amp;=\int^\beta_0 d\tau [w''(x)\bar\theta\theta+ \lambda w'(x)w'(x) + \dot{x}w'(x)]e^{-S}\\
+        &amp;= - \frac{d}{d\lambda}e^{-S},
+    \end{aligned}\tag{8.4}\]
+where we have used the fact that $\dot{x}w'(x) = \frac{d}{d\tau}w(x)$ is a total derivative, and thus vanishes.</p>
+
+<p>Now consider
+\[\begin{aligned}
+    \frac{dZ}{d\lambda} &amp;= -\int\mathcal{D}x\mathcal{D}\bar\theta\mathcal{D}\theta \,Q(\bar\theta \cdot w'e^{-S}),
+\end{aligned}\tag{8.5}\]
+which only contains boundary terms of $x$ and $\bar\theta$. Therefore, we have $dZ/d\lambda = 0$, which means $Z$ is independent of $\lambda$ for SUSY QM. Now, take $\lambda w'(x) = \omega x$, and then
+\[S = \int^\beta_0 d\tau\left(\frac{1}{2}\dot{x}^2 + \bar\theta\dot{\theta} + \frac{1}{2}\omega^2 x^2  + \omega\bar\theta\theta\right).\tag{8.6}\]
+The partition function is then given by
+\[\begin{aligned}
+        Z &amp;= \int\mathcal{D}x\, e^{-\int d\tau \frac{1}{2}(\dot{x}^2 + \omega^2 x^2)}\int\mathcal{D}\bar\theta\mathcal{D}\theta\, e^{-\int d\tau (\bar\theta\dot{\theta} +\omega\bar\theta\theta)} \\
+        &amp;= \int\mathcal{D}x\, e^{-\int d\tau \frac{1}{2}x(-\frac{d^2}{d\tau^2} + \omega^2 )x}\int\mathcal{D}\bar\theta\mathcal{D}\theta\, e^{-\int d\tau \bar\theta(\frac{d}{d\tau} +\omega)\theta}\\
+        &amp;=\frac{\mathrm{Det}_{\text{AP}}(\frac{d}{d\tau} + \omega)}{\sqrt{\mathrm{Det}_\text{P}(-\frac{d^2}{d\tau^2} + \omega^2)}}.
+\end{aligned}\tag{8.7}\]
+The determinants can be evaluated as
+\[\mathrm{Det}_{\text{AP}}\left(\frac{d}{d\tau} + \omega\right) = \prod_n\lambda_n = \prod_n\left[\frac{(2n-1)\pi i}{\beta} + \omega\right] = \mathrm{Det}_{\text{AP}}\left(\frac{d}{d\tau}\right)\prod_n\left[1 - \frac{i\omega\beta}{(2n-1)\pi}\right],\tag{8.8}\]
+and
+\[\mathrm{Det}_\text{P}\left(-\frac{d^2}{d\tau^2} + \omega^2\right) = \prod_n\left[\left(\frac{2\pi n}{\beta}\right)^2 + \omega^2\right] = \mathrm{Det}_\text{P}\left(-\frac{d^2}{d\tau^2}\right) \prod_n\left[1 + \left(\frac{\omega\beta}{2\pi n}\right)^2\right].\tag{8.9}\]
+Using the normalisation, $Z=1$ for $\omega=0$, we find
+\[Z = \prod_n\frac{1 - \frac{i\omega\beta}{(2n-1)\pi}}{\sqrt{1 + \left(\frac{\omega\beta}{2\pi n}\right)^2}}.\tag{8.10}\]</p>
+
+</aside>
+  </article>
+
+  <hr class="ornament-rule">
+
+  <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
+    <a href="../notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="../index.html">About</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>
