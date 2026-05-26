@@ -856,6 +856,12 @@ def stash_tikz(text, stash):
     """Pull tikz / feynmandiagram blocks out of the source, replacing them
     with placeholder sentinels so they survive math-stashing and paragraphing.
     The stashed source is later rendered to inline SVG by svg_render."""
+    # Strip TeX line-comments first. The global comment-stripper in
+    # `transform_text` runs much later, but the macro expander below would
+    # otherwise substitute `\FDone` etc. inside a commented annotation like
+    # `% \FDone, \FDtwo, \FDthree as defined before`, producing orphan
+    # figures in the output.
+    text = re.sub(r"(?m)(?<!\\)%.*$", "", text)
     # Page-level preprocessing: pull `\tikzset{...}` styles out as a shared
     # preamble, and inline-expand any `\newcommand` wrapper whose body holds
     # a tikzpicture (e.g. `\FDone`, `\D{...}` — used inline within equations).
