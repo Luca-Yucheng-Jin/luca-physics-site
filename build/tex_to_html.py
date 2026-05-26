@@ -719,10 +719,149 @@ _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))
 from svg_render import render_or_fallback, KIND_TIKZ, KIND_MATH
 
 
+def _find_balanced_close(text, open_idx, open_ch="{", close_ch="}"):
+    """Given text[open_idx] == open_ch, return the index of the matching
+    close_ch. Returns -1 if no match. Treats `\\{` and `\\}` as escapes."""
+    if open_idx >= len(text) or text[open_idx] != open_ch:
+        return -1
+    depth = 1
+    i = open_idx + 1
+    while i < len(text):
+        c = text[i]
+        if c == "\\" and i + 1 < len(text):
+            i += 2
+            continue
+        if c == open_ch:
+            depth += 1
+        elif c == close_ch:
+            depth -= 1
+            if depth == 0:
+                return i
+        i += 1
+    return -1
+
+
+def _collect_tikzset(text):
+    """Pull every `\\tikzset{...}` block (balanced braces) out of the source
+    and return (cleaned_text, combined_preamble). The combined preamble is a
+    single `\\tikzset{...}` snippet that will be prepended to every TikZ
+    figure extracted from this page, so per-page style definitions reach
+    the standalone compile."""
+    out, bodies = [], []
+    i = 0
+    pat = re.compile(r"\\tikzset\s*\{")
+    while True:
+        m = pat.search(text, i)
+        if not m:
+            out.append(text[i:])
+            break
+        body_open = m.end() - 1
+        body_close = _find_balanced_close(text, body_open)
+        if body_close == -1:
+            out.append(text[i:m.end()])
+            i = m.end()
+            continue
+        bodies.append(text[body_open + 1:body_close])
+        out.append(text[i:m.start()])
+        j = body_close + 1
+        if j < len(text) and text[j] == "\n":
+            j += 1
+        i = j
+    cleaned = "".join(out)
+    preamble = ""
+    if bodies:
+        preamble = "\\tikzset{" + ",\n".join(bodies) + "}\n"
+    return cleaned, preamble
+
+
+def _expand_tikz_macros(text):
+    """Find every `\\newcommand{\\NAME}{BODY}` (or `\\newcommand{\\NAME}[N]{BODY}`)
+    whose BODY contains a `\\begin{tikzpicture}` — these are inline-figure
+    wrapper macros like `\\FDone` or `\\D` — strip the definition from the
+    source, then substitute every usage of `\\NAME` with its BODY. Other
+    `\\newcommand` definitions are left alone (MathJax handles those in
+    math contexts)."""
+    macros = {}  # name -> (nargs, body)
+    out, i = [], 0
+    def_pat = re.compile(r"\\newcommand\s*\{\s*\\([A-Za-z]+)\s*\}(?:\s*\[(\d+)\])?\s*\{")
+    while True:
+        m = def_pat.search(text, i)
+        if not m:
+            out.append(text[i:])
+            break
+        body_open = m.end() - 1
+        body_close = _find_balanced_close(text, body_open)
+        if body_close == -1:
+            out.append(text[i:m.end()])
+            i = m.end()
+            continue
+        body = text[body_open + 1:body_close]
+        # Treat as an inline-figure wrapper if the body either holds a tikz
+        # picture itself (e.g. `\FDone`) or is a generic positioning wrapper
+        # like `\vcenter{\hbox{#1}}` (e.g. `\D`) — both classes exist to
+        # drop a graphic into math, and MathJax can't render either form.
+        if (r"\begin{tikzpicture}" in body
+                or re.search(r"\\(?:vcenter|hbox|vbox|mbox|raisebox)\b", body)):
+            # TeX `%` line-comments (used by the source to break a wrapper
+            # macro over several lines without introducing whitespace) would
+            # otherwise leak into MathJax fragments and comment out closing
+            # `$` delimiters. TeX treats `%…\n` as nothing — do the same.
+            cleaned_body = re.sub(r"(?<!\\)%[^\n]*\n", "", body).strip()
+            macros[m.group(1)] = (int(m.group(2) or 0), cleaned_body)
+            out.append(text[i:m.start()])
+            j = body_close + 1
+            if j < len(text) and text[j] in "%\n":
+                # also swallow the optional trailing `%` and a newline
+                if text[j] == "%":
+                    j += 1
+                    while j < len(text) and text[j] != "\n":
+                        j += 1
+                if j < len(text) and text[j] == "\n":
+                    j += 1
+            i = j
+        else:
+            out.append(text[i:body_close + 1])
+            i = body_close + 1
+    text = "".join(out)
+
+    for name, (nargs, body) in macros.items():
+        if nargs == 0:
+            text = re.sub(r"\\" + re.escape(name) + r"(?![A-Za-z])",
+                          lambda _m, b=body: b, text)
+        elif nargs == 1:
+            # Substitute `\NAME{X}` with body where #1 → X (balanced-brace arg).
+            use_pat = re.compile(r"\\" + re.escape(name) + r"(?![A-Za-z])\s*\{")
+            out2, j = [], 0
+            while True:
+                um = use_pat.search(text, j)
+                if not um:
+                    out2.append(text[j:])
+                    break
+                arg_open = um.end() - 1
+                arg_close = _find_balanced_close(text, arg_open)
+                if arg_close == -1:
+                    out2.append(text[j:um.end()])
+                    j = um.end()
+                    continue
+                arg = text[arg_open + 1:arg_close]
+                out2.append(text[j:um.start()])
+                out2.append(body.replace("#1", arg))
+                j = arg_close + 1
+            text = "".join(out2)
+        # nargs > 1: not currently encountered; skip.
+    return text
+
+
 def stash_tikz(text, stash):
     """Pull tikz / feynmandiagram blocks out of the source, replacing them
     with placeholder sentinels so they survive math-stashing and paragraphing.
     The stashed source is later rendered to inline SVG by svg_render."""
+    # Page-level preprocessing: pull `\tikzset{...}` styles out as a shared
+    # preamble, and inline-expand any `\newcommand` wrapper whose body holds
+    # a tikzpicture (e.g. `\FDone`, `\D{...}` — used inline within equations).
+    text, tikz_preamble = _collect_tikzset(text)
+    text = _expand_tikz_macros(text)
+
     # tikzpicture environment, optionally preceded by a contiguous block of
     # figure-local setup commands (\colorlet, \pgfmathsetmacro,
     # \pgfdeclarelayer, \pgfsetlayers, \newcommand, \def, \providecommand).
@@ -739,7 +878,7 @@ def stash_tikz(text, stash):
         setup = m.group(1) or ""
         opts = m.group(2) or ""
         body = m.group(3)
-        full_src = f"{setup}\\begin{{tikzpicture}}{opts}{body}\\end{{tikzpicture}}"
+        full_src = f"{tikz_preamble}{setup}\\begin{{tikzpicture}}{opts}{body}\\end{{tikzpicture}}"
         idx = len(stash["tikz"])
         stash["tikz"].append(full_src)
         return f"\x00TIKZ{idx}\x00"
