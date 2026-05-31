@@ -768,9 +768,12 @@ def _collect_tikzset(text):
             j += 1
         i = j
     cleaned = "".join(out)
-    preamble = ""
-    if bodies:
-        preamble = "\\tikzset{" + ",\n".join(bodies) + "}\n"
+    # Emit each captured block as its own `\tikzset{...}` invocation rather
+    # than merging the bodies with a comma — merging would join a trailing
+    # `}` to a leading `\n  >=Stealth` etc. and break tikz's key/value parser
+    # (and, depending on the merge, lualatex prints the literal style text
+    # into the figure instead of failing).
+    preamble = "".join(f"\\tikzset{{{b}}}\n" for b in bodies)
     return cleaned, preamble
 
 
@@ -860,8 +863,12 @@ def stash_tikz(text, stash):
     # `transform_text` runs much later, but the macro expander below would
     # otherwise substitute `\FDone` etc. inside a commented annotation like
     # `% \FDone, \FDtwo, \FDthree as defined before`, producing orphan
-    # figures in the output.
-    text = re.sub(r"(?m)(?<!\\)%.*$", "", text)
+    # figures in the output. Consume the trailing newline too (TeX
+    # semantics: `%` swallows the line break). Keeping the newline would
+    # turn a comment line *inside* a `\tikzset{...}` body into a blank
+    # line, which `\par`s and crashes pgfkeys with `! I do not know the
+    # key '/tikz/fullG'` — observed in HOAQFTPS2 Q3's 1PI / G_n styles.
+    text = re.sub(r"(?<!\\)%[^\n]*\n?", "", text)
     # Page-level preprocessing: pull `\tikzset{...}` styles out as a shared
     # preamble, and inline-expand any `\newcommand` wrapper whose body holds
     # a tikzpicture (e.g. `\FDone`, `\D{...}` — used inline within equations).
