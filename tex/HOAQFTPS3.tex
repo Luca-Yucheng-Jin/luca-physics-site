@@ -1,0 +1,562 @@
+\section{Feynman Graph and RG Calculations, Hugh Osborn AQFT PS3}
+\subsection{Superficial degree of divergence with scalars and spinors, Q1}
+Consider a theory in 4 dimensions which contains both scalar fields $\phi$ and spinor fields $\psi$. The interaction Lagrangian contains vertices of different types, labelled by $r$, which have the general structure $\lambda_r\phi^{b_r}\bar\psi^{f_r}\psi^{f_r}$. Show that the superficial degree of divergence of a diagram with $E_B$ external boson lines, $E_F$ external fermion lines, and $n_r$ vertices of type $r$ is
+\begin{equation}
+    D = 4 - E_B - \tfrac{3}{2}E_F + \sum_r n_r\delta_r, \qquad \delta_r = b_r + 3f_r - 4.
+\end{equation}
+Relate $\delta_r$ to the dimension of the coupling constant $\lambda_r$. A fermion propagator behaves like $1/p$ for large momentum $p$.
+\begin{solution}
+    The internal scalar propagators gives
+    \begin{equation}
+        \sim \frac{k^{4L}}{k^{2I_B}},
+    \end{equation}
+    where $L$ is the number of internal loops and $I_B$ is the number of internal scalar lines. Similarly, the internal spinor propagators gives
+    \begin{equation}
+        \sim \frac{k^{4L}}{k^{I_F}},
+    \end{equation}
+    where $I_F$ is the number of internal spinor lines. Therefore, the superficial degree of divergence is given by
+    \begin{equation}
+        D = 4L - 2I_B - I_F.
+    \end{equation}
+    By Euler's formula, we have
+    \begin{equation}
+        L = I -V+1 = I_F +I_B - \sum_rn_r+1,
+    \end{equation}
+    which gives
+    \begin{equation}
+        D = 2I_B + 3I_F - 4\sum_r n_r + 4.
+    \end{equation}
+    The number of external scalar vertices is given by  
+    \begin{equation}
+        E_B = \sum_r b_rn_r - 2I_B,
+    \end{equation}
+    and similarly, for spinor external lines,
+    \begin{equation}
+        E_F = 2\sum_rf_r n_r - 2I_F.
+    \end{equation}
+    Putting them together, we find
+    \begin{equation}
+        D = 4 - E_B - \frac{3}{2}E_F + \sum_r(b_r+3f_r-4)n_r.
+    \end{equation}
+
+    Using dimensional analysis, $[\phi] = 1$, $[\psi] = 3/2$, and $[\mathcal{L}] = 4$, we have
+    \begin{equation}
+        [\lambda_r] = 4 - b_r - 3f_r = -\delta_r.
+    \end{equation}
+    Therefore, the superficial divergence becomes
+    \begin{equation}
+        D = 4-E_B - \frac{3}{2}E_F - \sum_rn_r[\lambda_r].
+    \end{equation}
+\end{solution}
+
+\subsection{Renormalisable interactions in $d=2$, Q2}
+What renormalisable, polynomial interactions are allowed for a scalar field in $d=2$ spacetime dimensions? Draw all divergent connected one particle irreducible diagrams which arise for $\phi^4$ theory in $d=2$. Are the examples consistent with the statement that this theory can be rendered finite in the operator approach by normal ordering? [In terms of diagrams, normal ordering is equivalent to the restriction that propagators cannot begin and end on the same vertex.] What renormalisable interactions are allowed for a spinor (fermion) field in $d=2$?
+
+\begin{solution}
+    For $d=2$, $[\phi] = 0$, which means that the mass dimension of the coupling constants for any polynomial interactions are two. Therefore, any polynomial interactions are allowed for the theory to be renormalisable. The superficial degree of divergence for $\phi^4$ theory in $d=2$ (dimensionless coupling constants) is given by 
+    \begin{equation}
+        D = 2L - 2I = 2-2V,
+    \end{equation}
+    which means that all diagrams with more than one vertex converge, at least superficially. That is, the only divergent diagrams are the tadpole and the figure-eight vacuum bubble:
+    \newcommand{\FD}[1]{\vcenter{\hbox{%
+      \begin{tikzpicture}[thick,scale=0.9]#1\end{tikzpicture}}}}
+    \begin{equation}
+    \FD{%
+      \coordinate (v) at (0,0);
+      \draw (v) ++(0,0.45) circle (0.45);
+      \draw (v) -- ++(-0.9,-0.5);
+      \draw (v) -- ++( 0.9,-0.5);
+      \fill (v) circle (1.8pt);
+    }
+    \qquad
+    \FD{%
+      \coordinate (v) at (0,0);
+      \draw (v) ++(-0.45,0) circle (0.45);
+      \draw (v) ++( 0.45,0) circle (0.45);
+      \fill (v) circle (1.8pt);
+    }
+    \end{equation}
+    with logarithmic divergence $D=0$. These two diagrams are not normal ordered, and therefore can be rendered finite by normal ordering.
+
+    For spinor fields in $d=2$, we have $[\psi] = 1/2$. A general spinor self-interaction will be of the form $g_r(\bar\psi \psi)^r$. For the theory to be renormalisable, we need $[g_r] \geq 0$, which means that $2-r \geq 0$. Hence, the only self-interaction allowed is the Fermi self-interaction $\frac{g}{2}(\bar\psi\psi)^2$. Of course, terms such as $\frac{g}{2}(\bar\psi\gamma^\mu\psi)^2$ or $\frac{g}{2}(\bar\psi\gamma^\mu\gamma^5\psi)^2$ are also allowed.
+
+\end{solution}
+
+\subsection{Parametric integrals, Q3}
+With $c, c' > 0$ let
+\begin{align}
+    I_1(c) &= \int_0^\infty dx\,\frac{x^{1-\varepsilon}}{x+c}, \\
+    I_2(c,c') &= \int_0^\infty dx\,\frac{x^{1-\varepsilon}}{(x+c)(x+c')}, \\
+    I_3(c) &= \int_0^\infty dx\int_0^\infty dy\,\frac{x^{1-\varepsilon}y^{1-\varepsilon}}{(x+c)(y+c)(x+y+c)}.
+\end{align}
+For what $\varepsilon$ are these integrals convergent? Using $x^{-\lambda}\Gamma(\lambda) = \int_0^\infty d\alpha\,\alpha^{\lambda-1}e^{-\alpha x}$ for $x>0$ and also the identity $\Gamma(1-\varepsilon)\Gamma(\varepsilon) = \pi/\sin\pi\varepsilon$, evaluate the integrals to obtain
+\begin{equation}
+    I_1(c) = -\frac{\pi}{\sin\pi\varepsilon}c^{1-\varepsilon}, \quad
+    I_2(c,c') = \frac{\pi}{\sin\pi\varepsilon}\frac{c^{1-\varepsilon}-c'^{1-\varepsilon}}{c-c'}, \quad
+    I_3(c) = \Gamma(1-\varepsilon)^2\!\left[\Gamma(2\varepsilon-1)-\Gamma(\varepsilon)^2\right]c^{1-2\varepsilon}.
+\end{equation}
+Determine the divergent parts of $I_1, I_2, I_3$ as given by poles in $\varepsilon$. Note that for $\varepsilon = 0$, $I_3$ has subdivergences when $x\to\infty$ or $y\to\infty$. Explain why the subdivergences may be subtracted by considering
+\begin{equation}
+    I_3(c) - \frac{2}{\varepsilon}I_1(c) \sim \frac{1}{\varepsilon^2}\!\left(1 - \tfrac{1}{2}\varepsilon\right)c,
+\end{equation}
+which does not have any $\ln c$ divergent terms.
+\begin{solution}
+    The integral $I_1$ is convergent for $1<\varepsilon<2$, while the integral $I_2$ is convergent for $0<\varepsilon<2$. Whereas $I_3$ is also convergent for $1/2<\varepsilon<2$.
+
+    For $I_1$, we make the substitution $x/c+1 = 1/t$, so that the integral becomes
+    \begin{equation}
+    \begin{aligned}
+        I_1(c) = c^{1-\varepsilon}\int^1_0dt\,(1-t)^{1-\varepsilon}t^{\varepsilon-2} &= c^{1-\varepsilon}\beta(2-\varepsilon,\varepsilon-1) \\
+        &= c^{1-\varepsilon}\frac{\Gamma(\varepsilon-1)\Gamma(2-\varepsilon)}{\Gamma(1)} = c^{1-\varepsilon}\frac{\pi}{\sin\pi(\varepsilon-1)} = - c^{1-\varepsilon}\frac{\pi}{\sin\pi\varepsilon}.
+    \end{aligned}
+    \end{equation}
+     The integral $I_2$ can be simplified as
+     \begin{equation}
+         I_2(c,c') = \frac{1}{c'-c}\int_0^\infty dx\, x^{1-\varepsilon}\left(\frac{1}{x+c}-\frac{1}{x+c'}\right) = \frac{I(c) - I(c')}{c'-c} = \frac{\pi}{\sin\pi\varepsilon}\frac{c^{1-\varepsilon} - c'^{1-\varepsilon}}{c-c'}.
+     \end{equation}
+     Finally, for $I_3$, we have
+     \begin{equation}
+     \begin{aligned}
+          I_3(c) &= \int^\infty_0 dy\frac{y^{1-\varepsilon}}{(y+c)}I_2(c,y+c) \\
+          &= \frac{\pi}{\sin\pi\varepsilon}\int^\infty_0 dy\frac{y^{1-\varepsilon}}{(y+c)}\left(\frac{(y+c)^{1-\varepsilon}-c^{1-\varepsilon}}{y}\right)\\
+          &=\frac{\pi}{\sin\pi\varepsilon}\int^\infty_0 dy \left[y^{-\varepsilon}(y+c)^{-\varepsilon} - c^{1-\varepsilon}y^{-\varepsilon}(y+c)^{-1}\right]\\
+          &=\frac{\pi}{\sin\pi\varepsilon}\left[c^{1-2\varepsilon}\int^1_0 dt \, t^{2\varepsilon-2}(1-t)^{-\varepsilon} - c^{1-2\varepsilon}\int^1_0 dt \,t^{\varepsilon-1}(1-t)^{-\varepsilon}\right]\\
+          &=\Gamma(1-\varepsilon)\Gamma(\varepsilon)\left[\frac{\Gamma(2\varepsilon-1)\Gamma(-\varepsilon+1)}{\Gamma(\varepsilon)} - \frac{\Gamma(\varepsilon)\Gamma(1-\varepsilon)}{\Gamma(1)}\right]c^{1-2\varepsilon}\\
+          &=\Gamma(1-\varepsilon)^2\left[\Gamma(2\varepsilon-1)-\Gamma(\varepsilon)^2\right]c^{1-2\varepsilon}.
+     \end{aligned}
+     \end{equation}
+     $I_1$ has poles at $\varepsilon\in \mathbb{Z}$, while the same is true for $I_2$. $I_3$ has poles for all integer values of $\varepsilon$ as well as $\varepsilon = -\frac{1}{2}, -\frac{3}{2},\dots$.
+
+     For the case $\varepsilon\to0$, $I_3$ admits the asymptotic series
+     \begin{equation}
+     \begin{aligned}
+         I_3(c) &= c^{1-2\varepsilon}          [\Gamma(-1+2\varepsilon) -\Gamma(\varepsilon)^2] \\
+         &\sim c(1-2\varepsilon\ln c+\cdots)\left[\left(-\frac{1}{2\varepsilon} + \gamma - 1 + \cdots\right) - \left(\frac{1}{\varepsilon} - \gamma+\cdots\right)^2\right]\\
+         &\sim c(1-2\varepsilon\ln c+\cdots)\left(-\frac{1}{\varepsilon^2} +\frac{4\gamma - 1}{2\varepsilon} -\gamma^2 + \gamma-1 \cdots \right)\\
+         &\sim c\left(-\frac{1}{\varepsilon^2} +\frac{4\gamma +4\ln c - 1}{2\varepsilon}  - (4\gamma-1)\ln c-\gamma^2 + \gamma-1 \cdots \right)
+     \end{aligned}
+     \end{equation}
+     while $2I_1/\varepsilon$ is
+     \begin{equation}
+        \begin{aligned}
+            \frac{2}{\varepsilon}I_1(c) &=-\frac{2}{\varepsilon}\Gamma(\varepsilon)c^{1-\varepsilon}\\
+            &\sim -c\frac{2}{\varepsilon}(1-\varepsilon\ln c +  \cdots)\left(\frac{1}{\varepsilon} - \gamma+\cdots \right)\\
+            &\sim -c\left(\frac{2}{\varepsilon^2}- \frac{2\gamma + 2\ln c}{\varepsilon} - 2\gamma\ln c + \cdots\right).
+        \end{aligned}
+     \end{equation}
+     Therefore, we can eliminate the $\ln c$ divergent term by subtracting $I_3$ by $2I_2/\varepsilon$, which gives
+     \begin{equation}
+         I_3(c) - \frac{2}{\varepsilon} I_2(c) \sim  c\left(\frac{1}{\varepsilon^2}- \frac{1}{2\varepsilon} - \gamma^2 + \gamma -1 + \cdots\right).
+     \end{equation}
+\end{solution}
+\subsection{Feynman parameter identity, Q4}
+Using $A^{-1} = \int_0^\infty d\alpha\,e^{-\alpha A}$, prove the general Feynman parameter identity
+\begin{equation}
+    \frac{1}{A_1 A_2\cdots A_n} = (n-1)!\int_0^1 dx_1\int_0^1 dx_2\cdots\int_0^1 dx_n\,\frac{\delta(1 - x_1 - x_2 - \cdots - x_n)}{(x_1 A_1 + x_2 A_2 + \cdots + x_n A_n)^n}.
+\end{equation}
+\begin{solution}
+    We shall give a more generalised proof here.
+    \noindent\textbf{Claim:}
+\begin{equation}
+    \prod_{j=1}^n\frac{1}{A_j^{\alpha_j}} = \frac{\Gamma(\sum_i\alpha_i)}{\prod_i\Gamma(\alpha_i)}\frac{1}{(n-1)!}\int dF_n \frac{\prod_ix_i^{\alpha_i-1}}{(\sum_ix_iA_i)^{\sum_i\alpha_i}},
+\end{equation}
+where
+\begin{equation}
+    dF_n = (n-1)!\int_0^1dx_1\cdots\int^1_0 dx_n \delta(1-\sum_ix_i).
+\end{equation}
+\noindent\textbf{Proof:}
+Consider
+\begin{equation}
+    \frac{\Gamma(\alpha_i)}{A_i^{\alpha_i}} = \int_0^\infty dt_i\, t_i^{\alpha_i-1}e^{-A_it_i}.
+\end{equation}
+Then, we take
+\begin{equation}
+    \prod_{i=1}^n \frac{\Gamma(\alpha_i)}{A_i^{\alpha_i}} = \prod_{i=1}^n\int_0^\infty dt_i\, t_i^{\alpha_i-1}e^{-A_it_i}.
+\end{equation}
+We can multiply the right-hand side by
+\begin{equation}
+    1 = \int^\infty_0ds\,\delta(s-\sum_it_i),
+\end{equation}
+which gives
+\begin{equation}
+\begin{aligned}
+    \prod_{i=1}^n \frac{\Gamma(\alpha_i)}{A_i^{\alpha_i}} &= \int^\infty_0ds\,\delta(s-\sum_it_i)\prod_{i=1}^n\int_0^\infty dt_i\, t_i^{\alpha_i-1}e^{-A_it_i}.
+\end{aligned}
+\end{equation}
+Now, making the substitution $t_i =sx_i$, we find
+\begin{equation}
+\begin{aligned}
+    \prod_{i=1}^n \frac{\Gamma(\alpha_i)}{A_i^{\alpha_i}} &= \int^\infty_0ds\,\delta(s-s\sum_ix_i)\prod_{i=1}^n\int_0^\infty dx_i\, s^{\alpha_i}x_i^{\alpha_i-1}e^{-sA_ix_i}\\
+    &=\frac{1}{(n-1)!}\int dF_n\left(\prod_{i=1}^nx_i^{\alpha_i-1}\right)\int ^\infty_0 ds\,s^{\sum_i \alpha_i -1}e^{-\sum_isA_ix_i}\\
+    &=\frac{1}{(n-1)!}\int dF_n\left(\prod_{i=1}^nx_i^{\alpha_i-1}\right)\frac{\Gamma(\sum_i\alpha_i)}{(\sum_iA_ix_i)^{\sum_i\alpha_i}}.\qed
+\end{aligned}
+\end{equation}
+\end{solution}
+
+
+
+\subsection{Position-space loop integrals, Q5}
+Using $(x^2)^{-\lambda}\Gamma(\lambda) = \int_0^\infty d\alpha\,\alpha^{\lambda-1}e^{-\alpha x^2}$, evaluate $\int d^dx\,(x^2)^{-\lambda}e^{ip\cdot x}$. Check that the result is consistent with the standard Fourier inversion formula. Let $G_0(x)$ be the Green function whose Fourier transform is $1/p^2$. Calculate $\int d^dx\,G_0(x)^n\,e^{ip\cdot x }$ for $n=2,3$. Show that the poles in $\varepsilon = 4-d$ are in exact agreement with one and two-loop momentum space calculations. What happens for $d\approx 3$? Why should we consider $n=3,4,5$ in this case?
+\begin{solution}
+    \begin{equation}
+    \begin{aligned}
+        \int d^dx (x^2)^{-\lambda} e^{ip\cdot x} = -i \int d^dx_E (-x_E^2)^{-\lambda}e^{-ip_E \cdot x_E},
+    \end{aligned}
+    \end{equation}
+    where we have performed the Wick rotation $t = -i \tau$. Then, the integral becomes
+    \begin{equation}
+    \begin{aligned}
+        \int d^dx\, (x^2)^{-\lambda}\, e^{ip\cdot x}
+        &= \frac{(-1)^{1-\lambda}i}{\Gamma(\lambda)}\int_0^\infty d\alpha\,\alpha^{\lambda-1}\int d^dx_E\, e^{-\alpha x_E^2 - ip_E\cdot x_E}\\
+        &= \frac{(-1)^{1-\lambda}i}{\Gamma(\lambda)}\int_0^\infty d\alpha\,\alpha^{\lambda-1}\, e^{-p_E^2/4\alpha}\int d^dy\, e^{-\alpha y^2}\\
+        &= \frac{(-1)^{1-\lambda}\, 2\pi^{d/2} i}{\Gamma(\lambda)\,\Gamma(d/2)}\int_0^\infty d\alpha\,\alpha^{\lambda-1}\, e^{-p_E^2/4\alpha}\int_0^\infty dy\, y^{d-1}\, e^{-\alpha y^2}\\
+        &= \frac{(-1)^{1-\lambda}\, 2\pi^{d/2} i}{\Gamma(\lambda)\,\Gamma(d/2)}\cdot\frac{\Gamma(d/2)}{2}\int_0^\infty d\alpha\,\alpha^{\lambda-1-d/2}\, e^{-p_E^2/4\alpha}\\
+        &= \frac{(-1)^{1-\lambda}\,\pi^{d/2} i}{\Gamma(\lambda)}\int_0^\infty d\alpha\,\alpha^{\lambda-1-d/2}\, e^{-p_E^2/4\alpha}\\
+        &= \frac{(-1)^{1-\lambda}\,\pi^{d/2} i}{\Gamma(\lambda)}\,\Gamma\!\left(d/2-\lambda\right)\!\left(\frac{p_E^2}{4}\right)^{\!\lambda-d/2}\\
+        &= i\,(-1)^{1-\lambda}\, 2^{\,d-2\lambda}\,\pi^{d/2}\,\frac{\Gamma\!\left(d/2-\lambda\right)}{\Gamma(\lambda)}\,\frac{1}{(p_E^2)^{d/2-\lambda}}\\
+        &= i\,(-1)^{1-\lambda}\, 2^{\,d-2\lambda}\,\pi^{d/2}\,\frac{\Gamma\!\left(d/2-\lambda\right)}{\Gamma(\lambda)}\,\frac{1}{(-p^2)^{d/2-\lambda}},
+    \end{aligned}
+    \end{equation}
+    where we have substituted $y = x_E + ip_E/2\alpha$.
+
+    Fourier transform the above back into position space, we have
+    \begin{equation}
+\begin{aligned}
+&i\,(-1)^{1-\lambda}\, 2^{\,d-2\lambda}\,\pi^{d/2}\,\frac{\Gamma(d/2-\lambda)}{\Gamma(\lambda)}\int\frac{d^dp}{(2\pi)^d}\frac{e^{-ip\cdot x}}{(-p^2)^{d/2-\lambda}}\\
+=&\,(-1)^{-\lambda}\, 2^{\,d-2\lambda}\,\pi^{d/2}\,\frac{\Gamma(d/2-\lambda)}{\Gamma(\lambda)}\int\frac{d^dp_E}{(2\pi)^d}\frac{e^{ip_E\cdot x_E}}{p_E^{\,d-2\lambda}}\\
+=&\,(-1)^{-\lambda}\, 2^{\,d-2\lambda}\,\pi^{d/2}\,\frac{\Gamma(d/2-\lambda)}{\Gamma(\lambda)}\,\frac{1}{\Gamma(d/2-\lambda)}\int_0^\infty d\alpha\,\alpha^{\,d/2-\lambda-1}\int\frac{d^dp_E}{(2\pi)^d}\,e^{-\alpha p_E^2 + ip_E\cdot x_E}\\
+=&\,(-1)^{-\lambda}\, 2^{\,d-2\lambda}\,\pi^{d/2}\,\frac{1}{\Gamma(\lambda)}\int_0^\infty d\alpha\,\alpha^{\,d/2-\lambda-1}\,\frac{1}{(4\pi\alpha)^{d/2}}\,e^{-x_E^2/(4\alpha)}\\
+=&\,(-1)^{-\lambda}\, 2^{\,-2\lambda}\,\frac{1}{\Gamma(\lambda)}\int_0^\infty d\alpha\,\alpha^{\,-\lambda-1}\,e^{-x_E^2/(4\alpha)}\\
+=&\,(-1)^{-\lambda}\, 2^{\,-2\lambda}\,\frac{1}{\Gamma(\lambda)}\,\Gamma(\lambda)\left(\frac{x_E^2}{4}\right)^{\!-\lambda}\\
+=&\,(-1)^{-\lambda}\,\frac{1}{(x_E^2)^{\lambda}}=\frac{1}{(x^2)^{\lambda}}.
+\end{aligned}
+\end{equation}
+
+As we have shown, the position space representation of $\tilde{G}_0(p) = 1/p^2$ is given by
+
+\end{solution}
+
+\subsection{$\phi^4$ counterterms and two-loop $\beta$ function, Q6}
+For the scalar field theory with $V(\phi) = \tfrac{1}{2}m^2\phi^2 + \tfrac{1}{24}\mu^\varepsilon\lambda\phi^4$, with $d = 4-\varepsilon$ and $\mu$ an arbitrary mass scale so that $\lambda$ is dimensionless, the counterterms necessary for a finite four dimensional theory are written as
+\begin{equation}
+    \mathcal{L}_{\text{c.t.}}(\phi) = -\tfrac{1}{2}A(\partial\phi)^2 - \tfrac{1}{2}B\phi^2 - \tfrac{1}{24}\mu^\varepsilon\lambda D\phi^4.
+\end{equation}
+At one and two loops the non zero results of calculations are, for $\hat\lambda = \lambda/16\pi^2$,
+\begin{align}
+    A^{(2)} &= -\frac{\hat\lambda^2}{12\varepsilon}, & 
+    B^{(1)} &= \frac{\hat\lambda m^2}{\varepsilon}, & 
+    B^{(2)} &= \hat\lambda^2 m^2\!\left(\frac{2}{\varepsilon^2} - \frac{1}{2\varepsilon}\right), \\
+    D^{(1)} &= \frac{3\hat\lambda}{\varepsilon}, & 
+    D^{(2)} &= 3\hat\lambda^2\!\left(\frac{3}{\varepsilon^2} - \frac{1}{\varepsilon}\right).
+\end{align}
+Find corresponding expressions for $\lambda_0,\,m_0^2$ and determine $\beta_\lambda(\lambda)$ and $\gamma_{m^2}(\lambda)$ to two loop order. Check that the $\varepsilon^{-2}$ poles have the necessary coefficients.
+\begin{solution}
+    Comparing the renomalised Lagrangian
+    \begin{equation}
+        \mathcal{L} = -\frac{1}{2}Z_\phi(\partial \phi)^2 - \frac{1}{2}Z_mm^2\phi^2 + \frac{1}{24}Z_\lambda\mu^\varepsilon\lambda\phi^4
+    \end{equation}
+    with the bare Lagrangian
+    \begin{equation}
+        \mathcal{L} = -\frac{1}{2}(\partial\phi_0)^2 - \frac{1}{2}m_0^2\phi_0^2 - \frac{1}{24}\lambda_0\phi_0^4,
+    \end{equation}
+    we find that
+    \begin{equation}
+        \phi_0(x) = Z_\phi^{1/2}\phi(x),
+    \end{equation}
+    \begin{equation}
+        m_0^2 = \frac{Z_m}{Z_\phi}m^2,
+    \end{equation}
+    \begin{equation}
+        \lambda_0 = \frac{\mu^\varepsilon Z_\lambda\lambda}{Z_\phi^2}.
+    \end{equation}
+    The $Z$'s can be written as
+    \begin{equation}
+        Z_\phi = 1+ \sum_{n=1}^\infty\frac{a_n(\lambda)}{\varepsilon^n},
+    \end{equation}
+    \begin{equation}
+        Z_m = 1+ \sum_{n=1}^\infty\frac{b_n(\lambda)}{\varepsilon^n},
+    \end{equation}
+    \begin{equation}
+        Z_\lambda = 1+ \sum_{n=1}^\infty\frac{d_n(\lambda)}{\varepsilon^n},
+    \end{equation}
+    where 
+    \begin{equation}
+        a_1 = -\frac{\hat{\lambda}^2}{12} + \mathcal{O}(\lambda^3),
+    \end{equation}
+    \begin{equation}
+        b_1 = \hat{\lambda} - \frac{\hat{\lambda}^2}{2} + \mathcal{O}(\lambda^3),
+    \end{equation}
+    \begin{equation}
+        d_1 = 3\hat{\lambda}(1 - \hat{\lambda})  + \mathcal{O}(\lambda^3),
+    \end{equation}
+    Since the bare parameters are constants, we have
+    \begin{equation}
+        0 = \frac{d\ln \lambda_0}{d\ln\mu} = \varepsilon + \frac{d\ln\lambda}{d\ln\mu} + \frac{d\ln(Z_\lambda Z_\phi^{-2})}{d\ln\mu}.
+    \end{equation}
+     Note that $G(\lambda,\varepsilon) \equiv\ln (Z_\lambda Z_\phi^{-2})$ would take the form
+     \begin{equation}
+         G(\lambda,\varepsilon) = \sum_{n=1}^\infty\frac{G_n(\lambda)}{\varepsilon^n},
+     \end{equation}
+     where 
+     \begin{equation}
+         G_1(\lambda) = d_1 - 2a_1 + \mathcal{O}(\lambda^2).   
+    \end{equation}
+    Then,
+    \begin{equation}
+        \frac{d\lambda}{d\ln\mu} = -\lambda\varepsilon-\lambda\frac{\partial G(\lambda,\varepsilon)}{\partial \lambda}\frac{d\lambda}{d\ln\mu} \implies 0 = \lambda\varepsilon+\left(1+\frac{\lambda G'_1(\lambda)}{\varepsilon} + \frac{\lambda G'_2(\lambda)}{\varepsilon^2}+\cdots\right)\frac{d\lambda}{d\ln\mu}.
+    \end{equation}
+    For the theory to be renormalisable, it should be finite as $\varepsilon\to0$, that is, we should have
+    \begin{equation}
+        \frac{d\lambda}{d\ln\mu} = -\lambda\varepsilon + \beta_\lambda(\lambda),
+    \end{equation}
+    where $\beta_\lambda$ should have no $\varepsilon$ dependence. Therefore, $\beta_\lambda$ is redetermined by
+    \begin{equation}
+        \beta_\lambda(\lambda) = \lambda^2 G_1'(\lambda) = \frac{3}{16\pi^2}\lambda^2 - \frac{17\lambda^3}{768\pi^4} + \mathcal{O}(\lambda^4).
+    \end{equation}
+    Higher order terms of $G_n'(\lambda)$ are all determined by $G_1'(\lambda)$ to keep $\beta_\lambda(\lambda)$ finite.
+    
+    Now, we can compute the anomalous dimension
+    \begin{equation}
+        \gamma_{m^2}\equiv\lim_{\varepsilon\to0} \frac{1}{m^2}\frac{dm^2}{d\ln\mu}
+    \end{equation}
+    of the mass similarly. Since $m_0$ is a constant, we have
+    \begin{equation}
+        0 = \frac{d\ln m_0^2}{d\ln \mu} = \frac{d\ln (Z_mZ_\phi^{-1})}{d\ln\mu}+ \frac{d\ln m^2}{d\ln \mu}.
+    \end{equation}
+    Note that $M(\lambda,\varepsilon) \equiv\ln (Z_mZ_\phi^{-1})$ would take the form
+    \begin{equation}
+        M(\lambda,\varepsilon) = \sum_{n=1}^\infty\frac{M_n(\lambda)}{\varepsilon^n},
+    \end{equation}
+    where
+    \begin{equation}
+        M_1(\lambda) = b_1 - a_1 + \mathcal{O}(\lambda^3)
+    \end{equation}
+    Now, we have
+    \begin{equation}
+        \frac{1}{m^2}\frac{d m^2}{d\ln\mu} =  - \frac{\partial M(\lambda,\varepsilon)}{\partial\lambda}\frac{d\lambda}{d\ln \mu} = -\left(\frac{ M'_1(\lambda)}{\varepsilon} + \frac{M'_2(\lambda)}{\varepsilon^2}+\cdots\right)(-\lambda\varepsilon + \beta_\lambda(\lambda))
+    \end{equation}
+    Similarly, for a renormalisable theory, we have
+    \begin{equation}
+        \frac{1}{m^2}\frac{d m^2}{d\ln\mu} = \gamma_{m^2}(\lambda),
+    \end{equation}
+    where 
+    \begin{equation}
+        \gamma_{m^2}(\lambda) = \lambda M_1'(\lambda) = \frac{\lambda}{16\pi^2} - \frac{5\lambda^2}{1536\pi^4} + \mathcal{O}(\lambda^3).
+    \end{equation}
+    We shall not explicitly check that the $\varepsilon^{-2}$ does indeed match.
+\end{solution}
+
+\subsection{RG equations for $\phi^4$ to one loop, Q7}
+Let $\hat\tau_n(p_1,\ldots,p_n)$ be the one particle irreducible functions in four dimensions with $n$ external lines with incoming momenta $p_i$ after removal of a factor $i(2\pi)^4\delta(\sum p_i)$. In $\phi^4$ theory, as calculated using dimensional regularisation in the $\overline{\mathrm{MS}}$ scheme, show that to one loop we may obtain the finite results
+\begin{align}
+    \hat\tau_2(p,-p) &= -p^2 - m^2 + \frac{\lambda m^2}{32\pi^2}\!\left(1 - \ln\frac{m^2}{\mu^2}\right), \\
+    \hat\tau_4(p_1,p_2,p_3,p_4) &= -\lambda - \frac{\lambda^2}{32\pi^2}\!\left[f(s) + f(t) + f(u)\right],
+\end{align}
+where
+\begin{equation}
+    f(s) = \int_0^1 d\alpha\,\ln\frac{m^2 - \alpha(1-\alpha)s}{\mu^2},\quad s = -(p_1+p_2)^2,\,t = -(p_1+p_3)^2,\,u = -(p_1+p_4)^2.
+\end{equation}
+Show that $\hat\tau_2(p,-p)$ and $\hat\tau_4(p_1,p_2,p_3,p_4)$ satisfy the RG equations
+\begin{equation}
+    \left(\mu\frac{\partial}{\partial\mu} + \frac{3\lambda^2}{16\pi^2}\frac{\partial}{\partial\lambda} + \frac{\lambda m^2}{16\pi^2}\frac{\partial}{\partial m^2}\right)\hat\tau_n = \begin{cases}\mathcal{O}(\lambda^2), & n=2,\\ \mathcal{O}(\lambda^3), & n=4.\end{cases}
+\end{equation}
+For $s = t = u$ and $-s \gg m^2$ in $\hat\tau_4$, verify that
+\begin{equation}
+    \hat\tau_4(p_1,p_2,p_3,p_4) = -\!\left(\frac{1}{\lambda} - \frac{3}{32\pi^2}\ln\frac{-s}{\mu^2}\right)^{-1}
+\end{equation}
+satisfies the equation with zero right-hand side. Suppose $\hat\tau_4(p,p,-p,-p) = -\lambda'$ for $p^2 = -m^2$ is an alternative definition of the coupling. Find $\lambda'$ in terms of $\lambda$ and express $\hat\tau_4$ in terms of $\lambda'$ to $\mathcal{O}(\lambda'^2)$. Note that $\hat\tau_4$ is then independent of $\mu$ but that the limit $m^2\to 0$ is singular.
+
+\begin{solution}
+    The only one-loop 1PI two-point graph is the tadpole, a single quartic vertex with two of its legs joined into a loop,
+    \begin{equation}
+        \hat\tau_2(p,-p) = -p^2 - m^2 \;+\;
+        \vcenter{\hbox{\begin{tikzpicture}[thick, baseline={(0,-0.05)}]
+          \coordinate (a) at (0,0);
+          \draw[scalar] (-0.9,0) -- (a);
+          \draw[scalar] (a) -- (0.9,0);
+          \draw[scalar] (a) ++(0,0.45) circle (0.45);
+          \fill (a) circle (1.6pt);
+        \end{tikzpicture}}}\;,
+    \end{equation}
+    with symmetry factor $\tfrac12$. The external momentum never enters the loop, so the correction is a pure constant and the $-p^2$ stays at tree level. Explicitly,
+    \begin{equation}
+        \hat\tau_2(p,-p) = -p^2 - m^2 + \frac{\lambda}{2}\int\!\frac{\dd^d k}{(2\pi)^d}\,\frac{1}{k^2 + m^2}.
+    \end{equation}
+    The standard tadpole integral in $d = 4-\epsilon$ dimensions, with the scale $\mu$ inserted to keep $\lambda$ dimensionless, is
+    \begin{equation}
+        \frac{\lambda}{2}\,\mu^{\epsilon}\!\int\!\frac{\dd^d k}{(2\pi)^d}\,\frac{1}{k^2 + m^2}
+        = \frac{\lambda}{2}\,\frac{m^2}{(4\pi)^{d/2}}\,\Gamma\!\Big(1 - \tfrac{d}{2}\Big)\Big(\frac{m^2}{\mu^2}\Big)^{d/2 - 2}.
+    \end{equation}
+    Setting $d = 4-\epsilon$ and using $\Gamma(-1 + \tfrac{\epsilon}{2}) = -\tfrac{2}{\epsilon} - 1 + \gamma + \mathcal{O}(\epsilon)$ together with $(4\pi)^{-d/2} \to (4\pi)^{-2}(1 + \tfrac{\epsilon}{2}\ln 4\pi)$, this becomes
+    \begin{equation}
+        \frac{\lambda m^2}{32\pi^2}\left(\frac{2}{\epsilon} - \gamma + \ln 4\pi + 1 - \ln\frac{m^2}{\mu^2}\right) + \mathcal{O}(\epsilon).
+    \end{equation}
+    The $\overline{\mathrm{MS}}$ scheme discards the universal combination $\tfrac{2}{\epsilon} - \gamma + \ln 4\pi$, leaving the finite result
+    \begin{equation}
+        \boxed{\;\hat\tau_2(p,-p) = -p^2 - m^2 + \frac{\lambda m^2}{32\pi^2}\left(1 - \ln\frac{m^2}{\mu^2}\right).\;}
+    \end{equation}
+
+    At tree level $\hat\tau_4 = -\lambda$. At one loop there are three 1PI graphs, the $s$-, $t$- and $u$-channel bubbles, each built from two quartic vertices joined by a pair of propagators,
+\begin{equation}
+    \hat\tau_4 = -\lambda \;+\;
+    \vcenter{\hbox{\begin{tikzpicture}[thick, baseline={(1,-0.05)}]
+      \coordinate (a) at (0,0);
+      \coordinate (b) at (2,0);
+      \draw[scalar] (-0.8, 0.6) -- (a);
+      \draw[scalar] (-0.8,-0.6) -- (a);
+      \draw[scalar] (b) -- (2.8, 0.6);
+      \draw[scalar] (b) -- (2.8,-0.6);
+      \draw[scalar] (a) to[bend left=60]  (b);
+      \draw[scalar] (a) to[bend right=60] (b);
+      \fill (a) circle (1.6pt);
+      \fill (b) circle (1.6pt);
+    \end{tikzpicture}}}
+    \;+\;(t)\;+\;(u),
+\end{equation}
+where $(t)$ and $(u)$ are the same graph with the external legs routed into the $t$- and $u$-channel pairings. The $s$-channel graph, with symmetry factor $\tfrac12$ and total momentum $P = p_1 + p_2$ through the loop, is
+\begin{equation}
+    \frac{(-\lambda)^2}{2}\,\mu^{\epsilon}\!\int\!\frac{\dd^d k}{(2\pi)^d}\,\frac{1}{(k^2 + m^2)\big((k+P)^2 + m^2\big)}.
+\end{equation}
+Combining the two denominators with a Feynman parameter and shifting $k \to k - \alpha P$ produces
+\begin{equation}
+    \frac{\lambda^2}{2}\,\mu^{\epsilon}\!\int_0^1\!\dd\alpha\!\int\!\frac{\dd^d k}{(2\pi)^d}\,\frac{1}{\big(k^2 + \Delta\big)^2},
+    \qquad \Delta = m^2 + \alpha(1-\alpha)P^2 = m^2 - \alpha(1-\alpha)s,
+\end{equation}
+with $s = -P^2$. The $d$-dimensional bubble integral is
+\begin{equation}
+    \mu^{\epsilon}\!\int\!\frac{\dd^d k}{(2\pi)^d}\,\frac{1}{(k^2+\Delta)^2}
+    = \frac{1}{(4\pi)^{d/2}}\,\Gamma\!\Big(2 - \tfrac{d}{2}\Big)\Big(\frac{\Delta}{\mu^2}\Big)^{d/2-2}
+    = \frac{1}{16\pi^2}\left(\frac{2}{\epsilon} - \gamma + \ln 4\pi - \ln\frac{\Delta}{\mu^2}\right) + \mathcal{O}(\epsilon),
+\end{equation}
+where the last step sets $d = 4-\epsilon$ and uses $\Gamma(\tfrac{\epsilon}{2}) = \tfrac{2}{\epsilon} - \gamma + \mathcal{O}(\epsilon)$. Therefore the $s$-channel contribution is
+\begin{equation}
+    \frac{\lambda^2}{32\pi^2}\left(\frac{2}{\epsilon} - \gamma + \ln 4\pi - \int_0^1\!\dd\alpha\,\ln\frac{m^2 - \alpha(1-\alpha)s}{\mu^2}\right).
+\end{equation}
+The $\overline{\mathrm{MS}}$ subtraction again removes $\tfrac{2}{\epsilon} - \gamma + \ln 4\pi$, leaving $-\tfrac{\lambda^2}{32\pi^2}f(s)$ with $f$ as defined in the problem. Summing the three channels gives
+\begin{equation}
+    \boxed{\;\hat\tau_4(p_1,p_2,p_3,p_4) = -\lambda - \frac{\lambda^2}{32\pi^2}\big[f(s) + f(t) + f(u)\big].\;}
+\end{equation}
+
+ Write the operator acting on the 1PI functions as
+\begin{equation}
+    \mathcal{D} \equiv \mu\frac{\partial}{\partial\mu} + \beta\frac{\partial}{\partial\lambda} + m^2\gamma_m\frac{\partial}{\partial m^2},
+    \qquad \beta = \frac{3\lambda^2}{16\pi^2}, \quad \gamma_m = \frac{\lambda}{16\pi^2}.
+\end{equation}
+Since $\beta$ and $\gamma_m$ are already $\mathcal{O}(\lambda^2)$ and $\mathcal{O}(\lambda)$ respectively, when they act they need only hit the tree-level pieces; their action on the one-loop pieces is pushed to higher order and may be neglected at the order being checked.
+ 
+For $\hat\tau_2 = -p^2 - m^2 + \frac{\lambda m^2}{32\pi^2}\big(1 - \ln\frac{m^2}{\mu^2}\big)$ the three terms give
+\begin{align}
+    \mu\frac{\partial}{\partial\mu}\hat\tau_2 &= \frac{\lambda m^2}{32\pi^2}\cdot\frac{2}{1} = \frac{\lambda m^2}{16\pi^2}, \\
+    \beta\frac{\partial}{\partial\lambda}\hat\tau_2 &= \frac{3\lambda^2}{16\pi^2}\cdot\frac{m^2}{32\pi^2}\Big(1 - \ln\frac{m^2}{\mu^2}\Big) = \mathcal{O}(\lambda^2), \\
+    m^2\gamma_m\frac{\partial}{\partial m^2}\hat\tau_2 &= \frac{\lambda m^2}{16\pi^2}\cdot(-1) + \mathcal{O}(\lambda^2) = -\frac{\lambda m^2}{16\pi^2} + \mathcal{O}(\lambda^2),
+\end{align}
+where in the first line $\mu\partial_\mu\big(-\ln\frac{m^2}{\mu^2}\big) = 2$, and in the last line $m^2\partial_{m^2}(-m^2) = -m^2$ acts on the tree-level mass term. The leading $\mathcal{O}(\lambda)$ pieces cancel between the first and third lines,
+\begin{equation}
+    \mathcal{D}\,\hat\tau_2 = \frac{\lambda m^2}{16\pi^2} - \frac{\lambda m^2}{16\pi^2} + \mathcal{O}(\lambda^2) = \mathcal{O}(\lambda^2),
+\end{equation}
+as required.
+ 
+For $\hat\tau_4 = -\lambda - \frac{\lambda^2}{32\pi^2}\big[f(s)+f(t)+f(u)\big]$ note that each $f$ depends on $\mu$ only through the $-\ln(\cdots/\mu^2)$ inside the $\alpha$-integral, so $\mu\partial_\mu f = \int_0^1 d\alpha\,(2) = 2$. Hence
+\begin{align}
+    \mu\frac{\partial}{\partial\mu}\hat\tau_4 &= -\frac{\lambda^2}{32\pi^2}\cdot 3\cdot 2 = -\frac{3\lambda^2}{16\pi^2}, \\
+    \beta\frac{\partial}{\partial\lambda}\hat\tau_4 &= \frac{3\lambda^2}{16\pi^2}\cdot(-1) + \mathcal{O}(\lambda^3) = -\frac{3\lambda^2}{16\pi^2} + \mathcal{O}(\lambda^3),
+\end{align}
+the $\gamma_m$ term being $\mathcal{O}(\lambda^3)$ since $\partial_{m^2}$ acts on the already-$\mathcal{O}(\lambda^2)$ loop piece. The first line came from $\mu\partial_\mu$ on the loop term and the second from $\beta\partial_\lambda$ on the tree term $-\lambda$; they are equal and opposite, so
+\begin{equation}
+    \mathcal{D}\,\hat\tau_4 = -\frac{3\lambda^2}{16\pi^2} + \frac{3\lambda^2}{16\pi^2} + \mathcal{O}(\lambda^3) = \mathcal{O}(\lambda^3).
+\end{equation}
+Both functions satisfy the RG equation to the stated order. The mechanism is the same in each case, the explicit $\mu$-dependence of the loop logarithms is compensated by the running of the tree-level coupling and mass.
+ 
+ 
+Take $s = t = u$ with $-s \gg m^2$. In this regime the mass drops out of the $\alpha$-integral and
+\begin{equation}
+    f(s) = \int_0^1 d\alpha\,\ln\frac{-\alpha(1-\alpha)s}{\mu^2} = \ln\frac{-s}{\mu^2} + \int_0^1 d\alpha\,\ln\alpha(1-\alpha) = \ln\frac{-s}{\mu^2} - 2,
+\end{equation}
+so the three channels give $\hat\tau_4 = -\lambda - \frac{3\lambda^2}{32\pi^2}\big(\ln\frac{-s}{\mu^2} - 2\big)$, and absorbing the constant $-2$ into the scheme this is $-\lambda - \frac{3\lambda^2}{32\pi^2}\ln\frac{-s}{\mu^2}$ at this order. The proposed closed form
+\begin{equation}
+    \hat\tau_4 = -\left(\frac{1}{\lambda} - \frac{3}{32\pi^2}\ln\frac{-s}{\mu^2}\right)^{-1}
+\end{equation}
+expands as $-\lambda\big(1 - \frac{3\lambda}{32\pi^2}\ln\frac{-s}{\mu^2}\big)^{-1} = -\lambda - \frac{3\lambda^2}{32\pi^2}\ln\frac{-s}{\mu^2} + \mathcal{O}(\lambda^3)$, matching the one-loop result. To check it solves $\mathcal{D}\hat\tau_4 = 0$ exactly, observe that it depends on $\lambda$ and $\mu$ only through the combination
+\begin{equation}
+    \frac{1}{\lambda} - \frac{3}{32\pi^2}\ln\frac{-s}{\mu^2} \equiv \frac{1}{\bar\lambda(s)},
+\end{equation}
+and there is no separate mass dependence so the $\gamma_m$ term vanishes. Acting with the operator,
+\begin{align}
+    \mu\frac{\partial}{\partial\mu}\frac{1}{\bar\lambda} &= -\frac{3}{32\pi^2}\cdot(-2) = \frac{3}{16\pi^2}, \\
+    \beta\frac{\partial}{\partial\lambda}\frac{1}{\bar\lambda} &= \frac{3\lambda^2}{16\pi^2}\cdot\Big(-\frac{1}{\lambda^2}\Big) = -\frac{3}{16\pi^2},
+\end{align}
+which cancel, so $\mathcal{D}(1/\bar\lambda) = 0$ and therefore $\mathcal{D}\hat\tau_4 = 0$ identically. The resummed coupling $\bar\lambda(s)$ is exactly the running coupling at scale $\sqrt{-s}$, and the closed form is RG-invariant by construction.
+ 
+ 
+Define the coupling at the symmetric physical point by $\hat\tau_4(p,p,-p,-p) = -\lambda'$ with $p^2 = -m^2$. At this kinematic point the three Mandelstam invariants are
+\begin{equation}
+    s = -(2p)^2 = -4p^2 = 4m^2, \qquad t = u = -(p - p)^2 = 0,
+\end{equation}
+so $f(s) = f(4m^2)$ and $f(t) = f(u) = f(0) = \int_0^1 d\alpha\,\ln\frac{m^2}{\mu^2} = \ln\frac{m^2}{\mu^2}$. Hence
+\begin{equation}
+    -\lambda' = -\lambda - \frac{\lambda^2}{32\pi^2}\big[f(4m^2) + 2\ln\tfrac{m^2}{\mu^2}\big],
+\end{equation}
+that is
+\begin{equation}
+    \lambda' = \lambda + \frac{\lambda^2}{32\pi^2}\big[f(4m^2) + 2f(0)\big] + \mathcal{O}(\lambda^3),
+    \qquad f(0) = \ln\frac{m^2}{\mu^2}.
+\end{equation}
+Inverting to the same order, $\lambda = \lambda' - \frac{\lambda'^2}{32\pi^2}\big[f(4m^2) + 2f(0)\big] + \mathcal{O}(\lambda'^3)$. Substituting back into $\hat\tau_4$ and keeping terms to $\mathcal{O}(\lambda'^2)$,
+\begin{equation}
+    \hat\tau_4 = -\lambda' - \frac{\lambda'^2}{32\pi^2}\Big[\big(f(s) - f(4m^2)\big) + \big(f(t) - f(0)\big) + \big(f(u) - f(0)\big)\Big] + \mathcal{O}(\lambda'^3).
+\end{equation}
+Each difference of $f$'s has the $\mu$-dependence cancelled, since $f(x) - f(y) = \int_0^1 d\alpha\,\ln\frac{m^2 - \alpha(1-\alpha)x}{m^2 - \alpha(1-\alpha)y}$ is independent of $\mu$. This is the expected outcome, $\lambda'$ is defined at a fixed physical point rather than at the sliding scale $\mu$, so once $\hat\tau_4$ is written through $\lambda'$ it can carry no residual $\mu$-dependence,
+\begin{equation}
+    \mu\frac{\partial}{\partial\mu}\hat\tau_4\Big|_{\lambda'} = 0.
+\end{equation}
+Finally, the limit $m^2 \to 0$ is singular precisely because the renormalisation point $p^2 = -m^2$ was tied to the mass. As $m^2 \to 0$ the subtraction logarithms $f(0) = \ln\frac{m^2}{\mu^2}$ and $f(4m^2)$ both diverge, the renormalisation point collides with the massless threshold, and a finite massless definition of $\lambda'$ at this symmetric point no longer exists. A massless theory must instead be renormalised at a spacelike off-shell point. This is the exact demonstration showing that any on-shell like renormalisation scheme will surfer from IR divergence.
+ 
+\end{solution}
+
+
+\subsection{$\phi^3$ in $d=6$, one-loop counterterms, Q8}
+Consider a scalar field $\phi$ where $V(\phi) = \tfrac{1}{2}m^2\phi^2 + \tfrac{1}{6}\mu^{\frac{1}{2}\varepsilon}g\phi^3$ in dimension $d$ and $\varepsilon = 6-d$. Here $\mu$ is an arbitrary mass scale so that $g$ is dimensionless. Draw the one-loop one particle irreducible graph which contributes to the propagator at order $g^2$. Show that the divergent part of the corresponding integral using dimensional regularisation for the six dimensional theory is
+\begin{equation}
+    -\frac{1}{\varepsilon}\frac{g^2}{(4\pi)^3}\!\left(m^2 + \tfrac{1}{6}p^2\right),
+\end{equation}
+where $p$ is the external momentum. Using dimensional regularisation compute the divergence corresponding to the one particle irreducible one-loop graph giving a $g^3$ correction to three point function. Find also the one loop divergence for the one point function. Show that these divergences in six dimensions may be cancelled by introducing the counterterm Lagrangian
+\begin{equation}
+    \mathcal{L}_{\text{c.t.}}(\phi) = \frac{1}{\varepsilon}\frac{1}{6(4\pi)^3}\!\left(\tfrac{1}{2}g^2(\partial\phi)^2 + \mu^{-\varepsilon}V''(\phi)^3\right).
+\end{equation}
+Check that $\mathcal{L}_{\text{c.t.}}$ has dimension $d$.
+\begin{solution}
+    A detailed calculation on $\phi^3$ theory in six dimensions can be found on the page.
+\end{solution}
+
+\subsection{$\phi^3$ in $d=6$, $\beta$ function, Q9}
+For the six dimensional $\phi^3$ theory of the previous question express the bare $g_0, m_0^2$ in terms of the dimensionless coupling $g$ and $m^2$ and also an arbitrary scale mass $\mu$ to lowest order. Determine the beta function $\beta_g(g)$ and also $\gamma_{m^2}(g)$ to lowest order and show that $\beta_g(g) < 0$ for $g$ small.
+\begin{solution}
+    See, for example, Srednicki for detailed treatment.
+\end{solution}
+
+\subsection{Reparameterisation invariance of $\beta$, Q10}
+For a theory with multiple couplings $g^i$ the beta function $\beta^i(g) = \mu\frac{d}{d\mu}g^i$ defines a vector field. Show that under a redefinition $g^i\to g'^i(g)$ we have
+\begin{equation}
+    \beta'^i(g') = \frac{\partial g'^i}{\partial g^j}\beta^j(g).
+\end{equation}
+Show that for a single coupling with $\beta(g) = b_1 g^3 + b_2 g^5 + \mathcal{O}(g^7)$ and $g'(g) = g + \mathcal{O}(g^3)$ the first two terms in the beta function are invariant. Show also that it is possible to choose $g'(g)$ so that all terms other than the first two are zero.
+
+\begin{solution}
+Under the redefinition $g^i \to g'^i$, we have
+    \begin{equation}
+        \beta^i(g) = \mu \frac{d}{d\mu}g^i \to  \beta'^i(g') = \mu \frac{d}{d\mu}g'^i = \frac{\partial g'^i}{\partial g^j}\mu \frac{d}{d\mu}g^j =  \frac{\partial g'^i}{\partial g^j}\beta^j(g).
+    \end{equation}
+    For the case $\beta(g) = b_1 g^3 + b_2 g^5 + \mathcal{O}(g^7)$, write the redefinition as $g' = g + c\,g^3 + \mathcal{O}(g^4)$, so that
+    \begin{equation}
+        \frac{\partial g'}{\partial g} =1+3c\,g^2+\mathcal{O}(g^3),
+    \end{equation}
+    and
+    \begin{equation}
+        \beta'(g') = \frac{\partial g'}{\partial g}\beta(g) = (1+3c\,g^2)(b_1 g^3 + b_2 g^5) + \mathcal{O}(g^7) = b_1g^3 +(b_2+3b_1 c)g^5+\mathcal{O}(g^7).
+    \end{equation}
+    This is still expressed through $g$, whereas $\beta'$ must be a function of $g'$. Inverting, $g = g' - c\,g'^3 + \mathcal{O}(g'^5)$, so $g^3 = g'^3 - 3c\,g'^5+\mathcal{O}(g'^7)$ and $g^5 = g'^5 + \mathcal{O}(g'^7)$, giving
+    \begin{equation}
+        \beta'(g') = b_1\big(g'^3 - 3c\,g'^5\big) + (b_2+3b_1 c)g'^5+\mathcal{O}(g'^7) = b_1 g'^3 + b_2 g'^5 + \mathcal{O}(g'^7),
+    \end{equation}
+    so the $3b_1 c$ from the Jacobian cancels against the $-3b_1 c$ from re-expressing $g^3$, and the first two terms are invariant. Carrying this one order further, the leading new coefficient at order $g^{2n+1}$ enters $b_n'$ proportional to $b_1$ for $n\geq 3$ (but cancels for $n\leq 2$), so since $b_1\neq 0$ one may solve order by order to set every coefficient beyond the first two to zero, leaving $\beta'(g') = b_1 g'^3 + b_2 g'^5$.
+\end{solution}
