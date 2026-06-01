@@ -85,6 +85,13 @@
               "tag": "Osborn AQFT PS2"
             },
             {
+              "href": "notes/osborn-aqft-ps3.html",
+              "title": "Feynman Graphs &amp; RG Calculations",
+              "label": "O3.",
+              "desc": "Osborn AQFT PS3 — superficial divergence, Feynman parameters, position-space loop integrals, φ⁴ counter-terms, two-loop β functions, RG equations, φ³ in d=6. (Q1–Q10)",
+              "tag": "Osborn AQFT PS3"
+            },
+            {
               "href": "notes/srednicki-nonabelian.html",
               "title": "Nonabelian Symmetries",
               "label": "S1.",
