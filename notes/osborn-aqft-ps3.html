@@ -34,6 +34,11 @@ window.MathJax = {
       Lagrangian: '\\mathcal{L}',
       Cdot: '\\boldsymbol{\\cdot}',
       Tr: '\\operatorname{Tr}',
+      // \qed inside math (e.g. trailing a derivation in an align env) —
+      // amsthm's text-mode handler is already covered by the HTML-side
+      // replace at the bottom of strip_tex_only_constructs, this catches
+      // the math-mode case (Osborn AQFT PS3 Q3 ends an equation with .\qed).
+      qed: '\\blacksquare',
       // Feynman slash: \not{x} would render the slash to the LEFT of x
       // (it's designed for \not=). \cancel from the cancel package
       // strikes diagonally through the centre, matching the slashed.sty
@@ -383,9 +388,9 @@ satisfies the equation with zero right-hand side. Suppose $\hat\tau_4(p,p,-p,-p)
 </svg></figure><span class="equation-part">$\displaystyle \;,$</span><span class="equation-num">(7.5)</span></div>
 
 <p>with symmetry factor $\tfrac12$. The external momentum never enters the loop, so the correction is a pure constant and the $-p^2$ stays at tree level. Explicitly,
-    \[\hat\tau_2(p,-p) = -p^2 - m^2 + \frac{\lambda}{2}\int\!\frac{\dd^d k}{(2\pi)^d}\,\frac{1}{k^2 + m^2}.\tag{7.6}\]
+    \[\hat\tau_2(p,-p) = -p^2 - m^2 + \frac{\lambda}{2}\int\!\frac{\mathrm{d}^d k}{(2\pi)^d}\,\frac{1}{k^2 + m^2}.\tag{7.6}\]
     The standard tadpole integral in $d = 4-\epsilon$ dimensions, with the scale $\mu$ inserted to keep $\lambda$ dimensionless, is
-    \[\frac{\lambda}{2}\,\mu^{\epsilon}\!\int\!\frac{\dd^d k}{(2\pi)^d}\,\frac{1}{k^2 + m^2}
+    \[\frac{\lambda}{2}\,\mu^{\epsilon}\!\int\!\frac{\mathrm{d}^d k}{(2\pi)^d}\,\frac{1}{k^2 + m^2}
         = \frac{\lambda}{2}\,\frac{m^2}{(4\pi)^{d/2}}\,\Gamma\!\Big(1 - \tfrac{d}{2}\Big)\Big(\frac{m^2}{\mu^2}\Big)^{d/2 - 2}.\tag{7.7}\]
     Setting $d = 4-\epsilon$ and using $\Gamma(-1 + \tfrac{\epsilon}{2}) = -\tfrac{2}{\epsilon} - 1 + \gamma + \mathcal{O}(\epsilon)$ together with $(4\pi)^{-d/2} \to (4\pi)^{-2}(1 + \tfrac{\epsilon}{2}\ln 4\pi)$, this becomes
     \[\frac{\lambda m^2}{32\pi^2}\left(\frac{2}{\epsilon} - \gamma + \ln 4\pi + 1 - \ln\frac{m^2}{\mu^2}\right) + \mathcal{O}(\epsilon).\tag{7.8}\]
@@ -408,12 +413,12 @@ satisfies the equation with zero right-hand side. Suppose $\hat\tau_4(p,p,-p,-p)
 </svg></figure><span class="equation-part">$\displaystyle \;+\;(t)\;+\;(u),$</span><span class="equation-num">(7.10)</span></div>
 
 <p>where $(t)$ and $(u)$ are the same graph with the external legs routed into the $t$- and $u$-channel pairings. The $s$-channel graph, with symmetry factor $\tfrac12$ and total momentum $P = p_1 + p_2$ through the loop, is
-\[\frac{(-\lambda)^2}{2}\,\mu^{\epsilon}\!\int\!\frac{\dd^d k}{(2\pi)^d}\,\frac{1}{(k^2 + m^2)\big((k+P)^2 + m^2\big)}.\tag{7.11}\]
+\[\frac{(-\lambda)^2}{2}\,\mu^{\epsilon}\!\int\!\frac{\mathrm{d}^d k}{(2\pi)^d}\,\frac{1}{(k^2 + m^2)\big((k+P)^2 + m^2\big)}.\tag{7.11}\]
 Combining the two denominators with a Feynman parameter and shifting $k \to k - \alpha P$ produces
-\[\frac{\lambda^2}{2}\,\mu^{\epsilon}\!\int_0^1\!\dd\alpha\!\int\!\frac{\dd^d k}{(2\pi)^d}\,\frac{1}{\big(k^2 + \Delta\big)^2},
+\[\frac{\lambda^2}{2}\,\mu^{\epsilon}\!\int_0^1\!\dd\alpha\!\int\!\frac{\mathrm{d}^d k}{(2\pi)^d}\,\frac{1}{\big(k^2 + \Delta\big)^2},
     \qquad \Delta = m^2 + \alpha(1-\alpha)P^2 = m^2 - \alpha(1-\alpha)s,\tag{7.12}\]
 with $s = -P^2$. The $d$-dimensional bubble integral is
-\[\mu^{\epsilon}\!\int\!\frac{\dd^d k}{(2\pi)^d}\,\frac{1}{(k^2+\Delta)^2}
+\[\mu^{\epsilon}\!\int\!\frac{\mathrm{d}^d k}{(2\pi)^d}\,\frac{1}{(k^2+\Delta)^2}
     = \frac{1}{(4\pi)^{d/2}}\,\Gamma\!\Big(2 - \tfrac{d}{2}\Big)\Big(\frac{\Delta}{\mu^2}\Big)^{d/2-2}
     = \frac{1}{16\pi^2}\left(\frac{2}{\epsilon} - \gamma + \ln 4\pi - \ln\frac{\Delta}{\mu^2}\right) + \mathcal{O}(\epsilon),\tag{7.13}\]
 where the last step sets $d = 4-\epsilon$ and uses $\Gamma(\tfrac{\epsilon}{2}) = \tfrac{2}{\epsilon} - \gamma + \mathcal{O}(\epsilon)$. Therefore the $s$-channel contribution is

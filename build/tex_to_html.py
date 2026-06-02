@@ -587,6 +587,12 @@ def strip_tex_only_constructs(text):
     handled separately (preserved); only purely typographical commands are
     stripped here."""
 
+    # The physics package's `\dd` accepts `\dd{x}` or `\dd[n]{x}`; the bare
+    # measure-style `\dd^d k` (Osborn AQFT PS3 Q7, used six times) confuses
+    # MathJax's parser and prints nothing. Rewrite to plain `\mathrm{d}^...`
+    # so the d^d k integration measure renders properly.
+    text = re.sub(r"\\dd\^", r"\\mathrm{d}^", text)
+
     # spacing & layout commands with no semantic content
     text = re.sub(r"\\v(?:space|fill)\*?\{[^}]*\}", "", text)
     text = re.sub(r"\\h(?:space|fill)\*?\{[^}]*\}", " ", text)
@@ -1579,6 +1585,11 @@ window.MathJax = {
       Lagrangian: '\\mathcal{L}',
       Cdot: '\\boldsymbol{\\cdot}',
       Tr: '\\operatorname{Tr}',
+      // \qed inside math (e.g. trailing a derivation in an align env) —
+      // amsthm's text-mode handler is already covered by the HTML-side
+      // replace at the bottom of strip_tex_only_constructs, this catches
+      // the math-mode case (Osborn AQFT PS3 Q3 ends an equation with .\qed).
+      qed: '\\blacksquare',
       // Feynman slash: \not{x} would render the slash to the LEFT of x
       // (it's designed for \not=). \cancel from the cancel package
       // strikes diagonally through the centre, matching the slashed.sty
