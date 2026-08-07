@@ -8,7 +8,8 @@ function preserveLegacySite(): Plugin {
     name: 'preserve-legacy-physics-site',
     closeBundle() {
       const root = process.cwd();
-      const out = resolve(root, 'dist');
+      const buildRoot = resolve(root, 'dist');
+      const out = resolve(buildRoot, 'client');
       const copy = (name: string) => {
         const source = resolve(root, name);
         if (existsSync(source)) cpSync(source, resolve(out, name), { recursive: true });
@@ -21,7 +22,7 @@ function preserveLegacySite(): Plugin {
       ['styles.css', 'assets', 'notes', 'verification'].forEach(copy);
 
       const workerSource = resolve(root, 'worker/index.js');
-      const serverOut = resolve(out, 'server');
+      const serverOut = resolve(buildRoot, 'server');
       mkdirSync(serverOut, { recursive: true });
       cpSync(workerSource, resolve(serverOut, 'index.js'));
     },
@@ -32,7 +33,7 @@ export default defineConfig({
   base: './',
   plugins: [react(), preserveLegacySite()],
   build: {
-    outDir: 'dist',
+    outDir: 'dist/client',
     emptyOutDir: true,
   },
 });
