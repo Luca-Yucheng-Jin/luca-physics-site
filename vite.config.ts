@@ -19,6 +19,11 @@ function preserveLegacySite(): Plugin {
         .filter((name) => name.endsWith('.html') && name !== 'index.html')
         .forEach(copy);
       ['styles.css', 'assets', 'notes', 'verification'].forEach(copy);
+
+      const workerSource = resolve(root, 'worker/index.js');
+      const serverOut = resolve(out, 'server');
+      mkdirSync(serverOut, { recursive: true });
+      cpSync(workerSource, resolve(serverOut, 'index.js'));
     },
   };
 }
