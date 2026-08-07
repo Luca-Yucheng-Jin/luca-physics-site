@@ -26,7 +26,10 @@
   }
 
   /* Initial application — runs before <body> renders, so no flash. */
-  applyTheme(getStored() || systemPref());
+  /* The observatory is dark by default so the black-hole homepage and the
+     long-form library feel like one continuous place. A saved user choice
+     still wins, and the light paper theme remains one click away. */
+  applyTheme(getStored() || "dark");
 
   /* Apply the saved sidebar visibility synchronously — same reason as
      the theme: setting the class on documentElement before <body>
@@ -654,6 +657,73 @@
     });
   }
 
+  /* ---------- Event-horizon page transitions ----------
+     The homepage is React while the library is intentionally static HTML.
+     This small shared transition makes both halves feel like one interface:
+     an event horizon expands from the clicked link, navigation happens while
+     the screen is dark, and the destination opens back out from that point. */
+  var TRANSITION_KEY = "luca-page-transition";
+
+  function isTransitionLink(anchor, event) {
+    if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return false;
+    if (anchor.target && anchor.target !== "_self") return false;
+    if (anchor.hasAttribute("download") || anchor.hasAttribute("data-no-transition")) return false;
+    var raw = anchor.getAttribute("href") || "";
+    if (!raw || raw.charAt(0) === "#" || /^(mailto:|tel:|javascript:)/i.test(raw)) return false;
+    var target = new URL(anchor.href, location.href);
+    if (target.origin !== location.origin) return false;
+    if (target.pathname === location.pathname && target.search === location.search) return false;
+    return /(?:\.html)?\/?$/i.test(target.pathname);
+  }
+
+  function makeTransitionLayer() {
+    var layer = document.createElement("div");
+    layer.className = "cosmic-page-transition cosmic-page-transition--idle";
+    layer.setAttribute("aria-hidden", "true");
+    layer.innerHTML =
+      '<div class="cosmic-page-transition__field"></div>' +
+      '<div class="cosmic-page-transition__ring"></div>';
+    document.body.appendChild(layer);
+    return layer;
+  }
+
+  function bindPageTransitions() {
+    var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)");
+    var arrival = null;
+    try {
+      var stored = sessionStorage.getItem(TRANSITION_KEY);
+      if (stored) arrival = JSON.parse(stored);
+      sessionStorage.removeItem(TRANSITION_KEY);
+    } catch (e) {}
+
+    var layer = makeTransitionLayer();
+    if (arrival) {
+      root.style.setProperty("--transition-x", ((arrival.x == null ? 0.5 : arrival.x) * 100) + "%");
+      root.style.setProperty("--transition-y", ((arrival.y == null ? 0.5 : arrival.y) * 100) + "%");
+      layer.className = "cosmic-page-transition cosmic-page-transition--arriving";
+      setTimeout(function () { layer.className = "cosmic-page-transition cosmic-page-transition--idle"; }, 760);
+    }
+
+    document.addEventListener("click", function (event) {
+      var target = event.target && event.target.closest ? event.target.closest("a") : null;
+      if (!target || !isTransitionLink(target, event)) return;
+      event.preventDefault();
+
+      if (reduced && reduced.matches) {
+        location.assign(target.href);
+        return;
+      }
+
+      var x = event.clientX / Math.max(innerWidth, 1);
+      var y = event.clientY / Math.max(innerHeight, 1);
+      root.style.setProperty("--transition-x", (x * 100) + "%");
+      root.style.setProperty("--transition-y", (y * 100) + "%");
+      layer.className = "cosmic-page-transition cosmic-page-transition--leaving";
+      try { sessionStorage.setItem(TRANSITION_KEY, JSON.stringify({ x: x, y: y })); } catch (e) {}
+      setTimeout(function () { location.assign(target.href); }, 600);
+    }, true);
+  }
+
   /* ---------- Bootstrap ---------- */
   function loadManifest() {
     return fetch(ASSET_PREFIX + "assets/nav-manifest.json", { credentials: "same-origin" })
@@ -662,6 +732,7 @@
   }
 
   function bind() {
+    bindPageTransitions();
     bindThemeToggles();
     buildPageControls();
     buildOnPageTOC();

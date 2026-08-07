@@ -10,6 +10,13 @@
 __pycache__/
 *.pyc
 
-# Worktrees
+# Worktrees and generated render cache
 .claude/worktrees/
 build/svg-cache/
+
+# Frontend dependencies and build output
+node_modules/
+dist/
+*.tsbuildinfo
+vite.config.js
+vite.config.d.ts

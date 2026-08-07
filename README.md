@@ -1,171 +1,55 @@
-# Luca Jin — Personal Physics Site
+# Luca Jin — Theoretical Physics Portfolio
 
-A scholarly editorial-style static site for theoretical-physics notes,
-solved problems, and a CV-style about page.
+A simple editorial homepage for Yucheng (Luca) Jin, paired with a static,
+LaTeX-generated library of theoretical-physics notes, research, and reading.
 
-Built as a draft scaffold to be continued in Claude Code.
+## Homepage development
 
----
-
-## Folder layout
-
-```
-luca-physics-site/
-├── index.html             # Home / about (built from your CV)
-├── notes.html             # Index of all physics notes
-├── research.html          # Research projects
-├── styles.css             # The single source of design truth
-├── notes/
-│   └── peskin-6-2.html    # Worked example — Peskin Problem 6.2 (template)
-├── tex/                   # Original LaTeX source files (read-only reference)
-│   ├── main__1_.tex       # Peskin solutions
-│   ├── DE.tex
-│   ├── ED.tex
-│   ├── MM.tex
-│   ├── QM.tex
-│   └── TDSP.tex
-├── assets/                # Empty — for any images / PDFs you want to add later
-└── README.md              # This file
-```
-
-## Design system (in `styles.css`)
-
-The CSS variables at the top of the file define everything visual.
-Change them once and the whole site updates.
-
-- **Palette:** warm paper `#f7f2e7`, deep ink `#1a1612`, oxblood accent `#6b1f1f`,
-  old-gold highlight `#c69b3d`. Subtle paper grain via two radial gradients on `body`.
-- **Typography:** Cormorant Garamond (display, italic for hero), EB Garamond (body),
-  JetBrains Mono (code). All from Google Fonts, no build step required.
-- **Layout:** single column, max-width `68ch`, generous gutter that scales with viewport.
-  `§` glyph in front of every `<h2>` as a scholarly marker.
-
-## How to view it
+The homepage uses React, Vite, and TypeScript. The site keeps interaction
+deliberately light: a responsive layout, restrained hover states, and a shared
+iris transition that connects the homepage to the static library pages.
 
 ```bash
-# from the project root
-./build.sh --serve   # converts tex/ → notes/, then serves on :8000
+npm install
+npm run dev       # local Vite server
+npm run build     # production build in dist/
+npm run preview   # preview the production build
 ```
 
-Or, for a one-shot build / live-rebuild on file changes:
+The Vite production step copies every existing static HTML route, the generated
+`notes/` catalogue, shared assets, and verification files into `dist/`. The
+`base: './'` configuration keeps links and assets compatible with subdirectory
+deployments such as GitHub Pages.
+
+## LaTeX note workflow
+
+The original note-generation workflow remains independent of the homepage:
 
 ```bash
-./build.sh           # one-shot: convert all tex/*.tex → notes/*.html
-./build.sh --watch   # watch tex/ and rebuild on every change
+./build.sh           # convert tex/*.tex and rebuild catalogues
+./build.sh --serve   # convert, then serve the static source tree on :8000
+./build.sh --watch   # rebuild when LaTeX sources change
 ```
 
-The site itself is plain static HTML once built — drop a tex file in `tex/`,
-run `./build.sh`, and a matching `notes/<slug>.html` page is regenerated.
+Drop a TeX file in `tex/`, run `./build.sh`, and a corresponding
+`notes/<slug>.html` page is regenerated. Run `npm run build` afterwards when
+you want a complete deployable `dist/` containing the new homepage.
 
-## How the build works
+## Project structure
 
-`build/tex_to_html.py` parses each `.tex` file and emits a fully-rendered
-HTML notes page:
-
-- **Math** is preserved and typeset by MathJax (loaded from a CDN). Custom
-  macros from common QFT preambles (`\slashed`, `\Tilde`, `\mathds`,
-  `\tensor`, `\wick`, `\Cdot`, `\Lagrangian`, …) are pre-registered.
-- **TikZ pictures** are emitted as `<script type="text/tikz">` blocks and
-  rendered client-side by [TikZJax](https://tikzjax.com).
-- **`tikz-feynman` diagrams** (`\begin{feynman}` / `\feynmandiagram`) — which
-  TikZJax can't compile — are auto-translated to plain TikZ by
-  `build/feynman_convert.py` (vertices with positions, edges with the
-  appropriate stroke style for fermion / photon / gluon / scalar).
-- **Equations** are numbered automatically; `\label{}` and `\eqref{}` resolve
-  to the same number; the counter restarts at every new topic so that each
-  problem sheet / chapter starts at (1) again.
-- **`\begin{solution}`, `\begin{tcolorbox}`, `\begin{tabular}`** etc. each
-  render as their HTML equivalent.
-
-Drop a new `<file>.tex` into `tex/` with a `\section{...}` and one or more
-`\subsection{...}` blocks; `./build.sh` will convert it on the next run.
-Map the new file to a slug + catalogue title by adding an entry to the
-`WHOLE_FILE_PAGES` list at the top of `build/tex_to_html.py`.
-
-## Deployment
-
-This site is deploy-ready as-is. Drop the folder onto:
-- **GitHub Pages** — push to a repo, enable Pages on `main`.
-- **Vercel / Netlify** — drag-and-drop the folder, done.
-- **Cloudflare Pages** — same.
-
-No backend, no build, no env vars.
-
----
-
-## How math rendering works
-
-The notes pages load **MathJax 3** from a CDN. You write LaTeX exactly the way
-you do in your `.tex` files:
-
-```html
-<p>The Lagrangian is \[ \mathcal{L} = -\tfrac{1}{4} F_{\mu\nu} F^{\mu\nu} \] etc.</p>
+```text
+src/                  React homepage and page-transition component
+index.html            Vite application shell
+assets/               Shared imagery and legacy scripts
+notes/                Generated note pages
+tex/                   Original LaTeX sources
+build/                 LaTeX-to-HTML and catalogue generators
+research.html          Existing research document
+notes.html             Existing note catalogue
+reading.html           Existing reading tracker
+styles.css             Shared stylesheet for legacy pages
+vite.config.ts         Homepage build and legacy-route preservation
 ```
 
-Inline math: `$...$` or `\(...\)`. Display: `$$...$$` or `\[...\]`.
-The `physics`, `boldsymbol`, and `cancel` packages are pre-loaded for things
-like `\bra{\psi}`, `\boldsymbol{p}`, and `\cancel{...}` — you'll need these for
-Peskin and Tong notes.
-
-## Converting your `.tex` files into note pages
-
-Three reasonable options, in order of effort:
-
-1. **Manual paste (fastest, recommended for the first 1–2 pages).**
-   Copy the relevant `\section{}` / `\subsection{}` block from `tex/*.tex` into
-   a new `notes/<slug>.html` modelled on `notes/peskin-6-2.html`. Strip
-   `\begin{equation}...\end{equation}` to `\[...\]` and the rest is mostly
-   copy-paste — MathJax handles `boxed`, `aligned`, `pmatrix`, etc.
-
-2. **Pandoc (one-shot, decent quality).**
-   ```bash
-   pandoc -f latex -t html --mathjax tex/QM.tex -o notes/qm.html
-   ```
-   Then wrap the body in your nav/footer template. Pandoc handles environments
-   well but macros like `\Cdot` need defining. Add a `--lua-filter` if you want
-   to be precise.
-
-3. **Build a tiny generator (worth it if you have ≥ 5 notes).**
-   A ~50-line Python script reading each `\subsection{...}` block from
-   `main__1_.tex`, slugifying the title, and writing a templated HTML file.
-   Probably what to do in Claude Code.
-
-## What I'd do next in Claude Code
-
-Pasted in priority order:
-
-1. **Convert the rest of `main__1_.tex` (Peskin solutions) into individual pages.**
-   One page per `\subsection{}`. Use `notes/peskin-6-2.html` as the template.
-   Update `notes.html` catalogue entries to point at them.
-
-2. **Convert `QM.tex`, `ED.tex`, `MM.tex`, `DE.tex`, `TDSP.tex`** the same way.
-   Each `.tex` is one section, so it can be one or two HTML pages each.
-
-3. **Add a `/cv.html`** mirroring the resume (or just link the PDF in the topbar).
-
-4. **Add a tags / search overlay** on `notes.html`. Vanilla JS, ~30 lines.
-   Filter on the `data-tags` attribute you'll add to each `<li class="catalogue__item">`.
-
-5. **Add a "Last updated" date** on each note page, generated from `git log -1 --format=%cs`
-   at build time, or just a `<time>` element you set by hand.
-
-6. **(Optional)** A dark-mode toggle. Cleanest path: a `data-theme="dark"` on
-   `<html>`, a second `:root[data-theme="dark"] { ... }` block in `styles.css`,
-   and a 10-line JS toggle in the topbar. Keep the paper theme as default —
-   it's the whole point of the design.
-
-7. **(Optional)** OpenGraph / Twitter meta tags + a favicon. There's a
-   placeholder Feynman-vertex SVG in `index.html` you could refine into a favicon.
-
-## Things I deliberately didn't do
-
-- No JS framework, no bundler. The site is ~5 files. Keep it that way.
-- No client-side router. Each page is a real `.html`. This makes "view source"
-  a useful learning tool for anyone reading.
-- No CSS framework (Tailwind / Bootstrap). The CSS variables system is the
-  whole design token layer; that's all you need.
-- No tracking / analytics. Add Plausible or GoatCounter if you ever care.
-
----
-
-— Drafted 26 April 2026
+The generated note pages continue to load MathJax and TikZJax as before. The
+new homepage does not modify their markup, styling, or scripts.
