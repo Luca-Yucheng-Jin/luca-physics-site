@@ -120,7 +120,10 @@ CATEGORIES = [
       </li>
     </ul>
 
-    <h3>Solutions</h3>
+    <h3 class="catalogue-source">
+      <span>Solutions to Peskin &amp; Schroeder’s <em>An Introduction to Quantum Field Theory</em></span>
+      <a href="https://www.routledge.com/An-Introduction-To-Quantum-Field-Theory/Peskin-Schroeder/p/book/9780429503559" target="_blank" rel="noopener noreferrer">Publisher page ↗</a>
+    </h3>
     <ul class="catalogue">
       <li class="catalogue__item">
         <span class="catalogue__num">I.</span>
@@ -146,6 +149,13 @@ CATEGORIES = [
         </span>
         <span class="catalogue__tag">Peskin Final</span>
       </li>
+    </ul>
+
+    <h3 class="catalogue-source">
+      <span>Solutions to David Tong’s Quantum Field Theory problem sheets</span>
+      <a href="https://www.damtp.cam.ac.uk/user/tong/qft.htm" target="_blank" rel="noopener noreferrer">Original course ↗</a>
+    </h3>
+    <ul class="catalogue">
       <li class="catalogue__item">
         <span class="catalogue__num">PS1.</span>
         <span class="catalogue__main">
@@ -178,6 +188,10 @@ CATEGORIES = [
         </span>
         <span class="catalogue__tag">Tong PS4</span>
       </li>
+    </ul>
+
+    <h3>Perimeter Scholars International · Quantum Field Theory II</h3>
+    <ul class="catalogue">
       <li class="catalogue__item">
         <span class="catalogue__num">Ψ1.</span>
         <span class="catalogue__main">
@@ -186,22 +200,36 @@ CATEGORIES = [
         </span>
         <span class="catalogue__tag">PSI QFT II</span>
       </li>
+    </ul>
+
+    <h3 class="catalogue-source">
+      <span>Solutions to Hugh Osborn’s Advanced Quantum Field Theory example sheets</span>
+      <a href="https://www.damtp.cam.ac.uk/user/ho/" target="_blank" rel="noopener noreferrer">Course materials ↗</a>
+    </h3>
+    <ul class="catalogue">
       <li class="catalogue__item">
         <span class="catalogue__num">O2.</span>
         <span class="catalogue__main">
           <a href="notes/osborn-aqft-ps2.html">Functional Methods &amp; Grassmann Integrals</a>
-          <span class="catalogue__desc">Osborn AQFT PS2 — Legendre transform, 1PI effective action, Green's-function/vertex relations, Grassmann Gaussian integrals, Pfaffians, fermionic partition function, SUSY QM. (Q1–Q8)</span>
+          <span class="catalogue__desc">Osborn AQFT Example Sheet 2 — Legendre transform, 1PI effective action, Green's-function/vertex relations, Grassmann Gaussian integrals, Pfaffians, fermionic partition function, SUSY QM. (Q1–Q8)</span>
         </span>
-        <span class="catalogue__tag">Osborn AQFT PS2</span>
+        <span class="catalogue__tag">Osborn AQFT · ES2</span>
       </li>
       <li class="catalogue__item">
         <span class="catalogue__num">O3.</span>
         <span class="catalogue__main">
           <a href="notes/osborn-aqft-ps3.html">Feynman Graphs &amp; RG Calculations</a>
-          <span class="catalogue__desc">Osborn AQFT PS3 — superficial divergence, Feynman parameters, position-space loop integrals, φ⁴ counter-terms, two-loop β functions, RG equations, φ³ in d=6. (Q1–Q10)</span>
+          <span class="catalogue__desc">Osborn AQFT Example Sheet 3 — superficial divergence, Feynman parameters, position-space loop integrals, φ⁴ counter-terms, two-loop β functions, RG equations, φ³ in d=6. (Q1–Q10)</span>
         </span>
-        <span class="catalogue__tag">Osborn AQFT PS3</span>
+        <span class="catalogue__tag">Osborn AQFT · ES3</span>
       </li>
+    </ul>
+
+    <h3 class="catalogue-source">
+      <span>Solutions to Mark Srednicki’s Quantum Field Theory</span>
+      <a href="https://www.physics.ucsb.edu/~mark/qft.html" target="_blank" rel="noopener noreferrer">Author’s page ↗</a>
+    </h3>
+    <ul class="catalogue">
       <li class="catalogue__item">
         <span class="catalogue__num">S1.</span>
         <span class="catalogue__main">
@@ -220,7 +248,10 @@ CATEGORIES = [
       </li>
     </ul>
 
-    <h3>Notes</h3>
+    <h3 class="catalogue-source">
+      <span>Notes following Matthew D. Schwartz’s <em>Quantum Field Theory and the Standard Model</em></span>
+      <a href="https://www.cambridge.org/highereducation/books/quantum-fieldtheory-and-the-standard-model/A4CD66B998F2C696DCC75B984A7D5799" target="_blank" rel="noopener noreferrer">Publisher page ↗</a>
+    </h3>
     <ul class="catalogue">
       <li class="catalogue__item">
         <span class="catalogue__num">I.</span>
@@ -270,6 +301,10 @@ CATEGORIES = [
         </span>
         <span class="catalogue__tag">Schwartz Ch. 14</span>
       </li>
+    </ul>
+
+    <h3>Independent computation</h3>
+    <ul class="catalogue">
       <li class="catalogue__item">
         <span class="catalogue__num">VII.</span>
         <span class="catalogue__main">
@@ -282,10 +317,13 @@ CATEGORIES = [
     },
     {
         "slug": "advanced",
-        "title": "GR",
+        "title": "General Relativity",
         "blurb": "Manifolds and tensors, connections and curvature, geodesics and Killing vectors, Brans–Dicke scalar-tensor gravity, 11-dimensional supergravity, and linearised gravity / gravitational waves.",
         "tag": "4 notes",
-        "body": """    <h3>Solutions</h3>
+        "body": """    <h3 class="catalogue-source">
+      <span>Solutions to David Tong’s General Relativity problem sheets</span>
+      <a href="https://www.damtp.cam.ac.uk/user/tong/gr.html" target="_blank" rel="noopener noreferrer">Original course ↗</a>
+    </h3>
     <ul class="catalogue">
       <li class="catalogue__item">
         <span class="catalogue__num">PS1.</span>
@@ -326,64 +364,77 @@ CATEGORIES = [
         "title": "Quantum Mechanics",
         "blurb": "Bound-state existence, parity arguments, factorisation method.",
         "tag": "3 notes",
-        "body": """    <h3>Solutions</h3>
+        "body": """    <h3 class="catalogue-source">
+      <span>Solutions to Cambridge Quantum Mechanics examples accompanying David Tong’s notes</span>
+      <a href="https://www.damtp.cam.ac.uk/user/tong/books/quantum.html" target="_blank" rel="noopener noreferrer">Original exercises ↗</a>
+    </h3>
     <ul class="catalogue">
       <li class="catalogue__item">
         <span class="catalogue__num">XI.</span>
         <span class="catalogue__main">
           <a href="notes/qm-bound-states.html">Non-Degeneracy &amp; Reality of Bound States in 1D</a>
-          <span class="catalogue__desc">D. Tong, <em>Quantum Mechanics</em>, PS1 Q3.</span>
+          <span class="catalogue__desc">Cambridge Quantum Mechanics, Example Sheet 1, Q4; accompanies David Tong’s notes.</span>
         </span>
-        <span class="catalogue__tag">Tong QM</span>
+        <span class="catalogue__tag">Cambridge QM · ES1</span>
       </li>
       <li class="catalogue__item">
         <span class="catalogue__num">XII.</span>
         <span class="catalogue__main">
           <a href="notes/qm-shallow-well.html">Absence of Odd-Parity Bound States in a Shallow Square Well</a>
-          <span class="catalogue__desc">D. Tong, <em>Quantum Mechanics</em>, PS1 Q7.</span>
+          <span class="catalogue__desc">Cambridge Quantum Mechanics, Example Sheet 1, Q7; accompanies David Tong’s notes.</span>
         </span>
-        <span class="catalogue__tag">Tong QM</span>
+        <span class="catalogue__tag">Cambridge QM · ES1</span>
       </li>
       <li class="catalogue__item">
         <span class="catalogue__num">XIII.</span>
         <span class="catalogue__main">
           <a href="notes/qm-sech-squared.html">Factorisation Method for the Sech-Squared Potential</a>
-          <span class="catalogue__desc">D. Tong, <em>Quantum Mechanics</em>, PS1 Q8.</span>
+          <span class="catalogue__desc">Cambridge Quantum Mechanics, Example Sheet 1, Q8; accompanies David Tong’s notes.</span>
         </span>
-        <span class="catalogue__tag">Tong QM</span>
+        <span class="catalogue__tag">Cambridge QM · ES1</span>
       </li>
     </ul>""",
     },
     {
         "slug": "ed",
         "title": "Electrodynamics",
-        "blurb": "Tong EM problem-sheet selections — radiation, Liénard–Wiechert, dielectric boundaries.",
+        "blurb": "Cambridge electromagnetism exercises accompanying David Tong’s notes — radiation, relativity, and dielectric boundaries.",
         "tag": "8 notes",
-        "body": """    <h3>Solutions</h3>
+        "body": """    <h3 class="catalogue-source">
+      <span>Solutions to the radiation exercises accompanying David Tong’s <em>Electromagnetism</em></span>
+      <a href="https://www.damtp.cam.ac.uk/user/tong/books/electro.html" target="_blank" rel="noopener noreferrer">Original exercises ↗</a>
+    </h3>
     <ul class="catalogue">
       <li class="catalogue__item">
         <span class="catalogue__num">XIV.</span>
         <span class="catalogue__main">
           <a href="notes/ed-retarded.html">Retarded Potentials and Far-Field Radiation</a>
-          <span class="catalogue__desc">D. Tong, <em>Electromagnetism</em>, PS7 Q4.</span>
+          <span class="catalogue__desc"><em>Electromagnetism</em>, Chapter 7 exercises, Q4.</span>
         </span>
-        <span class="catalogue__tag">Tong EM</span>
+        <span class="catalogue__tag">Cambridge EM · Ch. 7</span>
       </li>
       <li class="catalogue__item">
         <span class="catalogue__num">XV.</span>
         <span class="catalogue__main">
           <a href="notes/ed-lienard-wiechert.html">Liénard–Wiechert Potential and the Field Tensor</a>
-          <span class="catalogue__desc">D. Tong, <em>Electromagnetism</em>, PS7 Q6.</span>
+          <span class="catalogue__desc"><em>Electromagnetism</em>, Chapter 7 exercises, Q6.</span>
         </span>
-        <span class="catalogue__tag">Tong EM</span>
+        <span class="catalogue__tag">Cambridge EM · Ch. 7</span>
       </li>
+    </ul>
+
+    <h3 class="catalogue-source">
+      <span>Solutions to Electromagnetism Problem Sheet 3 — Waves and Relativity</span>
+      <a href="https://www.damtp.cam.ac.uk/user/tong/em.html" target="_blank" rel="noopener noreferrer">Original course ↗</a>
+    </h3>
+    <ul class="catalogue">
       <li class="catalogue__item">
         <span class="catalogue__num">XVI.</span>
         <span class="catalogue__main">
           <a href="notes/ed-relativistic-uniform.html">Relativistic Motion in a Uniform Electric Field</a>
           <span class="catalogue__desc">D. Tong, <em>Electromagnetism</em>, PS3 Q9.</span>
         </span>
-        <span class="catalogue__tag">Tong EM</span>
+        <span class="catalogue__tag">Tong EM · PS3</span>
       </li>
       <li class="catalogue__item">
         <span class="catalogue__num">XVII.</span>
@@ -391,7 +442,7 @@ CATEGORIES = [
           <a href="notes/ed-gauge-plane-wave.html">Gauge Transformation of a Plane EM Wave</a>
           <span class="catalogue__desc">D. Tong, <em>Electromagnetism</em>, PS3 Q5.</span>
         </span>
-        <span class="catalogue__tag">Tong EM</span>
+        <span class="catalogue__tag">Tong EM · PS3</span>
       </li>
       <li class="catalogue__item">
         <span class="catalogue__num">XVIII.</span>
@@ -399,7 +450,7 @@ CATEGORIES = [
           <a href="notes/ed-moving-mirror.html">Reflection of an EM Wave from a Moving Mirror</a>
           <span class="catalogue__desc">D. Tong, <em>Electromagnetism</em>, PS3 Q7.</span>
         </span>
-        <span class="catalogue__tag">Tong EM</span>
+        <span class="catalogue__tag">Tong EM · PS3</span>
       </li>
       <li class="catalogue__item">
         <span class="catalogue__num">XIX.</span>
@@ -407,32 +458,39 @@ CATEGORIES = [
           <a href="notes/ed-covariant-ohms.html">Covariant Form of Ohm's Law</a>
           <span class="catalogue__desc">D. Tong, <em>Electromagnetism</em>, PS3 Q10.</span>
         </span>
-        <span class="catalogue__tag">Tong EM</span>
+        <span class="catalogue__tag">Tong EM · PS3</span>
       </li>
+    </ul>
+
+    <h3 class="catalogue-source">
+      <span>Solutions to the electromagnetism-in-matter exercises accompanying David Tong’s <em>Electromagnetism</em></span>
+      <a href="https://www.damtp.cam.ac.uk/user/tong/books/electro.html" target="_blank" rel="noopener noreferrer">Original exercises ↗</a>
+    </h3>
+    <ul class="catalogue">
       <li class="catalogue__item">
         <span class="catalogue__num">XX.</span>
         <span class="catalogue__main">
           <a href="notes/ed-dielectric-sphere.html">Dielectric Sphere in a Uniform Electric Field</a>
-          <span class="catalogue__desc">D. Tong, <em>Electromagnetism</em>, PS8 Q1.</span>
+          <span class="catalogue__desc"><em>Electromagnetism</em>, Chapter 8 exercises, Q1.</span>
         </span>
-        <span class="catalogue__tag">Tong EM</span>
+        <span class="catalogue__tag">Cambridge EM · Ch. 8</span>
       </li>
       <li class="catalogue__item">
         <span class="catalogue__num">XXI.</span>
         <span class="catalogue__main">
           <a href="notes/ed-frustrated-tir.html">Frustrated Total Internal Reflection &amp; Evanescent Waves</a>
-          <span class="catalogue__desc">D. Tong, <em>Electromagnetism</em>, PS8 Q3.</span>
+          <span class="catalogue__desc"><em>Electromagnetism</em>, Chapter 8 exercises, Q3.</span>
         </span>
-        <span class="catalogue__tag">Tong EM</span>
+        <span class="catalogue__tag">Cambridge EM · Ch. 8</span>
       </li>
     </ul>""",
     },
     {
         "slug": "mm",
         "title": "Mathematical Methods",
-        "blurb": "Complex methods (Santos PS), Cambridge variational principles.",
+        "blurb": "Santos complex-methods example sheets, a reference note, and Cambridge variational principles.",
         "tag": "6 notes",
-        "body": """    <h3>Solutions</h3>
+        "body": """    <h3>Standalone reference note</h3>
     <ul class="catalogue">
       <li class="catalogue__item">
         <span class="catalogue__num">XXII.</span>
@@ -442,11 +500,18 @@ CATEGORIES = [
         </span>
         <span class="catalogue__tag">Complex Analysis</span>
       </li>
+    </ul>
+
+    <h3 class="catalogue-source">
+      <span>Solutions to J. E. Santos’s Cambridge Part IB Complex Methods example sheets</span>
+      <a href="https://www.damtp.cam.ac.uk/user/examples/" target="_blank" rel="noopener noreferrer">Cambridge examples ↗</a>
+    </h3>
+    <ul class="catalogue">
       <li class="catalogue__item">
         <span class="catalogue__num">XXIII.</span>
         <span class="catalogue__main">
           <a href="notes/mm-convolution-fourier.html">Convolution and Fourier Representation of e<sup>-|x|</sup></a>
-          <span class="catalogue__desc">J. E. Santos, Cambridge Part IB Complex Methods, PS3 Q2.</span>
+          <span class="catalogue__desc">J. E. Santos, Cambridge Part IB Complex Methods, Example Sheet 3, Q2.</span>
         </span>
         <span class="catalogue__tag">Santos CM</span>
       </li>
@@ -454,7 +519,7 @@ CATEGORIES = [
         <span class="catalogue__num">XXIV.</span>
         <span class="catalogue__main">
           <a href="notes/mm-residues.html">Residues at Simple and Higher-Order Poles</a>
-          <span class="catalogue__desc">J. E. Santos, Cambridge Part IB Complex Methods, PS2 Q7.</span>
+          <span class="catalogue__desc">J. E. Santos, Cambridge Part IB Complex Methods, Example Sheet 2, Q7.</span>
         </span>
         <span class="catalogue__tag">Santos CM</span>
       </li>
@@ -462,7 +527,7 @@ CATEGORIES = [
         <span class="catalogue__num">XXV.</span>
         <span class="catalogue__main">
           <a href="notes/mm-contour-integration.html">Contour Integration via Residues and Cauchy</a>
-          <span class="catalogue__desc">J. E. Santos, Cambridge Part IB Complex Methods, PS2 Q9.</span>
+          <span class="catalogue__desc">J. E. Santos, Cambridge Part IB Complex Methods, Example Sheet 2, Q9.</span>
         </span>
         <span class="catalogue__tag">Santos CM</span>
       </li>
@@ -470,15 +535,22 @@ CATEGORIES = [
         <span class="catalogue__num">XXVI.</span>
         <span class="catalogue__main">
           <a href="notes/mm-laplace-bromwich.html">Laplace Transform of t<sup>-1/2</sup> and the Bromwich Contour</a>
-          <span class="catalogue__desc">J. E. Santos, Cambridge Part IB Complex Methods, PS3 Q12.</span>
+          <span class="catalogue__desc">J. E. Santos, Cambridge Part IB Complex Methods, Example Sheet 3, Q12.</span>
         </span>
         <span class="catalogue__tag">Santos CM</span>
       </li>
+    </ul>
+
+    <h3 class="catalogue-source">
+      <span>Cambridge Mathematical Tripos · Variational Principles</span>
+      <a href="https://www.damtp.cam.ac.uk/user/md327/B6b.pdf" target="_blank" rel="noopener noreferrer">Original sheet ↗</a>
+    </h3>
+    <ul class="catalogue">
       <li class="catalogue__item">
         <span class="catalogue__num">XXVII.</span>
         <span class="catalogue__main">
           <a href="notes/mm-variational-euler.html">Variational Derivation of Euler's Equation for Inviscid Flow</a>
-          <span class="catalogue__desc">Cambridge Part II Variational Principles, PS2 Q9.</span>
+          <span class="catalogue__desc">Variational Principles, Example Sheet 2 (2023), Q9.</span>
         </span>
         <span class="catalogue__tag">VarPrin</span>
       </li>
@@ -489,7 +561,7 @@ CATEGORIES = [
         "title": "Differential Equations",
         "blurb": "Green's-function and method-of-images problems.",
         "tag": "3 notes",
-        "body": """    <h3>Solutions</h3>
+        "body": """    <h3>Imperial College · Differential Equations &amp; Electromagnetism</h3>
     <ul class="catalogue">
       <li class="catalogue__item">
         <span class="catalogue__num">XXVIII.</span>
@@ -507,11 +579,18 @@ CATEGORIES = [
         </span>
         <span class="catalogue__tag">Imperial DE</span>
       </li>
+    </ul>
+
+    <h3 class="catalogue-source">
+      <span>Unofficial solution to a public Cambridge Mathematical Tripos past paper</span>
+      <a href="https://www.maths.cam.ac.uk/undergrad/pastpapers/files/2025/list_ib.pdf" target="_blank" rel="noopener noreferrer">Original paper ↗</a>
+    </h3>
+    <ul class="catalogue">
       <li class="catalogue__item">
         <span class="catalogue__num">XXX.</span>
         <span class="catalogue__main">
           <a href="notes/de-greens-identity-halfspace.html">Green's Identity &amp; Method of Images for the Half-Space</a>
-          <span class="catalogue__desc">Cambridge Part IB past paper 2025, 14D.</span>
+          <span class="catalogue__desc">Cambridge Mathematical Tripos Part IB 2025, Paper 3, 14D (Methods). Original question linked, not reproduced.</span>
         </span>
         <span class="catalogue__tag">Cambridge IB</span>
       </li>
@@ -522,7 +601,10 @@ CATEGORIES = [
         "title": "Thermodynamics & Statistical Physics",
         "blurb": "Joule–Thomson, water near the triple point, partition functions.",
         "tag": "4 notes",
-        "body": """    <h3>Solutions</h3>
+        "body": """    <h3 class="catalogue-source">
+      <span>Solutions to David Tong’s Statistical Physics problem sheets</span>
+      <a href="https://www.damtp.cam.ac.uk/user/tong/statphys.html" target="_blank" rel="noopener noreferrer">Original course ↗</a>
+    </h3>
     <ul class="catalogue">
       <li class="catalogue__item">
         <span class="catalogue__num">XXXI.</span>
@@ -531,14 +613,6 @@ CATEGORIES = [
           <span class="catalogue__desc">D. Tong, <em>Statistical Physics</em>, PS4 Q4.</span>
         </span>
         <span class="catalogue__tag">Tong SP</span>
-      </li>
-      <li class="catalogue__item">
-        <span class="catalogue__num">XXXII.</span>
-        <span class="catalogue__main">
-          <a href="notes/tdsp-adiabatic-water.html">Adiabatic Compression of Water Near the Triple Point</a>
-          <span class="catalogue__desc">Imperial 2023 TPSM paper, Q3.</span>
-        </span>
-        <span class="catalogue__tag">Imperial TPSM</span>
       </li>
       <li class="catalogue__item">
         <span class="catalogue__num">XXXIII.</span>
@@ -555,6 +629,18 @@ CATEGORIES = [
           <span class="catalogue__desc">D. Tong, <em>Statistical Physics</em>, PS1 Q4.</span>
         </span>
         <span class="catalogue__tag">Tong SP</span>
+      </li>
+    </ul>
+
+    <h3>Imperial examination write-up</h3>
+    <ul class="catalogue">
+      <li class="catalogue__item">
+        <span class="catalogue__num">XXXII.</span>
+        <span class="catalogue__main">
+          <a href="notes/tdsp-adiabatic-water.html">Adiabatic Compression of Water Near the Triple Point</a>
+          <span class="catalogue__desc">Imperial 2023 TPSM paper, Q3.</span>
+        </span>
+        <span class="catalogue__tag">Imperial TPSM</span>
       </li>
     </ul>""",
     },
@@ -723,7 +809,7 @@ def top_index_page(categories: list[dict]) -> str:
     return (
         page_chrome_head(
             "Notes",
-            "Physics notes, solved problems, and self-contained derivations in QFT, GR, QM, electrodynamics, and mathematical methods, available in HTML and PDF.",
+            "Physics notes, solved problems, and self-contained derivations in quantum field theory, general relativity, quantum mechanics, electrodynamics, and mathematical methods, available in HTML and PDF.",
         )
         + topbar(active="notes")
         + f"""
@@ -748,7 +834,7 @@ def top_index_page(categories: list[dict]) -> str:
 
 {work_sections_html}
 
-  <p class="archive-disclaimer">Sources are credited on every page. These are my notes on coursework, textbook problems, and independent study; corrections are welcome.</p>
+  <p class="archive-disclaimer">Unofficial personal notes. Original questions remain copyright of their authors and institutions; where a source is public, I link to it rather than reproduce it. Do not submit this work, in whole or in part, for assessment.</p>
 
 </main>
 """
@@ -798,7 +884,7 @@ def _renumber_body(body: str) -> str:
 # and prev/next pager. The category bodies above are the single source of
 # truth, so we read them rather than maintaining a parallel list.
 _GROUP_RE = _re.compile(
-    r'(?:<h3>([^<]+)</h3>\s*)?<ul class="catalogue">(.*?)</ul>',
+    r'(?:<h3(?:\s+[^>]*)?>(.*?)</h3>\s*)?<ul class="catalogue">(.*?)</ul>',
     _re.DOTALL,
 )
 _ITEM_RE = _re.compile(
@@ -817,7 +903,11 @@ _ITEM_RE = _re.compile(
 def _extract_groups(body: str):
     groups = []
     for gm in _GROUP_RE.finditer(body):
-        group_title = (gm.group(1) or "").strip()
+        group_html = (gm.group(1) or "").strip()
+        primary_label = _re.search(r'<span>(.*?)</span>', group_html, _re.DOTALL)
+        if primary_label:
+            group_html = primary_label.group(1)
+        group_title = __html_for_stats.unescape(_STATS_TAG_RE.sub("", group_html)).strip()
         notes = []
         for im in _ITEM_RE.finditer(gm.group(2)):
             label, href, title, desc, tag = im.groups()
