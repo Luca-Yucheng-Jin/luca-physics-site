@@ -46,12 +46,7 @@ async function loadWorks() {
     ),
   );
 
-  return [
-    ...notes,
-    { slug: 'research-perovskite-devices', source: path.join(ROOT, 'research', 'perovskite-devices.html') },
-    { slug: 'research-higgs-validation', source: path.join(ROOT, 'research', 'higgs-validation.html') },
-    { slug: 'research-kelvin-water-dropper', source: path.join(ROOT, 'research', 'kelvin-water-dropper.html') },
-  ];
+  return notes;
 }
 
 async function renderWork(browser, work) {

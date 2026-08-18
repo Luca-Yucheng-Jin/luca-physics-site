@@ -46,19 +46,16 @@ def page_chrome_head(title: str, description: str, css_path: str = "styles.css",
 
 
 def topbar(active: str, index_path: str = "index.html",
-           notes_path: str = "notes.html",
-           research_path: str = "research.html") -> str:
-    """`active` ∈ {'about', 'notes', 'research'} marks the current nav item."""
+           notes_path: str = "notes.html") -> str:
+    """`active` ∈ {'about', 'notes'} marks the current nav item."""
     a_about = ' class="is-active"' if active == "about" else ""
     a_notes = ' class="is-active"' if active == "notes" else ""
-    a_research = ' class="is-active"' if active == "research" else ""
     return f"""
 <header class="topbar">
   <a href="{index_path}" class="topbar__brand">Luca Jin <small>Physics · Imperial</small></a>
   <nav class="topbar__nav" aria-label="Primary navigation">
     <a href="{index_path}"{a_about}>Home</a>
-    <a href="{notes_path}"{a_notes}>Work</a>
-    <a href="{research_path}"{a_research}>Research</a>
+    <a href="{notes_path}"{a_notes}>Notes</a>
     <a href="mailto:luca.jin@outlook.com">Contact</a>
     <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" title="Decrease font size">A<span class="font-toggle__small">−</span></button>
     <button class="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size" title="Increase font size">A<span class="font-toggle__large">+</span></button>
@@ -71,13 +68,13 @@ def topbar(active: str, index_path: str = "index.html",
 
 
 def footer_html(index_path: str = "index.html",
-                research_path: str = "research.html") -> str:
+                notes_path: str = "notes.html") -> str:
     return f"""
 <footer class="footer">
   <span>© 2026 Yucheng (Luca) Jin</span>
   <span>
     <a href="{index_path}">Home</a> ·
-    <a href="{research_path}">Research</a> ·
+    <a href="{notes_path}">Notes</a> ·
     <a href="mailto:luca.jin@outlook.com">Email</a>
   </span>
 </footer>
@@ -110,7 +107,7 @@ CATEGORIES = [
         "slug": "qft",
         "title": "Quantum Field Theory",
         "blurb": "Path-integral essay, Peskin / Tong / PSI / Srednicki solutions, Schwartz chapter notes, φ³ computation.",
-        "tag": "20 works",
+        "tag": "20 notes",
         "body": """    <h3>Papers</h3>
     <ul class="catalogue">
       <li class="catalogue__item">
@@ -617,7 +614,7 @@ def catalogue_with_formats(body: str) -> str:
 def category_page(cat: dict) -> str:
     """One per-category index — heading, breadcrumb back to top-level
     notes.html, and the catalogue body."""
-    description = f"Written-work archive: {cat['title']} — {cat['blurb']}"
+    description = f"Physics notes: {cat['title']} — {cat['blurb']}"
     return (
         page_chrome_head(f"{cat['title']} — Notes", description)
         + topbar(active="notes")
@@ -625,11 +622,11 @@ def category_page(cat: dict) -> str:
 <main class="page page--index">
 
   <div class="note__breadcrumb">
-    <a href="notes.html">Work</a> &nbsp;·&nbsp; {cat['title']}
+    <a href="notes.html">Notes</a> &nbsp;·&nbsp; {cat['title']}
   </div>
 
   <section class="hero">
-    <div class="hero__eyebrow">Written work · subject</div>
+    <div class="hero__eyebrow">Notes · subject</div>
     <h1>{cat['title']}</h1>
     <p class="hero__lede">{typeset_catalogue_math(cat['blurb'])}</p>
   </section>
@@ -641,7 +638,7 @@ def category_page(cat: dict) -> str:
   <hr class="ornament-rule">
 
   <p style="text-align:center; font-style:italic; color:var(--muted); font-family:var(--display);">
-    <a href="notes.html">← Back to all work</a>
+    <a href="notes.html">← Back to all notes</a>
   </p>
 
 </main>
@@ -702,14 +699,14 @@ def top_index_page(categories: list[dict]) -> str:
     cards = []
     for cat in categories:
         count = cat['body'].count('<li class="catalogue__item">')
-        cards.append(f'<a class="subject-link" href="#{cat["slug"]}"><span>{cat["title"]}</span><small>{count} works</small></a>')
+        cards.append(f'<a class="subject-link" href="#{cat["slug"]}"><span>{cat["title"]}</span><small>{count} notes</small></a>')
     cards_html = "\n".join(cards)
     stats = compute_stats()
     stats_html = f"""
     <ul class="stats" aria-label="Notebook statistics">
-      <li><span class="stats__num">{_fmt(stats['pages'])}</span><span class="stats__label">written works</span></li>
+      <li><span class="stats__num">{_fmt(stats['pages'])}</span><span class="stats__label">notes</span></li>
       <li><span class="stats__num">{len(categories)}</span><span class="stats__label">subjects</span></li>
-      <li><span class="stats__num">2</span><span class="stats__label">formats per work</span></li>
+      <li><span class="stats__num">2</span><span class="stats__label">formats per note</span></li>
     </ul>"""
     work_sections = []
     for cat in categories:
@@ -717,7 +714,7 @@ def top_index_page(categories: list[dict]) -> str:
         work_sections.append(f"""
   <section class="section work-subject" id="{cat['slug']}">
     <div class="work-subject__heading">
-      <div><p class="hero__eyebrow">{count} works</p><h2>{cat['title']}</h2></div>
+      <div><p class="hero__eyebrow">{count} notes</p><h2>{cat['title']}</h2></div>
       <a href="notes-{cat['slug']}.html">Subject page →</a>
     </div>
 {catalogue_with_formats(cat['body'])}
@@ -725,8 +722,8 @@ def top_index_page(categories: list[dict]) -> str:
     work_sections_html = "\n".join(work_sections)
     return (
         page_chrome_head(
-            "Work",
-            "A clear archive of solved problems and self-contained derivations in QFT, GR, QM, electrodynamics, and mathematical methods, available in HTML and PDF.",
+            "Notes",
+            "Physics notes, solved problems, and self-contained derivations in QFT, GR, QM, electrodynamics, and mathematical methods, available in HTML and PDF.",
         )
         + topbar(active="notes")
         + f"""
@@ -734,12 +731,12 @@ def top_index_page(categories: list[dict]) -> str:
 
   <section class="hero">
     <div class="hero__eyebrow">A working archive</div>
-    <h1>Written work</h1>
+    <h1>Notes</h1>
     <p class="hero__lede">
-      48 solved problems and derivations. Read online or download a typeset PDF.
+      48 sets of notes, solved problems, and derivations. Read online or download a typeset PDF.
     </p>
     <p class="hero__lede" style="font-style:italic; color:var(--muted);">
-      Study write-ups, not original research; every source is credited.
+      Study notes and coursework write-ups; every source is credited.
     </p>
 {stats_html}
 
@@ -751,7 +748,7 @@ def top_index_page(categories: list[dict]) -> str:
 
 {work_sections_html}
 
-  <p class="archive-disclaimer">Sources are credited on every page. These are my write-ups of coursework, textbook problems, and independent study; corrections are welcome.</p>
+  <p class="archive-disclaimer">Sources are credited on every page. These are my notes on coursework, textbook problems, and independent study; corrections are welcome.</p>
 
 </main>
 """

@@ -7,7 +7,7 @@ LaTeX-generated library of theoretical-physics notes and matching PDF editions.
 
 The homepage uses React, Vite, and TypeScript. The site keeps interaction
 deliberately light: a responsive layout, restrained hover states, and direct
-HTML/PDF access to each published work.
+HTML/PDF access to each published note.
 
 ```bash
 npm install
@@ -44,10 +44,8 @@ assets/               Shared imagery and legacy scripts
 notes/                Generated note pages
 tex/                   Original LaTeX sources
 build/                 LaTeX-to-HTML and catalogue generators
-research.html          Research and project index
-research/              Individual project-summary pages
-notes.html             Complete written-work archive
-output/pdf/            Printable editions of published work
+notes.html             Complete notes archive
+output/pdf/            Printable editions of published notes
 styles.css             Shared stylesheet for archive pages
 vite.config.ts         Homepage build and legacy-route preservation
 ```

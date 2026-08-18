@@ -32,6 +32,9 @@
   apply(current);
 
   function bind() {
+    /* React owns and binds the homepage controls itself. */
+    if (document.getElementById("root")) return;
+
     var btns = document.querySelectorAll("[data-font-size]");
     btns.forEach(function (btn) {
       btn.addEventListener("click", function () {

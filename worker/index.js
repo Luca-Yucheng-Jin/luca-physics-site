@@ -6,6 +6,16 @@ const worker = {
       return Response.redirect(new URL('/notes.html', requestUrl), 308);
     }
 
+    const isRetiredResearchRoute =
+      requestUrl.pathname === '/research' ||
+      requestUrl.pathname === '/research.html' ||
+      requestUrl.pathname === '/research/' ||
+      requestUrl.pathname.startsWith('/research/') ||
+      /^\/output\/pdf\/research-[^/]+\.pdf$/.test(requestUrl.pathname);
+    if (isRetiredResearchRoute) {
+      return Response.redirect(new URL('/index.html', requestUrl), 308);
+    }
+
     const direct = await env.ASSETS.fetch(request);
     if (direct.status !== 404) return direct;
 

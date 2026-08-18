@@ -16,20 +16,16 @@
   function setStored(v) {
     try { localStorage.setItem(STORAGE_KEY, v); } catch (e) {}
   }
-  function systemPref() {
-    return window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark" : "light";
-  }
   function applyTheme(theme) {
     root.setAttribute("data-theme", theme);
+    var themeMeta = document.querySelector('meta[name="theme-color"]');
+    if (themeMeta) themeMeta.setAttribute("content", theme === "dark" ? "#15120e" : "#f5f1e7");
   }
 
   /* Initial application — runs before <body> renders, so no flash. */
-  /* The observatory is dark by default so the black-hole homepage and the
-     long-form library feel like one continuous place. A saved user choice
-     still wins, and the light paper theme remains one click away. */
-  applyTheme(getStored() || "dark");
+  /* Warm paper is the shared default. An explicit user choice persists
+     across the React homepage and the static notes. */
+  applyTheme(getStored() || "light");
 
   /* Apply the saved sidebar visibility synchronously — same reason as
      the theme: setting the class on documentElement before <body>
@@ -45,18 +41,13 @@
     root.classList.toggle("nav-on", !!on);
   })();
 
-  /* Follow system preference until the user makes an explicit choice. */
-  if (window.matchMedia) {
-    var mq = window.matchMedia("(prefers-color-scheme: dark)");
-    var listener = function (e) {
-      if (!getStored()) applyTheme(e.matches ? "dark" : "light");
-    };
-    if (mq.addEventListener) mq.addEventListener("change", listener);
-    else if (mq.addListener) mq.addListener(listener);
-  }
-
   function bindThemeToggles() {
     document.querySelectorAll("[data-theme-toggle]").forEach(function (btn) {
+      var initial = root.getAttribute("data-theme") || "light";
+      btn.setAttribute(
+        "aria-label",
+        initial === "dark" ? "Switch to light theme" : "Switch to dark theme"
+      );
       btn.addEventListener("click", function () {
         var current = root.getAttribute("data-theme") || "light";
         var next = current === "dark" ? "light" : "dark";
@@ -100,7 +91,6 @@
     var inNotes = path.indexOf("/notes/") >= 0;
 
     if (file === "index.html" && !inNotes) return { kind: "home" };
-    if (file === "research.html") return { kind: "research" };
     if (file === "notes.html") return { kind: "notes-index" };
 
     var catMatch = file.match(/^notes-(.+)\.html$/);
@@ -568,7 +558,7 @@
   }
 
   /* ---------- Feynman cell markers ----------
-     Decorate each catalogue row and research entry with a tiny stroked
+     Decorate each catalogue row with a tiny stroked
      SVG diagram drawn in the same line-art language as the existing
      ornaments (.ornament, .hero__vertex). Cycles through a small pool so
      adjacent rows feel distinct. The diagrams are purely decorative —
@@ -643,18 +633,6 @@
       });
     });
 
-    /* Research / education entries: prepend a diagram to the head row,
-       just left of the entry title. Skip entries that already have one
-       (defensive against re-runs). */
-    var entries = document.querySelectorAll(".entry .entry__head");
-    var ei = 0;
-    entries.forEach(function (head) {
-      if (head.querySelector(".feyn-mark")) return;
-      var title = head.querySelector(".entry__title");
-      if (!title) return;
-      title.insertBefore(makeFeynMark(ei), title.firstChild);
-      ei++;
-    });
   }
 
   /* ---------- Event-horizon page transitions ----------
@@ -732,6 +710,11 @@
   }
 
   function bind() {
+    /* React owns all homepage markup. Keep shared theme persistence here,
+       but do not inject the static-note page controls or decorations into
+       the React root. */
+    if (document.getElementById("root")) return;
+
     bindThemeToggles();
     buildPageControls();
     buildOnPageTOC();
@@ -743,7 +726,7 @@
       enhanceBreadcrumb(info);
       buildPager(info);
       // Topics navigator only on pages where you're actually reading a
-      // note or solution. On the home/about, research, notes index, and
+      // note or solution. On the home/about, notes index, and
       // category landing pages the topbar alone is enough.
       var showSiteNav = info.kind === "note" || info.kind === "note-orphan";
       if (showSiteNav) {
