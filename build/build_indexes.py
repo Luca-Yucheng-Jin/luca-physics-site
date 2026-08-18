@@ -877,7 +877,6 @@ def top_index_page(categories: list[dict]) -> str:
     <ul class="stats" aria-label="Notebook statistics">
       <li><span class="stats__num">{_fmt(stats['pages'])}</span><span class="stats__label">notes</span></li>
       <li><span class="stats__num">{len(categories)}</span><span class="stats__label">subjects</span></li>
-      <li><span class="stats__num">2</span><span class="stats__label">formats per note</span></li>
     </ul>"""
     work_sections = []
     for cat in categories:

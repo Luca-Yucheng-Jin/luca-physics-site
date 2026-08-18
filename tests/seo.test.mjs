@@ -96,6 +96,15 @@ test('homepage exposes the name and subject links before JavaScript runs', async
 });
 
 
+test('notes overview keeps only the useful archive statistics', async () => {
+  const html = await readFile(path.join(root, 'notes.html'), 'utf8');
+  const stats = html.match(/<ul class="stats"[\s\S]*?<\/ul>/)?.[0];
+  assert.ok(stats, 'notes.html: missing archive statistics');
+  assert.equal((stats.match(/<li>/g) || []).length, 2);
+  assert.doesNotMatch(stats, /formats per note/i);
+});
+
+
 test('every crawlable internal link resolves to a real file', async () => {
   const files = await publicHtmlFiles();
   for (const relative of files) {
