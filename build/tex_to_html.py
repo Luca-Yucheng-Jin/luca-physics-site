@@ -11,10 +11,15 @@ in notes.html.
 import re
 import os
 import html as htmllib
+import json
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEX  = os.path.join(ROOT, "tex")
 OUT  = os.path.join(ROOT, "notes")
+SITE_URL = "https://luca-physics-observatory.jinluca3.chatgpt.site"
+AUTHOR_NAME = "Yucheng (Luca) Jin"
+WEBSITE_ID = f"{SITE_URL}/#website"
+PERSON_ID = f"{SITE_URL}/#person"
 
 # subsection-title (regex-matched, lowercased substring is enough) → slug, source
 # we anchor on a unique substring of each subsection title in the .tex
@@ -1477,6 +1482,21 @@ def render_tikz_one(stash, idx):
 # Page template
 # ----------------------------------------------------------------------
 
+def _metadata_text(value):
+    """Collapse generated HTML into safe, readable search metadata text."""
+    replacements = {
+        "$t^{-1/2}$": "t^(-1/2)",
+        "$e^{-|x|}$": "exp(-|x|)",
+        "$\\frac{1}{2}$": "1/2",
+    }
+    value = str(value)
+    for latex, readable in replacements.items():
+        value = value.replace(latex, readable)
+    value = re.sub(r"<[^>]+>", " ", str(value))
+    value = htmllib.unescape(value)
+    return re.sub(r"\s+", " ", value).strip()
+
+
 def render_page(**fields):
     """Substitute @@KEY@@ sentinels in PAGE_TEMPLATE. Avoids str.format which
     chokes on { } that legitimately appear in MathJax macro definitions."""
@@ -1489,6 +1509,74 @@ def render_page(**fields):
         f'<a aria-current="page" href="{slug}.html">HTML</a>'
         f'<a href="../output/pdf/{slug}.pdf">PDF ↓</a>'
         '</div>' if slug else "",
+    )
+    plain_title = _metadata_text(fields.get("title", "Physics notes"))
+    plain_breadcrumb = _metadata_text(fields.get("breadcrumb", "Theoretical physics"))
+    plain_source = _metadata_text(fields.get("source_short", ""))
+    canonical = f"{SITE_URL}/notes/{slug}.html"
+    source_clause = f", based on {plain_source}" if plain_source else ""
+    description = (
+        f"{plain_title} — {plain_breadcrumb}{source_clause}. Worked physics notes "
+        f"by {AUTHOR_NAME}, available in HTML and PDF."
+    )
+    full_title = f"{plain_title} | {AUTHOR_NAME}"
+    article = {
+        "@type": "Article",
+        "@id": f"{canonical}#article",
+        "url": canonical,
+        "mainEntityOfPage": canonical,
+        "headline": plain_title,
+        "description": description,
+        "inLanguage": "en",
+        "genre": "Theoretical physics notes and worked solutions",
+        "educationalLevel": "Undergraduate physics",
+        "about": {"@type": "Thing", "name": plain_breadcrumb},
+        "author": {
+            "@type": "Person",
+            "@id": PERSON_ID,
+            "name": AUTHOR_NAME,
+            "url": f"{SITE_URL}/",
+        },
+        "isPartOf": {
+            "@type": "WebSite",
+            "@id": WEBSITE_ID,
+            "name": "Luca Jin Physics",
+            "url": f"{SITE_URL}/",
+        },
+        "encoding": {
+            "@type": "MediaObject",
+            "contentUrl": f"{SITE_URL}/output/pdf/{slug}.pdf",
+            "encodingFormat": "application/pdf",
+        },
+    }
+    breadcrumb = {
+        "@type": "BreadcrumbList",
+        "@id": f"{canonical}#breadcrumb",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Notes",
+                "item": f"{SITE_URL}/notes.html",
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": plain_title,
+                "item": canonical,
+            },
+        ],
+    }
+    fields.setdefault("page_title", htmllib.escape(full_title, quote=True))
+    fields.setdefault("description", htmllib.escape(description, quote=True))
+    fields.setdefault("canonical", htmllib.escape(canonical, quote=True))
+    fields.setdefault(
+        "schema_json",
+        json.dumps(
+            {"@context": "https://schema.org", "@graph": [article, breadcrumb]},
+            ensure_ascii=False,
+            separators=(",", ":"),
+        ),
     )
     out = PAGE_TEMPLATE
     for k, v in fields.items():
@@ -1563,12 +1651,27 @@ PAGE_TEMPLATE = r"""<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>@@TITLE@@ — Yucheng (Luca) Jin</title>
-<meta name="description" content="@@TITLE@@. Source: @@SOURCE_SHORT@@.">
+<title>@@PAGE_TITLE@@</title>
+<meta name="description" content="@@DESCRIPTION@@">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="author" content="Yucheng (Luca) Jin">
+<link rel="canonical" href="@@CANONICAL@@">
+<meta property="og:type" content="article">
+<meta property="og:url" content="@@CANONICAL@@">
+<meta property="og:site_name" content="Luca Jin Physics">
+<meta property="og:title" content="@@PAGE_TITLE@@">
+<meta property="og:description" content="@@DESCRIPTION@@">
+<meta property="og:image" content="https://luca-physics-observatory.jinluca3.chatgpt.site/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="@@PAGE_TITLE@@">
+<meta name="twitter:description" content="@@DESCRIPTION@@">
+<meta name="twitter:image" content="https://luca-physics-observatory.jinluca3.chatgpt.site/og.png">
 
 <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
 
 <link rel="stylesheet" href="../styles.css">
+
+<script type="application/ld+json">@@SCHEMA_JSON@@</script>
 
 <script src="../assets/theme.js"></script>
 <script src="../assets/font-size.js"></script>
@@ -1626,9 +1729,9 @@ window.MathJax = {
 <body>
 
 <header class="topbar">
-  <a href="../index.html" class="topbar__brand">Luca Jin <small>Physics · Imperial</small></a>
+  <a href="../" class="topbar__brand">Luca Jin <small>Physics · Imperial</small></a>
   <nav class="topbar__nav" aria-label="Primary navigation">
-    <a href="../index.html">Home</a>
+    <a href="../">Home</a>
     <a href="../notes.html" class="is-active">Notes</a>
     <a href="mailto:luca.jin@outlook.com">Contact</a>
     <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" title="Decrease font size">A<span class="font-toggle__small">−</span></button>
@@ -1668,7 +1771,7 @@ window.MathJax = {
 <footer class="footer">
   <span>© 2026 Yucheng (Luca) Jin</span>
   <span>
-    <a href="../index.html">Home</a> ·
+    <a href="../">Home</a> ·
     <a href="../notes.html">Notes</a> ·
     <a href="mailto:luca.jin@outlook.com">Email</a>
   </span>

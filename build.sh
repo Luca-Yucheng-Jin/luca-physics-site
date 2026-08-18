@@ -16,6 +16,8 @@ build_once() {
     python3 build/tex_to_html.py
     echo "▶ Rebuilding indexes + notebook stats ..."
     python3 build/build_indexes.py
+    echo "▶ Rebuilding search index files ..."
+    python3 build/build_seo.py
     echo "✔ Build complete."
 }
 

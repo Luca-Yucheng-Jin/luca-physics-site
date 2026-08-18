@@ -27,7 +27,7 @@ function preserveLegacySite(): Plugin {
       readdirSync(root)
         .filter((name) => name.endsWith('.html') && name !== 'index.html')
         .forEach(copy);
-      ['styles.css', 'assets', 'notes', 'verification', 'output'].forEach(copy);
+      ['styles.css', 'assets', 'notes', 'verification', 'output', 'robots.txt', 'sitemap.xml'].forEach(copy);
 
       const workerSource = resolve(root, 'worker/index.js');
       const serverOut = resolve(buildRoot, 'server');

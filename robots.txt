@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://luca-physics-observatory.jinluca3.chatgpt.site/sitemap.xml

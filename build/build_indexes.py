@@ -12,30 +12,58 @@ Each category has:
 """
 
 from __future__ import annotations
+import html
+import json
 import os
 import re
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SITE_URL = "https://luca-physics-observatory.jinluca3.chatgpt.site"
+AUTHOR_NAME = "Yucheng (Luca) Jin"
+WEBSITE_ID = f"{SITE_URL}/#website"
+PERSON_ID = f"{SITE_URL}/#person"
 
 
 # ---------------------------------------------------------------------------
 # Shared chrome (header + footer). Rendered once per page.
 
-def page_chrome_head(title: str, description: str, css_path: str = "styles.css",
+def page_chrome_head(title: str, description: str, canonical_path: str,
+                     schema: dict, css_path: str = "styles.css",
                      theme_path: str = "assets/theme.js",
                      font_path: str = "assets/font-size.js",
                      icon_path: str = "assets/favicon.svg") -> str:
+    full_title = f"{title} | {AUTHOR_NAME}"
+    canonical = f"{SITE_URL}/{canonical_path.lstrip('/')}"
+    escaped_title = html.escape(full_title, quote=True)
+    escaped_description = html.escape(description, quote=True)
+    escaped_canonical = html.escape(canonical, quote=True)
+    schema_json = json.dumps(schema, ensure_ascii=False, separators=(",", ":"))
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{title} — Yucheng (Luca) Jin</title>
-<meta name="description" content="{description}">
+<title>{escaped_title}</title>
+<meta name="description" content="{escaped_description}">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="author" content="{AUTHOR_NAME}">
+<link rel="canonical" href="{escaped_canonical}">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{escaped_canonical}">
+<meta property="og:site_name" content="Luca Jin Physics">
+<meta property="og:title" content="{escaped_title}">
+<meta property="og:description" content="{escaped_description}">
+<meta property="og:image" content="{SITE_URL}/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{escaped_title}">
+<meta name="twitter:description" content="{escaped_description}">
+<meta name="twitter:image" content="{SITE_URL}/og.png">
 
 <link rel="icon" type="image/svg+xml" href="{icon_path}">
 
 <link rel="stylesheet" href="{css_path}">
+
+<script type="application/ld+json">{schema_json}</script>
 
 <script src="{theme_path}"></script>
 <script src="{font_path}"></script>
@@ -45,7 +73,54 @@ def page_chrome_head(title: str, description: str, css_path: str = "styles.css",
 <body>"""
 
 
-def topbar(active: str, index_path: str = "index.html",
+def collection_schema(name: str, description: str, canonical_path: str,
+                      subject: str | None = None) -> dict:
+    canonical = f"{SITE_URL}/{canonical_path.lstrip('/')}"
+    page = {
+        "@type": "CollectionPage",
+        "@id": f"{canonical}#page",
+        "url": canonical,
+        "name": name,
+        "description": description,
+        "inLanguage": "en",
+        "isPartOf": {
+            "@type": "WebSite",
+            "@id": WEBSITE_ID,
+            "name": "Luca Jin Physics",
+            "url": f"{SITE_URL}/",
+        },
+        "author": {
+            "@type": "Person",
+            "@id": PERSON_ID,
+            "name": AUTHOR_NAME,
+            "url": f"{SITE_URL}/",
+        },
+    }
+    graph: list[dict] = [page]
+    if subject:
+        page["about"] = {"@type": "Thing", "name": subject}
+        graph.append({
+            "@type": "BreadcrumbList",
+            "@id": f"{canonical}#breadcrumb",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Notes",
+                    "item": f"{SITE_URL}/notes.html",
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": subject,
+                    "item": canonical,
+                },
+            ],
+        })
+    return {"@context": "https://schema.org", "@graph": graph}
+
+
+def topbar(active: str, index_path: str = "./",
            notes_path: str = "notes.html") -> str:
     """`active` ∈ {'about', 'notes'} marks the current nav item."""
     a_about = ' class="is-active"' if active == "about" else ""
@@ -67,7 +142,7 @@ def topbar(active: str, index_path: str = "index.html",
 </header>"""
 
 
-def footer_html(index_path: str = "index.html",
+def footer_html(index_path: str = "./",
                 notes_path: str = "notes.html") -> str:
     return f"""
 <footer class="footer">
@@ -700,9 +775,19 @@ def catalogue_with_formats(body: str) -> str:
 def category_page(cat: dict) -> str:
     """One per-category index — heading, breadcrumb back to top-level
     notes.html, and the catalogue body."""
-    description = f"Physics notes: {cat['title']} — {cat['blurb']}"
+    canonical_path = f"notes-{cat['slug']}.html"
+    page_title = f"{cat['title']} Notes & Solutions"
+    description = (
+        f"{cat['title']} notes and worked solutions by {AUTHOR_NAME}: "
+        f"{cat['blurb']} Every note is available in HTML and PDF."
+    )
     return (
-        page_chrome_head(f"{cat['title']} — Notes", description)
+        page_chrome_head(
+            page_title,
+            description,
+            canonical_path,
+            collection_schema(page_title, description, canonical_path, cat["title"]),
+        )
         + topbar(active="notes")
         + f"""
 <main class="page page--index">
@@ -806,10 +891,18 @@ def top_index_page(categories: list[dict]) -> str:
 {catalogue_with_formats(cat['body'])}
   </section>""")
     work_sections_html = "\n".join(work_sections)
+    page_title = "Theoretical Physics Notes & Worked Solutions"
+    description = (
+        "Physics notes, solved problems, and self-contained derivations by "
+        "Yucheng (Luca) Jin in quantum field theory, general relativity, quantum "
+        "mechanics, electrodynamics, and mathematical methods, in HTML and PDF."
+    )
     return (
         page_chrome_head(
-            "Notes",
-            "Physics notes, solved problems, and self-contained derivations in quantum field theory, general relativity, quantum mechanics, electrodynamics, and mathematical methods, available in HTML and PDF.",
+            page_title,
+            description,
+            "notes.html",
+            collection_schema(page_title, description, "notes.html"),
         )
         + topbar(active="notes")
         + f"""

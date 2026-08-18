@@ -4,22 +4,110 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#f5f1e7" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+    <meta name="author" content="Yucheng (Luca) Jin" />
     <meta name="description" content="Yucheng (Luca) Jin — a third-year theoretical physics student at Imperial College London, sharing notes and worked problems in HTML and PDF." />
+    <link rel="canonical" href="https://luca-physics-observatory.jinluca3.chatgpt.site/" />
+    <link rel="sitemap" type="application/xml" href="https://luca-physics-observatory.jinluca3.chatgpt.site/sitemap.xml" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Yucheng (Luca) Jin — Theoretical Physics" />
+    <meta property="og:url" content="https://luca-physics-observatory.jinluca3.chatgpt.site/" />
+    <meta property="og:site_name" content="Luca Jin Physics" />
+    <meta property="og:title" content="Yucheng (Luca) Jin — Theoretical Physics Notes" />
     <meta property="og:description" content="A third-year theoretical physics student at Imperial College London, sharing notes and worked problems in HTML and PDF." />
-    <meta property="og:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png" />
+    <meta property="og:image" content="https://luca-physics-observatory.jinluca3.chatgpt.site/og.png" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Yucheng (Luca) Jin — Theoretical Physics" />
+    <meta name="twitter:title" content="Yucheng (Luca) Jin — Theoretical Physics Notes" />
     <meta name="twitter:description" content="A third-year theoretical physics student at Imperial College London, sharing notes and worked problems in HTML and PDF." />
-    <meta name="twitter:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png" />
+    <meta name="twitter:image" content="https://luca-physics-observatory.jinluca3.chatgpt.site/og.png" />
     <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
     <script src="./assets/theme.js"></script>
     <script src="./assets/font-size.js"></script>
-    <title>Yucheng (Luca) Jin — Theoretical Physics</title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://luca-physics-observatory.jinluca3.chatgpt.site/#website",
+            "url": "https://luca-physics-observatory.jinluca3.chatgpt.site/",
+            "name": "Luca Jin Physics",
+            "alternateName": "Yucheng (Luca) Jin — Physics Notes",
+            "inLanguage": "en"
+          },
+          {
+            "@type": "ProfilePage",
+            "@id": "https://luca-physics-observatory.jinluca3.chatgpt.site/#profile",
+            "url": "https://luca-physics-observatory.jinluca3.chatgpt.site/",
+            "name": "Yucheng (Luca) Jin — Theoretical Physics",
+            "isPartOf": { "@id": "https://luca-physics-observatory.jinluca3.chatgpt.site/#website" },
+            "mainEntity": { "@id": "https://luca-physics-observatory.jinluca3.chatgpt.site/#person" }
+          },
+          {
+            "@type": "Person",
+            "@id": "https://luca-physics-observatory.jinluca3.chatgpt.site/#person",
+            "name": "Yucheng (Luca) Jin",
+            "alternateName": "Luca Jin",
+            "url": "https://luca-physics-observatory.jinluca3.chatgpt.site/",
+            "description": "Third-year Physics with Theoretical Physics student at Imperial College London.",
+            "affiliation": {
+              "@type": "CollegeOrUniversity",
+              "name": "Imperial College London",
+              "url": "https://www.imperial.ac.uk/"
+            },
+            "knowsAbout": [
+              "Theoretical physics",
+              "Quantum field theory",
+              "General relativity",
+              "Quantum mechanics",
+              "Electrodynamics",
+              "Thermodynamics and statistical physics"
+            ]
+          }
+        ]
+      }
+    </script>
+    <title>Yucheng (Luca) Jin — Theoretical Physics Notes</title>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Crawlable first render; React replaces this with the interactive version. -->
+      <main>
+        <section class="home-hero page-shell">
+          <div class="home-hero__copy">
+            <p class="kicker">Physics with Theoretical Physics · Imperial College London</p>
+            <h1>I’m Yucheng <em>(Luca) Jin.</em></h1>
+            <p class="home-hero__lede">
+              I’m a third-year theoretical physics student at Imperial College London.
+              This site collects my notes, worked problems, and longer write-ups,
+              each available in HTML and PDF.
+            </p>
+            <div class="home-hero__actions">
+              <a class="primary-link" href="notes.html">Browse notes <span>→</span></a>
+              <a class="quiet-link" href="mailto:luca.jin@outlook.com">Email me</a>
+            </div>
+          </div>
+        </section>
+
+        <section class="home-section page-shell" aria-labelledby="subjects-fallback-title">
+          <div class="section-heading">
+            <div>
+              <p class="kicker">Seven subjects · 48 notes</p>
+              <h2 id="subjects-fallback-title">Notes by subject.</h2>
+            </div>
+            <a class="section-heading__link" href="notes.html">All notes <span>→</span></a>
+          </div>
+          <nav class="subject-list" aria-label="Notes by subject">
+            <a class="subject-row" href="notes-qft.html"><span class="subject-row__number">01</span><h3>Quantum Field Theory</h3><span class="subject-row__count">20 notes</span><span class="subject-row__arrow">→</span></a>
+            <a class="subject-row" href="notes-advanced.html"><span class="subject-row__number">02</span><h3>General Relativity</h3><span class="subject-row__count">4 notes</span><span class="subject-row__arrow">→</span></a>
+            <a class="subject-row" href="notes-qm.html"><span class="subject-row__number">03</span><h3>Quantum Mechanics</h3><span class="subject-row__count">3 notes</span><span class="subject-row__arrow">→</span></a>
+            <a class="subject-row" href="notes-ed.html"><span class="subject-row__number">04</span><h3>Electrodynamics</h3><span class="subject-row__count">8 notes</span><span class="subject-row__arrow">→</span></a>
+            <a class="subject-row" href="notes-mm.html"><span class="subject-row__number">05</span><h3>Mathematical Methods</h3><span class="subject-row__count">6 notes</span><span class="subject-row__arrow">→</span></a>
+            <a class="subject-row" href="notes-de.html"><span class="subject-row__number">06</span><h3>Differential Equations</h3><span class="subject-row__count">3 notes</span><span class="subject-row__arrow">→</span></a>
+            <a class="subject-row" href="notes-tdsp.html"><span class="subject-row__number">07</span><h3>Thermodynamics &amp; Statistical Physics</h3><span class="subject-row__count">4 notes</span><span class="subject-row__arrow">→</span></a>
+          </nav>
+        </section>
+      </main>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

@@ -10,8 +10,11 @@ const contentTypes = {
   '.css': 'text/css',
   '.html': 'text/html',
   '.js': 'text/javascript',
+  '.pdf': 'application/pdf',
   '.png': 'image/png',
   '.svg': 'image/svg+xml',
+  '.txt': 'text/plain',
+  '.xml': 'application/xml',
 };
 
 const env = {
@@ -46,15 +49,49 @@ test('serves static html routes directly', async () => {
   assert.match(await response.text(), /<h1>Notes<\/h1>/);
 });
 
-test('supports extensionless html routes', async () => {
-  const response = await worker.fetch(new Request('https://example.test/notes'), env);
-  assert.equal(response.status, 200);
-  assert.match(await response.text(), /<h1>Notes<\/h1>/);
+test('redirects duplicate html routes to their canonical URLs', async () => {
+  const routes = [
+    ['/index.html', '/'],
+    ['/notes', '/notes.html'],
+    ['/notes/osborn-aqft-ps3', '/notes/osborn-aqft-ps3.html'],
+  ];
+  for (const [route, canonical] of routes) {
+    const response = await worker.fetch(new Request(`https://example.test${route}`), env);
+    assert.equal(response.status, 308);
+    assert.equal(response.headers.get('location'), `https://example.test${canonical}`);
+  }
 });
 
 test('keeps missing assets as 404', async () => {
   const response = await worker.fetch(new Request('https://example.test/assets/missing.css'), env);
   assert.equal(response.status, 404);
+});
+
+test('keeps unknown extensionless routes as 404', async () => {
+  const response = await worker.fetch(new Request('https://example.test/not-a-page'), env);
+  assert.equal(response.status, 404);
+});
+
+test('serves crawler directives', async () => {
+  const robots = await worker.fetch(new Request('https://example.test/robots.txt'), env);
+  assert.equal(robots.status, 200);
+  assert.match(await robots.text(), /Sitemap: https:\/\/luca-physics-observatory\.jinluca3\.chatgpt\.site\/sitemap\.xml/);
+
+  const sitemap = await worker.fetch(new Request('https://example.test/sitemap.xml'), env);
+  assert.equal(sitemap.status, 200);
+  assert.match(await sitemap.text(), /<urlset/);
+});
+
+test('points PDF search signals to the corresponding HTML note', async () => {
+  const response = await worker.fetch(
+    new Request('https://example.test/output/pdf/osborn-aqft-ps3.pdf'),
+    env,
+  );
+  assert.equal(response.status, 200);
+  assert.equal(
+    response.headers.get('link'),
+    '<https://example.test/notes/osborn-aqft-ps3.html>; rel="canonical"',
+  );
 });
 
 test('redirects the retired reading-list routes to the notes archive', async () => {
@@ -82,6 +119,6 @@ test('redirects retired research routes to the homepage', async () => {
   for (const route of routes) {
     const response = await worker.fetch(new Request(`https://example.test${route}`), env);
     assert.equal(response.status, 308);
-    assert.equal(response.headers.get('location'), 'https://example.test/index.html');
+    assert.equal(response.headers.get('location'), 'https://example.test/');
   }
 });
