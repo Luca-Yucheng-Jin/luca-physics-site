@@ -1,49 +1,52 @@
-import { useEffect } from 'react';
-
-declare global {
-  interface Window {
-    MathJax?: {
-      typesetPromise?: (elements?: Element[]) => Promise<void>;
-    };
-  }
-}
-
-type Note = {
+type Subject = {
   number: string;
-  subject: string;
   title: string;
-  html: string;
-  pdf: string;
+  count: number;
+  href: string;
 };
 
-const featuredNotes: Note[] = [
+const subjects: Subject[] = [
   {
     number: '01',
-    subject: 'Long-form essay · Quantum theory',
-    title: 'Path Integrals and the Quantum–Statistical Correspondence',
-    html: 'notes/path-integral.html',
-    pdf: 'output/pdf/path-integral.pdf',
+    title: 'Quantum Field Theory',
+    count: 20,
+    href: 'notes-qft.html',
   },
   {
     number: '02',
-    subject: 'Advanced QFT · Problem set',
-    title: 'Feynman Graphs and Renormalization-Group Calculations',
-    html: 'notes/osborn-aqft-ps3.html',
-    pdf: 'output/pdf/osborn-aqft-ps3.pdf',
+    title: 'General Relativity',
+    count: 4,
+    href: 'notes-advanced.html',
   },
   {
     number: '03',
-    subject: 'Renormalization · Study notes',
-    title: 'Renormalization Group for \\(\\phi\\)-\\(\\chi\\) Theory',
-    html: 'notes/srednicki-rg-phi-chi.html',
-    pdf: 'output/pdf/srednicki-rg-phi-chi.pdf',
+    title: 'Quantum Mechanics',
+    count: 3,
+    href: 'notes-qm.html',
   },
   {
     number: '04',
-    subject: 'General relativity · Problem set',
-    title: 'Linearised Gravity and Gravitational Waves',
-    html: 'notes/tong-gr-ps4.html',
-    pdf: 'output/pdf/tong-gr-ps4.pdf',
+    title: 'Electrodynamics',
+    count: 8,
+    href: 'notes-ed.html',
+  },
+  {
+    number: '05',
+    title: 'Mathematical Methods',
+    count: 6,
+    href: 'notes-mm.html',
+  },
+  {
+    number: '06',
+    title: 'Differential Equations',
+    count: 3,
+    href: 'notes-de.html',
+  },
+  {
+    number: '07',
+    title: 'Thermodynamics & Statistical Physics',
+    count: 4,
+    href: 'notes-tdsp.html',
   },
 ];
 
@@ -73,35 +76,7 @@ function adjustFontScale(delta: number) {
   try { window.localStorage.setItem('luca-font-scale', String(next)); } catch { /* storage is optional */ }
 }
 
-function FormatLinks({ html, pdf }: Pick<Note, 'html' | 'pdf'>) {
-  return (
-    <span className="format-links" aria-label="Available formats">
-      <a href={html}>HTML <span aria-hidden="true">↗</span></a>
-      <a href={pdf}>PDF <span aria-hidden="true">↓</span></a>
-    </span>
-  );
-}
-
 export default function App() {
-  useEffect(() => {
-    let attempts = 0;
-    const root = document.getElementById('root');
-    const typeset = () => {
-      attempts += 1;
-      if (root && window.MathJax?.typesetPromise) {
-        void window.MathJax.typesetPromise([root]);
-        return true;
-      }
-      return attempts > 80;
-    };
-
-    if (typeset()) return undefined;
-    const timer = window.setInterval(() => {
-      if (typeset()) window.clearInterval(timer);
-    }, 100);
-    return () => window.clearInterval(timer);
-  }, []);
-
   return (
     <>
       <header className="topbar" id="top">
@@ -123,10 +98,11 @@ export default function App() {
         <section className="home-hero page-shell">
           <div className="home-hero__copy">
             <p className="kicker">Physics with Theoretical Physics · Imperial College London</p>
-            <h1>Hi, I’m <em>Luca.</em></h1>
+            <h1>I’m Yucheng <em>(Luca) Jin.</em></h1>
             <p className="home-hero__lede">
-              This site collects my physics notes, worked problems, and longer write-ups.
-              Every note is available to read in HTML or download as a PDF.
+              I’m a third-year theoretical physics student at Imperial College London.
+              This site collects my notes, worked problems, and longer write-ups,
+              each available in HTML and PDF.
             </p>
             <div className="home-hero__actions">
               <a className="primary-link" href="notes.html">Browse notes <span>→</span></a>
@@ -135,27 +111,25 @@ export default function App() {
           </div>
         </section>
 
-        <section className="home-section page-shell" aria-labelledby="selected-notes-title">
+        <section className="home-section page-shell" aria-labelledby="subjects-title">
           <div className="section-heading">
             <div>
-              <p className="kicker">Notes archive · 48 entries</p>
-              <h2 id="selected-notes-title">Selected notes.</h2>
+              <p className="kicker">Seven subjects · 48 notes</p>
+              <h2 id="subjects-title">Notes by subject.</h2>
             </div>
             <a className="section-heading__link" href="notes.html">All notes <span>→</span></a>
           </div>
 
-          <div className="featured-list">
-            {featuredNotes.map((note) => (
-              <article className="featured-row" key={note.number}>
-                <span className="featured-row__number">{note.number}</span>
-                <div className="featured-row__body">
-                  <p>{note.subject}</p>
-                  <h3>{note.title}</h3>
-                </div>
-                <FormatLinks html={note.html} pdf={note.pdf} />
-              </article>
+          <nav className="subject-list" aria-label="Notes by subject">
+            {subjects.map((subject) => (
+              <a className="subject-row" href={subject.href} key={subject.number}>
+                <span className="subject-row__number">{subject.number}</span>
+                <h3>{subject.title}</h3>
+                <span className="subject-row__count">{subject.count} notes</span>
+                <span className="subject-row__arrow" aria-hidden="true">→</span>
+              </a>
             ))}
-          </div>
+          </nav>
         </section>
       </main>
 
