@@ -1481,6 +1481,15 @@ def render_page(**fields):
     """Substitute @@KEY@@ sentinels in PAGE_TEMPLATE. Avoids str.format which
     chokes on { } that legitimately appear in MathJax macro definitions."""
     fields.setdefault("toc", "")           # default empty TOC
+    slug = fields.get("slug", "")
+    fields.setdefault(
+        "formats",
+        '<div class="note__formats" aria-label="Available formats">'
+        '<span>Available formats</span>'
+        f'<a aria-current="page" href="{slug}.html">HTML</a>'
+        f'<a href="../output/pdf/{slug}.pdf">PDF ↓</a>'
+        '</div>' if slug else "",
+    )
     out = PAGE_TEMPLATE
     for k, v in fields.items():
         out = out.replace("@@" + k.upper() + "@@", v)
@@ -1559,10 +1568,6 @@ PAGE_TEMPLATE = r"""<!DOCTYPE html>
 
 <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" href="../styles.css">
 
 <script src="../assets/theme.js"></script>
@@ -1621,12 +1626,11 @@ window.MathJax = {
 <body>
 
 <header class="topbar">
-  <a href="../index.html" class="topbar__brand">Yucheng (Luca) Jin <small>BSc · Imperial</small></a>
-  <nav class="topbar__nav">
-    <a href="../index.html">About</a>
-    <a href="../notes.html" class="is-active">Notes</a>
+  <a href="../index.html" class="topbar__brand">Luca Jin <small>Physics · Imperial</small></a>
+  <nav class="topbar__nav" aria-label="Primary navigation">
+    <a href="../index.html">Home</a>
+    <a href="../notes.html" class="is-active">Work</a>
     <a href="../research.html">Research</a>
-    <a href="../reading.html">Reading</a>
     <a href="mailto:luca.jin@outlook.com">Contact</a>
     <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" title="Decrease font size">A<span class="font-toggle__small">−</span></button>
     <button class="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size" title="Increase font size">A<span class="font-toggle__large">+</span></button>
@@ -1646,6 +1650,8 @@ window.MathJax = {
   <h1 class="note__title">@@TITLE@@</h1>
   <p class="note__subtitle">Source: @@SOURCE_LONG@@</p>
 
+  @@FORMATS@@
+
   @@TOC@@
 
   <article class="note__body">
@@ -1655,7 +1661,7 @@ window.MathJax = {
   <hr class="ornament-rule">
 
   <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
-    <a href="../notes.html">← Back to all notes</a>
+    <a href="../notes.html">← Back to all work</a>
   </p>
 
 </main>
@@ -1663,8 +1669,8 @@ window.MathJax = {
 <footer class="footer">
   <span>© 2026 Yucheng (Luca) Jin</span>
   <span>
-    <a href="../index.html">About</a> ·
-    <a href="../notes.html">Notes</a> ·
+    <a href="../index.html">Home</a> ·
+    <a href="../notes.html">Work</a> ·
     <a href="mailto:luca.jin@outlook.com">Email</a>
   </span>
 </footer>
@@ -1835,6 +1841,7 @@ def write_schwartz_pages(schwartz_text):
             full_body, toc_html = build_toc_and_inject_ids(full_body)
             with open(path, "w") as f:
                 f.write(render_page(
+                    slug=slug,
                     title=page_title,
                     source_short=source_long.replace("<em>", "").replace("</em>", "").split(",")[0],
                     source_long=source_long,
@@ -1864,6 +1871,7 @@ def write_schwartz_pages(schwartz_text):
         path = os.path.join(OUT, f"{slug}.html")
         with open(path, "w") as f:
             f.write(render_page(
+                slug=slug,
                 title=page_title,
                 source_short=source_long.replace("<em>", "").replace("</em>", "").split(",")[0],
                 source_long=source_long,
@@ -1908,6 +1916,7 @@ def write_essay_page(tex_path, slug, title, breadcrumb, source_long):
     out_path = os.path.join(OUT, f"{slug}.html")
     with open(out_path, "w") as f:
         f.write(render_page(
+            slug=slug,
             title=title,
             breadcrumb=breadcrumb,
             source_short=source_long.replace("<em>", "").replace("</em>", "").split(",")[0],
@@ -1932,6 +1941,7 @@ def write_final_project(qftsoln_text):
     out_path = os.path.join(OUT, "peskin-final.html")
     with open(out_path, "w") as f:
         f.write(render_page(
+            slug="peskin-final",
             title=page_title,
             breadcrumb=breadcrumb,
             source_short="Peskin & Schroeder",
@@ -2010,6 +2020,7 @@ def write_whole_file_page(tex_path, slug, title, breadcrumb, source_long):
     out_path = os.path.join(OUT, f"{slug}.html")
     with open(out_path, "w") as f:
         f.write(render_page(
+            slug=slug,
             title=title,
             breadcrumb=breadcrumb,
             source_short=source_long.replace("<em>", "").replace("</em>", "").split(",")[0],
@@ -2039,6 +2050,7 @@ def main():
             out_path = os.path.join(OUT, f"{slug}.html")
             with open(out_path, "w") as f:
                 f.write(render_page(
+                    slug=slug,
                     title=clean_title,
                     breadcrumb=breadcrumb,
                     source_short=source_long.replace("<em>", "").replace("</em>", "").split(",")[0],

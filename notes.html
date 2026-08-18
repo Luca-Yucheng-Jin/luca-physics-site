@@ -3,28 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Notes — Yucheng (Luca) Jin</title>
-<meta name="description" content="A working notebook of solved problems and self-contained derivations in QFT, GR, QM, electrodynamics, and mathematical methods.">
+<title>Work — Yucheng (Luca) Jin</title>
+<meta name="description" content="A clear archive of solved problems and self-contained derivations in QFT, GR, QM, electrodynamics, and mathematical methods, available in HTML and PDF.">
 
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="styles.css">
 
 <script src="assets/theme.js"></script>
 <script src="assets/font-size.js"></script>
+<script src="assets/mathjax-config.js"></script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
 <header class="topbar">
-  <a href="index.html" class="topbar__brand">Yucheng (Luca) Jin <small>BSc · Imperial</small></a>
-  <nav class="topbar__nav">
-    <a href="index.html">About</a>
-    <a href="notes.html" class="is-active">Notes</a>
+  <a href="index.html" class="topbar__brand">Luca Jin <small>Physics · Imperial</small></a>
+  <nav class="topbar__nav" aria-label="Primary navigation">
+    <a href="index.html">Home</a>
+    <a href="notes.html" class="is-active">Work</a>
     <a href="research.html">Research</a>
-    <a href="reading.html">Reading</a>
     <a href="mailto:luca.jin@outlook.com">Contact</a>
     <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" title="Decrease font size">A<span class="font-toggle__small">−</span></button>
     <button class="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size" title="Increase font size">A<span class="font-toggle__large">+</span></button>
@@ -37,106 +34,552 @@
 <main class="page page--index">
 
   <section class="hero">
-    <div class="hero__eyebrow">A working notebook</div>
-    <h1>Notes</h1>
+    <div class="hero__eyebrow">A working archive</div>
+    <h1>Written work</h1>
     <p class="hero__lede">
-      Solved problems and self-contained derivations from coursework and
-      independent reading, organised by topic.
+      48 solved problems and derivations. Read online or download a typeset PDF.
     </p>
     <p class="hero__lede" style="font-style:italic; color:var(--muted);">
-      None of these works are original — they are write-ups of problems and
-      derivations from textbooks, lecture courses, and other published sources.
-      Sources are credited on every page.
+      Study write-ups, not original research; every source is credited.
     </p>
 
     <ul class="stats" aria-label="Notebook statistics">
-      <li><span class="stats__num">48</span><span class="stats__label">pages</span></li>
-      <li><span class="stats__num">56,788</span><span class="stats__label">words</span></li>
-      <li><span class="stats__num">373,131</span><span class="stats__label">characters</span></li>
+      <li><span class="stats__num">48</span><span class="stats__label">written works</span></li>
+      <li><span class="stats__num">7</span><span class="stats__label">subjects</span></li>
+      <li><span class="stats__num">2</span><span class="stats__label">formats per work</span></li>
     </ul>
 
-    <svg class="hero__vertex" viewBox="0 0 60 60" aria-hidden="true">
-      <line x1="6" y1="6" x2="30" y2="30"/>
-      <line x1="54" y1="6" x2="30" y2="30"/>
-      <path d="M30,30 Q35,40 30,46 Q25,52 30,58" stroke-dasharray="3 3"/>
-      <circle cx="30" cy="30" r="2.2" fill="currentColor" stroke="none" style="fill: var(--accent);"/>
-    </svg>
   </section>
 
-  <section class="section">
-    <h2>Topics</h2>
+  <nav class="subject-index" aria-label="Browse by subject">
+<a class="subject-link" href="#qft"><span>Quantum Field Theory</span><small>20 works</small></a>
+<a class="subject-link" href="#advanced"><span>GR</span><small>4 works</small></a>
+<a class="subject-link" href="#qm"><span>Quantum Mechanics</span><small>3 works</small></a>
+<a class="subject-link" href="#ed"><span>Electrodynamics</span><small>8 works</small></a>
+<a class="subject-link" href="#mm"><span>Mathematical Methods</span><small>6 works</small></a>
+<a class="subject-link" href="#de"><span>Differential Equations</span><small>3 works</small></a>
+<a class="subject-link" href="#tdsp"><span>Thermodynamics & Statistical Physics</span><small>4 works</small></a>
+  </nav>
+
+
+  <section class="section work-subject" id="qft">
+    <div class="work-subject__heading">
+      <div><p class="hero__eyebrow">20 works</p><h2>Quantum Field Theory</h2></div>
+      <a href="notes-qft.html">Subject page →</a>
+    </div>
+    <h3>Papers</h3>
     <ul class="catalogue">
-    <li class="catalogue__item">
-      <span class="catalogue__num">·</span>
-      <span class="catalogue__main">
-        <a href="notes-qft.html">Quantum Field Theory</a>
-        <span class="catalogue__desc">Path-integral essay, Peskin / Tong / PSI / Srednicki solutions, Schwartz chapter notes, φ³ computation.</span>
-      </span>
-      <span class="catalogue__tag">17 entries</span>
-    </li>
-    <li class="catalogue__item">
-      <span class="catalogue__num">·</span>
-      <span class="catalogue__main">
-        <a href="notes-advanced.html">GR</a>
-        <span class="catalogue__desc">Manifolds and tensors, connections and curvature, geodesics and Killing vectors, Brans–Dicke scalar-tensor gravity, 11-dimensional supergravity, and linearised gravity / gravitational waves.</span>
-      </span>
-      <span class="catalogue__tag">4 notes</span>
-    </li>
-    <li class="catalogue__item">
-      <span class="catalogue__num">·</span>
-      <span class="catalogue__main">
-        <a href="notes-qm.html">Quantum Mechanics</a>
-        <span class="catalogue__desc">Bound-state existence, parity arguments, factorisation method.</span>
-      </span>
-      <span class="catalogue__tag">3 notes</span>
-    </li>
-    <li class="catalogue__item">
-      <span class="catalogue__num">·</span>
-      <span class="catalogue__main">
-        <a href="notes-ed.html">Electrodynamics</a>
-        <span class="catalogue__desc">Tong EM problem-sheet selections — radiation, Liénard–Wiechert, dielectric boundaries.</span>
-      </span>
-      <span class="catalogue__tag">8 notes</span>
-    </li>
-    <li class="catalogue__item">
-      <span class="catalogue__num">·</span>
-      <span class="catalogue__main">
-        <a href="notes-mm.html">Mathematical Methods</a>
-        <span class="catalogue__desc">Complex methods (Santos PS), Cambridge variational principles.</span>
-      </span>
-      <span class="catalogue__tag">6 notes</span>
-    </li>
-    <li class="catalogue__item">
-      <span class="catalogue__num">·</span>
-      <span class="catalogue__main">
-        <a href="notes-de.html">Differential Equations</a>
-        <span class="catalogue__desc">Green's-function and method-of-images problems.</span>
-      </span>
-      <span class="catalogue__tag">3 notes</span>
-    </li>
-    <li class="catalogue__item">
-      <span class="catalogue__num">·</span>
-      <span class="catalogue__main">
-        <a href="notes-tdsp.html">Thermodynamics & Statistical Physics</a>
-        <span class="catalogue__desc">Joule–Thomson, water near the triple point, partition functions.</span>
-      </span>
-      <span class="catalogue__tag">4 notes</span>
-    </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">I.</span>
+        <span class="catalogue__main">
+          <a href="notes/path-integral.html">Path Integrals and the Quantum–Statistical Correspondence</a>
+          <span class="catalogue__desc">Imperial Year-2 essay — Feynman's path integral, Wick rotation, and the partition function.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/path-integral.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/path-integral.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Essay</span>
+      </li>
+    </ul>
+
+    <h3>Solutions</h3>
+    <ul class="catalogue">
+      <li class="catalogue__item">
+        <span class="catalogue__num">I.</span>
+        <span class="catalogue__main">
+          <a href="notes/peskin-6-2.html">Equivalent Photon Approximation</a>
+          <span class="catalogue__desc">Peskin &amp; Schroeder, Problem 6.2.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/peskin-6-2.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/peskin-6-2.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Peskin Ch. 6</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">II.</span>
+        <span class="catalogue__main">
+          <a href="notes/peskin-7.html">Alternative Regulators in QED</a>
+          <span class="catalogue__desc">Peskin &amp; Schroeder, Chapter 7 — Pauli–Villars vs. dimensional regularization.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/peskin-7.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/peskin-7.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Peskin Ch. 7</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">III.</span>
+        <span class="catalogue__main">
+          <a href="notes/peskin-final.html">Final Project — Radiation of Gluon Jets</a>
+          <span class="catalogue__desc">Peskin &amp; Schroeder, end-of-book project.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/peskin-final.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/peskin-final.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Peskin Final</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">PS1.</span>
+        <span class="catalogue__main">
+          <a href="notes/tong-qft-ps1.html">Lorentz, Symmetries &amp; Currents</a>
+          <span class="catalogue__desc">\(\mathrm{SO}(3)\), infinitesimal Lorentz, energy-momentum tensor (incl. EM field), Proca, scale invariance.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/tong-qft-ps1.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/tong-qft-ps1.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Tong PS1</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">PS2.</span>
+        <span class="catalogue__main">
+          <a href="notes/tong-qft-ps2.html">Canonical Quantization &amp; the Free Scalar</a>
+          <span class="catalogue__desc">String quantization, free scalar, normal ordering, Yukawa, Wick's theorem, Feynman propagator.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/tong-qft-ps2.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/tong-qft-ps2.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Tong PS2</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">PS3.</span>
+        <span class="catalogue__main">
+          <a href="notes/tong-qft-ps3.html">Dirac Field &amp; Spin-Statistics</a>
+          <span class="catalogue__desc">Clifford algebra, Lorentz from \(\gamma\)-matrices, traces, plane-wave spinors, canonical quantisation.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/tong-qft-ps3.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/tong-qft-ps3.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Tong PS3</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">PS4.</span>
+        <span class="catalogue__main">
+          <a href="notes/tong-qft-ps4.html">Interactions &amp; Tree-Level Amplitudes</a>
+          <span class="catalogue__desc">Wick's theorem at tree level — \(\phi^4\) 3-to-3, vacuum bubbles, Yukawa, Compton, \(e^-e^+\to\mu^-\mu^+\).</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/tong-qft-ps4.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/tong-qft-ps4.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Tong PS4</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">Ψ1.</span>
+        <span class="catalogue__main">
+          <a href="notes/psi-correlation-functions-qm.html">Correlation Functions in Quantum Mechanics</a>
+          <span class="catalogue__desc">PSI QFT II PS1 — Euclidean / real-time path-integral propagators of the harmonic oscillator at finite temperature.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/psi-correlation-functions-qm.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/psi-correlation-functions-qm.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">PSI QFT II</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">O2.</span>
+        <span class="catalogue__main">
+          <a href="notes/osborn-aqft-ps2.html">Functional Methods &amp; Grassmann Integrals</a>
+          <span class="catalogue__desc">Osborn AQFT PS2 — Legendre transform, 1PI effective action, Green's-function/vertex relations, Grassmann Gaussian integrals, Pfaffians, fermionic partition function, SUSY QM. (Q1–Q8)</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/osborn-aqft-ps2.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/osborn-aqft-ps2.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Osborn AQFT PS2</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">O3.</span>
+        <span class="catalogue__main">
+          <a href="notes/osborn-aqft-ps3.html">Feynman Graphs &amp; RG Calculations</a>
+          <span class="catalogue__desc">Osborn AQFT PS3 — superficial divergence, Feynman parameters, position-space loop integrals, \(\phi^4\) counter-terms, two-loop β functions, RG equations, \(\phi^3\) in \(d=6\). (Q1–Q10)</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/osborn-aqft-ps3.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/osborn-aqft-ps3.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Osborn AQFT PS3</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">S1.</span>
+        <span class="catalogue__main">
+          <a href="notes/srednicki-nonabelian.html">Nonabelian Symmetries</a>
+          <span class="catalogue__desc">Srednicki Ch. 24 — antisymmetry of the generator, structure constants from \(\mathrm{SO}(N)\), Noether current and charge algebra, generators of \(\mathrm{Sp}(2N)\). (Q24.1–24.4)</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/srednicki-nonabelian.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/srednicki-nonabelian.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Srednicki Ch. 24</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">S2.</span>
+        <span class="catalogue__main">
+          <a href="notes/srednicki-rg-phi-chi.html">Renormalization Group for \(\phi\text{-}\chi\) Theory</a>
+          <span class="catalogue__desc">Srednicki Ch. 28 — one-loop Z-factors in MS-bar, \(\beta\)-functions for the \(\phi^3\) + \(\phi\chi^2\) couplings, and asymptotic freedom condition on \(h/g\). (Q28.3)</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/srednicki-rg-phi-chi.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/srednicki-rg-phi-chi.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Srednicki Ch. 28</span>
+      </li>
+    </ul>
+
+    <h3>Notes</h3>
+    <ul class="catalogue">
+      <li class="catalogue__item">
+        <span class="catalogue__num">I.</span>
+        <span class="catalogue__main">
+          <a href="notes/schwartz-classical-field.html">Classical Field Theory</a>
+          <span class="catalogue__desc">Schwartz, Ch. 1–3 — Euler–Lagrange, Noether, Green's functions.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/schwartz-classical-field.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/schwartz-classical-field.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Schwartz Ch. 1–3</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">II.</span>
+        <span class="catalogue__main">
+          <a href="notes/schwartz-second-quantization.html">Second Quantization &amp; LSZ Reduction</a>
+          <span class="catalogue__desc">Schwartz, Ch. 2–6 — from the harmonic oscillator to the S-matrix and the Feynman propagator.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/schwartz-second-quantization.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/schwartz-second-quantization.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Schwartz Ch. 2–6</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">III.</span>
+        <span class="catalogue__main">
+          <a href="notes/schwartz-spin-1.html">Spin 1, Gauge Invariance, Photon Propagator</a>
+          <span class="catalogue__desc">Schwartz, Ch. 8–9 — quantising massless spin-1, Ward identity, scalar QED.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/schwartz-spin-1.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/schwartz-spin-1.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Schwartz Ch. 8–9</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">IV.</span>
+        <span class="catalogue__main">
+          <a href="notes/schwartz-spinors.html">Spinors, Dirac Equation, CPT</a>
+          <span class="catalogue__desc">Schwartz, Ch. 10–11 — Lorentz reps, Weyl/Majorana, charge conjugation, parity, time reversal.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/schwartz-spinors.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/schwartz-spinors.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Schwartz Ch. 10–11</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">V.</span>
+        <span class="catalogue__main">
+          <a href="notes/schwartz-qed-tree.html">QED Tree Amplitudes</a>
+          <span class="catalogue__desc">Schwartz, Ch. 13 — \(e^+e^-\to\mu^+\mu^-\) and Rutherford scattering from the Feynman rules.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/schwartz-qed-tree.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/schwartz-qed-tree.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Schwartz Ch. 13</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">VI.</span>
+        <span class="catalogue__main">
+          <a href="notes/schwartz-path-integrals.html">Path Integrals (in QFT)</a>
+          <span class="catalogue__desc">Schwartz, Ch. 14 — from QM to functional integrals over fields.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/schwartz-path-integrals.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/schwartz-path-integrals.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Schwartz Ch. 14</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">VII.</span>
+        <span class="catalogue__main">
+          <a href="notes/phi3-theory.html">Computation for \(\phi^3\) Theory</a>
+          <span class="catalogue__desc">Counter-terms, partition functional, and one-loop diagrams in \(\phi^3\) scalar theory; follows Srednicki and Peskin &amp; Schroeder.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/phi3-theory.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/phi3-theory.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">\(\phi^3\)</span>
+      </li>
     </ul>
   </section>
 
-  <hr class="ornament-rule">
+  <section class="section work-subject" id="advanced">
+    <div class="work-subject__heading">
+      <div><p class="hero__eyebrow">4 works</p><h2>GR</h2></div>
+      <a href="notes-advanced.html">Subject page →</a>
+    </div>
+    <h3>Solutions</h3>
+    <ul class="catalogue">
+      <li class="catalogue__item">
+        <span class="catalogue__num">PS1.</span>
+        <span class="catalogue__main">
+          <a href="notes/tong-gr-ps1.html">Differential Geometry</a>
+          <span class="catalogue__desc">Manifolds, tensors, Lie and exterior derivatives, Maurer–Cartan, Poincaré lemma.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/tong-gr-ps1.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/tong-gr-ps1.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Tong GR PS1</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">PS2.</span>
+        <span class="catalogue__main">
+          <a href="notes/tong-gr-ps2.html">Connections &amp; Curvature</a>
+          <span class="catalogue__desc">Christoffel transformation, torsion, Bianchi, parallel transport, Riemann / Ricci / Weyl, geodesics, Reissner–Nordström.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/tong-gr-ps2.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/tong-gr-ps2.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Tong GR PS2</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">PS3.</span>
+        <span class="catalogue__main">
+          <a href="notes/tong-gr-ps3.html">Geodesics, Killing Vectors &amp; Energy Conditions</a>
+          <span class="catalogue__desc">Timelike geodesics, Brans–Dicke scalar-tensor gravity, 11-d supergravity, Killing vectors, conformal compactification, energy conditions.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/tong-gr-ps3.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/tong-gr-ps3.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Tong GR PS3</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">PS4.</span>
+        <span class="catalogue__main">
+          <a href="notes/tong-gr-ps4.html">Linearised Gravity &amp; Gravitational Waves</a>
+          <span class="catalogue__desc">Linearised gravity from a point mass, cosmic strings, Lense–Thirring, Fierz–Pauli, transverse-traceless gauge, binary gravitational-wave emission.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/tong-gr-ps4.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/tong-gr-ps4.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Tong GR PS4</span>
+      </li>
+    </ul>
+  </section>
 
-  <p style="text-align:center; font-style:italic; color:var(--muted); font-family:var(--display);">
-    Sources are credited on every page. All write-ups are mine; corrections welcome.
-  </p>
+  <section class="section work-subject" id="qm">
+    <div class="work-subject__heading">
+      <div><p class="hero__eyebrow">3 works</p><h2>Quantum Mechanics</h2></div>
+      <a href="notes-qm.html">Subject page →</a>
+    </div>
+    <h3>Solutions</h3>
+    <ul class="catalogue">
+      <li class="catalogue__item">
+        <span class="catalogue__num">I.</span>
+        <span class="catalogue__main">
+          <a href="notes/qm-bound-states.html">Non-Degeneracy &amp; Reality of Bound States in 1D</a>
+          <span class="catalogue__desc">D. Tong, <em>Quantum Mechanics</em>, PS1 Q3.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/qm-bound-states.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/qm-bound-states.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Tong QM</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">II.</span>
+        <span class="catalogue__main">
+          <a href="notes/qm-shallow-well.html">Absence of Odd-Parity Bound States in a Shallow Square Well</a>
+          <span class="catalogue__desc">D. Tong, <em>Quantum Mechanics</em>, PS1 Q7.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/qm-shallow-well.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/qm-shallow-well.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Tong QM</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">III.</span>
+        <span class="catalogue__main">
+          <a href="notes/qm-sech-squared.html">Factorisation Method for the Sech-Squared Potential</a>
+          <span class="catalogue__desc">D. Tong, <em>Quantum Mechanics</em>, PS1 Q8.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/qm-sech-squared.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/qm-sech-squared.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Tong QM</span>
+      </li>
+    </ul>
+  </section>
+
+  <section class="section work-subject" id="ed">
+    <div class="work-subject__heading">
+      <div><p class="hero__eyebrow">8 works</p><h2>Electrodynamics</h2></div>
+      <a href="notes-ed.html">Subject page →</a>
+    </div>
+    <h3>Solutions</h3>
+    <ul class="catalogue">
+      <li class="catalogue__item">
+        <span class="catalogue__num">I.</span>
+        <span class="catalogue__main">
+          <a href="notes/ed-retarded.html">Retarded Potentials and Far-Field Radiation</a>
+          <span class="catalogue__desc">D. Tong, <em>Electromagnetism</em>, PS7 Q4.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/ed-retarded.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/ed-retarded.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Tong EM</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">II.</span>
+        <span class="catalogue__main">
+          <a href="notes/ed-lienard-wiechert.html">Liénard–Wiechert Potential and the Field Tensor</a>
+          <span class="catalogue__desc">D. Tong, <em>Electromagnetism</em>, PS7 Q6.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/ed-lienard-wiechert.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/ed-lienard-wiechert.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Tong EM</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">III.</span>
+        <span class="catalogue__main">
+          <a href="notes/ed-relativistic-uniform.html">Relativistic Motion in a Uniform Electric Field</a>
+          <span class="catalogue__desc">D. Tong, <em>Electromagnetism</em>, PS3 Q9.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/ed-relativistic-uniform.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/ed-relativistic-uniform.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Tong EM</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">IV.</span>
+        <span class="catalogue__main">
+          <a href="notes/ed-gauge-plane-wave.html">Gauge Transformation of a Plane EM Wave</a>
+          <span class="catalogue__desc">D. Tong, <em>Electromagnetism</em>, PS3 Q5.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/ed-gauge-plane-wave.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/ed-gauge-plane-wave.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Tong EM</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">V.</span>
+        <span class="catalogue__main">
+          <a href="notes/ed-moving-mirror.html">Reflection of an EM Wave from a Moving Mirror</a>
+          <span class="catalogue__desc">D. Tong, <em>Electromagnetism</em>, PS3 Q7.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/ed-moving-mirror.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/ed-moving-mirror.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Tong EM</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">VI.</span>
+        <span class="catalogue__main">
+          <a href="notes/ed-covariant-ohms.html">Covariant Form of Ohm's Law</a>
+          <span class="catalogue__desc">D. Tong, <em>Electromagnetism</em>, PS3 Q10.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/ed-covariant-ohms.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/ed-covariant-ohms.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Tong EM</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">VII.</span>
+        <span class="catalogue__main">
+          <a href="notes/ed-dielectric-sphere.html">Dielectric Sphere in a Uniform Electric Field</a>
+          <span class="catalogue__desc">D. Tong, <em>Electromagnetism</em>, PS8 Q1.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/ed-dielectric-sphere.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/ed-dielectric-sphere.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Tong EM</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">VIII.</span>
+        <span class="catalogue__main">
+          <a href="notes/ed-frustrated-tir.html">Frustrated Total Internal Reflection &amp; Evanescent Waves</a>
+          <span class="catalogue__desc">D. Tong, <em>Electromagnetism</em>, PS8 Q3.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/ed-frustrated-tir.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/ed-frustrated-tir.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Tong EM</span>
+      </li>
+    </ul>
+  </section>
+
+  <section class="section work-subject" id="mm">
+    <div class="work-subject__heading">
+      <div><p class="hero__eyebrow">6 works</p><h2>Mathematical Methods</h2></div>
+      <a href="notes-mm.html">Subject page →</a>
+    </div>
+    <h3>Solutions</h3>
+    <ul class="catalogue">
+      <li class="catalogue__item">
+        <span class="catalogue__num">I.</span>
+        <span class="catalogue__main">
+          <a href="notes/mm-jordans-lemma.html">Jordan's Lemma</a>
+          <span class="catalogue__desc">Standard statement, proof, and applications.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/mm-jordans-lemma.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/mm-jordans-lemma.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Complex Analysis</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">II.</span>
+        <span class="catalogue__main">
+          <a href="notes/mm-convolution-fourier.html">Convolution and Fourier Representation of \(e^{-\lvert x\rvert}\)</a>
+          <span class="catalogue__desc">J. E. Santos, Cambridge Part IB Complex Methods, PS3 Q2.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/mm-convolution-fourier.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/mm-convolution-fourier.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Santos CM</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">III.</span>
+        <span class="catalogue__main">
+          <a href="notes/mm-residues.html">Residues at Simple and Higher-Order Poles</a>
+          <span class="catalogue__desc">J. E. Santos, Cambridge Part IB Complex Methods, PS2 Q7.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/mm-residues.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/mm-residues.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Santos CM</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">IV.</span>
+        <span class="catalogue__main">
+          <a href="notes/mm-contour-integration.html">Contour Integration via Residues and Cauchy</a>
+          <span class="catalogue__desc">J. E. Santos, Cambridge Part IB Complex Methods, PS2 Q9.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/mm-contour-integration.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/mm-contour-integration.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Santos CM</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">V.</span>
+        <span class="catalogue__main">
+          <a href="notes/mm-laplace-bromwich.html">Laplace Transform of \(t^{-1/2}\) and the Bromwich Contour</a>
+          <span class="catalogue__desc">J. E. Santos, Cambridge Part IB Complex Methods, PS3 Q12.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/mm-laplace-bromwich.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/mm-laplace-bromwich.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Santos CM</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">VI.</span>
+        <span class="catalogue__main">
+          <a href="notes/mm-variational-euler.html">Variational Derivation of Euler's Equation for Inviscid Flow</a>
+          <span class="catalogue__desc">Cambridge Part II Variational Principles, PS2 Q9.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/mm-variational-euler.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/mm-variational-euler.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">VarPrin</span>
+      </li>
+    </ul>
+  </section>
+
+  <section class="section work-subject" id="de">
+    <div class="work-subject__heading">
+      <div><p class="hero__eyebrow">3 works</p><h2>Differential Equations</h2></div>
+      <a href="notes-de.html">Subject page →</a>
+    </div>
+    <h3>Solutions</h3>
+    <ul class="catalogue">
+      <li class="catalogue__item">
+        <span class="catalogue__num">I.</span>
+        <span class="catalogue__main">
+          <a href="notes/de-greens-function.html">Green's Function with Heaviside Forcing</a>
+          <span class="catalogue__desc">Imperial College, Carlo Contaldi DE, PS9 Q4.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/de-greens-function.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/de-greens-function.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Imperial DE</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">II.</span>
+        <span class="catalogue__main">
+          <a href="notes/de-images-laplace.html">Laplace Operator in 3D — Method of Images</a>
+          <span class="catalogue__desc">Imperial College, Carlo Contaldi DE, PS9 Q5.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/de-images-laplace.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/de-images-laplace.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Imperial DE</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">III.</span>
+        <span class="catalogue__main">
+          <a href="notes/de-greens-identity-halfspace.html">Green's Identity &amp; Method of Images for the Half-Space</a>
+          <span class="catalogue__desc">Cambridge Part IB past paper 2025, 14D.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/de-greens-identity-halfspace.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/de-greens-identity-halfspace.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Cambridge IB</span>
+      </li>
+    </ul>
+  </section>
+
+  <section class="section work-subject" id="tdsp">
+    <div class="work-subject__heading">
+      <div><p class="hero__eyebrow">4 works</p><h2>Thermodynamics & Statistical Physics</h2></div>
+      <a href="notes-tdsp.html">Subject page →</a>
+    </div>
+    <h3>Solutions</h3>
+    <ul class="catalogue">
+      <li class="catalogue__item">
+        <span class="catalogue__num">I.</span>
+        <span class="catalogue__main">
+          <a href="notes/tdsp-joule-thomson.html">The Joule–Thomson Process</a>
+          <span class="catalogue__desc">D. Tong, <em>Statistical Physics</em>, PS4 Q4.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/tdsp-joule-thomson.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/tdsp-joule-thomson.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Tong SP</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">II.</span>
+        <span class="catalogue__main">
+          <a href="notes/tdsp-adiabatic-water.html">Adiabatic Compression of Water Near the Triple Point</a>
+          <span class="catalogue__desc">Imperial 2023 TPSM paper, Q3.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/tdsp-adiabatic-water.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/tdsp-adiabatic-water.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Imperial TPSM</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">III.</span>
+        <span class="catalogue__main">
+          <a href="notes/tdsp-spin-half.html">Partition Function of a Spin-\(\tfrac{1}{2}\) System</a>
+          <span class="catalogue__desc">D. Tong, <em>Statistical Physics</em>, PS1 Q3.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/tdsp-spin-half.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/tdsp-spin-half.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Tong SP</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">IV.</span>
+        <span class="catalogue__main">
+          <a href="notes/tdsp-interacting-spin.html">Heat Capacity of an Interacting Spin System</a>
+          <span class="catalogue__desc">D. Tong, <em>Statistical Physics</em>, PS1 Q4.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/tdsp-interacting-spin.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/tdsp-interacting-spin.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Tong SP</span>
+      </li>
+    </ul>
+  </section>
+
+  <p class="archive-disclaimer">Sources are credited on every page. These are my write-ups of coursework, textbook problems, and independent study; corrections are welcome.</p>
 
 </main>
 
 <footer class="footer">
   <span>© 2026 Yucheng (Luca) Jin</span>
   <span>
-    <a href="index.html">About</a> ·
+    <a href="index.html">Home</a> ·
     <a href="research.html">Research</a> ·
     <a href="mailto:luca.jin@outlook.com">Email</a>
   </span>

@@ -3,150 +3,70 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Research — Yucheng (Luca) Jin</title>
-<meta name="description" content="Research projects, summer internships, and group projects by Yucheng (Luca) Jin — Imperial College London BSc Theoretical Physics.">
-
+<title>Research and Projects — Yucheng (Luca) Jin</title>
+<meta name="description" content="Research internships and physics projects by Yucheng (Luca) Jin.">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" href="styles.css">
-
 <script src="assets/theme.js"></script>
 <script src="assets/font-size.js"></script>
+<script src="assets/mathjax-config.js"></script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-
 <header class="topbar">
-  <a href="index.html" class="topbar__brand">Yucheng (Luca) Jin <small>BSc · Imperial</small></a>
-  <nav class="topbar__nav">
-    <a href="index.html">About</a>
-    <a href="notes.html">Notes</a>
+  <a href="index.html" class="topbar__brand">Luca Jin <small>Physics · Imperial</small></a>
+  <nav class="topbar__nav" aria-label="Primary navigation">
+    <a href="index.html">Home</a>
+    <a href="notes.html">Work</a>
     <a href="research.html" class="is-active">Research</a>
-    <a href="reading.html">Reading</a>
     <a href="mailto:luca.jin@outlook.com">Contact</a>
-    <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" title="Decrease font size">A<span class="font-toggle__small">−</span></button>
-    <button class="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size" title="Increase font size">A<span class="font-toggle__large">+</span></button>
-    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Toggle theme">
+    <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size">A<span class="font-toggle__small">−</span></button>
+    <button class="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size">A<span class="font-toggle__large">+</span></button>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch colour theme">
       <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
       <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
     </button>
   </nav>
 </header>
 
-<main class="page">
-
+<main class="page page--index">
   <section class="hero">
-    <div class="hero__eyebrow">Projects in progress</div>
-    <h1>Research</h1>
-    <p class="hero__lede">
-      Where I have done work that goes past coursework — internships,
-      group projects, and personal investigations.
-    </p>
-
-    <svg class="hero__vertex" viewBox="0 0 60 60" aria-hidden="true">
-      <line x1="2" y1="30" x2="20" y2="30"/>
-      <line x1="40" y1="30" x2="58" y2="30"/>
-      <circle cx="30" cy="30" r="10"/>
-      <circle cx="20" cy="30" r="2.2" fill="currentColor" stroke="none" style="fill: var(--accent);"/>
-      <circle cx="40" cy="30" r="2.2" fill="currentColor" stroke="none" style="fill: var(--accent);"/>
-    </svg>
+    <div class="hero__eyebrow">Research and projects</div>
+    <h1>Work beyond the problem sheet.</h1>
+    <p class="hero__lede">Three project summaries spanning optoelectronics, collider-data analysis, and electrostatic modelling. Each summary is available as a webpage and a printable PDF.</p>
   </section>
 
-  <section class="section">
+  <section class="section" aria-labelledby="project-list-title">
+    <h2 id="project-list-title">Selected projects</h2>
 
-    <div class="entry">
-      <div class="entry__head">
-        <span class="entry__title">Optical Optimization of Semitransparent Perovskite Devices</span>
-        <span class="entry__date">Summer 2025</span>
-      </div>
-      <div class="entry__sub">Research Intern · Fudan University · Prof. Yiqiang Zhan's Group</div>
-      <div class="entry__body">
-        <p>
-          Worked on improving the optical performance of semitransparent perovskite
-          devices for next-generation optoelectronics. Fabricated perovskite micro-arrays
-          using laser micro-processing to quantify visible-light transmittance, and
-          designed Ag/MoO<sub>3</sub>/Ag transparent electrodes to study chromaticity
-          modulation. Used theoretical modelling to direct the experimental programme
-          and presented results in weekly group meetings.
-        </p>
-        <div class="tags">
-          <span class="tag">Photovoltaics</span>
-          <span class="tag">Thin-film optics</span>
-          <span class="tag">Experiment</span>
-        </div>
-      </div>
-    </div>
+    <article class="entry entry--project" id="perovskite-devices">
+      <div class="entry__head"><a class="entry__title" href="research/perovskite-devices.html">Optical Optimization of Semitransparent Perovskite Devices</a><span class="entry__date">Summer 2025</span></div>
+      <div class="entry__sub">Research Intern · Fudan University · Prof. Yiqiang Zhan’s Group</div>
+      <div class="entry__body"><p>Micro-array fabrication, transparent-electrode design, and optical modelling for next-generation semitransparent devices.</p></div>
+      <div class="catalogue__formats" aria-label="Available formats"><a href="research/perovskite-devices.html">Read HTML ↗</a><a href="output/pdf/research-perovskite-devices.pdf">Open PDF ↓</a></div>
+    </article>
 
-    <div class="entry">
-      <div class="entry__head">
-        <span class="entry__title">Validating the Higgs Boson</span>
-        <span class="entry__date">Jun 2025</span>
-      </div>
-      <div class="entry__sub">Imperial College London · Group of 4 · Python project</div>
-      <div class="entry__body">
-        <p>
-          Simulated LHC collision data using NumPy and Matplotlib for a statistical
-          analysis. Implemented Maximum Likelihood Estimation and chi-squared minimization
-          for model fitting; reduced chi-squared from 2.83 to 1.13, validating presence
-          of the Higgs at the simulated mass. Wrote up the analysis as a formal report.
-        </p>
-        <div class="tags">
-          <span class="tag">High-energy</span>
-          <span class="tag">Statistics</span>
-          <span class="tag">Python</span>
-        </div>
-      </div>
-    </div>
+    <article class="entry entry--project" id="higgs-validation">
+      <div class="entry__head"><a class="entry__title" href="research/higgs-validation.html">Validating the Higgs Boson</a><span class="entry__date">June 2025</span></div>
+      <div class="entry__sub">Imperial College London · Group project · Statistical analysis</div>
+      <div class="entry__body"><p>Maximum-likelihood and \(\chi^2\) model fitting applied to simulated LHC collision data.</p></div>
+      <div class="catalogue__formats" aria-label="Available formats"><a href="research/higgs-validation.html">Read HTML ↗</a><a href="output/pdf/research-higgs-validation.pdf">Open PDF ↓</a></div>
+    </article>
 
-    <div class="entry">
-      <div class="entry__head">
-        <span class="entry__title">The Kelvin Water Dropper</span>
-        <span class="entry__date">Jun 2025</span>
-      </div>
-      <div class="entry__sub">Imperial College London · Summer project · Group of 4</div>
-      <div class="entry__body">
-        <p>
-          Investigated the charging mechanism of the Kelvin water dropper. Built a
-          theoretical model relating air humidity to the charging rate and validated
-          it against experimental data using regression and uncertainty propagation.
-          Produced a 10-minute video presentation of the findings.
-        </p>
-        <div class="tags">
-          <span class="tag">Electrostatics</span>
-          <span class="tag">Modelling</span>
-        </div>
-      </div>
-    </div>
-
+    <article class="entry entry--project" id="kelvin-water-dropper">
+      <div class="entry__head"><a class="entry__title" href="research/kelvin-water-dropper.html">The Kelvin Water Dropper</a><span class="entry__date">June 2025</span></div>
+      <div class="entry__sub">Imperial College London · Group project · Theory and experiment</div>
+      <div class="entry__body"><p>A theoretical and experimental study of humidity-dependent electrostatic charging.</p></div>
+      <div class="catalogue__formats" aria-label="Available formats"><a href="research/kelvin-water-dropper.html">Read HTML ↗</a><a href="output/pdf/research-kelvin-water-dropper.pdf">Open PDF ↓</a></div>
+    </article>
   </section>
 
-  <hr class="ornament-rule">
-
-  <section class="section">
-    <h2>Research Interests</h2>
-    <p>
-      I am drawn to any area of high-energy theory and black-hole physics:
-      quantum field theory, gauge symmetry and renormalization, conformal
-      field theory, string theory, holography and AdS/CFT, and the
-      thermodynamic and quantum-information aspects of black holes. If you
-      are working in these directions and open to mentoring an undergraduate,
-      I would like to hear from you.
-    </p>
+  <section class="section research-interests">
+    <h2>Research interests</h2>
+    <p>I am particularly interested in quantum field theory, gauge symmetry, geometry, and the classical and quantum physics of black holes.</p>
   </section>
-
 </main>
 
-<footer class="footer">
-  <span>© 2026 Yucheng (Luca) Jin</span>
-  <span>
-    <a href="index.html">About</a> ·
-    <a href="notes.html">Notes</a> ·
-    <a href="mailto:luca.jin@outlook.com">Email</a>
-  </span>
-</footer>
-
+<footer class="footer"><span>© 2026 Yucheng (Luca) Jin</span><span><a href="index.html">Home</a> · <a href="notes.html">Work</a> · <a href="mailto:luca.jin@outlook.com">Email</a></span></footer>
 </body>
 </html>

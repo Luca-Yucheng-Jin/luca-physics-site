@@ -1,13 +1,13 @@
 # Luca Jin — Theoretical Physics Portfolio
 
-A simple editorial homepage for Yucheng (Luca) Jin, paired with a static,
-LaTeX-generated library of theoretical-physics notes, research, and reading.
+A clear editorial portfolio for Yucheng (Luca) Jin, paired with a static,
+LaTeX-generated library of theoretical-physics notes and matching PDF editions.
 
 ## Homepage development
 
 The homepage uses React, Vite, and TypeScript. The site keeps interaction
-deliberately light: a responsive layout, restrained hover states, and a shared
-iris transition that connects the homepage to the static library pages.
+deliberately light: a responsive layout, restrained hover states, and direct
+HTML/PDF access to each published work.
 
 ```bash
 npm install
@@ -38,16 +38,17 @@ you want a complete deployable `dist/` containing the new homepage.
 ## Project structure
 
 ```text
-src/                  React homepage and page-transition component
+src/                  React homepage
 index.html            Vite application shell
 assets/               Shared imagery and legacy scripts
 notes/                Generated note pages
 tex/                   Original LaTeX sources
 build/                 LaTeX-to-HTML and catalogue generators
-research.html          Existing research document
-notes.html             Existing note catalogue
-reading.html           Existing reading tracker
-styles.css             Shared stylesheet for legacy pages
+research.html          Research and project index
+research/              Individual project-summary pages
+notes.html             Complete written-work archive
+output/pdf/            Printable editions of published work
+styles.css             Shared stylesheet for archive pages
 vite.config.ts         Homepage build and legacy-route preservation
 ```
 

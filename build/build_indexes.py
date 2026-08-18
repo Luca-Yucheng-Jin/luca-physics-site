@@ -13,6 +13,7 @@ Each category has:
 
 from __future__ import annotations
 import os
+import re
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -34,34 +35,30 @@ def page_chrome_head(title: str, description: str, css_path: str = "styles.css",
 
 <link rel="icon" type="image/svg+xml" href="{icon_path}">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" href="{css_path}">
 
 <script src="{theme_path}"></script>
 <script src="{font_path}"></script>
+<script src="assets/mathjax-config.js"></script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>"""
 
 
 def topbar(active: str, index_path: str = "index.html",
            notes_path: str = "notes.html",
-           research_path: str = "research.html",
-           reading_path: str = "reading.html") -> str:
+           research_path: str = "research.html") -> str:
     """`active` ∈ {'about', 'notes', 'research'} marks the current nav item."""
     a_about = ' class="is-active"' if active == "about" else ""
     a_notes = ' class="is-active"' if active == "notes" else ""
     a_research = ' class="is-active"' if active == "research" else ""
     return f"""
 <header class="topbar">
-  <a href="{index_path}" class="topbar__brand">Yucheng (Luca) Jin <small>BSc · Imperial</small></a>
-  <nav class="topbar__nav">
-    <a href="{index_path}"{a_about}>About</a>
-    <a href="{notes_path}"{a_notes}>Notes</a>
+  <a href="{index_path}" class="topbar__brand">Luca Jin <small>Physics · Imperial</small></a>
+  <nav class="topbar__nav" aria-label="Primary navigation">
+    <a href="{index_path}"{a_about}>Home</a>
+    <a href="{notes_path}"{a_notes}>Work</a>
     <a href="{research_path}"{a_research}>Research</a>
-    <a href="{reading_path}">Reading</a>
     <a href="mailto:luca.jin@outlook.com">Contact</a>
     <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" title="Decrease font size">A<span class="font-toggle__small">−</span></button>
     <button class="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size" title="Increase font size">A<span class="font-toggle__large">+</span></button>
@@ -79,7 +76,7 @@ def footer_html(index_path: str = "index.html",
 <footer class="footer">
   <span>© 2026 Yucheng (Luca) Jin</span>
   <span>
-    <a href="{index_path}">About</a> ·
+    <a href="{index_path}">Home</a> ·
     <a href="{research_path}">Research</a> ·
     <a href="mailto:luca.jin@outlook.com">Email</a>
   </span>
@@ -113,7 +110,7 @@ CATEGORIES = [
         "slug": "qft",
         "title": "Quantum Field Theory",
         "blurb": "Path-integral essay, Peskin / Tong / PSI / Srednicki solutions, Schwartz chapter notes, φ³ computation.",
-        "tag": "17 entries",
+        "tag": "20 works",
         "body": """    <h3>Papers</h3>
     <ul class="catalogue">
       <li class="catalogue__item">
@@ -570,10 +567,57 @@ CATEGORIES = [
 # ---------------------------------------------------------------------------
 # Page templates
 
+def typeset_catalogue_math(text: str) -> str:
+    """Use TeX notation for mathematical symbols shown in archive chrome."""
+    replacements = (
+        ('e<sup>-|x|</sup>', r'\(e^{-\lvert x\rvert}\)'),
+        ('t<sup>-1/2</sup>', r'\(t^{-1/2}\)'),
+        ('e⁻e⁺ → μ⁻μ⁺', r'\(e^-e^+\to\mu^-\mu^+\)'),
+        ('e+e− → μ+μ−', r'\(e^+e^-\to\mu^+\mu^-\)'),
+        ('φχ²', r'\(\phi\chi^2\)'),
+        ('φ-χ', r'\(\phi\text{-}\chi\)'),
+        ('φ⁴', r'\(\phi^4\)'),
+        ('φ³', r'\(\phi^3\)'),
+        ('χ²', r'\(\chi^2\)'),
+        ('γ-matrices', r'\(\gamma\)-matrices'),
+        ('β-functions', r'\(\beta\)-functions'),
+        ('SO(3)', r'\(\mathrm{SO}(3)\)'),
+        ('SO(N)', r'\(\mathrm{SO}(N)\)'),
+        ('Sp(2N)', r'\(\mathrm{Sp}(2N)\)'),
+        ('d=6', r'\(d=6\)'),
+        ('h/g', r'\(h/g\)'),
+        ('Spin-½', r'Spin-\(\tfrac{1}{2}\)'),
+    )
+    for source, target in replacements:
+        text = text.replace(source, target)
+    return text
+
+
+def catalogue_with_formats(body: str) -> str:
+    """Add honest, route-specific HTML and PDF actions to each work row."""
+    body = typeset_catalogue_math(body)
+    item_re = re.compile(r'<li class="catalogue__item">.*?</li>', re.DOTALL)
+
+    def decorate(match: re.Match[str]) -> str:
+        item = match.group(0)
+        href_match = re.search(r'<a href="(notes/([^"]+)\.html)">', item)
+        if not href_match:
+            return item
+        html_href, slug = href_match.groups()
+        formats = (
+            '<span class="catalogue__formats" aria-label="Available formats">'
+            f'<a href="{html_href}">HTML <span aria-hidden="true">↗</span></a>'
+            f'<a href="output/pdf/{slug}.pdf">PDF <span aria-hidden="true">↓</span></a>'
+            '</span>\n      '
+        )
+        return item.replace('<span class="catalogue__tag">', formats + '<span class="catalogue__tag">', 1)
+
+    return item_re.sub(decorate, body)
+
 def category_page(cat: dict) -> str:
     """One per-category index — heading, breadcrumb back to top-level
     notes.html, and the catalogue body."""
-    description = f"Notes catalogue: {cat['title']} — {cat['blurb']}"
+    description = f"Written-work archive: {cat['title']} — {cat['blurb']}"
     return (
         page_chrome_head(f"{cat['title']} — Notes", description)
         + topbar(active="notes")
@@ -581,23 +625,23 @@ def category_page(cat: dict) -> str:
 <main class="page page--index">
 
   <div class="note__breadcrumb">
-    <a href="notes.html">Notes</a> &nbsp;·&nbsp; {cat['title']}
+    <a href="notes.html">Work</a> &nbsp;·&nbsp; {cat['title']}
   </div>
 
   <section class="hero">
-    <div class="hero__eyebrow">Notes · category</div>
+    <div class="hero__eyebrow">Written work · subject</div>
     <h1>{cat['title']}</h1>
-    <p class="hero__lede">{cat['blurb']}</p>
+    <p class="hero__lede">{typeset_catalogue_math(cat['blurb'])}</p>
   </section>
 
   <section class="section" id="{cat['slug']}">
-{cat['body']}
+{catalogue_with_formats(cat['body'])}
   </section>
 
   <hr class="ornament-rule">
 
   <p style="text-align:center; font-style:italic; color:var(--muted); font-family:var(--display);">
-    <a href="notes.html">← Back to all notes</a>
+    <a href="notes.html">← Back to all work</a>
   </p>
 
 </main>
@@ -657,65 +701,57 @@ def _fmt(n: int) -> str:
 def top_index_page(categories: list[dict]) -> str:
     cards = []
     for cat in categories:
-        cards.append(f"""    <li class="catalogue__item">
-      <span class="catalogue__num">·</span>
-      <span class="catalogue__main">
-        <a href="notes-{cat['slug']}.html">{cat['title']}</a>
-        <span class="catalogue__desc">{cat['blurb']}</span>
-      </span>
-      <span class="catalogue__tag">{cat['tag']}</span>
-    </li>""")
+        count = cat['body'].count('<li class="catalogue__item">')
+        cards.append(f'<a class="subject-link" href="#{cat["slug"]}"><span>{cat["title"]}</span><small>{count} works</small></a>')
     cards_html = "\n".join(cards)
     stats = compute_stats()
     stats_html = f"""
     <ul class="stats" aria-label="Notebook statistics">
-      <li><span class="stats__num">{_fmt(stats['pages'])}</span><span class="stats__label">pages</span></li>
-      <li><span class="stats__num">{_fmt(stats['words'])}</span><span class="stats__label">words</span></li>
-      <li><span class="stats__num">{_fmt(stats['chars'])}</span><span class="stats__label">characters</span></li>
+      <li><span class="stats__num">{_fmt(stats['pages'])}</span><span class="stats__label">written works</span></li>
+      <li><span class="stats__num">{len(categories)}</span><span class="stats__label">subjects</span></li>
+      <li><span class="stats__num">2</span><span class="stats__label">formats per work</span></li>
     </ul>"""
+    work_sections = []
+    for cat in categories:
+        count = cat['body'].count('<li class="catalogue__item">')
+        work_sections.append(f"""
+  <section class="section work-subject" id="{cat['slug']}">
+    <div class="work-subject__heading">
+      <div><p class="hero__eyebrow">{count} works</p><h2>{cat['title']}</h2></div>
+      <a href="notes-{cat['slug']}.html">Subject page →</a>
+    </div>
+{catalogue_with_formats(cat['body'])}
+  </section>""")
+    work_sections_html = "\n".join(work_sections)
     return (
         page_chrome_head(
-            "Notes",
-            "A working notebook of solved problems and self-contained derivations in QFT, GR, QM, electrodynamics, and mathematical methods.",
+            "Work",
+            "A clear archive of solved problems and self-contained derivations in QFT, GR, QM, electrodynamics, and mathematical methods, available in HTML and PDF.",
         )
         + topbar(active="notes")
         + f"""
 <main class="page page--index">
 
   <section class="hero">
-    <div class="hero__eyebrow">A working notebook</div>
-    <h1>Notes</h1>
+    <div class="hero__eyebrow">A working archive</div>
+    <h1>Written work</h1>
     <p class="hero__lede">
-      Solved problems and self-contained derivations from coursework and
-      independent reading, organised by topic.
+      48 solved problems and derivations. Read online or download a typeset PDF.
     </p>
     <p class="hero__lede" style="font-style:italic; color:var(--muted);">
-      None of these works are original — they are write-ups of problems and
-      derivations from textbooks, lecture courses, and other published sources.
-      Sources are credited on every page.
+      Study write-ups, not original research; every source is credited.
     </p>
 {stats_html}
 
-    <svg class="hero__vertex" viewBox="0 0 60 60" aria-hidden="true">
-      <line x1="6" y1="6" x2="30" y2="30"/>
-      <line x1="54" y1="6" x2="30" y2="30"/>
-      <path d="M30,30 Q35,40 30,46 Q25,52 30,58" stroke-dasharray="3 3"/>
-      <circle cx="30" cy="30" r="2.2" fill="currentColor" stroke="none" style="fill: var(--accent);"/>
-    </svg>
   </section>
 
-  <section class="section">
-    <h2>Topics</h2>
-    <ul class="catalogue">
+  <nav class="subject-index" aria-label="Browse by subject">
 {cards_html}
-    </ul>
-  </section>
+  </nav>
 
-  <hr class="ornament-rule">
+{work_sections_html}
 
-  <p style="text-align:center; font-style:italic; color:var(--muted); font-family:var(--display);">
-    Sources are credited on every page. All write-ups are mine; corrections welcome.
-  </p>
+  <p class="archive-disclaimer">Sources are credited on every page. These are my write-ups of coursework, textbook problems, and independent study; corrections are welcome.</p>
 
 </main>
 """

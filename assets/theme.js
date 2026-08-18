@@ -732,7 +732,6 @@
   }
 
   function bind() {
-    bindPageTransitions();
     bindThemeToggles();
     buildPageControls();
     buildOnPageTOC();

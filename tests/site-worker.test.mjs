@@ -43,7 +43,7 @@ test('serves the homepage for /', async () => {
 test('serves static html routes directly', async () => {
   const response = await worker.fetch(new Request('https://example.test/notes.html'), env);
   assert.equal(response.status, 200);
-  assert.match(await response.text(), /<h1>Notes<\/h1>/);
+  assert.match(await response.text(), /<h1>Written work<\/h1>/);
 });
 
 test('supports extensionless html routes', async () => {
@@ -55,4 +55,12 @@ test('supports extensionless html routes', async () => {
 test('keeps missing assets as 404', async () => {
   const response = await worker.fetch(new Request('https://example.test/assets/missing.css'), env);
   assert.equal(response.status, 404);
+});
+
+test('redirects the retired reading-list routes to the work archive', async () => {
+  for (const route of ['/reading', '/reading.html']) {
+    const response = await worker.fetch(new Request(`https://example.test${route}`), env);
+    assert.equal(response.status, 308);
+    assert.equal(response.headers.get('location'), 'https://example.test/notes.html');
+  }
 });
