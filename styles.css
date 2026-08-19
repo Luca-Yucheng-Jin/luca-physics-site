@@ -1392,7 +1392,6 @@ body.nav-on .site-nav-toggle__chevron {
 .work-subject__heading { display: flex; justify-content: space-between; align-items: end; gap: 2rem; margin-bottom: 2rem; }
 .work-subject__heading h2 { margin: 0.35rem 0 0; }
 .work-subject__heading > a { flex: 0 0 auto; font-family: var(--display); font-variant: small-caps; letter-spacing: .08em; font-size: .78rem; }
-.archive-disclaimer { max-width: 68ch; margin: 7rem auto 1rem; padding-top: 2rem; border-top: 1px solid var(--rule); text-align: center; color: var(--muted); font-style: italic; }
 
 .entry--project { padding-block: 2rem; }
 .entry--project .catalogue__formats { grid-column: auto; grid-row: auto; margin-top: .5rem; }

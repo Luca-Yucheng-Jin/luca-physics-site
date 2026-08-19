@@ -102,6 +102,10 @@ test('notes overview keeps only the useful archive statistics', async () => {
   assert.ok(stats, 'notes.html: missing archive statistics');
   assert.equal((stats.match(/<li>/g) || []).length, 2);
   assert.doesNotMatch(stats, /formats per note/i);
+  assert.doesNotMatch(
+    html,
+    /Study notes and coursework write-ups|Unofficial personal notes|Do not submit this work/i,
+  );
 });
 
 

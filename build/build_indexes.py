@@ -913,9 +913,6 @@ def top_index_page(categories: list[dict]) -> str:
     <p class="hero__lede">
       48 sets of notes, solved problems, and derivations. Read online or download a typeset PDF.
     </p>
-    <p class="hero__lede" style="font-style:italic; color:var(--muted);">
-      Study notes and coursework write-ups; every source is credited.
-    </p>
 {stats_html}
 
   </section>
@@ -925,8 +922,6 @@ def top_index_page(categories: list[dict]) -> str:
   </nav>
 
 {work_sections_html}
-
-  <p class="archive-disclaimer">Unofficial personal notes. Original questions remain copyright of their authors and institutions; where a source is public, I link to it rather than reproduce it. Do not submit this work, in whole or in part, for assessment.</p>
 
 </main>
 """
