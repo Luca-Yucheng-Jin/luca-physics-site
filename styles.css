@@ -577,9 +577,9 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
 }
 
 /* ---------- Site nav toggle (plain-text label) ----------
-   Renders as a single line of small-caps text — "Topics ▾" — pinned
-   below the topbar. Click to drop the sidebar down. No background,
-   border, or shadow: it should read as text, not a button. */
+   Renders as a single line of small-caps text — "Topics ▾". It is pinned
+   below the topbar on wide screens and joins the header navigation in the
+   drawer layout. No background, border, or shadow: it reads as text. */
 .site-nav-toggle {
   appearance: none;
   background: transparent;
@@ -840,6 +840,10 @@ body.nav-on .site-nav-toggle__chevron {
 /* Mobile / tablet: drawer overlay with backdrop. No content shift —
    instead an overlay tints the rest of the page until dismissed. */
 @media (max-width: 1279.98px) {
+  .site-nav-toggle {
+    position: static;
+    flex: 0 0 auto;
+  }
   .site-nav {
     top: 0;
     left: 0;

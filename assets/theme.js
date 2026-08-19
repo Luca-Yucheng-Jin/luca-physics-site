@@ -507,20 +507,12 @@
     btn.addEventListener("click", function () {
       setNavOn(!document.body.classList.contains("nav-on"));
     });
-    // Place the pill on the LEFT side of the topbar — right after the
-    // brand — so the sidebar appears to drop down from beneath it.
-    // This lives outside .topbar__nav so the right-side nav cluster
-    // stays compact on the right.
-    var topbar = document.querySelector(".topbar");
-    var brand = topbar && topbar.querySelector(".topbar__brand");
-    if (topbar && brand && brand.parentElement === topbar) {
-      topbar.insertBefore(btn, brand.nextSibling);
-    } else {
-      // Fallback for unexpected markup — keep it in the right cluster.
-      var first = nav.querySelector(".topbar__back");
-      if (first) nav.insertBefore(btn, first.nextSibling);
-      else nav.insertBefore(btn, nav.firstChild);
-    }
+    // Keep the control in the navigation cluster. It remains fixed beneath
+    // the topbar on wide screens, but joins the normal navigation flow in
+    // the drawer layout so it cannot overlap Home when the header wraps.
+    var first = nav.querySelector(".topbar__back");
+    if (first) nav.insertBefore(btn, first.nextSibling);
+    else nav.insertBefore(btn, nav.firstChild);
 
     // On mobile, dismiss the drawer on backdrop click or after following
     // an internal link. Don't auto-close on desktop — the user expects
