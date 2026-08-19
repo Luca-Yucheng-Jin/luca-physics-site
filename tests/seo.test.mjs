@@ -5,7 +5,7 @@ import test from 'node:test';
 
 
 const root = path.resolve('.');
-const siteUrl = 'https://luca-physics-observatory.jinluca3.chatgpt.site';
+const siteUrl = 'https://luca-yucheng-jin.github.io/luca-physics-site';
 
 
 async function publicHtmlFiles() {

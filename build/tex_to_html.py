@@ -16,7 +16,7 @@ import json
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEX  = os.path.join(ROOT, "tex")
 OUT  = os.path.join(ROOT, "notes")
-SITE_URL = "https://luca-physics-observatory.jinluca3.chatgpt.site"
+SITE_URL = "https://luca-yucheng-jin.github.io/luca-physics-site"
 AUTHOR_NAME = "Yucheng (Luca) Jin"
 WEBSITE_ID = f"{SITE_URL}/#website"
 PERSON_ID = f"{SITE_URL}/#person"
@@ -1570,6 +1570,7 @@ def render_page(**fields):
     fields.setdefault("page_title", htmllib.escape(full_title, quote=True))
     fields.setdefault("description", htmllib.escape(description, quote=True))
     fields.setdefault("canonical", htmllib.escape(canonical, quote=True))
+    fields.setdefault("site_url", SITE_URL)
     fields.setdefault(
         "schema_json",
         json.dumps(
@@ -1661,11 +1662,11 @@ PAGE_TEMPLATE = r"""<!DOCTYPE html>
 <meta property="og:site_name" content="Luca Jin Physics">
 <meta property="og:title" content="@@PAGE_TITLE@@">
 <meta property="og:description" content="@@DESCRIPTION@@">
-<meta property="og:image" content="https://luca-physics-observatory.jinluca3.chatgpt.site/og.png">
+<meta property="og:image" content="@@SITE_URL@@/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="@@PAGE_TITLE@@">
 <meta name="twitter:description" content="@@DESCRIPTION@@">
-<meta name="twitter:image" content="https://luca-physics-observatory.jinluca3.chatgpt.site/og.png">
+<meta name="twitter:image" content="@@SITE_URL@@/og.png">
 
 <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
 

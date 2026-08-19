@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://luca-physics-observatory.jinluca3.chatgpt.site/sitemap.xml
+Sitemap: https://luca-yucheng-jin.github.io/luca-physics-site/sitemap.xml

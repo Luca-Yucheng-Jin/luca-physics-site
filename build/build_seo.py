@@ -6,7 +6,7 @@ from xml.sax.saxutils import escape
 
 
 ROOT = Path(__file__).resolve().parent.parent
-SITE_URL = "https://luca-physics-observatory.jinluca3.chatgpt.site"
+SITE_URL = "https://luca-yucheng-jin.github.io/luca-physics-site"
 
 
 def public_pages() -> list[Path]:

@@ -75,7 +75,7 @@ test('keeps unknown extensionless routes as 404', async () => {
 test('serves crawler directives', async () => {
   const robots = await worker.fetch(new Request('https://example.test/robots.txt'), env);
   assert.equal(robots.status, 200);
-  assert.match(await robots.text(), /Sitemap: https:\/\/luca-physics-observatory\.jinluca3\.chatgpt\.site\/sitemap\.xml/);
+  assert.match(await robots.text(), /Sitemap: https:\/\/luca-yucheng-jin\.github\.io\/luca-physics-site\/sitemap\.xml/);
 
   const sitemap = await worker.fetch(new Request('https://example.test/sitemap.xml'), env);
   assert.equal(sitemap.status, 200);

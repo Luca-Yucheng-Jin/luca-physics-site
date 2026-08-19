@@ -18,7 +18,7 @@ import os
 import re
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SITE_URL = "https://luca-physics-observatory.jinluca3.chatgpt.site"
+SITE_URL = "https://luca-yucheng-jin.github.io/luca-physics-site"
 AUTHOR_NAME = "Yucheng (Luca) Jin"
 WEBSITE_ID = f"{SITE_URL}/#website"
 PERSON_ID = f"{SITE_URL}/#person"
