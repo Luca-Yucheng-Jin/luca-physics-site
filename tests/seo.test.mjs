@@ -100,7 +100,36 @@ test('notes overview keeps only the useful archive statistics', async () => {
   const html = await readFile(path.join(root, 'notes.html'), 'utf8');
   const stats = html.match(/<ul class="stats"[\s\S]*?<\/ul>/)?.[0];
   assert.ok(stats, 'notes.html: missing archive statistics');
-  assert.equal((stats.match(/<li>/g) || []).length, 2);
+  assert.equal((stats.match(/<li\b/g) || []).length, 3);
+
+  const noteNames = (await readdir(path.join(root, 'notes')))
+    .filter((name) => name.endsWith('.html'))
+    .sort();
+  let pdfPages = 0;
+  let equations = 0;
+  for (const name of noteNames) {
+    const note = await readFile(path.join(root, 'notes', name), 'utf8');
+    const article = note.match(/<article class="note__body">([\s\S]*?)<\/article>/)?.[1];
+    assert.ok(article, `${name}: missing note body`);
+    equations += (article.match(/\\\[[\s\S]*?\\\]/g) || []).length;
+    equations += (article.match(/\$\$[\s\S]*?\$\$/g) || []).length;
+    equations += (article.match(/<div class="equation-row">/g) || []).length;
+    equations += (article.match(/<figure class="wick-figure">/g) || []).length;
+
+    const pdf = await readFile(path.join(root, 'output', 'pdf', name.replace(/\.html$/, '.pdf')));
+    pdfPages += (pdf.toString('latin1').match(/\/Type\s*\/Page\b/g) || []).length;
+  }
+
+  const rendered = Object.fromEntries(
+    [...stats.matchAll(/data-count="(\d+)">[^<]*<\/span><span class="stats__label">([^<]+)<\/span>/g)]
+      .map((match) => [match[2], Number(match[1])]),
+  );
+  assert.deepEqual(rendered, {
+    notes: noteNames.length,
+    'PDF pages': pdfPages,
+    equations,
+  });
+  assert.match(html, new RegExp(`${noteNames.length} sets of notes`));
   assert.doesNotMatch(stats, /formats per note/i);
   assert.doesNotMatch(
     html,

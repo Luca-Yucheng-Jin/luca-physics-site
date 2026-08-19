@@ -702,6 +702,65 @@
     }, true);
   }
 
+  /* ---------- Archive counters ----------
+     The final values are written into notes.html at build time, so they are
+     useful without JavaScript and visible to search engines.  This adds only
+     a one-time count-up when the statistics enter the viewport. */
+  function animateStatsCounters() {
+    var counters = Array.prototype.slice.call(document.querySelectorAll(".stats__num[data-count]"));
+    if (!counters.length) return;
+
+    var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) {
+      counters.forEach(function (counter) {
+        var item = counter.closest("li");
+        if (item) item.classList.add("is-counted");
+      });
+      return;
+    }
+
+    var formatter;
+    try { formatter = new Intl.NumberFormat(document.documentElement.lang || "en"); }
+    catch (e) { formatter = { format: function (value) { return String(value); } }; }
+
+    function start(counter) {
+      if (counter.getAttribute("data-counted") === "true") return;
+      var target = Number(counter.getAttribute("data-count"));
+      if (!Number.isFinite(target) || target < 0) return;
+      counter.setAttribute("data-counted", "true");
+      counter.textContent = "0";
+      var started = performance.now();
+      var duration = Math.min(1350, 780 + target * 0.24);
+
+      function frame(now) {
+        var progress = Math.min(1, (now - started) / duration);
+        var eased = 1 - Math.pow(1 - progress, 3);
+        counter.textContent = formatter.format(Math.round(target * eased));
+        if (progress < 1) {
+          requestAnimationFrame(frame);
+        } else {
+          counter.textContent = formatter.format(target);
+          var item = counter.closest("li");
+          if (item) item.classList.add("is-counted");
+        }
+      }
+      requestAnimationFrame(frame);
+    }
+
+    if (!("IntersectionObserver" in window)) {
+      counters.forEach(start);
+      return;
+    }
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        start(entry.target);
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.45 });
+    counters.forEach(function (counter) { observer.observe(counter); });
+  }
+
   /* ---------- Bootstrap ---------- */
   function loadManifest() {
     return fetch(ASSET_PREFIX + "assets/nav-manifest.json", { credentials: "same-origin" })
@@ -719,6 +778,7 @@
     buildPageControls();
     buildOnPageTOC();
     decorateCatalogueAndEntries();
+    animateStatsCounters();
 
     loadManifest().then(function (manifest) {
       if (!manifest) return;

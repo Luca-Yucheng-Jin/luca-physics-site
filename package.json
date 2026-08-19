@@ -4,7 +4,10 @@
   "version": "2.0.0",
   "type": "module",
   "scripts": {
+    "refresh": "python3 build/build_indexes.py && python3 build/build_seo.py",
+    "predev": "npm run refresh",
     "dev": "vite",
+    "prebuild": "npm run refresh",
     "build": "tsc -b && vite build",
     "pdf": "node build/build_pdfs.mjs",
     "preview": "vite preview",

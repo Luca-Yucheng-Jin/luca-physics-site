@@ -824,42 +824,62 @@ import re as __re_for_stats
 import html as __html_for_stats
 
 _STATS_TAG_RE = __re_for_stats.compile(r"<[^>]+>")
-_STATS_SCRIPT_RE = __re_for_stats.compile(r"<(script|style|svg)\b[^>]*>.*?</\1>",
-                                          __re_for_stats.DOTALL | __re_for_stats.IGNORECASE)
-_STATS_MATH_DISP_RE = __re_for_stats.compile(r"\\\[.*?\\\]", __re_for_stats.DOTALL)
-_STATS_MATH_INL_RE = __re_for_stats.compile(r"\\\(.*?\\\)", __re_for_stats.DOTALL)
+_STATS_NOTE_HREF_RE = __re_for_stats.compile(r'href="notes/([^"/]+)\.html"')
+_STATS_ARTICLE_RE = __re_for_stats.compile(
+    r'<article class="note__body">(.*?)</article>', __re_for_stats.DOTALL
+)
+_STATS_DISPLAY_RE = __re_for_stats.compile(r"\\\[.*?\\\]", __re_for_stats.DOTALL)
+_STATS_DOLLAR_DISPLAY_RE = __re_for_stats.compile(r"\$\$.*?\$\$", __re_for_stats.DOTALL)
+_STATS_EQUATION_ROW_RE = __re_for_stats.compile(r'<div class="equation-row">')
+_STATS_WICK_FIGURE_RE = __re_for_stats.compile(r'<figure class="wick-figure">')
+_STATS_PDF_PAGE_RE = __re_for_stats.compile(rb"/Type\s*/Page\b")
 
 
-def _extract_prose(html: str) -> str:
-    """Strip HTML/SVG/scripts and TeX math from a notes page; return the
-    plain prose that a reader would actually see (modulo MathJax rendering).
-    Used by compute_stats() to give a meaningful word/char count."""
-    t = _STATS_SCRIPT_RE.sub(" ", html)
-    t = _STATS_MATH_DISP_RE.sub(" ", t)
-    t = _STATS_MATH_INL_RE.sub(" ", t)
-    t = _STATS_TAG_RE.sub(" ", t)
-    t = __html_for_stats.unescape(t)
-    t = __re_for_stats.sub(r"\s+", " ", t).strip()
-    return t
+def compute_stats(categories: list[dict]) -> dict:
+    """Derive public archive totals from the catalogue and its editions.
 
+    The values are deliberately calculated from generated note HTML and PDF
+    files rather than maintained as copy.  Running the index build after a
+    note is added therefore updates the archive counters automatically.
+    """
+    slugs = []
+    for category in categories:
+        slugs.extend(_STATS_NOTE_HREF_RE.findall(category["body"]))
+    if len(slugs) != len(set(slugs)):
+        raise ValueError("Duplicate note href found while calculating archive statistics")
 
-def compute_stats() -> dict:
-    """Walk notes/*.html, return {pages, words, chars}."""
-    notes_dir = os.path.join(ROOT, "notes")
-    pages = 0
-    words = 0
-    chars = 0
-    for name in sorted(os.listdir(notes_dir)):
-        if not name.endswith(".html"):
+    pdf_pages = 0
+    equations = 0
+    for slug in slugs:
+        note_path = os.path.join(ROOT, "notes", f"{slug}.html")
+        with open(note_path, encoding="utf-8") as note_file:
+            note_html = note_file.read()
+        article_match = _STATS_ARTICLE_RE.search(note_html)
+        if not article_match:
+            raise ValueError(f"Missing note body in {note_path}")
+        article = article_match.group(1)
+        equations += len(_STATS_DISPLAY_RE.findall(article))
+        equations += len(_STATS_DOLLAR_DISPLAY_RE.findall(article))
+        equations += len(_STATS_EQUATION_ROW_RE.findall(article))
+        equations += len(_STATS_WICK_FIGURE_RE.findall(article))
+
+        pdf_path = os.path.join(ROOT, "output", "pdf", f"{slug}.pdf")
+        if not os.path.exists(pdf_path):
+            # Let a newly catalogued note reach nav-manifest.json first: the
+            # PDF builder reads that manifest to discover what to render.
+            # The production tests still require a PDF for every public note,
+            # so an incomplete edition cannot deploy.
+            print(f"  warning: missing output/pdf/{slug}.pdf; excluding it from page total")
             continue
-        path = os.path.join(notes_dir, name)
-        with open(path, encoding="utf-8") as f:
-            prose = _extract_prose(f.read())
-        pages += 1
-        # Count words; len(prose) gives char count (sans collapsed runs of WS).
-        words += len(prose.split())
-        chars += len(prose)
-    return {"pages": pages, "words": words, "chars": chars}
+        with open(pdf_path, "rb") as pdf_file:
+            # Our Chromium/LaTeX PDFs keep Page dictionaries uncompressed.
+            # The test suite cross-checks this same build-format invariant.
+            page_count = len(_STATS_PDF_PAGE_RE.findall(pdf_file.read()))
+        if page_count < 1:
+            raise ValueError(f"Could not count pages in {pdf_path}")
+        pdf_pages += page_count
+
+    return {"notes": len(slugs), "pdf_pages": pdf_pages, "equations": equations}
 
 
 def _fmt(n: int) -> str:
@@ -872,11 +892,12 @@ def top_index_page(categories: list[dict]) -> str:
         count = cat['body'].count('<li class="catalogue__item">')
         cards.append(f'<a class="subject-link" href="#{cat["slug"]}"><span>{cat["title"]}</span><small>{count} notes</small></a>')
     cards_html = "\n".join(cards)
-    stats = compute_stats()
+    stats = compute_stats(categories)
     stats_html = f"""
     <ul class="stats" aria-label="Notebook statistics">
-      <li><span class="stats__num">{_fmt(stats['pages'])}</span><span class="stats__label">notes</span></li>
-      <li><span class="stats__num">{len(categories)}</span><span class="stats__label">subjects</span></li>
+      <li aria-label="{_fmt(stats['notes'])} notes"><span class="stats__num" data-count="{stats['notes']}">{_fmt(stats['notes'])}</span><span class="stats__label">notes</span></li>
+      <li aria-label="{_fmt(stats['pdf_pages'])} PDF pages"><span class="stats__num" data-count="{stats['pdf_pages']}">{_fmt(stats['pdf_pages'])}</span><span class="stats__label">PDF pages</span></li>
+      <li aria-label="{_fmt(stats['equations'])} displayed equations"><span class="stats__num" data-count="{stats['equations']}">{_fmt(stats['equations'])}</span><span class="stats__label">equations</span></li>
     </ul>"""
     work_sections = []
     for cat in categories:
@@ -911,7 +932,7 @@ def top_index_page(categories: list[dict]) -> str:
     <div class="hero__eyebrow">A working archive</div>
     <h1>Notes</h1>
     <p class="hero__lede">
-      48 sets of notes, solved problems, and derivations. Read online or download a typeset PDF.
+      {_fmt(stats['notes'])} sets of notes, solved problems, and derivations. Read online or download a typeset PDF.
     </p>
 {stats_html}
 
