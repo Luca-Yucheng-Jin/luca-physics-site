@@ -7,7 +7,6 @@ import test from 'node:test';
 const root = path.resolve('.');
 const clientRoot = path.join(root, 'dist', 'client');
 const privateSlugs = [
-  'path-integral',
   'de-greens-function',
   'de-images-laplace',
   'tdsp-adiabatic-water',
@@ -85,18 +84,86 @@ test('private notes have no direct HTML or PDF route in source or deployment', a
 });
 
 
+test('the path-integral essay remains public with its source, figures, HTML, and PDF', async () => {
+  const manifest = JSON.parse(
+    await readFile(path.join(root, 'assets', 'nav-manifest.json'), 'utf8'),
+  );
+  const publicHrefs = manifest.categories.flatMap((category) =>
+    category.groups.flatMap((group) => group.notes.map((note) => note.href)),
+  );
+  assert.ok(publicHrefs.includes('notes/path-integral.html'), 'essay is missing from public navigation');
+
+  const publicIndexes = await Promise.all([
+    'notes.html',
+    'notes-qft.html',
+    'assets/nav-manifest.json',
+    'sitemap.xml',
+  ].map((relative) => readFile(path.join(root, relative), 'utf8')));
+  for (const contents of publicIndexes) {
+    assert.match(contents, /notes\/path-integral\.html/, 'essay is missing from a public index');
+  }
+  assert.match(publicIndexes[0], /output\/pdf\/path-integral\.pdf/);
+  assert.match(publicIndexes[1], /output\/pdf\/path-integral\.pdf/);
+
+  for (const relative of [
+    'notes/path-integral.html',
+    'output/pdf/path-integral.pdf',
+    'tex/path-integral.tex',
+    'dist/client/notes/path-integral.html',
+    'dist/client/output/pdf/path-integral.pdf',
+    ...Array.from({ length: 5 }, (_, index) => `assets/path-integral-fig${index + 1}${[
+      '-spacetime.png', '-slits.png', '-paths.png', '-wick.png', '-cylinder.png',
+    ][index]}`),
+    ...Array.from({ length: 5 }, (_, index) => `dist/client/assets/path-integral-fig${index + 1}${[
+      '-spacetime.png', '-slits.png', '-paths.png', '-wick.png', '-cylinder.png',
+    ][index]}`),
+  ]) {
+    await assert.doesNotReject(stat(path.join(root, relative)), `missing public essay asset: ${relative}`);
+  }
+
+  await assertMissing('tex/quantumEssay.tex');
+  await assertMissing('tex-served/quantumEssay.tex');
+
+  const source = await readFile(path.join(root, 'tex', 'path-integral.tex'), 'utf8');
+  const html = await readFile(path.join(root, 'notes', 'path-integral.html'), 'utf8');
+  const citedKeys = new Set(
+    [...source.matchAll(/\\cite\*?\{([^}]+)\}/g)]
+      .flatMap((match) => match[1].split(',').map((key) => key.trim())),
+  );
+  const bibliographyKeys = [...source.matchAll(/\\bibitem(?:\[[^\]]*\])?\{([^}]+)\}/g)]
+    .map((match) => match[1]);
+  assert.deepEqual([...citedKeys].sort(), [...bibliographyKeys].sort());
+  assert.deepEqual(bibliographyKeys, [
+    'Feynman1948', 'Sakurai', 'TongQM', 'Peskin', 'Schwartz', 'Kibble',
+  ]);
+  for (const key of citedKeys) {
+    assert.match(html, new RegExp(`href="#ref-${key}"`), `citation ${key} is not linked`);
+  }
+  assert.doesNotMatch(
+    `${source}\n${html}`,
+    /02556257|StudentCID|Research\s*&\s*Writing Methods|Generative AI was used/i,
+    'sanitized public essay exposes private assessment metadata',
+  );
+  assert.match(html, /data-section-number="A"/);
+  assert.match(html, /\\tag\{A\.1\}/);
+  assert.match(html, /\\tag\{A\.6\}/);
+  assert.doesNotMatch(html, /\\appendix|Section (?:LC|Sec:Bra-ket|HS)|Appendix wick/);
+  assert.equal((html.match(/class="note__figure-number">Figure \d+\.<\/span>/g) || []).length, 5);
+  assert.equal((html.match(/<li id="ref-[^"]+"/g) || []).length, 6);
+  assert.match(html, /<section class="note__references" aria-labelledby="references">/);
+  assert.doesNotMatch(html.match(/<nav class="note__toc[\s\S]*?<\/nav>/)?.[0] || '', /References/);
+  assert.doesNotMatch(html, /\\cite|\\bibitem|\\begin\{thebibliography\}/);
+  assert.doesNotMatch(html, /e\^{-S_E\[[^\]]+\]\}\\oint|},,/);
+});
+
+
 test('private note sources are absent from the public repository surface', async () => {
   for (const relative of [
     'audit.md',
     'tex/QFTschwartz.tex',
     'tex-served/QFTschwartz.tex',
-    'tex/quantumEssay.tex',
-    'tex-served/quantumEssay.tex',
     'verification/build_wick.py',
     'verification/wick/index.html',
-    ...Array.from({ length: 5 }, (_, index) => `assets/path-integral-fig${index + 1}${[
-      '-spacetime.png', '-slits.png', '-paths.png', '-wick.png', '-cylinder.png',
-    ][index]}`),
   ]) {
     await assertMissing(relative);
   }
@@ -111,6 +178,6 @@ test('private note sources are absent from the public repository surface', async
   ].map((relative) => readFile(path.join(root, relative), 'utf8')));
   assert.doesNotMatch(
     publicSources.join('\n'),
-    /QFTschwartz|quantumEssay|de-greens-function|de-images-laplace|tdsp-adiabatic-water|schwartz-(?:classical|second|spin|qed|path)/i,
+    /QFTschwartz|de-greens-function|de-images-laplace|tdsp-adiabatic-water|schwartz-(?:classical|second|spin|qed|path)/i,
   );
 });
