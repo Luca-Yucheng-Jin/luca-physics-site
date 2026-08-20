@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Generate the public crawler directives and canonical HTML sitemap."""
 
+import json
 from pathlib import Path
 from xml.sax.saxutils import escape
 
@@ -10,10 +11,19 @@ SITE_URL = "https://luca-yucheng-jin.github.io/luca-physics-site"
 
 
 def public_pages() -> list[Path]:
-    """Return every indexable HTML page in stable, human-readable order."""
+    """Return only catalogue-backed, indexable pages in stable order."""
     pages = [ROOT / "index.html", ROOT / "notes.html"]
     pages.extend(sorted(ROOT.glob("notes-*.html")))
-    pages.extend(sorted((ROOT / "notes").glob("*.html")))
+    manifest = json.loads((ROOT / "assets" / "nav-manifest.json").read_text())
+    note_paths = [
+        ROOT / note["href"]
+        for category in manifest["categories"]
+        for group in category["groups"]
+        for note in group["notes"]
+    ]
+    if len(note_paths) != len(set(note_paths)):
+        raise ValueError("Duplicate public note in navigation manifest")
+    pages.extend(note_paths)
     missing = [str(path.relative_to(ROOT)) for path in pages if not path.is_file()]
     if missing:
         raise FileNotFoundError(f"Missing public pages: {', '.join(missing)}")

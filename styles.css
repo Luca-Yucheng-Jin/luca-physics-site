@@ -529,8 +529,6 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
 }
 @media (min-width: 1280px) {
   .note__sidebar { display: block; }
-  /* Hide the inline TOC where the sticky sidebar already shows the same nav. */
-  .note .note__toc { display: none; }
 }
 .note__sidebar-label {
   font-variant: small-caps;
@@ -573,6 +571,14 @@ main.page--narrow { width: min(var(--measure-narrow), calc(100vw - 2 * var(--gut
   color: var(--muted);
 }
 .note__sidebar-list .sidebar-h3 a.is-active {
+  color: var(--accent);
+}
+.note__sidebar-list .sidebar-h4 a {
+  padding-left: 2rem;
+  font-size: 0.74rem;
+  color: var(--muted);
+}
+.note__sidebar-list .sidebar-h4 a.is-active {
   color: var(--accent);
 }
 
@@ -1519,6 +1525,27 @@ body.nav-on .site-nav-toggle__chevron {
   border-bottom: 1px solid var(--rule);
   padding-bottom: 0.3rem;
 }
+.note h3[data-section-heading] {
+  font-size: clamp(1.12rem, 1.7vw, 1.3rem);
+  color: var(--ink);
+}
+.note h4[data-section-heading] {
+  margin: 1.7rem 0 0.55rem;
+  font-family: var(--display);
+  font-size: clamp(1rem, 1.45vw, 1.14rem);
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+.note [data-section-heading] {
+  scroll-margin-top: 7rem;
+}
+.note__heading-number {
+  display: inline-block;
+  margin-right: 0.55em;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums lining-nums;
+  font-style: normal;
+}
 
 .note__problem,
 .note__abstract {
@@ -1698,8 +1725,6 @@ body.nav-on .site-nav-toggle__chevron {
   list-style: none;
   padding: 0;
   margin: 0;
-  columns: 2;                   /* two-up on wide screens */
-  column-gap: 2rem;
 }
 .note__toc-list li {
   break-inside: avoid;
@@ -1713,9 +1738,22 @@ body.nav-on .site-nav-toggle__chevron {
   font-size: 0.9em;
   color: var(--ink-soft);
 }
+.note__toc-list li.toc-h4 {
+  padding-left: 2.4rem;
+  font-size: 0.84em;
+  color: var(--muted);
+}
 .note__toc a {
+  display: grid;
+  grid-template-columns: 3.8em minmax(0, 1fr);
+  align-items: baseline;
+  gap: 0.25rem;
   border: none;
   color: var(--ink-soft);
+}
+.note__toc-number {
+  color: var(--accent);
+  font-variant-numeric: tabular-nums lining-nums;
 }
 .note__toc a:hover { color: var(--accent); }
 
@@ -2127,9 +2165,10 @@ mjx-container[display="true"] {
   .note__formats, .catalogue__formats { display: none !important; }
   main.note, main.page { width: 100%; max-width: none; margin: 0; padding: 0; }
   a { color: var(--ink); border: none; }
-  h1, h2, h3 { break-after: avoid-page; }
+  h1, h2, h3, h4 { break-after: avoid-page; }
   .note__problem, .note__abstract { break-inside: avoid; }
   .note__title { font-size: 34pt; line-height: 1.02; }
   .note__subtitle { max-width: 100%; }
-  .note__toc { break-inside: avoid-page; }
+  .note__toc { display: block !important; break-inside: avoid-page; }
+  .note__toc--long { break-after: page; }
 }

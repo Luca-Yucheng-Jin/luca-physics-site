@@ -86,12 +86,6 @@ JOBS = [
     ]),
     # ---- DE.tex ----
     ("DE.tex", [
-        ("green's function for a second-order",  "de-greens-function",
-            "Differential Equations · Imperial Contaldi PS9 Q4",
-            "Imperial College London, Carlo Contaldi, Differential Equations, Problem Sheet 9, Question 4."),
-        ("laplace operator in 3d",               "de-images-laplace",
-            "Differential Equations · Imperial Contaldi PS9 Q5",
-            "Imperial College London, Carlo Contaldi, Differential Equations, Problem Sheet 9, Question 5."),
         ("green's identity and method of images","de-greens-identity-halfspace",
             "Differential Equations · Cambridge Part IB 2025, Paper 3, 14D",
             "Unofficial personal solution to Cambridge Mathematical Tripos Part IB 2025, Paper 3, Question 14D (Methods)."),
@@ -101,9 +95,6 @@ JOBS = [
         ("joule-thomson process",                "tdsp-joule-thomson",
             "Thermo &amp; Stat Phys · Tong SP PS4 Q4",
             "D. Tong, <em>Statistical Physics</em>, Problem Sheet 4, Question 4."),
-        ("adiabatic compression of water",       "tdsp-adiabatic-water",
-            "Thermo &amp; Stat Phys · Imperial 2023 TPSM Q3",
-            "Imperial College London, 2023 Thermal Physics and Structure of Matter examination, Question 3."),
         ("partition function and thermodynamics","tdsp-spin-half",
             "Thermo &amp; Stat Phys · Tong SP PS1 Q3",
             "D. Tong, <em>Statistical Physics</em>, Problem Sheet 1, Question 3."),
@@ -122,10 +113,6 @@ JOBS = [
             "Peskin &amp; Schroeder, <em>An Introduction to Quantum Field Theory</em>, Chapter 7."),
     ]),
 ]
-
-# QFTschwartz.tex is structured as \section + \subsection. We convert each
-# subsection into its own page later; for now we skip it and convert per-file.
-# (Handled separately below.)
 
 # ----------------------------------------------------------------------
 # LaTeX → HTML conversion
@@ -372,11 +359,14 @@ class MathStash(dict):
     current `<h2>` topic on the page (1-indexed) and eq resets at every
     new topic. This mirrors `\\numberwithin{equation}{section}` in the
     user's elegantphys.sty preamble."""
-    def __init__(self):
+    def __init__(self, *, sectioned=False):
         super().__init__()
         self.items = []
         self["tikz"] = []
-        self["sec_counter"] = 1   # default for single-section pages
+        # Extracted single-topic pages behave as section 1. Whole documents
+        # opt into a zero-based pre-section state so their first numbered
+        # heading advances to section 1, just as LaTeX does.
+        self["sec_counter"] = 0 if sectioned else 1
         self["eq_counter"] = 0
         self["fig_counter"] = 0
         self["labels"] = {}       # \label{...} → number string
@@ -386,11 +376,13 @@ class MathStash(dict):
         self["eq_counter"] += 1
         return f"{self['sec_counter']}.{self['eq_counter']}"
 
-    def begin_section(self):
+    def begin_section(self, *, numbered=True):
         """Mark the start of a new <h2> topic. Resets the equation counter,
-        and on every call AFTER the first, increments the section counter
-        so the new equation tags read (n+1.1), (n+1.2), …"""
-        if self._section_started:
+        advancing the section prefix only for numbered headings. A starred
+        LaTeX heading leaves both counters alone."""
+        if not numbered:
+            return
+        if self["sec_counter"] == 0 or self._section_started:
             self["sec_counter"] += 1
         self["eq_counter"] = 0
         self._section_started = True
@@ -535,14 +527,14 @@ def _strip_two_arg_keep_second(text, command):
     return "".join(out)
 
 
-def _balanced_arg_replace(text, command, replacer):
+def _balanced_arg_replace(text, command, replacer, *, pass_star=False):
     """Find every `\\command{...}` in `text` (where the braces are balanced,
     so nested {} are handled) and replace each match with `replacer(arg)`.
     `command` is the literal command name without the backslash, e.g.
     'subsection' or 'textbf'. Trailing star is allowed."""
     out = []
     i = 0
-    pat = re.compile(r"\\" + re.escape(command) + r"\*?")
+    pat = re.compile(r"\\" + re.escape(command) + r"(\*)?")
     while i < len(text):
         m = pat.search(text, i)
         if not m:
@@ -582,9 +574,20 @@ def _balanced_arg_replace(text, command, replacer):
                     break
             j += 1
         arg = text[start:j]
-        out.append(replacer(arg))
+        out.append(replacer(arg, bool(m.group(1))) if pass_star else replacer(arg))
         i = j + 1
     return "".join(out)
+
+
+def _structural_heading(level, title, starred=False):
+    """Render a LaTeX structural heading with enough metadata for the
+    page-level numbering and contents pass. Starred headings remain visible
+    but are deliberately unnumbered and omitted from the contents list."""
+    unnumbered = " data-section-unnumbered" if starred else ""
+    return (
+        f'\n\n<h{level} data-section-heading{unnumbered}>'
+        f'{title}</h{level}>\n\n'
+    )
 
 
 def strip_tex_only_constructs(text):
@@ -1223,16 +1226,8 @@ def transform_text(text, stash=None):
         alt = alt.replace('"', "'")
 
         if img:
-            FIG_MAP = {
-                "截屏2025-09-03 11.12.36.png": "../assets/path-integral-fig1-spacetime.png",
-                "截屏2025-09-03 11.12.36 (1).png": "../assets/path-integral-fig1-spacetime.png",
-                "截屏2025-12-06 22.06.22.png": "../assets/path-integral-fig2-slits.png",
-                "截屏2025-12-07 14.59.48.png": "../assets/path-integral-fig3-paths.png",
-                "截屏2025-12-07 21.55.01.png": "../assets/path-integral-fig4-wick.png",
-                "截屏2025-12-08 11.10.24.png": "../assets/path-integral-fig5-cylinder.png",
-            }
             src = img.group(1).strip()
-            href = FIG_MAP.get(src, f"../assets/{src}")
+            href = f"../assets/{src}"
             inner = f'<img src="{href}" alt="{alt}">'
             if caption_html:
                 return f'\n\n<figure>{inner}<figcaption>{caption_html}</figcaption></figure>\n\n'
@@ -1270,10 +1265,21 @@ def transform_text(text, stash=None):
     # \footnote{...} – inline parentheses
     text = re.sub(r"\\footnote\{(.+?)\}", r" (\1)", text, flags=re.DOTALL)
 
-    # subsection / subsubsection / paragraph (balanced braces — titles can
-    # contain inline math like $\frac{1}{2}$)
-    text = _balanced_arg_replace(text, "subsection",   lambda a: f"\n\n<H3>{a}</H3>\n\n")
-    text = _balanced_arg_replace(text, "subsubsection",lambda a: f"\n\n<H4>{a}</H4>\n\n")
+    # Subsection / subsubsection headings retain structural metadata so a
+    # later page-level pass can reproduce LaTeX numbering and contents.
+    # Titles can contain balanced inline math such as $\frac{1}{2}$.
+    text = _balanced_arg_replace(
+        text,
+        "subsection",
+        lambda a, starred: _structural_heading(3, a, starred),
+        pass_star=True,
+    )
+    text = _balanced_arg_replace(
+        text,
+        "subsubsection",
+        lambda a, starred: _structural_heading(4, a, starred),
+        pass_star=True,
+    )
     text = _balanced_arg_replace(text, "paragraph",    lambda a: f"\n\n<H5>{a}</H5>\n\n")
 
     # \textbf{...}, \emph{...}, \textit{...}, \underline{...}
@@ -1356,10 +1362,7 @@ def transform_text(text, stash=None):
     # `x' → ‘x’
     text = re.sub(r"(?<!\\)`([^']+)'", r"&lsquo;\1&rsquo;", text)
 
-    # Restore <H3> / <H4> / <H5> sentinels (uppercased to avoid clashing
-    # with anything that might already be in prose)
-    text = text.replace("<H3>", "<h3>").replace("</H3>", "</h3>")
-    text = text.replace("<H4>", "<h4>").replace("</H4>", "</h4>")
+    # Restore paragraph sentinels (uppercased to avoid clashing with prose).
     text = text.replace("<H5>", "<h5>").replace("</H5>", "</h5>")
 
     # Paragraphisation: split on blank lines.
@@ -1593,55 +1596,94 @@ def slugify(s):
 
 
 def build_toc_and_inject_ids(body_html):
-    """Walk h2/h3 headings in `body_html`, assign unique slug ids in-place,
-    and return (body_with_ids, toc_html). Returns ('', body_html) if the page
-    is too short to need a TOC (≤1 heading)."""
-    seen = {}
-    headings = []   # list of (level, slug, title_html)
+    """Number structural headings and build a matching paper-style contents
+    list. The page title is the document title; structural h2/h3/h4 elements
+    therefore correspond to LaTeX sections, subsections, and subsubsections.
 
-    # Pattern: <h2>Title</h2> or <h2 id="...">Title</h2>
-    def repl(m):
-        level = int(m.group(1))
-        existing_attrs = m.group(2) or ""
-        title = m.group(3)
-        # if id already present, use it
-        idm = re.search(r'id="([^"]+)"', existing_attrs)
-        if idm:
-            sid = idm.group(1)
-            new_attrs = existing_attrs
-        else:
-            base = slugify(title)
-            sid = base
-            n = 1
-            while sid in seen:
-                n += 1
-                sid = f"{base}-{n}"
-            new_attrs = (existing_attrs + f' id="{sid}"').strip()
-            new_attrs = " " + new_attrs if not new_attrs.startswith(" ") else new_attrs
-        seen[sid] = True
-        headings.append((level, sid, title))
-        return f"<h{level} {new_attrs.strip()}>{title}</h{level}>"
-
-    body_with_ids = re.sub(
-        r"<h([23])(\s[^>]*)?>(.*?)</h\1>",
-        repl,
-        body_html,
+    Some source fragments begin at subsection or subsubsection level. Missing
+    outer levels are compacted so the first visible heading is always h2, while
+    non-structural headings such as ``Proof`` and ``Theorem`` remain untouched.
+    """
+    heading_re = re.compile(
+        r"<h([234])(\s[^>]*)?>(.*?)</h\1>",
         flags=re.DOTALL,
     )
 
-    # Build TOC
+    source_levels = sorted({
+        int(match.group(1))
+        for match in heading_re.finditer(body_html)
+        if "data-section-heading" in (match.group(2) or "")
+    })
+    level_map = {source: 2 + index for index, source in enumerate(source_levels)}
+
+    def normalize_level(match):
+        attrs = match.group(2) or ""
+        if "data-section-heading" not in attrs:
+            return match.group(0)
+        level = level_map[int(match.group(1))]
+        return f"<h{level}{attrs}>{match.group(3)}</h{level}>"
+
+    normalized = heading_re.sub(normalize_level, body_html)
+    seen = set()
+    counters = {2: 0, 3: 0, 4: 0}
+    headings = []  # (level, id, number, raw title HTML)
+
+    def number_heading(match):
+        level = int(match.group(1))
+        attrs = match.group(2) or ""
+        title = match.group(3)
+        if "data-section-heading" not in attrs:
+            return match.group(0)
+
+        unnumbered = "data-section-unnumbered" in attrs
+        number = ""
+        if not unnumbered:
+            counters[level] += 1
+            for deeper in range(level + 1, 5):
+                counters[deeper] = 0
+            number = ".".join(str(counters[current]) for current in range(2, level + 1))
+
+        id_match = re.search(r'id="([^"]+)"', attrs)
+        if id_match:
+            section_id = id_match.group(1)
+        else:
+            base = slugify(title)
+            section_id = base
+            suffix = 1
+            while section_id in seen:
+                suffix += 1
+                section_id = f"{base}-{suffix}"
+            attrs += f' id="{section_id}"'
+        seen.add(section_id)
+
+        attrs = re.sub(r'\s+data-section-number="[^"]*"', "", attrs)
+        if number:
+            attrs += f' data-section-number="{number}"'
+            number_html = f'<span class="note__heading-number">{number}</span> '
+            headings.append((level, section_id, number, title))
+        else:
+            number_html = ""
+
+        return (
+            f"<h{level}{attrs}>"
+            f"{number_html}<span class=\"note__heading-title\">{title}</span>"
+            f"</h{level}>"
+        )
+
+    body_with_ids = heading_re.sub(number_heading, normalized)
     if len(headings) < 2:
         return body_with_ids, ""
 
-    toc_lines = ['<nav class="note__toc" aria-label="Contents">',
-                 '  <div class="note__toc-label">On this page</div>',
+    toc_class = "note__toc note__toc--long" if len(headings) >= 5 else "note__toc"
+    toc_lines = [f'<nav class="{toc_class}" aria-label="Contents">',
+                 '  <div class="note__toc-label">Contents</div>',
                  '  <ol class="note__toc-list">']
-    current_level = 2
-    for level, sid, title in headings:
-        if level == 2:
-            toc_lines.append(f'    <li class="toc-h2"><a href="#{sid}">{title}</a></li>')
-        else:
-            toc_lines.append(f'    <li class="toc-h3"><a href="#{sid}">{title}</a></li>')
+    for level, section_id, number, title in headings:
+        toc_lines.append(
+            f'    <li class="toc-h{level}"><a href="#{section_id}">'
+            f'<span class="note__toc-number">{number}</span> '
+            f'<span class="note__toc-title">{title}</span></a></li>'
+        )
     toc_lines.append('  </ol>')
     toc_lines.append('</nav>')
     return body_with_ids, "\n".join(toc_lines)
@@ -1784,11 +1826,8 @@ window.MathJax = {
 
 
 # ----------------------------------------------------------------------
-# QFT Schwartz: convert each \subsection in QFTschwartz.tex into one page,
-# but reuse the chapter groupings already in notes.html.
+# Whole-document files: each compiles into a single page with a contents list.
 # ----------------------------------------------------------------------
-
-# New whole-document files: each compiles into a single page with TOC
 WHOLE_FILE_PAGES = [
     # (tex_file, slug, title, breadcrumb, source_long)
     ("Correlation_functions_in_QM.tex", "psi-correlation-functions-qm",
@@ -1850,68 +1889,6 @@ WHOLE_FILE_PAGES = [
 ]
 
 
-SCHWARTZ_GROUPS = [
-    ("schwartz-classical-field",
-        "Classical Field Theory",
-        "Quantum Field Theory · Schwartz Ch. 1–3",
-        "M. D. Schwartz, <em>Quantum Field Theory and the Standard Model</em>, Chapters 1–3.",
-        ["The Euler-Lagrange Equations", "Noether's Theorem", "Green's Functions"]),
-    ("schwartz-second-quantization",
-        "Second Quantization &amp; LSZ Reduction",
-        "Quantum Field Theory · Schwartz Ch. 2–6",
-        "M. D. Schwartz, <em>Quantum Field Theory and the Standard Model</em>, Chapters 2–6.",
-        ["Quantum Mechanical Harmonic Oscillator", "Second Quantization",
-         "$S$-matrix", "Cross Sections",
-         "The LSZ reduction Formula", "The Feynman Propagator",
-         "Lagrangian Derivation", "Hamiltonian Derivation", "Momentum-Space Feynman Rules"]),
-    ("schwartz-spin-1",
-        "Spin 1, Gauge Invariance, Photon Propagator",
-        "Quantum Field Theory · Schwartz Ch. 8–9",
-        "M. D. Schwartz, <em>Quantum Field Theory and the Standard Model</em>, Chapters 8–9.",
-        ["Unitary Representation of Poincaré Group", "Embedding Particles into Fields",
-         "Covariant Derivatives", "Quantisation and the Ward Identity", "The Photon Propagator",
-         "Quantizing Complex Scalar Fields", "Feynman Rules for Scalar QED",
-         "Scattering in Scalar QED", "Ward Identity and Gauge Invariance",
-         "Lorentz Invariance and Charge Conservation"]),
-    ("schwartz-spinors",
-        "Spinors, Dirac Equation, CPT",
-        "Quantum Field Theory · Schwartz Ch. 10–11",
-        "M. D. Schwartz, <em>Quantum Field Theory and the Standard Model</em>, Chapters 10–11.",
-        ["Representations of the Lorentz Group", "Spinor Representations", "Dirac Matrices",
-         "Coupling with the Photon Fields", "The Meaning of spin", "Majorana and Weyl Fermions",
-         "Spin, Helicity and Chirality", "Solving the Dirac Equation", "Majorana Fermions",
-         "Charge Conjugation", "Parity", "Time Reversal"]),
-    ("schwartz-qed-tree",
-        "QED Tree Amplitudes",
-        "Quantum Field Theory · Schwartz Ch. 13",
-        "M. D. Schwartz, <em>Quantum Field Theory and the Standard Model</em>, Chapter 13.",
-        ["QED Feynman Rules", "matrix Identities",
-         "$e^+e^-\\to \\mu^+\\mu^-$", "Rutherford Scattering"]),
-    ("schwartz-path-integrals",
-        "Path Integrals (in QFT)",
-        "Quantum Field Theory · Schwartz Ch. 14",
-        "M. D. Schwartz, <em>Quantum Field Theory and the Standard Model</em>, Chapter 14.",
-        ["Path Integral"]),
-]
-
-
-def extract_subsections_by_titles(text, title_substrings):
-    """Return a list of (title, body) for each subsection in text whose title
-    contains any of the given lowercase substrings, in document order."""
-    matches = _find_balanced_command_args(text, "subsection")
-    out = []
-    for i, (cstart, cend, title_raw) in enumerate(matches):
-        title_lc = title_raw.lower()
-        if not any(sub.lower() in title_lc for sub in title_substrings):
-            continue
-        start = cend
-        end = matches[i + 1][0] if i + 1 < len(matches) else len(text)
-        next_section = re.search(r"\\section\*?\{", text[start:end])
-        if next_section:
-            end = start + next_section.start()
-        out.append((title_raw, text[start:end]))
-    return out
-
 
 def extract_section_body(text, section_title):
     """Find the \\section{...} matching `section_title` (substring, case-insens)
@@ -1929,105 +1906,6 @@ def extract_section_body(text, section_title):
     return None, None
 
 
-def write_schwartz_pages(schwartz_text):
-    written = 0
-    for slug, page_title, breadcrumb, source_long, picks in SCHWARTZ_GROUPS:
-        # Special case: schwartz-path-integrals matches the whole \section{Path Integral}
-        if slug == "schwartz-path-integrals":
-            stitle, body = extract_section_body(schwartz_text, "Path Integral")
-            if body is None:
-                print(f"  warn: section not found for {slug}")
-                continue
-            body_html = latex_to_html(body)
-            path = os.path.join(OUT, f"{slug}.html")
-            full_body = f"<h2>{stitle}</h2>\n\n{body_html}"
-            full_body, toc_html = build_toc_and_inject_ids(full_body)
-            with open(path, "w") as f:
-                f.write(render_page(
-                    slug=slug,
-                    title=page_title,
-                    source_short=source_long.replace("<em>", "").replace("</em>", "").split(",")[0],
-                    source_long=source_long,
-                    breadcrumb=breadcrumb,
-                    body=full_body,
-                    toc=toc_html,
-                ))
-            written += 1
-            print(f"  wrote {slug}.html  (section: {stitle})")
-            continue
-
-        subs = extract_subsections_by_titles(schwartz_text, picks)
-        if not subs:
-            print(f"  warn: no subsections matched for {slug}")
-            continue
-        # Share one stash so labels resolve across subsections, but reset the
-        # equation counter at each new subsection so numbering restarts at (1)
-        # for every topic.
-        shared = MathStash()
-        body_chunks = []
-        for sub_title, sub_body in subs:
-            shared.reset_eq_counter()
-            body_chunks.append(f"\n<h2>{sub_title}</h2>\n\n"
-                               + latex_to_html(sub_body, stash=shared))
-        body_html = "\n".join(body_chunks)
-        body_html, toc_html = build_toc_and_inject_ids(body_html)
-        path = os.path.join(OUT, f"{slug}.html")
-        with open(path, "w") as f:
-            f.write(render_page(
-                slug=slug,
-                title=page_title,
-                source_short=source_long.replace("<em>", "").replace("</em>", "").split(",")[0],
-                source_long=source_long,
-                breadcrumb=breadcrumb,
-                body=body_html,
-                toc=toc_html,
-            ))
-        written += 1
-        print(f"  wrote {slug}.html  ({len(subs)} subsections)")
-    return written
-
-
-def write_essay_page(tex_path, slug, title, breadcrumb, source_long):
-    """Convert a full-document essay (multi-section) into one HTML page,
-    preserving the original section structure."""
-    with open(tex_path) as f:
-        text = f.read()
-    # Skip everything before \section{Introduction} (or the first \section)
-    first = re.search(r"\\section\*?\{", text)
-    if not first:
-        print(f"  warn: no \\section in {tex_path}")
-        return
-    text = text[first.start():]
-    # Stop at \end{document}
-    end = re.search(r"\\end\{document\}", text)
-    if end:
-        text = text[:end.start()]
-    # Convert sections to <h2> by walking
-    matches = _find_balanced_command_args(text, "section")
-    out_chunks = []
-    shared = MathStash()
-    for i, (cstart, cend, sec_title) in enumerate(matches):
-        sec_title = sec_title.strip()
-        start = cend
-        end_pos = matches[i + 1][0] if i + 1 < len(matches) else len(text)
-        sec_body = text[start:end_pos]
-        shared.reset_eq_counter()
-        out_chunks.append(f"<h2>{sec_title}</h2>\n\n"
-                          + latex_to_html(sec_body, stash=shared))
-    body_html = "\n\n".join(out_chunks)
-    body_html, toc_html = build_toc_and_inject_ids(body_html)
-    out_path = os.path.join(OUT, f"{slug}.html")
-    with open(out_path, "w") as f:
-        f.write(render_page(
-            slug=slug,
-            title=title,
-            breadcrumb=breadcrumb,
-            source_short=source_long.replace("<em>", "").replace("</em>", "").split(",")[0],
-            source_long=source_long,
-            body=body_html,
-            toc=toc_html,
-        ))
-    print(f"  wrote {slug}.html  (essay: {len(matches)} sections)")
 
 
 def write_final_project(qftsoln_text):
@@ -2057,7 +1935,7 @@ def write_final_project(qftsoln_text):
 
 def write_whole_file_page(tex_path, slug, title, breadcrumb, source_long):
     """Convert a whole .tex file (after \\begin{document}) into a single HTML
-    page, treating \\section and \\subsection as <h2>/<h3>."""
+    page while retaining its LaTeX section hierarchy."""
     with open(tex_path) as f:
         text = f.read()
     # Skip preamble: start at first \section if present, otherwise at \begin{document}
@@ -2078,11 +1956,11 @@ def write_whole_file_page(tex_path, slug, title, breadcrumb, source_long):
     sec_count = len(re.findall(r"\\section\*?\{",    text))
     promote_subsections = (sec_count == 1 and sub_count > 1)
 
-    shared = MathStash()
     out_chunks = []
 
     if promote_subsections:
         matches = _find_balanced_command_args(text, "subsection")
+        shared = MathStash(sectioned=bool(matches))
         if not matches:
             out_chunks.append(latex_to_html(text, stash=shared))
         else:
@@ -2097,11 +1975,16 @@ def write_whole_file_page(tex_path, slug, title, breadcrumb, source_long):
                 start = cend
                 end_pos = matches[i + 1][0] if i + 1 < len(matches) else len(text)
                 sub_body = text[start:end_pos]
-                shared.reset_eq_counter()
-                out_chunks.append(f"<h2>{display}</h2>\n\n"
+                starred = text.startswith(r"\subsection*", cstart)
+                shared.begin_section(numbered=not starred)
+                heading = _structural_heading(
+                    2, display, starred
+                ).strip()
+                out_chunks.append(heading + "\n\n"
                                   + latex_to_html(sub_body, stash=shared))
     else:
         matches = _find_balanced_command_args(text, "section")
+        shared = MathStash(sectioned=bool(matches))
         if not matches:
             out_chunks.append(latex_to_html(text, stash=shared))
         else:
@@ -2115,8 +1998,12 @@ def write_whole_file_page(tex_path, slug, title, breadcrumb, source_long):
                 start = cend
                 end_pos = matches[i + 1][0] if i + 1 < len(matches) else len(text)
                 sec_body = text[start:end_pos]
-                shared.reset_eq_counter()
-                out_chunks.append(f"<h2>{display}</h2>\n\n"
+                starred = text.startswith(r"\section*", cstart)
+                shared.begin_section(numbered=not starred)
+                heading = _structural_heading(
+                    2, display, starred
+                ).strip()
+                out_chunks.append(heading + "\n\n"
                                   + latex_to_html(sec_body, stash=shared))
     body_html = "\n\n".join(out_chunks)
     body_html, toc_html = build_toc_and_inject_ids(body_html)
@@ -2162,21 +2049,6 @@ def main():
                     toc=toc_html,
                 ))
             print(f"  wrote {slug}.html")
-
-    # Schwartz multi-section pages
-    schwartz_path = os.path.join(TEX, "QFTschwartz.tex")
-    with open(schwartz_path) as f:
-        schwartz_text = f.read()
-    write_schwartz_pages(schwartz_text)
-
-    # Path Integral essay (full document, original prose)
-    write_essay_page(
-        os.path.join(TEX, "quantumEssay.tex"),
-        "path-integral",
-        "Path Integrals and the Quantum–Statistical Correspondence",
-        "Long-form essay · Imperial Year-2 Quantum Physics",
-        "Yucheng (Luca) Jin, Year 2 Quantum Physics essay (Imperial College London, 2025).",
-    )
 
     # Peskin final project
     qftsoln_path = os.path.join(TEX, "QFTsoln.tex")

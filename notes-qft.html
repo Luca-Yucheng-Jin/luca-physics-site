@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Quantum Field Theory Notes &amp; Solutions | Yucheng (Luca) Jin</title>
-<meta name="description" content="Quantum Field Theory notes and worked solutions by Yucheng (Luca) Jin: Path-integral essay, Peskin / Tong / PSI / Srednicki solutions, Schwartz chapter notes, φ³ computation. Every note is available in HTML and PDF.">
+<meta name="description" content="Quantum Field Theory notes and worked solutions by Yucheng (Luca) Jin: Peskin, Tong, PSI, Osborn, and Srednicki solutions, plus an independent φ³ computation. Every note is available in HTML and PDF.">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
 <meta name="author" content="Yucheng (Luca) Jin">
 <link rel="canonical" href="https://luca-yucheng-jin.github.io/luca-physics-site/notes-qft.html">
@@ -12,18 +12,18 @@
 <meta property="og:url" content="https://luca-yucheng-jin.github.io/luca-physics-site/notes-qft.html">
 <meta property="og:site_name" content="Luca Jin Physics">
 <meta property="og:title" content="Quantum Field Theory Notes &amp; Solutions | Yucheng (Luca) Jin">
-<meta property="og:description" content="Quantum Field Theory notes and worked solutions by Yucheng (Luca) Jin: Path-integral essay, Peskin / Tong / PSI / Srednicki solutions, Schwartz chapter notes, φ³ computation. Every note is available in HTML and PDF.">
+<meta property="og:description" content="Quantum Field Theory notes and worked solutions by Yucheng (Luca) Jin: Peskin, Tong, PSI, Osborn, and Srednicki solutions, plus an independent φ³ computation. Every note is available in HTML and PDF.">
 <meta property="og:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Quantum Field Theory Notes &amp; Solutions | Yucheng (Luca) Jin">
-<meta name="twitter:description" content="Quantum Field Theory notes and worked solutions by Yucheng (Luca) Jin: Path-integral essay, Peskin / Tong / PSI / Srednicki solutions, Schwartz chapter notes, φ³ computation. Every note is available in HTML and PDF.">
+<meta name="twitter:description" content="Quantum Field Theory notes and worked solutions by Yucheng (Luca) Jin: Peskin, Tong, PSI, Osborn, and Srednicki solutions, plus an independent φ³ computation. Every note is available in HTML and PDF.">
 <meta name="twitter:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
 
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 
 <link rel="stylesheet" href="styles.css">
 
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"CollectionPage","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes-qft.html#page","url":"https://luca-yucheng-jin.github.io/luca-physics-site/notes-qft.html","name":"Quantum Field Theory Notes & Solutions","description":"Quantum Field Theory notes and worked solutions by Yucheng (Luca) Jin: Path-integral essay, Peskin / Tong / PSI / Srednicki solutions, Schwartz chapter notes, φ³ computation. Every note is available in HTML and PDF.","inLanguage":"en","isPartOf":{"@type":"WebSite","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#website","name":"Luca Jin Physics","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"author":{"@type":"Person","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#person","name":"Yucheng (Luca) Jin","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"about":{"@type":"Thing","name":"Quantum Field Theory"}},{"@type":"BreadcrumbList","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes-qft.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes.html"},{"@type":"ListItem","position":2,"name":"Quantum Field Theory","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes-qft.html"}]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"CollectionPage","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes-qft.html#page","url":"https://luca-yucheng-jin.github.io/luca-physics-site/notes-qft.html","name":"Quantum Field Theory Notes & Solutions","description":"Quantum Field Theory notes and worked solutions by Yucheng (Luca) Jin: Peskin, Tong, PSI, Osborn, and Srednicki solutions, plus an independent φ³ computation. Every note is available in HTML and PDF.","inLanguage":"en","isPartOf":{"@type":"WebSite","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#website","name":"Luca Jin Physics","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"author":{"@type":"Person","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#person","name":"Yucheng (Luca) Jin","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"about":{"@type":"Thing","name":"Quantum Field Theory"}},{"@type":"BreadcrumbList","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes-qft.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes.html"},{"@type":"ListItem","position":2,"name":"Quantum Field Theory","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes-qft.html"}]}]}</script>
 
 <script src="assets/theme.js"></script>
 <script src="assets/font-size.js"></script>
@@ -54,23 +54,10 @@
   <section class="hero">
     <div class="hero__eyebrow">Notes · subject</div>
     <h1>Quantum Field Theory</h1>
-    <p class="hero__lede">Path-integral essay, Peskin / Tong / PSI / Srednicki solutions, Schwartz chapter notes, \(\phi^3\) computation.</p>
+    <p class="hero__lede">Peskin, Tong, PSI, Osborn, and Srednicki solutions, plus an independent \(\phi^3\) computation.</p>
   </section>
 
   <section class="section" id="qft">
-    <h3>Papers</h3>
-    <ul class="catalogue">
-      <li class="catalogue__item">
-        <span class="catalogue__num">I.</span>
-        <span class="catalogue__main">
-          <a href="notes/path-integral.html">Path Integrals and the Quantum–Statistical Correspondence</a>
-          <span class="catalogue__desc">Imperial Year-2 essay — Feynman's path integral, Wick rotation, and the partition function.</span>
-        </span>
-        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/path-integral.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/path-integral.pdf">PDF <span aria-hidden="true">↓</span></a></span>
-      <span class="catalogue__tag">Essay</span>
-      </li>
-    </ul>
-
     <h3 class="catalogue-source">
       <span>Solutions to Peskin &amp; Schroeder’s <em>An Introduction to Quantum Field Theory</em></span>
       <a href="https://www.routledge.com/An-Introduction-To-Quantum-Field-Theory/Peskin-Schroeder/p/book/9780429503559" target="_blank" rel="noopener noreferrer">Publisher page ↗</a>
@@ -208,67 +195,6 @@
         </span>
         <span class="catalogue__formats" aria-label="Available formats"><a href="notes/srednicki-rg-phi-chi.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/srednicki-rg-phi-chi.pdf">PDF <span aria-hidden="true">↓</span></a></span>
       <span class="catalogue__tag">Srednicki Ch. 28</span>
-      </li>
-    </ul>
-
-    <h3 class="catalogue-source">
-      <span>Notes following Matthew D. Schwartz’s <em>Quantum Field Theory and the Standard Model</em></span>
-      <a href="https://www.cambridge.org/highereducation/books/quantum-fieldtheory-and-the-standard-model/A4CD66B998F2C696DCC75B984A7D5799" target="_blank" rel="noopener noreferrer">Publisher page ↗</a>
-    </h3>
-    <ul class="catalogue">
-      <li class="catalogue__item">
-        <span class="catalogue__num">I.</span>
-        <span class="catalogue__main">
-          <a href="notes/schwartz-classical-field.html">Classical Field Theory</a>
-          <span class="catalogue__desc">Schwartz, Ch. 1–3 — Euler–Lagrange, Noether, Green's functions.</span>
-        </span>
-        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/schwartz-classical-field.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/schwartz-classical-field.pdf">PDF <span aria-hidden="true">↓</span></a></span>
-      <span class="catalogue__tag">Schwartz Ch. 1–3</span>
-      </li>
-      <li class="catalogue__item">
-        <span class="catalogue__num">II.</span>
-        <span class="catalogue__main">
-          <a href="notes/schwartz-second-quantization.html">Second Quantization &amp; LSZ Reduction</a>
-          <span class="catalogue__desc">Schwartz, Ch. 2–6 — from the harmonic oscillator to the S-matrix and the Feynman propagator.</span>
-        </span>
-        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/schwartz-second-quantization.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/schwartz-second-quantization.pdf">PDF <span aria-hidden="true">↓</span></a></span>
-      <span class="catalogue__tag">Schwartz Ch. 2–6</span>
-      </li>
-      <li class="catalogue__item">
-        <span class="catalogue__num">III.</span>
-        <span class="catalogue__main">
-          <a href="notes/schwartz-spin-1.html">Spin 1, Gauge Invariance, Photon Propagator</a>
-          <span class="catalogue__desc">Schwartz, Ch. 8–9 — quantising massless spin-1, Ward identity, scalar QED.</span>
-        </span>
-        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/schwartz-spin-1.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/schwartz-spin-1.pdf">PDF <span aria-hidden="true">↓</span></a></span>
-      <span class="catalogue__tag">Schwartz Ch. 8–9</span>
-      </li>
-      <li class="catalogue__item">
-        <span class="catalogue__num">IV.</span>
-        <span class="catalogue__main">
-          <a href="notes/schwartz-spinors.html">Spinors, Dirac Equation, CPT</a>
-          <span class="catalogue__desc">Schwartz, Ch. 10–11 — Lorentz reps, Weyl/Majorana, charge conjugation, parity, time reversal.</span>
-        </span>
-        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/schwartz-spinors.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/schwartz-spinors.pdf">PDF <span aria-hidden="true">↓</span></a></span>
-      <span class="catalogue__tag">Schwartz Ch. 10–11</span>
-      </li>
-      <li class="catalogue__item">
-        <span class="catalogue__num">V.</span>
-        <span class="catalogue__main">
-          <a href="notes/schwartz-qed-tree.html">QED Tree Amplitudes</a>
-          <span class="catalogue__desc">Schwartz, Ch. 13 — \(e^+e^-\to\mu^+\mu^-\) and Rutherford scattering from the Feynman rules.</span>
-        </span>
-        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/schwartz-qed-tree.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/schwartz-qed-tree.pdf">PDF <span aria-hidden="true">↓</span></a></span>
-      <span class="catalogue__tag">Schwartz Ch. 13</span>
-      </li>
-      <li class="catalogue__item">
-        <span class="catalogue__num">VI.</span>
-        <span class="catalogue__main">
-          <a href="notes/schwartz-path-integrals.html">Path Integrals (in QFT)</a>
-          <span class="catalogue__desc">Schwartz, Ch. 14 — from QM to functional integrals over fields.</span>
-        </span>
-        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/schwartz-path-integrals.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/schwartz-path-integrals.pdf">PDF <span aria-hidden="true">↓</span></a></span>
-      <span class="catalogue__tag">Schwartz Ch. 14</span>
       </li>
     </ul>
 

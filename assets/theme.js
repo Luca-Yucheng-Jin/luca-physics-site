@@ -403,11 +403,15 @@
     }
   }
 
-  /* ---------- On-page TOC sidebar (h2/h3 headings of the current note) */
+  /* ---------- On-page TOC sidebar (numbered paper headings) */
   function buildOnPageTOC() {
     var note = document.querySelector("main.note");
     if (!note) return;
-    var headings = note.querySelectorAll("h2[id], h3[id]");
+    var headings = note.querySelectorAll(
+      ".note__body h2[data-section-heading][id]:not([data-section-unnumbered]), " +
+      ".note__body h3[data-section-heading][id]:not([data-section-unnumbered]), " +
+      ".note__body h4[data-section-heading][id]:not([data-section-unnumbered])"
+    );
     if (headings.length < 2) return;
 
     var aside = document.createElement("aside");
@@ -416,7 +420,7 @@
 
     var label = document.createElement("div");
     label.className = "note__sidebar-label";
-    label.textContent = "On this page";
+    label.textContent = "Contents";
     aside.appendChild(label);
 
     var list = document.createElement("ol");
@@ -428,7 +432,12 @@
       li.className = "sidebar-" + h.tagName.toLowerCase();
       var a = document.createElement("a");
       a.href = "#" + h.id;
-      a.textContent = h.textContent.replace(/^§\s*/, "").trim();
+      var number = h.querySelector(".note__heading-number");
+      var title = h.querySelector(".note__heading-title");
+      a.textContent = [number && number.textContent, title && title.textContent]
+        .filter(Boolean)
+        .join(" ")
+        .trim();
       a.dataset.target = h.id;
       li.appendChild(a);
       list.appendChild(li);

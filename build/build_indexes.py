@@ -181,21 +181,9 @@ CATEGORIES = [
     {
         "slug": "qft",
         "title": "Quantum Field Theory",
-        "blurb": "Path-integral essay, Peskin / Tong / PSI / Srednicki solutions, Schwartz chapter notes, φ³ computation.",
-        "tag": "20 notes",
-        "body": """    <h3>Papers</h3>
-    <ul class="catalogue">
-      <li class="catalogue__item">
-        <span class="catalogue__num">I.</span>
-        <span class="catalogue__main">
-          <a href="notes/path-integral.html">Path Integrals and the Quantum–Statistical Correspondence</a>
-          <span class="catalogue__desc">Imperial Year-2 essay — Feynman's path integral, Wick rotation, and the partition function.</span>
-        </span>
-        <span class="catalogue__tag">Essay</span>
-      </li>
-    </ul>
-
-    <h3 class="catalogue-source">
+        "blurb": "Peskin, Tong, PSI, Osborn, and Srednicki solutions, plus an independent φ³ computation.",
+        "tag": "13 notes",
+        "body": """    <h3 class="catalogue-source">
       <span>Solutions to Peskin &amp; Schroeder’s <em>An Introduction to Quantum Field Theory</em></span>
       <a href="https://www.routledge.com/An-Introduction-To-Quantum-Field-Theory/Peskin-Schroeder/p/book/9780429503559" target="_blank" rel="noopener noreferrer">Publisher page ↗</a>
     </h3>
@@ -320,61 +308,6 @@ CATEGORIES = [
           <span class="catalogue__desc">Srednicki Ch. 28 — one-loop Z-factors in MS-bar, β-functions for the φ³ + φχ² couplings, and asymptotic freedom condition on h/g. (Q28.3)</span>
         </span>
         <span class="catalogue__tag">Srednicki Ch. 28</span>
-      </li>
-    </ul>
-
-    <h3 class="catalogue-source">
-      <span>Notes following Matthew D. Schwartz’s <em>Quantum Field Theory and the Standard Model</em></span>
-      <a href="https://www.cambridge.org/highereducation/books/quantum-fieldtheory-and-the-standard-model/A4CD66B998F2C696DCC75B984A7D5799" target="_blank" rel="noopener noreferrer">Publisher page ↗</a>
-    </h3>
-    <ul class="catalogue">
-      <li class="catalogue__item">
-        <span class="catalogue__num">I.</span>
-        <span class="catalogue__main">
-          <a href="notes/schwartz-classical-field.html">Classical Field Theory</a>
-          <span class="catalogue__desc">Schwartz, Ch. 1–3 — Euler–Lagrange, Noether, Green's functions.</span>
-        </span>
-        <span class="catalogue__tag">Schwartz Ch. 1–3</span>
-      </li>
-      <li class="catalogue__item">
-        <span class="catalogue__num">II.</span>
-        <span class="catalogue__main">
-          <a href="notes/schwartz-second-quantization.html">Second Quantization &amp; LSZ Reduction</a>
-          <span class="catalogue__desc">Schwartz, Ch. 2–6 — from the harmonic oscillator to the S-matrix and the Feynman propagator.</span>
-        </span>
-        <span class="catalogue__tag">Schwartz Ch. 2–6</span>
-      </li>
-      <li class="catalogue__item">
-        <span class="catalogue__num">III.</span>
-        <span class="catalogue__main">
-          <a href="notes/schwartz-spin-1.html">Spin 1, Gauge Invariance, Photon Propagator</a>
-          <span class="catalogue__desc">Schwartz, Ch. 8–9 — quantising massless spin-1, Ward identity, scalar QED.</span>
-        </span>
-        <span class="catalogue__tag">Schwartz Ch. 8–9</span>
-      </li>
-      <li class="catalogue__item">
-        <span class="catalogue__num">IV.</span>
-        <span class="catalogue__main">
-          <a href="notes/schwartz-spinors.html">Spinors, Dirac Equation, CPT</a>
-          <span class="catalogue__desc">Schwartz, Ch. 10–11 — Lorentz reps, Weyl/Majorana, charge conjugation, parity, time reversal.</span>
-        </span>
-        <span class="catalogue__tag">Schwartz Ch. 10–11</span>
-      </li>
-      <li class="catalogue__item">
-        <span class="catalogue__num">V.</span>
-        <span class="catalogue__main">
-          <a href="notes/schwartz-qed-tree.html">QED Tree Amplitudes</a>
-          <span class="catalogue__desc">Schwartz, Ch. 13 — e+e− → μ+μ− and Rutherford scattering from the Feynman rules.</span>
-        </span>
-        <span class="catalogue__tag">Schwartz Ch. 13</span>
-      </li>
-      <li class="catalogue__item">
-        <span class="catalogue__num">VI.</span>
-        <span class="catalogue__main">
-          <a href="notes/schwartz-path-integrals.html">Path Integrals (in QFT)</a>
-          <span class="catalogue__desc">Schwartz, Ch. 14 — from QM to functional integrals over fields.</span>
-        </span>
-        <span class="catalogue__tag">Schwartz Ch. 14</span>
       </li>
     </ul>
 
@@ -634,29 +567,9 @@ CATEGORIES = [
     {
         "slug": "de",
         "title": "Differential Equations",
-        "blurb": "Green's-function and method-of-images problems.",
-        "tag": "3 notes",
-        "body": """    <h3>Imperial College · Differential Equations &amp; Electromagnetism</h3>
-    <ul class="catalogue">
-      <li class="catalogue__item">
-        <span class="catalogue__num">XXVIII.</span>
-        <span class="catalogue__main">
-          <a href="notes/de-greens-function.html">Green's Function with Heaviside Forcing</a>
-          <span class="catalogue__desc">Imperial College, Carlo Contaldi DE, PS9 Q4.</span>
-        </span>
-        <span class="catalogue__tag">Imperial DE</span>
-      </li>
-      <li class="catalogue__item">
-        <span class="catalogue__num">XXIX.</span>
-        <span class="catalogue__main">
-          <a href="notes/de-images-laplace.html">Laplace Operator in 3D — Method of Images</a>
-          <span class="catalogue__desc">Imperial College, Carlo Contaldi DE, PS9 Q5.</span>
-        </span>
-        <span class="catalogue__tag">Imperial DE</span>
-      </li>
-    </ul>
-
-    <h3 class="catalogue-source">
+        "blurb": "Green's identity and the method of images for the half-space.",
+        "tag": "1 note",
+        "body": """    <h3 class="catalogue-source">
       <span>Unofficial solution to a public Cambridge Mathematical Tripos past paper</span>
       <a href="https://www.maths.cam.ac.uk/undergrad/pastpapers/files/2025/list_ib.pdf" target="_blank" rel="noopener noreferrer">Original paper ↗</a>
     </h3>
@@ -674,8 +587,8 @@ CATEGORIES = [
     {
         "slug": "tdsp",
         "title": "Thermodynamics & Statistical Physics",
-        "blurb": "Joule–Thomson, water near the triple point, partition functions.",
-        "tag": "4 notes",
+        "blurb": "Joule–Thomson and spin-system partition functions.",
+        "tag": "3 notes",
         "body": """    <h3 class="catalogue-source">
       <span>Solutions to David Tong’s Statistical Physics problem sheets</span>
       <a href="https://www.damtp.cam.ac.uk/user/tong/statphys.html" target="_blank" rel="noopener noreferrer">Original course ↗</a>
@@ -704,18 +617,6 @@ CATEGORIES = [
           <span class="catalogue__desc">D. Tong, <em>Statistical Physics</em>, PS1 Q4.</span>
         </span>
         <span class="catalogue__tag">Tong SP</span>
-      </li>
-    </ul>
-
-    <h3>Imperial examination write-up</h3>
-    <ul class="catalogue">
-      <li class="catalogue__item">
-        <span class="catalogue__num">XXXII.</span>
-        <span class="catalogue__main">
-          <a href="notes/tdsp-adiabatic-water.html">Adiabatic Compression of Water Near the Triple Point</a>
-          <span class="catalogue__desc">Imperial 2023 TPSM paper, Q3.</span>
-        </span>
-        <span class="catalogue__tag">Imperial TPSM</span>
       </li>
     </ul>""",
     },

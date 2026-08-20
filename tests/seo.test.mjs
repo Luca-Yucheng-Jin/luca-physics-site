@@ -13,11 +13,20 @@ async function publicHtmlFiles() {
   const rootPages = rootEntries
     .filter((name) => name === 'index.html' || name === 'notes.html' || /^notes-[^.]+\.html$/.test(name))
     .sort();
-  const notePages = (await readdir(path.join(root, 'notes')))
-    .filter((name) => name.endsWith('.html'))
-    .sort()
-    .map((name) => path.join('notes', name));
+  const notePages = await publicNotePages();
   return [...rootPages, ...notePages];
+}
+
+
+async function publicNotePages() {
+  const manifest = JSON.parse(
+    await readFile(path.join(root, 'assets', 'nav-manifest.json'), 'utf8'),
+  );
+  const pages = manifest.categories.flatMap((category) =>
+    category.groups.flatMap((group) => group.notes.map((note) => note.href)),
+  );
+  assert.equal(new Set(pages).size, pages.length, 'navigation manifest contains duplicate notes');
+  return pages.sort();
 }
 
 
@@ -28,7 +37,6 @@ function expectedCanonical(relative) {
 
 test('every public HTML page has unique indexable search metadata', async () => {
   const files = await publicHtmlFiles();
-  assert.equal(files.length, 57);
   const canonicals = new Set();
 
   for (const relative of files) {
@@ -102,9 +110,7 @@ test('notes overview keeps only the useful archive statistics', async () => {
   assert.ok(stats, 'notes.html: missing archive statistics');
   assert.equal((stats.match(/<li\b/g) || []).length, 3);
 
-  const noteNames = (await readdir(path.join(root, 'notes')))
-    .filter((name) => name.endsWith('.html'))
-    .sort();
+  const noteNames = (await publicNotePages()).map((relative) => path.basename(relative));
   let pdfPages = 0;
   let equations = 0;
   for (const name of noteNames) {
