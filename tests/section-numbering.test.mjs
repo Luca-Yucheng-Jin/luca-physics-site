@@ -26,6 +26,7 @@ function structuralHeadings(html) {
       visibleNumber: match[3].match(/<span class="note__heading-number">([^<]+)<\/span>/)?.[1],
       title: match[3].match(/<span class="note__heading-title">([\s\S]*?)<\/span>/)?.[1],
       unnumbered: match[2].includes('data-section-unnumbered'),
+      appendix: match[2].includes('data-section-appendix'),
     }));
 }
 
@@ -44,18 +45,40 @@ function tocEntries(html) {
 
 function expectedNumberedHeadings(headings) {
   const counters = { 2: 0, 3: 0, 4: 0 };
+  let appendixCounter = 0;
+  let sectionPrefix = '';
   const expected = [];
   for (const heading of headings) {
     if (heading.unnumbered) continue;
-    counters[heading.level] += 1;
-    for (let deeper = heading.level + 1; deeper <= 4; deeper += 1) counters[deeper] = 0;
+    let number;
+    if (heading.level === 2) {
+      counters[3] = 0;
+      counters[4] = 0;
+      if (heading.appendix) {
+        appendixCounter += 1;
+        let value = appendixCounter;
+        sectionPrefix = '';
+        while (value > 0) {
+          value -= 1;
+          sectionPrefix = String.fromCharCode(65 + (value % 26)) + sectionPrefix;
+          value = Math.floor(value / 26);
+        }
+      } else {
+        counters[2] += 1;
+        sectionPrefix = String(counters[2]);
+      }
+      number = sectionPrefix;
+    } else {
+      counters[heading.level] += 1;
+      for (let deeper = heading.level + 1; deeper <= 4; deeper += 1) counters[deeper] = 0;
+      number = heading.level === 3
+        ? `${sectionPrefix}.${counters[3]}`
+        : `${sectionPrefix}.${counters[3]}.${counters[4]}`;
+    }
     expected.push({
       level: heading.level,
       id: heading.id,
-      number: Array.from(
-        { length: heading.level - 1 },
-        (_, index) => counters[index + 2],
-      ).join('.'),
+      number,
       title: heading.title,
     });
   }
@@ -95,6 +118,29 @@ print(json.dumps({'body': rendered, 'toc': toc}))
   assert.equal(headings[0].visibleNumber, undefined);
   assert.doesNotMatch(rendered.toc, /Abstract/);
   assert.match(rendered.toc, /<div class="note__toc-label">Contents<\/div>/);
+  assert.deepEqual(tocEntries(rendered.toc), expectedNumberedHeadings(headings));
+});
+
+
+test('appendices use LaTeX-style alphabetic section and nested labels', async () => {
+  const python = String.raw`
+import json
+from build.tex_to_html import build_toc_and_inject_ids
+
+body = '''
+<h2 data-section-heading>Main text</h2>
+<h3 data-section-heading>Method</h3>
+<h2 data-section-heading data-section-appendix>Derivation</h2>
+<h3 data-section-heading>Details</h3>
+'''
+rendered, toc = build_toc_and_inject_ids(body)
+print(json.dumps({'body': rendered, 'toc': toc}))
+`;
+  const { stdout } = await execFile('python3', ['-c', python], { cwd: root });
+  const rendered = JSON.parse(stdout);
+  const headings = structuralHeadings(rendered.body);
+
+  assert.deepEqual(headings.map((heading) => heading.number), ['1', '1.1', 'A', 'A.1']);
   assert.deepEqual(tocEntries(rendered.toc), expectedNumberedHeadings(headings));
 });
 

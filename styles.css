@@ -1595,6 +1595,46 @@ body.nav-on .site-nav-toggle__chevron {
   font-size: 0.9rem;
   margin-top: 0.5rem;
 }
+.note__figure-number {
+  color: var(--accent);
+  font-style: normal;
+  font-variant: small-caps;
+  letter-spacing: 0.03em;
+}
+
+.note__citation {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.note__citation a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.note__citation a:hover,
+.note__citation a:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+.note__references {
+  margin-top: 4.5rem;
+  padding-top: 1.7rem;
+  border-top: 1px solid var(--rule);
+}
+.note__references h2 {
+  margin: 0 0 1.5rem;
+}
+.note__references ol {
+  margin: 0;
+  padding-left: 2rem;
+}
+.note__references li {
+  margin: 0 0 1rem;
+  padding-left: 0.5rem;
+}
+.note__references li::marker {
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
 
 /* TikZ figures (pre-rendered to inline SVG by build/svg_render.py). The
    diagram sits inline with the surrounding prose like a math display.
@@ -2166,6 +2206,7 @@ mjx-container[display="true"] {
   main.note, main.page { width: 100%; max-width: none; margin: 0; padding: 0; }
   a { color: var(--ink); border: none; }
   h1, h2, h3, h4 { break-after: avoid-page; }
+  .note h2[data-section-appendix] { break-before: page; }
   .note__problem, .note__abstract { break-inside: avoid; }
   .note__title { font-size: 34pt; line-height: 1.02; }
   .note__subtitle { max-width: 100%; }

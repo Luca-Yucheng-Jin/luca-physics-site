@@ -3,9 +3,21 @@
     {
       "slug": "qft",
       "title": "Quantum Field Theory",
-      "blurb": "Peskin, Tong, PSI, Osborn, and Srednicki solutions, plus an independent φ³ computation.",
-      "tag": "13 notes",
+      "blurb": "Path-integral essay; Peskin, Tong, PSI, Osborn, and Srednicki solutions; plus an independent φ³ computation.",
+      "tag": "14 notes",
       "groups": [
+        {
+          "title": "Papers",
+          "notes": [
+            {
+              "href": "notes/path-integral.html",
+              "title": "Path Integrals and the Quantum–Statistical Correspondence",
+              "label": "I.",
+              "desc": "Imperial Year-2 essay — Feynman's path integral, Wick rotation, and the partition function.",
+              "tag": "Essay"
+            }
+          ]
+        },
         {
           "title": "Solutions to Peskin & Schroeder’s An Introduction to Quantum Field Theory",
           "notes": [

@@ -181,9 +181,21 @@ CATEGORIES = [
     {
         "slug": "qft",
         "title": "Quantum Field Theory",
-        "blurb": "Peskin, Tong, PSI, Osborn, and Srednicki solutions, plus an independent φ³ computation.",
-        "tag": "13 notes",
-        "body": """    <h3 class="catalogue-source">
+        "blurb": "Path-integral essay; Peskin, Tong, PSI, Osborn, and Srednicki solutions; plus an independent φ³ computation.",
+        "tag": "14 notes",
+        "body": """    <h3>Papers</h3>
+    <ul class="catalogue">
+      <li class="catalogue__item">
+        <span class="catalogue__num">I.</span>
+        <span class="catalogue__main">
+          <a href="notes/path-integral.html">Path Integrals and the Quantum–Statistical Correspondence</a>
+          <span class="catalogue__desc">Imperial Year-2 essay — Feynman's path integral, Wick rotation, and the partition function.</span>
+        </span>
+        <span class="catalogue__tag">Essay</span>
+      </li>
+    </ul>
+
+    <h3 class="catalogue-source">
       <span>Solutions to Peskin &amp; Schroeder’s <em>An Introduction to Quantum Field Theory</em></span>
       <a href="https://www.routledge.com/An-Introduction-To-Quantum-Field-Theory/Peskin-Schroeder/p/book/9780429503559" target="_blank" rel="noopener noreferrer">Publisher page ↗</a>
     </h3>

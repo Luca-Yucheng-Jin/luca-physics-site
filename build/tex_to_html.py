@@ -351,6 +351,16 @@ def _split_tensor_indices(s):
     return "".join(out)
 
 
+def _alpha_label(number):
+    """Return LaTeX-style appendix labels: 1 -> A, 27 -> AA."""
+    label = ""
+    while number > 0:
+        number -= 1
+        label = chr(ord("A") + number % 26) + label
+        number //= 26
+    return label
+
+
 class MathStash(dict):
     """Holds math + tikz stashes, plus a per-page equation counter, a
     figure counter, and a label→number map so \\eqref / \\ref resolve.
@@ -367,23 +377,31 @@ class MathStash(dict):
         # opt into a zero-based pre-section state so their first numbered
         # heading advances to section 1, just as LaTeX does.
         self["sec_counter"] = 0 if sectioned else 1
+        self["appendix_counter"] = 0
+        self["section_label"] = "0" if sectioned else "1"
         self["eq_counter"] = 0
         self["fig_counter"] = 0
         self["labels"] = {}       # \label{...} → number string
+        self["citations"] = {}    # \bibitem key → display number
         self._section_started = False
 
     def next_eq_number(self):
         self["eq_counter"] += 1
-        return f"{self['sec_counter']}.{self['eq_counter']}"
+        return f"{self['section_label']}.{self['eq_counter']}"
 
-    def begin_section(self, *, numbered=True):
+    def begin_section(self, *, numbered=True, appendix=False):
         """Mark the start of a new <h2> topic. Resets the equation counter,
         advancing the section prefix only for numbered headings. A starred
         LaTeX heading leaves both counters alone."""
         if not numbered:
             return
-        if self["sec_counter"] == 0 or self._section_started:
-            self["sec_counter"] += 1
+        if appendix:
+            self["appendix_counter"] += 1
+            self["section_label"] = _alpha_label(self["appendix_counter"])
+        else:
+            if self["sec_counter"] == 0 or self._section_started:
+                self["sec_counter"] += 1
+            self["section_label"] = str(self["sec_counter"])
         self["eq_counter"] = 0
         self._section_started = True
 
@@ -579,13 +597,14 @@ def _balanced_arg_replace(text, command, replacer, *, pass_star=False):
     return "".join(out)
 
 
-def _structural_heading(level, title, starred=False):
+def _structural_heading(level, title, starred=False, appendix=False):
     """Render a LaTeX structural heading with enough metadata for the
     page-level numbering and contents pass. Starred headings remain visible
     but are deliberately unnumbered and omitted from the contents list."""
     unnumbered = " data-section-unnumbered" if starred else ""
+    appendix_attr = " data-section-appendix" if appendix else ""
     return (
-        f'\n\n<h{level} data-section-heading{unnumbered}>'
+        f'\n\n<h{level} data-section-heading{unnumbered}{appendix_attr}>'
         f'{title}</h{level}>\n\n'
     )
 
@@ -605,6 +624,7 @@ def strip_tex_only_constructs(text):
     text = re.sub(r"\\v(?:space|fill)\*?\{[^}]*\}", "", text)
     text = re.sub(r"\\h(?:space|fill)\*?\{[^}]*\}", " ", text)
     text = re.sub(r"\\(?:newpage|clearpage|pagebreak|linebreak|nopagebreak|flushbottom|raggedbottom|onehalfspacing|doublespacing|singlespacing)\b", "", text)
+    text = re.sub(r"\\appendix\b", "", text)
     text = re.sub(r"\\setlength\{[^}]+\}\{[^}]+\}", "", text)
     text = re.sub(r"\\addtolength\{[^}]+\}\{[^}]+\}", "", text)
     text = re.sub(r"\\baselineskip\b", "", text)
@@ -700,10 +720,9 @@ def strip_tex_only_constructs(text):
     text = re.sub(r"\\begin\{tabular\}\{([^}]*)\}(.*?)\\end\{tabular\}",
                   _tabular_repl, text, flags=re.DOTALL)
 
-    # Bibliography environment / commands — drop entirely (no bibliography on web)
-    text = re.sub(r"\\begin\{thebibliography\}.*?\\end\{thebibliography\}",
-                  "", text, flags=re.DOTALL)
-    text = re.sub(r"\\bibitem\{[^}]+\}", "", text)
+    # Keep an inline thebibliography environment for the semantic conversion
+    # in transform_text(). External BibTeX commands cannot be resolved here,
+    # so those layout-only declarations are still removed.
     text = re.sub(r"\\bibliographystyle\{[^}]+\}", "", text)
     text = re.sub(r"\\bibliography\{[^}]+\}", "", text)
     text = re.sub(r"\\nocite\*?\{[^}]*\}", "", text)
@@ -1007,6 +1026,7 @@ def stash_math(text, stash):
         label_match = re.search(r"\\label\{([^}]+)\}", body)
         label = label_match.group(1) if label_match else None
         body = re.sub(r"\\label\{[^}]+\}", "", body)
+        body = re.sub(r"(?m)^[ \t]+$", "", body)
         # User-supplied \tag{...} would collide with our auto-tag and
         # produce a MathJax "Multiple \tag" error. Strip them.
         body = re.sub(r"\\tag\*?\{[^}]*\}", "", body)
@@ -1193,6 +1213,41 @@ def transform_text(text, stash=None):
     # Decode LaTeX accent macros (\"o → ö, \'e → é, \^a → â, \`u → ù, \~n → ñ)
     text = _decode_accents(text)
 
+    # Convert an inline LaTeX bibliography into a paper-style References
+    # section. Citation numbers are precomputed for whole-file pages, which
+    # mirrors LaTeX's auxiliary-file pass and lets citations in early sections
+    # link to bibliography items rendered in the final chunk.
+    def _bibliography_repl(match):
+        body = match.group(1)
+        item_re = re.compile(r"\\bibitem(?:\[[^\]]*\])?\{([^}]+)\}")
+        items = list(item_re.finditer(body))
+        if not items:
+            return ""
+        rendered = []
+        for index, item in enumerate(items):
+            key = item.group(1).strip()
+            end = items[index + 1].start() if index + 1 < len(items) else len(body)
+            entry = body[item.end():end].strip()
+            entry = entry.replace(r"\ ", " ").replace("--", "–")
+            number = (stash or {}).get("citations", {}).get(key, index + 1)
+            ref_id = "ref-" + re.sub(r"[^A-Za-z0-9_-]+", "-", key).strip("-")
+            rendered.append(
+                f'<li id="{ref_id}" value="{number}">{entry}</li>'
+            )
+        return (
+            '\n\n<section class="note__references" aria-labelledby="references">\n'
+            '  <h2 id="references">References</h2>\n'
+            '  <ol>\n    ' + "\n    ".join(rendered) + '\n  </ol>\n'
+            '</section>\n\n'
+        )
+
+    text = re.sub(
+        r"\\begin\{thebibliography\}(?:\{[^}]*\})?(.*?)\\end\{thebibliography\}",
+        _bibliography_repl,
+        text,
+        flags=re.DOTALL,
+    )
+
     # ── EARLY: extract \begin{figure}…\end{figure} blocks BEFORE we strip
     # \label{} so the figure handler can record figure-number labels for
     # \ref{} resolution.
@@ -1216,14 +1271,21 @@ def transform_text(text, stash=None):
             return ""
         # Bump the figure counter and capture the label → number mapping
         # so \ref{} / \eqref{} resolve correctly later.
+        figure_number = None
         if stash is not None:
             stash["fig_counter"] = stash.get("fig_counter", 0) + 1
+            figure_number = stash["fig_counter"]
             if label_m:
-                stash["labels"][label_m.group(1)] = str(stash["fig_counter"])
+                stash["labels"][label_m.group(1)] = str(figure_number)
         caption_html = cap.group(1).strip() if cap else ""
         alt = re.sub(r"\x00MATH\d+\x00", "", caption_html)
         alt = re.sub(r"\s+", " ", alt).strip()[:120]
         alt = alt.replace('"', "'")
+        if caption_html and figure_number is not None:
+            caption_html = (
+                f'<span class="note__figure-number">Figure {figure_number}.</span> '
+                + caption_html
+            )
 
         if img:
             src = img.group(1).strip()
@@ -1253,8 +1315,31 @@ def transform_text(text, stash=None):
     # \label{...} – drop (handled separately above for figures)
     text = re.sub(r"\\label\{[^}]+\}", "", text)
 
-    # \cite{...} – drop entirely (no bibliography on web)
-    text = re.sub(r"\\cite\*?\{[^}]+\}", "", text)
+    # \cite{key,...} → bracketed, linked reference numbers.
+    def _cite_repl(match):
+        keys = [key.strip() for key in match.group(1).split(",") if key.strip()]
+        citations = (stash or {}).get("citations", {})
+        links = []
+        labels = []
+        for key in keys:
+            number = citations.get(key)
+            if number is None:
+                safe_key = htmllib.escape(key)
+                links.append(safe_key)
+                labels.append(key)
+                continue
+            ref_id = "ref-" + re.sub(r"[^A-Za-z0-9_-]+", "-", key).strip("-")
+            links.append(f'<a href="#{ref_id}">{number}</a>')
+            labels.append(str(number))
+        if not links:
+            return ""
+        accessible = "References " + ", ".join(labels)
+        return (
+            f'<span class="note__citation" aria-label="{accessible}">'
+            f'[{", ".join(links)}]</span>'
+        )
+
+    text = re.sub(r"\\cite\*?\{([^}]+)\}", _cite_repl, text)
 
     # \ref{X} / \eqref{X} — resolved later in latex_to_html when the labels
     # map is known. We mark them with sentinels here so they survive the rest
@@ -1626,9 +1711,12 @@ def build_toc_and_inject_ids(body_html):
     normalized = heading_re.sub(normalize_level, body_html)
     seen = set()
     counters = {2: 0, 3: 0, 4: 0}
+    section_prefix = ""
+    appendix_counter = 0
     headings = []  # (level, id, number, raw title HTML)
 
     def number_heading(match):
+        nonlocal section_prefix, appendix_counter
         level = int(match.group(1))
         attrs = match.group(2) or ""
         title = match.group(3)
@@ -1636,12 +1724,25 @@ def build_toc_and_inject_ids(body_html):
             return match.group(0)
 
         unnumbered = "data-section-unnumbered" in attrs
+        appendix = "data-section-appendix" in attrs
         number = ""
         if not unnumbered:
-            counters[level] += 1
-            for deeper in range(level + 1, 5):
-                counters[deeper] = 0
-            number = ".".join(str(counters[current]) for current in range(2, level + 1))
+            if level == 2:
+                counters[3] = counters[4] = 0
+                if appendix:
+                    appendix_counter += 1
+                    section_prefix = _alpha_label(appendix_counter)
+                else:
+                    counters[2] += 1
+                    section_prefix = str(counters[2])
+                number = section_prefix
+            elif level == 3:
+                counters[3] += 1
+                counters[4] = 0
+                number = f"{section_prefix}.{counters[3]}"
+            else:
+                counters[4] += 1
+                number = f"{section_prefix}.{counters[3]}.{counters[4]}"
 
         id_match = re.search(r'id="([^"]+)"', attrs)
         if id_match:
@@ -1830,6 +1931,10 @@ window.MathJax = {
 # ----------------------------------------------------------------------
 WHOLE_FILE_PAGES = [
     # (tex_file, slug, title, breadcrumb, source_long)
+    ("path-integral.tex", "path-integral",
+        "Path Integrals and the Quantum–Statistical Correspondence",
+        "Long-form essay · Imperial Year-2 Quantum Physics",
+        "Yucheng (Luca) Jin, Year 2 Quantum Physics essay (Imperial College London, 2025)."),
     ("Correlation_functions_in_QM.tex", "psi-correlation-functions-qm",
         "Correlation Functions in Quantum Mechanics",
         "Quantum Field Theory · PSI QFT II PS1",
@@ -1933,6 +2038,91 @@ def write_final_project(qftsoln_text):
     print(f"  wrote peskin-final.html  (section: {page_title})")
 
 
+def _leading_label(text):
+    """Return a structural label placed immediately after a heading."""
+    match = re.match(r"(?:\s|%[^\n]*(?:\n|$))*\\label\{([^}]+)\}", text)
+    return match.group(1) if match else None
+
+
+def _precompute_structural_labels(text, promote_subsections):
+    """Map LaTeX section labels before rendering so forward refs resolve.
+
+    The HTML converter renders a whole document one top-level chunk at a
+    time. Precomputing labels mirrors LaTeX's auxiliary-file pass and lets an
+    earlier section refer to a later appendix.
+    """
+    labels = {}
+    appendix_position = text.find(r"\appendix")
+    command = "subsection" if promote_subsections else "section"
+    top_matches = _find_balanced_command_args(text, command)
+    section_number = 0
+    appendix_number = 0
+
+    for index, (start, end, _) in enumerate(top_matches):
+        starred = text.startswith(f"\\{command}*", start)
+        is_appendix = appendix_position >= 0 and start > appendix_position
+        top_label = None
+        if not starred:
+            if is_appendix:
+                appendix_number += 1
+                top_label = _alpha_label(appendix_number)
+            else:
+                section_number += 1
+                top_label = str(section_number)
+
+        body_end = top_matches[index + 1][0] if index + 1 < len(top_matches) else len(text)
+        body = text[end:body_end]
+        source_label = _leading_label(body)
+        if source_label and top_label:
+            labels[source_label] = top_label
+
+        if promote_subsections or not top_label:
+            continue
+
+        subsection_matches = _find_balanced_command_args(body, "subsection")
+        subsection_number = 0
+        for sub_index, (sub_start, sub_end, _) in enumerate(subsection_matches):
+            sub_starred = body.startswith(r"\subsection*", sub_start)
+            if sub_starred:
+                continue
+            subsection_number += 1
+            sub_label = f"{top_label}.{subsection_number}"
+            sub_body_end = (
+                subsection_matches[sub_index + 1][0]
+                if sub_index + 1 < len(subsection_matches)
+                else len(body)
+            )
+            sub_body = body[sub_end:sub_body_end]
+            source_label = _leading_label(sub_body)
+            if source_label:
+                labels[source_label] = sub_label
+
+            subsubsection_matches = _find_balanced_command_args(sub_body, "subsubsection")
+            subsubsection_number = 0
+            for subsub_index, (subsub_start, subsub_end, _) in enumerate(subsubsection_matches):
+                if sub_body.startswith(r"\subsubsection*", subsub_start):
+                    continue
+                subsubsection_number += 1
+                subsub_body_end = (
+                    subsubsection_matches[subsub_index + 1][0]
+                    if subsub_index + 1 < len(subsubsection_matches)
+                    else len(sub_body)
+                )
+                source_label = _leading_label(sub_body[subsub_end:subsub_body_end])
+                if source_label:
+                    labels[source_label] = (
+                        f"{sub_label}.{subsubsection_number}"
+                    )
+
+    return labels
+
+
+def _precompute_citation_labels(text):
+    """Return bibliography keys in their LaTeX display order."""
+    keys = re.findall(r"\\bibitem(?:\[[^\]]*\])?\{([^}]+)\}", text)
+    return {key.strip(): index + 1 for index, key in enumerate(keys)}
+
+
 def write_whole_file_page(tex_path, slug, title, breadcrumb, source_long):
     """Convert a whole .tex file (after \\begin{document}) into a single HTML
     page while retaining its LaTeX section hierarchy."""
@@ -1955,12 +2145,17 @@ def write_whole_file_page(tex_path, slug, title, breadcrumb, source_long):
     sub_count = len(re.findall(r"\\subsection\*?\{", text))
     sec_count = len(re.findall(r"\\section\*?\{",    text))
     promote_subsections = (sec_count == 1 and sub_count > 1)
+    appendix_position = text.find(r"\appendix")
+    structural_labels = _precompute_structural_labels(text, promote_subsections)
+    citation_labels = _precompute_citation_labels(text)
 
     out_chunks = []
 
     if promote_subsections:
         matches = _find_balanced_command_args(text, "subsection")
         shared = MathStash(sectioned=bool(matches))
+        shared["labels"].update(structural_labels)
+        shared["citations"].update(citation_labels)
         if not matches:
             out_chunks.append(latex_to_html(text, stash=shared))
         else:
@@ -1976,15 +2171,18 @@ def write_whole_file_page(tex_path, slug, title, breadcrumb, source_long):
                 end_pos = matches[i + 1][0] if i + 1 < len(matches) else len(text)
                 sub_body = text[start:end_pos]
                 starred = text.startswith(r"\subsection*", cstart)
-                shared.begin_section(numbered=not starred)
+                appendix = appendix_position >= 0 and cstart > appendix_position
+                shared.begin_section(numbered=not starred, appendix=appendix)
                 heading = _structural_heading(
-                    2, display, starred
+                    2, display, starred, appendix
                 ).strip()
                 out_chunks.append(heading + "\n\n"
                                   + latex_to_html(sub_body, stash=shared))
     else:
         matches = _find_balanced_command_args(text, "section")
         shared = MathStash(sectioned=bool(matches))
+        shared["labels"].update(structural_labels)
+        shared["citations"].update(citation_labels)
         if not matches:
             out_chunks.append(latex_to_html(text, stash=shared))
         else:
@@ -1999,9 +2197,10 @@ def write_whole_file_page(tex_path, slug, title, breadcrumb, source_long):
                 end_pos = matches[i + 1][0] if i + 1 < len(matches) else len(text)
                 sec_body = text[start:end_pos]
                 starred = text.startswith(r"\section*", cstart)
-                shared.begin_section(numbered=not starred)
+                appendix = appendix_position >= 0 and cstart > appendix_position
+                shared.begin_section(numbered=not starred, appendix=appendix)
                 heading = _structural_heading(
-                    2, display, starred
+                    2, display, starred, appendix
                 ).strip()
                 out_chunks.append(heading + "\n\n"
                                   + latex_to_html(sec_body, stash=shared))
