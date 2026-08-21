@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Problem 29.6: Phases in the PMNS Matrix | Yucheng (Luca) Jin</title>
+<meta name="description" content="Problem 29.6: Phases in the PMNS Matrix — Quantum Field Theory · Schwartz Problem 29.6, based on M. D. Schwartz. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="author" content="Yucheng (Luca) Jin">
+<link rel="canonical" href="https://luca-yucheng-jin.github.io/luca-physics-site/notes/schwartz-qft-29-6.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://luca-yucheng-jin.github.io/luca-physics-site/notes/schwartz-qft-29-6.html">
+<meta property="og:site_name" content="Luca Jin Physics">
+<meta property="og:title" content="Problem 29.6: Phases in the PMNS Matrix | Yucheng (Luca) Jin">
+<meta property="og:description" content="Problem 29.6: Phases in the PMNS Matrix — Quantum Field Theory · Schwartz Problem 29.6, based on M. D. Schwartz. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta property="og:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Problem 29.6: Phases in the PMNS Matrix | Yucheng (Luca) Jin">
+<meta name="twitter:description" content="Problem 29.6: Phases in the PMNS Matrix — Quantum Field Theory · Schwartz Problem 29.6, based on M. D. Schwartz. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta name="twitter:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="stylesheet" href="../styles.css">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/schwartz-qft-29-6.html#article","url":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/schwartz-qft-29-6.html","mainEntityOfPage":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/schwartz-qft-29-6.html","headline":"Problem 29.6: Phases in the PMNS Matrix","description":"Problem 29.6: Phases in the PMNS Matrix — Quantum Field Theory · Schwartz Problem 29.6, based on M. D. Schwartz. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.","inLanguage":"en","genre":"Theoretical physics notes and worked solutions","educationalLevel":"Undergraduate physics","about":{"@type":"Thing","name":"Quantum Field Theory · Schwartz Problem 29.6"},"author":{"@type":"Person","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#person","name":"Yucheng (Luca) Jin","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"isPartOf":{"@type":"WebSite","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#website","name":"Luca Jin Physics","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"encoding":{"@type":"MediaObject","contentUrl":"https://luca-yucheng-jin.github.io/luca-physics-site/output/pdf/schwartz-qft-29-6.pdf","encodingFormat":"application/pdf"}},{"@type":"BreadcrumbList","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/schwartz-qft-29-6.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes.html"},{"@type":"ListItem","position":2,"name":"Problem 29.6: Phases in the PMNS Matrix","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/schwartz-qft-29-6.html"}]}]}</script>
+
+<script src="../assets/theme.js"></script>
+<script src="../assets/font-size.js"></script>
+
+<!-- MathJax with custom macros mirroring the original .tex preamble -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros', 'mathtools']},
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      Q: '\\mathbb{Q}',
+      A: '\\mathcal{A}',
+      Lagrangian: '\\mathcal{L}',
+      Cdot: '\\boldsymbol{\\cdot}',
+      Tr: '\\operatorname{Tr}',
+      // \qed inside math (e.g. trailing a derivation in an align env) —
+      // amsthm's text-mode handler is already covered by the HTML-side
+      // replace at the bottom of strip_tex_only_constructs, this catches
+      // the math-mode case (Osborn AQFT PS3 Q3 ends an equation with .\qed).
+      qed: '\\blacksquare',
+      // Feynman slash: \not{x} would render the slash to the LEFT of x
+      // (it's designed for \not=). \cancel from the cancel package
+      // strikes diagonally through the centre, matching the slashed.sty
+      // package's appearance.
+      slashed: ['{\\cancel{#1}}', 1],
+      // Wick contraction: top brace connector over the contracted pair —
+      // closer to the standard physics notation than a plain overline.
+      wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // siunitx polyfill — \si{K}, \si{m\,s^{-1}} etc. should render
+      // the unit in upright math text, like \mathrm{X}. Doesn't try
+      // to mimic the full siunitx unit-formatting machinery; just
+      // unblocks the common bare-unit case in TDSP problems.
+      si: ['\\,\\mathrm{#1}', 1],
+      SI: ['#1\\,\\mathrm{#2}', 2]
+      // \tensor{base}{indices} is rewritten to base^a{}_b in
+      // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
+      // so no runtime macro is needed here. The empty-group trick is
+      // what makes MathJax kern the indices into separate columns.
+    }
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../" class="topbar__brand">Luca Jin <small>Physics · Imperial</small></a>
+  <nav class="topbar__nav" aria-label="Primary navigation">
+    <a href="../">Home</a>
+    <a href="../notes.html" class="is-active">Notes</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+    <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" title="Decrease font size">A<span class="font-toggle__small">−</span></button>
+    <button class="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size" title="Increase font size">A<span class="font-toggle__large">+</span></button>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Toggle theme">
+      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    </button>
+  </nav>
+</header>
+
+<main class="note">
+
+  <div class="note__breadcrumb">
+    <a href="../notes.html">Notes</a> &nbsp;·&nbsp; Quantum Field Theory · Schwartz Problem 29.6
+  </div>
+
+  <h1 class="note__title">Problem 29.6: Phases in the PMNS Matrix</h1>
+  <p class="note__subtitle">Source: M. D. Schwartz, <em>Quantum Field Theory and the Standard Model</em>, Problem 29.6.</p>
+
+  <div class="note__formats" aria-label="Available formats"><span>Available formats</span><a aria-current="page" href="schwartz-qft-29-6.html">HTML</a><a href="../output/pdf/schwartz-qft-29-6.pdf">PDF ↓</a></div>
+
+
+
+  <article class="note__body">
+<p>Show that with general Dirac and Majorana mass matrices, there are three phases
+in the PMNS matrix, while if the mass matrix is purely Dirac, there is only one.
+How many phases are there if the masses are purely Majorana?</p>
+
+<aside class="solution">
+
+<p>A general $3\times3$ unitary PMNS matrix contains three mixing angles and six phases. The three charged-lepton fields can always be rephased, removing three phases. If the neutrinos are Dirac particles, the three neutrino mass eigenstates can also be rephased. However, one common rephasing of all charged leptons and neutrinos leaves the PMNS matrix unchanged, so only $3+3-1=5$ phases can be removed, leaving one physical phase. If any Majorana mass is present, the neutrino mass eigenstates are generically Majorana and cannot be continuously rephased, since the Majorana condition $N_i^c=N_i$ is preserved only by the discrete transformation $N_i\to\pm N_i$. Consequently, only the three charged-lepton rephasings are available, leaving $6-3=3$ physical phases. The same reasoning applies to purely Majorana masses. Thus the PMNS matrix contains one physical phase for purely Dirac neutrinos and three physical phases for either Dirac-plus-Majorana or purely Majorana neutrinos.</p>
+
+</aside>
+  </article>
+
+  <hr class="ornament-rule">
+
+  <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
+    <a href="../notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <p class="footer__disclaimer">
+    These notes are not guaranteed to be correct. If you find a mistake,
+    <a href="mailto:luca.jin@outlook.com?subject=Correction%20to%20Luca%20Jin%20Physics">please email me</a>.
+  </p>
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="../">Home</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>

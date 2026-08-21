@@ -185,8 +185,8 @@ CATEGORIES = [
     {
         "slug": "qft",
         "title": "Quantum Field Theory",
-        "blurb": "Path-integral essay; Peskin, Tong, PSI, Osborn, and Srednicki solutions; plus an independent φ³ computation.",
-        "tag": "14 notes",
+        "blurb": "Path-integral essay; completed Schwartz, Peskin, Tong, PSI, Osborn, and Srednicki solutions; plus an independent φ³ computation.",
+        "tag": "21 notes",
         "body": """    <h3>Papers</h3>
     <ul class="catalogue">
       <li class="catalogue__item">
@@ -196,6 +196,69 @@ CATEGORIES = [
           <span class="catalogue__desc">Imperial Year-2 essay — Feynman's path integral, Wick rotation, and the partition function.</span>
         </span>
         <span class="catalogue__tag">Essay</span>
+      </li>
+    </ul>
+
+    <h3 class="catalogue-source">
+      <span>Completed solutions to M. D. Schwartz’s <em>Quantum Field Theory and the Standard Model</em></span>
+      <a href="https://github.com/Luca-Yucheng-Jin/schwartz-qft-solutions" target="_blank" rel="noopener noreferrer">Source repository ↗</a>
+    </h3>
+    <ul class="catalogue">
+      <li class="catalogue__item">
+        <span class="catalogue__num">29.1.</span>
+        <span class="catalogue__main">
+          <a href="notes/schwartz-qft-29-1.html">Higgs Production at LEP</a>
+          <span class="catalogue__desc">Tree-level Higgsstrahlung cross section and the expected LEP yield.</span>
+        </span>
+        <span class="catalogue__tag">Schwartz 29.1</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">29.2.</span>
+        <span class="catalogue__main">
+          <a href="notes/schwartz-qft-29-2.html">Electron–Positron Annihilation into Hadrons</a>
+          <span class="catalogue__desc">Photon and Z exchange, interference, inclusive NLO QCD, and the energy scan.</span>
+        </span>
+        <span class="catalogue__tag">Schwartz 29.2</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">29.3.</span>
+        <span class="catalogue__main">
+          <a href="notes/schwartz-qft-29-3.html">Higgs Decays</a>
+          <span class="catalogue__desc">Higgs decays to fermions, gluons, and photons, with branching-ratio comparisons.</span>
+        </span>
+        <span class="catalogue__tag">Schwartz 29.3</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">29.6.</span>
+        <span class="catalogue__main">
+          <a href="notes/schwartz-qft-29-6.html">Phases in the PMNS Matrix</a>
+          <span class="catalogue__desc">Physical phase counting for Dirac and Majorana neutrino masses.</span>
+        </span>
+        <span class="catalogue__tag">Schwartz 29.6</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">29.7.</span>
+        <span class="catalogue__main">
+          <a href="notes/schwartz-qft-29-7.html">Neutrino Oscillations</a>
+          <span class="catalogue__desc">Solar production kinematics, two-flavour oscillations, and the reactor baseline.</span>
+        </span>
+        <span class="catalogue__tag">Schwartz 29.7</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">29.8.</span>
+        <span class="catalogue__main">
+          <a href="notes/schwartz-qft-29-8.html">Integrating Out Right-Handed Neutrinos</a>
+          <span class="catalogue__desc">Low-energy matching onto the dimension-five neutrino-mass operator.</span>
+        </span>
+        <span class="catalogue__tag">Schwartz 29.8</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">29.9.</span>
+        <span class="catalogue__main">
+          <a href="notes/schwartz-qft-29-9.html">Chiral Rotations and the Theta Angle</a>
+          <span class="catalogue__desc">The anomalous shift of the theta angle under multi-generation chiral rotations.</span>
+        </span>
+        <span class="catalogue__tag">Schwartz 29.9</span>
       </li>
     </ul>
 

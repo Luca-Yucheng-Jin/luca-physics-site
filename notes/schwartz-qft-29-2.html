@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Problem 29.2: Electron-Positron Annihilation into Hadrons | Yucheng (Luca) Jin</title>
+<meta name="description" content="Problem 29.2: Electron-Positron Annihilation into Hadrons — Quantum Field Theory · Schwartz Problem 29.2, based on M. D. Schwartz. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="author" content="Yucheng (Luca) Jin">
+<link rel="canonical" href="https://luca-yucheng-jin.github.io/luca-physics-site/notes/schwartz-qft-29-2.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://luca-yucheng-jin.github.io/luca-physics-site/notes/schwartz-qft-29-2.html">
+<meta property="og:site_name" content="Luca Jin Physics">
+<meta property="og:title" content="Problem 29.2: Electron-Positron Annihilation into Hadrons | Yucheng (Luca) Jin">
+<meta property="og:description" content="Problem 29.2: Electron-Positron Annihilation into Hadrons — Quantum Field Theory · Schwartz Problem 29.2, based on M. D. Schwartz. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta property="og:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Problem 29.2: Electron-Positron Annihilation into Hadrons | Yucheng (Luca) Jin">
+<meta name="twitter:description" content="Problem 29.2: Electron-Positron Annihilation into Hadrons — Quantum Field Theory · Schwartz Problem 29.2, based on M. D. Schwartz. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta name="twitter:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="stylesheet" href="../styles.css">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/schwartz-qft-29-2.html#article","url":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/schwartz-qft-29-2.html","mainEntityOfPage":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/schwartz-qft-29-2.html","headline":"Problem 29.2: Electron-Positron Annihilation into Hadrons","description":"Problem 29.2: Electron-Positron Annihilation into Hadrons — Quantum Field Theory · Schwartz Problem 29.2, based on M. D. Schwartz. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.","inLanguage":"en","genre":"Theoretical physics notes and worked solutions","educationalLevel":"Undergraduate physics","about":{"@type":"Thing","name":"Quantum Field Theory · Schwartz Problem 29.2"},"author":{"@type":"Person","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#person","name":"Yucheng (Luca) Jin","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"isPartOf":{"@type":"WebSite","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#website","name":"Luca Jin Physics","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"encoding":{"@type":"MediaObject","contentUrl":"https://luca-yucheng-jin.github.io/luca-physics-site/output/pdf/schwartz-qft-29-2.pdf","encodingFormat":"application/pdf"}},{"@type":"BreadcrumbList","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/schwartz-qft-29-2.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes.html"},{"@type":"ListItem","position":2,"name":"Problem 29.2: Electron-Positron Annihilation into Hadrons","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/schwartz-qft-29-2.html"}]}]}</script>
+
+<script src="../assets/theme.js"></script>
+<script src="../assets/font-size.js"></script>
+
+<!-- MathJax with custom macros mirroring the original .tex preamble -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros', 'mathtools']},
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      Q: '\\mathbb{Q}',
+      A: '\\mathcal{A}',
+      Lagrangian: '\\mathcal{L}',
+      Cdot: '\\boldsymbol{\\cdot}',
+      Tr: '\\operatorname{Tr}',
+      // \qed inside math (e.g. trailing a derivation in an align env) —
+      // amsthm's text-mode handler is already covered by the HTML-side
+      // replace at the bottom of strip_tex_only_constructs, this catches
+      // the math-mode case (Osborn AQFT PS3 Q3 ends an equation with .\qed).
+      qed: '\\blacksquare',
+      // Feynman slash: \not{x} would render the slash to the LEFT of x
+      // (it's designed for \not=). \cancel from the cancel package
+      // strikes diagonally through the centre, matching the slashed.sty
+      // package's appearance.
+      slashed: ['{\\cancel{#1}}', 1],
+      // Wick contraction: top brace connector over the contracted pair —
+      // closer to the standard physics notation than a plain overline.
+      wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // siunitx polyfill — \si{K}, \si{m\,s^{-1}} etc. should render
+      // the unit in upright math text, like \mathrm{X}. Doesn't try
+      // to mimic the full siunitx unit-formatting machinery; just
+      // unblocks the common bare-unit case in TDSP problems.
+      si: ['\\,\\mathrm{#1}', 1],
+      SI: ['#1\\,\\mathrm{#2}', 2]
+      // \tensor{base}{indices} is rewritten to base^a{}_b in
+      // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
+      // so no runtime macro is needed here. The empty-group trick is
+      // what makes MathJax kern the indices into separate columns.
+    }
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../" class="topbar__brand">Luca Jin <small>Physics · Imperial</small></a>
+  <nav class="topbar__nav" aria-label="Primary navigation">
+    <a href="../">Home</a>
+    <a href="../notes.html" class="is-active">Notes</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+    <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" title="Decrease font size">A<span class="font-toggle__small">−</span></button>
+    <button class="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size" title="Increase font size">A<span class="font-toggle__large">+</span></button>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Toggle theme">
+      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    </button>
+  </nav>
+</header>
+
+<main class="note">
+
+  <div class="note__breadcrumb">
+    <a href="../notes.html">Notes</a> &nbsp;·&nbsp; Quantum Field Theory · Schwartz Problem 29.2
+  </div>
+
+  <h1 class="note__title">Problem 29.2: Electron-Positron Annihilation into Hadrons</h1>
+  <p class="note__subtitle">Source: M. D. Schwartz, <em>Quantum Field Theory and the Standard Model</em>, Problem 29.2.</p>
+
+  <div class="note__formats" aria-label="Available formats"><span>Available formats</span><a aria-current="page" href="schwartz-qft-29-2.html">HTML</a><a href="../output/pdf/schwartz-qft-29-2.pdf">PDF ↓</a></div>
+
+
+
+  <article class="note__body">
+<p>$e^+e^-\to\text{hadrons}$ in the Standard Model.</p>
+
+<ol>
+  <li>Calculate the rate for the total cross section
+  $\sigma_{\mathrm{tot}}(e^+e^-\to\text{hadrons})$ in the Standard Model at
+  tree-level including both $Z$-boson and photon contributions and their
+  interference. The contribution using photons alone was calculated in
+  Section&nbsp;26.3.</li>
+  <li>Calculate $\sigma_{\mathrm{tot}}$ at 1-loop.</li>
+  <li>Plot the total cross section as a function of center-of-mass energy
+  showing separately the photon contribution, the $Z$-boson contribution, and
+  their sum. Plot also the sum ignoring interference between the $Z$-boson and
+  photon contributions. When can interference be ignored?</li>
+</ol>
+
+<aside class="solution">
+
+<p>For the $e^+e^- \to \gamma^* \to \mathrm{hadrons}$, the relevant sector of the electroweak Lagrangian is
+\[\mathcal{L} = \bar \psi_e(i\slashed{\partial} - m_e)\psi_e + \sum_i\bar{\psi}_i(i\slashed{\partial} - m_i)\psi_i - e\bar \psi_e\slashed{A}\psi_e + e\sum_i Q_i\bar\psi_i \slashed{A}\psi_i,\tag{1.1}\]
+where $i$ denotes the up, down, strange, etc.
+We can read off the scattering amplitude directly for a particular pair of quark and anti-quark, which is
+\[i\mathcal{M}_\gamma^i = (ie)^2Q_i[\bar v(p_2)\gamma^\mu u(p_1)]\frac{-i}{s}[\bar u_i(p_3)\gamma_\mu v_i(p_4)] = iQ_i\mathcal{M}_0,\tag{1.2}\]
+where $\mathcal{M}_0$ is the scattering amplitude of $e^-e^+\to \mu^-\mu^+$ at tree-level. Note that $Q_{u,c,t} = \frac{2}{3}$ and $Q_{d,s,b} = -\frac{1}{3}$.</p>
+
+<p>The $Z$ boson coupling to a general quark field is given by
+\[\frac{ie}{\sin\theta_w\cos\theta_w}
+    \gamma^\mu
+    \left(
+        T^3\frac{1-\gamma^5}{2}
+        -Q_i\sin^2\theta_w
+    \right)
+    =
+    \frac{ie}{4\sin\theta_w\cos\theta_w}
+    \gamma^\mu
+    \left(
+        \xi_i\gamma^5
+        -4Q_i\sin^2\theta_w
+        -\xi_i
+    \right),\tag{1.3}\]
+where
+\[\xi_i=
+    \begin{cases}
+        -1, &amp; i=u,c,t,\\
+        +1, &amp; i=d,s,b.
+    \end{cases}\tag{1.4}\]
+Defining
+\[a_i=4|Q_i|\sin^2\theta_w-1,\tag{1.5}\]
+the quark vertex can equivalently be written as
+\[\frac{ie}{4\sin\theta_w\cos\theta_w}
+    \xi_i\gamma^\mu(\gamma^5+a_i).\tag{1.6}\]
+Therefore, the $Z$-exchange amplitude is
+\[\begin{aligned}
+    i\mathcal{M}_Z^i
+    &amp;=
+    \left(
+        \frac{ie}{4\sin\theta_w\cos\theta_w}
+    \right)^2
+    \left[
+        \bar v(p_2)\gamma^\mu(\gamma^5+a)u(p_1)
+    \right]
+    \frac{-i}{s-m_Z^2}
+    \left[
+        \xi_i\bar u(p_3)\gamma_\mu(\gamma^5+a_i)v(p_4)
+    \right],
+\end{aligned}\tag{1.7}\]
+where
+\[a=4\sin^2\theta_w-1.\tag{1.8}\]</p>
+
+<p>The initial-state spin sum is
+\[\begin{aligned}
+    &amp;\sum_{\mathrm{spins}}
+    \left[
+        \bar v(p_2)\gamma^\mu(\gamma^5+a)u(p_1)
+    \right]
+    \left[
+        \bar u(p_1)\gamma^\nu(\gamma^5+a)v(p_2)
+    \right]
+    \\
+    &amp;\qquad =
+    \Tr\left[
+        \slashed{p}_2\gamma^\mu(\gamma^5+a)
+        \slashed{p}_1\gamma^\nu(\gamma^5+a)
+    \right]
+    \\
+    &amp;\qquad =
+    4(a^2+1)
+    \left(
+        p_1^\mu p_2^\nu
+        +p_1^\nu p_2^\mu
+        -p_1\cdot p_2\,\eta^{\mu\nu}
+    \right)
+    -8ia\,p_{1\alpha}p_{2\beta}
+    \epsilon^{\alpha\mu\beta\nu}.
+\end{aligned}\tag{1.9}\]
+Similarly, since $\xi_i^2=1$, the final-state spin sum is
+\[\begin{aligned}
+    &amp;4(a_i^2+1)
+    \left(
+        p_{3\mu}p_{4\nu}
+        +p_{3\nu}p_{4\mu}
+        -p_3\cdot p_4\,\eta_{\mu\nu}
+    \right)
+    +8ia_i\,p_{3\alpha}p_{4\beta}
+    \epsilon^{\alpha}{}_{\mu}{}^{\beta}{}_{\nu}.
+\end{aligned}\tag{1.10}\]
+Thus,
+\[\begin{aligned}
+    \sum_{\mathrm{spins}}|\mathcal{M}_Z^i|^2
+    &amp;=
+    \left(
+        \frac{e}{4\sin\theta_w\cos\theta_w}
+    \right)^4
+    \frac{1}{(s-m_Z^2)^2}
+    \\
+    &amp;\quad\times
+    \Big[
+        4(a^2+1)
+        \left(
+            p_1^\mu p_2^\nu
+            +p_1^\nu p_2^\mu
+            -p_1\cdot p_2\,\eta^{\mu\nu}
+        \right)
+        -8ia\,p_{1\alpha}p_{2\beta}
+        \epsilon^{\alpha\mu\beta\nu}
+    \Big]
+    \\
+    &amp;\quad\times
+    \Big[
+        4(a_i^2+1)
+        \left(
+            p_{3\mu}p_{4\nu}
+            +p_{3\nu}p_{4\mu}
+            -p_3\cdot p_4\,\eta_{\mu\nu}
+        \right)
+        +8ia_i\,p_{3\alpha}p_{4\beta}
+        \epsilon^{\alpha}{}_{\mu}{}^{\beta}{}_{\nu}
+    \Big].
+\end{aligned}\tag{1.11}\]
+The contraction between a symmetric tensor and an antisymmetric tensor
+vanishes. Contracting the two symmetric terms and the two epsilon tensors
+therefore gives
+\[\begin{aligned}
+    \sum_{\mathrm{spins}}|\mathcal{M}_Z^i|^2
+    &amp;=
+    \frac{e^4}
+    {8\sin^4\theta_w\cos^4\theta_w(s-m_Z^2)^2}
+    \\
+    &amp;\quad\times
+    \Big[
+        \big((a^2+1)(a_i^2+1)-4aa_i\big)
+        (p_1\cdot p_3)(p_2\cdot p_4)
+        \\
+        &amp;\qquad\quad+
+        \big((a^2+1)(a_i^2+1)+4aa_i\big)
+        (p_1\cdot p_4)(p_2\cdot p_3)
+    \Big].
+\end{aligned}\tag{1.12}\]
+For massless external particles,
+\[p_1\cdot p_3=p_2\cdot p_4=-\frac{t}{2},
+    \qquad
+    p_1\cdot p_4=p_2\cdot p_3=-\frac{u}{2}.\tag{1.13}\]
+Hence,
+\[\begin{aligned}
+    \sum_{\mathrm{spins}}|\mathcal{M}_Z^i|^2
+    &amp;=
+    \frac{e^4}
+    {32\sin^4\theta_w\cos^4\theta_w(s-m_Z^2)^2}
+    \\
+    &amp;\quad\times
+    \left[
+        \big((a^2+1)(a_i^2+1)-4aa_i\big)t^2
+        +
+        \big((a^2+1)(a_i^2+1)+4aa_i\big)u^2
+    \right].
+\end{aligned}\tag{1.14}\]</p>
+
+<p>For the photon--$Z$ interference term, the required mixed traces are
+\[\begin{aligned}
+    \Tr\left[
+        \slashed{p}_2\gamma^\mu
+        \slashed{p}_1\gamma^\nu(\gamma^5+a)
+    \right]
+    &amp;=
+    4a
+    \left(
+        p_1^\mu p_2^\nu
+        +p_1^\nu p_2^\mu
+        -p_1\cdot p_2\,\eta^{\mu\nu}
+    \right)
+    -4ip_{1\alpha}p_{2\beta}
+    \epsilon^{\alpha\mu\beta\nu},
+    \\
+    \Tr\left[
+        \slashed{p}_3\gamma_\mu
+        \slashed{p}_4\gamma_\nu
+        (\xi_i\gamma^5+\xi_i a_i)
+    \right]
+    &amp;=
+    4\xi_i a_i
+    \left(
+        p_{3\mu}p_{4\nu}
+        +p_{3\nu}p_{4\mu}
+        -p_3\cdot p_4\,\eta_{\mu\nu}
+    \right)
+    \\
+    &amp;\quad+
+    4i\xi_i p_{3\alpha}p_{4\beta}
+    \epsilon^{\alpha}{}_{\mu}{}^{\beta}{}_{\nu}.
+\end{aligned}\tag{1.15}\]
+Therefore,
+\[\begin{aligned}
+    2\operatorname{Re}
+    \sum_{\mathrm{spins}}
+    \mathcal{M}_\gamma^i\mathcal{M}_Z^{i\dagger}
+    &amp;=
+    \frac{e^4Q_i\xi_i}
+    {\sin^2\theta_w\cos^2\theta_w\,
+    s(s-m_Z^2)}
+    \\
+    &amp;\quad\times
+    \left[
+        (aa_i-1)t^2+(aa_i+1)u^2
+    \right].
+\end{aligned}\tag{1.16}\]</p>
+
+<p>Putting the photon, $Z$, and interference contributions together and
+averaging over the initial spins gives
+\[\begin{aligned}
+    \frac{1}{4}\sum_\mathrm{spin}{|\mathcal{M}^i|^2}
+    &amp;=
+    \frac{e^4Q_i^2}{s^2}(t^2+u^2)
+    \\
+    &amp;\quad+
+    \frac{e^4}
+    {128\sin^4\theta_w\cos^4\theta_w(s-m_Z^2)^2}
+    \left[
+        \big((a^2+1)(a_i^2+1)-4aa_i\big)t^2
+        \right.
+        \\
+        &amp; \left.
+        +
+        \big((a^2+1)(a_i^2+1)+4aa_i\big)u^2
+    \right]
+    \\
+    &amp;\quad+
+    \frac{e^4Q_i\xi_i}
+    {4\sin^2\theta_w\cos^2\theta_w\,
+    s(s-m_Z^2)}
+    \left[
+        (aa_i-1)t^2+(aa_i+1)u^2
+    \right].
+\end{aligned}\tag{1.17}\]
+Then, we sum over all flavours, which can be simplified as summing over the up and down flavour times three in our massless approximation. That is
+\[\frac{1}{4}\sum_i\sum_\mathrm{spin}{|\mathcal{M}^i|^2} = \frac{3}{4}\sum_\mathrm{spin}{|\mathcal{M}^u|^2 + |\mathcal{M}^d|^2}.\tag{1.18}\]
+Using
+\[Q_u=\frac{2}{3},
+    \qquad
+    Q_d=-\frac{1}{3},
+    \qquad
+    \xi_u=-1,
+    \qquad
+    \xi_d=1,\tag{1.19}\]
+and
+\[a_u=\frac{8}{3}\sin^2\theta_w-1,
+    \qquad
+    a_d=\frac{4}{3}\sin^2\theta_w-1,\tag{1.20}\]
+the required sums are
+\[\begin{aligned}
+    3\sum_{i=u,d}Q_i^2
+    &amp;=\frac{5}{3},\\
+    3\sum_{i=u,d}
+    \left[(a^2+1)(a_i^2+1)-4aa_i\right]
+    &amp;=
+    \frac{32}{3}\sin^4\theta_w
+    \left(
+        40\sin^4\theta_w-56\sin^2\theta_w+23
+    \right),\\
+    3\sum_{i=u,d}
+    \left[(a^2+1)(a_i^2+1)+4aa_i\right]
+    &amp;=
+    \frac{16}{3}
+    \left(
+        80\sin^8\theta_w-112\sin^6\theta_w
+        +118\sin^4\theta_w-54\sin^2\theta_w+9
+    \right),\\
+    3\sum_{i=u,d}Q_i\xi_i(aa_i-1)
+    &amp;=
+    \frac{8}{3}\sin^2\theta_w
+    \left(7-10\sin^2\theta_w\right),\\
+    3\sum_{i=u,d}Q_i\xi_i(aa_i+1)
+    &amp;=
+    -\frac{2}{3}
+    \left(
+        40\sin^4\theta_w-28\sin^2\theta_w+9
+    \right).
+\end{aligned}\tag{1.21}\]
+Therefore,
+\[\begin{aligned}
+    \frac{1}{4}\sum_i\sum_{\mathrm{spins}}|\mathcal M^i|^2
+    &amp;=
+    \frac{10e^4}{3s^2}(t^2+u^2)
+    \\
+    &amp;\quad+
+    \frac{e^4}
+    {24\sin^4\theta_w\cos^4\theta_w(s-m_Z^2)^2}
+    \Big[
+        2\sin^4\theta_w
+        \left(
+            40\sin^4\theta_w-56\sin^2\theta_w+23
+        \right)t^2
+    \\
+    &amp;
+        +
+        \left(
+            80\sin^8\theta_w-112\sin^6\theta_w
+            +118\sin^4\theta_w-54\sin^2\theta_w+9
+        \right)u^2
+    \Big]
+    \\
+    &amp;\quad+
+    \frac{e^4}
+    {6\sin^2\theta_w\cos^2\theta_w\,s(s-m_Z^2)}
+    \Big[
+        4\sin^2\theta_w
+        \left(7-10\sin^2\theta_w\right)t^2
+    \\
+    &amp;
+        -
+        \left(
+            40\sin^4\theta_w-28\sin^2\theta_w+9
+        \right)u^2
+    \Big].
+\end{aligned}\tag{1.22}\]
+One should also not forget to sum over all three outgoing colour states,
+namely $r\bar r$, $g\bar g$, and $b\bar b$, which gives another factor
+of $3$. Therefore, the spin-averaged squared amplitude, summed over
+flavours and colours, is
+\[\begin{aligned}
+    \overline{|\mathcal M|^2}
+    &amp;=
+    \frac{10e^4}{s^2}(t^2+u^2)
+    \\
+    &amp;\quad+
+    \frac{e^4}
+    {8\sin^4\theta_w\cos^4\theta_w(s-m_Z^2)^2}
+    \Big[
+        2\sin^4\theta_w
+        \left(
+            40\sin^4\theta_w-56\sin^2\theta_w+23
+        \right)t^2
+    \\
+    &amp;
+        +
+        \left(
+            80\sin^8\theta_w-112\sin^6\theta_w
+            +118\sin^4\theta_w-54\sin^2\theta_w+9
+        \right)u^2
+    \Big]
+    \\
+    &amp;\quad+
+    \frac{e^4}
+    {2\sin^2\theta_w\cos^2\theta_w\,s(s-m_Z^2)}
+    \Big[
+        4\sin^2\theta_w
+        \left(7-10\sin^2\theta_w\right)t^2
+    \\
+    &amp;
+        -
+        \left(
+            40\sin^4\theta_w-28\sin^2\theta_w+9
+        \right)u^2
+    \Big].
+\end{aligned}\tag{1.23}\]</p>
+
+<p>In the centre-of-mass frame, we have
+\[t=-\frac{s}{2}(1-\cos\theta),
+    \qquad
+    u=-\frac{s}{2}(1+\cos\theta).\tag{1.24}\]
+For massless two-body scattering,
+\[\frac{d\sigma}{d\cos\theta}
+    =
+    \frac{1}{32\pi s}\overline{|\mathcal M|^2}.\tag{1.25}\]
+Substituting $t$ and $u$, we obtain
+\[\begin{aligned}
+    \frac{d\sigma}{d\cos\theta}
+    &amp;=
+    \frac{5e^4}{32\pi s}
+    \left(1+\cos^2\theta\right)
+    \\
+    &amp;\quad+
+    \frac{e^4s}
+    {1024\pi\sin^4\theta_w\cos^4\theta_w(s-m_Z^2)^2}
+    \Big[
+        2\sin^4\theta_w
+        \left(
+            40\sin^4\theta_w-56\sin^2\theta_w+23
+        \right)
+        (1-\cos\theta)^2
+    \\
+    &amp;
+        +
+        \left(
+            80\sin^8\theta_w-112\sin^6\theta_w
+            +118\sin^4\theta_w-54\sin^2\theta_w+9
+        \right)
+        (1+\cos\theta)^2
+    \Big]
+    \\
+    &amp;\quad+
+    \frac{e^4}
+    {256\pi\sin^2\theta_w\cos^2\theta_w(s-m_Z^2)}
+    \Big[
+        4\sin^2\theta_w
+        \left(7-10\sin^2\theta_w\right)
+        (1-\cos\theta)^2
+    \\
+    &amp;
+        -
+        \left(
+            40\sin^4\theta_w-28\sin^2\theta_w+9
+        \right)
+        (1+\cos\theta)^2
+    \Big].
+\end{aligned}\tag{1.26}\]</p>
+
+<p>Using
+\[\int_{-1}^{1}(1\pm\cos\theta)^2\,d\cos\theta
+    =\frac{8}{3},\tag{1.27}\]
+the total cross section is
+\[\boxed{
+\begin{aligned}
+    \sigma_{\mathrm{tot}}(s)
+    &amp;=
+    \frac{5e^4}{12\pi s}
+    \\
+    &amp;\quad+
+    \frac{e^4s}
+    {384\pi\sin^4\theta_w\cos^4\theta_w(s-m_Z^2)^2}
+    \Big[
+        2\sin^4\theta_w
+        \left(
+            40\sin^4\theta_w-56\sin^2\theta_w+23
+        \right)
+    \\
+    &amp;
+        +
+        80\sin^8\theta_w-112\sin^6\theta_w
+        +118\sin^4\theta_w-54\sin^2\theta_w+9
+    \Big]
+    \\
+    &amp;\quad+
+    \frac{e^4}
+    {96\pi\sin^2\theta_w\cos^2\theta_w(s-m_Z^2)}
+    \Big[
+        4\sin^2\theta_w
+        \left(7-10\sin^2\theta_w\right)
+    \\
+    &amp;
+        -
+        \left(
+            40\sin^4\theta_w-28\sin^2\theta_w+9
+        \right)
+    \Big].
+\end{aligned}
+}\tag{1.28}\]</p>
+
+<p>Taking
+\[\alpha=\frac{e^2}{4\pi}=\frac{1}{128},
+    \qquad
+    \sin^2\theta_w=0.231,
+    \qquad
+    m_Z=91.2\,\mathrm{GeV},\tag{1.29}\]
+and using $1\,\mathrm{GeV}^{-2}=3.894\times10^8\,\mathrm{pb}$, this becomes
+\[\boxed{
+    \sigma_{\mathrm{tot}}(s)
+    =
+    \left[
+        \frac{4.98\times10^5}{s}
+        +
+        \frac{2.93\times10^5\,s}
+        {(s-8317)^2}
+        -
+        \frac{2.33\times10^4}
+        {s-8317}
+    \right]\mathrm{pb}.
+}\tag{1.30}\]</p>
+
+<p>At one-loop order, we consider the leading QCD correction to the
+inclusive hadronic cross section. This should not be confused with the
+complete one-loop electroweak correction to
+$e^+e^-\to\mathrm{hadrons}$.</p>
+
+<p>The relevant contributions are the virtual-gluon correction to the
+outgoing quark current and the real-emission process
+\[e^+e^-\to q\bar q g.\tag{1.31}\]
+The virtual and real contributions are separately infrared divergent,
+but their divergences cancel in the inclusive cross section.</p>
+
+<p>Because QCD couples vectorially to the quarks, the same correction
+applies to the vector and axial-vector parts of the quark current in the
+massless limit. It therefore multiplies the photon contribution, the
+$Z$-boson contribution, and their interference in the same way. Using
+the result of Section&nbsp;26.3, we obtain
+\[\begin{aligned}
+    \sigma_{\mathrm{NLO\ QCD}}(s)
+    &amp;=
+    \sigma_{\mathrm{tree}}(s)
+    \left(
+        1+\frac{3C_F\alpha_s(s)}{4\pi}
+    \right)
+    +\mathcal O(\alpha_s^2)
+    \\
+    &amp;=
+    \boxed{
+    \sigma_{\mathrm{tree}}(s)
+    \left(
+        1+\frac{\alpha_s(s)}{\pi}
+    \right)
+    }
+    +\mathcal O(\alpha_s^2),
+\end{aligned}\tag{1.32}\]
+where $C_F=4/3$ and $\sigma_{\mathrm{tree}}$ contains the photon,
+$Z$-boson, and photon--$Z$ interference contributions calculated in
+part&nbsp;(a).</p>
+
+<p>This result includes the complete NLO QCD correction in the massless
+inclusive approximation. It does not include the full one-loop
+electroweak correction, which would additionally require electroweak
+self-energy, vertex, photon--$Z$ mixing, box, counterterm, and
+real-photon contributions.</p>
+
+</aside>
+
+<figure><img src="../assets/schwartz-problem-29-2-cross-sections.png" alt="The NLO QCD cross section for , assuming six massless quark flavours and . The lower panel shows the interference contri"><figcaption><span class="note__figure-number">Figure 1.</span> The NLO QCD cross section for
+        $e^+e^-\to\mathrm{hadrons}$, assuming six massless quark
+        flavours and $N_c=3$. The lower panel shows the interference
+        contribution relative to the incoherent sum
+        $\sigma_\gamma+\sigma_Z$.</figcaption></figure>
+
+<p>The interference can be neglected when $s\ll m_Z^2$, where photon
+exchange dominates, and close to the $Z$ resonance, where $Z$ exchange
+dominates. In particular, the interference vanishes at $s=m_Z^2$
+because it is proportional to $s-m_Z^2$. Away from these regions, it
+produces a correction of a few percent and should generally be retained.</p>
+  </article>
+
+  <hr class="ornament-rule">
+
+  <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
+    <a href="../notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <p class="footer__disclaimer">
+    These notes are not guaranteed to be correct. If you find a mistake,
+    <a href="mailto:luca.jin@outlook.com?subject=Correction%20to%20Luca%20Jin%20Physics">please email me</a>.
+  </p>
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="../">Home</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>

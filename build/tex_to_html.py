@@ -112,6 +112,30 @@ JOBS = [
             "Quantum Field Theory · Peskin Chapter 7",
             "Peskin &amp; Schroeder, <em>An Introduction to Quantum Field Theory</em>, Chapter 7."),
     ]),
+    # ---- Completed problems synced from schwartz-qft-solutions ----
+    ("schwartz-qft-solutions.tex", [
+        ("problem 29.1", "schwartz-qft-29-1",
+            "Quantum Field Theory · Schwartz Problem 29.1",
+            "M. D. Schwartz, <em>Quantum Field Theory and the Standard Model</em>, Problem 29.1."),
+        ("problem 29.2", "schwartz-qft-29-2",
+            "Quantum Field Theory · Schwartz Problem 29.2",
+            "M. D. Schwartz, <em>Quantum Field Theory and the Standard Model</em>, Problem 29.2."),
+        ("problem 29.3", "schwartz-qft-29-3",
+            "Quantum Field Theory · Schwartz Problem 29.3",
+            "M. D. Schwartz, <em>Quantum Field Theory and the Standard Model</em>, Problem 29.3."),
+        ("problem 29.6", "schwartz-qft-29-6",
+            "Quantum Field Theory · Schwartz Problem 29.6",
+            "M. D. Schwartz, <em>Quantum Field Theory and the Standard Model</em>, Problem 29.6."),
+        ("problem 29.7", "schwartz-qft-29-7",
+            "Quantum Field Theory · Schwartz Problem 29.7",
+            "M. D. Schwartz, <em>Quantum Field Theory and the Standard Model</em>, Problem 29.7."),
+        ("problem 29.8", "schwartz-qft-29-8",
+            "Quantum Field Theory · Schwartz Problem 29.8",
+            "M. D. Schwartz, <em>Quantum Field Theory and the Standard Model</em>, Problem 29.8."),
+        ("problem 29.9", "schwartz-qft-29-9",
+            "Quantum Field Theory · Schwartz Problem 29.9",
+            "M. D. Schwartz, <em>Quantum Field Theory and the Standard Model</em>, Problem 29.9."),
+    ]),
 ]
 
 # ----------------------------------------------------------------------
@@ -1670,7 +1694,7 @@ def render_page(**fields):
     out = PAGE_TEMPLATE
     for k, v in fields.items():
         out = out.replace("@@" + k.upper() + "@@", v)
-    return out
+    return "\n".join(line.rstrip() for line in out.splitlines()) + "\n"
 
 
 def slugify(s):
