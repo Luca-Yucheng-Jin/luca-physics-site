@@ -4,7 +4,7 @@
       "slug": "qft",
       "title": "Quantum Field Theory",
       "blurb": "Path-integral essay; completed Schwartz, Peskin, Tong, PSI, Osborn, and Srednicki solutions; plus an independent φ³ computation.",
-      "tag": "21 notes",
+      "tag": "15 notes",
       "groups": [
         {
           "title": "Papers",
@@ -22,53 +22,11 @@
           "title": "Completed solutions to M. D. Schwartz’s Quantum Field Theory and the Standard Model",
           "notes": [
             {
-              "href": "notes/schwartz-qft-29-1.html",
-              "title": "Higgs Production at LEP",
-              "label": "29.1.",
-              "desc": "Tree-level Higgsstrahlung cross section and the expected LEP yield.",
-              "tag": "Schwartz 29.1"
-            },
-            {
-              "href": "notes/schwartz-qft-29-2.html",
-              "title": "Electron–Positron Annihilation into Hadrons",
-              "label": "29.2.",
-              "desc": "Photon and Z exchange, interference, inclusive NLO QCD, and the energy scan.",
-              "tag": "Schwartz 29.2"
-            },
-            {
-              "href": "notes/schwartz-qft-29-3.html",
-              "title": "Higgs Decays",
-              "label": "29.3.",
-              "desc": "Higgs decays to fermions, gluons, and photons, with branching-ratio comparisons.",
-              "tag": "Schwartz 29.3"
-            },
-            {
-              "href": "notes/schwartz-qft-29-6.html",
-              "title": "Phases in the PMNS Matrix",
-              "label": "29.6.",
-              "desc": "Physical phase counting for Dirac and Majorana neutrino masses.",
-              "tag": "Schwartz 29.6"
-            },
-            {
-              "href": "notes/schwartz-qft-29-7.html",
-              "title": "Neutrino Oscillations",
-              "label": "29.7.",
-              "desc": "Solar production kinematics, two-flavour oscillations, and the reactor baseline.",
-              "tag": "Schwartz 29.7"
-            },
-            {
-              "href": "notes/schwartz-qft-29-8.html",
-              "title": "Integrating Out Right-Handed Neutrinos",
-              "label": "29.8.",
-              "desc": "Low-energy matching onto the dimension-five neutrino-mass operator.",
-              "tag": "Schwartz 29.8"
-            },
-            {
-              "href": "notes/schwartz-qft-29-9.html",
-              "title": "Chiral Rotations and the Theta Angle",
-              "label": "29.9.",
-              "desc": "The anomalous shift of the theta angle under multi-generation chiral rotations.",
-              "tag": "Schwartz 29.9"
+              "href": "notes/schwartz-qft-chapter-29.html",
+              "title": "Chapter 29 — Weak interactions",
+              "label": "29.",
+              "desc": "Completed Problems 29.1, 29.2, 29.3, 29.6, 29.7, 29.8, 29.9, collected in one chapter edition.",
+              "tag": "7 completed problems"
             }
           ]
         },

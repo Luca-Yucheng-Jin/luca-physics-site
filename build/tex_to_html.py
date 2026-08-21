@@ -112,30 +112,6 @@ JOBS = [
             "Quantum Field Theory · Peskin Chapter 7",
             "Peskin &amp; Schroeder, <em>An Introduction to Quantum Field Theory</em>, Chapter 7."),
     ]),
-    # ---- Completed problems synced from schwartz-qft-solutions ----
-    ("schwartz-qft-solutions.tex", [
-        ("problem 29.1", "schwartz-qft-29-1",
-            "Quantum Field Theory · Schwartz Problem 29.1",
-            "M. D. Schwartz, <em>Quantum Field Theory and the Standard Model</em>, Problem 29.1."),
-        ("problem 29.2", "schwartz-qft-29-2",
-            "Quantum Field Theory · Schwartz Problem 29.2",
-            "M. D. Schwartz, <em>Quantum Field Theory and the Standard Model</em>, Problem 29.2."),
-        ("problem 29.3", "schwartz-qft-29-3",
-            "Quantum Field Theory · Schwartz Problem 29.3",
-            "M. D. Schwartz, <em>Quantum Field Theory and the Standard Model</em>, Problem 29.3."),
-        ("problem 29.6", "schwartz-qft-29-6",
-            "Quantum Field Theory · Schwartz Problem 29.6",
-            "M. D. Schwartz, <em>Quantum Field Theory and the Standard Model</em>, Problem 29.6."),
-        ("problem 29.7", "schwartz-qft-29-7",
-            "Quantum Field Theory · Schwartz Problem 29.7",
-            "M. D. Schwartz, <em>Quantum Field Theory and the Standard Model</em>, Problem 29.7."),
-        ("problem 29.8", "schwartz-qft-29-8",
-            "Quantum Field Theory · Schwartz Problem 29.8",
-            "M. D. Schwartz, <em>Quantum Field Theory and the Standard Model</em>, Problem 29.8."),
-        ("problem 29.9", "schwartz-qft-29-9",
-            "Quantum Field Theory · Schwartz Problem 29.9",
-            "M. D. Schwartz, <em>Quantum Field Theory and the Standard Model</em>, Problem 29.9."),
-    ]),
 ]
 
 # ----------------------------------------------------------------------
@@ -2022,6 +1998,32 @@ WHOLE_FILE_PAGES = [
 ]
 
 
+def _load_schwartz_chapter_pages():
+    manifest_path = os.path.join(ROOT, "assets", "schwartz-qft-manifest.json")
+    if not os.path.exists(manifest_path):
+        return []
+    with open(manifest_path, encoding="utf-8") as manifest_file:
+        manifest = json.load(manifest_file)
+    pages = []
+    for chapter in manifest.get("chapters", []):
+        completed = ", ".join(
+            problem["problem"] for problem in chapter["completedProblems"]
+        )
+        number = chapter["chapter"]
+        pages.append((
+            chapter["texFile"],
+            chapter["slug"],
+            f"Schwartz Chapter {number}: {chapter['title']}",
+            f"Quantum Field Theory · Schwartz Chapter {number}",
+            "M. D. Schwartz, <em>Quantum Field Theory and the Standard Model</em>, "
+            f"Chapter {number}; completed Problems {completed}.",
+        ))
+    return pages
+
+
+WHOLE_FILE_PAGES.extend(_load_schwartz_chapter_pages())
+
+
 
 def extract_section_body(text, section_title):
     """Find the \\section{...} matching `section_title` (substring, case-insens)
@@ -2170,8 +2172,8 @@ def write_whole_file_page(tex_path, slug, title, breadcrumb, source_long):
     # For PS files (DTQFTPS1, etc.) the structure is one outer \section with
     # many \subsection topics. We want equation numbers to RESTART at each
     # \subsection, so we promote subsections to <h2> in those cases.
-    sub_count = len(re.findall(r"\\subsection\*?\{", text))
-    sec_count = len(re.findall(r"\\section\*?\{",    text))
+    sub_count = len(_find_balanced_command_args(text, "subsection"))
+    sec_count = len(_find_balanced_command_args(text, "section"))
     promote_subsections = (sec_count == 1 and sub_count > 1)
     appendix_position = text.find(r"\appendix")
     structural_labels = _precompute_structural_labels(text, promote_subsections)
