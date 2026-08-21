@@ -84,6 +84,65 @@ test('private notes have no direct HTML or PDF route in source or deployment', a
 });
 
 
+test('only completed committed Schwartz solutions are public', async () => {
+  const completed = ['29-1', '29-2', '29-3', '29-6', '29-7', '29-8', '29-9'];
+  const incomplete = ['29-4', '29-5'];
+  const manifest = JSON.parse(
+    await readFile(path.join(root, 'assets', 'nav-manifest.json'), 'utf8'),
+  );
+  const importManifest = JSON.parse(
+    await readFile(path.join(root, 'assets', 'schwartz-qft-manifest.json'), 'utf8'),
+  );
+  const publicHrefs = manifest.categories.flatMap((category) =>
+    category.groups.flatMap((group) => group.notes.map((note) => note.href)),
+  );
+
+  assert.deepEqual(
+    importManifest.completedProblems.map((problem) => problem.problem),
+    ['29.1', '29.2', '29.3', '29.6', '29.7', '29.8', '29.9'],
+  );
+  assert.match(importManifest.sourceCommit, /^[0-9a-f]{40}$/);
+
+  for (const problem of completed) {
+    const slug = `schwartz-qft-${problem}`;
+    assert.ok(publicHrefs.includes(`notes/${slug}.html`), `${slug} is not indexed`);
+    for (const relative of [
+      `notes/${slug}.html`,
+      `output/pdf/${slug}.pdf`,
+      `dist/client/notes/${slug}.html`,
+      `dist/client/output/pdf/${slug}.pdf`,
+    ]) {
+      await assert.doesNotReject(stat(path.join(root, relative)), `missing ${relative}`);
+    }
+    const html = await readFile(path.join(root, 'notes', `${slug}.html`), 'utf8');
+    assert.doesNotMatch(
+      html,
+      /solutionplaceholder|solution to be written|compile failed|\\begin\{(?:tikzpicture|feynman)\}/i,
+      `${slug} exposes unfinished or unrendered source`,
+    );
+  }
+
+  for (const problem of incomplete) {
+    const slug = `schwartz-qft-${problem}`;
+    assert.ok(!publicHrefs.includes(`notes/${slug}.html`), `${slug} should remain unpublished`);
+    for (const relative of [
+      `notes/${slug}.html`,
+      `output/pdf/${slug}.pdf`,
+      `dist/client/notes/${slug}.html`,
+      `dist/client/output/pdf/${slug}.pdf`,
+    ]) {
+      await assertMissing(relative);
+    }
+  }
+
+  const importedSource = await readFile(
+    path.join(root, 'tex', 'schwartz-qft-solutions.tex'),
+    'utf8',
+  );
+  assert.doesNotMatch(importedSource, /solutionplaceholder|solution to be written|\bTODO\b|\bTBD\b/i);
+});
+
+
 test('the path-integral essay remains public with its source, figures, HTML, and PDF', async () => {
   const manifest = JSON.parse(
     await readFile(path.join(root, 'assets', 'nav-manifest.json'), 'utf8'),

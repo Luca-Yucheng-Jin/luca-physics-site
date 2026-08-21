@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Problem 29.9: Chiral Rotations and the Theta Angle | Yucheng (Luca) Jin</title>
+<meta name="description" content="Problem 29.9: Chiral Rotations and the Theta Angle — Quantum Field Theory · Schwartz Problem 29.9, based on M. D. Schwartz. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="author" content="Yucheng (Luca) Jin">
+<link rel="canonical" href="https://luca-yucheng-jin.github.io/luca-physics-site/notes/schwartz-qft-29-9.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://luca-yucheng-jin.github.io/luca-physics-site/notes/schwartz-qft-29-9.html">
+<meta property="og:site_name" content="Luca Jin Physics">
+<meta property="og:title" content="Problem 29.9: Chiral Rotations and the Theta Angle | Yucheng (Luca) Jin">
+<meta property="og:description" content="Problem 29.9: Chiral Rotations and the Theta Angle — Quantum Field Theory · Schwartz Problem 29.9, based on M. D. Schwartz. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta property="og:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Problem 29.9: Chiral Rotations and the Theta Angle | Yucheng (Luca) Jin">
+<meta name="twitter:description" content="Problem 29.9: Chiral Rotations and the Theta Angle — Quantum Field Theory · Schwartz Problem 29.9, based on M. D. Schwartz. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta name="twitter:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="stylesheet" href="../styles.css">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/schwartz-qft-29-9.html#article","url":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/schwartz-qft-29-9.html","mainEntityOfPage":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/schwartz-qft-29-9.html","headline":"Problem 29.9: Chiral Rotations and the Theta Angle","description":"Problem 29.9: Chiral Rotations and the Theta Angle — Quantum Field Theory · Schwartz Problem 29.9, based on M. D. Schwartz. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.","inLanguage":"en","genre":"Theoretical physics notes and worked solutions","educationalLevel":"Undergraduate physics","about":{"@type":"Thing","name":"Quantum Field Theory · Schwartz Problem 29.9"},"author":{"@type":"Person","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#person","name":"Yucheng (Luca) Jin","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"isPartOf":{"@type":"WebSite","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#website","name":"Luca Jin Physics","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"encoding":{"@type":"MediaObject","contentUrl":"https://luca-yucheng-jin.github.io/luca-physics-site/output/pdf/schwartz-qft-29-9.pdf","encodingFormat":"application/pdf"}},{"@type":"BreadcrumbList","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/schwartz-qft-29-9.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes.html"},{"@type":"ListItem","position":2,"name":"Problem 29.9: Chiral Rotations and the Theta Angle","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/schwartz-qft-29-9.html"}]}]}</script>
+
+<script src="../assets/theme.js"></script>
+<script src="../assets/font-size.js"></script>
+
+<!-- MathJax with custom macros mirroring the original .tex preamble -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros', 'mathtools']},
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      Q: '\\mathbb{Q}',
+      A: '\\mathcal{A}',
+      Lagrangian: '\\mathcal{L}',
+      Cdot: '\\boldsymbol{\\cdot}',
+      Tr: '\\operatorname{Tr}',
+      // \qed inside math (e.g. trailing a derivation in an align env) —
+      // amsthm's text-mode handler is already covered by the HTML-side
+      // replace at the bottom of strip_tex_only_constructs, this catches
+      // the math-mode case (Osborn AQFT PS3 Q3 ends an equation with .\qed).
+      qed: '\\blacksquare',
+      // Feynman slash: \not{x} would render the slash to the LEFT of x
+      // (it's designed for \not=). \cancel from the cancel package
+      // strikes diagonally through the centre, matching the slashed.sty
+      // package's appearance.
+      slashed: ['{\\cancel{#1}}', 1],
+      // Wick contraction: top brace connector over the contracted pair —
+      // closer to the standard physics notation than a plain overline.
+      wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // siunitx polyfill — \si{K}, \si{m\,s^{-1}} etc. should render
+      // the unit in upright math text, like \mathrm{X}. Doesn't try
+      // to mimic the full siunitx unit-formatting machinery; just
+      // unblocks the common bare-unit case in TDSP problems.
+      si: ['\\,\\mathrm{#1}', 1],
+      SI: ['#1\\,\\mathrm{#2}', 2]
+      // \tensor{base}{indices} is rewritten to base^a{}_b in
+      // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
+      // so no runtime macro is needed here. The empty-group trick is
+      // what makes MathJax kern the indices into separate columns.
+    }
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../" class="topbar__brand">Luca Jin <small>Physics · Imperial</small></a>
+  <nav class="topbar__nav" aria-label="Primary navigation">
+    <a href="../">Home</a>
+    <a href="../notes.html" class="is-active">Notes</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+    <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" title="Decrease font size">A<span class="font-toggle__small">−</span></button>
+    <button class="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size" title="Increase font size">A<span class="font-toggle__large">+</span></button>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Toggle theme">
+      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    </button>
+  </nav>
+</header>
+
+<main class="note">
+
+  <div class="note__breadcrumb">
+    <a href="../notes.html">Notes</a> &nbsp;·&nbsp; Quantum Field Theory · Schwartz Problem 29.9
+  </div>
+
+  <h1 class="note__title">Problem 29.9: Chiral Rotations and the Theta Angle</h1>
+  <p class="note__subtitle">Source: M. D. Schwartz, <em>Quantum Field Theory and the Standard Model</em>, Problem 29.9.</p>
+
+  <div class="note__formats" aria-label="Available formats"><span>Available formats</span><a aria-current="page" href="schwartz-qft-29-9.html">HTML</a><a href="../output/pdf/schwartz-qft-29-9.pdf">PDF ↓</a></div>
+
+
+
+  <article class="note__body">
+<p>Show that when multiple generations are rotated, then the $\theta$ angle shifts
+by $\arg\det(R^\dagger L)$.</p>
+
+<aside class="solution">
+
+<p>For $N$ generations, the chiral rotations are
+\[\psi_R^i\to R^{ij}\psi_R^j,
+    \qquad
+    \psi_L^i\to L^{ij}\psi_L^j,\tag{1.1}\]
+where $R,L\in U(N)$. We decompose
+\[U(N)=SU(N)\times U(1),\tag{1.2}\]
+and write
+\[R=e^{ir/N}\widetilde R,
+    \qquad
+    L=e^{i\ell/N}\widetilde L,\tag{1.3}\]
+where
+\[\widetilde R,\widetilde L\in SU(N),
+    \qquad
+    \det\widetilde R=\det\widetilde L=1.\tag{1.4}\]</p>
+
+<p>Under the $SU(N)$ transformations, the Grassmann measures transform as
+\[\prod_i\mathcal D\psi_R^i
+    \to
+    (\det\widetilde R)^{-1}
+    \prod_i\mathcal D\psi_R^i
+    =
+    \prod_i\mathcal D\psi_R^i\tag{1.5}\]
+and
+\[\prod_i\mathcal D\psi_L^i
+    \to
+    (\det\widetilde L)^{-1}
+    \prod_i\mathcal D\psi_L^i
+    =
+    \prod_i\mathcal D\psi_L^i.\tag{1.6}\]
+The conjugate-field measures are also invariant. Therefore, the $SU(N)$
+parts of $R$ and $L$ do not change the complete functional measure. Only the
+$U(1)$ parts can shift the $\theta$ angle.</p>
+
+<p>The remaining $U(1)$ transformations are
+\[\psi_R\to e^{ir/N}\psi_R,
+    \qquad
+    \psi_L\to e^{i\ell/N}\psi_L.\tag{1.7}\]
+These can be written as a vector rotation and an axial rotation:
+\[\psi\to e^{i\alpha_V}e^{i\alpha_A\gamma^5}\psi,\tag{1.8}\]
+where
+\[\alpha_V=\frac{r+\ell}{2N},
+    \qquad
+    \alpha_A=\frac{r-\ell}{2N}.\tag{1.9}\]
+The vector rotation leaves the functional measure invariant. An axial
+rotation by $\alpha_A$ shifts the $\theta$ angle by $-2\alpha_A$ for each
+generation. Since there are $N$ generations,
+\[\Delta\theta=-2N\alpha_A
+    =-2N\left(\frac{r-\ell}{2N}\right)
+    =\ell-r.\tag{1.10}\]</p>
+
+<p>Finally,
+\[\begin{aligned}
+    \det(R^\dagger L)
+    &amp;=(\det R)^*\det L\\
+    &amp;=e^{-ir}e^{i\ell}\\
+    &amp;=e^{i(\ell-r)}.
+\end{aligned}\tag{1.11}\]
+Therefore,
+\[\arg\det(R^\dagger L)=\ell-r=\Delta\theta,\tag{1.12}\]
+and hence
+\[\boxed{
+        \theta\to\theta+\arg\det(R^\dagger L)
+    }.\tag{1.13}\]</p>
+
+</aside>
+  </article>
+
+  <hr class="ornament-rule">
+
+  <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
+    <a href="../notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <p class="footer__disclaimer">
+    These notes are not guaranteed to be correct. If you find a mistake,
+    <a href="mailto:luca.jin@outlook.com?subject=Correction%20to%20Luca%20Jin%20Physics">please email me</a>.
+  </p>
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="../">Home</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>

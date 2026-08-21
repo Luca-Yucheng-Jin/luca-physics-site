@@ -1,0 +1,48 @@
+{
+  "sourceRepository": "https://github.com/Luca-Yucheng-Jin/schwartz-qft-solutions",
+  "sourceCommit": "5f097b85d40095e6ceedf1ed2a911e5d92b909dd",
+  "completedProblems": [
+    {
+      "problem": "29.1",
+      "title": "Higgs Production at LEP",
+      "slug": "schwartz-qft-29-1",
+      "sourcePath": "chapters/chapter_29/problems/29_1.tex"
+    },
+    {
+      "problem": "29.2",
+      "title": "Electron-Positron Annihilation into Hadrons",
+      "slug": "schwartz-qft-29-2",
+      "sourcePath": "chapters/chapter_29/problems/29_2.tex"
+    },
+    {
+      "problem": "29.3",
+      "title": "Higgs Decays",
+      "slug": "schwartz-qft-29-3",
+      "sourcePath": "chapters/chapter_29/problems/29_3.tex"
+    },
+    {
+      "problem": "29.6",
+      "title": "Phases in the PMNS Matrix",
+      "slug": "schwartz-qft-29-6",
+      "sourcePath": "chapters/chapter_29/problems/29_6.tex"
+    },
+    {
+      "problem": "29.7",
+      "title": "Neutrino Oscillations",
+      "slug": "schwartz-qft-29-7",
+      "sourcePath": "chapters/chapter_29/problems/29_7.tex"
+    },
+    {
+      "problem": "29.8",
+      "title": "Integrating Out Right-Handed Neutrinos",
+      "slug": "schwartz-qft-29-8",
+      "sourcePath": "chapters/chapter_29/problems/29_8.tex"
+    },
+    {
+      "problem": "29.9",
+      "title": "Chiral Rotations and the Theta Angle",
+      "slug": "schwartz-qft-29-9",
+      "sourcePath": "chapters/chapter_29/problems/29_9.tex"
+    }
+  ]
+}

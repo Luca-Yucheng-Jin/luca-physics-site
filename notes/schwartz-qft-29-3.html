@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Problem 29.3: Higgs Decays | Yucheng (Luca) Jin</title>
+<meta name="description" content="Problem 29.3: Higgs Decays — Quantum Field Theory · Schwartz Problem 29.3, based on M. D. Schwartz. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="author" content="Yucheng (Luca) Jin">
+<link rel="canonical" href="https://luca-yucheng-jin.github.io/luca-physics-site/notes/schwartz-qft-29-3.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://luca-yucheng-jin.github.io/luca-physics-site/notes/schwartz-qft-29-3.html">
+<meta property="og:site_name" content="Luca Jin Physics">
+<meta property="og:title" content="Problem 29.3: Higgs Decays | Yucheng (Luca) Jin">
+<meta property="og:description" content="Problem 29.3: Higgs Decays — Quantum Field Theory · Schwartz Problem 29.3, based on M. D. Schwartz. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta property="og:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Problem 29.3: Higgs Decays | Yucheng (Luca) Jin">
+<meta name="twitter:description" content="Problem 29.3: Higgs Decays — Quantum Field Theory · Schwartz Problem 29.3, based on M. D. Schwartz. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta name="twitter:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="stylesheet" href="../styles.css">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/schwartz-qft-29-3.html#article","url":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/schwartz-qft-29-3.html","mainEntityOfPage":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/schwartz-qft-29-3.html","headline":"Problem 29.3: Higgs Decays","description":"Problem 29.3: Higgs Decays — Quantum Field Theory · Schwartz Problem 29.3, based on M. D. Schwartz. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.","inLanguage":"en","genre":"Theoretical physics notes and worked solutions","educationalLevel":"Undergraduate physics","about":{"@type":"Thing","name":"Quantum Field Theory · Schwartz Problem 29.3"},"author":{"@type":"Person","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#person","name":"Yucheng (Luca) Jin","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"isPartOf":{"@type":"WebSite","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#website","name":"Luca Jin Physics","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"encoding":{"@type":"MediaObject","contentUrl":"https://luca-yucheng-jin.github.io/luca-physics-site/output/pdf/schwartz-qft-29-3.pdf","encodingFormat":"application/pdf"}},{"@type":"BreadcrumbList","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/schwartz-qft-29-3.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes.html"},{"@type":"ListItem","position":2,"name":"Problem 29.3: Higgs Decays","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/schwartz-qft-29-3.html"}]}]}</script>
+
+<script src="../assets/theme.js"></script>
+<script src="../assets/font-size.js"></script>
+
+<!-- MathJax with custom macros mirroring the original .tex preamble -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros', 'mathtools']},
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      Q: '\\mathbb{Q}',
+      A: '\\mathcal{A}',
+      Lagrangian: '\\mathcal{L}',
+      Cdot: '\\boldsymbol{\\cdot}',
+      Tr: '\\operatorname{Tr}',
+      // \qed inside math (e.g. trailing a derivation in an align env) —
+      // amsthm's text-mode handler is already covered by the HTML-side
+      // replace at the bottom of strip_tex_only_constructs, this catches
+      // the math-mode case (Osborn AQFT PS3 Q3 ends an equation with .\qed).
+      qed: '\\blacksquare',
+      // Feynman slash: \not{x} would render the slash to the LEFT of x
+      // (it's designed for \not=). \cancel from the cancel package
+      // strikes diagonally through the centre, matching the slashed.sty
+      // package's appearance.
+      slashed: ['{\\cancel{#1}}', 1],
+      // Wick contraction: top brace connector over the contracted pair —
+      // closer to the standard physics notation than a plain overline.
+      wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // siunitx polyfill — \si{K}, \si{m\,s^{-1}} etc. should render
+      // the unit in upright math text, like \mathrm{X}. Doesn't try
+      // to mimic the full siunitx unit-formatting machinery; just
+      // unblocks the common bare-unit case in TDSP problems.
+      si: ['\\,\\mathrm{#1}', 1],
+      SI: ['#1\\,\\mathrm{#2}', 2]
+      // \tensor{base}{indices} is rewritten to base^a{}_b in
+      // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
+      // so no runtime macro is needed here. The empty-group trick is
+      // what makes MathJax kern the indices into separate columns.
+    }
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../" class="topbar__brand">Luca Jin <small>Physics · Imperial</small></a>
+  <nav class="topbar__nav" aria-label="Primary navigation">
+    <a href="../">Home</a>
+    <a href="../notes.html" class="is-active">Notes</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+    <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" title="Decrease font size">A<span class="font-toggle__small">−</span></button>
+    <button class="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size" title="Increase font size">A<span class="font-toggle__large">+</span></button>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Toggle theme">
+      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    </button>
+  </nav>
+</header>
+
+<main class="note">
+
+  <div class="note__breadcrumb">
+    <a href="../notes.html">Notes</a> &nbsp;·&nbsp; Quantum Field Theory · Schwartz Problem 29.3
+  </div>
+
+  <h1 class="note__title">Problem 29.3: Higgs Decays</h1>
+  <p class="note__subtitle">Source: M. D. Schwartz, <em>Quantum Field Theory and the Standard Model</em>, Problem 29.3.</p>
+
+  <div class="note__formats" aria-label="Available formats"><span>Available formats</span><a aria-current="page" href="schwartz-qft-29-3.html">HTML</a><a href="../output/pdf/schwartz-qft-29-3.pdf">PDF ↓</a></div>
+
+
+
+  <article class="note__body">
+<p>Higgs decays.</p>
+
+<ol>
+  <li>Calculate the rate for $H\to b\bar b$ in the Standard Model.</li>
+  <li>Calculate the rate for $H\to gg$ in the Standard Model. The dominant
+  contribution to this comes from a triangle loop diagram involving top
+  quarks.</li>
+  <li>Calculate the rate for $H\to\gamma\gamma$ in the Standard Model.
+  Include contributions both from top loops and from loops of $W$ bosons.</li>
+  <li>Plot the branching ratios for $H\to b\bar b$, $H\to gg$, and
+  $H\to\gamma\gamma$ as a function of Higgs mass.</li>
+</ol>
+
+<aside class="solution">
+
+<p>Before symmetry breaking, the fermions couple to the Higgs field as
+\[-Y_{ij}^d\bar Q^iHd_R^j - Y_{ij}^u\bar Q^i \tilde{H}
+ u_R^j + h.c.\tag{1.1}\]
+Focusing on the bottom quark, we find
+\[-Y_{33}^d
+    \begin{pmatrix}
+        \bar t_L&amp; \bar b_L
+    \end{pmatrix}
+    \begin{pmatrix}
+        H^+\\ H^0
+    \end{pmatrix}b_R + h.c.\tag{1.2}\]
+Expanding the Higgs around the vacuum as usual, we find the bottom quark couples to the Higgs field $h(x)$ through
+\[-\frac{y}{\sqrt{2}}\bar b_L h b_R - \frac{y^*}{\sqrt{2}}\bar b_R h b_L = -\frac{1}{\sqrt{2}}(\operatorname{Re}y )h\bar b b -\frac{i}{\sqrt{2}} (\operatorname{Im}y)h \bar b \gamma^5 b,\tag{1.3}\]
+where we defined $y \equiv Y_{33}^d$ and we have assumed $y$ to be complex for generality.
+Therefore, at tree-level the scattering amplitude is given by
+\[i\mathcal{M}_b = -\frac{1}{\sqrt{2}}i(\operatorname{Re}y )[\bar u(p_2)v(p_3)] + \frac{1}{\sqrt{2}}(\operatorname{Im}y)[\bar u(p_2)\gamma^5v(p_3)].\tag{1.4}\]
+Then, we find
+\[\begin{aligned}
+    \sum_\mathrm{spin/colour}|\mathcal{M}_b|^2 &amp;= \frac{3}{2}\sum_\mathrm{spin}\bigg[-(\operatorname{Re}y )[\bar u(p_2)v(p_3)] -i (\operatorname{Im}y)[\bar u(p_2)\gamma^5v(p_3)]\bigg]\\
+    &amp;\times\bigg[-(\operatorname{Re}y )[\bar v(p_3)u(p_2)] -i (\operatorname{Im}y)[\bar v(p_3)\gamma^5u(p_2)]\bigg]\\
+    &amp;=\frac{3}{2}[(\operatorname{Re}y )^2 + (\operatorname{Im}y )^2]\Tr((\slashed{p}_2+m_b)(\slashed{p}_3 -m_b))\\
+    &amp;=6|y|^2(p_2\cdot p_3 - m_b^2).
+\end{aligned}\tag{1.5}\]
+In the mass basis, $y$ can be chosen real.
+To compute the decay rate in the centre-of-mass frame, we use
+\[\Gamma
+    =
+    \frac{1}{32\pi^2m_h^2}
+    |\mathbf p|
+    \int d\Omega\,
+    |\mathcal M_b|^2.
+\tag{1.6}\]
+Using
+\[s=m_h^2,
+    \qquad
+    |\mathbf p|
+    =
+    \frac{1}{2}\sqrt{m_h^2-4m_b^2},
+    \qquad
+    p_2\cdot p_3
+    =
+    \frac{m_h^2-2m_b^2}{2},\tag{1.7}\]
+we find
+\[\boxed{
+    \Gamma(H\to b\bar b)
+    =
+    \frac{3y^2}{16\pi m_h^2}
+    (m_h^2-4m_b^2)^{3/2}
+    =
+    \frac{3m_b^2m_h}{8\pi v^2}
+    \left(
+        1-\frac{4m_b^2}{m_h^2}
+    \right)^{3/2}.
+}\tag{1.8}\]
+Using
+\[m_h=125.20~\mathrm{GeV},
+    \qquad
+    m_b=4.183~\mathrm{GeV},
+    \qquad
+    v=246.22~\mathrm{GeV},\tag{1.9}\]
+we obtain
+\[\boxed{
+    \Gamma(H\to b\bar b)
+    \simeq 4.28~\mathrm{MeV}.
+}\tag{1.10}\]</p>
+
+<p>There is no tree-level contribution to $H \to gg$. The lowest-order contribution comes from the quark triangle diagram</p>
+
+<div class="equation-row"><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='16.162em' height='6.212em' viewBox='-.000829 -56.47469 146.927576 56.47502'>
+<defs>
+<path id='g0-22' d='M.376588 1.12279C.348692 1.227397 .348692 1.262267 .348692 1.26924C.348692 1.422665 .474222 1.492403 .585803 1.492403C.836862 1.492403 .892653 1.262267 .920548 1.143711C.934496 1.108842 1.073973 .550934 1.241345-.132503C1.457534 .013948 1.736488 .069738 1.987547 .069738C2.587298 .069738 2.977833-.418431 2.991781-.432379C3.124284 .048817 3.605479 .069738 3.710087 .069738C3.961146 .069738 4.135492-.083686 4.261021-.299875C4.414446-.571856 4.505106-.969365 4.505106-.99726C4.505106-1.08792 4.414446-1.08792 4.393524-1.08792C4.29589-1.08792 4.288917-1.060025 4.2401-.871731C4.156413-.536986 4.02391-.125529 3.731009-.125529C3.549689-.125529 3.500872-.278954 3.500872-.467248C3.500872-.585803 3.556663-.836862 3.605479-1.018182C3.654296-1.206476 3.724035-1.492403 3.758904-1.645828L3.919303-2.266501C3.961146-2.440847 4.037858-2.747696 4.037858-2.782565C4.037858-2.922042 3.926276-3.005729 3.807721-3.005729C3.731009-3.005729 3.598506-2.970859 3.521793-2.838356C3.500872-2.796513 3.445081-2.57335 3.410212-2.433873L3.263761-1.855044L3.047572-.983313C2.998755-.808966 2.998755-.795019 2.93599-.704359C2.719801-.397509 2.412951-.125529 2.015442-.125529C1.443587-.125529 1.443587-.620672 1.443587-.746202C1.443587-.927522 1.464508-1.018182 1.562142-1.39477C1.63188-1.701619 1.645828-1.750436 1.715567-2.022416L1.8132-2.412951C1.84807-2.559402 1.917808-2.824408 1.917808-2.852304C1.917808-2.977833 1.820174-3.075467 1.680697-3.075467C1.429639-3.075467 1.366874-2.831382 1.345953-2.747696L.376588 1.12279Z'/>
+<path id='g0-23' d='M1.750436-2.873225C1.75741-2.901121 1.764384-2.942964 1.764384-2.977833C1.764384-2.984807 1.764384-3.075467 1.652802-3.075467C1.645828-3.075467 1.248319-3.040598 1.199502-3.040598C1.066999-3.02665 .941469-3.019676 .808966-3.005729C.697385-2.998755 .613699-2.991781 .613699-2.84533C.613699-2.747696 .711333-2.747696 .795019-2.747696C1.129763-2.747696 1.129763-2.705853 1.129763-2.643088C1.129763-2.601245 1.094894-2.461768 1.066999-2.371108L.718306-.962391C.54396-.265006 .509091-.125529 .509091-.097634C.509091 0 .613699 0 .641594 0H.753176C1.373848-.097634 2.259527-.425405 3.005729-1.08792C3.954172-1.931756 4.093649-2.838356 4.093649-2.852304C4.093649-2.977833 3.996015-3.075467 3.856538-3.075467C3.612453-3.075467 3.563636-2.880199 3.500872-2.684932C3.221918-1.694645 2.287422-.627646 1.101868-.278954L1.750436-2.873225Z'/>
+<path id='g0-97' d='M2.942964-2.66401C2.796513-2.894147 2.559402-3.075467 2.224658-3.075467C1.332005-3.075467 .425405-2.092154 .425405-1.08792C.425405-.411457 .878705 .069738 1.478456 .069738C1.855044 .069738 2.189788-.146451 2.468742-.418431C2.601245 0 3.005729 .069738 3.187049 .069738C3.438107 .069738 3.612453-.083686 3.737983-.299875C3.891407-.571856 3.982067-.969365 3.982067-.99726C3.982067-1.08792 3.891407-1.08792 3.870486-1.08792C3.772852-1.08792 3.765878-1.060025 3.717061-.871731C3.633375-.536986 3.500872-.125529 3.20797-.125529C3.02665-.125529 2.977833-.278954 2.977833-.467248C2.977833-.585803 3.033624-.836862 3.082441-1.018182C3.131258-1.206476 3.200996-1.492403 3.235866-1.645828L3.375342-2.175841C3.417186-2.357161 3.500872-2.684932 3.500872-2.719801C3.500872-2.873225 3.375342-2.942964 3.263761-2.942964C3.145205-2.942964 2.984807-2.859278 2.942964-2.66401ZM2.496638-.871731C2.447821-.676463 2.294396-.536986 2.140971-.404483C2.078207-.348692 1.799253-.125529 1.499377-.125529C1.241345-.125529 .990286-.306849 .990286-.801993C.990286-1.171606 1.192528-1.93873 1.352927-2.217684C1.673724-2.775592 2.02939-2.880199 2.224658-2.880199C2.712827-2.880199 2.84533-2.350187 2.84533-2.273474C2.84533-2.245579 2.831382-2.196762 2.824408-2.175841L2.496638-.871731Z'/>
+<path id='g0-98' d='M1.841096-4.630635C1.84807-4.644583 1.868991-4.735243 1.868991-4.742217C1.868991-4.777086 1.841096-4.839851 1.75741-4.839851C1.617933-4.839851 1.039103-4.78406 .864757-4.770112C.808966-4.763138 .711333-4.756164 .711333-4.609714C.711333-4.51208 .808966-4.51208 .892653-4.51208C1.227397-4.51208 1.227397-4.463263 1.227397-4.407472C1.227397-4.358655 1.157659-4.079701 1.115816-3.919303L.955417-3.277709C.892653-3.040598 .509091-1.513325 .495143-1.422665C.460274-1.255293 .460274-1.164633 .460274-1.080946C.460274-.376588 .9066 .069738 1.48543 .069738C2.357161 .069738 3.284682-.878705 3.284682-1.910834C3.284682-2.726775 2.719801-3.075467 2.238605-3.075467C1.875965-3.075467 1.569116-2.873225 1.3599-2.691905L1.841096-4.630635ZM1.492403-.125529C1.150685-.125529 .955417-.425405 .955417-.836862C.955417-1.094894 1.018182-1.332005 1.21345-2.12005C1.255293-2.252553 1.255293-2.266501 1.387796-2.419925C1.652802-2.726775 1.966625-2.880199 2.217684-2.880199C2.489664-2.880199 2.726775-2.677958 2.726775-2.203736C2.726775-1.917808 2.57335-1.206476 2.364134-.801993C2.196762-.460274 1.84807-.125529 1.492403-.125529Z'/>
+<path id='g1-103' d='M4.692403-3.755915C4.702366-3.815691 4.722291-3.865504 4.722291-3.935243C4.722291-4.104608 4.60274-4.204234 4.433375-4.204234C4.333748-4.204234 4.064757-4.134496 4.024907-3.775841C3.845579-4.144458 3.496887-4.403487 3.098381-4.403487C1.96264-4.403487 .727273-3.008717 .727273-1.574097C.727273-.587796 1.334994 0 2.052304 0C2.6401 0 3.108344-.468244 3.20797-.577833L3.217933-.56787C3.008717 .318804 2.889166 .727273 2.889166 .747198C2.849315 .836862 2.510585 1.823163 1.454545 1.823163C1.265255 1.823163 .936488 1.8132 .657534 1.723537C.956413 1.633873 1.066002 1.374844 1.066002 1.205479C1.066002 1.046077 .956413 .856787 .687422 .856787C.468244 .856787 .14944 1.036115 .14944 1.43462C.14944 1.843088 .518057 2.042341 1.474471 2.042341C2.719801 2.042341 3.437111 1.265255 3.58655 .667497L4.692403-3.755915ZM3.39726-1.275218C3.337484-1.016189 3.108344-.767123 2.889166-.577833C2.67995-.398506 2.371108-.219178 2.082192-.219178C1.58406-.219178 1.43462-.737235 1.43462-1.135741C1.43462-1.613948 1.723537-2.789539 1.992528-3.297634C2.261519-3.785803 2.689913-4.184309 3.108344-4.184309C3.765878-4.184309 3.905355-3.377335 3.905355-3.327522S3.88543-3.217933 3.875467-3.178082L3.39726-1.275218Z'/>
+<path id='g1-104' d='M2.859278-6.804483C2.859278-6.814446 2.859278-6.914072 2.729763-6.914072C2.500623-6.914072 1.77335-6.834371 1.514321-6.814446C1.43462-6.804483 1.325031-6.794521 1.325031-6.615193C1.325031-6.495641 1.414695-6.495641 1.564134-6.495641C2.042341-6.495641 2.062267-6.425903 2.062267-6.326276L2.032379-6.127024L.587796-.388543C.547945-.249066 .547945-.229141 .547945-.169365C.547945 .059776 .747198 .109589 .836862 .109589C.996264 .109589 1.155666-.009963 1.205479-.14944L1.39477-.9066L1.613948-1.803238C1.673724-2.022416 1.733499-2.241594 1.783313-2.470735C1.803238-2.530511 1.882939-2.859278 1.892902-2.919054C1.92279-3.008717 2.231631-3.566625 2.570361-3.835616C2.789539-3.995019 3.098381-4.184309 3.526775-4.184309S4.064757-3.845579 4.064757-3.486924C4.064757-2.948941 3.686177-1.863014 3.447073-1.255293C3.367372-1.026152 3.317559-.9066 3.317559-.707347C3.317559-.239103 3.666252 .109589 4.134496 .109589C5.070984 .109589 5.439601-1.344956 5.439601-1.424658C5.439601-1.524284 5.349938-1.524284 5.32005-1.524284C5.220423-1.524284 5.220423-1.494396 5.17061-1.344956C5.021171-.816936 4.702366-.109589 4.154421-.109589C3.985056-.109589 3.915318-.209215 3.915318-.438356C3.915318-.687422 4.004981-.926526 4.094645-1.145704C4.254047-1.574097 4.702366-2.759651 4.702366-3.337484C4.702366-3.985056 4.303861-4.403487 3.556663-4.403487C2.929016-4.403487 2.450809-4.094645 2.082192-3.636364L2.859278-6.804483Z'/>
+<path id='g1-112' d='M.448319 1.215442C.368618 1.554172 .348692 1.62391-.089664 1.62391C-.209215 1.62391-.318804 1.62391-.318804 1.8132C-.318804 1.892902-.268991 1.932752-.18929 1.932752C.079701 1.932752 .368618 1.902864 .647572 1.902864C.976339 1.902864 1.315068 1.932752 1.633873 1.932752C1.683686 1.932752 1.8132 1.932752 1.8132 1.733499C1.8132 1.62391 1.713574 1.62391 1.574097 1.62391C1.075965 1.62391 1.075965 1.554172 1.075965 1.464508C1.075965 1.344956 1.494396-.278954 1.564134-.52802C1.693649-.239103 1.972603 .109589 2.480697 .109589C3.636364 .109589 4.881694-1.344956 4.881694-2.809465C4.881694-3.745953 4.313823-4.403487 3.556663-4.403487C3.058531-4.403487 2.580324-4.044832 2.251557-3.656289C2.15193-4.194271 1.723537-4.403487 1.354919-4.403487C.896638-4.403487 .707347-4.014944 .617684-3.835616C.438356-3.496887 .308842-2.899128 .308842-2.86924C.308842-2.769614 .408468-2.769614 .428394-2.769614C.52802-2.769614 .537983-2.779577 .597758-2.998755C.767123-3.706102 .966376-4.184309 1.325031-4.184309C1.494396-4.184309 1.633873-4.104608 1.633873-3.726027C1.633873-3.496887 1.603985-3.387298 1.564134-3.217933L.448319 1.215442ZM2.201743-3.108344C2.271482-3.377335 2.540473-3.656289 2.719801-3.805729C3.068493-4.11457 3.35741-4.184309 3.526775-4.184309C3.92528-4.184309 4.164384-3.835616 4.164384-3.247821S3.835616-1.514321 3.656289-1.135741C3.317559-.438356 2.839352-.109589 2.470735-.109589C1.8132-.109589 1.683686-.936488 1.683686-.996264C1.683686-1.016189 1.683686-1.036115 1.713574-1.155666L2.201743-3.108344Z'/>
+<path id='g2-50' d='M3.521793-1.26924H3.284682C3.263761-1.115816 3.194022-.704359 3.103362-.63462C3.047572-.592777 2.510585-.592777 2.412951-.592777H1.129763C1.862017-1.241345 2.106102-1.436613 2.524533-1.764384C3.040598-2.175841 3.521793-2.608219 3.521793-3.270735C3.521793-4.11457 2.782565-4.630635 1.889913-4.630635C1.025156-4.630635 .439352-4.02391 .439352-3.382316C.439352-3.02665 .739228-2.991781 .808966-2.991781C.976339-2.991781 1.17858-3.110336 1.17858-3.361395C1.17858-3.486924 1.129763-3.731009 .767123-3.731009C.983313-4.226152 1.457534-4.379577 1.785305-4.379577C2.48269-4.379577 2.84533-3.835616 2.84533-3.270735C2.84533-2.66401 2.412951-2.182814 2.189788-1.931756L.509091-.27198C.439352-.209215 .439352-.195268 .439352 0H3.312578L3.521793-1.26924Z'/>
+<path id='g2-51' d='M1.903861-2.329265C2.447821-2.329265 2.838356-1.952677 2.838356-1.206476C2.838356-.341719 2.336239-.083686 1.931756-.083686C1.652802-.083686 1.039103-.160399 .746202-.571856C1.073973-.585803 1.150685-.81594 1.150685-.962391C1.150685-1.185554 .983313-1.345953 .767123-1.345953C.571856-1.345953 .376588-1.227397 .376588-.941469C.376588-.285928 1.101868 .139477 1.945704 .139477C2.915068 .139477 3.584558-.509091 3.584558-1.206476C3.584558-1.750436 3.138232-2.294396 2.371108-2.454795C3.103362-2.719801 3.368369-3.242839 3.368369-3.668244C3.368369-4.219178 2.733748-4.630635 1.959651-4.630635S.592777-4.254047 .592777-3.696139C.592777-3.459029 .746202-3.326526 .955417-3.326526C1.171606-3.326526 1.311083-3.486924 1.311083-3.682192C1.311083-3.884433 1.171606-4.030884 .955417-4.044832C1.199502-4.351681 1.680697-4.428394 1.93873-4.428394C2.252553-4.428394 2.691905-4.274969 2.691905-3.668244C2.691905-3.375342 2.594271-3.054545 2.412951-2.838356C2.182814-2.57335 1.987547-2.559402 1.638854-2.538481C1.464508-2.524533 1.45056-2.524533 1.415691-2.517559C1.401743-2.517559 1.345953-2.503611 1.345953-2.426899C1.345953-2.329265 1.408717-2.329265 1.527273-2.329265H1.903861Z'/>
+<path id='g3-40' d='M3.297634 2.391034C3.297634 2.361146 3.297634 2.34122 3.128269 2.171856C1.882939 .916563 1.564134-.966376 1.564134-2.49066C1.564134-4.224159 1.942715-5.957659 3.16812-7.202989C3.297634-7.32254 3.297634-7.342466 3.297634-7.372354C3.297634-7.442092 3.257783-7.47198 3.198007-7.47198C3.098381-7.47198 2.201743-6.794521 1.613948-5.529265C1.105853-4.433375 .986301-3.327522 .986301-2.49066C.986301-1.713574 1.09589-.508095 1.643836 .617684C2.241594 1.843088 3.098381 2.49066 3.198007 2.49066C3.257783 2.49066 3.297634 2.460772 3.297634 2.391034Z'/>
+<path id='g3-41' d='M2.879203-2.49066C2.879203-3.267746 2.769614-4.473225 2.221669-5.599004C1.62391-6.824408 .767123-7.47198 .667497-7.47198C.607721-7.47198 .56787-7.43213 .56787-7.372354C.56787-7.342466 .56787-7.32254 .757161-7.143213C1.733499-6.156912 2.30137-4.572852 2.30137-2.49066C2.30137-.787049 1.932752 .966376 .697385 2.221669C.56787 2.34122 .56787 2.361146 .56787 2.391034C.56787 2.450809 .607721 2.49066 .667497 2.49066C.767123 2.49066 1.663761 1.8132 2.251557 .547945C2.759651-.547945 2.879203-1.653798 2.879203-2.49066Z'/>
+</defs>
+<g id='page1'>
+<g transform='matrix(1 0 0 1 -65.232939 3.4593)'>
+<use x='65.23211' y='-28.15171' xlink:href='#g1-104'/>
+</g>
+<g transform='matrix(1 0 0 1 54.3699 -20.851)'>
+<use x='65.23211' y='-28.15171' xlink:href='#g1-103'/>
+<use x='70.341418' y='-31.767073' xlink:href='#g0-97'/>
+<use x='69.983978' y='-25.688778' xlink:href='#g0-22'/>
+<use x='75.326264' y='-28.15171' xlink:href='#g3-40'/>
+<use x='79.200638' y='-28.15171' xlink:href='#g1-112'/>
+<use x='84.213103' y='-26.657329' xlink:href='#g2-50'/>
+<use x='88.682473' y='-28.15171' xlink:href='#g3-41'/>
+</g>
+<g transform='matrix(1 0 0 1 54.5619 25.66138)'>
+<use x='65.23211' y='-28.15171' xlink:href='#g1-103'/>
+<use x='70.341418' y='-31.767073' xlink:href='#g0-98'/>
+<use x='69.983978' y='-25.688778' xlink:href='#g0-23'/>
+<use x='74.941112' y='-28.15171' xlink:href='#g3-40'/>
+<use x='78.815486' y='-28.15171' xlink:href='#g1-112'/>
+<use x='83.827951' y='-26.657329' xlink:href='#g2-51'/>
+<use x='88.29732' y='-28.15171' xlink:href='#g3-41'/>
+</g>
+<path d='M5.9375-28.152345H39.7187' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<path d='M39.7187-28.152345L87.9102-50.8281' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M67.13281-41.0508L60-40.7148L62.32812-35.76953Z'/>
+<path d='M87.9102-50.8281V-5.4727' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M87.9102-24.46484L90.6406-31.0625H85.1758Z'/>
+<path d='M87.9102-5.4727L39.7187-28.152345' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M60.49609-18.375L65.304686-13.0938L67.6289-18.0391Z'/>
+<path d='M87.9102-50.8281H88.4336L88.957-51.4531L89.4844-51.9063L90.0078-52.0742L90.5312-51.9063L91.0547-51.4531L91.582-50.8281L92.1055-50.207L92.6289-49.75L93.1562-49.582L93.6797-49.75L94.2031-50.207L94.7266-50.8281L95.2539-51.4531L95.7773-51.9063L96.3008-52.0742L96.8242-51.9063L97.3516-51.4531L97.875-50.8281L98.3984-50.207L98.9219-49.75L99.4492-49.582L99.9727-49.75L100.4961-50.207L101.0195-50.8281L101.5469-51.4531L102.0703-51.9063L102.5937-52.0742L103.1211-51.9063L103.6445-51.4531L104.168-50.8281L104.6914-50.207L105.2187-49.75L105.7422-49.582L106.2656-49.75L106.7891-50.207L107.3164-50.8281L107.8398-51.4531L108.3633-51.9063L108.8867-52.0742L109.4141-51.9063L109.9375-51.4531L110.4609-50.8281L110.9844-50.207L111.5117-49.75L112.0352-49.582L112.5586-49.75L113.0859-50.207L113.6094-50.8281L114.1328-51.4531L114.6562-51.9063L115.1836-52.0742L115.707-51.9063L116.2305-51.4531L116.7539-50.8281L117.2812-50.207L117.8047-49.75L118.3281-49.582L119.4023-50.8281' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M87.9102-5.4727H88.4375L88.9648-6.0977L89.4922-6.5508L90.0195-6.7188L90.5469-6.5508L91.0742-6.0977L91.6016-5.4727L92.1328-4.8516L92.6602-4.3945L93.1875-4.2305L93.7148-4.3945L94.2422-4.8516L94.7695-5.4727L95.2969-6.0977L95.8242-6.5508L96.3516-6.7188L96.8789-6.5508L97.4062-6.0977L97.9336-5.4727L98.4609-4.8516L98.9922-4.3945L99.5195-4.2305L100.0469-4.3945L100.5742-4.8516L101.1016-5.4727L101.6289-6.0977L102.1562-6.5508L102.6836-6.7188L103.2109-6.5508L103.7383-6.0977L104.2656-5.4727L104.793-4.8516L105.3242-4.3945L105.8516-4.2305L106.3789-4.3945L106.9062-4.8516L107.4336-5.4727L107.9609-6.0977L108.4883-6.5508L109.0156-6.7188L109.543-6.5508L110.0703-6.0977L110.5977-5.4727L111.125-4.8516L111.6562-4.3945L112.1836-4.2305L112.7109-4.3945L113.2383-4.8516L113.7656-5.4727L114.293-6.0977L114.8203-6.5508L115.3477-6.7188L115.875-6.5508L116.4023-6.0977L116.9297-5.4727L117.457-4.8516L117.9844-4.3945L118.5156-4.2305L119.5937-5.4727' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle \quad
++\quad
+(u-\text{channel}).$</span><span class="equation-num">(1.11)</span></div>
+
+<p>For a particular quark flavour $q$, the scattering amplitude is
+\[\begin{aligned}
+    i\mathcal M_q^{ab}
+    &amp;=
+    -\left(-i\frac{y_q}{\sqrt{2}}\right)
+    (ig_s)^2
+    \int\frac{d^dk}{(2\pi)^d}
+    \\
+    &amp;\quad\times
+    \Tr\left[
+        \frac{i(\slashed{k}+m_q)}
+        {k^2-m_q^2}
+        \gamma^\mu T^a
+        \frac{i(\slashed{k}-\slashed{p}_2+m_q)}
+        {(k-p_2)^2-m_q^2}
+        \gamma^\nu T^b
+        \frac{i(\slashed{k}-\slashed{p}_1+m_q)}
+        {(k-p_1)^2-m_q^2}
+    \right]
+    \epsilon_\mu^*(p_2)\epsilon_\nu^*(p_3)
+    \\
+    &amp;\quad+
+    \left(
+        p_2,\mu,a\leftrightarrow p_3,\nu,b
+    \right)\\
+    &amp;=i\frac{y_qg_s^2}{\sqrt{2}}T_F\delta^{ab}
+    \epsilon_\mu^*(p_2)\epsilon_\nu^*(p_3)\,8m_q
+    \left[
+        F_q^{\mu\nu}(p_1,p_2)
+        +F_q^{\nu\mu}(p_1,p_3)
+    \right],
+\end{aligned}\tag{1.12}\]
+where $
+y_q=\frac{\sqrt2 m_q}{v}
+=2\sqrt{\lambda} \frac{m_q}{m_h}
+$, and $F_q^{\mu\nu}$ is defined to include the factor of $i$ below, so that it is real for the top-quark loop. Since $y_q\propto m_q$ and $m_b,m_c,m_s,m_d,m_u\ll m_h$, the dominant contribution comes from the top-quark loop. The complete amplitude is obtained by summing over quark flavours. Now, we evaluate the loop integral. The trace can be simplified as
+\[\begin{aligned}
+&amp;\Tr\left[
+        \frac{i(\slashed{k}+m_q)}
+        {k^2-m_q^2}
+        \gamma^\mu
+        \frac{i(\slashed{k}-\slashed{p}_2+m_q)}
+        {(k-p_2)^2-m_q^2}
+        \gamma^\nu
+        \frac{i(\slashed{k}-\slashed{p}_1+m_q)}
+        {(k-p_1)^2-m_q^2}
+    \right]
+\\[2mm]
+&amp;=
+-\frac{4im_q}{(k^2-m_q^2)[(k-p_2)^2-m_q^2][(k-p_1)^2-m_q^2]}
+\Big[
+k^\mu(k-p_2)^\nu
++k^\nu(k-p_2)^\mu
+-k\cdot(k-p_2)\eta^{\mu\nu}
+\\
+&amp;\qquad
++k^\mu(k-p_1)^\nu
+-k^\nu(k-p_1)^\mu
++k\cdot(k-p_1)\eta^{\mu\nu}
++(k-p_2)^\mu(k-p_1)^\nu
++(k-p_1)^\mu(k-p_2)^\nu
+\\
+&amp;\qquad
+-(k-p_2)\cdot(k-p_1)\eta^{\mu\nu}
++m_q^2\eta^{\mu\nu}
+\Big].
+\end{aligned}\tag{1.13}\]
+Let
+\[A=k^2-m_q^2,\quad B=(k-p_2)^2-m_q^2,\quad C=(k-p_1)^2-m_q^2.\tag{1.14}\]
+Introducing Feynman parameter,
+\[\frac{1}{ABC}
+    =
+    2\int_0^1dx\int_0^{1-x}dy\,
+    \frac{1}{[xA+yB+zC]^3},
+    \qquad z=1-x-y,\tag{1.15}\]
+the denominator becomes
+\[\begin{aligned}
+xA+yB+zC
+&amp;=
+k^2-2k\cdot(yp_2+zp_1)
++yp_2^2+zp_1^2-m_q^2
+\\
+&amp;=
+(k-yp_2-zp_1)^2-\Delta,
+\end{aligned}\tag{1.16}\]
+where
+\[\Delta
+    =
+    m_q^2-y(1-y)p_2^2-z(1-z)p_1^2
+    +2yz\,p_1\cdot p_2.\tag{1.17}\]
+Shifting the loop momentum, $\ell = k - yp_2-zp_1\equiv k - P$, the numerator becomes
+\[\begin{aligned}
+\mathcal N^{\mu\nu}
+={}&amp;
+4\ell^\mu\ell^\nu-\ell^2\eta^{\mu\nu}
++4P^\mu P^\nu
+-2P^\mu(p_1+p_2)^\nu
+-2P^\nu p_2^\mu
+\\
+&amp;+p_1^\mu p_2^\nu+p_2^\mu p_1^\nu
++\left(
+m_q^2-P^2+2P\cdot p_2-p_1\cdot p_2
+\right)\eta^{\mu\nu}
+\\
+&amp;+4\ell^\mu P^\nu+4P^\mu\ell^\nu
+-2\ell^\mu(p_1+p_2)^\nu
+-2\ell^\nu p_2^\mu
++2\ell\cdot(p_2-P)\eta^{\mu\nu}.
+\end{aligned}\tag{1.18}\]
+The loop integral becomes
+\[\begin{aligned}
+F^{\mu\nu}_q(p_1,p_2)
+&amp;=
+i\int_0^1dx\int_0^{1-x}dy
+\int\frac{d^d\ell}{(2\pi)^d}
+\frac{\mathcal N^{\mu\nu}(\ell,P)}
+     {(\ell^2-\Delta)^3}.
+\end{aligned}\tag{1.19}\]
+The terms with an odd number of $\ell$ in the numerator vanish, and $\ell^\mu \ell^\nu \to \frac{1}{d}\eta^{\mu\nu}\ell^2$, which gives
+\[\begin{aligned}
+\mathcal N^{\mu\nu}
+\longrightarrow{}&amp;
+\left(\frac{4}{d}-1\right)\ell^2\eta^{\mu\nu}
++4P^\mu P^\nu
+-2P^\mu(p_1+p_2)^\nu
+-2P^\nu p_2^\mu
+\\
+&amp;+p_1^\mu p_2^\nu+p_2^\mu p_1^\nu
++\left(
+m_q^2-P^2+2P\cdot p_2-p_1\cdot p_2
+\right)\eta^{\mu\nu}.
+\end{aligned}\tag{1.20}\]
+Then, using dimensional regularisation expanding around $d=4-\epsilon$, we find
+\[\begin{aligned}
+F_q^{\mu\nu}(p_1,p_2)
+=
+\frac{-1}{32\pi^2}
+\int_0^1dx\int_0^{1-x}dy\,
+\frac{1}{m_q^2-xz\,m_h^2}
+\Bigg[
+&amp;m_h^2\left(\frac12-2xz\right)\eta^{\mu\nu}
+\\
+&amp;-2z(2z-1)p_1^\mu p_1^\nu
++4y(1-y)p_2^\mu p_2^\nu
+\\
+&amp;-\left(4yz-2z+1\right)p_1^\mu p_2^\nu
+\\
+&amp;-\left(4yz-2y-2z+1\right)p_2^\mu p_1^\nu
+\Bigg].
+\end{aligned}\tag{1.21}\]</p>
+
+<p>Contracting with the on-shell gluon polarisations, it follows that
+\[\begin{aligned}
+&amp;\epsilon_\mu^*(p_2)\epsilon_\nu^*(p_3)
+p_1^\mu p_1^\nu
+=
+\epsilon_\mu^*(p_2)\epsilon_\nu^*(p_3)
+p_1^\mu p_2^\nu
+\\
+&amp;\qquad=
+\bigl[\epsilon^*(p_2)\cdot p_3\bigr]
+\bigl[\epsilon^*(p_3)\cdot p_2\bigr],
+\end{aligned}\tag{1.22}\]
+while all terms proportional to $p_2^\mu$ vanish. Therefore,
+\[\begin{aligned}
+&amp;\epsilon_\mu^*(p_2)\epsilon_\nu^*(p_3)
+F_t^{\mu\nu}(p_1,p_2)
+\\
+&amp;\quad=
+-\frac{1}{32\pi^2}
+\int_0^1dx\int_0^{1-x}dy\,
+\frac{1-4xz}{m_t^2-xz\,m_h^2}
+\\
+&amp;\qquad\quad\times
+\left[
+\frac{m_h^2}{2}\,
+\epsilon^*(p_2)\cdot\epsilon^*(p_3)
+-
+\bigl(\epsilon^*(p_2)\cdot p_3\bigr)
+\bigl(\epsilon^*(p_3)\cdot p_2\bigr)
+\right].
+\end{aligned}\tag{1.23}\]
+The crossed orientation gives the same result after relabelling the Feynman parameters. Adding the two orientations gives
+\[\begin{aligned}
+&amp;\epsilon_\mu^*(p_2)\epsilon_\nu^*(p_3)
+\left[
+F_t^{\mu\nu}(p_1,p_2)+F_t^{\nu\mu}(p_1,p_3)
+\right]
+\\
+&amp;\quad=
+-\frac{1}{16\pi^2}
+\left[
+\frac{m_h^2}{2}\,
+\epsilon^*(p_2)\cdot\epsilon^*(p_3)
+-
+\bigl(\epsilon^*(p_2)\cdot p_3\bigr)
+\bigl(\epsilon^*(p_3)\cdot p_2\bigr)
+\right]
+\\
+&amp;\qquad\quad\times
+\int_0^1dx\int_0^{1-x}dy\,
+\frac{1-4x(1-x-y)}
+{m_t^2-m_h^2x(1-x-y)}.
+\end{aligned}\tag{1.24}\]
+Evaluating the integral gives
+\[\begin{aligned}
+&amp;\int_0^1dx\int_0^{1-x}dy\,
+\frac{1-4x(1-x-y)}
+{m_t^2-m_h^2x(1-x-y)}
+\\
+&amp;\qquad=
+\frac{2}{m_h^2}
+\left[
+1+\left(1-\frac{4m_t^2}{m_h^2}\right)
+\arcsin^2\left(\frac{m_h}{2m_t}\right)
+\right].
+\end{aligned}\tag{1.25}\]
+Thus, the top-loop amplitude becomes
+\[\begin{aligned}
+i\mathcal M_t^{ab}
+={}&amp;
+-i\frac{y_tg_s^2m_tT_F}{2\sqrt{2}\pi^2}\,
+\delta^{ab}
+\left[
+1+\left(1-\frac{4m_t^2}{m_h^2}\right)
+\arcsin^2\left(\frac{m_h}{2m_t}\right)
+\right]
+\\
+&amp;\times
+\epsilon_\mu^*(p_2)\epsilon_\nu^*(p_3)
+\left[
+\eta^{\mu\nu}
+-\frac{2}{m_h^2}p_3^\mu p_2^\nu
+\right].
+
+\end{aligned}\tag{1.26}\]
+Using
+\[\sum_{\mathrm{pols.}}
+\epsilon_\mu^*(p)\epsilon_\nu(p)
+=-\eta_{\mu\nu},
+\qquad
+\sum_{a,b}\delta^{ab}\delta^{ab}=N_c^2-1=8,
+\qquad
+T_F=\frac12,\tag{1.27}\]
+and
+\[\left[
+\eta^{\mu\nu}-\frac{2}{m_h^2}p_3^\mu p_2^\nu
+\right]
+\left[
+\eta_{\mu\nu}-\frac{2}{m_h^2}p_{3\mu}p_{2\nu}
+\right]
+=2,\tag{1.28}\]
+we finally obtain
+\[\begin{aligned}
+\sum_{\mathrm{pols./colours}}|\mathcal M_t|^2
+={}&amp;
+\frac{m_t^2y_t^2g_s^4}{2\pi^4}
+\left[
+1+\left(1-\frac{4m_t^2}{m_h^2}\right)
+\arcsin^2\left(\frac{m_h}{2m_t}\right)
+\right]^2.
+\end{aligned}\tag{1.29}\]
+Here we have neglected the contributions from the remaining quarks.</p>
+
+<p>Plugging into (1.6), we find
+\[\begin{aligned}
+\boxed{
+    \Gamma(H \to gg) = \frac{\lambda g_s^4 m_t^4}{16\pi^5m_h^3}\left[
+1+\left(1-\frac{4m_t^2}{m_h^2}\right)
+\arcsin^2\left(\frac{m_h}{2m_t}\right)
+\right]^2,}
+\end{aligned}\tag{1.30}\]
+where a factor of $1/2$ is added since the outgoing gluon states are identical.
+This gives a numerical value of
+\[\boxed{
+\Gamma(H\to gg)
+\simeq 1.97\times10^{-4}\ \mathrm{GeV}
+=0.197\ \mathrm{MeV}.
+}\tag{1.31}\]</p>
+
+<p>Now we turn to the computation of $H \to \gamma\gamma$. Similarly to the gluon case, there is no tree-level contribution to the process. The dominant quark-loop contribution comes from the top-quark loop, just as for the gluon case. On top of that, there is also a contribution from a $W$-boson loop. Therefore, our job is to compute the following diagrams</p>
+
+<div class="equation-row"><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='18.086em' height='6.709em' viewBox='-.000829 -60.986116 164.415139 60.98646'>
+<defs>
+<path id='g0-22' d='M.376588 1.12279C.348692 1.227397 .348692 1.262267 .348692 1.26924C.348692 1.422665 .474222 1.492403 .585803 1.492403C.836862 1.492403 .892653 1.262267 .920548 1.143711C.934496 1.108842 1.073973 .550934 1.241345-.132503C1.457534 .013948 1.736488 .069738 1.987547 .069738C2.587298 .069738 2.977833-.418431 2.991781-.432379C3.124284 .048817 3.605479 .069738 3.710087 .069738C3.961146 .069738 4.135492-.083686 4.261021-.299875C4.414446-.571856 4.505106-.969365 4.505106-.99726C4.505106-1.08792 4.414446-1.08792 4.393524-1.08792C4.29589-1.08792 4.288917-1.060025 4.2401-.871731C4.156413-.536986 4.02391-.125529 3.731009-.125529C3.549689-.125529 3.500872-.278954 3.500872-.467248C3.500872-.585803 3.556663-.836862 3.605479-1.018182C3.654296-1.206476 3.724035-1.492403 3.758904-1.645828L3.919303-2.266501C3.961146-2.440847 4.037858-2.747696 4.037858-2.782565C4.037858-2.922042 3.926276-3.005729 3.807721-3.005729C3.731009-3.005729 3.598506-2.970859 3.521793-2.838356C3.500872-2.796513 3.445081-2.57335 3.410212-2.433873L3.263761-1.855044L3.047572-.983313C2.998755-.808966 2.998755-.795019 2.93599-.704359C2.719801-.397509 2.412951-.125529 2.015442-.125529C1.443587-.125529 1.443587-.620672 1.443587-.746202C1.443587-.927522 1.464508-1.018182 1.562142-1.39477C1.63188-1.701619 1.645828-1.750436 1.715567-2.022416L1.8132-2.412951C1.84807-2.559402 1.917808-2.824408 1.917808-2.852304C1.917808-2.977833 1.820174-3.075467 1.680697-3.075467C1.429639-3.075467 1.366874-2.831382 1.345953-2.747696L.376588 1.12279Z'/>
+<path id='g0-23' d='M1.750436-2.873225C1.75741-2.901121 1.764384-2.942964 1.764384-2.977833C1.764384-2.984807 1.764384-3.075467 1.652802-3.075467C1.645828-3.075467 1.248319-3.040598 1.199502-3.040598C1.066999-3.02665 .941469-3.019676 .808966-3.005729C.697385-2.998755 .613699-2.991781 .613699-2.84533C.613699-2.747696 .711333-2.747696 .795019-2.747696C1.129763-2.747696 1.129763-2.705853 1.129763-2.643088C1.129763-2.601245 1.094894-2.461768 1.066999-2.371108L.718306-.962391C.54396-.265006 .509091-.125529 .509091-.097634C.509091 0 .613699 0 .641594 0H.753176C1.373848-.097634 2.259527-.425405 3.005729-1.08792C3.954172-1.931756 4.093649-2.838356 4.093649-2.852304C4.093649-2.977833 3.996015-3.075467 3.856538-3.075467C3.612453-3.075467 3.563636-2.880199 3.500872-2.684932C3.221918-1.694645 2.287422-.627646 1.101868-.278954L1.750436-2.873225Z'/>
+<path id='g1-13' d='M.408468-2.530511C.797011-3.676214 1.882939-3.686177 1.992528-3.686177C3.496887-3.686177 3.606476-1.942715 3.606476-1.155666C3.606476-.547945 3.556663-.37858 3.486924-.179328C3.267746 .547945 2.968867 1.703611 2.968867 1.96264C2.968867 2.072229 3.01868 2.141968 3.098381 2.141968C3.227895 2.141968 3.307597 1.92279 3.417186 1.544209C3.646326 .707347 3.745953 .139477 3.785803-.169365C3.805729-.298879 3.825654-.428394 3.865504-.557908C4.184309-1.544209 4.821918-3.028643 5.220423-3.815691C5.290162-3.935243 5.409714-4.154421 5.409714-4.194271C5.409714-4.293898 5.310087-4.293898 5.290162-4.293898C5.260274-4.293898 5.200498-4.293898 5.17061-4.224159C4.652553-3.277709 4.254047-2.281445 3.855542-1.275218C3.845579-1.58406 3.835616-2.34122 3.447073-3.307597C3.20797-3.915318 2.809465-4.403487 2.122042-4.403487C.876712-4.403487 .179328-2.889166 .179328-2.580324C.179328-2.480697 .268991-2.480697 .368618-2.480697L.408468-2.530511Z'/>
+<path id='g1-104' d='M2.859278-6.804483C2.859278-6.814446 2.859278-6.914072 2.729763-6.914072C2.500623-6.914072 1.77335-6.834371 1.514321-6.814446C1.43462-6.804483 1.325031-6.794521 1.325031-6.615193C1.325031-6.495641 1.414695-6.495641 1.564134-6.495641C2.042341-6.495641 2.062267-6.425903 2.062267-6.326276L2.032379-6.127024L.587796-.388543C.547945-.249066 .547945-.229141 .547945-.169365C.547945 .059776 .747198 .109589 .836862 .109589C.996264 .109589 1.155666-.009963 1.205479-.14944L1.39477-.9066L1.613948-1.803238C1.673724-2.022416 1.733499-2.241594 1.783313-2.470735C1.803238-2.530511 1.882939-2.859278 1.892902-2.919054C1.92279-3.008717 2.231631-3.566625 2.570361-3.835616C2.789539-3.995019 3.098381-4.184309 3.526775-4.184309S4.064757-3.845579 4.064757-3.486924C4.064757-2.948941 3.686177-1.863014 3.447073-1.255293C3.367372-1.026152 3.317559-.9066 3.317559-.707347C3.317559-.239103 3.666252 .109589 4.134496 .109589C5.070984 .109589 5.439601-1.344956 5.439601-1.424658C5.439601-1.524284 5.349938-1.524284 5.32005-1.524284C5.220423-1.524284 5.220423-1.494396 5.17061-1.344956C5.021171-.816936 4.702366-.109589 4.154421-.109589C3.985056-.109589 3.915318-.209215 3.915318-.438356C3.915318-.687422 4.004981-.926526 4.094645-1.145704C4.254047-1.574097 4.702366-2.759651 4.702366-3.337484C4.702366-3.985056 4.303861-4.403487 3.556663-4.403487C2.929016-4.403487 2.450809-4.094645 2.082192-3.636364L2.859278-6.804483Z'/>
+<path id='g1-112' d='M.448319 1.215442C.368618 1.554172 .348692 1.62391-.089664 1.62391C-.209215 1.62391-.318804 1.62391-.318804 1.8132C-.318804 1.892902-.268991 1.932752-.18929 1.932752C.079701 1.932752 .368618 1.902864 .647572 1.902864C.976339 1.902864 1.315068 1.932752 1.633873 1.932752C1.683686 1.932752 1.8132 1.932752 1.8132 1.733499C1.8132 1.62391 1.713574 1.62391 1.574097 1.62391C1.075965 1.62391 1.075965 1.554172 1.075965 1.464508C1.075965 1.344956 1.494396-.278954 1.564134-.52802C1.693649-.239103 1.972603 .109589 2.480697 .109589C3.636364 .109589 4.881694-1.344956 4.881694-2.809465C4.881694-3.745953 4.313823-4.403487 3.556663-4.403487C3.058531-4.403487 2.580324-4.044832 2.251557-3.656289C2.15193-4.194271 1.723537-4.403487 1.354919-4.403487C.896638-4.403487 .707347-4.014944 .617684-3.835616C.438356-3.496887 .308842-2.899128 .308842-2.86924C.308842-2.769614 .408468-2.769614 .428394-2.769614C.52802-2.769614 .537983-2.779577 .597758-2.998755C.767123-3.706102 .966376-4.184309 1.325031-4.184309C1.494396-4.184309 1.633873-4.104608 1.633873-3.726027C1.633873-3.496887 1.603985-3.387298 1.564134-3.217933L.448319 1.215442ZM2.201743-3.108344C2.271482-3.377335 2.540473-3.656289 2.719801-3.805729C3.068493-4.11457 3.35741-4.184309 3.526775-4.184309C3.92528-4.184309 4.164384-3.835616 4.164384-3.247821S3.835616-1.514321 3.656289-1.135741C3.317559-.438356 2.839352-.109589 2.470735-.109589C1.8132-.109589 1.683686-.936488 1.683686-.996264C1.683686-1.016189 1.683686-1.036115 1.713574-1.155666L2.201743-3.108344Z'/>
+<path id='g1-116' d='M2.052304-3.985056H2.988792C3.188045-3.985056 3.287671-3.985056 3.287671-4.184309C3.287671-4.293898 3.188045-4.293898 3.008717-4.293898H2.132005C2.49066-5.708593 2.540473-5.907846 2.540473-5.967621C2.540473-6.136986 2.420922-6.236613 2.251557-6.236613C2.221669-6.236613 1.942715-6.22665 1.853051-5.877958L1.464508-4.293898H.52802C.328767-4.293898 .229141-4.293898 .229141-4.104608C.229141-3.985056 .308842-3.985056 .508095-3.985056H1.384807C.667497-1.155666 .627646-.986301 .627646-.806974C.627646-.268991 1.006227 .109589 1.544209 .109589C2.560399 .109589 3.128269-1.344956 3.128269-1.424658C3.128269-1.524284 3.048568-1.524284 3.008717-1.524284C2.919054-1.524284 2.909091-1.494396 2.859278-1.384807C2.430884-.348692 1.902864-.109589 1.564134-.109589C1.354919-.109589 1.255293-.239103 1.255293-.56787C1.255293-.806974 1.275218-.876712 1.315068-1.046077L2.052304-3.985056Z'/>
+<path id='g2-50' d='M3.521793-1.26924H3.284682C3.263761-1.115816 3.194022-.704359 3.103362-.63462C3.047572-.592777 2.510585-.592777 2.412951-.592777H1.129763C1.862017-1.241345 2.106102-1.436613 2.524533-1.764384C3.040598-2.175841 3.521793-2.608219 3.521793-3.270735C3.521793-4.11457 2.782565-4.630635 1.889913-4.630635C1.025156-4.630635 .439352-4.02391 .439352-3.382316C.439352-3.02665 .739228-2.991781 .808966-2.991781C.976339-2.991781 1.17858-3.110336 1.17858-3.361395C1.17858-3.486924 1.129763-3.731009 .767123-3.731009C.983313-4.226152 1.457534-4.379577 1.785305-4.379577C2.48269-4.379577 2.84533-3.835616 2.84533-3.270735C2.84533-2.66401 2.412951-2.182814 2.189788-1.931756L.509091-.27198C.439352-.209215 .439352-.195268 .439352 0H3.312578L3.521793-1.26924Z'/>
+<path id='g2-51' d='M1.903861-2.329265C2.447821-2.329265 2.838356-1.952677 2.838356-1.206476C2.838356-.341719 2.336239-.083686 1.931756-.083686C1.652802-.083686 1.039103-.160399 .746202-.571856C1.073973-.585803 1.150685-.81594 1.150685-.962391C1.150685-1.185554 .983313-1.345953 .767123-1.345953C.571856-1.345953 .376588-1.227397 .376588-.941469C.376588-.285928 1.101868 .139477 1.945704 .139477C2.915068 .139477 3.584558-.509091 3.584558-1.206476C3.584558-1.750436 3.138232-2.294396 2.371108-2.454795C3.103362-2.719801 3.368369-3.242839 3.368369-3.668244C3.368369-4.219178 2.733748-4.630635 1.959651-4.630635S.592777-4.254047 .592777-3.696139C.592777-3.459029 .746202-3.326526 .955417-3.326526C1.171606-3.326526 1.311083-3.486924 1.311083-3.682192C1.311083-3.884433 1.171606-4.030884 .955417-4.044832C1.199502-4.351681 1.680697-4.428394 1.93873-4.428394C2.252553-4.428394 2.691905-4.274969 2.691905-3.668244C2.691905-3.375342 2.594271-3.054545 2.412951-2.838356C2.182814-2.57335 1.987547-2.559402 1.638854-2.538481C1.464508-2.524533 1.45056-2.524533 1.415691-2.517559C1.401743-2.517559 1.345953-2.503611 1.345953-2.426899C1.345953-2.329265 1.408717-2.329265 1.527273-2.329265H1.903861Z'/>
+<path id='g3-40' d='M3.297634 2.391034C3.297634 2.361146 3.297634 2.34122 3.128269 2.171856C1.882939 .916563 1.564134-.966376 1.564134-2.49066C1.564134-4.224159 1.942715-5.957659 3.16812-7.202989C3.297634-7.32254 3.297634-7.342466 3.297634-7.372354C3.297634-7.442092 3.257783-7.47198 3.198007-7.47198C3.098381-7.47198 2.201743-6.794521 1.613948-5.529265C1.105853-4.433375 .986301-3.327522 .986301-2.49066C.986301-1.713574 1.09589-.508095 1.643836 .617684C2.241594 1.843088 3.098381 2.49066 3.198007 2.49066C3.257783 2.49066 3.297634 2.460772 3.297634 2.391034Z'/>
+<path id='g3-41' d='M2.879203-2.49066C2.879203-3.267746 2.769614-4.473225 2.221669-5.599004C1.62391-6.824408 .767123-7.47198 .667497-7.47198C.607721-7.47198 .56787-7.43213 .56787-7.372354C.56787-7.342466 .56787-7.32254 .757161-7.143213C1.733499-6.156912 2.30137-4.572852 2.30137-2.49066C2.30137-.787049 1.932752 .966376 .697385 2.221669C.56787 2.34122 .56787 2.361146 .56787 2.391034C.56787 2.450809 .607721 2.49066 .667497 2.49066C.767123 2.49066 1.663761 1.8132 2.251557 .547945C2.759651-.547945 2.879203-1.653798 2.879203-2.49066Z'/>
+</defs>
+<g id='page1'>
+<g transform='matrix(1 0 0 1 -65.232939 3.4593)'>
+<use x='65.23211' y='-30.492936' xlink:href='#g1-104'/>
+</g>
+<g transform='matrix(1 0 0 1 70.8979 -23.0212)'>
+<use x='65.23211' y='-30.492936' xlink:href='#g1-13'/>
+<use x='70.943541' y='-34.1083' xlink:href='#g0-22'/>
+<use x='76.285828' y='-30.492936' xlink:href='#g3-40'/>
+<use x='80.160201' y='-30.492936' xlink:href='#g1-112'/>
+<use x='85.172666' y='-28.998555' xlink:href='#g2-50'/>
+<use x='89.642036' y='-30.492936' xlink:href='#g3-41'/>
+</g>
+<g transform='matrix(1 0 0 1 71.0909 28.00262)'>
+<use x='65.23211' y='-30.492936' xlink:href='#g1-13'/>
+<use x='70.943541' y='-34.1083' xlink:href='#g0-23'/>
+<use x='75.900675' y='-30.492936' xlink:href='#g3-40'/>
+<use x='79.775049' y='-30.492936' xlink:href='#g1-112'/>
+<use x='84.787514' y='-28.998555' xlink:href='#g2-51'/>
+<use x='89.256883' y='-30.492936' xlink:href='#g3-41'/>
+</g>
+<path d='M5.9375-30.492187H42.5547' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<path d='M42.5547-30.492187L90.7422-56.0039' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M69.88672-44.9609L62.77734-44.2891L65.335936-39.46094Z'/>
+<g transform='matrix(1 0 0 1 -2.579 -13.1545)'>
+<use x='65.23211' y='-30.492936' xlink:href='#g1-116'/>
+</g>
+<path d='M90.7422-56.0039V-4.9805' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M90.7422-26.80859L93.4766-33.40625H88.0117Z'/>
+<g transform='matrix(1 0 0 1 25.9104 3.0639)'>
+<use x='65.23211' y='-30.492936' xlink:href='#g1-116'/>
+</g>
+<path d='M90.7422-4.9805L42.5547-30.492187' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M63.41015-19.4492L67.96484-13.9492L70.51953-18.7773Z'/>
+<g transform='matrix(1 0 0 1 -2.5789 19.2824)'>
+<use x='65.23211' y='-30.492936' xlink:href='#g1-116'/>
+</g>
+<path d='M90.7422-56.0039H91.2812L91.8203-56.6289L92.3555-57.082L92.8945-57.25L93.4336-57.082L93.9687-56.6289L94.5078-56.0039L95.0469-55.3828L95.582-54.9258L96.1211-54.7578L96.6602-54.9258L97.1953-55.3828L97.7344-56.0039L98.2734-56.6289L98.8086-57.082L99.3477-57.25L99.8867-57.082L100.4219-56.6289L100.9609-56.0039L101.4961-55.3828L102.0352-54.9258L102.5742-54.7578L103.1094-54.9258L103.6484-55.3828L104.1875-56.0039L104.7227-56.6289L105.2617-57.082L105.8008-57.25L106.3359-57.082L106.875-56.6289L107.4141-56.0039L107.9492-55.3828L108.4883-54.9258L109.0273-54.7578L109.5625-54.9258L110.1016-55.3828L110.6406-56.0039L111.1758-56.6289L111.7148-57.082L112.25-57.25L112.7891-57.082L113.3281-56.6289L113.8633-56.0039L114.4023-55.3828L114.9414-54.9258L115.4766-54.7578L116.0156-54.9258L116.5547-55.3828L117.0898-56.0039L117.6289-56.6289L118.168-57.082L118.7031-57.25L119.2422-57.082L119.7812-56.6289L120.3164-56.0039L120.8555-55.3828L121.3945-54.9258L121.9297-54.7578L122.4687-54.9258L123.0039-55.3828L123.543-56.0039L124.082-56.6289L124.6172-57.082L125.1562-57.25L125.6953-57.082L126.2305-56.6289L126.7695-56.0039L127.3086-55.3828L127.8437-54.9258L128.3828-54.7578L128.9219-54.9258L129.457-55.3828L129.9961-56.0039L130.5352-56.6289L131.0703-57.082L131.6094-57.25L132.1445-57.082L132.6836-56.6289L133.2227-56.0039L133.7578-55.3828L134.2969-54.9258L134.8359-54.7578L135.9297-56.0039' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M90.7422-4.9805H91.2148L91.6875-5.6055L92.1602-6.0586L92.6328-6.2266L93.1055-6.0586L93.5781-5.6055L94.0508-4.9805L94.5234-4.3594L94.9961-3.9023L95.4687-3.7344L95.9414-3.9023L96.4141-4.3594L96.8867-4.9805L97.3594-5.6055L97.832-6.0586L98.3047-6.2266L98.7773-6.0586L99.25-5.6055L99.7227-4.9805L100.1953-4.3594L100.668-3.9023L101.1367-3.7344L101.6094-3.9023L102.082-4.3594L102.5547-4.9805L103.0273-5.6055L103.5-6.0586L103.9727-6.2266L104.4453-6.0586L104.918-5.6055L105.3906-4.9805L105.8633-4.3594L106.3359-3.9023L106.8086-3.7344L107.2812-3.9023L107.7539-4.3594L108.2266-4.9805L108.6992-5.6055L109.1719-6.0586L109.6445-6.2266L110.1172-6.0586L110.5898-5.6055L111.0625-4.9805L111.5312-4.3594L112.0039-3.9023L112.4766-3.7344L112.9492-3.9023L113.4219-4.3594L113.8945-4.9805L114.3672-5.6055L114.8398-6.0586L115.3125-6.2266L115.7852-6.0586L116.2578-5.6055L116.7305-4.9805L117.2031-4.3594L117.6758-3.9023L118.1484-3.7344L118.6211-3.9023L119.0937-4.3594L119.5664-4.9805L120.0391-5.6055L120.5117-6.0586L120.9844-6.2266L121.457-6.0586L121.9258-5.6055L122.3984-4.9805L122.8711-4.3594L123.3437-3.9023L123.8164-3.7344L124.2891-3.9023L124.7617-4.3594L125.2344-4.9805L125.707-5.6055L126.1797-6.0586L126.6523-6.2266L127.125-6.0586L127.5977-5.6055L128.0703-4.9805L128.543-4.3594L129.0156-3.9023L129.4883-3.7344L129.9609-3.9023L130.4336-4.3594L130.9062-4.9805L131.3789-5.6055L131.8477-6.0586L132.3203-6.2266L132.793-6.0586L133.2656-5.6055L133.7383-4.9805L134.2109-4.3594L134.6836-3.9023L135.1562-3.7344L136.125-4.9805' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle \quad+\quad
+\left(p_2,\mu\leftrightarrow p_3,\nu\right)
+\quad=\quad i\mathcal M_t^\gamma.$</span><span class="equation-num">(1.32)</span></div>
+
+<div class="equation-row"><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='18.086em' height='6.709em' viewBox='-.000829 -60.986116 164.415139 60.98646'>
+<defs>
+<path id='g0-22' d='M.376588 1.12279C.348692 1.227397 .348692 1.262267 .348692 1.26924C.348692 1.422665 .474222 1.492403 .585803 1.492403C.836862 1.492403 .892653 1.262267 .920548 1.143711C.934496 1.108842 1.073973 .550934 1.241345-.132503C1.457534 .013948 1.736488 .069738 1.987547 .069738C2.587298 .069738 2.977833-.418431 2.991781-.432379C3.124284 .048817 3.605479 .069738 3.710087 .069738C3.961146 .069738 4.135492-.083686 4.261021-.299875C4.414446-.571856 4.505106-.969365 4.505106-.99726C4.505106-1.08792 4.414446-1.08792 4.393524-1.08792C4.29589-1.08792 4.288917-1.060025 4.2401-.871731C4.156413-.536986 4.02391-.125529 3.731009-.125529C3.549689-.125529 3.500872-.278954 3.500872-.467248C3.500872-.585803 3.556663-.836862 3.605479-1.018182C3.654296-1.206476 3.724035-1.492403 3.758904-1.645828L3.919303-2.266501C3.961146-2.440847 4.037858-2.747696 4.037858-2.782565C4.037858-2.922042 3.926276-3.005729 3.807721-3.005729C3.731009-3.005729 3.598506-2.970859 3.521793-2.838356C3.500872-2.796513 3.445081-2.57335 3.410212-2.433873L3.263761-1.855044L3.047572-.983313C2.998755-.808966 2.998755-.795019 2.93599-.704359C2.719801-.397509 2.412951-.125529 2.015442-.125529C1.443587-.125529 1.443587-.620672 1.443587-.746202C1.443587-.927522 1.464508-1.018182 1.562142-1.39477C1.63188-1.701619 1.645828-1.750436 1.715567-2.022416L1.8132-2.412951C1.84807-2.559402 1.917808-2.824408 1.917808-2.852304C1.917808-2.977833 1.820174-3.075467 1.680697-3.075467C1.429639-3.075467 1.366874-2.831382 1.345953-2.747696L.376588 1.12279Z'/>
+<path id='g0-23' d='M1.750436-2.873225C1.75741-2.901121 1.764384-2.942964 1.764384-2.977833C1.764384-2.984807 1.764384-3.075467 1.652802-3.075467C1.645828-3.075467 1.248319-3.040598 1.199502-3.040598C1.066999-3.02665 .941469-3.019676 .808966-3.005729C.697385-2.998755 .613699-2.991781 .613699-2.84533C.613699-2.747696 .711333-2.747696 .795019-2.747696C1.129763-2.747696 1.129763-2.705853 1.129763-2.643088C1.129763-2.601245 1.094894-2.461768 1.066999-2.371108L.718306-.962391C.54396-.265006 .509091-.125529 .509091-.097634C.509091 0 .613699 0 .641594 0H.753176C1.373848-.097634 2.259527-.425405 3.005729-1.08792C3.954172-1.931756 4.093649-2.838356 4.093649-2.852304C4.093649-2.977833 3.996015-3.075467 3.856538-3.075467C3.612453-3.075467 3.563636-2.880199 3.500872-2.684932C3.221918-1.694645 2.287422-.627646 1.101868-.278954L1.750436-2.873225Z'/>
+<path id='g1-13' d='M.408468-2.530511C.797011-3.676214 1.882939-3.686177 1.992528-3.686177C3.496887-3.686177 3.606476-1.942715 3.606476-1.155666C3.606476-.547945 3.556663-.37858 3.486924-.179328C3.267746 .547945 2.968867 1.703611 2.968867 1.96264C2.968867 2.072229 3.01868 2.141968 3.098381 2.141968C3.227895 2.141968 3.307597 1.92279 3.417186 1.544209C3.646326 .707347 3.745953 .139477 3.785803-.169365C3.805729-.298879 3.825654-.428394 3.865504-.557908C4.184309-1.544209 4.821918-3.028643 5.220423-3.815691C5.290162-3.935243 5.409714-4.154421 5.409714-4.194271C5.409714-4.293898 5.310087-4.293898 5.290162-4.293898C5.260274-4.293898 5.200498-4.293898 5.17061-4.224159C4.652553-3.277709 4.254047-2.281445 3.855542-1.275218C3.845579-1.58406 3.835616-2.34122 3.447073-3.307597C3.20797-3.915318 2.809465-4.403487 2.122042-4.403487C.876712-4.403487 .179328-2.889166 .179328-2.580324C.179328-2.480697 .268991-2.480697 .368618-2.480697L.408468-2.530511Z'/>
+<path id='g1-87' d='M9.135741-5.648817C9.384807-6.087173 9.62391-6.445828 10.251557-6.495641C10.34122-6.505604 10.440847-6.505604 10.440847-6.694894C10.440847-6.734745 10.400996-6.804483 10.321295-6.804483C10.082192-6.804483 9.803238-6.774595 9.554172-6.774595C9.215442-6.774595 8.846824-6.804483 8.518057-6.804483C8.458281-6.804483 8.328767-6.804483 8.328767-6.615193C8.328767-6.505604 8.418431-6.495641 8.478207-6.495641C8.71731-6.485679 9.066002-6.405978 9.066002-6.107098C9.066002-5.997509 9.016189-5.917808 8.936488-5.778331L6.246575-1.085928L5.877958-6.027397C5.867995-6.22665 5.84807-6.485679 6.575342-6.495641C6.744707-6.495641 6.844334-6.495641 6.844334-6.694894C6.844334-6.794521 6.734745-6.804483 6.694894-6.804483C6.296389-6.804483 5.877958-6.774595 5.479452-6.774595C5.250311-6.774595 4.662516-6.804483 4.433375-6.804483C4.373599-6.804483 4.244085-6.804483 4.244085-6.60523C4.244085-6.495641 4.343711-6.495641 4.483188-6.495641C4.921544-6.495641 4.991283-6.435866 5.011208-6.246575L5.070984-5.479452L2.550436-1.085928L2.171856-6.136986C2.171856-6.256538 2.171856-6.485679 2.929016-6.495641C3.028643-6.495641 3.138232-6.495641 3.138232-6.694894C3.138232-6.804483 3.01868-6.804483 2.998755-6.804483C2.600249-6.804483 2.181818-6.774595 1.77335-6.774595C1.424658-6.774595 1.066002-6.804483 .727273-6.804483C.67746-6.804483 .547945-6.804483 .547945-6.615193C.547945-6.495641 .637609-6.495641 .797011-6.495641C1.295143-6.495641 1.305106-6.405978 1.325031-6.127024L1.77335-.039851C1.783313 .139477 1.793275 .219178 1.932752 .219178C2.052304 .219178 2.082192 .159402 2.171856 .009963L5.100872-5.070984L5.469489-.039851C5.489415 .169365 5.50934 .219178 5.628892 .219178C5.758406 .219178 5.818182 .119552 5.867995 .029888L9.135741-5.648817Z'/>
+<path id='g1-104' d='M2.859278-6.804483C2.859278-6.814446 2.859278-6.914072 2.729763-6.914072C2.500623-6.914072 1.77335-6.834371 1.514321-6.814446C1.43462-6.804483 1.325031-6.794521 1.325031-6.615193C1.325031-6.495641 1.414695-6.495641 1.564134-6.495641C2.042341-6.495641 2.062267-6.425903 2.062267-6.326276L2.032379-6.127024L.587796-.388543C.547945-.249066 .547945-.229141 .547945-.169365C.547945 .059776 .747198 .109589 .836862 .109589C.996264 .109589 1.155666-.009963 1.205479-.14944L1.39477-.9066L1.613948-1.803238C1.673724-2.022416 1.733499-2.241594 1.783313-2.470735C1.803238-2.530511 1.882939-2.859278 1.892902-2.919054C1.92279-3.008717 2.231631-3.566625 2.570361-3.835616C2.789539-3.995019 3.098381-4.184309 3.526775-4.184309S4.064757-3.845579 4.064757-3.486924C4.064757-2.948941 3.686177-1.863014 3.447073-1.255293C3.367372-1.026152 3.317559-.9066 3.317559-.707347C3.317559-.239103 3.666252 .109589 4.134496 .109589C5.070984 .109589 5.439601-1.344956 5.439601-1.424658C5.439601-1.524284 5.349938-1.524284 5.32005-1.524284C5.220423-1.524284 5.220423-1.494396 5.17061-1.344956C5.021171-.816936 4.702366-.109589 4.154421-.109589C3.985056-.109589 3.915318-.209215 3.915318-.438356C3.915318-.687422 4.004981-.926526 4.094645-1.145704C4.254047-1.574097 4.702366-2.759651 4.702366-3.337484C4.702366-3.985056 4.303861-4.403487 3.556663-4.403487C2.929016-4.403487 2.450809-4.094645 2.082192-3.636364L2.859278-6.804483Z'/>
+<path id='g1-112' d='M.448319 1.215442C.368618 1.554172 .348692 1.62391-.089664 1.62391C-.209215 1.62391-.318804 1.62391-.318804 1.8132C-.318804 1.892902-.268991 1.932752-.18929 1.932752C.079701 1.932752 .368618 1.902864 .647572 1.902864C.976339 1.902864 1.315068 1.932752 1.633873 1.932752C1.683686 1.932752 1.8132 1.932752 1.8132 1.733499C1.8132 1.62391 1.713574 1.62391 1.574097 1.62391C1.075965 1.62391 1.075965 1.554172 1.075965 1.464508C1.075965 1.344956 1.494396-.278954 1.564134-.52802C1.693649-.239103 1.972603 .109589 2.480697 .109589C3.636364 .109589 4.881694-1.344956 4.881694-2.809465C4.881694-3.745953 4.313823-4.403487 3.556663-4.403487C3.058531-4.403487 2.580324-4.044832 2.251557-3.656289C2.15193-4.194271 1.723537-4.403487 1.354919-4.403487C.896638-4.403487 .707347-4.014944 .617684-3.835616C.438356-3.496887 .308842-2.899128 .308842-2.86924C.308842-2.769614 .408468-2.769614 .428394-2.769614C.52802-2.769614 .537983-2.779577 .597758-2.998755C.767123-3.706102 .966376-4.184309 1.325031-4.184309C1.494396-4.184309 1.633873-4.104608 1.633873-3.726027C1.633873-3.496887 1.603985-3.387298 1.564134-3.217933L.448319 1.215442ZM2.201743-3.108344C2.271482-3.377335 2.540473-3.656289 2.719801-3.805729C3.068493-4.11457 3.35741-4.184309 3.526775-4.184309C3.92528-4.184309 4.164384-3.835616 4.164384-3.247821S3.835616-1.514321 3.656289-1.135741C3.317559-.438356 2.839352-.109589 2.470735-.109589C1.8132-.109589 1.683686-.936488 1.683686-.996264C1.683686-1.016189 1.683686-1.036115 1.713574-1.155666L2.201743-3.108344Z'/>
+<path id='g2-50' d='M3.521793-1.26924H3.284682C3.263761-1.115816 3.194022-.704359 3.103362-.63462C3.047572-.592777 2.510585-.592777 2.412951-.592777H1.129763C1.862017-1.241345 2.106102-1.436613 2.524533-1.764384C3.040598-2.175841 3.521793-2.608219 3.521793-3.270735C3.521793-4.11457 2.782565-4.630635 1.889913-4.630635C1.025156-4.630635 .439352-4.02391 .439352-3.382316C.439352-3.02665 .739228-2.991781 .808966-2.991781C.976339-2.991781 1.17858-3.110336 1.17858-3.361395C1.17858-3.486924 1.129763-3.731009 .767123-3.731009C.983313-4.226152 1.457534-4.379577 1.785305-4.379577C2.48269-4.379577 2.84533-3.835616 2.84533-3.270735C2.84533-2.66401 2.412951-2.182814 2.189788-1.931756L.509091-.27198C.439352-.209215 .439352-.195268 .439352 0H3.312578L3.521793-1.26924Z'/>
+<path id='g2-51' d='M1.903861-2.329265C2.447821-2.329265 2.838356-1.952677 2.838356-1.206476C2.838356-.341719 2.336239-.083686 1.931756-.083686C1.652802-.083686 1.039103-.160399 .746202-.571856C1.073973-.585803 1.150685-.81594 1.150685-.962391C1.150685-1.185554 .983313-1.345953 .767123-1.345953C.571856-1.345953 .376588-1.227397 .376588-.941469C.376588-.285928 1.101868 .139477 1.945704 .139477C2.915068 .139477 3.584558-.509091 3.584558-1.206476C3.584558-1.750436 3.138232-2.294396 2.371108-2.454795C3.103362-2.719801 3.368369-3.242839 3.368369-3.668244C3.368369-4.219178 2.733748-4.630635 1.959651-4.630635S.592777-4.254047 .592777-3.696139C.592777-3.459029 .746202-3.326526 .955417-3.326526C1.171606-3.326526 1.311083-3.486924 1.311083-3.682192C1.311083-3.884433 1.171606-4.030884 .955417-4.044832C1.199502-4.351681 1.680697-4.428394 1.93873-4.428394C2.252553-4.428394 2.691905-4.274969 2.691905-3.668244C2.691905-3.375342 2.594271-3.054545 2.412951-2.838356C2.182814-2.57335 1.987547-2.559402 1.638854-2.538481C1.464508-2.524533 1.45056-2.524533 1.415691-2.517559C1.401743-2.517559 1.345953-2.503611 1.345953-2.426899C1.345953-2.329265 1.408717-2.329265 1.527273-2.329265H1.903861Z'/>
+<path id='g3-40' d='M3.297634 2.391034C3.297634 2.361146 3.297634 2.34122 3.128269 2.171856C1.882939 .916563 1.564134-.966376 1.564134-2.49066C1.564134-4.224159 1.942715-5.957659 3.16812-7.202989C3.297634-7.32254 3.297634-7.342466 3.297634-7.372354C3.297634-7.442092 3.257783-7.47198 3.198007-7.47198C3.098381-7.47198 2.201743-6.794521 1.613948-5.529265C1.105853-4.433375 .986301-3.327522 .986301-2.49066C.986301-1.713574 1.09589-.508095 1.643836 .617684C2.241594 1.843088 3.098381 2.49066 3.198007 2.49066C3.257783 2.49066 3.297634 2.460772 3.297634 2.391034Z'/>
+<path id='g3-41' d='M2.879203-2.49066C2.879203-3.267746 2.769614-4.473225 2.221669-5.599004C1.62391-6.824408 .767123-7.47198 .667497-7.47198C.607721-7.47198 .56787-7.43213 .56787-7.372354C.56787-7.342466 .56787-7.32254 .757161-7.143213C1.733499-6.156912 2.30137-4.572852 2.30137-2.49066C2.30137-.787049 1.932752 .966376 .697385 2.221669C.56787 2.34122 .56787 2.361146 .56787 2.391034C.56787 2.450809 .607721 2.49066 .667497 2.49066C.767123 2.49066 1.663761 1.8132 2.251557 .547945C2.759651-.547945 2.879203-1.653798 2.879203-2.49066Z'/>
+</defs>
+<g id='page1'>
+<g transform='matrix(1 0 0 1 -65.232939 3.4593)'>
+<use x='65.23211' y='-30.492936' xlink:href='#g1-104'/>
+</g>
+<g transform='matrix(1 0 0 1 70.8979 -23.0212)'>
+<use x='65.23211' y='-30.492936' xlink:href='#g1-13'/>
+<use x='70.943541' y='-34.1083' xlink:href='#g0-22'/>
+<use x='76.285828' y='-30.492936' xlink:href='#g3-40'/>
+<use x='80.160201' y='-30.492936' xlink:href='#g1-112'/>
+<use x='85.172666' y='-28.998555' xlink:href='#g2-50'/>
+<use x='89.642036' y='-30.492936' xlink:href='#g3-41'/>
+</g>
+<g transform='matrix(1 0 0 1 71.0909 28.00262)'>
+<use x='65.23211' y='-30.492936' xlink:href='#g1-13'/>
+<use x='70.943541' y='-34.1083' xlink:href='#g0-23'/>
+<use x='75.900675' y='-30.492936' xlink:href='#g3-40'/>
+<use x='79.775049' y='-30.492936' xlink:href='#g1-112'/>
+<use x='84.787514' y='-28.998555' xlink:href='#g2-51'/>
+<use x='89.256883' y='-30.492936' xlink:href='#g3-41'/>
+</g>
+<path d='M5.9375-30.492187H42.5547' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<path d='M42.5547-30.492187L43-30.730468L43.1562-31.51562L43.3867-32.15234L43.7539-32.53906L44.2773-32.625L44.9375-32.46094L45.6758-32.14453L46.4141-31.83203L47.0703-31.66406L47.5937-31.75391L47.9609-32.13672L48.1953-32.77344L48.3516-33.5625L48.5039-34.34766L48.7383-34.98437L49.1055-35.37109L49.6289-35.45703L50.2891-35.28906L51.0234-34.97656L51.7617-34.66406L52.4219-34.49609L52.9453-34.58203L53.3125-34.96875L53.543-35.60547L53.6992-36.39062L53.8516-37.17969L54.0859-37.81641L54.4531-38.19922L54.9766-38.28906L55.63672-38.12109L56.375-37.80859L57.10937-37.49219L57.76953-37.32812L58.29297-37.41406L58.66015-37.80078L58.89453-38.4375L59.04687-39.22266L59.20312-40.01172L59.43359-40.6484L59.80469-41.0312L60.32812-41.1211L60.98437-40.9531L61.72265-40.6406L62.46094-40.32422L63.11719-40.16016L63.64453-40.24609L64.01172-40.6328L64.242186-41.2695L64.398436-42.0547L64.55078-42.8437L64.785155-43.4805L65.152342-43.8633L65.67578-43.9531L66.33594-43.7852L67.07422-43.4727L67.80859-43.1562L68.46875-42.9922L68.99219-43.0781L69.35937-43.4609L69.59375-44.1016L69.74609-44.8867L69.90234-45.6758L70.13281-46.3125L70.5-46.6953L71.02734-46.7852L71.68359-46.6172L72.42187-46.3047L73.16015-45.9883L73.8164-45.8242L74.33984-45.9102L74.71094-46.293L74.9414-46.9336L75.09765-47.7187L75.25-48.5078L75.4844-49.1445L75.8516-49.5273L76.375-49.6172L77.0352-49.4492L77.7695-49.1367L78.5078-48.8203L79.168-48.6562L79.6914-48.7422L80.0586-49.125L80.293-49.7656L80.4453-50.5508L80.6016-51.3359L80.832-51.9766L81.1992-52.3594L81.7227-52.4492L82.3828-52.2812L83.1211-51.9687L83.8555-51.6523L84.5156-51.4844L85.0391-51.5742L85.4062-51.957L85.6406-52.5977L85.7969-53.3828L85.9492-54.168L86.1836-54.8086L86.5508-55.1914L87.0742-55.2812L87.7344-55.1133L88.4687-54.8008L89.207-54.4844L89.8672-54.3164L90.3906-54.4062L90.7422-56.0039' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 -9.7743 -13.1545)'>
+<use x='65.23211' y='-30.492936' xlink:href='#g1-87'/>
+</g>
+<path d='M90.7422-56.0039V-55.4727L91.3672-54.9414L91.8242-54.4102L91.9883-53.8789L91.8242-53.3477L91.3672-52.8164L90.7422-52.2852L90.1211-51.7539L89.6641-51.2227L89.5-50.6914L89.6641-50.1602L90.1211-49.6289L90.7422-49.0977L91.3672-48.5664L91.8242-48.0352L91.9883-47.5039L91.8242-46.9727L91.3672-46.4414L90.7422-45.9102L90.1211-45.3789L89.6641-44.8477L89.5-44.3164L89.6641-43.7852L90.1211-43.2539L90.7422-42.7227L91.3672-42.1914L91.8242-41.6602L91.9883-41.1289L91.8242-40.5977L91.3672-40.06641L90.7422-39.53516L90.1211-39.00391L89.6641-38.47266L89.5-37.94141L89.6641-37.41016L90.1211-36.87891L90.7422-36.34766L91.3672-35.81641L91.8242-35.28516L91.9883-34.75391L91.8242-34.22266L91.3672-33.69141L90.7422-33.16016L90.1211-32.62891L89.6641-32.09766L89.5-31.56641L89.6641-31.035155L90.1211-30.503905L90.7422-29.968749L91.3672-29.4375L91.8242-28.90625L91.9883-28.375L91.8242-27.84375L91.3672-27.3125L90.7422-26.78125L90.1211-26.25L89.6641-25.71875L89.5-25.1875L89.6641-24.65625L90.1211-24.125L90.7422-23.59375L91.3672-23.0625L91.8242-22.53125L91.9883-22L91.8242-21.46875L91.3672-20.9375L90.7422-20.4062L90.1211-19.875L89.6641-19.3437L89.5-18.8125L89.6641-18.2812L90.1211-17.75L90.7422-17.2187L91.3672-16.6875L91.8242-16.1562L91.9883-15.625L91.8242-15.0937L91.3672-14.5625L90.7422-14.0312L90.1211-13.5L89.6641-12.9687L89.5-12.4375L89.6641-11.9062L90.1211-11.375L90.7422-10.8437L91.3672-10.3125L91.8242-9.7812L91.9883-9.25L91.8242-8.7187L91.3672-8.1875L90.7422-7.6562L90.1211-7.125L89.6641-6.5937L89.5-6.0625L90.7422-4.9805' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 25.9104 3.4039)'>
+<use x='65.23211' y='-30.492936' xlink:href='#g1-87'/>
+</g>
+<path d='M42.5547-30.492187L43-30.257812L43.7383-30.570312L44.3945-30.73828L44.9219-30.648437L45.2891-30.265624L45.5195-29.628905L45.6758-28.83984L45.8281-28.05469L46.0625-27.41406L46.4297-27.03125L46.9531-26.94531L47.6133-27.10937L48.3516-27.42578L49.0859-27.73828L49.7461-27.90625L50.2695-27.81641L50.6367-27.43359L50.8711-26.79687L51.0234-26.00781L51.1797-25.22266L51.4102-24.58594L51.7773-24.19922L52.3047-24.11328L52.9609-24.27734L53.6992-24.59375L54.4375-24.90625L55.0937-25.07422L55.61719-24.98437L55.98828-24.60156L56.21875-23.96484L56.375-23.17578L56.52734-22.39062L56.76172-21.75391L57.1289-21.36719L57.65234-21.28125L58.3125-21.44531L59.04687-21.76172L59.78515-22.07422L60.44531-22.24219L60.96875-22.15234L61.33594-21.76953L61.57031-21.13281L61.72265-20.3437L61.8789-19.5586L62.10937-18.9219L62.47656-18.5352L63-18.4492L63.66015-18.6172L64.398436-18.9297L65.132811-19.2422L65.792967-19.4102L66.3164-19.3242L66.68359-18.9375L66.91797-18.3008L67.07422-17.5156L67.22656-16.7266L67.46094-16.0898L67.82812-15.707L68.35156-15.6172L69.01172-15.7852L69.74609-16.0977L70.48437-16.4141L71.14453-16.5781L71.66797-16.4922L72.03515-16.1055L72.26562-15.4687L72.42187-14.6836L72.57422-13.8945L72.80859-13.2578L73.17578-12.875L73.69922-12.7852L74.35937-12.9531L75.09765-13.2656L75.832-13.582L76.4922-13.7461L77.0156-13.6602L77.3828-13.2734L77.6172-12.6367L77.7695-11.8516L77.9258-11.0625L78.1562-10.4258L78.5273-10.043L79.0508-9.9531L79.707-10.1211L80.4453-10.4336L81.1836-10.75L81.8398-10.9141L82.3672-10.8281L82.7344-10.4453L82.9648-9.8047L83.1211-9.0195L83.2734-8.2305L83.5078-7.5937L83.875-7.2109L84.3984-7.1211L85.0586-7.2891L85.7969-7.6016L86.5312-7.918L87.1914-8.082L87.7148-7.9961L88.082-7.6133L88.3164-6.9727L88.4687-6.1875L88.625-5.3984L88.8555-4.7617L89.2227-4.3789L90.7422-4.9805' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 -9.7743 19.9623)'>
+<use x='65.23211' y='-30.492936' xlink:href='#g1-87'/>
+</g>
+<path d='M90.7422-56.0039H91.2812L91.8203-56.6289L92.3555-57.082L92.8945-57.25L93.4336-57.082L93.9687-56.6289L94.5078-56.0039L95.0469-55.3828L95.582-54.9258L96.1211-54.7578L96.6602-54.9258L97.1953-55.3828L97.7344-56.0039L98.2734-56.6289L98.8086-57.082L99.3477-57.25L99.8867-57.082L100.4219-56.6289L100.9609-56.0039L101.4961-55.3828L102.0352-54.9258L102.5742-54.7578L103.1094-54.9258L103.6484-55.3828L104.1875-56.0039L104.7227-56.6289L105.2617-57.082L105.8008-57.25L106.3359-57.082L106.875-56.6289L107.4141-56.0039L107.9492-55.3828L108.4883-54.9258L109.0273-54.7578L109.5625-54.9258L110.1016-55.3828L110.6406-56.0039L111.1758-56.6289L111.7148-57.082L112.25-57.25L112.7891-57.082L113.3281-56.6289L113.8633-56.0039L114.4023-55.3828L114.9414-54.9258L115.4766-54.7578L116.0156-54.9258L116.5547-55.3828L117.0898-56.0039L117.6289-56.6289L118.168-57.082L118.7031-57.25L119.2422-57.082L119.7812-56.6289L120.3164-56.0039L120.8555-55.3828L121.3945-54.9258L121.9297-54.7578L122.4687-54.9258L123.0039-55.3828L123.543-56.0039L124.082-56.6289L124.6172-57.082L125.1562-57.25L125.6953-57.082L126.2305-56.6289L126.7695-56.0039L127.3086-55.3828L127.8437-54.9258L128.3828-54.7578L128.9219-54.9258L129.457-55.3828L129.9961-56.0039L130.5352-56.6289L131.0703-57.082L131.6094-57.25L132.1445-57.082L132.6836-56.6289L133.2227-56.0039L133.7578-55.3828L134.2969-54.9258L134.8359-54.7578L135.9297-56.0039' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M90.7422-4.9805H91.2148L91.6875-5.6055L92.1602-6.0586L92.6328-6.2266L93.1055-6.0586L93.5781-5.6055L94.0508-4.9805L94.5234-4.3594L94.9961-3.9023L95.4687-3.7344L95.9414-3.9023L96.4141-4.3594L96.8867-4.9805L97.3594-5.6055L97.832-6.0586L98.3047-6.2266L98.7773-6.0586L99.25-5.6055L99.7227-4.9805L100.1953-4.3594L100.668-3.9023L101.1367-3.7344L101.6094-3.9023L102.082-4.3594L102.5547-4.9805L103.0273-5.6055L103.5-6.0586L103.9727-6.2266L104.4453-6.0586L104.918-5.6055L105.3906-4.9805L105.8633-4.3594L106.3359-3.9023L106.8086-3.7344L107.2812-3.9023L107.7539-4.3594L108.2266-4.9805L108.6992-5.6055L109.1719-6.0586L109.6445-6.2266L110.1172-6.0586L110.5898-5.6055L111.0625-4.9805L111.5312-4.3594L112.0039-3.9023L112.4766-3.7344L112.9492-3.9023L113.4219-4.3594L113.8945-4.9805L114.3672-5.6055L114.8398-6.0586L115.3125-6.2266L115.7852-6.0586L116.2578-5.6055L116.7305-4.9805L117.2031-4.3594L117.6758-3.9023L118.1484-3.7344L118.6211-3.9023L119.0937-4.3594L119.5664-4.9805L120.0391-5.6055L120.5117-6.0586L120.9844-6.2266L121.457-6.0586L121.9258-5.6055L122.3984-4.9805L122.8711-4.3594L123.3437-3.9023L123.8164-3.7344L124.2891-3.9023L124.7617-4.3594L125.2344-4.9805L125.707-5.6055L126.1797-6.0586L126.6523-6.2266L127.125-6.0586L127.5977-5.6055L128.0703-4.9805L128.543-4.3594L129.0156-3.9023L129.4883-3.7344L129.9609-3.9023L130.4336-4.3594L130.9062-4.9805L131.3789-5.6055L131.8477-6.0586L132.3203-6.2266L132.793-6.0586L133.2656-5.6055L133.7383-4.9805L134.2109-4.3594L134.6836-3.9023L135.1562-3.7344L136.125-4.9805' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle \quad+\quad
+\left(p_2,\mu\leftrightarrow p_3,\nu\right)
+\quad=\quad i\mathcal M_W,$</span><span class="equation-num">(1.33)</span></div>
+
+<div class="equation-row"><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='17.774em' height='6.709em' viewBox='-.000877 -60.986116 161.5812 60.98646'>
+<defs>
+<path id='g0-22' d='M.376588 1.12279C.348692 1.227397 .348692 1.262267 .348692 1.26924C.348692 1.422665 .474222 1.492403 .585803 1.492403C.836862 1.492403 .892653 1.262267 .920548 1.143711C.934496 1.108842 1.073973 .550934 1.241345-.132503C1.457534 .013948 1.736488 .069738 1.987547 .069738C2.587298 .069738 2.977833-.418431 2.991781-.432379C3.124284 .048817 3.605479 .069738 3.710087 .069738C3.961146 .069738 4.135492-.083686 4.261021-.299875C4.414446-.571856 4.505106-.969365 4.505106-.99726C4.505106-1.08792 4.414446-1.08792 4.393524-1.08792C4.29589-1.08792 4.288917-1.060025 4.2401-.871731C4.156413-.536986 4.02391-.125529 3.731009-.125529C3.549689-.125529 3.500872-.278954 3.500872-.467248C3.500872-.585803 3.556663-.836862 3.605479-1.018182C3.654296-1.206476 3.724035-1.492403 3.758904-1.645828L3.919303-2.266501C3.961146-2.440847 4.037858-2.747696 4.037858-2.782565C4.037858-2.922042 3.926276-3.005729 3.807721-3.005729C3.731009-3.005729 3.598506-2.970859 3.521793-2.838356C3.500872-2.796513 3.445081-2.57335 3.410212-2.433873L3.263761-1.855044L3.047572-.983313C2.998755-.808966 2.998755-.795019 2.93599-.704359C2.719801-.397509 2.412951-.125529 2.015442-.125529C1.443587-.125529 1.443587-.620672 1.443587-.746202C1.443587-.927522 1.464508-1.018182 1.562142-1.39477C1.63188-1.701619 1.645828-1.750436 1.715567-2.022416L1.8132-2.412951C1.84807-2.559402 1.917808-2.824408 1.917808-2.852304C1.917808-2.977833 1.820174-3.075467 1.680697-3.075467C1.429639-3.075467 1.366874-2.831382 1.345953-2.747696L.376588 1.12279Z'/>
+<path id='g0-23' d='M1.750436-2.873225C1.75741-2.901121 1.764384-2.942964 1.764384-2.977833C1.764384-2.984807 1.764384-3.075467 1.652802-3.075467C1.645828-3.075467 1.248319-3.040598 1.199502-3.040598C1.066999-3.02665 .941469-3.019676 .808966-3.005729C.697385-2.998755 .613699-2.991781 .613699-2.84533C.613699-2.747696 .711333-2.747696 .795019-2.747696C1.129763-2.747696 1.129763-2.705853 1.129763-2.643088C1.129763-2.601245 1.094894-2.461768 1.066999-2.371108L.718306-.962391C.54396-.265006 .509091-.125529 .509091-.097634C.509091 0 .613699 0 .641594 0H.753176C1.373848-.097634 2.259527-.425405 3.005729-1.08792C3.954172-1.931756 4.093649-2.838356 4.093649-2.852304C4.093649-2.977833 3.996015-3.075467 3.856538-3.075467C3.612453-3.075467 3.563636-2.880199 3.500872-2.684932C3.221918-1.694645 2.287422-.627646 1.101868-.278954L1.750436-2.873225Z'/>
+<path id='g1-13' d='M.408468-2.530511C.797011-3.676214 1.882939-3.686177 1.992528-3.686177C3.496887-3.686177 3.606476-1.942715 3.606476-1.155666C3.606476-.547945 3.556663-.37858 3.486924-.179328C3.267746 .547945 2.968867 1.703611 2.968867 1.96264C2.968867 2.072229 3.01868 2.141968 3.098381 2.141968C3.227895 2.141968 3.307597 1.92279 3.417186 1.544209C3.646326 .707347 3.745953 .139477 3.785803-.169365C3.805729-.298879 3.825654-.428394 3.865504-.557908C4.184309-1.544209 4.821918-3.028643 5.220423-3.815691C5.290162-3.935243 5.409714-4.154421 5.409714-4.194271C5.409714-4.293898 5.310087-4.293898 5.290162-4.293898C5.260274-4.293898 5.200498-4.293898 5.17061-4.224159C4.652553-3.277709 4.254047-2.281445 3.855542-1.275218C3.845579-1.58406 3.835616-2.34122 3.447073-3.307597C3.20797-3.915318 2.809465-4.403487 2.122042-4.403487C.876712-4.403487 .179328-2.889166 .179328-2.580324C.179328-2.480697 .268991-2.480697 .368618-2.480697L.408468-2.530511Z'/>
+<path id='g1-87' d='M9.135741-5.648817C9.384807-6.087173 9.62391-6.445828 10.251557-6.495641C10.34122-6.505604 10.440847-6.505604 10.440847-6.694894C10.440847-6.734745 10.400996-6.804483 10.321295-6.804483C10.082192-6.804483 9.803238-6.774595 9.554172-6.774595C9.215442-6.774595 8.846824-6.804483 8.518057-6.804483C8.458281-6.804483 8.328767-6.804483 8.328767-6.615193C8.328767-6.505604 8.418431-6.495641 8.478207-6.495641C8.71731-6.485679 9.066002-6.405978 9.066002-6.107098C9.066002-5.997509 9.016189-5.917808 8.936488-5.778331L6.246575-1.085928L5.877958-6.027397C5.867995-6.22665 5.84807-6.485679 6.575342-6.495641C6.744707-6.495641 6.844334-6.495641 6.844334-6.694894C6.844334-6.794521 6.734745-6.804483 6.694894-6.804483C6.296389-6.804483 5.877958-6.774595 5.479452-6.774595C5.250311-6.774595 4.662516-6.804483 4.433375-6.804483C4.373599-6.804483 4.244085-6.804483 4.244085-6.60523C4.244085-6.495641 4.343711-6.495641 4.483188-6.495641C4.921544-6.495641 4.991283-6.435866 5.011208-6.246575L5.070984-5.479452L2.550436-1.085928L2.171856-6.136986C2.171856-6.256538 2.171856-6.485679 2.929016-6.495641C3.028643-6.495641 3.138232-6.495641 3.138232-6.694894C3.138232-6.804483 3.01868-6.804483 2.998755-6.804483C2.600249-6.804483 2.181818-6.774595 1.77335-6.774595C1.424658-6.774595 1.066002-6.804483 .727273-6.804483C.67746-6.804483 .547945-6.804483 .547945-6.615193C.547945-6.495641 .637609-6.495641 .797011-6.495641C1.295143-6.495641 1.305106-6.405978 1.325031-6.127024L1.77335-.039851C1.783313 .139477 1.793275 .219178 1.932752 .219178C2.052304 .219178 2.082192 .159402 2.171856 .009963L5.100872-5.070984L5.469489-.039851C5.489415 .169365 5.50934 .219178 5.628892 .219178C5.758406 .219178 5.818182 .119552 5.867995 .029888L9.135741-5.648817Z'/>
+<path id='g1-104' d='M2.859278-6.804483C2.859278-6.814446 2.859278-6.914072 2.729763-6.914072C2.500623-6.914072 1.77335-6.834371 1.514321-6.814446C1.43462-6.804483 1.325031-6.794521 1.325031-6.615193C1.325031-6.495641 1.414695-6.495641 1.564134-6.495641C2.042341-6.495641 2.062267-6.425903 2.062267-6.326276L2.032379-6.127024L.587796-.388543C.547945-.249066 .547945-.229141 .547945-.169365C.547945 .059776 .747198 .109589 .836862 .109589C.996264 .109589 1.155666-.009963 1.205479-.14944L1.39477-.9066L1.613948-1.803238C1.673724-2.022416 1.733499-2.241594 1.783313-2.470735C1.803238-2.530511 1.882939-2.859278 1.892902-2.919054C1.92279-3.008717 2.231631-3.566625 2.570361-3.835616C2.789539-3.995019 3.098381-4.184309 3.526775-4.184309S4.064757-3.845579 4.064757-3.486924C4.064757-2.948941 3.686177-1.863014 3.447073-1.255293C3.367372-1.026152 3.317559-.9066 3.317559-.707347C3.317559-.239103 3.666252 .109589 4.134496 .109589C5.070984 .109589 5.439601-1.344956 5.439601-1.424658C5.439601-1.524284 5.349938-1.524284 5.32005-1.524284C5.220423-1.524284 5.220423-1.494396 5.17061-1.344956C5.021171-.816936 4.702366-.109589 4.154421-.109589C3.985056-.109589 3.915318-.209215 3.915318-.438356C3.915318-.687422 4.004981-.926526 4.094645-1.145704C4.254047-1.574097 4.702366-2.759651 4.702366-3.337484C4.702366-3.985056 4.303861-4.403487 3.556663-4.403487C2.929016-4.403487 2.450809-4.094645 2.082192-3.636364L2.859278-6.804483Z'/>
+<path id='g1-112' d='M.448319 1.215442C.368618 1.554172 .348692 1.62391-.089664 1.62391C-.209215 1.62391-.318804 1.62391-.318804 1.8132C-.318804 1.892902-.268991 1.932752-.18929 1.932752C.079701 1.932752 .368618 1.902864 .647572 1.902864C.976339 1.902864 1.315068 1.932752 1.633873 1.932752C1.683686 1.932752 1.8132 1.932752 1.8132 1.733499C1.8132 1.62391 1.713574 1.62391 1.574097 1.62391C1.075965 1.62391 1.075965 1.554172 1.075965 1.464508C1.075965 1.344956 1.494396-.278954 1.564134-.52802C1.693649-.239103 1.972603 .109589 2.480697 .109589C3.636364 .109589 4.881694-1.344956 4.881694-2.809465C4.881694-3.745953 4.313823-4.403487 3.556663-4.403487C3.058531-4.403487 2.580324-4.044832 2.251557-3.656289C2.15193-4.194271 1.723537-4.403487 1.354919-4.403487C.896638-4.403487 .707347-4.014944 .617684-3.835616C.438356-3.496887 .308842-2.899128 .308842-2.86924C.308842-2.769614 .408468-2.769614 .428394-2.769614C.52802-2.769614 .537983-2.779577 .597758-2.998755C.767123-3.706102 .966376-4.184309 1.325031-4.184309C1.494396-4.184309 1.633873-4.104608 1.633873-3.726027C1.633873-3.496887 1.603985-3.387298 1.564134-3.217933L.448319 1.215442ZM2.201743-3.108344C2.271482-3.377335 2.540473-3.656289 2.719801-3.805729C3.068493-4.11457 3.35741-4.184309 3.526775-4.184309C3.92528-4.184309 4.164384-3.835616 4.164384-3.247821S3.835616-1.514321 3.656289-1.135741C3.317559-.438356 2.839352-.109589 2.470735-.109589C1.8132-.109589 1.683686-.936488 1.683686-.996264C1.683686-1.016189 1.683686-1.036115 1.713574-1.155666L2.201743-3.108344Z'/>
+<path id='g2-50' d='M3.521793-1.26924H3.284682C3.263761-1.115816 3.194022-.704359 3.103362-.63462C3.047572-.592777 2.510585-.592777 2.412951-.592777H1.129763C1.862017-1.241345 2.106102-1.436613 2.524533-1.764384C3.040598-2.175841 3.521793-2.608219 3.521793-3.270735C3.521793-4.11457 2.782565-4.630635 1.889913-4.630635C1.025156-4.630635 .439352-4.02391 .439352-3.382316C.439352-3.02665 .739228-2.991781 .808966-2.991781C.976339-2.991781 1.17858-3.110336 1.17858-3.361395C1.17858-3.486924 1.129763-3.731009 .767123-3.731009C.983313-4.226152 1.457534-4.379577 1.785305-4.379577C2.48269-4.379577 2.84533-3.835616 2.84533-3.270735C2.84533-2.66401 2.412951-2.182814 2.189788-1.931756L.509091-.27198C.439352-.209215 .439352-.195268 .439352 0H3.312578L3.521793-1.26924Z'/>
+<path id='g2-51' d='M1.903861-2.329265C2.447821-2.329265 2.838356-1.952677 2.838356-1.206476C2.838356-.341719 2.336239-.083686 1.931756-.083686C1.652802-.083686 1.039103-.160399 .746202-.571856C1.073973-.585803 1.150685-.81594 1.150685-.962391C1.150685-1.185554 .983313-1.345953 .767123-1.345953C.571856-1.345953 .376588-1.227397 .376588-.941469C.376588-.285928 1.101868 .139477 1.945704 .139477C2.915068 .139477 3.584558-.509091 3.584558-1.206476C3.584558-1.750436 3.138232-2.294396 2.371108-2.454795C3.103362-2.719801 3.368369-3.242839 3.368369-3.668244C3.368369-4.219178 2.733748-4.630635 1.959651-4.630635S.592777-4.254047 .592777-3.696139C.592777-3.459029 .746202-3.326526 .955417-3.326526C1.171606-3.326526 1.311083-3.486924 1.311083-3.682192C1.311083-3.884433 1.171606-4.030884 .955417-4.044832C1.199502-4.351681 1.680697-4.428394 1.93873-4.428394C2.252553-4.428394 2.691905-4.274969 2.691905-3.668244C2.691905-3.375342 2.594271-3.054545 2.412951-2.838356C2.182814-2.57335 1.987547-2.559402 1.638854-2.538481C1.464508-2.524533 1.45056-2.524533 1.415691-2.517559C1.401743-2.517559 1.345953-2.503611 1.345953-2.426899C1.345953-2.329265 1.408717-2.329265 1.527273-2.329265H1.903861Z'/>
+<path id='g3-40' d='M3.297634 2.391034C3.297634 2.361146 3.297634 2.34122 3.128269 2.171856C1.882939 .916563 1.564134-.966376 1.564134-2.49066C1.564134-4.224159 1.942715-5.957659 3.16812-7.202989C3.297634-7.32254 3.297634-7.342466 3.297634-7.372354C3.297634-7.442092 3.257783-7.47198 3.198007-7.47198C3.098381-7.47198 2.201743-6.794521 1.613948-5.529265C1.105853-4.433375 .986301-3.327522 .986301-2.49066C.986301-1.713574 1.09589-.508095 1.643836 .617684C2.241594 1.843088 3.098381 2.49066 3.198007 2.49066C3.257783 2.49066 3.297634 2.460772 3.297634 2.391034Z'/>
+<path id='g3-41' d='M2.879203-2.49066C2.879203-3.267746 2.769614-4.473225 2.221669-5.599004C1.62391-6.824408 .767123-7.47198 .667497-7.47198C.607721-7.47198 .56787-7.43213 .56787-7.372354C.56787-7.342466 .56787-7.32254 .757161-7.143213C1.733499-6.156912 2.30137-4.572852 2.30137-2.49066C2.30137-.787049 1.932752 .966376 .697385 2.221669C.56787 2.34122 .56787 2.361146 .56787 2.391034C.56787 2.450809 .607721 2.49066 .667497 2.49066C.767123 2.49066 1.663761 1.8132 2.251557 .547945C2.759651-.547945 2.879203-1.653798 2.879203-2.49066Z'/>
+</defs>
+<g id='page1'>
+<g transform='matrix(1 0 0 1 -68.0678 3.4593)'>
+<use x='68.066923' y='-30.492936' xlink:href='#g1-104'/>
+</g>
+<g transform='matrix(1 0 0 1 65.2291 -23.0212)'>
+<use x='68.066923' y='-30.492936' xlink:href='#g1-13'/>
+<use x='73.778354' y='-34.1083' xlink:href='#g0-22'/>
+<use x='79.120641' y='-30.492936' xlink:href='#g3-40'/>
+<use x='82.995014' y='-30.492936' xlink:href='#g1-112'/>
+<use x='88.007479' y='-28.998555' xlink:href='#g2-50'/>
+<use x='92.476849' y='-30.492936' xlink:href='#g3-41'/>
+</g>
+<g transform='matrix(1 0 0 1 65.4211 28.00262)'>
+<use x='68.066923' y='-30.492936' xlink:href='#g1-13'/>
+<use x='73.778354' y='-34.1083' xlink:href='#g0-23'/>
+<use x='78.735488' y='-30.492936' xlink:href='#g3-40'/>
+<use x='82.609862' y='-30.492936' xlink:href='#g1-112'/>
+<use x='87.622327' y='-28.998555' xlink:href='#g2-51'/>
+<use x='92.091696' y='-30.492936' xlink:href='#g3-41'/>
+</g>
+<path d='M5.9375-30.492187H42.5547' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<path d='M42.5547-30.492187L42.5586-30.980468L41.9531-31.492187L41.5195-32.01953L41.3867-32.53906L41.5977-33.03125L42.1055-33.48437L42.7891-33.89453L43.4766-34.27734L44.0039-34.66016L44.2578-35.08203L44.1953-35.56641L43.8633-36.13281L43.3867-36.75781L42.9297-37.40625L42.6523-38.02734L42.6602-38.57031L43-38.99609L43.6094-39.29687L44.3789-39.50391L45.1445-39.67969L45.7578-39.89844L46.1211-40.22656L46.1953-40.7109L46.0391-41.3437L45.7617-42.0781L45.5117-42.832L45.4258-43.5117L45.5937-44.0273L46.0391-44.332L46.7109-44.4453L47.5078-44.4219L48.293-44.3672L48.9453-44.3984L49.3828-44.6133L49.5977-45.0547L49.625-45.707L49.5703-46.4883L49.5391-47.2852L49.6406-47.957L49.9414-48.4023L50.4531-48.5781L51.1289-48.5L51.8867-48.2656L52.6289-48.0078L53.2695-47.8711L53.7539-47.9648L54.0742-48.3398L54.2695-48.9648L54.4102-49.7383L54.5742-50.5156L54.832-51.1445L55.2266-51.5039L55.7578-51.5547L56.3945-51.3203L57.082-50.9219L57.7461-50.5039L58.34375-50.2305L58.83984-50.2187L59.23828-50.5156L59.5625-51.0859L59.85937-51.8164L60.17969-52.543L60.5625-53.1016L61.01562-53.375L61.54687-53.3164L62.12109-52.9609L62.71484-52.4336L63.28906-51.8945L63.82422-51.5117L64.30859-51.4062L64.75781-51.625L65.18359-52.125L65.61328-52.7852L66.0625-53.4414L66.53515-53.9219L67.03515-54.1094L67.542967-53.9531L68.046873-53.5L68.531248-52.875L68.999998-52.2422L69.45703-51.7695L69.91797-51.5781L70.39844-51.7148L70.90625-52.1289L71.44922-52.7031L72.00781-53.2656L72.55859-53.6562L73.08203-53.75L73.55469-53.5039L73.96875-52.9687L74.33594-52.2656L74.67969-51.5586L75.04297-51.0117L75.46094-50.7383L75.95703-50.7852L76.53125-51.0977L77.17187-51.5586L77.82422-52.0078L78.4453-52.2852L78.9766-52.2773L79.3945-51.9453L79.6992-51.3359L79.9219-50.5742L80.1172-49.8125L80.3594-49.2031L80.7109-48.8555L81.1992-48.7969L81.8281-48.9844L82.5469-49.3008L83.2852-49.5977L83.9531-49.7305L84.4727-49.6016L84.8086-49.1836L84.9687-48.5234L85.0117-47.7305L85.0234-46.9453L85.1133-46.2969L85.3672-45.875L85.8242-45.7031L86.4766-45.7344L87.2539-45.8594L88.043-45.9609L88.7227-45.918L89.1953-45.6562L89.4141-45.1602L89.3945-44.4766L89.2227-43.6992L89.0195-42.9414L88.9258-42.2969L89.0508-41.8242L89.4414-41.5312L90.0742-41.375L90.8555-41.2812L91.6406-41.1484L92.2812-40.9102L92.6562-40.5195L92.7227-39.98437L92.5078-39.33594L92.1133-38.64062L91.7031-37.97266L91.4258-37.38281L91.4062-36.89062L91.6992-36.5L92.2617-36.16797L92.9805-35.84766L93.6953-35.5L94.2422-35.09375L94.4961-34.61719L94.4062-34.08594L94.0234-33.52344L93.457-32.96484L92.8789-32.43359L92.457-31.92969L92.3164-31.45703L93.5781-30.492187' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 -5.3965 -22.7835)'>
+<use x='68.066923' y='-30.492936' xlink:href='#g1-87'/>
+</g>
+<path d='M93.5781-30.492187L93.5742-30.003905L94.1836-29.49219L94.6133-28.96875L94.7461-28.44922L94.5352-27.95312L94.0273-27.5L93.3437-27.08984L92.6562-26.70703L92.1289-26.32422L91.875-25.90234L91.9375-25.41797L92.2695-24.85547L92.7461-24.23047L93.2031-23.57812L93.4844-22.95703L93.4727-22.41406L93.1367-21.99219L92.5234-21.69141L91.7539-21.48047L90.9883-21.30469L90.375-21.08594L90.0156-20.75781L89.9375-20.2773L90.0977-19.6445L90.3711-18.9062L90.6211-18.1523L90.707-17.4766L90.5391-16.9609L90.0937-16.6523L89.4219-16.543L88.625-16.5664L87.8437-16.6172L87.1914-16.5859L86.75-16.375L86.5391-15.9336L86.5078-15.2812L86.5664-14.4961L86.5937-13.7031L86.4922-13.0273L86.1914-12.582L85.6797-12.4102L85.0039-12.4844L84.2461-12.7227L83.5039-12.9805L82.8633-13.1172L82.3789-13.0195L82.0586-12.6445L81.8633-12.0195L81.7266-11.2461L81.5625-10.4687L81.3008-9.8398L80.9102-9.4805L80.375-9.4336L79.7383-9.6641L79.0547-10.0664L78.3867-10.4844L77.78906-10.7578L77.29297-10.7695L76.89844-10.4687L76.57031-9.8984L76.27344-9.1719L75.95312-8.4453L75.57422-7.8828L75.11719-7.6094L74.58984-7.6719L74.01172-8.0234L73.41797-8.5508L72.84375-9.0898L72.30859-9.4727L71.82422-9.5781L71.375-9.3594L70.94922-8.8594L70.51953-8.1992L70.07031-7.5469L69.59765-7.0625L69.09765-6.8789L68.589842-7.0352L68.089842-7.4844L67.60156-8.1094L67.13281-8.7461L66.67578-9.2187L66.21484-9.4062L65.73437-9.2734L65.22656-8.8555L64.6875-8.2852L64.1289-7.7187L63.57422-7.332L63.05078-7.2383L62.57812-7.4805L62.16406-8.0156L61.79687-8.7187L61.45312-9.4258L61.08984-9.9766L60.67187-10.2461L60.17969-10.2031L59.60156-9.8867L58.96484-9.4258L58.30859-8.9766L57.6914-8.7031L57.1562-8.7109L56.7383-9.043L56.4336-9.6484L56.2148-10.4102L56.0156-11.1719L55.7734-11.7812L55.4258-12.1328L54.9336-12.1875L54.3047-12L53.5859-11.6836L52.8477-11.3867L52.1836-11.2539L51.6602-11.3828L51.3242-11.8008L51.1641-12.4609L51.1211-13.2539L51.1094-14.043L51.0195-14.6875L50.7656-15.1094L50.3086-15.2812L49.6562-15.2539L48.8789-15.125L48.0898-15.0273L47.4102-15.0703L46.9375-15.332L46.7187-15.8281L46.7383-16.5078L46.9141-17.2852L47.1133-18.043L47.207-18.6914L47.082-19.1602L46.6914-19.4531L46.0586-19.6094L45.2773-19.707L44.4922-19.8359L43.8555-20.0742L43.4766-20.4648L43.4102-21.00391L43.6289-21.65234L44.0195-22.34375L44.4336-23.01172L44.707-23.60547L44.7266-24.09375L44.4336-24.48828L43.8711-24.82031L43.1523-25.13672L42.4375-25.48437L41.8906-25.89062L41.6406-26.36719L41.7266-26.89844L42.1133-27.46094L42.6758-28.01953L43.2539-28.55469L43.6758-29.05469L43.8203-29.527343L42.5547-30.492187' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 -5.3965 29.591369)'>
+<use x='68.066923' y='-30.492936' xlink:href='#g1-87'/>
+</g>
+<path d='M93.5781-30.492187L94.0273-30.703124L94.207-31.480468L94.457-32.10156L94.832-32.46484L95.3516-32.52734L95.9922-32.32422L96.707-31.97266L97.418-31.625L98.0625-31.421874L98.5781-31.484374L98.9531-31.84766L99.207-32.46875L99.3867-33.24219L99.5664-34.01953L99.8203-34.64062L100.1953-35.00391L100.7109-35.06641L101.3555-34.86328L102.0664-34.51172L102.7812-34.16406L103.4219-33.96094L103.9414-34.02344L104.3164-34.38672L104.5664-35.00781L104.7461-35.78125L104.9297-36.55859L105.1797-37.17969L105.5547-37.54297L106.0742-37.60547L106.7148-37.40234L107.4297-37.05469L108.1406-36.70312L108.7852-36.5L109.3008-36.5625L109.6758-36.92578L109.9297-37.54687L110.1094-38.32422L110.2891-39.09766L110.5391-39.71875L110.918-40.08203L111.4336-40.14453L112.0781-39.94141L112.7891-39.59375L113.5039-39.24219L114.1445-39.03906L114.6641-39.10156L115.0391-39.46484L115.2891-40.08594L115.4687-40.8633L115.6523-41.6367L115.9023-42.2578L116.2773-42.6211L116.7969-42.6836L117.4375-42.4844L118.1523-42.1328L118.8633-41.7812L119.5078-41.5781L120.0234-41.6406L120.3984-42.0039L120.6523-42.625L120.832-43.4023L121.0117-44.1758L121.2617-44.8008L121.6367-45.1602L122.1562-45.2227L122.7969-45.0234L123.5117-44.6719L124.2266-44.3203L124.8672-44.1211L125.3867-44.1797L125.7617-44.543L126.0117-45.168L126.1914-45.9414L126.3711-46.7148L126.625-47.3398L127-47.6992L127.5195-47.7617L128.1602-47.5625L128.8711-47.2109L129.5859-46.8594L130.2266-46.6602L130.7461-46.7187L131.1211-47.082L131.375-47.707L131.5547-48.4805L131.7344-49.2539L131.9844-49.8789L132.3594-50.2383L132.8789-50.3008L133.5195-50.1016L134.2344-49.75L134.9492-49.3984L135.5898-49.1992L136.1094-49.2578L136.5039-50.8242' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M93.5781-30.492187L94.0273-30.281249L94.7383-30.632812L95.3789-30.83203L95.8984-30.773437L96.2734-30.410155L96.5273-29.785155L96.707-29.01172L96.8867-28.23828L97.1367-27.61328L97.5117-27.25L98.0312-27.19141L98.6719-27.39062L99.3867-27.74219L100.1016-28.09375L100.7422-28.29297L101.2617-28.23437L101.6367-27.87109L101.8867-27.24609L102.0664-26.47266L102.2461-25.69922L102.5-25.07422L102.875-24.71094L103.3945-24.65234L104.0352-24.85156L104.7461-25.20312L105.4609-25.55469L106.1016-25.75391L106.6211-25.69141L106.9961-25.33203L107.25-24.70703L107.4297-23.93359L107.6094-23.16016L107.8594-22.53516L108.2344-22.17187L108.7539-22.11328L109.3945-22.3125L110.1094-22.66406L110.8242-23.01562L111.4648-23.21484L111.9805-23.15234L112.3594-22.79297L112.6094-22.16797L112.7891-21.39453L112.9687-20.62109L113.2227-19.9961L113.5977-19.6328L114.1133-19.5742L114.7578-19.7734L115.4687-20.125L116.1836-20.4766L116.8242-20.67578L117.3437-20.61328L117.7187-20.2539L117.9687-19.6289L118.1523-18.8555L118.332-18.082L118.582-17.457L118.957-17.0937L119.4766-17.0352L120.1172-17.2344L120.832-17.5859L121.543-17.9375L122.1875-18.1367L122.7031-18.0742L123.0781-17.7148L123.332-17.0898L123.5117-16.3164L123.6914-15.5391L123.9453-14.918L124.3203-14.5547L124.8359-14.4922L125.4805-14.6953L126.1914-15.0469L126.9062-15.3984L127.5469-15.5977L128.0664-15.5352L128.4414-15.1719L128.6914-14.5508L128.8711-13.7773L129.0547-13L129.3047-12.3789L129.6797-12.0156L130.1992-11.9531L130.8398-12.1562L131.5547-12.5078L132.2656-12.8555L132.9102-13.0586L133.4258-12.9961L133.8008-12.6328L134.0547-12.0117L134.2344-11.2383L134.4141-10.4609L134.668-9.8398L135.043-9.4766L136.5039-10.1602' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle \quad = \quad i\mathcal M_{W,4}^{\mu\nu}.$</span><span class="equation-num">(1.34)</span></div>
+
+<p>The relevant interactions are
+\[\begin{aligned}
+    \mathcal{L}_\mathrm{int} =&amp;-ie[F^{\mu\nu}W^+_\mu W^-_\nu-(\partial_\mu W^+_\nu - \partial_\nu W^+_\mu)A^\mu (W^-)^\nu+(\partial_\mu W^-_\nu - \partial_\nu W^-_\mu)A^\mu (W^+)^\nu]\\ &amp;+ 2\frac{h}{v}m_W^2W_\mu^+ W_\nu ^- +e^2(A^\mu W_\mu^+A^\nu W_\nu^- - A_\mu^2W_\nu^+(W^-)^\nu)- \frac{y_t}{\sqrt{2}}h\bar t t + \frac{2e}{3}A_\mu \bar t \gamma^\mu t,
+\end{aligned}\tag{1.35}\]
+where the first three interactions are given by the diagrams</p>
+
+<div class="equation-row"><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='11.109em' height='6.429em' viewBox='-.000645 -58.449482 100.986531 58.449813'>
+<defs>
+<path id='g0-0' d='M5.188543-1.57609C5.300125-1.57609 5.467497-1.57609 5.467497-1.743462C5.467497-1.917808 5.307098-1.917808 5.188543-1.917808H1.03213C.920548-1.917808 .753176-1.917808 .753176-1.750436C.753176-1.57609 .913574-1.57609 1.03213-1.57609H5.188543Z'/>
+<path id='g1-22' d='M.376588 1.12279C.348692 1.227397 .348692 1.262267 .348692 1.26924C.348692 1.422665 .474222 1.492403 .585803 1.492403C.836862 1.492403 .892653 1.262267 .920548 1.143711C.934496 1.108842 1.073973 .550934 1.241345-.132503C1.457534 .013948 1.736488 .069738 1.987547 .069738C2.587298 .069738 2.977833-.418431 2.991781-.432379C3.124284 .048817 3.605479 .069738 3.710087 .069738C3.961146 .069738 4.135492-.083686 4.261021-.299875C4.414446-.571856 4.505106-.969365 4.505106-.99726C4.505106-1.08792 4.414446-1.08792 4.393524-1.08792C4.29589-1.08792 4.288917-1.060025 4.2401-.871731C4.156413-.536986 4.02391-.125529 3.731009-.125529C3.549689-.125529 3.500872-.278954 3.500872-.467248C3.500872-.585803 3.556663-.836862 3.605479-1.018182C3.654296-1.206476 3.724035-1.492403 3.758904-1.645828L3.919303-2.266501C3.961146-2.440847 4.037858-2.747696 4.037858-2.782565C4.037858-2.922042 3.926276-3.005729 3.807721-3.005729C3.731009-3.005729 3.598506-2.970859 3.521793-2.838356C3.500872-2.796513 3.445081-2.57335 3.410212-2.433873L3.263761-1.855044L3.047572-.983313C2.998755-.808966 2.998755-.795019 2.93599-.704359C2.719801-.397509 2.412951-.125529 2.015442-.125529C1.443587-.125529 1.443587-.620672 1.443587-.746202C1.443587-.927522 1.464508-1.018182 1.562142-1.39477C1.63188-1.701619 1.645828-1.750436 1.715567-2.022416L1.8132-2.412951C1.84807-2.559402 1.917808-2.824408 1.917808-2.852304C1.917808-2.977833 1.820174-3.075467 1.680697-3.075467C1.429639-3.075467 1.366874-2.831382 1.345953-2.747696L.376588 1.12279Z'/>
+<path id='g1-23' d='M1.750436-2.873225C1.75741-2.901121 1.764384-2.942964 1.764384-2.977833C1.764384-2.984807 1.764384-3.075467 1.652802-3.075467C1.645828-3.075467 1.248319-3.040598 1.199502-3.040598C1.066999-3.02665 .941469-3.019676 .808966-3.005729C.697385-2.998755 .613699-2.991781 .613699-2.84533C.613699-2.747696 .711333-2.747696 .795019-2.747696C1.129763-2.747696 1.129763-2.705853 1.129763-2.643088C1.129763-2.601245 1.094894-2.461768 1.066999-2.371108L.718306-.962391C.54396-.265006 .509091-.125529 .509091-.097634C.509091 0 .613699 0 .641594 0H.753176C1.373848-.097634 2.259527-.425405 3.005729-1.08792C3.954172-1.931756 4.093649-2.838356 4.093649-2.852304C4.093649-2.977833 3.996015-3.075467 3.856538-3.075467C3.612453-3.075467 3.563636-2.880199 3.500872-2.684932C3.221918-1.694645 2.287422-.627646 1.101868-.278954L1.750436-2.873225Z'/>
+<path id='g2-87' d='M9.135741-5.648817C9.384807-6.087173 9.62391-6.445828 10.251557-6.495641C10.34122-6.505604 10.440847-6.505604 10.440847-6.694894C10.440847-6.734745 10.400996-6.804483 10.321295-6.804483C10.082192-6.804483 9.803238-6.774595 9.554172-6.774595C9.215442-6.774595 8.846824-6.804483 8.518057-6.804483C8.458281-6.804483 8.328767-6.804483 8.328767-6.615193C8.328767-6.505604 8.418431-6.495641 8.478207-6.495641C8.71731-6.485679 9.066002-6.405978 9.066002-6.107098C9.066002-5.997509 9.016189-5.917808 8.936488-5.778331L6.246575-1.085928L5.877958-6.027397C5.867995-6.22665 5.84807-6.485679 6.575342-6.495641C6.744707-6.495641 6.844334-6.495641 6.844334-6.694894C6.844334-6.794521 6.734745-6.804483 6.694894-6.804483C6.296389-6.804483 5.877958-6.774595 5.479452-6.774595C5.250311-6.774595 4.662516-6.804483 4.433375-6.804483C4.373599-6.804483 4.244085-6.804483 4.244085-6.60523C4.244085-6.495641 4.343711-6.495641 4.483188-6.495641C4.921544-6.495641 4.991283-6.435866 5.011208-6.246575L5.070984-5.479452L2.550436-1.085928L2.171856-6.136986C2.171856-6.256538 2.171856-6.485679 2.929016-6.495641C3.028643-6.495641 3.138232-6.495641 3.138232-6.694894C3.138232-6.804483 3.01868-6.804483 2.998755-6.804483C2.600249-6.804483 2.181818-6.774595 1.77335-6.774595C1.424658-6.774595 1.066002-6.804483 .727273-6.804483C.67746-6.804483 .547945-6.804483 .547945-6.615193C.547945-6.495641 .637609-6.495641 .797011-6.495641C1.295143-6.495641 1.305106-6.405978 1.325031-6.127024L1.77335-.039851C1.783313 .139477 1.793275 .219178 1.932752 .219178C2.052304 .219178 2.082192 .159402 2.171856 .009963L5.100872-5.070984L5.469489-.039851C5.489415 .169365 5.50934 .219178 5.628892 .219178C5.758406 .219178 5.818182 .119552 5.867995 .029888L9.135741-5.648817Z'/>
+<path id='g2-104' d='M2.859278-6.804483C2.859278-6.814446 2.859278-6.914072 2.729763-6.914072C2.500623-6.914072 1.77335-6.834371 1.514321-6.814446C1.43462-6.804483 1.325031-6.794521 1.325031-6.615193C1.325031-6.495641 1.414695-6.495641 1.564134-6.495641C2.042341-6.495641 2.062267-6.425903 2.062267-6.326276L2.032379-6.127024L.587796-.388543C.547945-.249066 .547945-.229141 .547945-.169365C.547945 .059776 .747198 .109589 .836862 .109589C.996264 .109589 1.155666-.009963 1.205479-.14944L1.39477-.9066L1.613948-1.803238C1.673724-2.022416 1.733499-2.241594 1.783313-2.470735C1.803238-2.530511 1.882939-2.859278 1.892902-2.919054C1.92279-3.008717 2.231631-3.566625 2.570361-3.835616C2.789539-3.995019 3.098381-4.184309 3.526775-4.184309S4.064757-3.845579 4.064757-3.486924C4.064757-2.948941 3.686177-1.863014 3.447073-1.255293C3.367372-1.026152 3.317559-.9066 3.317559-.707347C3.317559-.239103 3.666252 .109589 4.134496 .109589C5.070984 .109589 5.439601-1.344956 5.439601-1.424658C5.439601-1.524284 5.349938-1.524284 5.32005-1.524284C5.220423-1.524284 5.220423-1.494396 5.17061-1.344956C5.021171-.816936 4.702366-.109589 4.154421-.109589C3.985056-.109589 3.915318-.209215 3.915318-.438356C3.915318-.687422 4.004981-.926526 4.094645-1.145704C4.254047-1.574097 4.702366-2.759651 4.702366-3.337484C4.702366-3.985056 4.303861-4.403487 3.556663-4.403487C2.929016-4.403487 2.450809-4.094645 2.082192-3.636364L2.859278-6.804483Z'/>
+<path id='g3-43' d='M3.228892-1.57609H5.362889C5.453549-1.57609 5.620922-1.57609 5.620922-1.743462C5.620922-1.917808 5.460523-1.917808 5.362889-1.917808H3.228892V-4.05878C3.228892-4.14944 3.228892-4.316812 3.061519-4.316812C2.887173-4.316812 2.887173-4.156413 2.887173-4.05878V-1.917808H.746202C.655542-1.917808 .488169-1.917808 .488169-1.750436C.488169-1.57609 .648568-1.57609 .746202-1.57609H2.887173V.564882C2.887173 .655542 2.887173 .822914 3.054545 .822914C3.228892 .822914 3.228892 .662516 3.228892 .564882V-1.57609Z'/>
+</defs>
+<g id='page1'>
+<g transform='matrix(1 0 0 1 -2.8701 -24.8875)'>
+<use x='50.810407' y='-26.64348' xlink:href='#g2-104'/>
+</g>
+<g transform='matrix(1 0 0 1 -50.811052 26.643811)'>
+<use x='50.810407' y='-26.64348' xlink:href='#g2-87'/>
+<use x='61.603291' y='-30.258844' xlink:href='#g3-43'/>
+<use x='67.719274' y='-30.258844' xlink:href='#g1-22'/>
+</g>
+<g transform='matrix(1 0 0 1 28.6969 26.643811)'>
+<use x='50.810407' y='-26.64348' xlink:href='#g2-87'/>
+<use x='61.603291' y='-30.258844' xlink:href='#g0-0'/>
+<use x='67.82997' y='-30.258844' xlink:href='#g1-23'/>
+</g>
+<path d='M50.808596-51.332V-26.644532' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<path d='M18.4141-8.1328L18.8633-8.3867L19.0039-9.1875L19.2266-9.8398L19.5938-10.2383L20.125-10.3516L20.8008-10.2148L21.5586-9.9297L22.3203-9.6445L22.9922-9.5078L23.5273-9.6172L23.8945-10.0195L24.1172-10.6719L24.2578-11.4688L24.3984-12.2656L24.6211-12.918L24.9883-13.3203L25.5195-13.4336L26.1953-13.293L26.9531-13.0117L27.7109-12.7266L28.3867-12.5898L28.918-12.6992L29.2852-13.1016L29.5078-13.7539L29.6484-14.5508L29.7891-15.3477L30.0117-16L30.3789-16.4023L30.9102-16.5156L31.5859-16.375L32.3477-16.0938L33.1055-15.8086L33.7813-15.668L34.3125-15.7813L34.6797-16.1836L34.9023-16.83594L35.043-17.63281L35.1836-18.42969L35.4063-19.08203L35.7734-19.48438L36.3047-19.59766L36.9805-19.45703L37.7383-19.17578L38.4961-18.89063L39.1719-18.75L39.7031-18.86328L40.0703-19.26563L40.293-19.91797L40.4336-20.71484L40.5742-21.51172L40.7969-22.16406L41.16406-22.56641L41.69922-22.67969L42.375-22.53906L43.13281-22.25391L43.89063-21.97266L44.56641-21.83203L45.09766-21.94531L45.46485-22.34766L45.6875-23L45.82813-23.79688L45.96875-24.59375L46.19141-25.24609L46.5586-25.648438L47.08985-25.761719L47.76563-25.62109L48.52344-25.33594L49.28125-25.05469L49.957033-24.91406L50.488283-25.02734L50.808596-26.644532' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M83.207-8.1328L82.7578-8.3867L82-8.1055L81.3242-7.9648L80.793-8.0781L80.4258-8.4805L80.1992-9.1328L80.0625-9.9297L79.9219-10.7266L79.6953-11.3789L79.332-11.7813L78.7969-11.8945L78.1211-11.7539L77.3633-11.4688L76.6055-11.1875L75.9297-11.0469L75.3984-11.1602L75.0313-11.5625L74.8086-12.2148L74.668-13.0117L74.5273-13.8086L74.3047-14.4609L73.9375-14.8633L73.4063-14.9727L72.7305-14.8359L71.9727-14.5508L71.2148-14.2695L70.5391-14.1289L70.0039-14.2422L69.6406-14.6406L69.4141-15.2969L69.2734-16.0938L69.1328-16.89063L68.9102-17.54297L68.543-17.94531L68.0117-18.05469L67.3359-17.91797L66.5781-17.63281L65.8203-17.34766L65.1445-17.21094L64.6133-17.32422L64.2461-17.72266L64.0234-18.375L63.8828-19.17578L63.7422-19.97266L63.5195-20.625L63.1523-21.02734L62.6211-21.13672L61.9453-21L61.1875-20.71484L60.42578-20.42969L59.75391-20.29297L59.21875-20.40234L58.85156-20.80469L58.62891-21.45703L58.48828-22.25391L58.34766-23.05469L58.125-23.70703L57.75781-24.10547L57.22656-24.21875L56.55078-24.08203L55.79297-23.79688L55.03516-23.51172L54.35938-23.375L53.82813-23.48438L53.46094-23.88672L53.23828-24.53906L53.09766-25.33594L52.95703-26.132813L52.73438-26.785157L52.36719-27.187501L50.808596-26.644532' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle \quad = \quad
+i\frac{e\,m_W}{\sin\theta_w}\eta^{\mu\nu},$</span><span class="equation-num">(1.36)</span></div>
+
+<div class="equation-row"><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='12.056em' height='6.758em' viewBox='-.00075 -61.433325 109.601926 61.433645'>
+<defs>
+<path id='g0-0' d='M5.188543-1.57609C5.300125-1.57609 5.467497-1.57609 5.467497-1.743462C5.467497-1.917808 5.307098-1.917808 5.188543-1.917808H1.03213C.920548-1.917808 .753176-1.917808 .753176-1.750436C.753176-1.57609 .913574-1.57609 1.03213-1.57609H5.188543Z'/>
+<path id='g1-21' d='M2.817435-1.994521C3.166127-1.199502 3.563636-.188294 3.640349-.097634C3.772852 .069738 3.898381 .069738 4.009963 .069738H4.14944C4.281943 .069738 4.351681 .069738 4.351681-.013948C4.351681-.048817 4.33076-.069738 4.316812-.083686C4.233126-.160399 4.163387-.320797 4.135492-.383562L2.433873-4.400498C2.385056-4.526027 2.245579-4.839851 1.506351-4.839851C1.422665-4.839851 1.325031-4.839851 1.325031-4.742217C1.325031-4.658531 1.39477-4.651557 1.429639-4.644583C1.57609-4.623661 1.708593-4.60274 1.882939-4.20523L2.712827-2.252553L.655542-.397509C.571856-.327771 .516065-.27198 .516065-.153425C.516065 .013948 .655542 .083686 .753176 .083686C.885679 .083686 .969365-.006974 .990286-.027895L2.817435-1.994521Z'/>
+<path id='g1-22' d='M.376588 1.12279C.348692 1.227397 .348692 1.262267 .348692 1.26924C.348692 1.422665 .474222 1.492403 .585803 1.492403C.836862 1.492403 .892653 1.262267 .920548 1.143711C.934496 1.108842 1.073973 .550934 1.241345-.132503C1.457534 .013948 1.736488 .069738 1.987547 .069738C2.587298 .069738 2.977833-.418431 2.991781-.432379C3.124284 .048817 3.605479 .069738 3.710087 .069738C3.961146 .069738 4.135492-.083686 4.261021-.299875C4.414446-.571856 4.505106-.969365 4.505106-.99726C4.505106-1.08792 4.414446-1.08792 4.393524-1.08792C4.29589-1.08792 4.288917-1.060025 4.2401-.871731C4.156413-.536986 4.02391-.125529 3.731009-.125529C3.549689-.125529 3.500872-.278954 3.500872-.467248C3.500872-.585803 3.556663-.836862 3.605479-1.018182C3.654296-1.206476 3.724035-1.492403 3.758904-1.645828L3.919303-2.266501C3.961146-2.440847 4.037858-2.747696 4.037858-2.782565C4.037858-2.922042 3.926276-3.005729 3.807721-3.005729C3.731009-3.005729 3.598506-2.970859 3.521793-2.838356C3.500872-2.796513 3.445081-2.57335 3.410212-2.433873L3.263761-1.855044L3.047572-.983313C2.998755-.808966 2.998755-.795019 2.93599-.704359C2.719801-.397509 2.412951-.125529 2.015442-.125529C1.443587-.125529 1.443587-.620672 1.443587-.746202C1.443587-.927522 1.464508-1.018182 1.562142-1.39477C1.63188-1.701619 1.645828-1.750436 1.715567-2.022416L1.8132-2.412951C1.84807-2.559402 1.917808-2.824408 1.917808-2.852304C1.917808-2.977833 1.820174-3.075467 1.680697-3.075467C1.429639-3.075467 1.366874-2.831382 1.345953-2.747696L.376588 1.12279Z'/>
+<path id='g1-23' d='M1.750436-2.873225C1.75741-2.901121 1.764384-2.942964 1.764384-2.977833C1.764384-2.984807 1.764384-3.075467 1.652802-3.075467C1.645828-3.075467 1.248319-3.040598 1.199502-3.040598C1.066999-3.02665 .941469-3.019676 .808966-3.005729C.697385-2.998755 .613699-2.991781 .613699-2.84533C.613699-2.747696 .711333-2.747696 .795019-2.747696C1.129763-2.747696 1.129763-2.705853 1.129763-2.643088C1.129763-2.601245 1.094894-2.461768 1.066999-2.371108L.718306-.962391C.54396-.265006 .509091-.125529 .509091-.097634C.509091 0 .613699 0 .641594 0H.753176C1.373848-.097634 2.259527-.425405 3.005729-1.08792C3.954172-1.931756 4.093649-2.838356 4.093649-2.852304C4.093649-2.977833 3.996015-3.075467 3.856538-3.075467C3.612453-3.075467 3.563636-2.880199 3.500872-2.684932C3.221918-1.694645 2.287422-.627646 1.101868-.278954L1.750436-2.873225Z'/>
+<path id='g2-13' d='M.408468-2.530511C.797011-3.676214 1.882939-3.686177 1.992528-3.686177C3.496887-3.686177 3.606476-1.942715 3.606476-1.155666C3.606476-.547945 3.556663-.37858 3.486924-.179328C3.267746 .547945 2.968867 1.703611 2.968867 1.96264C2.968867 2.072229 3.01868 2.141968 3.098381 2.141968C3.227895 2.141968 3.307597 1.92279 3.417186 1.544209C3.646326 .707347 3.745953 .139477 3.785803-.169365C3.805729-.298879 3.825654-.428394 3.865504-.557908C4.184309-1.544209 4.821918-3.028643 5.220423-3.815691C5.290162-3.935243 5.409714-4.154421 5.409714-4.194271C5.409714-4.293898 5.310087-4.293898 5.290162-4.293898C5.260274-4.293898 5.200498-4.293898 5.17061-4.224159C4.652553-3.277709 4.254047-2.281445 3.855542-1.275218C3.845579-1.58406 3.835616-2.34122 3.447073-3.307597C3.20797-3.915318 2.809465-4.403487 2.122042-4.403487C.876712-4.403487 .179328-2.889166 .179328-2.580324C.179328-2.480697 .268991-2.480697 .368618-2.480697L.408468-2.530511Z'/>
+<path id='g2-87' d='M9.135741-5.648817C9.384807-6.087173 9.62391-6.445828 10.251557-6.495641C10.34122-6.505604 10.440847-6.505604 10.440847-6.694894C10.440847-6.734745 10.400996-6.804483 10.321295-6.804483C10.082192-6.804483 9.803238-6.774595 9.554172-6.774595C9.215442-6.774595 8.846824-6.804483 8.518057-6.804483C8.458281-6.804483 8.328767-6.804483 8.328767-6.615193C8.328767-6.505604 8.418431-6.495641 8.478207-6.495641C8.71731-6.485679 9.066002-6.405978 9.066002-6.107098C9.066002-5.997509 9.016189-5.917808 8.936488-5.778331L6.246575-1.085928L5.877958-6.027397C5.867995-6.22665 5.84807-6.485679 6.575342-6.495641C6.744707-6.495641 6.844334-6.495641 6.844334-6.694894C6.844334-6.794521 6.734745-6.804483 6.694894-6.804483C6.296389-6.804483 5.877958-6.774595 5.479452-6.774595C5.250311-6.774595 4.662516-6.804483 4.433375-6.804483C4.373599-6.804483 4.244085-6.804483 4.244085-6.60523C4.244085-6.495641 4.343711-6.495641 4.483188-6.495641C4.921544-6.495641 4.991283-6.435866 5.011208-6.246575L5.070984-5.479452L2.550436-1.085928L2.171856-6.136986C2.171856-6.256538 2.171856-6.485679 2.929016-6.495641C3.028643-6.495641 3.138232-6.495641 3.138232-6.694894C3.138232-6.804483 3.01868-6.804483 2.998755-6.804483C2.600249-6.804483 2.181818-6.774595 1.77335-6.774595C1.424658-6.774595 1.066002-6.804483 .727273-6.804483C.67746-6.804483 .547945-6.804483 .547945-6.615193C.547945-6.495641 .637609-6.495641 .797011-6.495641C1.295143-6.495641 1.305106-6.405978 1.325031-6.127024L1.77335-.039851C1.783313 .139477 1.793275 .219178 1.932752 .219178C2.052304 .219178 2.082192 .159402 2.171856 .009963L5.100872-5.070984L5.469489-.039851C5.489415 .169365 5.50934 .219178 5.628892 .219178C5.758406 .219178 5.818182 .119552 5.867995 .029888L9.135741-5.648817Z'/>
+<path id='g2-112' d='M.448319 1.215442C.368618 1.554172 .348692 1.62391-.089664 1.62391C-.209215 1.62391-.318804 1.62391-.318804 1.8132C-.318804 1.892902-.268991 1.932752-.18929 1.932752C.079701 1.932752 .368618 1.902864 .647572 1.902864C.976339 1.902864 1.315068 1.932752 1.633873 1.932752C1.683686 1.932752 1.8132 1.932752 1.8132 1.733499C1.8132 1.62391 1.713574 1.62391 1.574097 1.62391C1.075965 1.62391 1.075965 1.554172 1.075965 1.464508C1.075965 1.344956 1.494396-.278954 1.564134-.52802C1.693649-.239103 1.972603 .109589 2.480697 .109589C3.636364 .109589 4.881694-1.344956 4.881694-2.809465C4.881694-3.745953 4.313823-4.403487 3.556663-4.403487C3.058531-4.403487 2.580324-4.044832 2.251557-3.656289C2.15193-4.194271 1.723537-4.403487 1.354919-4.403487C.896638-4.403487 .707347-4.014944 .617684-3.835616C.438356-3.496887 .308842-2.899128 .308842-2.86924C.308842-2.769614 .408468-2.769614 .428394-2.769614C.52802-2.769614 .537983-2.779577 .597758-2.998755C.767123-3.706102 .966376-4.184309 1.325031-4.184309C1.494396-4.184309 1.633873-4.104608 1.633873-3.726027C1.633873-3.496887 1.603985-3.387298 1.564134-3.217933L.448319 1.215442ZM2.201743-3.108344C2.271482-3.377335 2.540473-3.656289 2.719801-3.805729C3.068493-4.11457 3.35741-4.184309 3.526775-4.184309C3.92528-4.184309 4.164384-3.835616 4.164384-3.247821S3.835616-1.514321 3.656289-1.135741C3.317559-.438356 2.839352-.109589 2.470735-.109589C1.8132-.109589 1.683686-.936488 1.683686-.996264C1.683686-1.016189 1.683686-1.036115 1.713574-1.155666L2.201743-3.108344Z'/>
+<path id='g3-43' d='M3.228892-1.57609H5.362889C5.453549-1.57609 5.620922-1.57609 5.620922-1.743462C5.620922-1.917808 5.460523-1.917808 5.362889-1.917808H3.228892V-4.05878C3.228892-4.14944 3.228892-4.316812 3.061519-4.316812C2.887173-4.316812 2.887173-4.156413 2.887173-4.05878V-1.917808H.746202C.655542-1.917808 .488169-1.917808 .488169-1.750436C.488169-1.57609 .648568-1.57609 .746202-1.57609H2.887173V.564882C2.887173 .655542 2.887173 .822914 3.054545 .822914C3.228892 .822914 3.228892 .662516 3.228892 .564882V-1.57609Z'/>
+<path id='g3-49' d='M2.336239-4.435367C2.336239-4.623661 2.322291-4.630635 2.127024-4.630635C1.680697-4.191283 1.046077-4.184309 .760149-4.184309V-3.93325C.927522-3.93325 1.387796-3.93325 1.771357-4.128518V-.571856C1.771357-.341719 1.771357-.251059 1.073973-.251059H.808966V0C.934496-.006974 1.792279-.027895 2.050311-.027895C2.266501-.027895 3.145205-.006974 3.29863 0V-.251059H3.033624C2.336239-.251059 2.336239-.341719 2.336239-.571856V-4.435367Z'/>
+<path id='g3-50' d='M3.521793-1.26924H3.284682C3.263761-1.115816 3.194022-.704359 3.103362-.63462C3.047572-.592777 2.510585-.592777 2.412951-.592777H1.129763C1.862017-1.241345 2.106102-1.436613 2.524533-1.764384C3.040598-2.175841 3.521793-2.608219 3.521793-3.270735C3.521793-4.11457 2.782565-4.630635 1.889913-4.630635C1.025156-4.630635 .439352-4.02391 .439352-3.382316C.439352-3.02665 .739228-2.991781 .808966-2.991781C.976339-2.991781 1.17858-3.110336 1.17858-3.361395C1.17858-3.486924 1.129763-3.731009 .767123-3.731009C.983313-4.226152 1.457534-4.379577 1.785305-4.379577C2.48269-4.379577 2.84533-3.835616 2.84533-3.270735C2.84533-2.66401 2.412951-2.182814 2.189788-1.931756L.509091-.27198C.439352-.209215 .439352-.195268 .439352 0H3.312578L3.521793-1.26924Z'/>
+<path id='g3-51' d='M1.903861-2.329265C2.447821-2.329265 2.838356-1.952677 2.838356-1.206476C2.838356-.341719 2.336239-.083686 1.931756-.083686C1.652802-.083686 1.039103-.160399 .746202-.571856C1.073973-.585803 1.150685-.81594 1.150685-.962391C1.150685-1.185554 .983313-1.345953 .767123-1.345953C.571856-1.345953 .376588-1.227397 .376588-.941469C.376588-.285928 1.101868 .139477 1.945704 .139477C2.915068 .139477 3.584558-.509091 3.584558-1.206476C3.584558-1.750436 3.138232-2.294396 2.371108-2.454795C3.103362-2.719801 3.368369-3.242839 3.368369-3.668244C3.368369-4.219178 2.733748-4.630635 1.959651-4.630635S.592777-4.254047 .592777-3.696139C.592777-3.459029 .746202-3.326526 .955417-3.326526C1.171606-3.326526 1.311083-3.486924 1.311083-3.682192C1.311083-3.884433 1.171606-4.030884 .955417-4.044832C1.199502-4.351681 1.680697-4.428394 1.93873-4.428394C2.252553-4.428394 2.691905-4.274969 2.691905-3.668244C2.691905-3.375342 2.594271-3.054545 2.412951-2.838356C2.182814-2.57335 1.987547-2.559402 1.638854-2.538481C1.464508-2.524533 1.45056-2.524533 1.415691-2.517559C1.401743-2.517559 1.345953-2.503611 1.345953-2.426899C1.345953-2.329265 1.408717-2.329265 1.527273-2.329265H1.903861Z'/>
+<path id='g4-40' d='M3.297634 2.391034C3.297634 2.361146 3.297634 2.34122 3.128269 2.171856C1.882939 .916563 1.564134-.966376 1.564134-2.49066C1.564134-4.224159 1.942715-5.957659 3.16812-7.202989C3.297634-7.32254 3.297634-7.342466 3.297634-7.372354C3.297634-7.442092 3.257783-7.47198 3.198007-7.47198C3.098381-7.47198 2.201743-6.794521 1.613948-5.529265C1.105853-4.433375 .986301-3.327522 .986301-2.49066C.986301-1.713574 1.09589-.508095 1.643836 .617684C2.241594 1.843088 3.098381 2.49066 3.198007 2.49066C3.257783 2.49066 3.297634 2.460772 3.297634 2.391034Z'/>
+<path id='g4-41' d='M2.879203-2.49066C2.879203-3.267746 2.769614-4.473225 2.221669-5.599004C1.62391-6.824408 .767123-7.47198 .667497-7.47198C.607721-7.47198 .56787-7.43213 .56787-7.372354C.56787-7.342466 .56787-7.32254 .757161-7.143213C1.733499-6.156912 2.30137-4.572852 2.30137-2.49066C2.30137-.787049 1.932752 .966376 .697385 2.221669C.56787 2.34122 .56787 2.361146 .56787 2.391034C.56787 2.450809 .607721 2.49066 .667497 2.49066C.767123 2.49066 1.663761 1.8132 2.251557 .547945C2.759651-.547945 2.879203-1.653798 2.879203-2.49066Z'/>
+</defs>
+<g id='page1'>
+<g transform='matrix(1 0 0 1 -5.4675 -25.0862)'>
+<use x='59.425698' y='-27.88881' xlink:href='#g2-13'/>
+<use x='65.137129' y='-31.504174' xlink:href='#g1-21'/>
+</g>
+<g transform='matrix(1 0 0 1 -59.426448 25.39847)'>
+<use x='59.425698' y='-27.88881' xlink:href='#g2-87'/>
+<use x='70.218581' y='-31.504174' xlink:href='#g3-43'/>
+<use x='76.334565' y='-31.504174' xlink:href='#g1-22'/>
+<use x='81.676849' y='-27.88881' xlink:href='#g4-40'/>
+<use x='85.551223' y='-27.88881' xlink:href='#g2-112'/>
+<use x='90.563687' y='-26.394429' xlink:href='#g3-49'/>
+<use x='95.033057' y='-27.88881' xlink:href='#g4-41'/>
+</g>
+<g transform='matrix(1 0 0 1 28.6969 26.64381)'>
+<use x='59.425698' y='-27.88881' xlink:href='#g2-87'/>
+<use x='70.218581' y='-31.504174' xlink:href='#g0-0'/>
+<use x='76.445261' y='-31.504174' xlink:href='#g1-23'/>
+</g>
+<path d='M67.92969-47.3945V-35.44141' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M67.929654-32.46488L69.49997-36.62113L67.929654-35.24223L66.35934-36.62113Z'/>
+<path d='M67.929654-32.46488L69.49997-36.62113L67.929654-35.24223L66.35934-36.62113Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 8.504 -10.2987)'>
+<use x='59.425698' y='-27.88881' xlink:href='#g2-112'/>
+<use x='64.438163' y='-26.394429' xlink:href='#g3-51'/>
+</g>
+<path d='M59.42578-50.8398V-50.3594L60.046874-49.8828L60.50391-49.4063L60.67187-48.9258L60.50391-48.4492L60.046874-47.9727L59.42578-47.4922L58.804686-47.0156L58.34766-46.5352L58.17969-46.0586L58.34766-45.582L58.804686-45.1016L59.42578-44.625L60.046874-44.1484L60.50391-43.668L60.67187-43.1914L60.50391-42.7148L60.046874-42.2344L59.42578-41.7578L58.804686-41.2813L58.34766-40.8008L58.17969-40.3242L58.34766-39.8438L58.804686-39.3672L59.42578-38.8906L60.046874-38.4102L60.50391-37.9336L60.67187-37.45703L60.50391-36.97656L60.046874-36.5L59.42578-36.02344L58.804686-35.54297L58.34766-35.06641L58.17969-34.58984L58.34766-34.10938L58.804686-33.63281L59.42578-33.15625L60.046874-32.67578L60.50391-32.19922L60.67187-31.71875L60.50391-31.24219L60.046874-30.76563L59.42578-30.28516L58.804686-29.80859L58.34766-29.33203L58.17969-28.851563L59.42578-27.890625' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M29.5234-20.59375L47.1055-30.64453' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M49.687502-32.11716L45.304688-31.42185L47.277344-30.742157L46.863276-28.695285Z'/>
+<path d='M49.687502-32.11716L45.304688-31.42185L47.277344-30.742157L46.863276-28.695285Z' stroke='currentColor' fill='none' stroke-width='.398479' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 -28.8093 -.687)'>
+<use x='59.425698' y='-27.88881' xlink:href='#g2-112'/>
+<use x='64.438163' y='-26.394429' xlink:href='#g3-49'/>
+</g>
+<path d='M29.207-10.6211L29.6289-10.8633L29.7383-11.6406L29.9336-12.2773L30.2695-12.6602L30.7695-12.7578L31.4141-12.6016L32.1445-12.3008L32.8711-12L33.5195-11.8438L34.0195-11.9375L34.3555-12.3203L34.5508-12.957L34.6602-13.7383L34.7695-14.5156L34.9648-15.1523L35.3008-15.5352L35.8008-15.6328L36.4492-15.4766L37.1758-15.1758L37.9023-14.875L38.5508-14.7188L39.0508-14.8125L39.3867-15.1953L39.582-15.832L39.6914-16.6133L39.8008-17.3906L39.9961-18.02734L40.332-18.41406L40.832-18.50781L41.4805-18.35156L42.207-18.05078L42.9375-17.75L43.582-17.5938L44.082-17.6875L44.418-18.07031L44.6133-18.70703L44.7227-19.48828L44.832-20.26953L45.0273-20.90234L45.3633-21.28906L45.8672-21.38281L46.5117-21.22656L47.2383-20.92578L47.9687-20.625L48.6133-20.46875L49.1133-20.5625L49.45312-20.94531L49.64453-21.58203L49.75391-22.36328L49.86719-23.14453L50.05859-23.77734L50.39453-24.16406L50.89844-24.25781L51.54297-24.10156L52.26953-23.80078L53-23.5L53.64453-23.34375L54.14844-23.4375L54.48437-23.82422L54.67578-24.45703L54.78516-25.23828L54.89844-26.01953L55.08984-26.65234L55.42578-27.039063L55.92969-27.132813L56.57422-26.976563L57.30078-26.67578L58.03125-26.375L58.67578-26.21875L59.179686-26.3125L59.42578-27.890625' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M82.7422-4.7695L63.63281-15.6914' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M61.050822-17.164101L63.878946-13.742234L63.460972-15.789104L65.437529-16.46879Z'/>
+<path d='M61.050822-17.164101L63.878946-13.742234L63.460972-15.789104L65.437529-16.46879Z' stroke='currentColor' fill='none' stroke-width='.398479' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 2.4972 20.92865)'>
+<use x='59.425698' y='-27.88881' xlink:href='#g2-112'/>
+<use x='64.438163' y='-26.394429' xlink:href='#g3-50'/>
+</g>
+<path d='M91.8203-9.375L91.3711-9.6328L90.6133-9.3516L89.9375-9.2109L89.4062-9.3242L89.0391-9.7227L88.8164-10.3789L88.6758-11.1758L88.5352-11.9727L88.3125-12.625L87.9453-13.0273L87.4141-13.1367L86.7383-13L85.9805-12.7148L85.2227-12.4297L84.5469-12.293L84.0117-12.4063L83.6484-12.8047L83.4219-13.457L83.2812-14.2578L83.1445-15.0547L82.918-15.707L82.5547-16.1094L82.0195-16.2188L81.3437-16.082L80.5859-15.7969L79.8281-15.5117L79.1523-15.375L78.6211-15.4844L78.2539-15.8867L78.0312-16.5391L77.8906-17.3359L77.75-18.13672L77.5273-18.78906L77.1602-19.1875L76.6289-19.30078L75.9531-19.16406L75.1953-18.87891L74.4375-18.59375L73.7617-18.45703L73.2266-18.56641L72.8594-18.96875L72.6367-19.62109L72.4961-20.41797L72.3555-21.21484L72.1328-21.87109L71.7656-22.26953L71.2344-22.38281L70.5586-22.24219L69.8008-21.96094L69.04297-21.67578L68.36719-21.53906L67.83594-21.64844L67.46875-22.05078L67.24609-22.70313L67.10547-23.5L66.96484-24.29688L66.74219-24.94922L66.375-25.35156L65.84375-25.46484L65.16797-25.32422L64.41016-25.04297L63.64844-24.75781L62.97266-24.61719L62.44141-24.73047L62.07422-25.13281L61.85156-25.78516L61.71094-26.58203L61.57031-27.378907L61.34766-28.03125L60.98047-28.433594L59.42578-27.890625' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle \quad = \quad
+-ie
+[t]
+\Big[
+\eta^{\mu\nu}(p_1-p_2)^\lambda
++\eta^{\nu\lambda}(p_2-p_3)^\mu$</span><span class="equation-part">$\displaystyle +\eta^{\lambda\mu}(p_3-p_1)^\nu
+\Big],$</span><span class="equation-num">(1.37)</span></div>
+
+<div class="equation-row"><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='10.526em' height='6.655em' viewBox='-.000645 -60.498815 95.692625 60.499168'>
+<defs>
+<path id='g0-0' d='M5.188543-1.57609C5.300125-1.57609 5.467497-1.57609 5.467497-1.743462C5.467497-1.917808 5.307098-1.917808 5.188543-1.917808H1.03213C.920548-1.917808 .753176-1.917808 .753176-1.750436C.753176-1.57609 .913574-1.57609 1.03213-1.57609H5.188543Z'/>
+<path id='g1-11' d='M3.814695-.983313C4.456289-1.645828 4.714321-2.57335 4.714321-2.650062C4.714321-2.740722 4.630635-2.740722 4.595766-2.740722C4.498132-2.740722 4.498132-2.719801 4.449315-2.566376C4.323786-2.106102 4.093649-1.680697 3.800747-1.30411C3.793773-1.408717 3.779826-1.875965 3.765878-1.93873C3.66127-2.629141 3.138232-3.075467 2.440847-3.075467C1.415691-3.075467 .432379-2.12005 .432379-1.143711C.432379-.502117 .899626 .069738 1.708593 .069738C2.350187 .069738 2.929016-.223163 3.319552-.523039C3.47995-.013948 3.835616 .069738 4.044832 .069738C4.449315 .069738 4.700374-.27198 4.700374-.418431C4.700374-.502117 4.616687-.502117 4.581818-.502117C4.491158-.502117 4.47721-.474222 4.463263-.432379C4.365629-.167372 4.14944-.125529 4.065753-.125529C3.96812-.125529 3.849564-.125529 3.814695-.983313ZM3.270735-.746202C2.587298-.188294 1.994521-.125529 1.729514-.125529C1.26924-.125529 1.011208-.432379 1.011208-.899626C1.011208-1.101868 1.108842-1.862017 1.471482-2.343213C1.792279-2.761644 2.189788-2.880199 2.433873-2.880199C2.991781-2.880199 3.152179-2.343213 3.20797-1.910834C3.249813-1.610959 3.235866-1.115816 3.270735-.746202Z'/>
+<path id='g1-12' d='M4.414446-3.947198C4.414446-4.560897 3.884433-4.916563 3.270735-4.916563C2.315318-4.916563 1.610959-3.828643 1.436613-3.124284L.341719 1.26924C.327771 1.318057 .397509 1.352927 .439352 1.352927C.502117 1.352927 .557908 1.345953 .571856 1.30411L1.039103-.557908C1.185554-.237111 1.520299 .062765 2.085181 .062765C3.061519 .062765 4.163387-.641594 4.163387-1.708593C4.163387-2.12005 3.975093-2.538481 3.619427-2.768618C3.961146-2.984807 4.414446-3.382316 4.414446-3.947198ZM3.033624-2.775592C2.929016-2.75467 2.880199-2.726775 2.677958-2.726775C2.566376-2.726775 2.399004-2.733748 2.350187-2.761644C2.419925-2.803487 2.615193-2.810461 2.677958-2.810461C2.782565-2.810461 2.93599-2.803487 3.033624-2.775592ZM3.954172-4.072727C3.954172-3.703113 3.772852-3.159153 3.340473-2.915068C3.20797-2.956912 3.075467-3.005729 2.684932-3.005729C2.440847-3.005729 2.092154-2.991781 2.092154-2.740722C2.092154-2.566376 2.308344-2.538481 2.66401-2.538481C2.901121-2.538481 3.110336-2.57335 3.326526-2.636115C3.535741-2.489664 3.647323-2.203736 3.647323-1.896887C3.647323-.885679 2.956912-.132503 2.106102-.132503C1.569116-.132503 1.185554-.460274 1.185554-1.011208C1.185554-1.080946 1.192528-1.150685 1.206476-1.21345L1.66675-3.068493C1.834122-3.731009 2.447821-4.721295 3.256787-4.721295C3.668244-4.721295 3.954172-4.498132 3.954172-4.072727Z'/>
+<path id='g1-22' d='M.376588 1.12279C.348692 1.227397 .348692 1.262267 .348692 1.26924C.348692 1.422665 .474222 1.492403 .585803 1.492403C.836862 1.492403 .892653 1.262267 .920548 1.143711C.934496 1.108842 1.073973 .550934 1.241345-.132503C1.457534 .013948 1.736488 .069738 1.987547 .069738C2.587298 .069738 2.977833-.418431 2.991781-.432379C3.124284 .048817 3.605479 .069738 3.710087 .069738C3.961146 .069738 4.135492-.083686 4.261021-.299875C4.414446-.571856 4.505106-.969365 4.505106-.99726C4.505106-1.08792 4.414446-1.08792 4.393524-1.08792C4.29589-1.08792 4.288917-1.060025 4.2401-.871731C4.156413-.536986 4.02391-.125529 3.731009-.125529C3.549689-.125529 3.500872-.278954 3.500872-.467248C3.500872-.585803 3.556663-.836862 3.605479-1.018182C3.654296-1.206476 3.724035-1.492403 3.758904-1.645828L3.919303-2.266501C3.961146-2.440847 4.037858-2.747696 4.037858-2.782565C4.037858-2.922042 3.926276-3.005729 3.807721-3.005729C3.731009-3.005729 3.598506-2.970859 3.521793-2.838356C3.500872-2.796513 3.445081-2.57335 3.410212-2.433873L3.263761-1.855044L3.047572-.983313C2.998755-.808966 2.998755-.795019 2.93599-.704359C2.719801-.397509 2.412951-.125529 2.015442-.125529C1.443587-.125529 1.443587-.620672 1.443587-.746202C1.443587-.927522 1.464508-1.018182 1.562142-1.39477C1.63188-1.701619 1.645828-1.750436 1.715567-2.022416L1.8132-2.412951C1.84807-2.559402 1.917808-2.824408 1.917808-2.852304C1.917808-2.977833 1.820174-3.075467 1.680697-3.075467C1.429639-3.075467 1.366874-2.831382 1.345953-2.747696L.376588 1.12279Z'/>
+<path id='g1-23' d='M1.750436-2.873225C1.75741-2.901121 1.764384-2.942964 1.764384-2.977833C1.764384-2.984807 1.764384-3.075467 1.652802-3.075467C1.645828-3.075467 1.248319-3.040598 1.199502-3.040598C1.066999-3.02665 .941469-3.019676 .808966-3.005729C.697385-2.998755 .613699-2.991781 .613699-2.84533C.613699-2.747696 .711333-2.747696 .795019-2.747696C1.129763-2.747696 1.129763-2.705853 1.129763-2.643088C1.129763-2.601245 1.094894-2.461768 1.066999-2.371108L.718306-.962391C.54396-.265006 .509091-.125529 .509091-.097634C.509091 0 .613699 0 .641594 0H.753176C1.373848-.097634 2.259527-.425405 3.005729-1.08792C3.954172-1.931756 4.093649-2.838356 4.093649-2.852304C4.093649-2.977833 3.996015-3.075467 3.856538-3.075467C3.612453-3.075467 3.563636-2.880199 3.500872-2.684932C3.221918-1.694645 2.287422-.627646 1.101868-.278954L1.750436-2.873225Z'/>
+<path id='g2-13' d='M.408468-2.530511C.797011-3.676214 1.882939-3.686177 1.992528-3.686177C3.496887-3.686177 3.606476-1.942715 3.606476-1.155666C3.606476-.547945 3.556663-.37858 3.486924-.179328C3.267746 .547945 2.968867 1.703611 2.968867 1.96264C2.968867 2.072229 3.01868 2.141968 3.098381 2.141968C3.227895 2.141968 3.307597 1.92279 3.417186 1.544209C3.646326 .707347 3.745953 .139477 3.785803-.169365C3.805729-.298879 3.825654-.428394 3.865504-.557908C4.184309-1.544209 4.821918-3.028643 5.220423-3.815691C5.290162-3.935243 5.409714-4.154421 5.409714-4.194271C5.409714-4.293898 5.310087-4.293898 5.290162-4.293898C5.260274-4.293898 5.200498-4.293898 5.17061-4.224159C4.652553-3.277709 4.254047-2.281445 3.855542-1.275218C3.845579-1.58406 3.835616-2.34122 3.447073-3.307597C3.20797-3.915318 2.809465-4.403487 2.122042-4.403487C.876712-4.403487 .179328-2.889166 .179328-2.580324C.179328-2.480697 .268991-2.480697 .368618-2.480697L.408468-2.530511Z'/>
+<path id='g2-87' d='M9.135741-5.648817C9.384807-6.087173 9.62391-6.445828 10.251557-6.495641C10.34122-6.505604 10.440847-6.505604 10.440847-6.694894C10.440847-6.734745 10.400996-6.804483 10.321295-6.804483C10.082192-6.804483 9.803238-6.774595 9.554172-6.774595C9.215442-6.774595 8.846824-6.804483 8.518057-6.804483C8.458281-6.804483 8.328767-6.804483 8.328767-6.615193C8.328767-6.505604 8.418431-6.495641 8.478207-6.495641C8.71731-6.485679 9.066002-6.405978 9.066002-6.107098C9.066002-5.997509 9.016189-5.917808 8.936488-5.778331L6.246575-1.085928L5.877958-6.027397C5.867995-6.22665 5.84807-6.485679 6.575342-6.495641C6.744707-6.495641 6.844334-6.495641 6.844334-6.694894C6.844334-6.794521 6.734745-6.804483 6.694894-6.804483C6.296389-6.804483 5.877958-6.774595 5.479452-6.774595C5.250311-6.774595 4.662516-6.804483 4.433375-6.804483C4.373599-6.804483 4.244085-6.804483 4.244085-6.60523C4.244085-6.495641 4.343711-6.495641 4.483188-6.495641C4.921544-6.495641 4.991283-6.435866 5.011208-6.246575L5.070984-5.479452L2.550436-1.085928L2.171856-6.136986C2.171856-6.256538 2.171856-6.485679 2.929016-6.495641C3.028643-6.495641 3.138232-6.495641 3.138232-6.694894C3.138232-6.804483 3.01868-6.804483 2.998755-6.804483C2.600249-6.804483 2.181818-6.774595 1.77335-6.774595C1.424658-6.774595 1.066002-6.804483 .727273-6.804483C.67746-6.804483 .547945-6.804483 .547945-6.615193C.547945-6.495641 .637609-6.495641 .797011-6.495641C1.295143-6.495641 1.305106-6.405978 1.325031-6.127024L1.77335-.039851C1.783313 .139477 1.793275 .219178 1.932752 .219178C2.052304 .219178 2.082192 .159402 2.171856 .009963L5.100872-5.070984L5.469489-.039851C5.489415 .169365 5.50934 .219178 5.628892 .219178C5.758406 .219178 5.818182 .119552 5.867995 .029888L9.135741-5.648817Z'/>
+<path id='g3-43' d='M3.228892-1.57609H5.362889C5.453549-1.57609 5.620922-1.57609 5.620922-1.743462C5.620922-1.917808 5.460523-1.917808 5.362889-1.917808H3.228892V-4.05878C3.228892-4.14944 3.228892-4.316812 3.061519-4.316812C2.887173-4.316812 2.887173-4.156413 2.887173-4.05878V-1.917808H.746202C.655542-1.917808 .488169-1.917808 .488169-1.750436C.488169-1.57609 .648568-1.57609 .746202-1.57609H2.887173V.564882C2.887173 .655542 2.887173 .822914 3.054545 .822914C3.228892 .822914 3.228892 .662516 3.228892 .564882V-1.57609Z'/>
+</defs>
+<g id='page1'>
+<g transform='matrix(1 0 0 1 -50.811052 -21.5456)'>
+<use x='50.810407' y='-29.7892' xlink:href='#g2-87'/>
+<use x='61.603291' y='-33.404564' xlink:href='#g3-43'/>
+<use x='67.719274' y='-33.404564' xlink:href='#g1-22'/>
+</g>
+<g transform='matrix(1 0 0 1 -50.67383 29.478239)'>
+<use x='50.810407' y='-29.7892' xlink:href='#g2-87'/>
+<use x='61.603291' y='-33.404564' xlink:href='#g0-0'/>
+<use x='67.82997' y='-33.404564' xlink:href='#g1-23'/>
+</g>
+<g transform='matrix(1 0 0 1 34.1426 -22.2513)'>
+<use x='50.810407' y='-29.7892' xlink:href='#g2-13'/>
+<use x='56.521838' y='-33.404564' xlink:href='#g1-12'/>
+</g>
+<g transform='matrix(1 0 0 1 33.9908 27.85237)'>
+<use x='50.810407' y='-29.7892' xlink:href='#g2-13'/>
+<use x='56.521838' y='-33.404564' xlink:href='#g1-11'/>
+</g>
+<path d='M17.6055-51.1367L18.0664-50.8398L18.8633-51.0664L19.5703-51.1523L20.1211-50.9961L20.4922-50.5625L20.707-49.8789L20.832-49.0625L20.957-48.2422L21.1719-47.5625L21.543-47.125L22.0938-46.9688L22.8008-47.0547L23.5977-47.2813L24.3945-47.5078L25.1055-47.5977L25.6563-47.4414L26.0273-47.0039L26.2422-46.3242L26.3633-45.5039L26.4883-44.6836L26.7031-44.0039L27.0742-43.5664L27.625-43.4102L28.3359-43.4961L29.1328-43.7266L29.9297-43.9531L30.6367-44.0391L31.1875-43.8828L31.5586-43.4453L31.7734-42.7656L31.8984-41.9453L32.0234-41.125L32.2383-40.4453L32.6094-40.0117L33.1602-39.8555L33.8672-39.9414L34.6641-40.168L35.4609-40.3945L36.1719-40.4844L36.7227-40.3281L37.0938-39.8906L37.3086-39.21094L37.4336-38.39063L37.5547-37.57031L37.7695-36.89063L38.1406-36.45313L38.6914-36.29688L39.4023-36.38281L40.1992-36.60938L40.9961-36.83984L41.70313-36.92578L42.25391-36.76953L42.625-36.33203L42.83985-35.65234L42.96485-34.83203L43.08985-34.01172L43.30469-33.33203L43.67578-32.89453L44.22656-32.73828L44.9336-32.82813L45.73047-33.05469L46.53125-33.28125L47.23828-33.36719L47.78906-33.21094L48.16016-32.77734L48.375-32.09766L48.5-31.27734L48.6211-30.457031L48.83594-29.777344L49.20703-29.339844L50.808596-29.789063' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M17.6055-8.4414L18.0664-8.7383L18.1914-9.5586L18.4023-10.2383L18.7734-10.6758L19.3281-10.832L20.0352-10.7461L20.832-10.5195L21.6289-10.2891L22.3359-10.2031L22.8867-10.3594L23.2578-10.7969L23.4727-11.4766L23.5977-12.2969L23.7227-13.1172L23.9375-13.7969L24.3086-14.2344L24.8594-14.3906L25.5664-14.3008L26.3633-14.0742L27.1641-13.8477L27.8711-13.7617L28.4219-13.918L28.793-14.3516L29.0078-15.0313L29.1328-15.8516L29.2578-16.6719L29.4727-17.3516L29.8398-17.7891L30.3945-17.9453L31.1016-17.8594L31.8984-17.6328L32.6953-17.4063L33.4023-17.3164L33.957-17.4727L34.3242-17.9102L34.5391-18.5898L34.6641-19.4102L34.7891-20.23047L35.0039-20.91016L35.375-21.34766L35.9258-21.50391L36.6328-21.41797L37.4336-21.1875L38.2305-20.96094L38.9375-20.875L39.4883-21.03125L39.8594-21.46875L40.0742-22.14844L40.1992-22.96875L40.3242-23.78906L40.5391-24.46875L40.91016-24.90234L41.46094-25.05859L42.16797-24.97266L42.96485-24.74609L43.76172-24.51953L44.46875-24.42969L45.02344-24.58594L45.39453-25.02344L45.60547-25.70313L45.73047-26.52344L45.85547-27.34375L46.07031-28.02344L46.44141-28.46094L46.99219-28.61719L47.69922-28.53125L48.5-28.30469L49.29688-28.07422L50.003908-27.98828L50.554689-28.14453L50.808596-29.789063' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M50.808596-29.789063L51.214846-30.046875L51.281252-30.83203L51.437502-31.47656L51.750002-31.875L52.2461-31.99219L52.89453-31.87109L53.63672-31.60547L54.375-31.33984L55.02735-31.21875L55.51953-31.33594L55.83203-31.73438L55.98828-32.37891L56.05469-33.16016L56.125-33.94531L56.28125-34.58594L56.59375-34.98828L57.08594-35.10547L57.73828-34.98438L58.47656-34.71875L59.21875-34.45313L59.86719-34.33203L60.36328-34.44922L60.67578-34.84766L60.832-35.49219L60.8984-36.27344L60.9648-37.05859L61.125-37.69922L61.4375-38.10156L61.9297-38.21875L62.582-38.09766L63.3203-37.83203L64.0625-37.56641L64.7109-37.44141L65.2031-37.5625L65.5195-37.96094L65.6758-38.60547L65.7422-39.38672L65.8086-40.1719L65.9648-40.8125L66.2773-41.2148L66.7734-41.332L67.4219-41.2109L68.1641-40.9453L68.9023-40.6797L69.5547-40.5547L70.0469-40.6758L70.3594-41.0742L70.5156-41.7188L70.5859-42.5L70.6523-43.2852L70.8086-43.9258L71.1211-44.3281L71.6172-44.4453L72.2656-44.3242L73.0039-44.0586L73.7461-43.793L74.3945-43.668L74.8906-43.7891L75.2031-44.1875L75.3594-44.832L75.4258-45.6133L75.4922-46.3984L75.6523-47.0391L75.9648-47.4414L76.457-47.5586L77.1094-47.4375L77.8477-47.1719L78.5898-46.9063L79.2383-46.7813L79.7305-46.9023L80.0469-47.3008L80.2031-47.9453L80.2695-48.7266L80.3359-49.5117L80.4922-50.1523L80.8086-50.5547L81.3008-50.6719L81.9492-50.5469L82.6914-50.2852L83.4297-50.0195L84.082-49.8945L84.5742-50.0156L84.7539-51.6094' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M50.808596-29.789063L51.210939-29.53125L51.94922-29.796875L52.59766-29.921875L53.08985-29.804688L53.40235-29.40625L53.5586-28.76563L53.6211-27.98047L53.6875-27.19922L53.84375-26.55859L54.15235-26.16016L54.64453-26.04297L55.29297-26.16797L56.03125-26.43359L56.76953-26.69922L57.41797-26.82422L57.91016-26.70703L58.22266-26.30859L58.375-25.66406L58.44141-24.88281L58.50781-24.10156L58.66016-23.46094L58.97266-23.0625L59.46485-22.94531L60.11328-23.07031L60.8516-23.33594L61.5898-23.60156L62.2383-23.72656L62.7305-23.60547L63.0391-23.20703L63.1953-22.56641L63.2617-21.78516L63.3242-21.00391L63.4805-20.36328L63.793-19.96484L64.2852-19.84375L64.9336-19.96875L65.6719-20.23438L66.4102-20.5L67.0586-20.625L67.5508-20.50781L67.8594-20.10938L68.0156-19.4688L68.082-18.6875L68.1445-17.9063L68.3008-17.2617L68.6133-16.8633L69.1055-16.7461L69.7539-16.8711L70.4922-17.1367L71.2305-17.4023L71.875-17.5273L72.3672-17.4102L72.6797-17.0117L72.8359-16.3711L72.8984-15.5898L72.9648-14.8047L73.1211-14.1641L73.4336-13.7656L73.9219-13.6484L74.5703-13.7734L75.3086-14.0391L76.0469-14.3047L76.6953-14.4297L77.1875-14.3125L77.5-13.9141L77.6563-13.2734L77.7188-12.4883L77.7852-11.707L77.9414-11.0664L78.25-10.668L78.7422-10.5508L79.3906-10.6758L80.1289-10.9414L80.8672-11.207L81.5156-11.332L82.0078-11.2148L82.3203-10.8164L82.4727-10.1719L82.5391-9.3906L82.6055-8.6094L82.7578-7.9688L83.0703-7.5703L84.6016-8.0664' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle \quad = \quad
+ie^2
+[t]
+\Big[
+\eta^{\alpha\mu}\eta^{\beta\nu}
++\eta^{\alpha\nu}\eta^{\beta\mu}
+-2\eta^{\alpha\beta}\eta^{\mu\nu}
+\Big].$</span><span class="equation-num">(1.38)</span></div>
+
+<p>and the last two are Yukawa and QED interactions. Note that $i\mathcal{M}_t^\gamma$ is almost identical to $i\mathcal{M}_t$, but now the colour trace gives $N_c=3$ and $g_s \to 2e/3$. Therefore, we can read off from (1.26),
+\[\begin{aligned}
+i\mathcal M_t^{\gamma}
+={}&amp;
+-i\frac{2y_te^2m_t}{3\sqrt{2}\pi^2}\,
+\left[
+1+\left(1-\frac{4m_t^2}{m_h^2}\right)
+\arcsin^2\left(\frac{m_h}{2m_t}\right)
+\right]
+\\
+&amp;\times
+\epsilon_\mu^*(p_2)\epsilon_\nu^*(p_3)
+\left[
+\eta^{\mu\nu}
+-\frac{2}{m_h^2}p_3^\mu p_2^\nu
+\right].
+
+\end{aligned}\tag{1.39}\]
+Although rather tedious, we can also read off the $W$ bosons loop diagram from the Feynman rules (or one can easily obtain the expression using the power of AI).
+In unitary gauge, the $W$-boson propagator is
+\[D_W^{\alpha\beta}(q)
+    =
+    \frac{-iP^{\alpha\beta}(q)}
+         {q^2-m_W^2},
+    \qquad
+    P^{\alpha\beta}(q)
+    \equiv
+    \eta^{\alpha\beta}
+    -\frac{q^\alpha q^\beta}{m_W^2}.\tag{1.40}\]
+It is useful to define the momentum-dependent part of the
+$\gamma W^+W^-$ vertex by
+\[\begin{aligned}
+\Gamma^{\lambda\alpha\beta}(q,r,s)
+={}&amp;
+\eta^{\alpha\beta}(r-s)^\lambda
++\eta^{\beta\lambda}(s-q)^\alpha
++\eta^{\lambda\alpha}(q-r)^\beta,
+\end{aligned}\tag{1.41}\]
+so that the vertex is $-ie\Gamma^{\lambda\alpha\beta}(q,r,s)$.</p>
+
+<p>The triangle diagram and its crossed photon ordering together give
+\[\begin{aligned}
+i\mathcal M_{W}
+={}&amp;
+\frac{e^3m_W}{\sin\theta_w}
+\epsilon_\mu^*(p_2)\epsilon_\nu^*(p_3)
+\int\frac{d^dk}{(2\pi)^d}
+\Bigg[
+\frac{\mathcal N^{\mu\nu}(k;p_2,p_3)}
+     {(k^2-m_W^2)
+      [(k-p_2)^2-m_W^2]
+      [(k-p_1)^2-m_W^2]}
+\\
+&amp;
++
+\frac{\mathcal N^{\nu\mu}(k;p_3,p_2)}
+     {(k^2-m_W^2)
+      [(k-p_3)^2-m_W^2]
+      [(k-p_1)^2-m_W^2]}
+\Bigg],
+\end{aligned}\tag{1.42}\]
+where
+\[\begin{aligned}
+\mathcal N^{\mu\nu}(k;p_2,p_3)
+={}&amp;
+\eta^{\alpha\rho}
+P_{\alpha\beta}(k)
+\Gamma^{\mu\beta\gamma}
+    (-p_2,k,p_2-k)
+\\
+&amp;\times
+P_{\gamma\delta}(k-p_2)
+\Gamma^{\nu\delta\sigma}
+    (-p_3,k-p_2,p_1-k)
+P_{\sigma\rho}(k-p_1).
+\end{aligned}\tag{1.43}\]
+The quartic $\gamma\gamma W^+W^-$ bubble diagram
+must also be included. Define
+\[Q^{\mu\nu\beta\sigma}
+    =
+    \eta^{\mu\beta}\eta^{\nu\sigma}
+    +\eta^{\mu\sigma}\eta^{\nu\beta}
+    -2\eta^{\mu\nu}\eta^{\beta\sigma},\tag{1.44}\]
+so that the quartic vertex is $ie^2Q^{\mu\nu\beta\sigma}$.
+Its contribution is
+\[\begin{aligned}
+i\mathcal M_{W,4}
+={}&amp;
+\frac{e^3m_W}{\sin\theta_w}
+\epsilon_\mu^*(p_2)\epsilon_\nu^*(p_3)
+\int\frac{d^dk}{(2\pi)^d}
+\frac{
+\eta^{\alpha\rho}
+P_{\alpha\beta}(k)
+Q^{\mu\nu\beta\sigma}
+P_{\sigma\rho}(k-p_1)
+}{
+(k^2-m_W^2)[(k-p_1)^2-m_W^2]
+}.
+\end{aligned}\tag{1.45}\]</p>
+
+<p>Now, we shall evaluate the two diagrams.
+Introduce Feynman parameters,
+\[\begin{aligned}
+\frac{1}{D_0D_2D_1}
+&amp;=
+2\int_0^1dx\int_0^{1-x}dy\,
+\frac{1}{[xD_0+yD_2+zD_1]^3},
+\\
+\frac{1}{D_0D_3D_1}
+&amp;=
+2\int_0^1dx\int_0^{1-x}dy\,
+\frac{1}{[xD_0+yD_3+zD_1]^3},
+\qquad
+z=1-x-y,
+\end{aligned}\tag{1.46}\]
+where
+\[\begin{aligned}
+D_0&amp;=k^2-m_W^2,
+&amp;
+D_1&amp;=(k-p_1)^2-m_W^2,
+\\
+D_2&amp;=(k-p_2)^2-m_W^2,
+&amp;
+D_3&amp;=(k-p_3)^2-m_W^2.
+\end{aligned}\tag{1.47}\]
+For the first and crossed orientations, respectively, make the shifts
+\[\begin{aligned}
+    \ell&amp;=k-yp_2-zp_1,
+&amp;
+    \ell&amp;=k-yp_3-zp_1.
+\end{aligned}\tag{1.48}\]
+Using
+\[p_1=p_2+p_3,
+    \qquad
+    p_1^2=m_h^2,
+    \qquad
+    p_2^2=p_3^2=0,\tag{1.49}\]
+both denominators reduce to
+\[xD_0+yD_{2,3}+zD_1
+    =
+    \ell^2-\Delta,
+    \qquad
+    \Delta=m_W^2-xz\,m_h^2.\tag{1.50}\]
+Therefore, the two triangle orientations together become
+\[\begin{aligned}
+i\mathcal M_{W}
+={}&amp;
+2\frac{e^3m_W}{\sin\theta_w}
+\epsilon_\mu^*(p_2)\epsilon_\nu^*(p_3)
+\int_0^1dx\int_0^{1-x}dy
+\int\frac{d^d\ell}{(2\pi)^d}
+\\
+&amp;\times
+\frac{
+\mathcal N^{\mu\nu}
+\bigl(\ell+yp_2+zp_1;p_2,p_3\bigr)
++
+\mathcal N^{\nu\mu}
+\bigl(\ell+yp_3+zp_1;p_3,p_2\bigr)
+}{
+(\ell^2-\Delta)^3
+}.
+\end{aligned}\tag{1.51}\]
+For convenience, define the combined numerator
+\[\begin{aligned}
+\widetilde{\mathcal N}^{\mu\nu}(\ell;x,y)
+\equiv{}&amp;
+\mathcal N^{\mu\nu}
+\bigl(\ell+yp_2+zp_1;p_2,p_3\bigr)
+\\
+&amp;+
+\mathcal N^{\nu\mu}
+\bigl(\ell+yp_3+zp_1;p_3,p_2\bigr).
+\end{aligned}\tag{1.52}\]
+Thus,
+\[\begin{aligned}
+i\mathcal M_{W}
+={}&amp;
+2\frac{e^3m_W}{\sin\theta_w}
+\epsilon_\mu^*(p_2)\epsilon_\nu^*(p_3)
+\int_0^1dx\int_0^{1-x}dy
+\int\frac{d^d\ell}{(2\pi)^d}
+\frac{
+\widetilde{\mathcal N}^{\mu\nu}(\ell;x,y)
+}{
+(\ell^2-\Delta)^3
+}.
+\end{aligned}\tag{1.53}\]
+To ensure convergence we should include the four-point diagram before carrying out the loop integral.
+The terms with odd $l$ in the numerator vanishes and $l^\mu l^\nu \to \frac{1}{d}\eta^{\mu\nu}l^2$, the $l^4$ term in $i\mathcal{M}_{W,4}$ becomes
+\[\begin{aligned}
+\ell^\mu\ell^\nu\ell^\rho\ell^\sigma
+\longrightarrow
+\frac{\ell^4}{d(d+2)}
+\Big(
+&amp;\eta^{\mu\nu}\eta^{\rho\sigma}
++\eta^{\mu\rho}\eta^{\nu\sigma}
++\eta^{\mu\sigma}\eta^{\nu\rho}
+\Big).
+\end{aligned}\tag{1.54}\]
+After some long and cumbersome algebra, one would find
+\[\begin{aligned}
+i\mathcal M_W+i\mathcal M_{W,4}
+={}&amp;
+i\frac{e^3}
+{16\pi^2m_W\sin\theta_w}
+\epsilon_\mu^*(p_2)\epsilon_\nu^*(p_3)
+\left[
+(p_2\cdot p_3)\eta^{\mu\nu}
+-p_3^\mu p_2^\nu
+\right]
+\\
+&amp;\times
+\left[
+2+
+12m_W^2
+\int_0^1dx\int_0^{1-x}dy\,
+\frac{1-2xz}{m_W^2-m_h^2xz}
+\right].
+\end{aligned}\tag{1.55}\]
+The integral can be evaluated, which gives
+\[\begin{aligned}
+\int_0^1dx\int_0^{1-x}dy\,
+\frac{1-2xz}{m_W^2-m_h^2xz}
+=
+\frac{1}{m_h^2}
+\left[
+1+\left(2-\frac{4m_W^2}{m_h^2}\right)\arcsin^2\left(\frac{m_h}{2m_W}\right)
+\right].
+\end{aligned}\tag{1.56}\]
+Finally, we end up with
+\[\begin{aligned}
+i\mathcal M_W + i\mathcal M_{W,4}
+={}&amp;
+i\frac{e^3}
+{16\pi^2m_W\sin\theta_w}
+\Bigg[
+2+\frac{12m_W^2}{m_h^2}
++\frac{24m_W^2}{m_h^2}
+\left(
+1-\frac{2m_W^2}{m_h^2}
+\right)
+\arcsin^2\left(\frac{m_h}{2m_W}\right)
+\Bigg]
+\\
+&amp;\times
+\epsilon_\mu^*(p_2)\epsilon_\nu^*(p_3)
+\left[
+(p_2\cdot p_3)\eta^{\mu\nu}
+-p_3^\mu p_2^\nu
+\right].
+\end{aligned}\tag{1.57}\]</p>
+
+<p>To combine the top and $W$ contributions, define
+\[\begin{aligned}
+\mathcal F_t
+={}&amp;
+\frac{32m_t^2}{3m_h^2}
+\left[
+1+\left(1-\frac{4m_t^2}{m_h^2}\right)
+\arcsin^2\left(\frac{m_h}{2m_t}\right)
+\right],
+\\
+\mathcal F_W
+={}&amp;
+2+\frac{12m_W^2}{m_h^2}
++\frac{24m_W^2}{m_h^2}
+\left(1-\frac{2m_W^2}{m_h^2}\right)
+\arcsin^2\left(\frac{m_h}{2m_W}\right).
+\end{aligned}\tag{1.58}\]
+Using $y_t=\sqrt{2}m_t/v$ and
+$m_W=e v/(2\sin\theta_w)$, the total amplitude is
+\[\begin{aligned}
+i\mathcal M_{\gamma\gamma}
+={}&amp;
+i\frac{e^3}{16\pi^2m_W\sin\theta_w}
+(\mathcal F_W-\mathcal F_t)
+\epsilon_\mu^*(p_2)\epsilon_\nu^*(p_3)
+\left[
+(p_2\cdot p_3)\eta^{\mu\nu}
+-p_3^\mu p_2^\nu
+\right].
+\end{aligned}\tag{1.59}\]
+Thus, using $p_2\cdot p_3=m_h^2/2$, the polarization sum gives
+\[\begin{aligned}
+\sum_{\mathrm{pols.}}|\mathcal M_{\gamma\gamma}|^2
+&amp;=
+\frac{e^6}{256\pi^4m_W^2\sin^2\theta_w}
+(\mathcal F_W-\mathcal F_t)^2
+\left[
+(p_2\cdot p_3)\eta^{\mu\nu}-p_3^\mu p_2^\nu
+\right]
+\left[
+(p_2\cdot p_3)\eta_{\mu\nu}-p_{3\mu}p_{2\nu}
+\right]
+\\
+&amp;=
+\frac{e^6m_h^4}{512\pi^4m_W^2\sin^2\theta_w}
+(\mathcal F_W-\mathcal F_t)^2.
+\end{aligned}\tag{1.60}\]
+The two photons are identical, so the two-body phase space includes a factor
+of $1/2!$. Therefore,
+\[\boxed{
+\Gamma(H\to\gamma\gamma)
+=
+\frac{e^6m_h^3}{16384\pi^5m_W^2\sin^2\theta_w}
+(\mathcal F_W-\mathcal F_t)^2
+=
+\frac{\alpha^2m_h^3}{256\pi^3v^2}
+(\mathcal F_W-\mathcal F_t)^2.
+}\tag{1.61}\]
+Using
+\[\begin{aligned}
+m_h&amp;=125.20~\mathrm{GeV},
+&amp;m_t&amp;=172.56~\mathrm{GeV},
+&amp;m_W&amp;=80.377~\mathrm{GeV},
+\\
+v&amp;=246.22~\mathrm{GeV},
+&amp;\alpha^{-1}&amp;=137.036,
+\end{aligned}\tag{1.62}\]
+we find
+\[\mathcal F_t\simeq1.836,
+\qquad
+\mathcal F_W\simeq8.331,\tag{1.63}\]
+and hence
+\[\boxed{
+\Gamma(H\to\gamma\gamma)
+\simeq9.16\times10^{-6}~\mathrm{GeV}
+=9.16~\mathrm{keV}.
+}\tag{1.64}\]</p>
+
+<p>Finally, the three branching ratios are compared in
+Fig.&nbsp;1. The denominator is the full
+Standard Model Higgs width, rather than only the sum of the three channels
+calculated above. The broad mass scan is taken from the LHC Higgs Cross
+Section Working Group report CERN-2011-002, while the precise values quoted
+below at $m_h=125.2~\mathrm{GeV}$ use the newer Yellow Report 4 table.</p>
+
+<figure><img src="../assets/schwartz-problem-29-3-branching-ratios.png" alt="Standard Model branching ratios for , , and for . The values are taken from Tables 26--29 of CERN-2011-002 and use the f"><figcaption><span class="note__figure-number">Figure 1.</span> Standard Model branching ratios for $H\to b\bar b$, $H\to gg$,
+        and $H\to\gamma\gamma$ for $90\leq m_h\leq1000~\mathrm{GeV}$.
+        The values are taken from Tables 26--29 of CERN-2011-002 and use
+        the full Standard Model decay width. Above approximately
+        $500~\mathrm{GeV}$, the on-shell Higgs treatment used in these
+        tables should be interpreted with care.</figcaption></figure>
+
+<p>At $m_h=125.2~\mathrm{GeV}$, the corresponding values are
+\[\operatorname{BR}(H\to b\bar b)=0.5792,
+    \qquad
+    \operatorname{BR}(H\to gg)=0.08172,
+    \qquad
+    \operatorname{BR}(H\to\gamma\gamma)=0.002270.\tag{1.65}\]</p>
+
+</aside>
+  </article>
+
+  <hr class="ornament-rule">
+
+  <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
+    <a href="../notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <p class="footer__disclaimer">
+    These notes are not guaranteed to be correct. If you find a mistake,
+    <a href="mailto:luca.jin@outlook.com?subject=Correction%20to%20Luca%20Jin%20Physics">please email me</a>.
+  </p>
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="../">Home</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>
