@@ -14,60 +14,19 @@ import json
 import re
 import subprocess
 import tempfile
+from collections import defaultdict
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parent.parent
-TEX_OUTPUT = ROOT / "tex" / "schwartz-qft-solutions.tex"
 MANIFEST_OUTPUT = ROOT / "assets" / "schwartz-qft-manifest.json"
 
-PROBLEMS = {
-    "29.1": {
-        "path": "chapters/chapter_29/problems/29_1.tex",
-        "title": "Higgs Production at LEP",
-        "slug": "schwartz-qft-29-1",
-    },
-    "29.2": {
-        "path": "chapters/chapter_29/problems/29_2.tex",
-        "title": "Electron-Positron Annihilation into Hadrons",
-        "slug": "schwartz-qft-29-2",
-    },
-    "29.3": {
-        "path": "chapters/chapter_29/problems/29_3.tex",
-        "title": "Higgs Decays",
-        "slug": "schwartz-qft-29-3",
-    },
-    "29.4": {
-        "path": "chapters/chapter_29/problems/29_4.tex",
-        "title": "Partial-Wave Unitarity",
-        "slug": "schwartz-qft-29-4",
-    },
-    "29.5": {
-        "path": "chapters/chapter_29/problems/29_5.tex",
-        "title": "Experimental Constraints on the CKM Matrix",
-        "slug": "schwartz-qft-29-5",
-    },
-    "29.6": {
-        "path": "chapters/chapter_29/problems/29_6.tex",
-        "title": "Phases in the PMNS Matrix",
-        "slug": "schwartz-qft-29-6",
-    },
-    "29.7": {
-        "path": "chapters/chapter_29/problems/29_7.tex",
-        "title": "Neutrino Oscillations",
-        "slug": "schwartz-qft-29-7",
-    },
-    "29.8": {
-        "path": "chapters/chapter_29/problems/29_8.tex",
-        "title": "Integrating Out Right-Handed Neutrinos",
-        "slug": "schwartz-qft-29-8",
-    },
-    "29.9": {
-        "path": "chapters/chapter_29/problems/29_9.tex",
-        "title": "Chiral Rotations and the Theta Angle",
-        "slug": "schwartz-qft-29-9",
-    },
-}
+PROBLEM_PATH = re.compile(
+    r"^chapters/chapter_(\d+)/problems/(\d+)_(\d+)\.tex$"
+)
+SUBSECTION = re.compile(
+    r"\\subsection(?:\[([^\]]+)\])?\{([^{}]+)\}"
+)
 
 PLACEHOLDER = re.compile(
     r"\\solutionplaceholder|solution\s+to\s+be\s+written|\bTODO\b|\bTBD\b",
@@ -95,12 +54,49 @@ def git_text(source: Path, revision: str, relative: str) -> str:
     return git_bytes(source, revision, relative).decode("utf-8")
 
 
+def git_paths(source: Path, revision: str) -> list[str]:
+    result = subprocess.run(
+        ["git", "ls-tree", "-r", "--name-only", revision, "chapters"],
+        cwd=source,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    return result.stdout.splitlines()
+
+
 def is_completed(text: str) -> bool:
     match = SOLUTION.search(text)
     if not match:
         return False
     body = match.group(1).strip()
     return len(body) >= 200 and not PLACEHOLDER.search(body)
+
+
+def problem_title(text: str, problem: str) -> str:
+    match = SUBSECTION.search(text)
+    if not match:
+        return f"Problem {problem}"
+    label = (match.group(1) or match.group(2)).strip()
+    title = re.sub(
+        rf"^Problem\s+{re.escape(problem)}\s*:?\s*",
+        "",
+        label,
+        flags=re.IGNORECASE,
+    ).strip()
+    return title or f"Problem {problem}"
+
+
+def chapter_titles(source: Path, revision: str, chapter: str) -> tuple[str, str]:
+    chapter_path = f"chapters/chapter_{chapter}/chapter_{chapter}.tex"
+    text = git_text(source, revision, chapter_path)
+    match = re.search(
+        rf"\\section\{{Chapter\s+{re.escape(chapter)}:\s*(.*?)\}}",
+        text,
+    )
+    latex_title = match.group(1).strip() if match else "Completed solutions"
+    display_title = latex_title.replace("--", "–")
+    return latex_title, display_title
 
 
 def web_asset_name(source_path: str) -> str:
@@ -146,18 +142,30 @@ def main() -> None:
         text=True,
     ).stdout.strip()
 
-    completed: list[dict[str, str]] = []
-    imported_sources: list[str] = []
+    completed_by_chapter: dict[str, list[dict[str, str]]] = defaultdict(list)
+    sources_by_chapter: dict[str, list[str]] = defaultdict(list)
     rendered_figures: dict[str, str] = {}
 
-    for problem, metadata in PROBLEMS.items():
-        text = git_text(source, args.revision, metadata["path"])
+    problem_paths = []
+    for relative in git_paths(source, args.revision):
+        match = PROBLEM_PATH.match(relative)
+        if match:
+            chapter, file_chapter, problem_number = match.groups()
+            if chapter == file_chapter:
+                problem_paths.append((int(chapter), int(problem_number), relative))
+
+    for chapter_number, problem_number, relative in sorted(problem_paths):
+        chapter = str(chapter_number)
+        problem = f"{chapter}.{problem_number}"
+        text = git_text(source, args.revision, relative)
         if not is_completed(text):
             continue
 
+        title = problem_title(text, problem)
+
         text = re.sub(
             rf"(\\subsection(?:\[[^\]]*\])?)\{{Problem {re.escape(problem)}\}}",
-            rf"\1{{Problem {problem}: {metadata['title']}}}",
+            lambda match: f"{match.group(1)}{{Problem {problem}: {title}}}",
             text,
             count=1,
         )
@@ -173,20 +181,24 @@ def main() -> None:
                 )
             return f"\\includegraphics{{{rendered_figures[relative]}}}"
 
-        imported_sources.append(FIGURE.sub(replace_figure, text).strip())
-        completed.append(
+        sources_by_chapter[chapter].append(FIGURE.sub(replace_figure, text).strip())
+        completed_by_chapter[chapter].append(
             {
                 "problem": problem,
-                "title": metadata["title"],
-                "slug": metadata["slug"],
-                "sourcePath": metadata["path"],
+                "title": title,
+                "sourcePath": relative,
             }
         )
 
-    if not completed:
+    if not completed_by_chapter:
         raise SystemExit("No completed solutions were found; refusing to publish.")
 
-    document = """% Generated by build/sync_schwartz_qft.py from committed sources only.
+    chapters = []
+    for chapter in sorted(completed_by_chapter, key=int):
+        latex_title, display_title = chapter_titles(source, args.revision, chapter)
+        slug = f"schwartz-qft-chapter-{chapter}"
+        tex_filename = f"{slug}.tex"
+        document = """% Generated by build/sync_schwartz_qft.py from committed sources only.
 % Source repository: https://github.com/Luca-Yucheng-Jin/schwartz-qft-solutions
 % Source commit: {commit}
 \\documentclass[a4paper,11pt]{{article}}
@@ -194,22 +206,37 @@ def main() -> None:
 \\DeclareMathOperator{{\\Tr}}{{Tr}}
 \\newenvironment{{solution}}{{\\par\\medskip\\noindent\\textbf{{Solution.}}\\par\\smallskip}}{{\\par\\medskip}}
 \\newenvironment{{problemparts}}{{\\begin{{enumerate}}\\renewcommand{{\\labelenumi}}{{(\\alph{{enumi}})}}}}{{\\end{{enumerate}}}}
-\\title{{Completed Solutions to Schwartz's \\textit{{Quantum Field Theory and the Standard Model}}}}
+\\title{{Schwartz Chapter {chapter}: {chapter_title}}}
 \\author{{Luca Yucheng Jin}}
 \\begin{{document}}
 \\maketitle
 
+\\section{{Completed Problems}}
+
 {body}
 
-\\subsection{{End of imported solutions}}
 \\end{{document}}
-""".format(commit=commit, body="\n\n".join(imported_sources))
-    TEX_OUTPUT.write_text(document, encoding="utf-8")
+""".format(
+            commit=commit,
+            chapter=chapter,
+            chapter_title=latex_title,
+            body="\n\n".join(sources_by_chapter[chapter]),
+        )
+        (ROOT / "tex" / tex_filename).write_text(document, encoding="utf-8")
+        chapters.append(
+            {
+                "chapter": chapter,
+                "title": display_title,
+                "slug": slug,
+                "texFile": tex_filename,
+                "completedProblems": completed_by_chapter[chapter],
+            }
+        )
 
     manifest = {
         "sourceRepository": "https://github.com/Luca-Yucheng-Jin/schwartz-qft-solutions",
         "sourceCommit": commit,
-        "completedProblems": completed,
+        "chapters": chapters,
     }
     MANIFEST_OUTPUT.write_text(
         json.dumps(manifest, indent=2, ensure_ascii=False) + "\n",
@@ -217,7 +244,11 @@ def main() -> None:
     )
     print(
         "Imported completed problems: "
-        + ", ".join(item["problem"] for item in completed)
+        + ", ".join(
+            problem["problem"]
+            for chapter in chapters
+            for problem in chapter["completedProblems"]
+        )
     )
 
 

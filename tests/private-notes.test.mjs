@@ -84,9 +84,9 @@ test('private notes have no direct HTML or PDF route in source or deployment', a
 });
 
 
-test('only completed committed Schwartz solutions are public', async () => {
-  const completed = ['29-1', '29-2', '29-3', '29-6', '29-7', '29-8', '29-9'];
-  const incomplete = ['29-4', '29-5'];
+test('completed Schwartz solutions are collected into one public file per chapter', async () => {
+  const completed = ['29.1', '29.2', '29.3', '29.6', '29.7', '29.8', '29.9'];
+  const chapterSlug = 'schwartz-qft-chapter-29';
   const manifest = JSON.parse(
     await readFile(path.join(root, 'assets', 'nav-manifest.json'), 'utf8'),
   );
@@ -97,46 +97,52 @@ test('only completed committed Schwartz solutions are public', async () => {
     category.groups.flatMap((group) => group.notes.map((note) => note.href)),
   );
 
+  assert.equal(importManifest.chapters.length, 1);
+  assert.equal(importManifest.chapters[0].chapter, '29');
+  assert.equal(importManifest.chapters[0].title, 'Weak interactions');
+  assert.equal(importManifest.chapters[0].slug, chapterSlug);
   assert.deepEqual(
-    importManifest.completedProblems.map((problem) => problem.problem),
-    ['29.1', '29.2', '29.3', '29.6', '29.7', '29.8', '29.9'],
+    importManifest.chapters[0].completedProblems.map((problem) => problem.problem),
+    completed,
   );
   assert.match(importManifest.sourceCommit, /^[0-9a-f]{40}$/);
 
-  for (const problem of completed) {
-    const slug = `schwartz-qft-${problem}`;
-    assert.ok(publicHrefs.includes(`notes/${slug}.html`), `${slug} is not indexed`);
-    for (const relative of [
-      `notes/${slug}.html`,
-      `output/pdf/${slug}.pdf`,
-      `dist/client/notes/${slug}.html`,
-      `dist/client/output/pdf/${slug}.pdf`,
-    ]) {
-      await assert.doesNotReject(stat(path.join(root, relative)), `missing ${relative}`);
-    }
-    const html = await readFile(path.join(root, 'notes', `${slug}.html`), 'utf8');
-    assert.doesNotMatch(
-      html,
-      /solutionplaceholder|solution to be written|compile failed|\\begin\{(?:tikzpicture|feynman)\}/i,
-      `${slug} exposes unfinished or unrendered source`,
-    );
+  assert.ok(publicHrefs.includes(`notes/${chapterSlug}.html`), 'Chapter 29 is not indexed');
+  for (const relative of [
+    `notes/${chapterSlug}.html`,
+    `output/pdf/${chapterSlug}.pdf`,
+    `tex/${chapterSlug}.tex`,
+    `dist/client/notes/${chapterSlug}.html`,
+    `dist/client/output/pdf/${chapterSlug}.pdf`,
+  ]) {
+    await assert.doesNotReject(stat(path.join(root, relative)), `missing ${relative}`);
   }
 
-  for (const problem of incomplete) {
-    const slug = `schwartz-qft-${problem}`;
-    assert.ok(!publicHrefs.includes(`notes/${slug}.html`), `${slug} should remain unpublished`);
+  const html = await readFile(path.join(root, 'notes', `${chapterSlug}.html`), 'utf8');
+  for (const problem of completed) {
+    assert.match(html, new RegExp(`Problem ${problem.replace('.', '\\.')}`));
+  }
+  assert.doesNotMatch(
+    html,
+    /Problem 29\.[45]|solutionplaceholder|solution to be written|compile failed|\\begin\{(?:tikzpicture|feynman)\}/i,
+    'Chapter 29 exposes unfinished or unrendered source',
+  );
+
+  for (const problem of ['1', '2', '3', '4', '5', '6', '7', '8', '9']) {
+    const oldSlug = `schwartz-qft-29-${problem}`;
+    assert.ok(!publicHrefs.includes(`notes/${oldSlug}.html`), `${oldSlug} should be retired`);
     for (const relative of [
-      `notes/${slug}.html`,
-      `output/pdf/${slug}.pdf`,
-      `dist/client/notes/${slug}.html`,
-      `dist/client/output/pdf/${slug}.pdf`,
+      `notes/${oldSlug}.html`,
+      `output/pdf/${oldSlug}.pdf`,
+      `dist/client/notes/${oldSlug}.html`,
+      `dist/client/output/pdf/${oldSlug}.pdf`,
     ]) {
       await assertMissing(relative);
     }
   }
 
   const importedSource = await readFile(
-    path.join(root, 'tex', 'schwartz-qft-solutions.tex'),
+    path.join(root, 'tex', `${chapterSlug}.tex`),
     'utf8',
   );
   assert.doesNotMatch(importedSource, /solutionplaceholder|solution to be written|\bTODO\b|\bTBD\b/i);

@@ -1,48 +1,49 @@
 {
   "sourceRepository": "https://github.com/Luca-Yucheng-Jin/schwartz-qft-solutions",
   "sourceCommit": "ffb03aac5f7e5c8fbc1bc01082c2a54335364148",
-  "completedProblems": [
+  "chapters": [
     {
-      "problem": "29.1",
-      "title": "Higgs Production at LEP",
-      "slug": "schwartz-qft-29-1",
-      "sourcePath": "chapters/chapter_29/problems/29_1.tex"
-    },
-    {
-      "problem": "29.2",
-      "title": "Electron-Positron Annihilation into Hadrons",
-      "slug": "schwartz-qft-29-2",
-      "sourcePath": "chapters/chapter_29/problems/29_2.tex"
-    },
-    {
-      "problem": "29.3",
-      "title": "Higgs Decays",
-      "slug": "schwartz-qft-29-3",
-      "sourcePath": "chapters/chapter_29/problems/29_3.tex"
-    },
-    {
-      "problem": "29.6",
-      "title": "Phases in the PMNS Matrix",
-      "slug": "schwartz-qft-29-6",
-      "sourcePath": "chapters/chapter_29/problems/29_6.tex"
-    },
-    {
-      "problem": "29.7",
-      "title": "Neutrino Oscillations",
-      "slug": "schwartz-qft-29-7",
-      "sourcePath": "chapters/chapter_29/problems/29_7.tex"
-    },
-    {
-      "problem": "29.8",
-      "title": "Integrating Out Right-Handed Neutrinos",
-      "slug": "schwartz-qft-29-8",
-      "sourcePath": "chapters/chapter_29/problems/29_8.tex"
-    },
-    {
-      "problem": "29.9",
-      "title": "Chiral Rotations and the Theta Angle",
-      "slug": "schwartz-qft-29-9",
-      "sourcePath": "chapters/chapter_29/problems/29_9.tex"
+      "chapter": "29",
+      "title": "Weak interactions",
+      "slug": "schwartz-qft-chapter-29",
+      "texFile": "schwartz-qft-chapter-29.tex",
+      "completedProblems": [
+        {
+          "problem": "29.1",
+          "title": "Higgs production at LEP",
+          "sourcePath": "chapters/chapter_29/problems/29_1.tex"
+        },
+        {
+          "problem": "29.2",
+          "title": "\\texorpdfstring{$e^+e^-\\to$ hadrons}{electron-positron to hadrons}",
+          "sourcePath": "chapters/chapter_29/problems/29_2.tex"
+        },
+        {
+          "problem": "29.3",
+          "title": "Higgs decays",
+          "sourcePath": "chapters/chapter_29/problems/29_3.tex"
+        },
+        {
+          "problem": "29.6",
+          "title": "Phases in the PMNS matrix",
+          "sourcePath": "chapters/chapter_29/problems/29_6.tex"
+        },
+        {
+          "problem": "29.7",
+          "title": "Neutrino oscillations",
+          "sourcePath": "chapters/chapter_29/problems/29_7.tex"
+        },
+        {
+          "problem": "29.8",
+          "title": "Integrating out right-handed neutrinos",
+          "sourcePath": "chapters/chapter_29/problems/29_8.tex"
+        },
+        {
+          "problem": "29.9",
+          "title": "Chiral rotations and the \\texorpdfstring{$\\theta$}{theta} angle",
+          "sourcePath": "chapters/chapter_29/problems/29_9.tex"
+        }
+      ]
     }
   ]
 }
