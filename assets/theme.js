@@ -762,6 +762,24 @@
     counters.forEach(function (counter) { observer.observe(counter); });
   }
 
+  /* Keep hand-authored and older generated note pages aligned with the
+     shared footer without requiring every archived HTML file to be rebuilt. */
+  function ensureDisclaimer() {
+    var footer = document.querySelector(".footer");
+    if (!footer || footer.querySelector(".footer__disclaimer")) return;
+    var disclaimer = document.createElement("p");
+    disclaimer.className = "footer__disclaimer";
+    disclaimer.appendChild(document.createTextNode(
+      "Disclaimer: These notes are not guaranteed to be correct. If you find a mistake, "
+    ));
+    var email = document.createElement("a");
+    email.href = "mailto:luca.jin@outlook.com?subject=Correction%20to%20Luca%20Jin%20Physics";
+    email.textContent = "please email me";
+    disclaimer.appendChild(email);
+    disclaimer.appendChild(document.createTextNode("."));
+    footer.insertBefore(disclaimer, footer.firstChild);
+  }
+
   /* ---------- Bootstrap ---------- */
   function loadManifest() {
     return fetch(ASSET_PREFIX + "assets/nav-manifest.json", { credentials: "same-origin" })
@@ -775,6 +793,7 @@
        the React root. */
     if (document.getElementById("root")) return;
 
+    ensureDisclaimer();
     bindThemeToggles();
     buildPageControls();
     buildOnPageTOC();

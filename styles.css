@@ -1468,6 +1468,14 @@ body.nav-on .site-nav-toggle__chevron {
 .footer a { color: var(--muted); border-bottom-color: var(--rule); }
 .footer a:hover { color: var(--accent); border-bottom-color: var(--accent); }
 
+.footer__disclaimer {
+  flex: 1 0 100%;
+  max-width: 52rem;
+  margin: 0 0 0.45rem;
+  color: var(--ink-soft);
+  font-style: normal;
+}
+
 /* ---------- Notes page (math content) ----------
    Math notes use --measure-wide (140 ch) rather than the prose --measure
    so display equations and TikZ diagrams have room. MathJax sets

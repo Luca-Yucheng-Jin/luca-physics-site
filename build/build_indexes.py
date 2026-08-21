@@ -146,6 +146,10 @@ def footer_html(index_path: str = "./",
                 notes_path: str = "notes.html") -> str:
     return f"""
 <footer class="footer">
+  <p class="footer__disclaimer">
+    Disclaimer: These notes are not guaranteed to be correct. If you find a mistake,
+    <a href="mailto:luca.jin@outlook.com?subject=Correction%20to%20Luca%20Jin%20Physics">please email me</a>.
+  </p>
   <span>© 2026 Yucheng (Luca) Jin</span>
   <span>
     <a href="{index_path}">Home</a> ·

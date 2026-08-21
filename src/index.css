@@ -407,6 +407,14 @@ button { font: inherit; }
 .footer a:hover,
 .footer a:focus-visible { color: var(--accent); border-bottom-color: var(--accent); }
 
+.footer__disclaimer {
+  flex: 1 0 100%;
+  max-width: 52rem;
+  margin: 0 0 0.45rem;
+  color: var(--ink-soft);
+  font-style: normal;
+}
+
 @media (max-width: 720px) {
   body { line-height: 1.62; }
 
