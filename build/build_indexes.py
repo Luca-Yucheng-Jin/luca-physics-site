@@ -200,7 +200,7 @@ def schwartz_catalogue() -> tuple[str, int]:
       </li>""")
     body = """    <h3 class="catalogue-source">
       <span>Completed solutions to M. D. Schwartz’s <em>Quantum Field Theory and the Standard Model</em></span>
-      <a href="https://schwartzqft.fas.harvard.edu/" target="_blank" rel="noopener noreferrer">Book website ↗</a>
+      <a href="https://www.cambridge.org/highereducation/books/quantum-field-theory-and-the-standard-model/A4CD66B998F2C696DCC75B984A7D5799" target="_blank" rel="noopener noreferrer">Book website ↗</a>
     </h3>
     <ul class="catalogue">
 {items}
