@@ -135,7 +135,7 @@ export default function App() {
 
       <footer className="footer">
         <p className="footer__disclaimer">
-          Disclaimer: These notes are not guaranteed to be correct. If you find a mistake,{' '}
+          These notes are not guaranteed to be correct. If you find a mistake,{' '}
           <a href="mailto:luca.jin@outlook.com?subject=Correction%20to%20Luca%20Jin%20Physics">please email me</a>.
         </p>
         <span>© 2026 Yucheng (Luca) Jin</span>

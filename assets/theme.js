@@ -770,7 +770,7 @@
     var disclaimer = document.createElement("p");
     disclaimer.className = "footer__disclaimer";
     disclaimer.appendChild(document.createTextNode(
-      "Disclaimer: These notes are not guaranteed to be correct. If you find a mistake, "
+      "These notes are not guaranteed to be correct. If you find a mistake, "
     ));
     var email = document.createElement("a");
     email.href = "mailto:luca.jin@outlook.com?subject=Correction%20to%20Luca%20Jin%20Physics";
