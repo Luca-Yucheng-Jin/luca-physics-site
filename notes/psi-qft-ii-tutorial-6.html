@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Renormalization-Group Flow in Three Dimensions | Yucheng (Luca) Jin</title>
+<meta name="description" content="Renormalization-Group Flow in Three Dimensions — Quantum Field Theory · PSI QFT II Tutorial 6, based on Perimeter Scholars International. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="author" content="Yucheng (Luca) Jin">
+<link rel="canonical" href="https://luca-yucheng-jin.github.io/luca-physics-site/notes/psi-qft-ii-tutorial-6.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://luca-yucheng-jin.github.io/luca-physics-site/notes/psi-qft-ii-tutorial-6.html">
+<meta property="og:site_name" content="Luca Jin Physics">
+<meta property="og:title" content="Renormalization-Group Flow in Three Dimensions | Yucheng (Luca) Jin">
+<meta property="og:description" content="Renormalization-Group Flow in Three Dimensions — Quantum Field Theory · PSI QFT II Tutorial 6, based on Perimeter Scholars International. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta property="og:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Renormalization-Group Flow in Three Dimensions | Yucheng (Luca) Jin">
+<meta name="twitter:description" content="Renormalization-Group Flow in Three Dimensions — Quantum Field Theory · PSI QFT II Tutorial 6, based on Perimeter Scholars International. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta name="twitter:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="stylesheet" href="../styles.css">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/psi-qft-ii-tutorial-6.html#article","url":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/psi-qft-ii-tutorial-6.html","mainEntityOfPage":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/psi-qft-ii-tutorial-6.html","headline":"Renormalization-Group Flow in Three Dimensions","description":"Renormalization-Group Flow in Three Dimensions — Quantum Field Theory · PSI QFT II Tutorial 6, based on Perimeter Scholars International. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.","inLanguage":"en","genre":"Theoretical physics notes and worked solutions","educationalLevel":"Undergraduate physics","about":{"@type":"Thing","name":"Quantum Field Theory · PSI QFT II Tutorial 6"},"author":{"@type":"Person","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#person","name":"Yucheng (Luca) Jin","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"isPartOf":{"@type":"WebSite","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#website","name":"Luca Jin Physics","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"encoding":{"@type":"MediaObject","contentUrl":"https://luca-yucheng-jin.github.io/luca-physics-site/output/pdf/psi-qft-ii-tutorial-6.pdf","encodingFormat":"application/pdf"}},{"@type":"BreadcrumbList","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/psi-qft-ii-tutorial-6.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes.html"},{"@type":"ListItem","position":2,"name":"Renormalization-Group Flow in Three Dimensions","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/psi-qft-ii-tutorial-6.html"}]}]}</script>
+
+<script src="../assets/theme.js"></script>
+<script src="../assets/font-size.js"></script>
+
+<!-- MathJax with custom macros mirroring the original .tex preamble -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros', 'mathtools']},
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      Q: '\\mathbb{Q}',
+      A: '\\mathcal{A}',
+      Lagrangian: '\\mathcal{L}',
+      Cdot: '\\boldsymbol{\\cdot}',
+      Tr: '\\operatorname{Tr}',
+      // \qed inside math (e.g. trailing a derivation in an align env) —
+      // amsthm's text-mode handler is already covered by the HTML-side
+      // replace at the bottom of strip_tex_only_constructs, this catches
+      // the math-mode case (Osborn AQFT PS3 Q3 ends an equation with .\qed).
+      qed: '\\blacksquare',
+      // Feynman slash: \not{x} would render the slash to the LEFT of x
+      // (it's designed for \not=). \cancel from the cancel package
+      // strikes diagonally through the centre, matching the slashed.sty
+      // package's appearance.
+      slashed: ['{\\cancel{#1}}', 1],
+      // Wick contraction: top brace connector over the contracted pair —
+      // closer to the standard physics notation than a plain overline.
+      wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // siunitx polyfill — \si{K}, \si{m\,s^{-1}} etc. should render
+      // the unit in upright math text, like \mathrm{X}. Doesn't try
+      // to mimic the full siunitx unit-formatting machinery; just
+      // unblocks the common bare-unit case in TDSP problems.
+      si: ['\\,\\mathrm{#1}', 1],
+      SI: ['#1\\,\\mathrm{#2}', 2]
+      // \tensor{base}{indices} is rewritten to base^a{}_b in
+      // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
+      // so no runtime macro is needed here. The empty-group trick is
+      // what makes MathJax kern the indices into separate columns.
+    }
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../" class="topbar__brand">Luca Jin <small>Physics · Imperial</small></a>
+  <nav class="topbar__nav" aria-label="Primary navigation">
+    <a href="../">Home</a>
+    <a href="../notes.html" class="is-active">Notes</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+    <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" title="Decrease font size">A<span class="font-toggle__small">−</span></button>
+    <button class="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size" title="Increase font size">A<span class="font-toggle__large">+</span></button>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Toggle theme">
+      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    </button>
+  </nav>
+</header>
+
+<main class="note">
+
+  <div class="note__breadcrumb">
+    <a href="../notes.html">Notes</a> &nbsp;·&nbsp; Quantum Field Theory · PSI QFT II Tutorial 6
+  </div>
+
+  <h1 class="note__title">Renormalization-Group Flow in Three Dimensions</h1>
+  <p class="note__subtitle">Source: Perimeter Scholars International, <em>Quantum Field Theory II</em>, Tutorial 6; 7 worked parts.</p>
+
+  <div class="note__formats" aria-label="Available formats"><span>Available formats</span><a aria-current="page" href="psi-qft-ii-tutorial-6.html">HTML</a><a href="../output/pdf/psi-qft-ii-tutorial-6.pdf">PDF ↓</a></div>
+
+  <nav class="note__toc" aria-label="Contents">
+  <div class="note__toc-label">Contents</div>
+  <ol class="note__toc-list">
+    <li class="toc-h2"><a href="#renormalization"><span class="note__toc-number">1</span> <span class="note__toc-title">Renormalization</span></a></li>
+    <li class="toc-h3"><a href="#rg-flow-in-three-dimensions"><span class="note__toc-number">1.1</span> <span class="note__toc-title">RG Flow in Three Dimensions</span></a></li>
+  </ol>
+</nav>
+
+  <article class="note__body">
+<h2 data-section-heading id="renormalization" data-section-number="1"><span class="note__heading-number">1</span> <span class="note__heading-title">Renormalization</span></h2>
+
+<p><em>Question prompts paraphrased from the official
+<a href="https://psi-online.perimeterinstitute.ca/courses/take/quantum-field-theory-ii-student/pdfs/20776391-module-5-tutorial">Perimeter PSI Online sheet</a>;
+the equations and notation follow the source.</em></p>
+
+<h3 data-section-heading id="rg-flow-in-three-dimensions" data-section-number="1.1"><span class="note__heading-number">1.1</span> <span class="note__heading-title">RG Flow in Three Dimensions</span></h3>
+
+<p>Consider massless Euclidean $\phi^4$ theory in three spacetime dimensions,
+\[S_E[\phi]
+    =\int d^3x\,
+    \left[
+        \frac{1}{2}(\partial\phi)^2
+        +\frac{g}{4!}\phi^4
+    \right].\tag{1.1}\]</p>
+
+<ol>
+  <li>Determine the mass dimension of the coupling $g$.
+
+<aside class="solution">
+
+<p>$g$ has mass dimension $4-d = 1$.</p>
+
+</aside>
+
+<p>For two-to-two scattering with incoming momenta $p_1,p_2$ and outgoing
+    momenta $p_3,p_4$, define the Mandelstam variables
+    \[s=(p_1+p_2)^2,
+        \qquad
+        t=(p_1-p_3)^2,
+        \qquad
+        u=(p_1-p_4)^2.\tag{1.2}\]
+    In the conventions of the sheet,
+    \[s+t+u=-4m^2=0,\tag{1.3}\]
+    where the final equality uses $m=0$.</li>
+  <li>Write the four-point irreducible Green function
+    $\overline\Gamma_{(4)}$ through one loop in terms of
+    $p_1,p_2,p_3,p_4$. Set up the loop integrals, but do not evaluate them yet.</p>
+
+<aside class="solution">
+
+<p>\[\begin{aligned}
+                -\overline\Gamma_{(4)}
+                &amp;= -g + \frac{(-g)^2}{2}\int d^dk \frac{1}{k^2(k+p_1+p_2)^2} + (p_2 \leftrightarrow -p_3) + (p_2 \leftrightarrow -p_4) + \cdots.
+            \end{aligned}\tag{1.4}\]</p>
+
+</aside></li>
+  <li>In four dimensions the corresponding integrals are ultraviolet
+    divergent. Show, by power counting or direct analysis, that the
+    three-dimensional loop integrals are ultraviolet finite. No UV regulator
+    is needed here.
+
+<aside class="solution">
+
+<p>For $d=4$, the integral is logarithmic divergent. For $d=3$, it remains finite.</p>
+
+</aside></li>
+  <li>Show that
+    \[\overline\Gamma_{(4)}(s,t,u)
+        =g-\frac{g^2C}{2}
+        \left[
+            \sqrt{s^{-1}}+\sqrt{t^{-1}}+\sqrt{u^{-1}}
+        \right],
+        \qquad C&gt;0.\tag{1.5}\]
+    Determining the precise value of $C$ using Feynman parameters is optional.
+
+<aside class="solution">
+
+<p>\[\begin{aligned}
+                \overline\Gamma_{(4)} &amp;= g - \frac{g^2}{2}\left( 2\pi\int ^1_{-1}d\cos\theta \int^\infty_0 dk \frac{1}{k^2 + s +2\sqrt{s}\cos\theta} +(s\leftrightarrow t) + (s\leftrightarrow u)\right)\\
+                &amp;=g - \frac{g^2}{2}\left( \frac{\pi}{\sqrt{s}} \int^\infty_0\frac{dk}{k} \log\left(\frac{k^2 + s+2\sqrt{s}}{k^2 + s-2\sqrt{s}}\right) +(s\leftrightarrow t) + (s\leftrightarrow u)\right)\\
+                &amp;=g - \frac{g^2}{2}\left( \frac{2\pi}{\sqrt{s}} \int^\infty_0\frac{dk}{k} \log\left(\frac{k + \sqrt{s}}{k-\sqrt{s}}\right) +(s\leftrightarrow t) + (s\leftrightarrow u)\right)\\
+                &amp;=g - \frac{g^2}{2}\left( \frac{2\pi}{\sqrt{s}} \int^\infty_0\frac{dk}{k} \log\left(\frac{k + 1}{k-1}\right) +(s\leftrightarrow t) + (s\leftrightarrow u)\right)\\
+                &amp;=g - \frac{g^2}{2}2\pi\int^\infty_0\frac{dk}{k} \log\left(\frac{k + 1}{k-1}\right)(\sqrt{s^{-1}}+\sqrt{t^{-1}}+\sqrt{u^{-1}}),
+            \end{aligned}\tag{1.6}\]
+        where we have rescaled $k \to k/\sqrt{s}$ in the second last equality.</p>
+
+</aside>
+
+<p>Although the symmetric choice $s=t=u=\mu^2$ is incompatible with the
+    preceding Mandelstam relation, adopt it as the simplified subtraction point
+    used in the sheet and define
+    \[h_R
+        =\mu^{-1}\overline\Gamma_{(4)}
+        (s=t=u=\mu^2).\tag{1.7}\]
+    Hence,
+    \[h_R
+        =\mu^{-1}
+        \left[
+            g-\frac{3}{2}g^2\mu^{-1}C
+        \right].\tag{1.8}\]</li>
+  <li>At an arbitrary energy $E$, define
+    \[h_{\mathrm{eff}}(E)
+        =E^{-1}\overline\Gamma_{(4)}(s=t=u=E^2),\tag{1.9}\]
+    together with
+    \[\beta(h_{\mathrm{eff}})
+        =E\frac{dh_{\mathrm{eff}}}{dE}.\tag{1.10}\]
+    Show, through order $g^2$, that
+    \[\beta(h)
+        =-h+\frac{3}{2}Ch^2+\text{higher-order terms}.\tag{1.11}\]</p>
+
+<aside class="solution">
+
+<p>\[\beta(h) = E\left(-\frac{1}{E^2}\left(g - \frac32g^2E^{-1}C\right) + \frac{1}{E}\cdot \frac32 g^2\frac{1}{E^2}C\right) = -h + \frac32 Ch^2 + \mathcal{O}(g^3).\tag{1.12}\]</p>
+
+</aside></li>
+  <li>Plot $\beta(h)$ as a function of $h$.</li>
+  <li>Suppose $h$ is small and positive at some finite energy. Show that
+    $h\to0$ as $E\to\infty$, and identify this zero as the ultraviolet fixed
+    point of the RG flow.
+
+<aside class="solution">
+
+<p>Solving the RG equation, we find
+        \[h(E) = \frac{1}{\frac{3}{2}C-\frac{h_0}{\frac32Ch_0-1}\frac{E}{E_0}}.\tag{1.13}\]
+        Clearly, as $E\to \infty$, $h \to 0$. Note that $\beta(0) = 0$, and hence this is a UV fixed point.</p>
+
+</aside></li>
+  <li>Starting again from small positive $h$, show that the flow approaches
+    a finite value $h_0$ as $E\to0$, where $h_0$ is the nonzero root of
+    $\beta(h)$. Interpret $h_0$ as an infrared fixed point.
+
+<aside class="solution">
+
+<p>As $E \to 0$, $h \to \frac{2}{3C}$. Note that $\beta(\frac{2}{3C}) =0$, and hence this is an IR fixed point. This suggests the existence of the Wilson-Fisher fixed point. Note that at this point, the theory become strongly coupled, since all higher order terms become relevant.</p>
+
+</aside></li>
+</ol>
+  </article>
+
+  <hr class="ornament-rule">
+
+  <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
+    <a href="../notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <p class="footer__disclaimer">
+    These notes are not guaranteed to be correct. If you find a mistake,
+    <a href="mailto:luca.jin@outlook.com?subject=Correction%20to%20Luca%20Jin%20Physics">please email me</a>.
+  </p>
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="../">Home</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>

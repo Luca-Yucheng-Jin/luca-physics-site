@@ -34,6 +34,7 @@ const PRINT_CSS = `
   .note__title { max-width: 100% !important; margin-top: 0 !important; }
   mjx-container { overflow: visible !important; }
   mjx-container[display="true"] { font-size: 88% !important; }
+  aside.solution mjx-container[display="true"] { font-size: 78% !important; }
 `;
 
 async function loadWorks() {

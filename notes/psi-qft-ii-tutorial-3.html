@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saddle-Point Approximation and Functional Determinants | Yucheng (Luca) Jin</title>
+<meta name="description" content="Saddle-Point Approximation and Functional Determinants — Quantum Field Theory · PSI QFT II Tutorial 3, based on Perimeter Scholars International. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="author" content="Yucheng (Luca) Jin">
+<link rel="canonical" href="https://luca-yucheng-jin.github.io/luca-physics-site/notes/psi-qft-ii-tutorial-3.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://luca-yucheng-jin.github.io/luca-physics-site/notes/psi-qft-ii-tutorial-3.html">
+<meta property="og:site_name" content="Luca Jin Physics">
+<meta property="og:title" content="Saddle-Point Approximation and Functional Determinants | Yucheng (Luca) Jin">
+<meta property="og:description" content="Saddle-Point Approximation and Functional Determinants — Quantum Field Theory · PSI QFT II Tutorial 3, based on Perimeter Scholars International. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta property="og:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Saddle-Point Approximation and Functional Determinants | Yucheng (Luca) Jin">
+<meta name="twitter:description" content="Saddle-Point Approximation and Functional Determinants — Quantum Field Theory · PSI QFT II Tutorial 3, based on Perimeter Scholars International. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta name="twitter:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="stylesheet" href="../styles.css">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/psi-qft-ii-tutorial-3.html#article","url":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/psi-qft-ii-tutorial-3.html","mainEntityOfPage":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/psi-qft-ii-tutorial-3.html","headline":"Saddle-Point Approximation and Functional Determinants","description":"Saddle-Point Approximation and Functional Determinants — Quantum Field Theory · PSI QFT II Tutorial 3, based on Perimeter Scholars International. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.","inLanguage":"en","genre":"Theoretical physics notes and worked solutions","educationalLevel":"Undergraduate physics","about":{"@type":"Thing","name":"Quantum Field Theory · PSI QFT II Tutorial 3"},"author":{"@type":"Person","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#person","name":"Yucheng (Luca) Jin","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"isPartOf":{"@type":"WebSite","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#website","name":"Luca Jin Physics","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"encoding":{"@type":"MediaObject","contentUrl":"https://luca-yucheng-jin.github.io/luca-physics-site/output/pdf/psi-qft-ii-tutorial-3.pdf","encodingFormat":"application/pdf"}},{"@type":"BreadcrumbList","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/psi-qft-ii-tutorial-3.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes.html"},{"@type":"ListItem","position":2,"name":"Saddle-Point Approximation and Functional Determinants","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/psi-qft-ii-tutorial-3.html"}]}]}</script>
+
+<script src="../assets/theme.js"></script>
+<script src="../assets/font-size.js"></script>
+
+<!-- MathJax with custom macros mirroring the original .tex preamble -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros', 'mathtools']},
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      Q: '\\mathbb{Q}',
+      A: '\\mathcal{A}',
+      Lagrangian: '\\mathcal{L}',
+      Cdot: '\\boldsymbol{\\cdot}',
+      Tr: '\\operatorname{Tr}',
+      // \qed inside math (e.g. trailing a derivation in an align env) —
+      // amsthm's text-mode handler is already covered by the HTML-side
+      // replace at the bottom of strip_tex_only_constructs, this catches
+      // the math-mode case (Osborn AQFT PS3 Q3 ends an equation with .\qed).
+      qed: '\\blacksquare',
+      // Feynman slash: \not{x} would render the slash to the LEFT of x
+      // (it's designed for \not=). \cancel from the cancel package
+      // strikes diagonally through the centre, matching the slashed.sty
+      // package's appearance.
+      slashed: ['{\\cancel{#1}}', 1],
+      // Wick contraction: top brace connector over the contracted pair —
+      // closer to the standard physics notation than a plain overline.
+      wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // siunitx polyfill — \si{K}, \si{m\,s^{-1}} etc. should render
+      // the unit in upright math text, like \mathrm{X}. Doesn't try
+      // to mimic the full siunitx unit-formatting machinery; just
+      // unblocks the common bare-unit case in TDSP problems.
+      si: ['\\,\\mathrm{#1}', 1],
+      SI: ['#1\\,\\mathrm{#2}', 2]
+      // \tensor{base}{indices} is rewritten to base^a{}_b in
+      // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
+      // so no runtime macro is needed here. The empty-group trick is
+      // what makes MathJax kern the indices into separate columns.
+    }
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../" class="topbar__brand">Luca Jin <small>Physics · Imperial</small></a>
+  <nav class="topbar__nav" aria-label="Primary navigation">
+    <a href="../">Home</a>
+    <a href="../notes.html" class="is-active">Notes</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+    <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" title="Decrease font size">A<span class="font-toggle__small">−</span></button>
+    <button class="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size" title="Increase font size">A<span class="font-toggle__large">+</span></button>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Toggle theme">
+      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    </button>
+  </nav>
+</header>
+
+<main class="note">
+
+  <div class="note__breadcrumb">
+    <a href="../notes.html">Notes</a> &nbsp;·&nbsp; Quantum Field Theory · PSI QFT II Tutorial 3
+  </div>
+
+  <h1 class="note__title">Saddle-Point Approximation and Functional Determinants</h1>
+  <p class="note__subtitle">Source: Perimeter Scholars International, <em>Quantum Field Theory II</em>, Tutorial 3; 15 worked parts.</p>
+
+  <div class="note__formats" aria-label="Available formats"><span>Available formats</span><a aria-current="page" href="psi-qft-ii-tutorial-3.html">HTML</a><a href="../output/pdf/psi-qft-ii-tutorial-3.pdf">PDF ↓</a></div>
+
+  <nav class="note__toc" aria-label="Contents">
+  <div class="note__toc-label">Contents</div>
+  <ol class="note__toc-list">
+    <li class="toc-h2"><a href="#saddle-point-approximation"><span class="note__toc-number">1</span> <span class="note__toc-title">Saddle-Point Approximation</span></a></li>
+    <li class="toc-h2"><a href="#functional-determinants"><span class="note__toc-number">2</span> <span class="note__toc-title">Functional Determinants</span></a></li>
+    <li class="toc-h2"><a href="#optional-the-gelfand--yaglom-formalism"><span class="note__toc-number">3</span> <span class="note__toc-title">Optional: The Gel'fand--Yaglom Formalism</span></a></li>
+  </ol>
+</nav>
+
+  <article class="note__body">
+<p><em>Question prompts paraphrased from the official
+<a href="https://psi-online.perimeterinstitute.ca/courses/take/quantum-field-theory-ii-student/pdfs/20776373-module-3-tutorial-2">Perimeter PSI Online tutorial sheet</a>;
+the equations and notation follow the source.</em></p>
+
+<h2 data-section-heading id="saddle-point-approximation" data-section-number="1"><span class="note__heading-number">1</span> <span class="note__heading-title">Saddle-Point Approximation</span></h2>
+
+<p>Approximation methods for ordinary integrals are among the reasons that path
+integrals are useful. For example, consider
+\[I(z)=\int dx\,e^{if(x,z)}.\tag{1.1}\]
+The corresponding ideas extend to functional integrals such as
+\[Z[J]=\int\mathcal D\phi\,e^{iS[\phi,J]}.\tag{1.2}\]
+The saddle-point method is one especially useful example.</p>
+
+<p>Restore $\hbar$ in the Euclidean partition function:
+\[Z[J]
+    =\int\mathcal D\phi\,
+    e^{-\frac{1}{\hbar}S[\phi,J]}.\tag{1.3}\]
+This makes it possible to organise a semiclassical expansion by treating $\hbar$
+as small. In Euclidean signature, configurations $\phi_c$ minimising the action
+dominate because configurations with larger action are exponentially suppressed.
+For a Minkowski integral, all stationary configurations of the action must be
+considered rather than only its minima.</p>
+
+<p>The following questions first develop this approximation for ordinary
+$n$-dimensional integrals.</p>
+
+<ol>
+  <li>Let $S(x^\mu;z)$ be a real function of $n$ spacetime variables
+    $\mu=1,\ldots,n$ and a coupling $z$, and define
+    \[I(z)
+        =\int_{-\infty}^{\infty}d^n x\,
+        e^{-\frac{1}{\hbar}S(x;z)}.\tag{1.4}\]
+    Expand $S(x;z)$ around its extrema $x_c$ and show that the sum over its
+    minima gives
+    \[I(z)
+        \approx
+        \sum_{\operatorname{Min}[x_c]}
+        e^{-\frac{1}{\hbar}S(x_c;z)}
+        \left[
+            \frac{(2\pi\hbar)^n}{\det S''(x_c)}
+        \right]^{1/2}
+        +\mathcal O(\hbar^a),\tag{1.5}\]
+    where
+    \[\left[S''(x_c)\right]_{\mu\nu}
+        =\left.
+        \frac{\partial^2S}{\partial x^\mu\,\partial x^\nu}
+        \right|_{x=x_c}.\tag{1.6}\]
+
+<aside class="solution">
+
+<p>Expanding $S(x;z)$ around its minima, we find
+        \[S(x;z) = S(x_c;z) + \frac{1}{2}(x-x_c)^\mu (x-x_c)^\nu [S''(x_c;z)]_{\mu\nu} + \cdots.\tag{1.7}\]
+        In the semi-classical regime, the field configurations around the minima dominate, giving
+        \[\begin{aligned}
+            I(z) &amp;\approx \sum_{\operatorname{Min}[x_c]}\int d^nx e^{-\frac{1}{\hbar}(S(x_c;z) + \frac{1}{2}(x-x_c)^\mu (x-x_c)^\nu [S''(x_c;z)]_{\mu\nu})}\\
+            &amp;=\sum_{\operatorname{Min}[x_c]} e^{-\frac{1}{\hbar}S(x_c;z)}\left[
+            \frac{(2\pi\hbar)^n}{\det S''(x_c)}
+        \right]^{1/2},
+        \end{aligned}\tag{1.8}\]
+        where we have used the results from conventional Gaussian integration in the last equality.</p>
+
+</aside></li>
+  <li>For a generic function $S(x;z)$, determine the exponent $a$.
+
+<aside class="solution">
+
+<p>The important fluctuations should be $x-x_c \sim \sqrt{\hbar}$. The next contribution comes from $S''''$ ($S'''$ is odd, and hence vanishes). Therefore, $a = n/2 +2 - 1 = n/2 +1$.</p>
+
+</aside></li>
+  <li>State the condition under which the approximation becomes exact.
+
+<aside class="solution">
+
+<p>The approximation is exact if all higher order derivative vanishes.</p>
+
+</aside></li>
+  <li>Explain how the saddle-point expression should change if the starting
+    point is the Minkowski partition function
+    \[Z=\int e^{iS/\hbar}.\tag{1.9}\]
+
+<aside class="solution">
+
+<p>In real time, $-S \to iS$. Besides that, we also have to add the $i\epsilon$ prescription to ensure the path integral converges. Therefore, we have
+        \[I(z)\approx
+        \sum_{\operatorname{Min}[x_c]}
+        e^{\frac{i}{\hbar}S(x_c;z)}
+        \left[
+            \frac{(2\pi i\hbar)^n}{\det (S''(x_c) + i\epsilon)}
+        \right]^{1/2}
+        +\mathcal O(\hbar^a).\tag{1.10}\]</p>
+
+</aside></li>
+</ol>
+
+<h2 data-section-heading id="functional-determinants" data-section-number="2"><span class="note__heading-number">2</span> <span class="note__heading-title">Functional Determinants</span></h2>
+
+<p>Functional determinants occur throughout the path-integral treatment of QFT,
+including the semiclassical result above. Their formal definition as a product
+over operator eigenvalues is generally divergent and requires regularisation.
+For this exercise, set those analytic subtleties aside and manipulate the
+operators by analogy with matrices.</p>
+
+<p>Define
+\[F[f]
+    =\log\!\left(
+        \det\!\left[-\frac{d^2}{dy^2}+f(y)\right]
+    \right).\tag{2.1}\]
+Thus $F$ is the logarithm of the determinant of the operator
+\[\mathcal A[f(y)]
+    =-\frac{d^2}{dy^2}+f(y).\tag{2.2}\]
+If $M(y,z)$ is the integral kernel of an operator $\mathcal M$, then
+\[\mathcal M g(y)
+    =\int M(y,z)g(z)\,dz\tag{2.3}\]
+for every suitable function $g$.</p>
+
+<p>The matrix-product analogy used here is
+\[\sum_y M_{xy}M_{yz}
+    \quad\Longleftrightarrow\quad
+    \int dy\,M(x,y)M(y,z).\tag{2.4}\]</p>
+
+<ol>
+  <li>Show that the integral kernel of $\mathcal A$ is
+    \[A(y,z)
+        =\left[-\frac{d^2}{dy^2}+f(y)\right]\delta(y-z).\tag{2.5}\]
+
+<aside class="solution">
+
+<p>\[\begin{aligned}
+                \mathcal{A}[f(y)]g(y) = -\frac{d^2g}{dy^2} + fg = \int dz \, A(y,z) g(z).
+            \end{aligned}\tag{2.6}\]</p>
+
+</aside>
+
+<p>Suppose that $O(x,y)$ is the integral kernel of
+    \[\mathcal O
+        =\left(-\frac{d^2}{dy^2}+f(y)\right)^{-1}.\tag{2.7}\]</li>
+  <li>The operators satisfy $\mathcal A\mathcal O=1$. Rewrite this identity
+    entirely in terms of their integral kernels.</p>
+
+<aside class="solution">
+
+<p>\[\begin{aligned}
+                \int dz A(x,z)O(z,y) = \delta(x-y).
+            \end{aligned}\tag{2.8}\]</p>
+
+</aside></li>
+  <li>Using functional differentiation, prove
+    \[\frac{\delta F[f]}{\delta f(x)}=O(x,x).\tag{2.9}\]
+    <em>Hint:</em> Recall the matrix identity
+    \[\det M=\exp(\operatorname{tr}\log M).\tag{2.10}\]
+
+<aside class="solution">
+
+<p>\[\begin{aligned}
+                \frac{\delta F[f]}{\delta f(x)} &amp;= \frac{\delta}{\delta f(x)} \operatorname{tr} \log \mathcal{A} = \frac{\delta}{\delta f(x)}\operatorname{tr} \mathcal{O} \delta\mathcal{A}= \frac{\delta}{\delta f(z)} \int dydz O(x,y)\delta f(y) \delta(y-z) =O(x,x).
+            \end{aligned}\tag{2.11}\]</p>
+
+</aside></li>
+  <li>Next show
+    \[\frac{\delta^2F[f]}{\delta f(x)\delta f(y)}
+        =-O(x,y)O(y,x).\tag{2.12}\]
+    <em>Hint:</em> To differentiate an inverse, begin with
+    \[M^{-1}M=1.\tag{2.13}\]
+
+<aside class="solution">
+
+<p>\[\frac{\delta^2F[f]}{\delta f(x)\delta f(y)} = \frac{\delta}{\delta f(y)}\operatorname{tr}\mathcal{A}^{-1} = -\operatorname{tr}\mathcal{A}^{-1}\frac{\delta\mathcal{A}}{\delta f(y)}\mathcal{A}^{-1} = - O(x,y) O(y,x).\tag{2.14}\]</p>
+
+</aside></li>
+  <li>Finally derive
+    \[\begin{aligned}\frac{\delta^3F[f]}
+        {\delta f(x)\delta f(y)\delta f(z)}
+        &amp;=O(x,y)O(y,z)O(z,x)
+        \notag\\
+        &amp;\quad+O(x,z)O(z,y)O(y,x).\end{aligned}\tag{2.15}\]
+
+<aside class="solution">
+
+<p>Follows trivially from above.</p>
+
+</aside></li>
+</ol>
+
+<h2 data-section-heading id="optional-the-gelfand--yaglom-formalism" data-section-number="3"><span class="note__heading-number">3</span> <span class="note__heading-title">Optional: The Gel'fand--Yaglom Formalism</span></h2>
+
+<p>The Gel'fand--Yaglom method can determine functional determinants without
+explicitly computing every eigenvalue. In favourable cases it is exact, and it
+can also be implemented numerically. Begin with the Riemann zeta function
+\[\zeta(s)
+    \equiv
+    \sum_{k=1}^{\infty}k^{-s}.\tag{3.1}\]</p>
+
+<p>The contour required below is fixed by the argument principle.  It is positively
+oriented and surrounds the positive zeros $\lambda_n$ of $F(\lambda)$, while
+avoiding the branch cut of $\lambda^{-s}$ on the negative real axis.</p>
+
+<figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='28.667em' height='11.695em' viewBox='-.00116 -106.313673 260.605714 106.315133'>
+<defs>
+<path id='g0-1' d='M1.75741-2.25056C1.75741-2.510585 1.551183-2.734745 1.273225-2.734745S.789041-2.510585 .789041-2.25056S.995268-1.766376 1.273225-1.766376S1.75741-1.990535 1.75741-2.25056Z'/>
+<path id='g1-13' d='M3.568618-1.183562C3.541719-1.838107 3.407223-2.483686 3.138232-3.075467C2.842341-3.71208 2.420922-3.963138 1.945704-3.963138C.806974-3.963138 .161395-2.627148 .161395-2.331258C.161395-2.232628 .260025-2.232628 .286924-2.232628C.358655-2.232628 .385554-2.25056 .412453-2.322291C.699377-3.156164 1.53325-3.299626 1.829141-3.299626C3.272727-3.299626 3.317559-1.578082 3.317559-1.004234C3.317559-.466252 3.281694-.340722 3.236862-.215193C3.003736 .573848 2.761644 1.497385 2.761644 1.739477C2.761644 1.802242 2.761644 1.936737 2.887173 1.936737C2.949938 1.936737 3.030635 1.936737 3.183064 1.389788C3.416189 .564882 3.478954 .080697 3.532752-.286924C3.541719-.385554 4.016936-1.838107 4.82391-3.443088C4.976339-3.730012 4.976339-3.747945 4.976339-3.765878C4.976339-3.828643 4.931507-3.864508 4.859776-3.864508C4.841843-3.864508 4.779078-3.864508 4.743213-3.81071C4.536986-3.443088 4.321793-2.976837 4.133499-2.555417C4.088667-2.465753 3.846575-1.909838 3.568618-1.183562Z'/>
+<path id='g1-21' d='M3.281694-2.591283C3.801743-1.255293 4.142466-.251059 4.223163-.134496C4.402491 .09863 4.474222 .09863 4.743213 .09863H4.94944C5.012204 .089664 5.057036 .062765 5.057036 0C5.057036-.044832 5.039103-.062765 5.003238-.09863C4.895641-.215193 4.850809-.331756 4.797011-.484184L2.887173-5.612951C2.680946-6.1599 2.089166-6.222665 1.766376-6.222665C1.685679-6.222665 1.569116-6.222665 1.569116-6.106102C1.569116-6.016438 1.640847-6.007472 1.739477-5.998506C2.008468-5.953674 2.116065-5.702615 2.25056-5.370859L3.174097-2.887173L.645579-.448319C.555915-.358655 .484184-.29589 .484184-.161395C.484184 .026899 .645579 .116563 .771108 .116563C.923537 .116563 1.031133-.017933 1.066999-.053798L3.281694-2.591283Z'/>
+<path id='g2-49' d='M2.145953-3.795766C2.145953-3.975093 2.122042-3.975093 1.942715-3.975093C1.548194-3.592528 .938481-3.592528 .723288-3.592528V-3.359402C.878705-3.359402 1.273225-3.359402 1.63188-3.526775V-.508095C1.63188-.310834 1.63188-.233126 1.016189-.233126H.759153V0C1.08792-.02391 1.554172-.02391 1.888917-.02391S2.689913-.02391 3.01868 0V-.233126H2.761644C2.145953-.233126 2.145953-.310834 2.145953-.508095V-3.795766Z'/>
+<path id='g2-50' d='M3.21594-1.117808H2.99477C2.982814-1.034122 2.923039-.639601 2.833375-.573848C2.791532-.537983 2.307347-.537983 2.223661-.537983H1.105853L1.870984-1.159651C2.074222-1.321046 2.606227-1.703611 2.791532-1.882939C2.970859-2.062267 3.21594-2.367123 3.21594-2.791532C3.21594-3.53873 2.540473-3.975093 1.739477-3.975093C.968369-3.975093 .430386-3.466999 .430386-2.905106C.430386-2.600249 .687422-2.564384 .753176-2.564384C.902615-2.564384 1.075965-2.67198 1.075965-2.887173C1.075965-3.01868 .998257-3.209963 .735243-3.209963C.872727-3.514819 1.23736-3.741968 1.649813-3.741968C2.27746-3.741968 2.612204-3.275716 2.612204-2.791532C2.612204-2.367123 2.331258-1.93076 1.912827-1.548194L.496139-.251059C.436364-.191283 .430386-.185305 .430386 0H3.030635L3.21594-1.117808Z'/>
+<path id='g2-51' d='M1.75741-1.984558C2.265504-1.984558 2.606227-1.643836 2.606227-1.034122C2.606227-.376588 2.211706-.089664 1.775342-.089664C1.613948-.089664 .998257-.125529 .729265-.472229C.962391-.496139 1.058032-.651557 1.058032-.812951C1.058032-1.016189 .91457-1.153674 .71731-1.153674C.555915-1.153674 .376588-1.052055 .376588-.800996C.376588-.209215 1.034122 .125529 1.793275 .125529C2.677958 .125529 3.269738-.442341 3.269738-1.034122C3.269738-1.470486 2.934994-1.93076 2.223661-2.110087C2.69589-2.265504 3.078456-2.64807 3.078456-3.138232C3.078456-3.616438 2.516563-3.975093 1.799253-3.975093C1.099875-3.975093 .56787-3.652304 .56787-3.162142C.56787-2.905106 .765131-2.833375 .884682-2.833375C1.0401-2.833375 1.201494-2.940971 1.201494-3.150187C1.201494-3.335492 1.069988-3.443088 .908593-3.466999C1.189539-3.777833 1.733499-3.777833 1.787298-3.777833C2.092154-3.777833 2.47472-3.634371 2.47472-3.138232C2.47472-2.809465 2.289415-2.235616 1.691656-2.199751C1.58406-2.193773 1.422665-2.181818 1.368867-2.181818C1.309091-2.175841 1.243337-2.169863 1.243337-2.080199C1.243337-1.984558 1.309091-1.984558 1.41071-1.984558H1.75741Z'/>
+<path id='g3-48' d='M4.241096-2.86924C4.241096-3.469988 4.214197-4.241096 3.900374-4.913574C3.505853-5.756413 2.824408-5.971606 2.304359-5.971606C1.766376-5.971606 1.084932-5.756413 .690411-4.895641C.403487-4.276961 .358655-3.550685 .358655-2.86924C.358655-2.286426 .376588-1.416687 .762142-.708344C1.183562 .053798 1.882939 .19726 2.295392 .19726C2.878207 .19726 3.541719-.053798 3.918306-.878705C4.187298-1.479452 4.241096-2.15193 4.241096-2.86924ZM2.304359-.026899C2.035367-.026899 1.389788-.152428 1.219427-1.165629C1.129763-1.694645 1.129763-2.465753 1.129763-2.976837C1.129763-3.58655 1.129763-4.294894 1.23736-4.788045C1.416687-5.586052 1.990535-5.747447 2.295392-5.747447C2.636115-5.747447 3.200996-5.56812 3.371357-4.734247C3.469988-4.241096 3.469988-3.541719 3.469988-2.976837C3.469988-2.420922 3.469988-1.667746 3.380324-1.13873C3.19203-.116563 2.528518-.026899 2.304359-.026899Z'/>
+<path id='g3-73' d='M2.062267-5.415691C2.062267-5.738481 2.080199-5.846077 2.797509-5.846077H3.021669V-6.124035C2.654047-6.097136 2.044334-6.097136 1.65878-6.097136S.663512-6.097136 .29589-6.124035V-5.846077H.52005C1.23736-5.846077 1.255293-5.738481 1.255293-5.415691V-.708344C1.255293-.385554 1.23736-.277958 .52005-.277958H.29589V0C.663512-.026899 1.273225-.026899 1.65878-.026899S2.654047-.026899 3.021669 0V-.277958H2.797509C2.080199-.277958 2.062267-.385554 2.062267-.708344V-5.415691Z'/>
+<path id='g3-82' d='M2.0533-3.174097V-5.478456C2.0533-5.711582 2.071233-5.792279 2.241594-5.828144C2.322291-5.846077 2.609215-5.846077 2.797509-5.846077C3.568618-5.846077 4.707347-5.846077 4.707347-4.510087C4.707347-3.738979 4.312827-3.174097 3.0934-3.174097H2.0533ZM4.070735-3.039601C4.92254-3.281694 5.621918-3.81071 5.621918-4.510087C5.621918-5.397758 4.536986-6.124035 3.218929-6.124035H.358655V-5.846077H.564882C1.255293-5.846077 1.273225-5.747447 1.273225-5.415691V-.708344C1.273225-.376588 1.255293-.277958 .564882-.277958H.358655V0C.780075-.026899 1.228394-.026899 1.65878-.026899S2.537484-.026899 2.96787 0V-.277958H2.761644C2.071233-.277958 2.0533-.376588 2.0533-.708344V-2.949938H3.129265C3.774844-2.949938 4.061768-2.609215 4.097634-2.57335C4.366625-2.241594 4.366625-2.107098 4.366625-1.470486C4.366625-.869738 4.366625-.475218 4.797011-.134496C5.218431 .19726 5.756413 .19726 5.855044 .19726C6.608219 .19726 6.742715-.582814 6.742715-.798007C6.742715-.851806 6.742715-.959402 6.617186-.959402C6.500623-.959402 6.500623-.878705 6.491656-.806974C6.446824-.242092 6.168867-.026899 5.890909-.026899C5.603985-.026899 5.505355-.206227 5.433624-.358655C5.352927-.555915 5.272229-1.165629 5.218431-1.569116C5.1467-2.125031 5.066002-2.725778 4.070735-3.039601Z'/>
+<path id='g3-101' d='M3.58655-2.0533C3.783811-2.0533 3.828643-2.0533 3.828643-2.241594C3.828643-3.165131 3.326526-4.016936 2.178829-4.016936C1.102864-4.016936 .260025-3.084433 .260025-1.972603C.260025-.798007 1.201494 .09863 2.295392 .09863S3.828643-.860772 3.828643-1.066999C3.828643-1.129763 3.783811-1.183562 3.703113-1.183562C3.61345-1.183562 3.58655-1.120797 3.577584-1.084932C3.272727-.170361 2.47472-.152428 2.340224-.152428C1.909838-.152428 1.542217-.394521 1.33599-.699377C1.0401-1.13873 1.031133-1.676712 1.031133-2.0533H3.58655ZM1.0401-2.268493C1.120797-3.649315 1.927771-3.792777 2.178829-3.792777C2.67198-3.792777 3.209963-3.416189 3.218929-2.268493H1.0401Z'/>
+<path id='g3-109' d='M1.667746-2.322291C1.667746-3.29066 2.367123-3.738979 2.905106-3.738979C3.398257-3.738979 3.559651-3.38929 3.559651-2.761644V-.690411C3.559651-.277958 3.461021-.277958 2.86924-.277958V0C3.29066-.017933 3.461021-.026899 3.891407-.026899S4.438356-.017933 4.913574 0V-.277958C4.321793-.277958 4.223163-.277958 4.223163-.690411V-2.322291C4.223163-3.29066 4.92254-3.738979 5.460523-3.738979C5.953674-3.738979 6.115068-3.38929 6.115068-2.761644V-.690411C6.115068-.277958 6.016438-.277958 5.424658-.277958V0C5.846077-.017933 6.016438-.026899 6.446824-.026899S6.993773-.017933 7.468991 0V-.277958C7.011706-.277958 6.787547-.277958 6.77858-.555915V-2.27746C6.77858-3.057534 6.77858-3.308593 6.48269-3.640349C6.294396-3.855542 5.935741-3.963138 5.523288-3.963138C4.877709-3.963138 4.438356-3.58655 4.187298-3.111333C4.079701-3.640349 3.721046-3.963138 2.96787-3.963138C2.25056-3.963138 1.811208-3.496887 1.622914-3.084433H1.613948V-3.963138L.313823-3.864508V-3.58655C.923537-3.58655 1.004234-3.523786 1.004234-3.084433V-.690411C1.004234-.277958 .905604-.277958 .313823-.277958V0C.735243-.017933 .905604-.026899 1.33599-.026899S1.882939-.017933 2.358157 0V-.277958C1.766376-.277958 1.667746-.277958 1.667746-.690411V-2.322291Z'/>
+</defs>
+<g id='page1'>
+<path d='M.223-50.042969H239.391' stroke='currentColor' fill='none' stroke-width='.44832'/>
+<path d='M241.94941-50.042969L238.304877-51.41797L239.5041-50.042969L238.304877-48.66797Z'/>
+<path d='M241.94941-50.042969L238.304877-51.41797L239.5041-50.042969L238.304877-48.66797Z' stroke='currentColor' fill='none' stroke-width='.44832' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 129.485 3.1134)'>
+<use x='113.326004' y='-50.043021' xlink:href='#g3-82'/>
+<use x='120.108856' y='-50.043021' xlink:href='#g3-101'/>
+<use x='125.743914' y='-50.043021' xlink:href='#g1-21'/>
+</g>
+<path d='M113.324222-.2227V-96.668' stroke='currentColor' fill='none' stroke-width='.44832' stroke-miterlimit='10'/>
+<path d='M113.324222-99.22262L111.95313-95.582L113.324222-96.78122L114.69922-95.582Z'/>
+<path d='M113.324222-99.22262L111.95313-95.582L113.324222-96.78122L114.69922-95.582Z' stroke='currentColor' fill='none' stroke-width='.44832' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 -8.959 -50.044)'>
+<use x='113.326004' y='-50.043021' xlink:href='#g3-73'/>
+<use x='116.652395' y='-50.043021' xlink:href='#g3-109'/>
+<use x='125.867763' y='-50.043021' xlink:href='#g1-21'/>
+</g>
+<path d='M5.609-50.042969L8.977-51.52344L12.34-50.042969' stroke='currentColor' fill='none' stroke-width='.54794' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>
+<path d='M12.34-50.042969L15.707-51.52344L19.0742-50.042969' stroke='currentColor' fill='none' stroke-width='.54794' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>
+<path d='M19.0742-50.042969L22.4375-51.52344L25.8047-50.042969' stroke='currentColor' fill='none' stroke-width='.54794' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>
+<path d='M25.8047-50.042969L29.1719-51.52344L32.5391-50.042969' stroke='currentColor' fill='none' stroke-width='.54794' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>
+<path d='M32.5391-50.042969L35.9023-51.52344L39.2695-50.042969' stroke='currentColor' fill='none' stroke-width='.54794' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>
+<path d='M39.2695-50.042969L42.6367-51.52344L46.0039-50.042969' stroke='currentColor' fill='none' stroke-width='.54794' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>
+<path d='M46.0039-50.042969L49.3672-51.52344L52.7344-50.042969' stroke='currentColor' fill='none' stroke-width='.54794' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>
+<path d='M52.7344-50.042969L56.1016-51.52344L59.4688-50.042969' stroke='currentColor' fill='none' stroke-width='.54794' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>
+<path d='M59.4688-50.042969L62.832-51.52344L66.1992-50.042969' stroke='currentColor' fill='none' stroke-width='.54794' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>
+<path d='M66.1992-50.042969L69.5664-51.52344L72.9336-50.042969' stroke='currentColor' fill='none' stroke-width='.54794' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>
+<path d='M72.9336-50.042969L76.2969-51.52344L79.6641-50.042969' stroke='currentColor' fill='none' stroke-width='.54794' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>
+<path d='M79.6641-50.042969L83.0313-51.52344L86.3984-50.042969' stroke='currentColor' fill='none' stroke-width='.54794' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>
+<path d='M86.3984-50.042969L89.7617-51.52344L93.1289-50.042969' stroke='currentColor' fill='none' stroke-width='.54794' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>
+<path d='M93.1289-50.042969L96.4961-51.52344L99.8594-50.042969' stroke='currentColor' fill='none' stroke-width='.54794' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>
+<path d='M99.8594-50.042969L103.2266-51.52344L106.59375-50.042969' stroke='currentColor' fill='none' stroke-width='.54794' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>
+<path d='M106.59375-50.042969L109.96094-51.52344L113.324222-50.042969' stroke='currentColor' fill='none' stroke-width='.54794' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>
+<path d='M57.125-60.3555H59.1172V-62.3477H57.125Z' fill='#fff'/>
+<path d='M58.1211-58.12109L60.332-54.37891' stroke='currentColor' fill='none' stroke-width='.3487' stroke-miterlimit='10'/>
+<path d='M61.367181-52.625038L60.832022-55.687538L60.374994-54.30473L58.945302-54.570354Z'/>
+<path d='M61.367181-52.625038L60.832022-55.687538L60.374994-54.30473L58.945302-54.570354Z' stroke='currentColor' fill='none' stroke-width='.34868' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 -4.807 5.9777)'>
+<use x='113.326004' y='-50.043021' xlink:href='#g3-48'/>
+</g>
+<path d='M137.7305-50.042969C137.7305-50.878907 137.0508-51.55859 136.2148-51.55859C135.3789-51.55859 134.7031-50.878907 134.7031-50.042969S135.3789-48.52734 136.2148-48.52734C137.0508-48.52734 137.7305-49.207032 137.7305-50.042969Z'/>
+<g transform='matrix(1 0 0 1 18.127 9.4148)'>
+<use x='113.326004' y='-50.043021' xlink:href='#g1-21'/>
+<use x='118.701643' y='-49.046772' xlink:href='#g2-49'/>
+</g>
+<path d='M159.2734-50.042969C159.2734-50.878907 158.5938-51.55859 157.7578-51.55859C156.9219-51.55859 156.2461-50.878907 156.2461-50.042969S156.9219-48.52734 157.7578-48.52734C158.5938-48.52734 159.2734-49.207032 159.2734-50.042969Z'/>
+<g transform='matrix(1 0 0 1 39.67 9.4148)'>
+<use x='113.326004' y='-50.043021' xlink:href='#g1-21'/>
+<use x='118.701643' y='-49.046772' xlink:href='#g2-50'/>
+</g>
+<path d='M180.8164-50.042969C180.8164-50.878907 180.1406-51.55859 179.3047-51.55859C178.4648-51.55859 177.7891-50.878907 177.7891-50.042969S178.4648-48.52734 179.3047-48.52734C180.1406-48.52734 180.8164-49.207032 180.8164-50.042969Z'/>
+<g transform='matrix(1 0 0 1 61.213 9.4148)'>
+<use x='113.326004' y='-50.043021' xlink:href='#g1-21'/>
+<use x='118.701643' y='-49.046772' xlink:href='#g2-51'/>
+</g>
+<g transform='matrix(1 0 0 1 80.03 2.0168)'>
+<use x='113.326004' y='-50.043021' xlink:href='#g0-1'/>
+<use x='117.421729' y='-50.043021' xlink:href='#g0-1'/>
+<use x='121.517454' y='-50.043021' xlink:href='#g0-1'/>
+</g>
+<path d='M122.75-19.8828H211.6172C227.777-19.8828 227.777-80.2031 211.6172-80.2031H122.75C112.789066-71.0469 112.789066-29.0391 122.75-19.8828Z' stroke='currentColor' fill='none' stroke-width='.89664' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>
+<path d='M177.47653-19.882784L174.24997-21.10935L175.32809-19.882784L174.24997-18.65622Z'/>
+<path d='M177.47653-19.882784L174.24997-21.10935L175.32809-19.882784L174.24997-18.65622Z' stroke='currentColor' fill='none' stroke-width='.89664' stroke-miterlimit='10' stroke-linecap='round'/>
+<path d='M163.27746-80.203159L166.50793-78.9766L165.4259-80.203159L166.50793-81.42972Z'/>
+<path d='M163.27746-80.203159L166.50793-78.9766L165.4259-80.203159L166.50793-81.42972Z' stroke='currentColor' fill='none' stroke-width='.89664' stroke-miterlimit='10' stroke-linecap='round'/>
+<g transform='matrix(1 0 0 1 102.927 -33.411)'>
+<use x='113.326004' y='-50.043021' xlink:href='#g1-13'/>
+</g>
+</g>
+</svg><figcaption><span class="note__figure-number">Figure 1.</span> Schematic reconstruction of contour $\gamma$     in the $\lambda$-plane.</figcaption></figure>
+
+<p>Let $A$ have eigenvalues $\lambda_n$ and eigenfunctions $\phi_n$:
+\[A\phi_n=\lambda_n\phi_n.\tag{3.2}\]
+Associate to it the zeta function
+\[\begin{aligned}\zeta_A(s)
+    &amp;\equiv
+    \operatorname{Tr}\!\left[\frac{1}{A^s}\right]
+    \notag\\
+    &amp;=\sum_{k=1}^{\infty}\lambda_k^{-s}.\end{aligned}\tag{3.3}\]</p>
+
+<ol>
+  <li>Show that zeta regularisation gives
+    \[\det A=\exp\!\left[-\zeta_A'(0)\right].\tag{3.4}\]
+    Because $\zeta_A$ and its derivative need not converge near $s=0$,
+    analytic continuation may be required before this expression is meaningful.
+
+<aside class="solution">
+
+<p>\[\det A =\prod_{k=1}^\infty \lambda_k,\tag{3.5}\]
+        while
+        \[\zeta'_A = \sum_{k=1}^\infty-\log \lambda_k \lambda^{-s}.\tag{3.6}\]
+        Therefore,
+        \[\det A=\exp\!\left[-\zeta_A'(0)\right].\tag{3.7}\]</p>
+
+</aside></li>
+  <li>Take
+    \[A=-\frac{d^2}{d\tau^2}\tag{3.8}\]
+    on $0\leq\tau\leq1$, with Dirichlet conditions
+    \[\phi_n(0)=\phi_n(1)=0.\tag{3.9}\]
+    Find the eigenvalues $\lambda_n$, then evaluate $\det A$ using
+    \[\zeta(0)=-\frac{1}{2},
+        \qquad
+        \zeta'(0)=-\frac{1}{2}\log(2\pi).\tag{3.10}\]
+
+<aside class="solution">
+
+<p>It can be easily found that $\lambda_n = n^2\pi^2$, $n \in \mathbb{Z}^{+}$. Then,
+        \[\zeta_A (s) = \sum_{k=1}^\infty(n\pi)^{-2s},\tag{3.11}\]
+        and
+        \[\zeta_A'(0) = \sum_{k=1}^\infty-2\log k - 2\log\pi = 2\zeta'(0) -2\log \pi\zeta(0) = -\log2.\tag{3.12}\]
+        Hence, we have
+        \[\det A = 2.\tag{3.13}\]</p>
+
+</aside>
+
+<p>In cases where the eigenvalues cannot be obtained explicitly, suppose one
+    can construct $F(\lambda)$ whose zeros are precisely the eigenvalues of $A$.</li>
+  <li>Assume that the $\lambda_n&gt;0$ are discrete and nondegenerate. Show that
+    \[\zeta_A(s)
+        =\frac{1}{2\pi i}
+        \int_\gamma d\lambda\,
+        \lambda^{-s}
+        \frac{d\ln F(\lambda)}{d\lambda},\tag{3.14}\]
+    where $\gamma$ is the contour specified in Figure 1 and the branch cut lies
+    on the negative real axis.</p>
+
+<aside class="solution">
+
+<p>The RHS is given by
+        \[\begin{aligned}
+                &amp;\frac{1}{2\pi i}
+        \int_\gamma d\lambda\,
+        \lambda^{-s}
+        \frac{d\ln F(\lambda)}{d\lambda}\\
+        &amp;= \sum_{n=1}^\infty
+        \lim_{\lambda\to\lambda_n} \frac{\lambda-\lambda_n}{\lambda^s}\frac{1}{F(\lambda)}\frac{d F(\lambda)}{d\lambda}\\
+        &amp;=\sum_{n=1}^\infty
+        \lim_{\lambda\to\lambda_n}\left(F'(\lambda_n) + F''(\lambda_n)(\lambda-\lambda_n) + \cdots \right)\left(F'(\lambda_n)(\lambda-\lambda_n) + \frac12F''(\lambda_n)(\lambda-\lambda_n)^2 + \cdots \right)^{-1}\\
+        &amp;=\sum_{n=1}^\infty
+        \lim_{\lambda\to\lambda_n}\frac{1}{\lambda^s}\left(1+ \frac{F''(\lambda_n)}{F'(\lambda_n)}(\lambda-\lambda_n) +\cdots\right)\left(1- \frac12\frac{F''(\lambda_n)}{F'(\lambda_n)}(\lambda-\lambda_n) +\cdots\right)\\
+        &amp;=\sum_{n=1}^\infty \lambda_n^{-s}\\
+        &amp;= \zeta_A(s).
+            \end{aligned}\tag{3.15}\]</p>
+
+</aside></li>
+  <li>Deform $\gamma$ into the contour $\gamma_-$, which hugs the negative
+    real axis as indicated in Figure 2, and derive
+    \[\zeta_A(s)
+        =\frac{\sin(\pi s)}{\pi}
+        \int_0^{-\infty}d\lambda\,
+        \lambda^{-s}
+        \frac{d\ln F(\lambda)}{d\lambda}.\tag{3.16}\]
+
+<aside class="solution">
+
+<p>\[\begin{aligned}
+                        \zeta_A(s) &amp;= \frac{1}{2\pi i}
+        \int_{\gamma_-} d\lambda\,
+        \lambda^{-s}
+        \frac{d\ln F(\lambda)}{d\lambda}\\ &amp;= \lim_{\epsilon \to 0^+}\frac{1}{2\pi i}
+        \int_{-\infty}^0 d\lambda\,
+        (\lambda+i\epsilon)^{-s}
+        \frac{d\ln F(\lambda+i\epsilon)}{d\lambda} -  \frac{1}{2\pi i}
+        \int_{-\infty}^0 d\lambda\,
+        (\lambda-i\epsilon)^{-s}
+        \frac{d\ln F(\lambda-i\epsilon)}{d\lambda}\\
+        &amp;=\frac{1}{2\pi i}
+        \int_{-\infty}*0 d\lambda\,
+        (e^{-s\log \lambda-is\pi}-e^{-s\log \lambda+ is\pi})
+        \frac{d\ln F(\lambda)}{d\lambda}\\
+        &amp;=-\frac{\sin \pi s}{\pi}\int_{-\infty}^0 d\lambda\,
+        \lambda^{-s}
+        \frac{d\ln F(\lambda)}{d\lambda}.
+        \end{aligned}\tag{3.17}\]</p>
+
+</aside>
+
+<figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='28.598em' height='13.722em' viewBox='-.00116 -124.748674 259.984815 124.747794'>
+<defs>
+<path id='g0-0' d='M4.758157-1.338979C4.853798-1.338979 5.003238-1.338979 5.003238-1.494396S4.853798-1.649813 4.758157-1.649813H.992279C.896638-1.649813 .747198-1.649813 .747198-1.494396S.896638-1.338979 .992279-1.338979H4.758157Z'/>
+<path id='g1-1' d='M1.75741-2.25056C1.75741-2.510585 1.551183-2.734745 1.273225-2.734745S.789041-2.510585 .789041-2.25056S.995268-1.766376 1.273225-1.766376S1.75741-1.990535 1.75741-2.25056Z'/>
+<path id='g2-13' d='M3.568618-1.183562C3.541719-1.838107 3.407223-2.483686 3.138232-3.075467C2.842341-3.71208 2.420922-3.963138 1.945704-3.963138C.806974-3.963138 .161395-2.627148 .161395-2.331258C.161395-2.232628 .260025-2.232628 .286924-2.232628C.358655-2.232628 .385554-2.25056 .412453-2.322291C.699377-3.156164 1.53325-3.299626 1.829141-3.299626C3.272727-3.299626 3.317559-1.578082 3.317559-1.004234C3.317559-.466252 3.281694-.340722 3.236862-.215193C3.003736 .573848 2.761644 1.497385 2.761644 1.739477C2.761644 1.802242 2.761644 1.936737 2.887173 1.936737C2.949938 1.936737 3.030635 1.936737 3.183064 1.389788C3.416189 .564882 3.478954 .080697 3.532752-.286924C3.541719-.385554 4.016936-1.838107 4.82391-3.443088C4.976339-3.730012 4.976339-3.747945 4.976339-3.765878C4.976339-3.828643 4.931507-3.864508 4.859776-3.864508C4.841843-3.864508 4.779078-3.864508 4.743213-3.81071C4.536986-3.443088 4.321793-2.976837 4.133499-2.555417C4.088667-2.465753 3.846575-1.909838 3.568618-1.183562Z'/>
+<path id='g2-21' d='M3.281694-2.591283C3.801743-1.255293 4.142466-.251059 4.223163-.134496C4.402491 .09863 4.474222 .09863 4.743213 .09863H4.94944C5.012204 .089664 5.057036 .062765 5.057036 0C5.057036-.044832 5.039103-.062765 5.003238-.09863C4.895641-.215193 4.850809-.331756 4.797011-.484184L2.887173-5.612951C2.680946-6.1599 2.089166-6.222665 1.766376-6.222665C1.685679-6.222665 1.569116-6.222665 1.569116-6.106102C1.569116-6.016438 1.640847-6.007472 1.739477-5.998506C2.008468-5.953674 2.116065-5.702615 2.25056-5.370859L3.174097-2.887173L.645579-.448319C.555915-.358655 .484184-.29589 .484184-.161395C.484184 .026899 .645579 .116563 .771108 .116563C.923537 .116563 1.031133-.017933 1.066999-.053798L3.281694-2.591283Z'/>
+<path id='g3-49' d='M2.145953-3.795766C2.145953-3.975093 2.122042-3.975093 1.942715-3.975093C1.548194-3.592528 .938481-3.592528 .723288-3.592528V-3.359402C.878705-3.359402 1.273225-3.359402 1.63188-3.526775V-.508095C1.63188-.310834 1.63188-.233126 1.016189-.233126H.759153V0C1.08792-.02391 1.554172-.02391 1.888917-.02391S2.689913-.02391 3.01868 0V-.233126H2.761644C2.145953-.233126 2.145953-.310834 2.145953-.508095V-3.795766Z'/>
+<path id='g3-50' d='M3.21594-1.117808H2.99477C2.982814-1.034122 2.923039-.639601 2.833375-.573848C2.791532-.537983 2.307347-.537983 2.223661-.537983H1.105853L1.870984-1.159651C2.074222-1.321046 2.606227-1.703611 2.791532-1.882939C2.970859-2.062267 3.21594-2.367123 3.21594-2.791532C3.21594-3.53873 2.540473-3.975093 1.739477-3.975093C.968369-3.975093 .430386-3.466999 .430386-2.905106C.430386-2.600249 .687422-2.564384 .753176-2.564384C.902615-2.564384 1.075965-2.67198 1.075965-2.887173C1.075965-3.01868 .998257-3.209963 .735243-3.209963C.872727-3.514819 1.23736-3.741968 1.649813-3.741968C2.27746-3.741968 2.612204-3.275716 2.612204-2.791532C2.612204-2.367123 2.331258-1.93076 1.912827-1.548194L.496139-.251059C.436364-.191283 .430386-.185305 .430386 0H3.030635L3.21594-1.117808Z'/>
+<path id='g3-51' d='M1.75741-1.984558C2.265504-1.984558 2.606227-1.643836 2.606227-1.034122C2.606227-.376588 2.211706-.089664 1.775342-.089664C1.613948-.089664 .998257-.125529 .729265-.472229C.962391-.496139 1.058032-.651557 1.058032-.812951C1.058032-1.016189 .91457-1.153674 .71731-1.153674C.555915-1.153674 .376588-1.052055 .376588-.800996C.376588-.209215 1.034122 .125529 1.793275 .125529C2.677958 .125529 3.269738-.442341 3.269738-1.034122C3.269738-1.470486 2.934994-1.93076 2.223661-2.110087C2.69589-2.265504 3.078456-2.64807 3.078456-3.138232C3.078456-3.616438 2.516563-3.975093 1.799253-3.975093C1.099875-3.975093 .56787-3.652304 .56787-3.162142C.56787-2.905106 .765131-2.833375 .884682-2.833375C1.0401-2.833375 1.201494-2.940971 1.201494-3.150187C1.201494-3.335492 1.069988-3.443088 .908593-3.466999C1.189539-3.777833 1.733499-3.777833 1.787298-3.777833C2.092154-3.777833 2.47472-3.634371 2.47472-3.138232C2.47472-2.809465 2.289415-2.235616 1.691656-2.199751C1.58406-2.193773 1.422665-2.181818 1.368867-2.181818C1.309091-2.175841 1.243337-2.169863 1.243337-2.080199C1.243337-1.984558 1.309091-1.984558 1.41071-1.984558H1.75741Z'/>
+<path id='g4-48' d='M4.241096-2.86924C4.241096-3.469988 4.214197-4.241096 3.900374-4.913574C3.505853-5.756413 2.824408-5.971606 2.304359-5.971606C1.766376-5.971606 1.084932-5.756413 .690411-4.895641C.403487-4.276961 .358655-3.550685 .358655-2.86924C.358655-2.286426 .376588-1.416687 .762142-.708344C1.183562 .053798 1.882939 .19726 2.295392 .19726C2.878207 .19726 3.541719-.053798 3.918306-.878705C4.187298-1.479452 4.241096-2.15193 4.241096-2.86924ZM2.304359-.026899C2.035367-.026899 1.389788-.152428 1.219427-1.165629C1.129763-1.694645 1.129763-2.465753 1.129763-2.976837C1.129763-3.58655 1.129763-4.294894 1.23736-4.788045C1.416687-5.586052 1.990535-5.747447 2.295392-5.747447C2.636115-5.747447 3.200996-5.56812 3.371357-4.734247C3.469988-4.241096 3.469988-3.541719 3.469988-2.976837C3.469988-2.420922 3.469988-1.667746 3.380324-1.13873C3.19203-.116563 2.528518-.026899 2.304359-.026899Z'/>
+<path id='g4-73' d='M2.062267-5.415691C2.062267-5.738481 2.080199-5.846077 2.797509-5.846077H3.021669V-6.124035C2.654047-6.097136 2.044334-6.097136 1.65878-6.097136S.663512-6.097136 .29589-6.124035V-5.846077H.52005C1.23736-5.846077 1.255293-5.738481 1.255293-5.415691V-.708344C1.255293-.385554 1.23736-.277958 .52005-.277958H.29589V0C.663512-.026899 1.273225-.026899 1.65878-.026899S2.654047-.026899 3.021669 0V-.277958H2.797509C2.080199-.277958 2.062267-.385554 2.062267-.708344V-5.415691Z'/>
+<path id='g4-82' d='M2.0533-3.174097V-5.478456C2.0533-5.711582 2.071233-5.792279 2.241594-5.828144C2.322291-5.846077 2.609215-5.846077 2.797509-5.846077C3.568618-5.846077 4.707347-5.846077 4.707347-4.510087C4.707347-3.738979 4.312827-3.174097 3.0934-3.174097H2.0533ZM4.070735-3.039601C4.92254-3.281694 5.621918-3.81071 5.621918-4.510087C5.621918-5.397758 4.536986-6.124035 3.218929-6.124035H.358655V-5.846077H.564882C1.255293-5.846077 1.273225-5.747447 1.273225-5.415691V-.708344C1.273225-.376588 1.255293-.277958 .564882-.277958H.358655V0C.780075-.026899 1.228394-.026899 1.65878-.026899S2.537484-.026899 2.96787 0V-.277958H2.761644C2.071233-.277958 2.0533-.376588 2.0533-.708344V-2.949938H3.129265C3.774844-2.949938 4.061768-2.609215 4.097634-2.57335C4.366625-2.241594 4.366625-2.107098 4.366625-1.470486C4.366625-.869738 4.366625-.475218 4.797011-.134496C5.218431 .19726 5.756413 .19726 5.855044 .19726C6.608219 .19726 6.742715-.582814 6.742715-.798007C6.742715-.851806 6.742715-.959402 6.617186-.959402C6.500623-.959402 6.500623-.878705 6.491656-.806974C6.446824-.242092 6.168867-.026899 5.890909-.026899C5.603985-.026899 5.505355-.206227 5.433624-.358655C5.352927-.555915 5.272229-1.165629 5.218431-1.569116C5.1467-2.125031 5.066002-2.725778 4.070735-3.039601Z'/>
+<path id='g4-101' d='M3.58655-2.0533C3.783811-2.0533 3.828643-2.0533 3.828643-2.241594C3.828643-3.165131 3.326526-4.016936 2.178829-4.016936C1.102864-4.016936 .260025-3.084433 .260025-1.972603C.260025-.798007 1.201494 .09863 2.295392 .09863S3.828643-.860772 3.828643-1.066999C3.828643-1.129763 3.783811-1.183562 3.703113-1.183562C3.61345-1.183562 3.58655-1.120797 3.577584-1.084932C3.272727-.170361 2.47472-.152428 2.340224-.152428C1.909838-.152428 1.542217-.394521 1.33599-.699377C1.0401-1.13873 1.031133-1.676712 1.031133-2.0533H3.58655ZM1.0401-2.268493C1.120797-3.649315 1.927771-3.792777 2.178829-3.792777C2.67198-3.792777 3.209963-3.416189 3.218929-2.268493H1.0401Z'/>
+<path id='g4-109' d='M1.667746-2.322291C1.667746-3.29066 2.367123-3.738979 2.905106-3.738979C3.398257-3.738979 3.559651-3.38929 3.559651-2.761644V-.690411C3.559651-.277958 3.461021-.277958 2.86924-.277958V0C3.29066-.017933 3.461021-.026899 3.891407-.026899S4.438356-.017933 4.913574 0V-.277958C4.321793-.277958 4.223163-.277958 4.223163-.690411V-2.322291C4.223163-3.29066 4.92254-3.738979 5.460523-3.738979C5.953674-3.738979 6.115068-3.38929 6.115068-2.761644V-.690411C6.115068-.277958 6.016438-.277958 5.424658-.277958V0C5.846077-.017933 6.016438-.026899 6.446824-.026899S6.993773-.017933 7.468991 0V-.277958C7.011706-.277958 6.787547-.277958 6.77858-.555915V-2.27746C6.77858-3.057534 6.77858-3.308593 6.48269-3.640349C6.294396-3.855542 5.935741-3.963138 5.523288-3.963138C4.877709-3.963138 4.438356-3.58655 4.187298-3.111333C4.079701-3.640349 3.721046-3.963138 2.96787-3.963138C2.25056-3.963138 1.811208-3.496887 1.622914-3.084433H1.613948V-3.963138L.313823-3.864508V-3.58655C.923537-3.58655 1.004234-3.523786 1.004234-3.084433V-.690411C1.004234-.277958 .905604-.277958 .313823-.277958V0C.735243-.017933 .905604-.026899 1.33599-.026899S1.882939-.017933 2.358157 0V-.277958C1.766376-.277958 1.667746-.277958 1.667746-.690411V-2.322291Z'/>
+</defs>
+<g id='page1'>
+<path d='M.223-61.347654H238.77' stroke='currentColor' fill='none' stroke-width='.44832'/>
+<path d='M241.32832-61.347654L237.683785-62.72265L238.883-61.347654L237.683785-59.97265Z'/>
+<path d='M241.32832-61.347654L237.683785-62.72265L238.883-61.347654L237.683785-59.97265Z' stroke='currentColor' fill='none' stroke-width='.44832' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 122.258 3.1134)'>
+<use x='119.932106' y='-61.348222' xlink:href='#g4-82'/>
+<use x='126.714958' y='-61.348222' xlink:href='#g4-101'/>
+<use x='132.350016' y='-61.348222' xlink:href='#g2-21'/>
+</g>
+<path d='M119.933595-4.3984V-115.1016' stroke='currentColor' fill='none' stroke-width='.44832' stroke-miterlimit='10'/>
+<path d='M119.933595-117.66006L118.55859-114.015533L119.933595-115.21475L121.30469-114.015533Z'/>
+<path d='M119.933595-117.66006L118.55859-114.015533L119.933595-115.21475L121.30469-114.015533Z' stroke='currentColor' fill='none' stroke-width='.44832' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 -8.959 -57.1738)'>
+<use x='119.932106' y='-61.348222' xlink:href='#g4-73'/>
+<use x='123.258497' y='-61.348222' xlink:href='#g4-109'/>
+<use x='132.473865' y='-61.348222' xlink:href='#g2-21'/>
+</g>
+<path d='M15.332-61.347654L18.238-62.625L21.1406-61.347654' stroke='currentColor' fill='none' stroke-width='.54794' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>
+<path d='M21.1406-61.347654L24.0469-62.625L26.9531-61.347654' stroke='currentColor' fill='none' stroke-width='.54794' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>
+<path d='M26.9531-61.347654L29.8594-62.625L32.7656-61.347654' stroke='currentColor' fill='none' stroke-width='.54794' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>
+<path d='M32.7656-61.347654L35.6719-62.625L38.5742-61.347654' stroke='currentColor' fill='none' stroke-width='.54794' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>
+<path d='M38.5742-61.347654L41.4805-62.625L44.3867-61.347654' stroke='currentColor' fill='none' stroke-width='.54794' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>
+<path d='M44.3867-61.347654L47.293-62.625L50.1992-61.347654' stroke='currentColor' fill='none' stroke-width='.54794' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>
+<path d='M50.1992-61.347654L53.1055-62.625L56.0078-61.347654' stroke='currentColor' fill='none' stroke-width='.54794' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>
+<path d='M56.0078-61.347654L58.9141-62.625L61.8203-61.347654' stroke='currentColor' fill='none' stroke-width='.54794' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>
+<path d='M61.8203-61.347654L64.7266-62.625L67.6328-61.347654' stroke='currentColor' fill='none' stroke-width='.54794' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>
+<path d='M67.6328-61.347654L70.5391-62.625L73.4414-61.347654' stroke='currentColor' fill='none' stroke-width='.54794' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>
+<path d='M73.4414-61.347654L76.3477-62.625L79.2539-61.347654' stroke='currentColor' fill='none' stroke-width='.54794' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>
+<path d='M79.2539-61.347654L82.1602-62.625L85.0664-61.347654' stroke='currentColor' fill='none' stroke-width='.54794' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>
+<path d='M85.0664-61.347654L87.9727-62.625L90.875-61.347654' stroke='currentColor' fill='none' stroke-width='.54794' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>
+<path d='M90.875-61.347654L93.7813-62.625L96.6875-61.347654' stroke='currentColor' fill='none' stroke-width='.54794' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>
+<path d='M96.6875-61.347654L99.5938-62.625L102.5-61.347654' stroke='currentColor' fill='none' stroke-width='.54794' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>
+<path d='M102.5-61.347654L105.4023-62.625L108.3086-61.347654' stroke='currentColor' fill='none' stroke-width='.54794' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>
+<path d='M108.3086-61.347654L111.21484-62.625L114.12109-61.347654' stroke='currentColor' fill='none' stroke-width='.54794' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>
+<path d='M114.12109-61.347654L117.02734-62.625L119.933595-61.347654' stroke='currentColor' fill='none' stroke-width='.54794' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>
+<path d='M43.3906-68.02344H45.3828V-70.01562H43.3906Z' fill='#fff'/>
+<path d='M44.3867-66.46094L46.082-64.76953' stroke='currentColor' fill='none' stroke-width='.3487' stroke-miterlimit='10'/>
+<path d='M47.523468-63.32816L46.242221-66.160194L46.144566-64.707061L44.69144-64.609409Z'/>
+<path d='M47.523468-63.32816L46.242221-66.160194L46.144566-64.707061L44.69144-64.609409Z' stroke='currentColor' fill='none' stroke-width='.348697' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 .199 5.9776)'>
+<use x='119.932106' y='-61.348222' xlink:href='#g4-48'/>
+</g>
+<path d='M140.9961-61.347654C140.9961-62.070311 140.4102-62.65625 139.6914-62.65625C138.9688-62.65625 138.3828-62.070311 138.3828-61.347654S138.9688-60.04297 139.6914-60.04297C140.4102-60.04297 140.9961-60.624998 140.9961-61.347654Z'/>
+<g transform='matrix(1 0 0 1 14.995 9.4148)'>
+<use x='119.932106' y='-61.348222' xlink:href='#g2-21'/>
+<use x='125.307745' y='-60.351973' xlink:href='#g3-49'/>
+</g>
+<path d='M159.5938-61.347654C159.5938-62.070311 159.0078-62.65625 158.2852-62.65625C157.5625-62.65625 156.9766-62.070311 156.9766-61.347654S157.5625-60.04297 158.2852-60.04297C159.0078-60.04297 159.5938-60.624998 159.5938-61.347654Z'/>
+<g transform='matrix(1 0 0 1 33.59 9.4148)'>
+<use x='119.932106' y='-61.348222' xlink:href='#g2-21'/>
+<use x='125.307745' y='-60.351973' xlink:href='#g3-50'/>
+</g>
+<path d='M178.1875-61.347654C178.1875-62.070311 177.6016-62.65625 176.8828-62.65625C176.1602-62.65625 175.5742-62.070311 175.5742-61.347654S176.1602-60.04297 176.8828-60.04297C177.6016-60.04297 178.1875-60.624998 178.1875-61.347654Z'/>
+<g transform='matrix(1 0 0 1 52.186 9.4148)'>
+<use x='119.932106' y='-61.348222' xlink:href='#g2-21'/>
+<use x='125.307745' y='-60.351973' xlink:href='#g3-51'/>
+</g>
+<g transform='matrix(1 0 0 1 67.774 2.0167)'>
+<use x='119.932106' y='-61.348222' xlink:href='#g1-1'/>
+<use x='124.027831' y='-61.348222' xlink:href='#g1-1'/>
+<use x='128.123556' y='-61.348222' xlink:href='#g1-1'/>
+</g>
+<path d='M128.06641-43.2187H202.4492C214.0742-43.2187 214.0742-79.4805 202.4492-79.4805H128.06641C119.468751-74.1328 119.468751-48.5625 128.06641-43.2187Z' stroke='#858585' fill='none' stroke-width='.64757' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round' stroke-dasharray='2.98883 1.99255'/>
+<path d='M168.98815-43.218789L165.85533-44.40238L166.8944-43.218789L165.85533-42.03129Z' fill='#858585'/>
+<path d='M168.98815-43.218789L165.85533-44.40238L166.8944-43.218789L165.85533-42.03129Z' stroke='#858585' fill='none' stroke-width='.64757' stroke-miterlimit='10' stroke-linecap='round'/>
+<path d='M165.82432-79.480426L168.96104-78.29293L167.91807-79.480426L168.96104-80.66402Z' fill='#858585'/>
+<path d='M165.82432-79.480426L168.96104-78.29293L167.91807-79.480426L168.96104-80.66402Z' stroke='#858585' fill='none' stroke-width='.64757' stroke-miterlimit='10' stroke-linecap='round'/>
+<g fill='#737373' transform='matrix(1 0 0 1 86.159 -21.2564)'>
+<use x='119.932106' y='-61.348222' xlink:href='#g2-13'/>
+</g>
+<path d='M22.3047-72.9687H110.16797' stroke='currentColor' fill='none' stroke-width='.89664' stroke-miterlimit='10' stroke-linecap='round'/>
+<path d='M70.2305-72.968776L67.00394-74.19534L68.08206-72.968776L67.00394-71.74612Z'/>
+<path d='M70.2305-72.968776L67.00394-74.19534L68.08206-72.968776L67.00394-71.74612Z' stroke='currentColor' fill='none' stroke-width='.89664' stroke-miterlimit='10' stroke-linecap='round'/>
+<path d='M110.16797-72.9687C124.11719-72.5039 124.11719-50.1914 110.16797-49.7266' stroke='currentColor' fill='none' stroke-width='.89664' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>
+<path d='M110.16797-49.7266H22.3047' stroke='currentColor' fill='none' stroke-width='.89664' stroke-miterlimit='10' stroke-linecap='round'/>
+<path d='M62.24221-49.726529L65.46878-48.49997L64.39065-49.726529L65.46878-50.95309Z'/>
+<path d='M62.24221-49.726529L65.46878-48.49997L64.39065-49.726529L65.46878-50.95309Z' stroke='currentColor' fill='none' stroke-width='.89664' stroke-miterlimit='10' stroke-linecap='round'/>
+<path d='M22.3047-49.7266C7.195-42.2891 11.844-23.6914 33.9258-16.4883C94.3633-.4492 202.4492-6.0273 221.742-46.2383C228.02-56.23437 228.02-66.46094 221.742-76.457C202.4492-116.6719 94.3633-122.25 33.9258-106.2109C11.844-99.0039 7.195-80.4102 22.3047-72.9687' stroke='currentColor' fill='none' stroke-width='.89664' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>
+<path d='M226.448993-60.07035L225.22634-56.84379L226.448993-57.92191L227.67556-56.84379Z'/>
+<path d='M226.448993-60.07035L225.22634-56.84379L226.448993-57.92191L227.67556-56.84379Z' stroke='currentColor' fill='none' stroke-width='.89664' stroke-miterlimit='10' stroke-linecap='round'/>
+<g transform='matrix(1 0 0 1 -91.977 -13.648)'>
+<use x='119.932106' y='-61.348222' xlink:href='#g2-13'/>
+<use x='124.691859' y='-60.351973' xlink:href='#g0-0'/>
+</g>
+</g>
+</svg><figcaption><span class="note__figure-number">Figure 2.</span> Finite contour deformation.</figcaption></figure></li>
+  <li>Apply the preceding results to the one-dimensional Schrödinger
+    operator
+    \[A=-\frac{d^2}{dx^2}+V(x)\tag{3.18}\]
+    on $0\leq x\leq1$, with Dirichlet boundary conditions:
+    \[\begin{aligned}
+            A\phi_n&amp;=\lambda_n\phi_n,\\
+            \phi(0)&amp;=0,\\
+            \phi(1)&amp;=0.
+        \end{aligned}\tag{3.19}\]
+    Assume that the $\lambda_n$ are positive, discrete, and nondegenerate.
+    Instead of the Dirichlet eigenfunctions, solve the same eigenvalue equation
+    with initial-value conditions
+    \[\begin{aligned}
+            Au_\lambda&amp;=\lambda u_\lambda,\\
+            u_\lambda(0)&amp;=0,\\
+            u_\lambda'(0)&amp;=1.
+        \end{aligned}\tag{3.20}\]
+    Choose
+    \[F(\lambda)=u_\lambda(1)\tag{3.21}\]
+    and use the previous parts to establish the Gel'fand--Yaglom theorem
+    \[\frac{\det A}{\det A_{\mathrm{free}}}
+        =\frac{u_0(1)}{u_{\mathrm{free},0}(1)},\tag{3.22}\]
+    where
+    \[A_{\mathrm{free}}=-\frac{d^2}{dx^2}.\tag{3.23}\]
+
+<aside class="solution">
+
+<p>From the results above, we have
+        \[\zeta_A'(0) = \int^{-\infty}_0d\lambda \frac{d\log F(\lambda)}{d\lambda} = \log\frac{F(-\infty)}{F(0)} \implies \det A = \exp [-\zeta_A'(0)] = \frac{F(0)}{F(-\infty)}.\tag{3.24}\]
+        Note that $F(-\infty) = u_{-\infty}(1)$ is formally infinite. Intuitively, one might guess
+        \[\lim_{\lambda\to -\infty}\frac{F(\lambda)}{F_\mathrm{free}(\lambda)} = 1,\tag{3.25}\]
+        which follows
+        \[\frac{\det A}{\det A_{\mathrm{free}}}
+        =\frac{u_0(1)}{u_{\mathrm{free},0}(1)}.\tag{3.26}\]
+        The guess is true, as long as $V(x)$ is bounded, when $\lambda \to -\infty$, $V(x)$ becomes negligible.</p>
+
+</aside></li>
+  <li>Use the Gel'fand--Yaglom theorem to compute $\det A$ for
+    \[A=-\frac{d^2}{dx^2}+\omega^2\tag{3.27}\]
+    on the unit interval with Dirichlet boundary conditions. Verify the result
+    independently by finding the eigenvalues and using
+    \[\sin(\pi z)
+        =\pi z\prod_{n=1}^{\infty}
+        \left(1-\frac{z^2}{n^2}\right).\tag{3.28}\]
+
+<aside class="solution">
+
+<p>\[u_{\mathrm{free},0}(x) = x, \quad u_0(x) = \frac{\sinh \omega x}{\omega}, \quad \det A_\mathrm{free} = 2 \implies \det A =2\frac{\sinh \omega}{\omega}.\tag{3.29}\]
+        Meanwhile,
+        \[\lambda_n =  \pi^2n^2 + \omega^2 \implies \det A = \prod_{n=1}^\infty \pi^2n^2\left(1 +\frac{\omega^2}{\pi^2 n^2}\right),\tag{3.30}\]
+        which looks disastrous. However, remember, we can regulate it with
+        \[\det A_\mathrm{free} = \prod_{n=1}^\infty \pi^2n^2.\tag{3.31}\]
+        Therefore, we find
+        \[\frac{\det A}{\det A_\mathrm{free}}  =\frac{\sinh \omega}{\omega},\tag{3.32}\]
+        which recovers the Fel'danf-Yaglom theorem result by regulating $\det A_\mathrm{free}$ through the analytic continuation of the Reimann function.</p>
+
+</aside></li>
+</ol>
+  </article>
+
+  <hr class="ornament-rule">
+
+  <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
+    <a href="../notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <p class="footer__disclaimer">
+    These notes are not guaranteed to be correct. If you find a mistake,
+    <a href="mailto:luca.jin@outlook.com?subject=Correction%20to%20Luca%20Jin%20Physics">please email me</a>.
+  </p>
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="../">Home</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>

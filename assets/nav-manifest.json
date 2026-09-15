@@ -4,7 +4,7 @@
       "slug": "qft",
       "title": "Quantum Field Theory",
       "blurb": "Path-integral essay; completed Schwartz, Peskin, Tong, PSI, Osborn, and Srednicki solutions; plus an independent φ³ computation.",
-      "tag": "15 notes",
+      "tag": "24 notes",
       "groups": [
         {
           "title": "Papers",
@@ -95,9 +95,72 @@
             {
               "href": "notes/psi-correlation-functions-qm.html",
               "title": "Correlation Functions in Quantum Mechanics",
-              "label": "Ψ1.",
-              "desc": "PSI QFT II PS1 — Euclidean / real-time path-integral propagators of the harmonic oscillator at finite temperature.",
-              "tag": "PSI QFT II"
+              "label": "PS1.",
+              "desc": "Euclidean and real-time path-integral propagators of the harmonic oscillator at finite temperature.",
+              "tag": "PSI QFT II · PS1"
+            },
+            {
+              "href": "notes/psi-qft-ii-homework-1.html",
+              "title": "Generating Functionals for φ⁴ Theory",
+              "label": "H1.",
+              "desc": "Generating functionals, connected correlators, vacuum diagrams, and the 1PI effective action.",
+              "tag": "PSI QFT II · Homework 1"
+            },
+            {
+              "href": "notes/psi-qft-ii-homework-2.html",
+              "title": "Renormalization in Massive φ⁴ Theory",
+              "label": "H2.",
+              "desc": "Cutoff renormalization, running coupling and mass, and RG flow in the O(N) model.",
+              "tag": "PSI QFT II · Homework 2"
+            },
+            {
+              "href": "notes/psi-qft-ii-tutorial-3.html",
+              "title": "Saddle-Point Approximation and Functional Determinants",
+              "label": "T3.",
+              "desc": "Saddle points, functional determinants, zeta regularization, and the Gel&#x27;fand-Yaglom formalism.",
+              "tag": "PSI QFT II · Tutorial 3"
+            },
+            {
+              "href": "notes/psi-qft-ii-tutorial-4.html",
+              "title": "Exact Results in Quantum Field Theory",
+              "label": "T4.",
+              "desc": "The Källén-Lehmann representation, spectral functions, and Schwinger-Dyson equations.",
+              "tag": "PSI QFT II · Tutorial 4"
+            },
+            {
+              "href": "notes/psi-qft-ii-tutorial-5.html",
+              "title": "Effective Action and Renormalization in φ³ Theory",
+              "label": "T5.",
+              "desc": "The effective action, loop expansion, counterterms, and renormalization of φ³ theory.",
+              "tag": "PSI QFT II · Tutorial 5"
+            },
+            {
+              "href": "notes/psi-qft-ii-tutorial-6.html",
+              "title": "Renormalization-Group Flow in Three Dimensions",
+              "label": "T6.",
+              "desc": "Dimensionless couplings, beta functions, and the infrared fixed point of three-dimensional φ⁴ theory.",
+              "tag": "PSI QFT II · Tutorial 6"
+            },
+            {
+              "href": "notes/psi-qft-ii-tutorial-7.html",
+              "title": "Berezin Integration and the Gross-Neveu Model",
+              "label": "T7.",
+              "desc": "Grassmann Gaussian integrals, fermionic correlators, and large-N Gross-Neveu theory.",
+              "tag": "PSI QFT II · Tutorial 7"
+            },
+            {
+              "href": "notes/psi-qft-ii-tutorial-8.html",
+              "title": "SU(N) Yang-Mills Theory and Scalar Fields",
+              "label": "T8.",
+              "desc": "Fundamental and adjoint representations, covariant derivatives, scalar couplings, and Yang-Mills zero modes.",
+              "tag": "PSI QFT II · Tutorial 8"
+            },
+            {
+              "href": "notes/psi-qft-ii-tutorial-9.html",
+              "title": "The Faddeev-Popov Determinant",
+              "label": "T9.",
+              "desc": "Gauge-orbit volume, gauge slices, Jacobians, Gaussian gauge fixing, and ghost variables.",
+              "tag": "PSI QFT II · Tutorial 9"
             }
           ]
         },

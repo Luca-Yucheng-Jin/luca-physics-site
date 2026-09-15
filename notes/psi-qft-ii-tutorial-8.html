@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SU(N) Yang-Mills Theory and Scalar Fields | Yucheng (Luca) Jin</title>
+<meta name="description" content="SU(N) Yang-Mills Theory and Scalar Fields — Quantum Field Theory · PSI QFT II Tutorial 8, based on Perimeter Scholars International. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="author" content="Yucheng (Luca) Jin">
+<link rel="canonical" href="https://luca-yucheng-jin.github.io/luca-physics-site/notes/psi-qft-ii-tutorial-8.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://luca-yucheng-jin.github.io/luca-physics-site/notes/psi-qft-ii-tutorial-8.html">
+<meta property="og:site_name" content="Luca Jin Physics">
+<meta property="og:title" content="SU(N) Yang-Mills Theory and Scalar Fields | Yucheng (Luca) Jin">
+<meta property="og:description" content="SU(N) Yang-Mills Theory and Scalar Fields — Quantum Field Theory · PSI QFT II Tutorial 8, based on Perimeter Scholars International. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta property="og:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="SU(N) Yang-Mills Theory and Scalar Fields | Yucheng (Luca) Jin">
+<meta name="twitter:description" content="SU(N) Yang-Mills Theory and Scalar Fields — Quantum Field Theory · PSI QFT II Tutorial 8, based on Perimeter Scholars International. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta name="twitter:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="stylesheet" href="../styles.css">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/psi-qft-ii-tutorial-8.html#article","url":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/psi-qft-ii-tutorial-8.html","mainEntityOfPage":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/psi-qft-ii-tutorial-8.html","headline":"SU(N) Yang-Mills Theory and Scalar Fields","description":"SU(N) Yang-Mills Theory and Scalar Fields — Quantum Field Theory · PSI QFT II Tutorial 8, based on Perimeter Scholars International. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.","inLanguage":"en","genre":"Theoretical physics notes and worked solutions","educationalLevel":"Undergraduate physics","about":{"@type":"Thing","name":"Quantum Field Theory · PSI QFT II Tutorial 8"},"author":{"@type":"Person","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#person","name":"Yucheng (Luca) Jin","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"isPartOf":{"@type":"WebSite","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#website","name":"Luca Jin Physics","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"encoding":{"@type":"MediaObject","contentUrl":"https://luca-yucheng-jin.github.io/luca-physics-site/output/pdf/psi-qft-ii-tutorial-8.pdf","encodingFormat":"application/pdf"}},{"@type":"BreadcrumbList","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/psi-qft-ii-tutorial-8.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes.html"},{"@type":"ListItem","position":2,"name":"SU(N) Yang-Mills Theory and Scalar Fields","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/psi-qft-ii-tutorial-8.html"}]}]}</script>
+
+<script src="../assets/theme.js"></script>
+<script src="../assets/font-size.js"></script>
+
+<!-- MathJax with custom macros mirroring the original .tex preamble -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros', 'mathtools']},
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      Q: '\\mathbb{Q}',
+      A: '\\mathcal{A}',
+      Lagrangian: '\\mathcal{L}',
+      Cdot: '\\boldsymbol{\\cdot}',
+      Tr: '\\operatorname{Tr}',
+      // \qed inside math (e.g. trailing a derivation in an align env) —
+      // amsthm's text-mode handler is already covered by the HTML-side
+      // replace at the bottom of strip_tex_only_constructs, this catches
+      // the math-mode case (Osborn AQFT PS3 Q3 ends an equation with .\qed).
+      qed: '\\blacksquare',
+      // Feynman slash: \not{x} would render the slash to the LEFT of x
+      // (it's designed for \not=). \cancel from the cancel package
+      // strikes diagonally through the centre, matching the slashed.sty
+      // package's appearance.
+      slashed: ['{\\cancel{#1}}', 1],
+      // Wick contraction: top brace connector over the contracted pair —
+      // closer to the standard physics notation than a plain overline.
+      wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // siunitx polyfill — \si{K}, \si{m\,s^{-1}} etc. should render
+      // the unit in upright math text, like \mathrm{X}. Doesn't try
+      // to mimic the full siunitx unit-formatting machinery; just
+      // unblocks the common bare-unit case in TDSP problems.
+      si: ['\\,\\mathrm{#1}', 1],
+      SI: ['#1\\,\\mathrm{#2}', 2]
+      // \tensor{base}{indices} is rewritten to base^a{}_b in
+      // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
+      // so no runtime macro is needed here. The empty-group trick is
+      // what makes MathJax kern the indices into separate columns.
+    }
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../" class="topbar__brand">Luca Jin <small>Physics · Imperial</small></a>
+  <nav class="topbar__nav" aria-label="Primary navigation">
+    <a href="../">Home</a>
+    <a href="../notes.html" class="is-active">Notes</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+    <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" title="Decrease font size">A<span class="font-toggle__small">−</span></button>
+    <button class="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size" title="Increase font size">A<span class="font-toggle__large">+</span></button>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Toggle theme">
+      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    </button>
+  </nav>
+</header>
+
+<main class="note">
+
+  <div class="note__breadcrumb">
+    <a href="../notes.html">Notes</a> &nbsp;·&nbsp; Quantum Field Theory · PSI QFT II Tutorial 8
+  </div>
+
+  <h1 class="note__title">SU(N) Yang-Mills Theory and Scalar Fields</h1>
+  <p class="note__subtitle">Source: Perimeter Scholars International, <em>Quantum Field Theory II</em>, Tutorial 8; 11 worked parts.</p>
+
+  <div class="note__formats" aria-label="Available formats"><span>Available formats</span><a aria-current="page" href="psi-qft-ii-tutorial-8.html">HTML</a><a href="../output/pdf/psi-qft-ii-tutorial-8.pdf">PDF ↓</a></div>
+
+  <nav class="note__toc" aria-label="Contents">
+  <div class="note__toc-label">Contents</div>
+  <ol class="note__toc-list">
+    <li class="toc-h2"><a href="#coupling-to-scalar-fields"><span class="note__toc-number">1</span> <span class="note__toc-title">Coupling to Scalar Fields</span></a></li>
+    <li class="toc-h2"><a href="#zero-modes-of-the-yang--mills-lagrangian"><span class="note__toc-number">2</span> <span class="note__toc-title">Zero Modes of the Yang--Mills Lagrangian</span></a></li>
+  </ol>
+</nav>
+
+  <article class="note__body">
+<p><em>Question prompts paraphrased from the official
+<a href="https://psi-online.perimeterinstitute.ca/courses/take/quantum-field-theory-ii-student/pdfs/20776405-module-7-tutorial">Perimeter PSI Online sheet</a>;
+the equations and notation follow the source.</em></p>
+
+<h2 data-section-heading id="coupling-to-scalar-fields" data-section-number="1"><span class="note__heading-number">1</span> <span class="note__heading-title">Coupling to Scalar Fields</span></h2>
+
+<p>Let $\phi_i(x)$ be a scalar field in a representation $r$ of $SU(N)$, with
+$i=1,\ldots,\dim r$.</p>
+
+<ol>
+  <li>Determine the dimension of the group $SU(N)$.
+
+<aside class="solution">
+
+<p>An $N\times N$ complex matrix has $2N^2$ real dimensions. The hermitian condition, $U^*_{ik}U_{jk} = \delta_{ij}$, is $N^2$ constraints. In addition, $\det U =1$ gives an extra constraint. Therefore, $\dim SU(N) = N^2 -1$.</p>
+
+</aside></li>
+  <li>Determine the dimension of the fundamental representation of $SU(N)$.
+
+<aside class="solution">
+
+<p>The fundamental representation of $SU(N)$ is $N \times N$ complex matrices, which has dimension $N$.</p>
+
+</aside></li>
+  <li>The adjoint action is defined by
+    \[\operatorname{Ad}_g(T^a)\equiv gT^ag^{-1}.\tag{1.1}\]
+    Thus there is a $\dim G\times\dim G$ matrix $C(g)$ such that
+    \[gT^ag^{-1}=C^{ab}(g)T^b.\tag{1.2}\]
+    Expand $g$ and $C(g)$ infinitesimally and use
+    \[[T_i,T_j]=if_{ijk}T_k\tag{1.3}\]
+    to derive the adjoint generators
+    \[(T_i)_{jk}=if_{ijk}.\tag{1.4}\]
+
+<aside class="solution">
+
+<p>\[\begin{aligned}
+                \operatorname{Ad}(g)Y = (I + \epsilon X)Y(I-\epsilon X) = I + \epsilon[X,Y] = (I + \epsilon \operatorname{ad}(X))Y \implies \operatorname{ad}(X)Y = [X,Y].
+            \end{aligned}\tag{1.5}\]
+        Taking $X = T^a, Y=T^b$, we have
+        \[\operatorname{ad}(T^a)^{bc}T^c = if^{abc}T^c \implies \operatorname{ad}(T^a)^{bc} =if^{abc}.\tag{1.6}\]</p>
+
+</aside></li>
+  <li>Determine the dimension of the adjoint representation of $SU(N)$.
+
+<aside class="solution">
+
+<p>As we have seen above, the adjoint representation of the Lie algebra is a $\dim G \times \dim G$ matrix. Therefore,
+        \[\dim \operatorname{adj}(su(N)) = \dim SU(N).\tag{1.7}\]</p>
+
+</aside></li>
+</ol>
+
+<p>Now consider the local transformation
+\[\phi_i(x)\longmapsto g_{ij}(x)\phi_j(x),
+    \qquad
+    g(x)=\exp\!\bigl[i\alpha_m(x)T_r^m\bigr],\tag{1.8}\]
+where $T_r^m$ are the $su(N)$ generators in the representation $r$ and the
+$\alpha_m(x)$ are spacetime-dependent group parameters. Require the covariant
+derivative to transform as
+\[D_\mu\phi_i(x)\longmapsto g_{ij}(x)D_\mu\phi_j(x),\tag{1.9}\]
+and define, with matrix indices suppressed,
+\[D_\mu\phi=\partial_\mu\phi-ieA_\mu\phi,
+    \qquad
+    A_\mu(x)=A_\mu^m(x)T_r^m.\tag{1.10}\]</p>
+
+<ol>
+  <li>Derive the finite gauge-transformation law of $A_\mu(x)$ required by
+    the covariance of $D_\mu\phi$.
+
+<aside class="solution">
+
+<p>\[\begin{aligned}
+                D_\mu \phi \to D_\mu' g \phi = (\partial_\mu g)\phi + g \partial_\mu \phi  - ie A_\mu' g\phi = g(\partial_\mu \phi - ie A_\mu \phi),
+        \end{aligned}\tag{1.11}\]
+        which implies
+        \[A_\mu' = g A_\mu g^{-1} - \frac{i}{e}(\partial_\mu g) g^{-1}.\tag{1.12}\]</p>
+
+</aside></li>
+  <li>For infinitesimal $\alpha_m(x)$, show that
+    \[\delta A_\mu^a=\frac{1}{e}D_\mu\alpha_a,
+        \qquad
+        D_\mu\alpha=\partial_\mu\alpha+ie[\alpha,A_\mu].\tag{1.13}\]
+
+<aside class="solution">
+
+<p>\[\begin{aligned}
+                A_\mu^aR(T^a) &amp; \to (I + i \alpha_bR(T^b))A_\mu^a R(T^a)(I - i \alpha_bR(T^b)) + \frac{1}{e}(\partial_\mu \alpha_b)R(T^b)(I + i \alpha_a R(T^a))\\
+                &amp;=A_\mu^aR(T^a) + i\alpha_b[R(T^b),R(T^a)]A_\mu^a+\frac{1}{e}(\partial_\mu \alpha_b)R(T^b)\\
+                &amp;=A_\mu^aR(T^a) + \frac{1}{e}D_\mu\alpha,
+            \end{aligned}\tag{1.14}\]
+        from which we can recognise $\alpha$ as the adjoint representation of $su(N)$.</p>
+
+</aside></li>
+  <li>Prove that the Lagrangian
+    \[\mathcal{L}
+        =-(D_\mu\phi)^\dagger D^\mu\phi
+        -m^2\phi^\dagger\phi
+        -\frac{\lambda}{2}(\phi^\dagger\phi)^2\tag{1.15}\]
+    is invariant under the local scalar transformation and the gauge-field
+    transformation found above.
+
+<aside class="solution">
+
+<p>It can be easily seen through the transformation of $\phi$ and $D_\mu \phi$.</p>
+
+</aside></li>
+  <li>Extract every Feynman rule from this Lagrangian that contains at least
+    one scalar line.
+
+<aside class="solution">
+
+<p>Expanding the covariant derivative, we have
+        \[|D_\mu\phi|^2  = |\partial_\mu\phi|^2 + ieA_\mu(\phi^\dagger\partial_\mu \phi - \phi \partial_\mu \phi^\dagger) + e^2A_\mu^2|\phi|^2,\tag{1.16}\]
+        and the Feynman rules can be read off.</p>
+
+</aside></li>
+  <li>Apply Noether's theorem to obtain the conserved currents.
+
+<aside class="solution">
+
+<p>\[j^a_\mu = \frac{\partial \mathcal{L}}{\partial(\partial^\mu \phi)}\delta\phi^a  +  \frac{\partial \mathcal{L}}{\partial(\partial^\mu \phi^\dagger)}\delta\phi^{\dagger a}= i (D_\mu\phi)^\dagger R(T^a)\phi - i\phi^\dagger R(T^a)(D_\mu \phi).\tag{1.17}\]</p>
+
+</aside></li>
+</ol>
+
+<h2 data-section-heading id="zero-modes-of-the-yang--mills-lagrangian" data-section-number="2"><span class="note__heading-number">2</span> <span class="note__heading-title">Zero Modes of the Yang--Mills Lagrangian</span></h2>
+
+<p>Take the unfixed Yang--Mills Lagrangian
+\[\mathcal{L}
+    =-\frac{1}{2g^2}\operatorname{Tr}(F^{\mu\nu}F_{\mu\nu}),\tag{2.1}\]
+with the trace over adjoint indices and arbitrary $N$ in $SU(N)$.</p>
+
+<ol>
+  <li>Expand the $F^2$ term, isolate the quadratic terms containing two
+    derivatives, and write them as
+    \[\int d^4x\,A_\mu^a(x)D_x^{\mu\nu}A_\nu^a(x).\tag{2.2}\]
+
+<aside class="solution">
+
+<p>\[\begin{aligned}
+                S &amp;= -\frac{1}{4g}\int d^dx F_{\mu\nu}^a F^{a\mu\nu}\\
+                &amp;=-\frac{1}{2g}\int d^dx A_\nu(-\partial^2\eta^{\mu\nu} + \partial^\mu\partial^\nu)A_\mu + \cdots,
+            \end{aligned}\tag{2.3}\]
+        where the interacting terms are suppressed.</p>
+
+</aside></li>
+  <li>Show that there is a nonzero field $B_\mu$ satisfying
+    \[D_x^{\mu\nu}B_\nu(x)=0.\tag{2.4}\]
+    <em>Hint: regard $D^{\mu\nu}$ as an integral kernel and inspect its
+    momentum-space representation.</em>
+    Explain why this zero mode obstructs inversion of the quadratic operator
+    before gauge fixing.
+
+<aside class="solution">
+
+<p>It is easy to see that any field of the form $\partial_\mu \omega$ is the kernel of the operator $D^{\mu\nu}_a$. Therefore, $D^{\mu\nu}_a$ is clearly not invertible and hence we need the Faddeev-Popov procedure.</p>
+
+</aside></li>
+</ol>
+  </article>
+
+  <hr class="ornament-rule">
+
+  <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
+    <a href="../notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <p class="footer__disclaimer">
+    These notes are not guaranteed to be correct. If you find a mistake,
+    <a href="mailto:luca.jin@outlook.com?subject=Correction%20to%20Luca%20Jin%20Physics">please email me</a>.
+  </p>
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="../">Home</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>

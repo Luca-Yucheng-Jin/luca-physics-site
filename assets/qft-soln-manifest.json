@@ -1,0 +1,100 @@
+{
+  "sourceRepository": "https://github.com/Luca-Yucheng-Jin/QFT-soln",
+  "sourceCommit": "07d7fe95fd5cf5b26d38a16ee535a04a925277b2",
+  "sheets": [
+    {
+      "kind": "Homework",
+      "number": "1",
+      "slug": "psi-qft-ii-homework-1",
+      "title": "Generating Functionals for φ⁴ Theory",
+      "sourcePath": "sections/PSIQFTII_Homework1.tex",
+      "solutionCount": 10,
+      "description": "Generating functionals, connected correlators, vacuum diagrams, and the 1PI effective action.",
+      "texFile": "psi-qft-ii-homework-1.tex"
+    },
+    {
+      "kind": "Homework",
+      "number": "2",
+      "slug": "psi-qft-ii-homework-2",
+      "title": "Renormalization in Massive φ⁴ Theory",
+      "sourcePath": "sections/PSIQFTII_Homework2.tex",
+      "solutionCount": 15,
+      "description": "Cutoff renormalization, running coupling and mass, and RG flow in the O(N) model.",
+      "texFile": "psi-qft-ii-homework-2.tex"
+    },
+    {
+      "kind": "Tutorial",
+      "number": "3",
+      "slug": "psi-qft-ii-tutorial-3",
+      "title": "Saddle-Point Approximation and Functional Determinants",
+      "sourcePath": "sections/PSIQFTII_Tutorial3.tex",
+      "solutionCount": 15,
+      "description": "Saddle points, functional determinants, zeta regularization, and the Gel'fand-Yaglom formalism.",
+      "texFile": "psi-qft-ii-tutorial-3.tex"
+    },
+    {
+      "kind": "Tutorial",
+      "number": "4",
+      "slug": "psi-qft-ii-tutorial-4",
+      "title": "Exact Results in Quantum Field Theory",
+      "sourcePath": "sections/PSIQFTII_Tutorial4.tex",
+      "solutionCount": 16,
+      "description": "The Källén-Lehmann representation, spectral functions, and Schwinger-Dyson equations.",
+      "texFile": "psi-qft-ii-tutorial-4.tex"
+    },
+    {
+      "kind": "Tutorial",
+      "number": "5",
+      "slug": "psi-qft-ii-tutorial-5",
+      "title": "Effective Action and Renormalization in φ³ Theory",
+      "sourcePath": "sections/PSIQFTII_Tutorial5.tex",
+      "solutionCount": 7,
+      "description": "The effective action, loop expansion, counterterms, and renormalization of φ³ theory.",
+      "texFile": "psi-qft-ii-tutorial-5.tex"
+    },
+    {
+      "kind": "Tutorial",
+      "number": "6",
+      "slug": "psi-qft-ii-tutorial-6",
+      "title": "Renormalization-Group Flow in Three Dimensions",
+      "sourcePath": "sections/PSIQFTII_Tutorial6.tex",
+      "solutionCount": 7,
+      "description": "Dimensionless couplings, beta functions, and the infrared fixed point of three-dimensional φ⁴ theory.",
+      "texFile": "psi-qft-ii-tutorial-6.tex"
+    },
+    {
+      "kind": "Tutorial",
+      "number": "7",
+      "slug": "psi-qft-ii-tutorial-7",
+      "title": "Berezin Integration and the Gross-Neveu Model",
+      "sourcePath": "sections/PSIQFTII_Tutorial7.tex",
+      "solutionCount": 10,
+      "description": "Grassmann Gaussian integrals, fermionic correlators, and large-N Gross-Neveu theory.",
+      "texFile": "psi-qft-ii-tutorial-7.tex"
+    },
+    {
+      "kind": "Tutorial",
+      "number": "8",
+      "slug": "psi-qft-ii-tutorial-8",
+      "title": "SU(N) Yang-Mills Theory and Scalar Fields",
+      "sourcePath": "sections/PSIQFTII_Tutorial8.tex",
+      "solutionCount": 11,
+      "description": "Fundamental and adjoint representations, covariant derivatives, scalar couplings, and Yang-Mills zero modes.",
+      "texFile": "psi-qft-ii-tutorial-8.tex"
+    },
+    {
+      "kind": "Tutorial",
+      "number": "9",
+      "slug": "psi-qft-ii-tutorial-9",
+      "title": "The Faddeev-Popov Determinant",
+      "sourcePath": "sections/PSIQFTII_Tutorial9.tex",
+      "solutionCount": 10,
+      "description": "Gauge-orbit volume, gauge slices, Jacobians, Gaussian gauge fixing, and ghost variables.",
+      "texFile": "psi-qft-ii-tutorial-9.tex"
+    }
+  ],
+  "excludedIncomplete": [
+    "sections/PSIQFTII_Tutorial2.tex",
+    "sections/PSIQFTII_Homework3.tex"
+  ]
+}

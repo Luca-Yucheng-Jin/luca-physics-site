@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Effective Action and Renormalization in φ³ Theory | Yucheng (Luca) Jin</title>
+<meta name="description" content="Effective Action and Renormalization in φ³ Theory — Quantum Field Theory · PSI QFT II Tutorial 5, based on Perimeter Scholars International. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="author" content="Yucheng (Luca) Jin">
+<link rel="canonical" href="https://luca-yucheng-jin.github.io/luca-physics-site/notes/psi-qft-ii-tutorial-5.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://luca-yucheng-jin.github.io/luca-physics-site/notes/psi-qft-ii-tutorial-5.html">
+<meta property="og:site_name" content="Luca Jin Physics">
+<meta property="og:title" content="Effective Action and Renormalization in φ³ Theory | Yucheng (Luca) Jin">
+<meta property="og:description" content="Effective Action and Renormalization in φ³ Theory — Quantum Field Theory · PSI QFT II Tutorial 5, based on Perimeter Scholars International. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta property="og:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Effective Action and Renormalization in φ³ Theory | Yucheng (Luca) Jin">
+<meta name="twitter:description" content="Effective Action and Renormalization in φ³ Theory — Quantum Field Theory · PSI QFT II Tutorial 5, based on Perimeter Scholars International. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta name="twitter:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="stylesheet" href="../styles.css">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/psi-qft-ii-tutorial-5.html#article","url":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/psi-qft-ii-tutorial-5.html","mainEntityOfPage":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/psi-qft-ii-tutorial-5.html","headline":"Effective Action and Renormalization in φ³ Theory","description":"Effective Action and Renormalization in φ³ Theory — Quantum Field Theory · PSI QFT II Tutorial 5, based on Perimeter Scholars International. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.","inLanguage":"en","genre":"Theoretical physics notes and worked solutions","educationalLevel":"Undergraduate physics","about":{"@type":"Thing","name":"Quantum Field Theory · PSI QFT II Tutorial 5"},"author":{"@type":"Person","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#person","name":"Yucheng (Luca) Jin","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"isPartOf":{"@type":"WebSite","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#website","name":"Luca Jin Physics","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"encoding":{"@type":"MediaObject","contentUrl":"https://luca-yucheng-jin.github.io/luca-physics-site/output/pdf/psi-qft-ii-tutorial-5.pdf","encodingFormat":"application/pdf"}},{"@type":"BreadcrumbList","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/psi-qft-ii-tutorial-5.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes.html"},{"@type":"ListItem","position":2,"name":"Effective Action and Renormalization in φ³ Theory","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/psi-qft-ii-tutorial-5.html"}]}]}</script>
+
+<script src="../assets/theme.js"></script>
+<script src="../assets/font-size.js"></script>
+
+<!-- MathJax with custom macros mirroring the original .tex preamble -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros', 'mathtools']},
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      Q: '\\mathbb{Q}',
+      A: '\\mathcal{A}',
+      Lagrangian: '\\mathcal{L}',
+      Cdot: '\\boldsymbol{\\cdot}',
+      Tr: '\\operatorname{Tr}',
+      // \qed inside math (e.g. trailing a derivation in an align env) —
+      // amsthm's text-mode handler is already covered by the HTML-side
+      // replace at the bottom of strip_tex_only_constructs, this catches
+      // the math-mode case (Osborn AQFT PS3 Q3 ends an equation with .\qed).
+      qed: '\\blacksquare',
+      // Feynman slash: \not{x} would render the slash to the LEFT of x
+      // (it's designed for \not=). \cancel from the cancel package
+      // strikes diagonally through the centre, matching the slashed.sty
+      // package's appearance.
+      slashed: ['{\\cancel{#1}}', 1],
+      // Wick contraction: top brace connector over the contracted pair —
+      // closer to the standard physics notation than a plain overline.
+      wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // siunitx polyfill — \si{K}, \si{m\,s^{-1}} etc. should render
+      // the unit in upright math text, like \mathrm{X}. Doesn't try
+      // to mimic the full siunitx unit-formatting machinery; just
+      // unblocks the common bare-unit case in TDSP problems.
+      si: ['\\,\\mathrm{#1}', 1],
+      SI: ['#1\\,\\mathrm{#2}', 2]
+      // \tensor{base}{indices} is rewritten to base^a{}_b in
+      // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
+      // so no runtime macro is needed here. The empty-group trick is
+      // what makes MathJax kern the indices into separate columns.
+    }
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../" class="topbar__brand">Luca Jin <small>Physics · Imperial</small></a>
+  <nav class="topbar__nav" aria-label="Primary navigation">
+    <a href="../">Home</a>
+    <a href="../notes.html" class="is-active">Notes</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+    <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" title="Decrease font size">A<span class="font-toggle__small">−</span></button>
+    <button class="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size" title="Increase font size">A<span class="font-toggle__large">+</span></button>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Toggle theme">
+      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    </button>
+  </nav>
+</header>
+
+<main class="note">
+
+  <div class="note__breadcrumb">
+    <a href="../notes.html">Notes</a> &nbsp;·&nbsp; Quantum Field Theory · PSI QFT II Tutorial 5
+  </div>
+
+  <h1 class="note__title">Effective Action and Renormalization in φ³ Theory</h1>
+  <p class="note__subtitle">Source: Perimeter Scholars International, <em>Quantum Field Theory II</em>, Tutorial 5; 7 worked parts.</p>
+
+  <div class="note__formats" aria-label="Available formats"><span>Available formats</span><a aria-current="page" href="psi-qft-ii-tutorial-5.html">HTML</a><a href="../output/pdf/psi-qft-ii-tutorial-5.pdf">PDF ↓</a></div>
+
+  <nav class="note__toc" aria-label="Contents">
+  <div class="note__toc-label">Contents</div>
+  <ol class="note__toc-list">
+    <li class="toc-h2"><a href="#the-effective-action-for-phi3-theory"><span class="note__toc-number">1</span> <span class="note__toc-title">The Effective Action for $\phi^3$ Theory</span></a></li>
+    <li class="toc-h2"><a href="#renormalization"><span class="note__toc-number">2</span> <span class="note__toc-title">Renormalization</span></a></li>
+  </ol>
+</nav>
+
+  <article class="note__body">
+<p><em>Question prompts paraphrased from the official
+<a href="https://psi-online.perimeterinstitute.ca/courses/take/quantum-field-theory-ii-student/pdfs/20776383-module-4-tutorial-2">Perimeter PSI Online sheet</a>;
+the equations and notation follow the source.</em></p>
+
+<h2 data-section-heading id="the-effective-action-for-phi3-theory" data-section-number="1"><span class="note__heading-number">1</span> <span class="note__heading-title">The Effective Action for $\phi^3$ Theory</span></h2>
+
+<p>In six-dimensional Euclidean spacetime, consider
+\[S_\lambda
+    =\int d^6x\,
+    \left[
+        \frac{1}{2}(\partial\phi)^2
+        +\frac{m^2}{2}\phi^2
+        +\frac{\lambda}{3!}\phi^3
+    \right].\tag{1.1}\]
+For a bosonic theory, the one-loop effective action is
+\[\Gamma[\phi]
+    =S[\phi]
+    +\frac{\hbar}{2}\operatorname{Tr}
+    \!\left[\ln\!\left(S''[\phi]\right)\right]
+    +O(\hbar^2),\tag{1.2}\]
+where terms of order $\hbar^n$ correspond to $n$-loop diagrams.</p>
+
+<ol>
+  <li>Calculate the integral kernel associated with the operator
+    $S''[\phi]$ in $\phi^3$ theory.
+
+<aside class="solution">
+
+<p>\[S''[\phi]_{xy} = \left(-\partial^2 + m^2 + \lambda\phi(x)\right)\delta^d(x-y).\tag{1.3}\]</p>
+
+</aside></li>
+  <li>Factor the free-field contribution out of $S''[\phi]$ and expand
+    $\operatorname{Tr}[\ln(S''[\phi])]$ perturbatively in $\lambda$.
+
+<p><em>Hint:</em> Recall
+    \[\ln(1+x)
+        =x-\frac{x^2}{2}+\frac{x^3}{3}-\frac{x^4}{4}
+        +\frac{x^5}{5}-\frac{x^6}{6}+\cdots.\tag{1.4}\]</p>
+
+<aside class="solution">
+
+<p>Write
+        \[(-\partial^2+m^2)\Delta(x-y) = \delta^d(x-y) \iff (-\partial^2 +m^2)_{xy}\Delta_{yz} = \delta_{xz}.\tag{1.5}\]
+        Then, we have
+        \[S''[\phi]_{xy} = (-\partial^2+m^2)_{xz}\left(\delta_{zy} +  \Delta_{zy} \lambda\phi(z)\right).\tag{1.6}\]
+        This immediately follows
+        \[\begin{aligned}
+            \Tr \ln (S''[\phi]) &amp;= \Tr \left(\ln(-\partial^2 +m^2)_{xz} + \ln\left(\delta_{zy}+ \lambda\Delta_{zy}\phi(z)\right)\right)\\
+            &amp;=\ln(\det(-\partial^2 +m^2)) + \Tr\left(\lambda\Delta_{zy}\phi(y) - \frac{\lambda^2}{2}\Delta_{zu}\Delta_{uy}\phi(z)\phi(u) + \cdots\right)\\
+            &amp;=\ln(\det(-\partial^2 +m^2)) + \lambda\Delta(0)\int d^dx \phi(x) - \frac{\lambda^2}{2}\int d^dx d^dy\phi(x)\Delta^2(x-y)\phi(y) + \cdots.
+        \end{aligned}\tag{1.7}\]</p>
+
+</aside></li>
+  <li>Express the complete one-loop effective action $\Gamma[\phi]$ as a
+    power series in $\lambda$ through fifth order. Represent the result using
+    one-loop amputated Feynman diagrams.
+
+<aside class="solution">
+
+<p>Up to fifth order in $\lambda$, we have
+        \[\begin{aligned}
+        \Gamma[\phi]
+        &amp;=\int d^dx\,
+        \left[
+            \frac{1}{2}(\partial\phi)^2
+            +\frac{m^2}{2}\phi^2
+            +\frac{\lambda}{3!}\phi^3
+            +\frac{\hbar\lambda}{2}\Delta(0)\phi(x)
+        \right]\\
+        &amp;\quad
+        -\frac{\hbar\lambda^2}{4}
+        \int d^dx\,d^dy\,
+        \phi(x)\Delta^2(x-y)\phi(y)\\
+        &amp;\quad
+        +\frac{\hbar\lambda^3}{6}
+        \int d^dx\,d^dy\,d^dz\Delta(x-y)\Delta(y-z)\Delta(z-x)
+        \phi(x)\phi(y)\phi(z)\\
+        &amp;\quad
+        -\frac{\hbar\lambda^4}{8}
+        \int d^dx\,d^dy\,d^dz\,d^dw
+        \Delta(x-y)\Delta(y-z)\Delta(z-w)\Delta(w-x)
+        \phi(x)\phi(y)\phi(z)\phi(w)\\
+        &amp;\quad
+        +\frac{\hbar\lambda^5}{10}
+        \int d^dx\,d^dy\,d^dz\,d^dw\,d^du
+        \Delta(x-y)\Delta(y-z)\Delta(z-w)
+        \Delta(w-u)\Delta(u-x)\\
+        &amp;\qquad \qquad \times
+        \phi(x)\phi(y)\phi(z)\phi(w)\phi(u)\\
+        &amp;\quad
+        +\mathcal{O}(\lambda^6)+\mathcal{O}(\hbar^2).
+    \end{aligned}\tag{1.8}\]
+        where we have ignore overall constants. These corresponds to the diagrams</p>
+
+<figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='32.867em' height='18.478em' viewBox='-.000035 -167.982372 298.790445 167.983368'>
+<defs>
+<path id='g0-30' d='M3.431133-4.749191C3.431133-4.839851 3.347447-4.839851 3.312578-4.839851C3.20797-4.839851 3.200996-4.804981 3.173101-4.686426L2.775592-3.089415C1.54122-3.033624 .488169-2.147945 .488169-1.21345C.488169-.425405 1.206476 .048817 1.980573 .076712C1.924782 .292902 1.875965 .516065 1.820174 .732254C1.736488 1.060025 1.673724 1.318057 1.673724 1.338979C1.673724 1.422665 1.764384 1.422665 1.785305 1.422665C1.889913 1.422665 1.896887 1.401743 1.931756 1.255293L2.224658 .083686C3.417186 .034869 4.51208-.843836 4.51208-1.792279C4.51208-2.524533 3.870486-3.047572 3.019676-3.082441L3.431133-4.749191ZM2.02939-.118555C1.492403-.146451 .99726-.439352 .99726-1.094894C.99726-1.792279 1.527273-2.775592 2.719801-2.887173L2.02939-.118555ZM2.963885-2.887173C3.500872-2.866252 4.002989-2.57335 4.002989-1.910834C4.002989-1.150685 3.403238-.216189 2.273474-.118555L2.963885-2.887173Z'/>
+<path id='g0-117' d='M2.949938-1.129763C2.915068-.990286 2.852304-.72528 2.838356-.718306C2.705853-.502117 2.426899-.125529 1.994521-.125529C1.513325-.125529 1.513325-.578829 1.513325-.704359C1.513325-1.115816 1.708593-1.610959 1.903861-2.12005C1.959651-2.259527 2.001494-2.364134 2.001494-2.475716C2.001494-2.838356 1.694645-3.075467 1.338979-3.075467C.641594-3.075467 .327771-2.12005 .327771-2.008468C.327771-1.917808 .425405-1.917808 .446326-1.917808C.54396-1.917808 .550934-1.952677 .571856-2.02939C.739228-2.601245 1.046077-2.880199 1.318057-2.880199C1.436613-2.880199 1.492403-2.803487 1.492403-2.636115C1.492403-2.475716 1.436613-2.329265 1.366874-2.168867C.990286-1.206476 .990286-1.004234 .990286-.81594C.990286-.697385 .990286-.376588 1.248319-.153425C1.45056 .013948 1.72254 .069738 1.966625 .069738C2.405978 .069738 2.643088-.167372 2.873225-.390535C3.02665 .055791 3.493898 .069738 3.577584 .069738C3.814695 .069738 3.996015-.069738 4.128518-.299875C4.281943-.571856 4.379577-.976339 4.379577-.99726C4.379577-1.08792 4.281943-1.08792 4.261021-1.08792C4.163387-1.08792 4.156413-1.060025 4.107597-.871731C4.02391-.54396 3.891407-.125529 3.598506-.125529C3.417186-.125529 3.368369-.285928 3.368369-.467248C3.368369-.585803 3.424159-.836862 3.472976-1.018182C3.521793-1.206476 3.591532-1.492403 3.626401-1.645828L3.7868-2.266501C3.828643-2.440847 3.905355-2.747696 3.905355-2.782565C3.905355-2.922042 3.793773-3.005729 3.675218-3.005729C3.417186-3.005729 3.368369-2.803487 3.312578-2.580324L2.949938-1.129763Z'/>
+<path id='g0-119' d='M3.668244-2.224658C3.717061-2.412951 3.800747-2.747696 3.800747-2.782565C3.800747-2.922042 3.689166-3.005729 3.57061-3.005729C3.438107-3.005729 3.312578-2.922042 3.270735-2.803487C3.249813-2.747696 3.180075-2.454795 3.131258-2.280448C3.033624-1.882939 3.033624-1.868991 2.929016-1.478456C2.838356-1.094894 2.824408-1.039103 2.817435-.836862C2.84533-.697385 2.789539-.564882 2.622167-.355666C2.531507-.244085 2.39203-.125529 2.154919-.125529C1.882939-.125529 1.527273-.223163 1.527273-.767123C1.527273-1.12279 1.72254-1.638854 1.862017-1.994521C1.980573-2.30137 2.008468-2.364134 2.008468-2.48269C2.008468-2.817435 1.72254-3.075467 1.345953-3.075467C.641594-3.075467 .327771-2.127024 .327771-2.008468C.327771-1.917808 .425405-1.917808 .446326-1.917808C.54396-1.917808 .550934-1.952677 .571856-2.02939C.746202-2.608219 1.046077-2.880199 1.325031-2.880199C1.443587-2.880199 1.499377-2.803487 1.499377-2.636115C1.499377-2.475716 1.436613-2.322291 1.401743-2.231631C1.004234-1.21345 1.004234-1.073973 1.004234-.857783C1.004234-.034869 1.750436 .069738 2.127024 .069738C2.259527 .069738 2.601245 .069738 2.915068-.397509C3.075467-.083686 3.459029 .069738 3.884433 .069738C4.505106 .069738 4.811955-.467248 4.951432-.753176C5.251308-1.338979 5.439601-2.21071 5.439601-2.531507C5.439601-3.054545 5.139726-3.082441 5.090909-3.082441C4.909589-3.082441 4.714321-2.894147 4.714321-2.712827C4.714321-2.594271 4.78406-2.538481 4.832877-2.496638C5.000249-2.357161 5.090909-2.161893 5.090909-1.93873C5.090909-1.84807 4.798007-.125529 3.912329-.125529C3.347447-.125529 3.347447-.627646 3.347447-.746202C3.347447-.934496 3.375342-1.046077 3.472976-1.443587L3.668244-2.224658Z'/>
+<path id='g0-120' d='M1.736488-.739228C1.66675-.502117 1.436613-.125529 1.080946-.125529C1.060025-.125529 .850809-.125529 .704359-.223163C.990286-.313823 1.011208-.564882 1.011208-.606725C1.011208-.760149 .892653-.864757 .732254-.864757C.536986-.864757 .334745-.697385 .334745-.439352C.334745-.09066 .72528 .069738 1.066999 .069738C1.387796 .069738 1.673724-.132503 1.84807-.425405C2.015442-.055791 2.399004 .069738 2.677958 .069738C3.47995 .069738 3.905355-.801993 3.905355-.99726C3.905355-1.08792 3.814695-1.08792 3.793773-1.08792C3.696139-1.08792 3.689166-1.053051 3.66127-.969365C3.514819-.488169 3.096389-.125529 2.705853-.125529C2.426899-.125529 2.280448-.313823 2.280448-.578829C2.280448-.760149 2.447821-1.39477 2.643088-2.168867C2.782565-2.705853 3.096389-2.880199 3.326526-2.880199C3.340473-2.880199 3.556663-2.880199 3.703113-2.782565C3.47995-2.719801 3.396264-2.524533 3.396264-2.399004C3.396264-2.245579 3.514819-2.140971 3.675218-2.140971S4.065753-2.273474 4.065753-2.566376C4.065753-2.956912 3.619427-3.075467 3.340473-3.075467C2.991781-3.075467 2.712827-2.84533 2.559402-2.580324C2.433873-2.866252 2.113076-3.075467 1.72254-3.075467C.941469-3.075467 .495143-2.217684 .495143-2.008468C.495143-1.917808 .592777-1.917808 .613699-1.917808C.704359-1.917808 .711333-1.945704 .746202-2.036364C.920548-2.580324 1.3599-2.880199 1.701619-2.880199C1.931756-2.880199 2.12005-2.75467 2.12005-2.419925C2.12005-2.280448 2.036364-1.931756 1.973599-1.694645L1.736488-.739228Z'/>
+<path id='g0-121' d='M3.87746-2.629141C3.905355-2.726775 3.905355-2.740722 3.905355-2.782565C3.905355-2.922042 3.793773-3.005729 3.675218-3.005729C3.598506-3.005729 3.466002-2.970859 3.38929-2.838356C3.368369-2.796513 3.312578-2.57335 3.277709-2.433873L3.131258-1.855044C3.089415-1.687671 2.873225-.808966 2.852304-.732254C2.84533-.732254 2.538481-.125529 1.994521-.125529C1.520299-.125529 1.520299-.578829 1.520299-.704359C1.520299-1.080946 1.680697-1.520299 1.889913-2.057285C1.973599-2.280448 2.008468-2.364134 2.008468-2.48269C2.008468-2.817435 1.72254-3.075467 1.345953-3.075467C.641594-3.075467 .327771-2.127024 .327771-2.008468C.327771-1.917808 .425405-1.917808 .446326-1.917808C.54396-1.917808 .550934-1.952677 .571856-2.02939C.746202-2.608219 1.046077-2.880199 1.325031-2.880199C1.443587-2.880199 1.499377-2.803487 1.499377-2.636115C1.499377-2.475716 1.436613-2.322291 1.401743-2.231631C1.066999-1.380822 .99726-1.12279 .99726-.81594C.99726-.697385 .99726-.369614 1.26924-.146451C1.48543 .034869 1.778331 .069738 1.966625 .069738C2.245579 .069738 2.496638-.034869 2.726775-.244085C2.636115 .139477 2.559402 .432379 2.266501 .781071C2.078207 .99726 1.799253 1.227397 1.429639 1.227397C1.380822 1.227397 1.053051 1.227397 .9066 .99726C1.283188 .955417 1.283188 .620672 1.283188 .613699C1.283188 .390535 1.080946 .348692 1.011208 .348692C.836862 .348692 .606725 .488169 .606725 .808966C.606725 1.164633 .941469 1.422665 1.436613 1.422665C2.140971 1.422665 2.998755 .878705 3.214944 .006974L3.87746-2.629141Z'/>
+<path id='g0-122' d='M1.171606-.613699C1.352927-.795019 1.478456-.927522 2.071233-1.401743C2.217684-1.520299 2.740722-1.93873 2.942964-2.133998C3.368369-2.552428 3.633375-2.908095 3.633375-2.991781S3.542715-3.075467 3.514819-3.075467C3.452055-3.075467 3.431133-3.061519 3.396264-3.005729C3.180075-2.684932 3.033624-2.580324 2.866252-2.580324C2.782565-2.580324 2.677958-2.587298 2.468742-2.789539C2.231631-3.02665 2.078207-3.075467 1.917808-3.075467C1.3599-3.075467 .983313-2.468742 .983313-2.259527C.983313-2.196762 1.053051-2.175841 1.101868-2.175841C1.185554-2.175841 1.199502-2.196762 1.227397-2.273474C1.332005-2.517559 1.72254-2.531507 1.834122-2.531507C1.994521-2.531507 2.175841-2.489664 2.273474-2.468742C2.657036-2.385056 2.705853-2.385056 2.880199-2.385056C2.698879-2.196762 2.57335-2.071233 1.910834-1.54122C1.366874-1.108842 1.17858-.934496 1.046077-.795019C.627646-.383562 .425405-.076712 .425405-.013948C.425405 .069738 .516065 .069738 .54396 .069738C.613699 .069738 .627646 .055791 .662516 0C.850809-.265006 1.066999-.425405 1.30411-.425405C1.387796-.425405 1.492403-.418431 1.680697-.244085C1.896887-.034869 2.036364 .069738 2.259527 .069738C3.005729 .069738 3.472976-.774097 3.472976-1.011208C3.472976-1.094894 3.396264-1.101868 3.354421-1.101868C3.270735-1.101868 3.256787-1.066999 3.228892-.990286C3.096389-.641594 2.684932-.474222 2.343213-.474222C2.182814-.474222 2.008468-.509091 1.834122-.550934C1.513325-.620672 1.457534-.620672 1.332005-.620672C1.318057-.620672 1.21345-.620672 1.171606-.613699Z'/>
+<path id='g1-40' d='M2.475716-5.230386C1.150685-4.29589 .801993-2.817435 .801993-1.750436C.801993-.767123 1.094894 .760149 2.475716 1.736488C2.531507 1.736488 2.615193 1.736488 2.615193 1.652802C2.615193 1.610959 2.594271 1.597011 2.545455 1.548194C1.617933 .711333 1.276214-.474222 1.276214-1.743462C1.276214-3.626401 1.994521-4.546949 2.566376-5.063014C2.594271-5.090909 2.615193-5.111831 2.615193-5.1467C2.615193-5.230386 2.531507-5.230386 2.475716-5.230386Z'/>
+<path id='g1-41' d='M.627646-5.230386C.578829-5.230386 .495143-5.230386 .495143-5.1467C.495143-5.111831 .516065-5.090909 .557908-5.042092C1.157659-4.491158 1.827148-3.549689 1.827148-1.750436C1.827148-.292902 1.373848 .808966 .620672 1.492403C.502117 1.610959 .495143 1.617933 .495143 1.652802S.516065 1.736488 .585803 1.736488C.669489 1.736488 1.332005 1.276214 1.792279 .404483C2.099128-.174346 2.30137-.927522 2.30137-1.743462C2.30137-2.726775 2.008468-4.254047 .627646-5.230386Z'/>
+</defs>
+<g id='page1'>
+<g transform='matrix(1 0 0 1 -3.51566 -49.2808)'>
+<use x='3.515625' y='-79.455186' xlink:href='#g0-30'/>
+<use x='8.306009' y='-79.455186' xlink:href='#g1-40'/>
+<use x='11.419352' y='-79.455186' xlink:href='#g0-120'/>
+<use x='15.937153' y='-79.455186' xlink:href='#g1-41'/>
+</g>
+<path d='M37.70702-130.4805C37.70702-131.3594 36.99612-132.0742 36.11332-132.0742C35.23442-132.0742 34.51952-131.3594 34.51952-130.4805C34.51952-129.5977 35.23442-128.8867 36.11332-128.8867C36.99612-128.8867 37.70702-129.5977 37.70702-130.4805Z'/>
+<path d='M37.70702-130.4805C37.70702-131.3594 36.99612-132.0742 36.11332-132.0742C35.23442-132.0742 34.51952-131.3594 34.51952-130.4805C34.51952-129.5977 35.23442-128.8867 36.11332-128.8867C36.99612-128.8867 37.70702-129.5977 37.70702-130.4805Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M15.73442-130.4805H34.32032' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M61.62502-130.4805C61.62502-137.5234 55.91402-143.2344 48.87112-143.2344C41.82422-143.2344 36.11332-137.5234 36.11332-130.4805C36.11332-123.4336 41.82422-117.7227 48.87112-117.7227C55.91402-117.7227 61.62502-123.4336 61.62502-130.4805Z' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 92.86378 -49.2808)'>
+<use x='3.515625' y='-79.455186' xlink:href='#g0-30'/>
+<use x='8.306009' y='-79.455186' xlink:href='#g1-40'/>
+<use x='11.419352' y='-79.455186' xlink:href='#g0-120'/>
+<use x='15.937153' y='-79.455186' xlink:href='#g1-41'/>
+</g>
+<path d='M125.58162-130.4805C125.58162-131.3594 124.87062-132.0742 123.98862-132.0742C123.10962-132.0742 122.39462-131.3594 122.39462-130.4805C122.39462-129.5977 123.10962-128.8867 123.98862-128.8867C124.87062-128.8867 125.58162-129.5977 125.58162-130.4805Z'/>
+<path d='M125.58162-130.4805C125.58162-131.3594 124.87062-132.0742 123.98862-132.0742C123.10962-132.0742 122.39462-131.3594 122.39462-130.4805C122.39462-129.5977 123.10962-128.8867 123.98862-128.8867C124.87062-128.8867 125.58162-129.5977 125.58162-130.4805Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M156.76562-130.4805C156.76562-131.3594 156.05062-132.0742 155.17162-132.0742C154.28862-132.0742 153.57862-131.3594 153.57862-130.4805C153.57862-129.5977 154.28862-128.8867 155.17162-128.8867C156.05062-128.8867 156.76562-129.5977 156.76562-130.4805Z'/>
+<path d='M156.76562-130.4805C156.76562-131.3594 156.05062-132.0742 155.17162-132.0742C154.28862-132.0742 153.57862-131.3594 153.57862-130.4805C153.57862-129.5977 154.28862-128.8867 155.17162-128.8867C156.05062-128.8867 156.76562-129.5977 156.76562-130.4805Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 163.84438 -49.2808)'>
+<use x='3.515625' y='-79.455186' xlink:href='#g0-30'/>
+<use x='8.306009' y='-79.455186' xlink:href='#g1-40'/>
+<use x='11.419352' y='-79.455186' xlink:href='#g0-121'/>
+<use x='15.710022' y='-79.455186' xlink:href='#g1-41'/>
+</g>
+<path d='M112.11362-130.4805H122.19562' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M156.96462-130.4805H167.16062' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M125.01962-131.9492C131.53162-141.2539 147.62862-141.2539 154.14462-131.9492' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M125.01962-129.0117C131.53162-119.707 147.62862-119.707 154.14462-129.0117' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M260.23062-144.6523C260.23062-145.5352 259.51562-146.2461 258.63662-146.2461S257.04262-145.5352 257.04262-144.6523C257.04262-143.7734 257.75762-143.0586 258.63662-143.0586S260.23062-143.7734 260.23062-144.6523Z'/>
+<path d='M260.23062-144.6523C260.23062-145.5352 259.51562-146.2461 258.63662-146.2461S257.04262-145.5352 257.04262-144.6523C257.04262-143.7734 257.75762-143.0586 258.63662-143.0586S260.23062-143.7734 260.23062-144.6523Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M246.05862-119.9922C246.05862-120.8711 245.34362-121.5859 244.46462-121.5859C243.58162-121.5859 242.87062-120.8711 242.87062-119.9922C242.87062-119.1094 243.58162-118.3984 244.46462-118.3984C245.34362-118.3984 246.05862-119.1094 246.05862-119.9922Z'/>
+<path d='M246.05862-119.9922C246.05862-120.8711 245.34362-121.5859 244.46462-121.5859C243.58162-121.5859 242.87062-120.8711 242.87062-119.9922C242.87062-119.1094 243.58162-118.3984 244.46462-118.3984C245.34362-118.3984 246.05862-119.1094 246.05862-119.9922Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M274.40662-119.9922C274.40662-120.8711 273.69162-121.5859 272.80862-121.5859C271.92962-121.5859 271.21462-120.8711 271.21462-119.9922C271.21462-119.1094 271.92962-118.3984 272.80862-118.3984C273.69162-118.3984 274.40662-119.1094 274.40662-119.9922Z'/>
+<path d='M274.40662-119.9922C274.40662-120.8711 273.69162-121.5859 272.80862-121.5859C271.92962-121.5859 271.21462-120.8711 271.21462-119.9922C271.21462-119.1094 271.92962-118.3984 272.80862-118.3984C273.69162-118.3984 274.40662-119.1094 274.40662-119.9922Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 247.35338 -83.2968)'>
+<use x='3.515625' y='-79.455186' xlink:href='#g0-30'/>
+<use x='8.306009' y='-79.455186' xlink:href='#g1-40'/>
+<use x='11.419352' y='-79.455186' xlink:href='#g0-120'/>
+<use x='15.937153' y='-79.455186' xlink:href='#g1-41'/>
+</g>
+<g transform='matrix(1 0 0 1 214.86838 -28.0208)'>
+<use x='3.515625' y='-79.455186' xlink:href='#g0-30'/>
+<use x='8.306009' y='-79.455186' xlink:href='#g1-40'/>
+<use x='11.419352' y='-79.455186' xlink:href='#g0-121'/>
+<use x='15.710022' y='-79.455186' xlink:href='#g1-41'/>
+</g>
+<g transform='matrix(1 0 0 1 280.16538 -28.0208)'>
+<use x='3.515625' y='-79.455186' xlink:href='#g0-30'/>
+<use x='8.306009' y='-79.455186' xlink:href='#g1-40'/>
+<use x='11.419352' y='-79.455186' xlink:href='#g0-122'/>
+<use x='15.511687' y='-79.455186' xlink:href='#g1-41'/>
+</g>
+<path d='M257.74262-143.0977L245.35562-121.5469' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M246.25762-119.9922H271.01562' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M271.91762-121.5469L259.53162-143.0977' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M258.63662-160.8086V-146.4453' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M232.34362-112.9062L242.91362-119.0859' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M274.35962-119.0859L284.92962-112.9062' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M81.64452-49.6914C81.64452-50.5703 80.93362-51.2852 80.05082-51.2852C79.17192-51.2852 78.45702-50.5703 78.45702-49.6914S79.17192-48.0977 80.05082-48.0977C80.93362-48.0977 81.64452-48.8125 81.64452-49.6914Z'/>
+<path d='M81.64452-49.6914C81.64452-50.5703 80.93362-51.2852 80.05082-51.2852C79.17192-51.2852 78.45702-50.5703 78.45702-49.6914S79.17192-48.0977 80.05082-48.0977C80.93362-48.0977 81.64452-48.8125 81.64452-49.6914Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M104.32462-49.6914C104.32462-50.5703 103.60962-51.2852 102.73052-51.2852C101.84762-51.2852 101.13672-50.5703 101.13672-49.6914S101.84762-48.0977 102.73052-48.0977C103.60962-48.0977 104.32462-48.8125 104.32462-49.6914Z'/>
+<path d='M104.32462-49.6914C104.32462-50.5703 103.60962-51.2852 102.73052-51.2852C101.84762-51.2852 101.13672-50.5703 101.13672-49.6914S101.84762-48.0977 102.73052-48.0977C103.60962-48.0977 104.32462-48.8125 104.32462-49.6914Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M104.32462-27.0117C104.32462-27.8945 103.60962-28.6094 102.73052-28.6094C101.84762-28.6094 101.13672-27.8945 101.13672-27.0117C101.13672-26.1328 101.84762-25.418 102.73052-25.418C103.60962-25.418 104.32462-26.1328 104.32462-27.0117Z'/>
+<path d='M104.32462-27.0117C104.32462-27.8945 103.60962-28.6094 102.73052-28.6094C101.84762-28.6094 101.13672-27.8945 101.13672-27.0117C101.13672-26.1328 101.84762-25.418 102.73052-25.418C103.60962-25.418 104.32462-26.1328 104.32462-27.0117Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M81.64452-27.0117C81.64452-27.8945 80.93362-28.6094 80.05082-28.6094C79.17192-28.6094 78.45702-27.8945 78.45702-27.0117C78.45702-26.1328 79.17192-25.418 80.05082-25.418C80.93362-25.418 81.64452-26.1328 81.64452-27.0117Z'/>
+<path d='M81.64452-27.0117C81.64452-27.8945 80.93362-28.6094 80.05082-28.6094C79.17192-28.6094 78.45702-27.8945 78.45702-27.0117C78.45702-26.1328 79.17192-25.418 80.05082-25.418C80.93362-25.418 81.64452-26.1328 81.64452-27.0117Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 50.34348 13.082)'>
+<use x='3.515625' y='-79.455186' xlink:href='#g0-30'/>
+<use x='8.306009' y='-79.455186' xlink:href='#g1-40'/>
+<use x='11.419352' y='-79.455186' xlink:href='#g0-120'/>
+<use x='15.937153' y='-79.455186' xlink:href='#g1-41'/>
+</g>
+<g transform='matrix(1 0 0 1 109.98538 13.082)'>
+<use x='3.515625' y='-79.455186' xlink:href='#g0-30'/>
+<use x='8.306009' y='-79.455186' xlink:href='#g1-40'/>
+<use x='11.419352' y='-79.455186' xlink:href='#g0-121'/>
+<use x='15.710022' y='-79.455186' xlink:href='#g1-41'/>
+</g>
+<g transform='matrix(1 0 0 1 110.08438 72.61049)'>
+<use x='3.515625' y='-79.455186' xlink:href='#g0-30'/>
+<use x='8.306009' y='-79.455186' xlink:href='#g1-40'/>
+<use x='11.419352' y='-79.455186' xlink:href='#g0-122'/>
+<use x='15.511687' y='-79.455186' xlink:href='#g1-41'/>
+</g>
+<g transform='matrix(1 0 0 1 49.62688 72.61049)'>
+<use x='3.515625' y='-79.455186' xlink:href='#g0-30'/>
+<use x='8.306009' y='-79.455186' xlink:href='#g1-40'/>
+<use x='11.419352' y='-79.455186' xlink:href='#g0-119'/>
+<use x='17.370442' y='-79.455186' xlink:href='#g1-41'/>
+</g>
+<path d='M81.84372-49.6914H100.93752' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M102.73052-47.8984V-28.8086' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M100.93752-27.0117H81.84372' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M80.05082-28.8086V-47.8984' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M65.31252-64.4297L78.78512-50.9609' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M117.46862-64.4297L103.99562-50.9609' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M103.99562-25.7461L117.46862-12.2734' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M78.78512-25.7461L65.31252-12.2734' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M231.88262-55.3594C231.88262-56.2422 231.17162-56.9531 230.28862-56.9531C229.41062-56.9531 228.69562-56.2422 228.69562-55.3594C228.69562-54.4805 229.41062-53.7656 230.28862-53.7656C231.17162-53.7656 231.88262-54.4805 231.88262-55.3594Z'/>
+<path d='M231.88262-55.3594C231.88262-56.2422 231.17162-56.9531 230.28862-56.9531C229.41062-56.9531 228.69562-56.2422 228.69562-55.3594C228.69562-54.4805 229.41062-53.7656 230.28862-53.7656C231.17162-53.7656 231.88262-54.4805 231.88262-55.3594Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M248.04262-43.4531C248.04262-44.3359 247.32862-45.0469 246.44962-45.0469C245.56662-45.0469 244.85562-44.3359 244.85562-43.4531C244.85562-42.5742 245.56662-41.8594 246.44962-41.8594C247.32862-41.8594 248.04262-42.5742 248.04262-43.4531Z'/>
+<path d='M248.04262-43.4531C248.04262-44.3359 247.32862-45.0469 246.44962-45.0469C245.56662-45.0469 244.85562-44.3359 244.85562-43.4531C244.85562-42.5742 245.56662-41.8594 246.44962-41.8594C247.32862-41.8594 248.04262-42.5742 248.04262-43.4531Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M241.80462-24.1797C241.80462-25.0586 241.09362-25.7734 240.21062-25.7734C239.33162-25.7734 238.61762-25.0586 238.61762-24.1797C238.61762-23.2969 239.33162-22.5859 240.21062-22.5859C241.09362-22.5859 241.80462-23.2969 241.80462-24.1797Z'/>
+<path d='M241.80462-24.1797C241.80462-25.0586 241.09362-25.7734 240.21062-25.7734C239.33162-25.7734 238.61762-25.0586 238.61762-24.1797C238.61762-23.2969 239.33162-22.5859 240.21062-22.5859C241.09362-22.5859 241.80462-23.2969 241.80462-24.1797Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M221.96062-24.1797C221.96062-25.0586 221.24962-25.7734 220.36762-25.7734C219.48862-25.7734 218.77362-25.0586 218.77362-24.1797C218.77362-23.2969 219.48862-22.5859 220.36762-22.5859C221.24962-22.5859 221.96062-23.2969 221.96062-24.1797Z'/>
+<path d='M221.96062-24.1797C221.96062-25.0586 221.24962-25.7734 220.36762-25.7734C219.48862-25.7734 218.77362-25.0586 218.77362-24.1797C218.77362-23.2969 219.48862-22.5859 220.36762-22.5859C221.24962-22.5859 221.96062-23.2969 221.96062-24.1797Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M215.72662-43.4531C215.72662-44.3359 215.01162-45.0469 214.13262-45.0469C213.24962-45.0469 212.53862-44.3359 212.53862-43.4531C212.53862-42.5742 213.24962-41.8594 214.13262-41.8594C215.01162-41.8594 215.72662-42.5742 215.72662-43.4531Z'/>
+<path d='M215.72662-43.4531C215.72662-44.3359 215.01162-45.0469 214.13262-45.0469C213.24962-45.0469 212.53862-44.3359 212.53862-43.4531C212.53862-42.5742 213.24962-41.8594 214.13262-41.8594C215.01162-41.8594 215.72662-42.5742 215.72662-43.4531Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<g transform='matrix(1 0 0 1 219.00738 3.1609)'>
+<use x='3.515625' y='-79.455186' xlink:href='#g0-30'/>
+<use x='8.306009' y='-79.455186' xlink:href='#g1-40'/>
+<use x='11.419352' y='-79.455186' xlink:href='#g0-120'/>
+<use x='15.937153' y='-79.455186' xlink:href='#g1-41'/>
+</g>
+<g transform='matrix(1 0 0 1 257.38938 28.6729)'>
+<use x='3.515625' y='-79.455186' xlink:href='#g0-30'/>
+<use x='8.306009' y='-79.455186' xlink:href='#g1-40'/>
+<use x='11.419352' y='-79.455186' xlink:href='#g0-121'/>
+<use x='15.710022' y='-79.455186' xlink:href='#g1-41'/>
+</g>
+<g transform='matrix(1 0 0 1 242.46438 77.71272)'>
+<use x='3.515625' y='-79.455186' xlink:href='#g0-30'/>
+<use x='8.306009' y='-79.455186' xlink:href='#g1-40'/>
+<use x='11.419352' y='-79.455186' xlink:href='#g0-122'/>
+<use x='15.511687' y='-79.455186' xlink:href='#g1-41'/>
+</g>
+<g transform='matrix(1 0 0 1 195.04538 77.71272)'>
+<use x='3.515625' y='-79.455186' xlink:href='#g0-30'/>
+<use x='8.306009' y='-79.455186' xlink:href='#g1-40'/>
+<use x='11.419352' y='-79.455186' xlink:href='#g0-119'/>
+<use x='17.370442' y='-79.455186' xlink:href='#g1-41'/>
+</g>
+<g transform='matrix(1 0 0 1 180.64238 28.6729)'>
+<use x='3.515625' y='-79.455186' xlink:href='#g0-30'/>
+<use x='8.306009' y='-79.455186' xlink:href='#g1-40'/>
+<use x='11.419352' y='-79.455186' xlink:href='#g0-117'/>
+<use x='16.129747' y='-79.455186' xlink:href='#g1-41'/>
+</g>
+<path d='M231.73462-54.2969L245.00362-44.5195' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M245.89462-41.75L240.76162-25.8867' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M238.41762-24.1797H222.16062' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M219.81662-25.8867L214.68362-41.75' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M215.57462-44.5195L228.84762-54.2969' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M230.28862-74.35156V-57.1523' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M248.10562-44.1367L260.70662-49.3047' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M241.18362-22.6719L251.16062-7.1719' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M219.39862-22.6719L209.41762-7.1719' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+<path d='M200.08562-49.2187L212.47262-44.1367' stroke='currentColor' fill='none' stroke-width='.79701' stroke-miterlimit='10'/>
+</g>
+</svg></figure>
+
+</aside></li>
+  <li>Explain how the coefficients in the expansion from the preceding part
+    are related to the symmetries of the corresponding graphs.</li>
+  <li>Use the one-loop effective action to show that quantum effects in
+    $\phi^3$ theory generate a vacuum expectation value for $\phi(x)$.
+
+<p><em>Hint:</em> The quantum vacuum field $\varphi(x)$ is the configuration
+    that extremizes the quantum effective action.</p>
+
+<aside class="solution">
+
+<p>Since there is now a term of order 1 in $\phi$, there is a constant term in the effective equation of motion, $\Gamma'[\varphi] = 0$. Therefore, $\varphi$ must be nonzero, and by the definition of $\varphi$, the VEV of $\phi^3$ theory is nonzero.</p>
+
+</aside></li>
+</ol>
+
+<h2 data-section-heading id="renormalization" data-section-number="2"><span class="note__heading-number">2</span> <span class="note__heading-title">Renormalization</span></h2>
+
+<ol>
+  <li>Redefine the field so that it creates a normalized one-particle state
+    with no vacuum overlap:
+    \[\langle\Omega|\phi(0)|\Omega\rangle=0,
+        \qquad
+        \langle\mathbf k|\phi(0)|\Omega\rangle=1.\tag{2.1}\]
+    Show that the Lagrangian can then be written as
+    \[\mathcal L
+        =\frac{1}{2}A\,\partial_\mu\phi\,\partial^\mu\phi
+        +B\phi
+        +\frac{1}{2}C\phi^2
+        +\frac{1}{3!}D\phi^3.\tag{2.2}\]
+
+<aside class="solution">
+
+<p>In general, the bare field would give
+        \[\langle\Omega|\phi_0(0)|\Omega\rangle=v,
+        \qquad
+        \langle\mathbf k|\phi_0(0)|\Omega\rangle=\sqrt{Z}.\tag{2.3}\]
+        Define the renormalised field as
+        \[\phi(x) = \frac{1}{\sqrt{Z}}\phi_0(x) -v,\tag{2.4}\]
+        so that
+        \[\langle\Omega|\phi(0)|\Omega\rangle=0,
+            \qquad
+            \langle\mathbf k|\phi(0)|\Omega\rangle=1.\tag{2.5}\]
+        Plugging this into the Lagrangian, we find
+        \[\mathcal L
+        =\frac{1}{2}A\,\partial_\mu\phi\,\partial^\mu\phi
+        +B\phi
+        +\frac{1}{2}C\phi^2
+        +\frac{1}{3!}D\phi^3\tag{2.6}\]
+        after some redefinition.</p>
+
+</aside></li>
+  <li>The factor $A$ ensures the equal-time canonical commutator
+    $[\phi(\mathbf x),\Pi(\mathbf y)]=i\hbar\delta(\mathbf x-\mathbf y)$.
+    Use the six-dimensional Källén--Lehmann representation
+    \[\begin{aligned}\langle\Omega|\phi(x)\phi(y)|\Omega\rangle
+        &amp;={}
+        \int\frac{d^5\mathbf k}{(2\pi)^5}\,
+        \frac{e^{ik\cdot(x-y)}}{2E_{\mathbf k}}
+        \left|\langle\mathbf k|\phi(0)|\Omega\rangle\right|^2
+        \notag\\
+        &amp;\quad+
+        \int_{4m^2}^{\infty}ds\,
+        \int\frac{d^5\mathbf k}{(2\pi)^5}\,
+        \frac{e^{ik\cdot(x-y)}}{2E_{\mathbf k}}\rho(s)\end{aligned}\tag{2.7}\]
+    to find the relation between $A$ and $\rho(s)$.
+
+<aside class="solution">
+
+<p>Consider
+        \[\begin{aligned}
+                \partial_{y_0}\bra{\Omega}[\phi(x),\phi(y)]\ket{\Omega}\bigg|_{x_0 = y_0} &amp;= \frac{i}{2}\int\frac{d^5\mathbf k}{(2\pi)^5}(e^{-i\mathbf{k}\cdot (\mathbf{x}-\mathbf{y})} + e^{i\mathbf{k}\cdot (\mathbf{x}-\mathbf{y})})\\
+                &amp;\qquad+ \frac{i}{2}\int_{4m^2}^{\infty}ds\,
+        \int\frac{d^5\mathbf k}{(2\pi)^5}\,
+        (e^{-i\mathbf{k}\cdot (\mathbf{x}-\mathbf{y})} + e^{i\mathbf{k}\cdot (\mathbf{x}-\mathbf{y})})\rho(s)\\
+        &amp;= i\delta^5(\mathbf{x}- \mathbf{y}) + i\int_{4m^2}^{\infty}ds\,\rho(s)\delta^5(\mathbf{x}- \mathbf{y}).
+            \end{aligned}\tag{2.8}\]
+        Meanwhile, we have
+        \[\Pi(x) = Z \partial_0\phi(x).\tag{2.9}\]
+        Therefore, we have
+        \[\partial_{y_0}\bra{\Omega}[\phi(x),\phi(y)]\ket{\Omega}\bigg|_{x_0 = y_0} = \frac{1}{Z}\partial_{y_0}\bra{\Omega}[\phi(\mathbf x),\Pi(\mathbf y)]\ket{\Omega} \implies 1 = Z\left(1+\int_{4m^2}^{\infty}ds\,\rho(s)\right).\tag{2.10}\]</p>
+
+</aside></li>
+  <li>Impose four renormalization conditions to determine $A,B,C,D$. Two
+    are the normalization conditions above; a third sets the physical mass to
+    zero. For the fourth, require
+    \[\Gamma(p_1,p_2,p_3)=\lambda_R
+        \qquad\text{when}\qquad
+        (p_1+p_2)^2=(p_1+p_3)^2=\mu^2.\tag{2.11}\]
+    With a sharp momentum cutoff $\Lambda$, determine $A,B,C$ in terms of
+    $\lambda_R$ and $\Lambda$ to the order requested, and determine $D$ through
+    order $\lambda_R^2$.
+
+<aside class="solution">
+
+<p>First, let us rewrite the Lagrangian as
+        \[\mathcal{L} = \frac{1}{2}(\partial\phi)^2 + \frac{1}{2}m^2 \phi^2 + \frac{\lambda}{3!}\phi^3 + \frac{\delta_A}{2}(\partial\phi)^2 + B\phi + \frac12 \delta_C \phi^2 + \frac{\delta_D}{3!}\phi^3,\tag{2.12}\]
+        where $\delta_A = A-1$, $\delta_C = C - m^2$, and $\delta_D = D - \lambda$. Let us start with $B$, at one loop order, the only contributing diagram is</p>
+
+<div class="equation-row"><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='5.910em' height='2.713em' viewBox='.771885 -24.657815 53.72573 24.65933'>
+<g id='page1'>
+<path d='M31.85547-12.328125C31.85547-13.210937 31.140626-13.92187 30.26172-13.92187C29.382813-13.92187 28.66797-13.210937 28.66797-12.328125C28.66797-11.449218 29.382813-10.73437 30.26172-10.73437C31.140626-10.73437 31.85547-11.449218 31.85547-12.328125Z'/>
+<path d='M31.85547-12.328125C31.85547-13.210937 31.140626-13.92187 30.26172-13.92187C29.382813-13.92187 28.66797-13.210937 28.66797-12.328125C28.66797-11.449218 29.382813-10.73437 30.26172-10.73437C31.140626-10.73437 31.85547-11.449218 31.85547-12.328125Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M1.1953-12.328125H28.46875' stroke='currentColor' fill='none' stroke-width='.84683' stroke-miterlimit='10'/>
+<path d='M54.0742-12.328125C54.0742-18.90234 48.7422-24.2344 42.168-24.2344C35.59375-24.2344 30.26172-18.90234 30.26172-12.328125C30.26172-5.75391 35.59375-.4219 42.168-.4219C48.7422-.4219 54.0742-5.75391 54.0742-12.328125Z' stroke='currentColor' fill='none' stroke-width='.84683' stroke-miterlimit='10'/>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle +$</span><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='3.698em' height='0.909em' viewBox='.771885 -8.26863 33.621745 8.26773'>
+<g id='page1'>
+<path d='M1.1953-4.132812H30.26172' stroke='currentColor' fill='none' stroke-width='.84683' stroke-miterlimit='10'/>
+<path d='M26.57813-.44922L33.94531-7.82031' stroke='currentColor' fill='none' stroke-width='.89664' stroke-miterlimit='10'/>
+<path d='M26.57813-7.82031L33.94531-.44922' stroke='currentColor' fill='none' stroke-width='.89664' stroke-miterlimit='10'/>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle =
+-\frac{\lambda}{2}
+\int\frac{d^6k}{(2\pi)^6}
+\frac{1}{k^2+m^2}
+-B.$</span><span class="equation-num">(2.13)</span></div>
+
+<p>Since the vacuum expectation value must vanishes, the above must vanishes, and hence we have
+        \[B = -\frac{\lambda}{128\pi^3}\left[
+                \frac{\Lambda^4}{4}
+                -\frac{m^2\Lambda^2}{2}
+                +\frac{m^4}{2}
+                \ln\left(1+\frac{\Lambda^2}{m^2}\right)
+                \right]\tag{2.14}\]
+        at one-loop order.</p>
+
+<p>Now, we turn to the mass renormalisation factor. At 1-loop order, we have</p>
+
+<div class="equation-row"><span class="equation-part">$\displaystyle -M_2(p^2)=$</span><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='9.294em' height='2.463em' viewBox='.771885 -22.392215 84.49133 22.39373'>
+<g id='page1'>
+<path d='M29.0195-11.195313C29.0195-12.078125 28.3086-12.78906 27.4258-12.78906C26.5469-12.78906 25.832-12.078125 25.832-11.195313C25.832-10.316406 26.5469-9.60156 27.4258-9.60156C28.3086-9.60156 29.0195-10.316406 29.0195-11.195313Z'/>
+<path d='M29.0195-11.195313C29.0195-12.078125 28.3086-12.78906 27.4258-12.78906C26.5469-12.78906 25.832-12.078125 25.832-11.195313C25.832-10.316406 26.5469-9.60156 27.4258-9.60156C28.3086-9.60156 29.0195-10.316406 29.0195-11.195313Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M60.2031-11.195313C60.2031-12.078125 59.4883-12.78906 58.6094-12.78906C57.7266-12.78906 57.0156-12.078125 57.0156-11.195313C57.0156-10.316406 57.7266-9.60156 58.6094-9.60156C59.4883-9.60156 60.2031-10.316406 60.2031-11.195313Z'/>
+<path d='M60.2031-11.195313C60.2031-12.078125 59.4883-12.78906 58.6094-12.78906C57.7266-12.78906 57.0156-12.078125 57.0156-11.195313C57.0156-10.316406 57.7266-9.60156 58.6094-9.60156C59.4883-9.60156 60.2031-10.316406 60.2031-11.195313Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M1.1953-11.195313H25.6328' stroke='currentColor' fill='none' stroke-width='.84683' stroke-miterlimit='10'/>
+<path d='M60.4023-11.195313H84.8398' stroke='currentColor' fill='none' stroke-width='.84683' stroke-miterlimit='10'/>
+<path d='M28.457-12.66406C34.96875-21.9688 51.06641-21.9688 57.5781-12.66406' stroke='currentColor' fill='none' stroke-width='.84683' stroke-miterlimit='10'/>
+<path d='M28.457-9.72656C34.96875-.4219 51.06641-.4219 57.5781-9.72656' stroke='currentColor' fill='none' stroke-width='.84683' stroke-miterlimit='10'/>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle +$</span><figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='7.735em' height='0.909em' viewBox='.771885 -8.26863 70.31953 8.26773'>
+<g id='page1'>
+<path d='M1.1953-4.132812H35.929689' stroke='currentColor' fill='none' stroke-width='.84683' stroke-miterlimit='10'/>
+<path d='M35.929689-4.132812H70.668' stroke='currentColor' fill='none' stroke-width='.84683' stroke-miterlimit='10'/>
+<path d='M32.2461-.44922L39.61719-7.82031' stroke='currentColor' fill='none' stroke-width='.89664' stroke-miterlimit='10'/>
+<path d='M32.2461-7.82031L39.61719-.44922' stroke='currentColor' fill='none' stroke-width='.89664' stroke-miterlimit='10'/>
+</g>
+</svg></figure><span class="equation-part">$\displaystyle =
+\frac{(-\lambda)^2}{2}
+\int\frac{d^6k}{(2\pi)^6}
+\frac{1}{
+    (k^2+m^2)\bigl((k+p)^2+m^2\bigr)
+}
+-\delta_C-\delta_Ap^2.$</span><span class="equation-num">(2.15)</span></div>
+
+<p>The renormalisation condition requires
+        \[m^2 + M_2(0) = 0 , \quad \lim_{p^2 \to 0} \frac{p^2}{p^2  +m^2 + M_2(p^2)} = 1 \implies M_2(0) = -m^2, \quad M_2'(0) =0.\tag{2.16}\]
+        Therefore, we have
+        \[C
+    =
+    \frac{\lambda^2}{2}I_2(0)
+    =
+    \frac{\lambda^2}{256\pi^3}
+    \left[
+        \Lambda^2
+        +\frac{m^2\Lambda^2}{\Lambda^2+m^2}
+        -2m^2
+        \ln\left(1+\frac{\Lambda^2}{m^2}\right)
+    \right],\tag{2.17}\]
+\[A =1+\frac{\lambda^2}{2}I'(0)
+    =
+    1
+    -\frac{\lambda^2}{768\pi^3}
+    \left[
+        \ln\left(1+\frac{\Lambda^2}{m^2}\right)
+        +\frac{2m^2}{\Lambda^2+m^2}
+        -\frac{m^4}{2(\Lambda^2+m^2)^2}
+        -\frac{3}{2}
+    \right].\tag{2.18}\]
+Since the first loop correction to the three-point function is of order $\lambda^3$. At order $\lambda^2$, we merely have $D = \lambda_R$.</p>
+
+</aside></li>
+</ol>
+  </article>
+
+  <hr class="ornament-rule">
+
+  <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
+    <a href="../notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <p class="footer__disclaimer">
+    These notes are not guaranteed to be correct. If you find a mistake,
+    <a href="mailto:luca.jin@outlook.com?subject=Correction%20to%20Luca%20Jin%20Physics">please email me</a>.
+  </p>
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="../">Home</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>

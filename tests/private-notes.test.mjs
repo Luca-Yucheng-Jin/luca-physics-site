@@ -149,6 +149,84 @@ test('completed Schwartz solutions are collected into one public file per chapte
 });
 
 
+test('only completed PSI QFT II sheets from QFT-soln are public', async () => {
+  const expectedSlugs = [
+    'psi-qft-ii-homework-1',
+    'psi-qft-ii-homework-2',
+    'psi-qft-ii-tutorial-3',
+    'psi-qft-ii-tutorial-4',
+    'psi-qft-ii-tutorial-5',
+    'psi-qft-ii-tutorial-6',
+    'psi-qft-ii-tutorial-7',
+    'psi-qft-ii-tutorial-8',
+    'psi-qft-ii-tutorial-9',
+  ];
+  const manifest = JSON.parse(
+    await readFile(path.join(root, 'assets', 'nav-manifest.json'), 'utf8'),
+  );
+  const importManifest = JSON.parse(
+    await readFile(path.join(root, 'assets', 'qft-soln-manifest.json'), 'utf8'),
+  );
+  const publicHrefs = manifest.categories.flatMap((category) =>
+    category.groups.flatMap((group) => group.notes.map((note) => note.href)),
+  );
+
+  assert.equal(importManifest.sourceRepository, 'https://github.com/Luca-Yucheng-Jin/QFT-soln');
+  assert.match(importManifest.sourceCommit, /^[0-9a-f]{40}$/);
+  assert.deepEqual(importManifest.sheets.map((sheet) => sheet.slug), expectedSlugs);
+
+  for (const sheet of importManifest.sheets) {
+    assert.ok(publicHrefs.includes(`notes/${sheet.slug}.html`), `${sheet.slug} is not indexed`);
+    for (const relative of [
+      `notes/${sheet.slug}.html`,
+      `output/pdf/${sheet.slug}.pdf`,
+      `tex/${sheet.slug}.tex`,
+      `dist/client/notes/${sheet.slug}.html`,
+      `dist/client/output/pdf/${sheet.slug}.pdf`,
+    ]) {
+      await assert.doesNotReject(stat(path.join(root, relative)), `missing ${relative}`);
+    }
+
+    const source = await readFile(path.join(root, 'tex', `${sheet.slug}.tex`), 'utf8');
+    const html = await readFile(path.join(root, 'notes', `${sheet.slug}.html`), 'utf8');
+    assert.match(source, new RegExp(`Source commit: ${importManifest.sourceCommit}`));
+    assert.equal(
+      (source.match(/\\begin\{solution\}/g) || []).length,
+      sheet.solutionCount,
+      `${sheet.slug} source solution count changed`,
+    );
+    assert.equal(
+      (html.match(/<aside class="solution">/g) || []).length,
+      sheet.solutionCount,
+      `${sheet.slug} rendered solution count changed`,
+    );
+    assert.doesNotMatch(
+      `${source}\n${html}`,
+      /\b(?:TODO|TBD|unfinished)\b|solution\s+to\s+be\s+written|auto-render not available/i,
+      `${sheet.slug} exposes unfinished or unrendered material`,
+    );
+    assert.doesNotMatch(
+      html,
+      /\\begin\{(?:solution|tikzpicture|feynman)\}|\\(?:markboth|markright)\b/,
+      `${sheet.slug} exposes raw LaTeX environments`,
+    );
+  }
+
+  for (const incompleteSlug of ['psi-qft-ii-tutorial-2', 'psi-qft-ii-homework-3']) {
+    assert.ok(!publicHrefs.includes(`notes/${incompleteSlug}.html`));
+    for (const relative of [
+      `notes/${incompleteSlug}.html`,
+      `output/pdf/${incompleteSlug}.pdf`,
+      `tex/${incompleteSlug}.tex`,
+      `dist/client/notes/${incompleteSlug}.html`,
+      `dist/client/output/pdf/${incompleteSlug}.pdf`,
+    ]) {
+      await assertMissing(relative);
+    }
+  }
+});
+
+
 test('the path-integral essay remains public with its source, figures, HTML, and PDF', async () => {
   const manifest = JSON.parse(
     await readFile(path.join(root, 'assets', 'nav-manifest.json'), 'utf8'),

@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Renormalization in Massive φ⁴ Theory | Yucheng (Luca) Jin</title>
+<meta name="description" content="Renormalization in Massive φ⁴ Theory — Quantum Field Theory · PSI QFT II Homework 2, based on Perimeter Scholars International. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="author" content="Yucheng (Luca) Jin">
+<link rel="canonical" href="https://luca-yucheng-jin.github.io/luca-physics-site/notes/psi-qft-ii-homework-2.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://luca-yucheng-jin.github.io/luca-physics-site/notes/psi-qft-ii-homework-2.html">
+<meta property="og:site_name" content="Luca Jin Physics">
+<meta property="og:title" content="Renormalization in Massive φ⁴ Theory | Yucheng (Luca) Jin">
+<meta property="og:description" content="Renormalization in Massive φ⁴ Theory — Quantum Field Theory · PSI QFT II Homework 2, based on Perimeter Scholars International. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta property="og:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Renormalization in Massive φ⁴ Theory | Yucheng (Luca) Jin">
+<meta name="twitter:description" content="Renormalization in Massive φ⁴ Theory — Quantum Field Theory · PSI QFT II Homework 2, based on Perimeter Scholars International. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta name="twitter:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="stylesheet" href="../styles.css">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/psi-qft-ii-homework-2.html#article","url":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/psi-qft-ii-homework-2.html","mainEntityOfPage":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/psi-qft-ii-homework-2.html","headline":"Renormalization in Massive φ⁴ Theory","description":"Renormalization in Massive φ⁴ Theory — Quantum Field Theory · PSI QFT II Homework 2, based on Perimeter Scholars International. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.","inLanguage":"en","genre":"Theoretical physics notes and worked solutions","educationalLevel":"Undergraduate physics","about":{"@type":"Thing","name":"Quantum Field Theory · PSI QFT II Homework 2"},"author":{"@type":"Person","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#person","name":"Yucheng (Luca) Jin","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"isPartOf":{"@type":"WebSite","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#website","name":"Luca Jin Physics","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"encoding":{"@type":"MediaObject","contentUrl":"https://luca-yucheng-jin.github.io/luca-physics-site/output/pdf/psi-qft-ii-homework-2.pdf","encodingFormat":"application/pdf"}},{"@type":"BreadcrumbList","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/psi-qft-ii-homework-2.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes.html"},{"@type":"ListItem","position":2,"name":"Renormalization in Massive φ⁴ Theory","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/psi-qft-ii-homework-2.html"}]}]}</script>
+
+<script src="../assets/theme.js"></script>
+<script src="../assets/font-size.js"></script>
+
+<!-- MathJax with custom macros mirroring the original .tex preamble -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros', 'mathtools']},
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      Q: '\\mathbb{Q}',
+      A: '\\mathcal{A}',
+      Lagrangian: '\\mathcal{L}',
+      Cdot: '\\boldsymbol{\\cdot}',
+      Tr: '\\operatorname{Tr}',
+      // \qed inside math (e.g. trailing a derivation in an align env) —
+      // amsthm's text-mode handler is already covered by the HTML-side
+      // replace at the bottom of strip_tex_only_constructs, this catches
+      // the math-mode case (Osborn AQFT PS3 Q3 ends an equation with .\qed).
+      qed: '\\blacksquare',
+      // Feynman slash: \not{x} would render the slash to the LEFT of x
+      // (it's designed for \not=). \cancel from the cancel package
+      // strikes diagonally through the centre, matching the slashed.sty
+      // package's appearance.
+      slashed: ['{\\cancel{#1}}', 1],
+      // Wick contraction: top brace connector over the contracted pair —
+      // closer to the standard physics notation than a plain overline.
+      wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // siunitx polyfill — \si{K}, \si{m\,s^{-1}} etc. should render
+      // the unit in upright math text, like \mathrm{X}. Doesn't try
+      // to mimic the full siunitx unit-formatting machinery; just
+      // unblocks the common bare-unit case in TDSP problems.
+      si: ['\\,\\mathrm{#1}', 1],
+      SI: ['#1\\,\\mathrm{#2}', 2]
+      // \tensor{base}{indices} is rewritten to base^a{}_b in
+      // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
+      // so no runtime macro is needed here. The empty-group trick is
+      // what makes MathJax kern the indices into separate columns.
+    }
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../" class="topbar__brand">Luca Jin <small>Physics · Imperial</small></a>
+  <nav class="topbar__nav" aria-label="Primary navigation">
+    <a href="../">Home</a>
+    <a href="../notes.html" class="is-active">Notes</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+    <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" title="Decrease font size">A<span class="font-toggle__small">−</span></button>
+    <button class="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size" title="Increase font size">A<span class="font-toggle__large">+</span></button>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Toggle theme">
+      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    </button>
+  </nav>
+</header>
+
+<main class="note">
+
+  <div class="note__breadcrumb">
+    <a href="../notes.html">Notes</a> &nbsp;·&nbsp; Quantum Field Theory · PSI QFT II Homework 2
+  </div>
+
+  <h1 class="note__title">Renormalization in Massive φ⁴ Theory</h1>
+  <p class="note__subtitle">Source: Perimeter Scholars International, <em>Quantum Field Theory II</em>, Homework 2; 15 worked parts.</p>
+
+  <div class="note__formats" aria-label="Available formats"><span>Available formats</span><a aria-current="page" href="psi-qft-ii-homework-2.html">HTML</a><a href="../output/pdf/psi-qft-ii-homework-2.pdf">PDF ↓</a></div>
+
+  <nav class="note__toc" aria-label="Contents">
+  <div class="note__toc-label">Contents</div>
+  <ol class="note__toc-list">
+    <li class="toc-h2"><a href="#renormalization-for-massive-phi4-theory"><span class="note__toc-number">1</span> <span class="note__toc-title">Renormalization for Massive $\phi^4$ Theory</span></a></li>
+    <li class="toc-h2"><a href="#renormalization-group-flow-for-the-on-model"><span class="note__toc-number">2</span> <span class="note__toc-title">Renormalization Group Flow for the $O(N)$ Model</span></a></li>
+  </ol>
+</nav>
+
+  <article class="note__body">
+<p><em>Question prompts paraphrased from the official
+<a href="https://psi-online.perimeterinstitute.ca/courses/take/quantum-field-theory-ii-student/pdfs/20776395-module-5-homework">Perimeter PSI Online sheet</a>;
+the equations and notation follow the source.</em></p>
+
+<h2 data-section-heading id="renormalization-for-massive-phi4-theory" data-section-number="1"><span class="note__heading-number">1</span> <span class="note__heading-title">Renormalization for Massive $\phi^4$ Theory</span></h2>
+
+<p>Work in Euclidean signature and retain terms through one loop. Define the
+renormalized action by
+\[S_R[\phi]
+    =S[\phi]+\hbar\Delta_1S[\phi]+O(\hbar^2),\tag{1.1}\]
+where
+\[S[\phi]
+    =\int d^4x\,
+    \left[
+        \frac{1}{2}(\partial\phi)^2
+        +\frac{m_R^2}{2}\phi^2
+        +\frac{g_R}{4!}\phi^4
+    \right]\tag{1.2}\]
+and
+\[\Delta_1S[\phi]
+    =\int d^4x\,
+    \left[
+        \frac{B_1}{2}\phi^2
+        +\frac{C_1}{4!}\phi^4
+    \right].\tag{1.3}\]
+The cutoff-dependent coefficients $B_1$ and $C_1$ are chosen so that physical
+quantities expressed in terms of $m_R$ and $g_R$ remain finite as
+$\Lambda\to\infty$.</p>
+
+<p>The one-loop four-point 1PI function is
+\[\begin{aligned}\widehat\Gamma_R^{(4)}(p_i)
+    &amp;={}
+    g_R
+    -\frac{\hbar g_R^2}{2}
+    \Bigl[
+        I(p_1+p_2,m_R)
+        +I(p_1+p_3,m_R)
+        +I(p_1+p_4,m_R)
+    \Bigr]
+    \notag\\
+    &amp;\quad+\hbar C_1+O(\hbar^2).\end{aligned}\tag{1.4}\]
+Using a hollow square for the quartic counterterm, these contributions have the
+following topologies:</p>
+
+<figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='26.570em' height='5.913em' viewBox='-.00198 -53.75198 241.54676 53.752372'>
+<defs>
+<path id='g0-115' d='M3.005729-2.622167C2.824408-2.580324 2.712827-2.433873 2.712827-2.294396C2.712827-2.133998 2.852304-2.071233 2.942964-2.071233C3.012702-2.071233 3.277709-2.113076 3.277709-2.468742C3.277709-2.922042 2.775592-3.075467 2.350187-3.075467C1.262267-3.075467 1.066999-2.273474 1.066999-2.057285C1.066999-1.799253 1.21345-1.63188 1.311083-1.548194C1.492403-1.408717 1.617933-1.380822 2.099128-1.297136C2.245579-1.26924 2.691905-1.185554 2.691905-.836862C2.691905-.718306 2.615193-.4533 2.322291-.278954C2.050311-.125529 1.708593-.125529 1.624907-.125529C1.345953-.125529 .948443-.188294 .788045-.418431C1.018182-.446326 1.171606-.620672 1.171606-.81594C1.171606-.990286 1.046077-1.073973 .899626-1.073973C.697385-1.073973 .495143-.913574 .495143-.606725C.495143-.188294 .941469 .069738 1.617933 .069738C2.901121 .069738 3.138232-.808966 3.138232-1.080946C3.138232-1.72254 2.433873-1.84807 2.175841-1.896887C2.113076-1.910834 1.93873-1.93873 1.896887-1.952677C1.638854-2.001494 1.513325-2.147945 1.513325-2.30137C1.513325-2.461768 1.638854-2.650062 1.792279-2.747696C1.980573-2.866252 2.224658-2.880199 2.343213-2.880199C2.489664-2.880199 2.852304-2.859278 3.005729-2.622167Z'/>
+<path id='g0-116' d='M1.715567-2.75467H2.426899C2.559402-2.75467 2.650062-2.75467 2.650062-2.908095C2.650062-3.005729 2.559402-3.005729 2.440847-3.005729H1.778331L2.036364-4.037858C2.043337-4.072727 2.057285-4.107597 2.057285-4.135492C2.057285-4.261021 1.959651-4.358655 1.820174-4.358655C1.645828-4.358655 1.54122-4.2401 1.492403-4.05878C1.443587-3.884433 1.534247-4.219178 1.227397-3.005729H.516065C.383562-3.005729 .292902-3.005729 .292902-2.852304C.292902-2.75467 .376588-2.75467 .502117-2.75467H1.164633L.753176-1.108842C.711333-.934496 .648568-.683437 .648568-.592777C.648568-.18132 .99726 .069738 1.39477 .069738C2.168867 .069738 2.608219-.9066 2.608219-.99726S2.517559-1.08792 2.496638-1.08792C2.412951-1.08792 2.405978-1.073973 2.350187-.955417C2.154919-.516065 1.799253-.125529 1.415691-.125529C1.26924-.125529 1.171606-.216189 1.171606-.467248C1.171606-.536986 1.199502-.683437 1.21345-.753176L1.715567-2.75467Z'/>
+<path id='g0-117' d='M2.949938-1.129763C2.915068-.990286 2.852304-.72528 2.838356-.718306C2.705853-.502117 2.426899-.125529 1.994521-.125529C1.513325-.125529 1.513325-.578829 1.513325-.704359C1.513325-1.115816 1.708593-1.610959 1.903861-2.12005C1.959651-2.259527 2.001494-2.364134 2.001494-2.475716C2.001494-2.838356 1.694645-3.075467 1.338979-3.075467C.641594-3.075467 .327771-2.12005 .327771-2.008468C.327771-1.917808 .425405-1.917808 .446326-1.917808C.54396-1.917808 .550934-1.952677 .571856-2.02939C.739228-2.601245 1.046077-2.880199 1.318057-2.880199C1.436613-2.880199 1.492403-2.803487 1.492403-2.636115C1.492403-2.475716 1.436613-2.329265 1.366874-2.168867C.990286-1.206476 .990286-1.004234 .990286-.81594C.990286-.697385 .990286-.376588 1.248319-.153425C1.45056 .013948 1.72254 .069738 1.966625 .069738C2.405978 .069738 2.643088-.167372 2.873225-.390535C3.02665 .055791 3.493898 .069738 3.577584 .069738C3.814695 .069738 3.996015-.069738 4.128518-.299875C4.281943-.571856 4.379577-.976339 4.379577-.99726C4.379577-1.08792 4.281943-1.08792 4.261021-1.08792C4.163387-1.08792 4.156413-1.060025 4.107597-.871731C4.02391-.54396 3.891407-.125529 3.598506-.125529C3.417186-.125529 3.368369-.285928 3.368369-.467248C3.368369-.585803 3.424159-.836862 3.472976-1.018182C3.521793-1.206476 3.591532-1.492403 3.626401-1.645828L3.7868-2.266501C3.828643-2.440847 3.905355-2.747696 3.905355-2.782565C3.905355-2.922042 3.793773-3.005729 3.675218-3.005729C3.417186-3.005729 3.368369-2.803487 3.312578-2.580324L2.949938-1.129763Z'/>
+<path id='g1-43' d='M3.228892-1.57609H5.362889C5.453549-1.57609 5.620922-1.57609 5.620922-1.743462C5.620922-1.917808 5.460523-1.917808 5.362889-1.917808H3.228892V-4.05878C3.228892-4.14944 3.228892-4.316812 3.061519-4.316812C2.887173-4.316812 2.887173-4.156413 2.887173-4.05878V-1.917808H.746202C.655542-1.917808 .488169-1.917808 .488169-1.750436C.488169-1.57609 .648568-1.57609 .746202-1.57609H2.887173V.564882C2.887173 .655542 2.887173 .822914 3.054545 .822914C3.228892 .822914 3.228892 .662516 3.228892 .564882V-1.57609Z'/>
+</defs>
+<g id='page1'>
+<path d='M20.41797-31.339844C20.41797-32.277344 19.660156-33.03516 18.722656-33.03516C17.789063-33.03516 17.03125-32.277344 17.03125-31.339844C17.03125-30.406251 17.789063-29.64844 18.722656-29.64844C19.660156-29.64844 20.41797-30.406251 20.41797-31.339844Z'/>
+<path d='M20.41797-31.339844C20.41797-32.277344 19.660156-33.03516 18.722656-33.03516C17.789063-33.03516 17.03125-32.277344 17.03125-31.339844C17.03125-30.406251 17.789063-29.64844 18.722656-29.64844C19.660156-29.64844 20.41797-30.406251 20.41797-31.339844Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M.2969-46.9336L17.27734-32.5625' stroke='currentColor' fill='none' stroke-width='.59776' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<path d='M.2969-15.75L17.27734-30.11719' stroke='currentColor' fill='none' stroke-width='.59776' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<path d='M20.16797-32.5625L37.1484-46.9336' stroke='currentColor' fill='none' stroke-width='.59776' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<path d='M20.16797-30.11719L37.1484-15.75' stroke='currentColor' fill='none' stroke-width='.59776' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<g transform='matrix(1 0 0 1 25.8558 1.7435)'>
+<use x='18.723883' y='-31.34153' xlink:href='#g1-43'/>
+</g>
+<path d='M67.1914-31.339844C67.1914-32.277344 66.4297-33.03516 65.4961-33.03516S63.8008-32.277344 63.8008-31.339844C63.8008-30.406251 64.5625-29.64844 65.4961-29.64844S67.1914-30.406251 67.1914-31.339844Z'/>
+<path d='M67.1914-31.339844C67.1914-32.277344 66.4297-33.03516 65.4961-33.03516S63.8008-32.277344 63.8008-31.339844C63.8008-30.406251 64.5625-29.64844 65.4961-29.64844S67.1914-30.406251 67.1914-31.339844Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M92.7031-31.339844C92.7031-32.277344 91.9453-33.03516 91.0078-33.03516C90.0742-33.03516 89.3164-32.277344 89.3164-31.339844C89.3164-30.406251 90.0742-29.64844 91.0078-29.64844C91.9453-29.64844 92.7031-30.406251 92.7031-31.339844Z'/>
+<path d='M92.7031-31.339844C92.7031-32.277344 91.9453-33.03516 91.0078-33.03516C90.0742-33.03516 89.3164-32.277344 89.3164-31.339844C89.3164-30.406251 90.0742-29.64844 91.0078-29.64844C91.9453-29.64844 92.7031-30.406251 92.7031-31.339844Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M52.7383-47.7813L64.3359-32.83594' stroke='currentColor' fill='none' stroke-width='.59776' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<path d='M52.7383-14.8984L64.3359-29.84766' stroke='currentColor' fill='none' stroke-width='.59776' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<path d='M66.582-32.89063C71.8008-40.34766 84.7031-40.34766 89.9219-32.89063' stroke='currentColor' fill='none' stroke-width='.59776' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<path d='M66.582-29.78906C71.8008-22.33594 84.7031-22.33594 89.9219-29.78906' stroke='currentColor' fill='none' stroke-width='.59776' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<path d='M92.168-32.83594L103.7656-47.7813' stroke='currentColor' fill='none' stroke-width='.59776' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<path d='M92.168-29.84766L103.7656-14.8984' stroke='currentColor' fill='none' stroke-width='.59776' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<g transform='matrix(1 0 0 1 57.6483 26.44664)'>
+<use x='18.723883' y='-31.34153' xlink:href='#g0-115'/>
+</g>
+<g transform='matrix(1 0 0 1 92.7541 1.7435)'>
+<use x='18.723883' y='-31.34153' xlink:href='#g1-43'/>
+</g>
+<path d='M135.2229-43.2461C135.2229-44.1836 134.4649-44.9414 133.5269-44.9414C132.5939-44.9414 131.8359-44.1836 131.8359-43.2461C131.8359-42.3125 132.5939-41.5547 133.5269-41.5547C134.4649-41.5547 135.2229-42.3125 135.2229-43.2461Z'/>
+<path d='M135.2229-43.2461C135.2229-44.1836 134.4649-44.9414 133.5269-44.9414C132.5939-44.9414 131.8359-44.1836 131.8359-43.2461C131.8359-42.3125 132.5939-41.5547 133.5269-41.5547C134.4649-41.5547 135.2229-42.3125 135.2229-43.2461Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M135.2229-19.4375C135.2229-20.3711 134.4649-21.1289 133.5269-21.1289C132.5939-21.1289 131.8359-20.3711 131.8359-19.4375C131.8359-18.5 132.5939-17.7422 133.5269-17.7422C134.4649-17.7422 135.2229-18.5 135.2229-19.4375Z'/>
+<path d='M135.2229-19.4375C135.2229-20.3711 134.4649-21.1289 133.5269-21.1289C132.5939-21.1289 131.8359-20.3711 131.8359-19.4375C131.8359-18.5 132.5939-17.7422 133.5269-17.7422C134.4649-17.7422 135.2229-18.5 135.2229-19.4375Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M117.9375-53.4531L131.9449-44.2852' stroke='currentColor' fill='none' stroke-width='.59776' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<path d='M149.1209-53.4531L135.1129-44.2852' stroke='currentColor' fill='none' stroke-width='.59776' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<path d='M135.0779-42.1602C141.9919-37.32031 141.9919-25.36328 135.0779-20.5234' stroke='currentColor' fill='none' stroke-width='.59776' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<path d='M131.9769-42.1602C125.0669-37.32031 125.0669-25.36328 131.9769-20.5234' stroke='currentColor' fill='none' stroke-width='.59776' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<path d='M131.9449-18.3984L117.9375-9.2305' stroke='currentColor' fill='none' stroke-width='.59776' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<path d='M135.1129-18.3984L149.1209-9.2305' stroke='currentColor' fill='none' stroke-width='.59776' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<g transform='matrix(1 0 0 1 113.3001 31.341922)'>
+<use x='18.723883' y='-31.34153' xlink:href='#g0-116'/>
+</g>
+<g transform='matrix(1 0 0 1 138.1091 1.7435)'>
+<use x='18.723883' y='-31.34153' xlink:href='#g1-43'/>
+</g>
+<path d='M180.5779-43.2461C180.5779-44.1836 179.8199-44.9414 178.8829-44.9414C177.9489-44.9414 177.1909-44.1836 177.1909-43.2461C177.1909-42.3125 177.9489-41.5547 178.8829-41.5547C179.8199-41.5547 180.5779-42.3125 180.5779-43.2461Z'/>
+<path d='M180.5779-43.2461C180.5779-44.1836 179.8199-44.9414 178.8829-44.9414C177.9489-44.9414 177.1909-44.1836 177.1909-43.2461C177.1909-42.3125 177.9489-41.5547 178.8829-41.5547C179.8199-41.5547 180.5779-42.3125 180.5779-43.2461Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M180.5779-19.4375C180.5779-20.3711 179.8199-21.1289 178.8829-21.1289C177.9489-21.1289 177.1909-20.3711 177.1909-19.4375C177.1909-18.5 177.9489-17.7422 178.8829-17.7422C179.8199-17.7422 180.5779-18.5 180.5779-19.4375Z'/>
+<path d='M180.5779-19.4375C180.5779-20.3711 179.8199-21.1289 178.8829-21.1289C177.9489-21.1289 177.1909-20.3711 177.1909-19.4375C177.1909-18.5 177.9489-17.7422 178.8829-17.7422C179.8199-17.7422 180.5779-18.5 180.5779-19.4375Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M163.2929-53.4531L177.3009-44.2852' stroke='currentColor' fill='none' stroke-width='.59776' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<path d='M194.4729-9.2305L179.6719-41.5273' stroke='currentColor' fill='none' stroke-width='.59776' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<path d='M180.4339-42.1602C187.3479-37.32031 187.3479-25.36328 180.4339-20.5234' stroke='currentColor' fill='none' stroke-width='.59776' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<path d='M177.3319-42.1602C170.4219-37.32031 170.4219-25.36328 177.3319-20.5234' stroke='currentColor' fill='none' stroke-width='.59776' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<path d='M177.3009-18.3984L163.2929-9.2305' stroke='currentColor' fill='none' stroke-width='.59776' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<path d='M179.6719-21.1563L194.4729-53.4531' stroke='currentColor' fill='none' stroke-width='.59776' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<g transform='matrix(1 0 0 1 157.8041 30.6985)'>
+<use x='18.723883' y='-31.34153' xlink:href='#g0-117'/>
+</g>
+<g transform='matrix(1 0 0 1 183.4641 1.7435)'>
+<use x='18.723883' y='-31.34153' xlink:href='#g1-43'/>
+</g>
+<path d='M219.8319-28.35156H225.8089V-34.33203H219.8319Z' fill='#fff'/>
+<path d='M219.8319-28.35156H225.8089V-34.33203H219.8319Z' stroke='currentColor' fill='none' stroke-width='.59776' stroke-miterlimit='10'/>
+<path d='M204.3949-46.9336L219.5309-34.12109' stroke='currentColor' fill='none' stroke-width='.59776' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<path d='M204.3949-15.75L219.5309-28.55859' stroke='currentColor' fill='none' stroke-width='.59776' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<path d='M226.1089-34.12109L241.2459-46.9336' stroke='currentColor' fill='none' stroke-width='.59776' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<path d='M226.1089-28.55859L241.2459-15.75' stroke='currentColor' fill='none' stroke-width='.59776' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+</g>
+</svg></figure>
+
+<ol>
+  <li>In four-dimensional Euclidean spacetime, write the sharp-cutoff
+    integral corresponding to
+    \[I(p_1+p_2,m_R;\Lambda),\tag{1.5}\]
+    where $\Lambda$ regulates the ultraviolet divergence.
+
+<aside class="solution">
+
+<p>\[\begin{aligned}
+            I(p_1+p_2,m_R;\Lambda) &amp;=
+        \int \frac{d^4k}{(2\pi)^4}\frac{1}{(k^2+m_R^2)[(k+p_1+p_2)^2+m_R^2]}\\
+        &amp;=\frac{4\pi}{(2\pi)^4}\int_0^\pi d\chi\sin^2 \chi\int^\Lambda_0dk \frac{k^3}{(k^2+m_R^2)(k^2+ s + 2k\sqrt{s}\cos\chi +m_R^2)}.
+        \end{aligned}\tag{1.6}\]</p>
+
+</aside></li>
+  <li>Set $m_R^2=0$ and calculate the leading large-$\Lambda$ behavior of
+    $I(p,0;\Lambda)$.
+
+<aside class="solution">
+
+<p>\[\begin{aligned}
+                I(p_1+p_2,0;\Lambda) &amp;= \frac{1}{4\pi^3}\int_0^\Lambda dk\, k \int_{0}^\pi d\chi\frac{\sin^2\chi}{k^2 +s +2k\sqrt{s}\cos\chi}\\
+                &amp;= \frac{1}{4\pi^3}\int_0^\Lambda dk\, k \frac{\pi}{4k^2s}\left(k^2 +s - \sqrt{(k^2+s)^2 -4k^2s}\right)\\
+                &amp;=\frac{1}{16\pi^2s}\int ^\Lambda_0\frac{1}{k}(k^2+s - |k^2-s|)\\
+                &amp;=\frac{1}{16\pi^2s}\left(\int^\Lambda_{\sqrt{s}}dk \frac{2s}{k} + \int_0^{\sqrt{s}}dk \frac{2k^2}{k}\right)\\
+                &amp;=\frac{1}{16\pi^2s}\left(1 + \log\frac{\Lambda^2}{s}\right).
+            \end{aligned}\tag{1.7}\]</p>
+
+</aside></li>
+  <li>By differentiating under the integral, show that
+    \[\frac{\partial}{\partial(m_R^2)}I(p,m_R;\Lambda)\tag{1.8}\]
+    is finite as $\Lambda\to\infty$. Conclude that the divergent part in the
+    massive theory is the same as the one identified in the massless theory.
+
+<aside class="solution">
+
+<p>By differentiating with respect to $m_R^2$, the integral now looks like
+        \[\begin{aligned}
+                \sim\int^\Lambda_0 dk \frac{k^3}{k^6},
+            \end{aligned}\tag{1.9}\]
+        which is finite. Since the rate of change of the integral remains finite, the divergent part must be the same for massive and massless theory.</p>
+
+</aside>
+
+<p>For parts d)--h), work in massless $\phi^4$ theory.</li>
+  <li>Determine the divergent part of $C_1$ required to make
+    $\widehat\Gamma_R^{(4)}(p_i)$ finite and impose
+    \[\widehat\Gamma_R^{(4)}(p_i^{\mathrm{ref}})=g_R,
+        \qquad
+        |p_1^{\mathrm{ref}}+p_2^{\mathrm{ref}}|
+        =|p_1^{\mathrm{ref}}+p_3^{\mathrm{ref}}|
+        =|p_1^{\mathrm{ref}}+p_4^{\mathrm{ref}}|
+        =\mu.\tag{1.10}\]
+    Only the terms in the counterterm that diverge as $\Lambda\to\infty$ need
+    be given explicitly.</p>
+
+<aside class="solution">
+
+<p>Using the result from b), we have
+        \[g_R - \frac{\hbar g_R^2}{2}\frac{3}{16\pi^2}\left(1 + \log{\frac{\Lambda^2}{\mu^2}}\right) + \hbar C_1 = g_R \implies C_1 = \frac{3g_R^2}{32\pi^2}\left(1 + \log{\frac{\Lambda^2}{\mu^2}}\right).\tag{1.11}\]</p>
+
+</aside></li>
+  <li>Find $\widehat\Gamma_R^{(4)}(p_i,g_R,\mu)$ at general external momenta.
+    Renormalization-scale independence requires
+    \[\widehat\Gamma_R^{(4)}(p_i,g_R,\mu)
+        =\widehat\Gamma_R^{(4)}(p_i,g_R',\mu'),\tag{1.12}\]
+    where the primed parameters are defined at the scale $\mu'$.
+
+<aside class="solution">
+
+<p>\[\begin{aligned}
+            \widehat\Gamma_R^{(4)}(p_i,g_R,\mu) &amp;= g_R -\frac{\hbar g_R^2}{32\pi^2}\left(\log\frac{\mu^2}{s} + \log\frac{\mu^2}{t} +\log\frac{\mu^2}{u}\right)\\
+            &amp;=g_R' -\frac{\hbar g_R'^2}{32\pi^2}\left(\log\frac{\mu'^2}{s} + \log\frac{\mu'^2}{t} +\log\frac{\mu'^2}{u}\right).
+        \end{aligned}\tag{1.13}\]</p>
+
+</aside></li>
+  <li>Evaluate the preceding equality at a convenient momentum configuration
+    and derive $g_R'(\mu')$ in terms of $g_R(\mu)$, $\mu$, and $\mu'$.
+
+<aside class="solution">
+
+<p>Take $s=u=t = \mu'^2$, we find
+        \[g_R'(\mu') = g_R(\mu) -\frac{3\hbar g_R^2(\mu)}{32\pi^2}\log\frac{\mu^2}{\mu'^2}.\tag{1.14}\]</p>
+
+</aside></li>
+  <li>Define the effective coupling by
+    \[g_{\mathrm{eff}}(E)
+        =\begin{cases}
+            g_R(\mu), &amp; E=\mu,\\
+            g_R'(\mu'), &amp; E=\mu',
+        \end{cases}\tag{1.15}\]
+    and the beta function by
+    \[\beta(g_{\mathrm{eff}})
+        \equiv E\frac{d}{dE}g_{\mathrm{eff}}(E).\tag{1.16}\]
+    Compute the one-loop beta function and plot it as a function of
+    $g_{\mathrm{eff}}$.
+
+<aside class="solution">
+
+<p>The definition here is not very conventional. It is equivalent to defining
+        \[g_\mathrm{eff}(E) = \Gamma_R^{(4)}(E,g_R,\mu),\tag{1.17}\]
+        which immediately implies
+        \[g_{\mathrm{eff}}(E)
+            =\begin{cases}
+                g_R(\mu), &amp; E=\mu,\\
+                g_R'(\mu'), &amp; E=\mu'.
+            \end{cases}\tag{1.18}\]
+        Then, we have
+        \[\beta(g_\mathrm{eff}) = \frac{3\hbar g_R^2(\mu)}{16\pi^2} = \frac{3\hbar g_\mathrm{eff}^2}{16\pi^2}.\tag{1.19}\]</p>
+
+</aside></li>
+  <li>Explain what this beta function implies for the interaction strength at
+    high and low energies.
+
+<aside class="solution">
+
+<p>Solving the beta function, we have
+        \[\frac{1}{g_\mathrm{eff}(E)} = \frac{1}{g_0} + \frac{3\hbar}{32\pi^2}\log\frac{\Lambda^2}{E^2}.\tag{1.20}\]
+        Therefore, the theory is free at $IR$ and becomes strongly coupled at the UV.</p>
+
+</aside></li>
+</ol>
+
+<p>The four-point diagrams introduce no additional divergence in the massive theory,
+so the same calculation can be repeated there. For mass renormalization, consider
+the one-loop two-point 1PI function
+\[\widehat\Gamma_R^{(2)}(p)
+    =p^2+m_R^2
+    +\frac{\hbar g_R}{2}T(m_R)
+    +\hbar B
+    +O(\hbar^2).\tag{1.21}\]
+Using a filled square for the quadratic counterterm, its topologies are</p>
+
+<figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='21.269em' height='2.309em' viewBox='.001901 -20.99415 193.355861 20.99418'>
+<defs>
+<path id='g0-43' d='M3.228892-1.57609H5.362889C5.453549-1.57609 5.620922-1.57609 5.620922-1.743462C5.620922-1.917808 5.460523-1.917808 5.362889-1.917808H3.228892V-4.05878C3.228892-4.14944 3.228892-4.316812 3.061519-4.316812C2.887173-4.316812 2.887173-4.156413 2.887173-4.05878V-1.917808H.746202C.655542-1.917808 .488169-1.917808 .488169-1.750436C.488169-1.57609 .648568-1.57609 .746202-1.57609H2.887173V.564882C2.887173 .655542 2.887173 .822914 3.054545 .822914C3.228892 .822914 3.228892 .662516 3.228892 .564882V-1.57609Z'/>
+</defs>
+<g id='page1'>
+<path d='M26.085982-3.6875C26.085982-4.621094 25.328082-5.37891 24.394482-5.37891C23.456982-5.37891 22.699182-4.621094 22.699182-3.6875C22.699182-2.75 23.456982-1.99219 24.394482-1.99219C25.328082-1.99219 26.085982-2.75 26.085982-3.6875Z'/>
+<path d='M26.085982-3.6875C26.085982-4.621094 25.328082-5.37891 24.394482-5.37891C23.456982-5.37891 22.699182-4.621094 22.699182-3.6875C22.699182-2.75 23.456982-1.99219 24.394482-1.99219C25.328082-1.99219 26.085982-2.75 26.085982-3.6875Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M.300781-3.6875H22.499982' stroke='currentColor' fill='none' stroke-width='.59776' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<path d='M26.285182-3.6875H48.488282' stroke='currentColor' fill='none' stroke-width='.59776' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<g transform='matrix(1 0 0 1 57.887418 1.74348)'>
+<use x='.298882' y='-3.686174' xlink:href='#g0-43'/>
+</g>
+<path d='M98.371082-3.6875C98.371082-4.621094 97.613282-5.37891 96.679682-5.37891C95.742182-5.37891 94.984382-4.621094 94.984382-3.6875C94.984382-2.75 95.742182-1.99219 96.679682-1.99219C97.613282-1.99219 98.371082-2.75 98.371082-3.6875Z'/>
+<path d='M98.371082-3.6875C98.371082-4.621094 97.613282-5.37891 96.679682-5.37891C95.742182-5.37891 94.984382-4.621094 94.984382-3.6875C94.984382-2.75 95.742182-1.99219 96.679682-1.99219C97.613282-1.99219 98.371082-2.75 98.371082-3.6875Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M72.581982-3.6875H94.785182' stroke='currentColor' fill='none' stroke-width='.59776' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<path d='M98.570282-3.6875H120.773882' stroke='currentColor' fill='none' stroke-width='.59776' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<path d='M105.183882-12.19141C105.183882-16.88667 101.374882-20.69527 96.679682-20.69527C91.980482-20.69527 88.171882-16.88667 88.171882-12.19141C88.171882-7.49219 91.980482-3.6875 96.679682-3.6875C101.374882-3.6875 105.183882-7.49219 105.183882-12.19141Z' stroke='currentColor' fill='none' stroke-width='.59776' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<g transform='matrix(1 0 0 1 130.172118 1.74348)'>
+<use x='.298882' y='-3.686174' xlink:href='#g0-43'/>
+</g>
+<path d='M165.476882-.19922H172.448882V-7.17187H165.476882Z'/>
+<path d='M165.476882-.19922H172.448882V-7.17187H165.476882Z' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M144.866882-3.6875H165.276882' stroke='currentColor' fill='none' stroke-width='.59776' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<path d='M172.648882-3.6875H193.058882' stroke='currentColor' fill='none' stroke-width='.59776' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+</g>
+</svg></figure>
+
+<ol>
+  <li>Write the sharp-cutoff integral $T(m_R;\Lambda)$ that regulates the UV
+    divergences.
+
+<aside class="solution">
+
+<p>\[T(m_R;\Lambda) = \int \frac{d^4k}{(2\pi)^4}\frac{1}{k^2 +m^2} = \frac{1}{8\pi^2}\int^\Lambda_0dk \frac{k^3}{k^2+m^2.}\tag{1.22}\]</p>
+
+</aside></li>
+  <li>Evaluate $T(m_R;\Lambda)$ at large $\Lambda$. Identify separately the
+    quadratic divergence, logarithmic divergence, and term that remains finite as
+    $\Lambda\to\infty$.
+
+<p><em>Hint:</em> Radial coordinates may be useful. The area of the unit
+    $n$-sphere is
+    \[\int d^n\Omega
+        =\frac{2\pi^{n/2}}{\Gamma(n/2)}.\tag{1.23}\]</p>
+
+<aside class="solution">
+
+<p>\[T(m_R;\Lambda) = \frac{1}{16\pi^2}\left(\Lambda^2 - m_R^2\log \frac{\Lambda^2 +m_R^2}{m_R^2}\right) =  \frac{1}{16\pi^2}\left(\Lambda^2 - m_R^2\log \frac{\Lambda^2 }{m_R^2} + \mathcal{O}(\Lambda^{-2})\right).\tag{1.24}\]</p>
+
+</aside>
+
+<p>The physical mass is determined by the pole of the propagator, equivalently
+    by
+    \[\widehat\Gamma_R^{(2)}
+        (p_i^{\mathrm{ref}},m_R,g_R,\mu)=0,
+        \qquad
+        |p_i^{\mathrm{ref}}|=m_{\mathrm{phys}},\tag{1.25}\]
+    for any $\mu$. For practical subtraction, impose instead
+    \[\widehat\Gamma_R^{(2)}(0,m_R,g_R,\mu)=m_R^2,
+        \qquad
+        \mu=m_R,\tag{1.26}\]
+    and take the mass counterterm to have the form
+    \[B(m_R,g_R,\mu,\Lambda)
+        =B_0(g_R,\mu,\Lambda)
+        +m_R^2B_1(g_R,\mu,\Lambda).\tag{1.27}\]</li>
+  <li>Determine $B_0(g_R,\mu,\Lambda)$ and
+    $B_1(g_R,\mu,\Lambda)$ so that the preceding renormalization condition holds.</p>
+
+<aside class="solution">
+
+<p>We can rewrite
+        \[\widehat\Gamma_R^{(2)}(p,m_R,g_R,\mu) = p^2 + m_R^2 + \hbar\left(\frac{g_R(\mu)\Lambda^2}{32\pi^2} + B_0 + m_R^2\left(-\frac{g_R(\mu)}{32\pi^2}\log\frac{\Lambda^2}{\mu^2} - \frac{g_R(\mu)}{32\pi^2}\log\frac{\mu^2}{m_R^2}+B_1\right)\right).\tag{1.28}\]
+        The renormalisation condition implies
+        \[B_1(g_R,\mu,\Lambda) = \frac{g_R}{32\pi^2}\log\frac{\Lambda^2}{\mu^2} , \quad B_0(g_R,\mu,\Lambda) = -\frac{g_R\Lambda^2}{32\pi^2}.\tag{1.29}\]</p>
+
+</aside></li>
+  <li>Check that these counterterms make
+    $\widehat\Gamma_R^{(2)}(p_i,m_R,g_R,\mu)$ finite for arbitrary $m_R$ and $p$.
+
+<aside class="solution">
+
+<p>\[\widehat\Gamma_R^{(2)}(p,m_R,g_R,\mu) = p^2 + m_R(\mu)^2 -\frac{\hbar g_R(\mu)}{32\pi^2}\log\frac{\mu^2}{m_R(\mu)^2}.\tag{1.30}\]</p>
+
+</aside></li>
+  <li>Require $\widehat\Gamma_R^{(2)}$ to be independent of the
+    renormalization scale, as for the four-point function, and derive an equation
+    relating $[m_R'(\mu')]^2$ and $[m_R(\mu)]^2$. Retain terms only through
+    order $\hbar$ and express the result in terms of $g_R$.
+
+<aside class="solution">
+
+<p>\[m_R^2(\mu)
+        -
+        \frac{\hbar g_R(\mu)m_R^2(\mu)}{32\pi^2}
+        \log\left(\frac{\mu^2}{m_R^2(\mu)}\right)
+        =
+        [m_R'(\mu')]^2
+        -
+        \frac{\hbar g_R'(\mu')[m_R'(\mu')]^2}{32\pi^2}
+        \log\left(\frac{\mu'^2}{[m_R'(\mu')]^2}\right).\tag{1.31}\]
+                This implies
+                \[[m_R'(\mu')]^2
+=
+m_R^2(\mu)
++
+\frac{\hbar g_R(\mu)m_R^2(\mu)}{32\pi^2}
+\log\left(\frac{\mu'^2}{\mu^2}\right)
++O(\hbar^2).\tag{1.32}\]</p>
+
+</aside></li>
+  <li>Show that when $\mu^2=m_R^2$, the renormalized mass agrees in magnitude
+    with the physical mass:
+    \[|m_R|=|m_{\mathrm{phys}}|.\tag{1.33}\]
+
+<aside class="solution">
+
+<p>\[\widehat\Gamma_R^{(2)}(|m_\mathrm{phys}|,m_R = \mu,g_R,\mu) = 0 \implies |m_\mathrm{phys}| = |m_R|.\tag{1.34}\]</p>
+
+</aside></li>
+  <li>Calculate the anomalous dimension of the mass-squared operator,
+    \[\gamma_{m^2}(g_R)
+        \equiv
+        \mu\frac{\partial}{\partial\mu}\ln m_R^2(\mu).\tag{1.35}\]
+
+<aside class="solution">
+
+<p>Starting from the physical mass
+    \[m_{\mathrm{phys}}^2
+=
+m_R^2(\mu)
+\left[
+1-
+\frac{\hbar g_R(\mu)}{32\pi^2}
+\log\left(\frac{\mu^2}{m_R^2(\mu)}\right)
+\right]
++O(\hbar^2),\tag{1.36}\]
+    and hence
+    \[\log m_{\mathrm{phys}}^2
+=
+\log m_R^2(\mu)
+-
+\frac{\hbar g_R(\mu)}{32\pi^2}
+\log\left(\frac{\mu^2}{m_R^2(\mu)}\right)
++O(\hbar^2).\tag{1.37}\]
+    Then,
+        \[0 = \frac{d\log m_\mathrm{phys}^2}{d\log \mu} = \gamma_{m^2}(g_R) - \frac{2\hbar g_R}{32\pi^2} + \mathcal{O}(\hbar^2),\tag{1.38}\]
+        which implies
+        \[\gamma_{m^2}(g_R)
+=
+\frac{\hbar g_R}{16\pi^2}
++O(\hbar^2).\tag{1.39}\]</p>
+
+</aside></li>
+</ol>
+
+<p>At one loop in $\phi^4$ theory, no wavefunction renormalization is required; the
+two-point correction is momentum independent at this order.</p>
+
+<h2 data-section-heading id="renormalization-group-flow-for-the-on-model" data-section-number="2"><span class="note__heading-number">2</span> <span class="note__heading-title">Renormalization Group Flow for the $O(N)$ Model</span></h2>
+
+<p>Let $\vec\phi=\{\phi_\alpha\}_{\alpha=1}^{N}$ be an $N$-component scalar field
+with $O(N)$ symmetry. In $D$-dimensional Euclidean space, take
+\[S_E[\vec\phi]
+    =\int d^Dx\,
+    \left[
+        \frac{1}{2}(\nabla\vec\phi)^2
+        +U(\vec\phi^{\,2})
+    \right],\tag{2.1}\]
+where
+\[X\equiv\vec\phi^{\,2}
+    =\sum_{\alpha=1}^{N}\phi_\alpha^2,\tag{2.2}\]
+and $U(X)$ is regular. Restrict the Fourier support to $|k|\leq\Lambda$ and
+write
+\[Z
+    =\int\mathcal D_\Lambda[\vec\phi]\,
+    \exp\!\left[-\frac{1}{\hbar}S_E[\vec\phi]\right].\tag{2.3}\]
+Separate the field into slow and fast components,
+\[\vec\phi
+    =\widetilde{\vec\phi}+\vec\phi_{\mathrm{fast}},\tag{2.4}\]
+where $\widetilde{\vec\phi}$ has modes $|k|\leq\Lambda/S$ and
+$\vec\phi_{\mathrm{fast}}$ has modes $\Lambda/S&lt;|k|\leq\Lambda$. Integrate a
+thin shell using
+\[S=1+ds,
+    \qquad
+    0&lt;ds\ll1.\tag{2.5}\]</p>
+
+<ol>
+  <li>Hold $\widetilde{\vec\phi}$ fixed and expand $U(X)$ through second
+    order in $\vec\phi_{\mathrm{fast}}$ (the Gaussian approximation), expressing
+    the result in terms of $U'$ and $U''$. Keep the vector structure explicit.</li>
+  <li>In the local-potential approximation, take
+    $\widetilde{\vec\phi}$ to be constant, so only its $k=0$ mode is nonzero.
+    Show that the fast-mode integral separates into one longitudinal mode parallel
+    to $\widetilde{\vec\phi}$ and $N-1$ decoupled transverse modes.</li>
+  <li>Show that the two kinds of mode renormalize the potential according to
+    \[U\longrightarrow U_{\mathrm{eff}}
+        =U+ds\left(
+            \Delta U_{\parallel}
+            +(N-1)\Delta U_{\perp}
+        \right),\tag{2.6}\]
+    and calculate $\Delta U_{\parallel}(X)$ and $\Delta U_{\perp}(X)$.</li>
+  <li>Show that the rescalings
+    \[\vec\phi\longrightarrow
+        (1-ds)^{(2-D)/2}\vec\phi,
+        \qquad
+        x\longrightarrow(1-ds)x\tag{2.7}\]
+    restore the cutoff to $\Lambda$.</li>
+  <li>Determine the local-potential flow equation
+    \[S\frac{\partial}{\partial S}U_S(X)=?\tag{2.8}\]
+    for the $O(N)$ model. As in the lecture, set $\Lambda=1$ if desired.</li>
+  <li>Check that $N=1$ reproduces the one-component flow for $V(\phi)$,
+    using $U(\phi^2)=V(\phi)$.</li>
+  <li>Truncate the potential at second order in $X=\vec\phi^{\,2}$,
+    \[U(X)=\frac{t}{2}X+\frac{u}{8}X^2.\tag{2.9}\]
+    Expand the flow equation consistently through $X^2$. Derive both the flow
+    equations and the Wilson functions $S\,\partial g_S/\partial S$ for the
+    renormalized couplings $t_S$ and $u_S$.</li>
+</ol>
+  </article>
+
+  <hr class="ornament-rule">
+
+  <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
+    <a href="../notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <p class="footer__disclaimer">
+    These notes are not guaranteed to be correct. If you find a mistake,
+    <a href="mailto:luca.jin@outlook.com?subject=Correction%20to%20Luca%20Jin%20Physics">please email me</a>.
+  </p>
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="../">Home</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>

@@ -1432,6 +1432,10 @@ def transform_text(text, stash=None):
     # counter manipulation
     text = re.sub(r"\\setcounter\{[^}]+\}\{[^}]+\}", "", text)
     text = re.sub(r"\\addtocounter\{[^}]+\}\{[^}]+\}", "", text)
+    # Running-header metadata has no web equivalent and must not surface as
+    # literal TeX in the article body.
+    text = re.sub(r"\\markboth\{[^{}]*\}\{[^{}]*\}", "", text)
+    text = re.sub(r"\\markright\{[^{}]*\}", "", text)
     # TeX comments and font-family selectors
     text = re.sub(r"\\fontsize\{[^}]*\}\{[^}]*\}\\selectfont", "", text)
     text = re.sub(r"\\selectfont\b\s*", "", text)
@@ -1998,6 +2002,27 @@ WHOLE_FILE_PAGES = [
 ]
 
 
+def _load_psi_qft_ii_pages():
+    manifest_path = os.path.join(ROOT, "assets", "qft-soln-manifest.json")
+    if not os.path.exists(manifest_path):
+        return []
+    with open(manifest_path, encoding="utf-8") as manifest_file:
+        manifest = json.load(manifest_file)
+    pages = []
+    for sheet in manifest.get("sheets", []):
+        kind = sheet["kind"]
+        number = sheet["number"]
+        pages.append((
+            sheet["texFile"],
+            sheet["slug"],
+            sheet["title"],
+            f"Quantum Field Theory · PSI QFT II {kind} {number}",
+            "Perimeter Scholars International, <em>Quantum Field Theory II</em>, "
+            f"{kind} {number}; {sheet['solutionCount']} worked parts.",
+        ))
+    return pages
+
+
 def _load_schwartz_chapter_pages():
     manifest_path = os.path.join(ROOT, "assets", "schwartz-qft-manifest.json")
     if not os.path.exists(manifest_path):
@@ -2021,6 +2046,7 @@ def _load_schwartz_chapter_pages():
     return pages
 
 
+WHOLE_FILE_PAGES.extend(_load_psi_qft_ii_pages())
 WHOLE_FILE_PAGES.extend(_load_schwartz_chapter_pages())
 
 

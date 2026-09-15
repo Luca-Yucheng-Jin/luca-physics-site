@@ -213,12 +213,48 @@ def schwartz_catalogue() -> tuple[str, int]:
 SCHWARTZ_CATALOGUE, SCHWARTZ_CHAPTER_COUNT = schwartz_catalogue()
 
 
+def psi_qft_ii_catalogue() -> tuple[str, int]:
+    manifest_path = os.path.join(ROOT, "assets", "qft-soln-manifest.json")
+    with open(manifest_path, encoding="utf-8") as manifest_file:
+        manifest = json.load(manifest_file)
+    items = ["""      <li class="catalogue__item">
+        <span class="catalogue__num">PS1.</span>
+        <span class="catalogue__main">
+          <a href="notes/psi-correlation-functions-qm.html">Correlation Functions in Quantum Mechanics</a>
+          <span class="catalogue__desc">Euclidean and real-time path-integral propagators of the harmonic oscillator at finite temperature.</span>
+        </span>
+        <span class="catalogue__tag">PSI QFT II · PS1</span>
+      </li>"""]
+    for sheet in manifest.get("sheets", []):
+        kind = sheet["kind"]
+        number = sheet["number"]
+        prefix = "H" if kind == "Homework" else "T"
+        items.append(f"""      <li class="catalogue__item">
+        <span class="catalogue__num">{prefix}{number}.</span>
+        <span class="catalogue__main">
+          <a href="notes/{sheet['slug']}.html">{html.escape(sheet['title'])}</a>
+          <span class="catalogue__desc">{html.escape(sheet['description'])}</span>
+        </span>
+        <span class="catalogue__tag">PSI QFT II · {kind} {number}</span>
+      </li>""")
+    body = """    <h3>Perimeter Scholars International · Quantum Field Theory II</h3>
+    <ul class="catalogue">
+{items}
+    </ul>
+
+""".format(items="\n".join(items))
+    return body, len(items) - 1
+
+
+PSI_QFT_II_CATALOGUE, PSI_QFT_II_SHEET_COUNT = psi_qft_ii_catalogue()
+
+
 CATEGORIES = [
     {
         "slug": "qft",
         "title": "Quantum Field Theory",
         "blurb": "Path-integral essay; completed Schwartz, Peskin, Tong, PSI, Osborn, and Srednicki solutions; plus an independent φ³ computation.",
-        "tag": f"{14 + SCHWARTZ_CHAPTER_COUNT} notes",
+        "tag": f"{14 + SCHWARTZ_CHAPTER_COUNT + PSI_QFT_II_SHEET_COUNT} notes",
         "body": """    <h3>Papers</h3>
     <ul class="catalogue">
       <li class="catalogue__item">
@@ -302,18 +338,7 @@ CATEGORIES = [
       </li>
     </ul>
 
-    <h3>Perimeter Scholars International · Quantum Field Theory II</h3>
-    <ul class="catalogue">
-      <li class="catalogue__item">
-        <span class="catalogue__num">Ψ1.</span>
-        <span class="catalogue__main">
-          <a href="notes/psi-correlation-functions-qm.html">Correlation Functions in Quantum Mechanics</a>
-          <span class="catalogue__desc">PSI QFT II PS1 — Euclidean / real-time path-integral propagators of the harmonic oscillator at finite temperature.</span>
-        </span>
-        <span class="catalogue__tag">PSI QFT II</span>
-      </li>
-    </ul>
-
+""" + PSI_QFT_II_CATALOGUE + """
     <h3 class="catalogue-source">
       <span>Solutions to Hugh Osborn’s Advanced Quantum Field Theory example sheets</span>
       <a href="https://www.damtp.cam.ac.uk/user/ho/" target="_blank" rel="noopener noreferrer">Course materials ↗</a>
