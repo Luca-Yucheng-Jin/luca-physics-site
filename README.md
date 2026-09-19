@@ -1,7 +1,6 @@
 # Luca Jin — Theoretical Physics Portfolio
 
-A clear editorial portfolio for Yucheng (Luca) Jin, paired with a static,
-LaTeX-generated library of theoretical-physics notes and matching PDF editions.
+A personal web of some notes and solutions to problems in theoretical physics.
 
 ## Homepage development
 
