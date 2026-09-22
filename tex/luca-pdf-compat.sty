@@ -1,0 +1,55 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{luca-pdf-compat}[2026/09/22 Physics-source compatibility for elegantphys]
+
+% Source files share the HTML edition's mathematical notation and diagrams.
+% Keep those dependencies separate from the supplied visual style.
+\RequirePackage{bm}
+\RequirePackage{dsfont}
+\RequirePackage{mathrsfs}
+\RequirePackage{simpler-wick}
+\RequirePackage[export]{adjustbox}
+\RequirePackage{multirow,tabularx,wrapfig}
+\RequirePackage{pgfplots}
+\RequirePackage{newunicodechar}
+\newunicodechar{—}{---}
+\newunicodechar{–}{--}
+\newunicodechar{’}{\textquoteright}
+\newunicodechar{“}{``}
+\newunicodechar{”}{''}
+\newunicodechar{φ}{\ensuremath{\phi}}
+\newunicodechar{χ}{\ensuremath{\chi}}
+\newunicodechar{β}{\ensuremath{\beta}}
+\newunicodechar{³}{\ensuremath{^{3}}}
+\newunicodechar{⁴}{\ensuremath{^{4}}}
+\usetikzlibrary{
+  positioning,shapes.geometric,decorations.pathmorphing,
+  patterns.meta,calc,intersections
+}
+\pgfplotsset{compat=1.18}
+\tikzset{
+  antiscalar/.style={dashed,postaction={decorate},
+    decoration={markings,mark=at position 0.55 with {\arrow{<}}}}
+}
+\graphicspath{{assets/}{../assets/}}
+\setlength{\emergencystretch}{2.5em}
+% A few long source equations need one size step less inside the narrow
+% supplied page margins and solution boxes.
+\AtBeginEnvironment{equation}{\small}
+\AtBeginEnvironment{equation*}{\small}
+\AtBeginEnvironment{align}{\small}
+\AtBeginEnvironment{align*}{\small}
+
+\providecommand{\R}{\mathbb{R}}
+\providecommand{\C}{\mathbb{C}}
+\providecommand{\Z}{\mathbb{Z}}
+\providecommand{\N}{\mathbb{N}}
+\providecommand{\Q}{\mathbb{Q}}
+\providecommand{\A}{\mathcal{A}}
+\providecommand{\Lagrangian}{\mathcal{L}}
+\providecommand{\Cdot}{\boldsymbol{\cdot}}
+\providecommand{\Tilde}[1]{\widetilde{#1}}
+\providecommand{\Tr}{\operatorname{Tr}}
+\providecommand{\pd}{\partial}
+\newenvironment{problemparts}
+  {\begin{enumerate}[label=(\alph*),ref=\alph*]}
+  {\end{enumerate}}

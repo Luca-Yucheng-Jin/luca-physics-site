@@ -1,0 +1,241 @@
+% ============================================================
+%  elegantphys.sty
+% ============================================================
+\ProvidesPackage{elegantphys}
+
+% The site sources use a hand-written thebibliography environment.  Keep the
+% supplied biblatex setup as the default for other documents, with an option
+% for those existing public notes.
+\newif\ifelegantphysbiblatex
+\elegantphysbiblatextrue
+\DeclareOption{manualbib}{\elegantphysbiblatexfalse}
+\ProcessOptions\relax
+
+\usepackage{amsmath, amssymb, amsthm, mathtools}
+\usepackage{physics}
+\usepackage{tensor}
+\usepackage{slashed}
+\usepackage{enumitem}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{microtype}
+
+% --- Page geometry ------------------------------------------
+\usepackage{geometry}
+\geometry{
+    a4paper,
+    top=2.5cm, bottom=2.5cm,
+    left=1.5cm, right=1.5cm,
+    headheight=22pt
+}
+
+% --- Colour palette (black & white only) --------------------
+\usepackage{xcolor}
+\definecolor{darkgray}{RGB}{60, 60, 60}
+\definecolor{lightgray}{RGB}{238, 240, 245}
+\definecolor{rulecolor}{RGB}{160, 160, 160}
+
+% --- Header & footer ----------------------------------------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\headrule}{%
+    \hbox to\headwidth{\color{rulecolor}\leaders\hrule height\headrulewidth\hfill}}
+\fancyhead[L]{\small\color{darkgray}\textit{\leftmark}}
+\fancyhead[R]{\small\color{darkgray}\thepage}
+
+% --- Section styling ----------------------------------------
+\usepackage{titlesec}
+\titleformat{\section}
+    {\Large\bfseries\color{black}}
+    {\thesection.}{0.6em}{}
+    [\vspace{2pt}{\color{rulecolor}\titlerule[1pt]}]
+
+\titleformat{\subsection}
+    {\large\bfseries\color{black}}
+    {\thesubsection.}{0.5em}{}
+    [\vspace{1pt}{\color{rulecolor}\titlerule[0.4pt]}]
+
+\titleformat{\subsubsection}
+    {\normalsize\bfseries\color{black}}
+    {\thesubsubsection.}{0.5em}{}
+
+% --- TOC styling --------------------------------------------
+\usepackage{tocloft}
+\renewcommand{\cfttoctitlefont}{\Huge\bfseries\color{black}}
+\renewcommand{\cftaftertoctitle}{%
+    \\\vspace{4pt}{\color{rulecolor}\rule{\linewidth}{1.5pt}}}
+\renewcommand{\cftsecfont}{\bfseries\color{black}}
+\renewcommand{\cftsecpagefont}{\bfseries\color{black}}
+\renewcommand{\cftsubsecfont}{\color{darkgray}}
+\renewcommand{\cftsubsecpagefont}{\color{darkgray}}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\setlength{\cftbeforesecskip}{6pt}
+
+% --- Theorem environments -----------------------------------
+\usepackage{thmtools}
+\usepackage[most]{tcolorbox}
+
+\tcbset{
+    basestyle/.style={
+        breakable, enhanced, sharp corners,
+        left=8pt, right=8pt,
+        top=5pt, bottom=5pt,
+        fonttitle=\bfseries\small
+    }
+}
+
+\tcolorboxenvironment{theorem}{
+    basestyle,
+    colback=lightgray,
+    colframe=black,
+    borderline west={3pt}{0pt}{black},
+    boxrule=0pt
+}
+\tcolorboxenvironment{definition}{
+    basestyle,
+    colback=lightgray,
+    colframe=darkgray,
+    borderline west={3pt}{0pt}{darkgray},
+    boxrule=0pt
+}
+\tcolorboxenvironment{lemma}{
+    basestyle,
+    colback=lightgray,
+    colframe=darkgray,
+    borderline west={3pt}{0pt}{darkgray},
+    boxrule=0pt
+}
+\tcolorboxenvironment{remark}{
+    basestyle,
+    colback=white,
+    colframe=rulecolor,
+    borderline west={2pt}{0pt}{rulecolor},
+    boxrule=0pt
+}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newtheorem*{note}{Note}
+
+% --- Boxed key result ---------------------------------------
+\newcommand{\boxedeq}[1]{%
+    \begin{tcolorbox}[
+        basestyle,
+        colback=lightgray,
+        colframe=black,
+        boxrule=0.8pt
+    ]
+    \vspace{-4pt}
+    \begin{equation}#1\end{equation}
+    \vspace{-6pt}
+    \end{tcolorbox}
+}
+
+% --- Cover page ---------------------------------------------
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{decorations.markings,arrows.meta}
+
+\newcommand{\makecover}[4]{%
+    \thispagestyle{empty}
+    \begin{center}
+        \vspace*{6cm}
+        {\Huge\bfseries #1}\\[1em]
+        {\large\itshape #2}\\[0.4em]
+        {\color{rulecolor}\rule{0.5\linewidth}{0.8pt}}\\[2em]
+        {\Large #3}\\[0.5em]
+        {\normalsize\color{darkgray} #4}
+        \vfill
+
+    \end{center}
+    \newpage
+    \setcounter{page}{1}
+}
+
+% --- Hyperlinks ---------------------------------------------
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=false,
+    linkbordercolor=white,
+    citebordercolor=white,
+    urlbordercolor=white
+}
+\usepackage{cleveref}
+
+% --- Figures & captions -------------------------------------
+\usepackage{float, caption, subcaption}
+\captionsetup{
+    font=small,
+    labelfont={bf},
+    labelsep=period
+}
+
+% --- Tables -------------------------------------------------
+\usepackage{booktabs, array}
+
+% --- Misc ---------------------------------------------------
+\usepackage{cancel}
+\usepackage{todonotes}
+\usepackage{tikz-feynman}
+\ifelegantphysbiblatex
+\usepackage[backend=biber, style=numeric-comp, sorting=none]{biblatex}
+\fi
+
+\definecolor{lightblue}{RGB}{225, 235, 248}
+
+\newenvironment{solution}{%
+    \begin{tcolorbox}[
+        basestyle,
+        colback=lightblue,
+        colframe=lightblue,
+        boxrule=0pt,
+        borderline west={3pt}{0pt}{darkgray}
+    ]
+    \noindent\textbf{Solution.}\quad
+}{%
+    \end{tcolorbox}
+}
+\numberwithin{equation}{section}
+\usepackage{tikz}
+\usepackage[outline]{contour}
+\contourlength{1.1pt}
+
+% --- Palette ---
+\colorlet{myblue}{blue!80!black}
+\colorlet{mydarkblue}{blue!50!black}
+\colorlet{myred}{red!85!black}
+\colorlet{mydarkred}{red!55!black}
+\colorlet{mygray}{black!55}
+
+\tikzset{
+  >=Stealth,
+  thick,
+  axis/.style       ={->, semithick, black!70},
+  field/.style      ={-{Stealth[length=1.6mm]}, line width=0.45pt, mygray},
+  scalar/.style     ={dashed},
+  % closed-orbit (center): the path circle is drawn CCW by TikZ, so use
+  % \arrowreversed to indicate the actual flow direction (clockwise).
+  cw orbit/.style={
+    myblue, line width=0.9pt,
+    postaction={decorate},
+    decoration={markings,
+      mark=at position 0.125 with {\arrowreversed{Stealth[length=2.6mm]}},
+      mark=at position 0.625 with {\arrowreversed{Stealth[length=2.6mm]}}}
+  },
+  % outgoing log spiral (unstable focus): plain stroke; arrows added separately
+  out spiral/.style={myred, line width=0.9pt},
+  out spiral arrow/.style={-{Stealth[length=2.6mm]}, myred, line width=1pt,
+                           line cap=round},
+  fp center/.style   ={circle, draw=mydarkblue, fill=white, line width=0.8pt,
+                       inner sep=1.6pt},
+  fp unstable/.style ={circle, draw=mydarkred,  fill=white, line width=0.8pt,
+                       inner sep=1.6pt},
+}

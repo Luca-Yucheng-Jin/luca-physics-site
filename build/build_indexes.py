@@ -880,8 +880,8 @@ def compute_stats(categories: list[dict]) -> dict:
             print(f"  warning: missing output/pdf/{slug}.pdf; excluding it from page total")
             continue
         with open(pdf_path, "rb") as pdf_file:
-            # Our Chromium/LaTeX PDFs keep Page dictionaries uncompressed.
-            # The test suite cross-checks this same build-format invariant.
+            # Public PDFs keep Page dictionaries uncompressed so the archive
+            # and tests can count them without an additional parser library.
             page_count = len(_STATS_PDF_PAGE_RE.findall(pdf_file.read()))
         if page_count < 1:
             raise ValueError(f"Could not count pages in {pdf_path}")

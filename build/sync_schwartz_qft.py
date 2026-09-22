@@ -202,14 +202,14 @@ def main() -> None:
 % Source repository: https://github.com/Luca-Yucheng-Jin/schwartz-qft-solutions
 % Source commit: {commit}
 \\documentclass[a4paper,11pt]{{article}}
-\\usepackage{{amsmath,amssymb,bm,graphicx,slashed,tikz,tikz-feynman}}
-\\DeclareMathOperator{{\\Tr}}{{Tr}}
-\\newenvironment{{solution}}{{\\par\\medskip\\noindent\\textbf{{Solution.}}\\par\\smallskip}}{{\\par\\medskip}}
-\\newenvironment{{problemparts}}{{\\begin{{enumerate}}\\renewcommand{{\\labelenumi}}{{(\\alph{{enumi}})}}}}{{\\end{{enumerate}}}}
+\\pdfvariable objcompresslevel=0
+\\usepackage[manualbib]{{elegantphys}}
+\\usepackage{{luca-pdf-compat}}
 \\title{{Schwartz Chapter {chapter}: {chapter_title}}}
-\\author{{Luca Yucheng Jin}}
+\\author{{Yucheng (Luca) Jin}}
 \\begin{{document}}
-\\maketitle
+\\makecover{{Schwartz Chapter {chapter}: {chapter_title}}}{{M. D. Schwartz, \\emph{{Quantum Field Theory and the Standard Model}}, Chapter {chapter}.}}{{Yucheng (Luca) Jin}}{{Quantum Field Theory}}
+\\markboth{{Schwartz Chapter {chapter}}}{{Schwartz Chapter {chapter}}}
 
 \\section{{Completed Problems}}
 

@@ -9,7 +9,7 @@
     "dev": "vite",
     "prebuild": "npm run refresh",
     "build": "tsc -b && vite build",
-    "pdf": "node build/build_pdfs.mjs",
+    "pdf": "python3 build/build_pdfs.py",
     "preview": "vite preview",
     "test": "node --test tests/*.test.mjs"
   },
