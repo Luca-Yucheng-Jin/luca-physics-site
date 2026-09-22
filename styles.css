@@ -1135,6 +1135,19 @@ body.nav-on .site-nav-toggle__chevron {
   margin: 0.6rem 0 1.6rem;
 }
 
+.hero__contents {
+  max-width: var(--measure-narrow);
+  margin: 0.6rem 0 1.6rem;
+  padding-left: 1.35rem;
+  color: var(--ink-soft);
+  font-family: var(--display);
+  font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+  line-height: 1.5;
+}
+
+.hero__contents li { margin: 0.15rem 0; }
+.hero__contents li::marker { color: var(--accent); }
+
 .hero__meta {
   display: flex;
   flex-wrap: wrap;

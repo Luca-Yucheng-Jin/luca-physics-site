@@ -6,7 +6,8 @@ notes.html overview from a single source-of-truth list.
 Each category has:
   - slug  : URL component, used in notes-<slug>.html
   - title : displayed in <h1>
-  - blurb : 1-line description for the top-level overview
+  - blurb : short description for page metadata
+  - contents : short list of collections shown below the subject heading
   - body  : ready-to-inject HTML (the <ul class="catalogue"> and any
             interleaved <h3> sub-headings)
 """
@@ -285,6 +286,16 @@ CATEGORIES = [
         "slug": "qft",
         "title": "Quantum Field Theory",
         "blurb": "Path-integral essay; completed Schwartz, Peskin, Tong, PSI, Osborn, and Srednicki solutions; plus an independent φ³ computation.",
+        "contents": [
+            "Path-Integral Essay",
+            "Schwartz QFT Solutions",
+            "Peskin & Schroeder QFT Solutions",
+            "David Tong QFT Solutions",
+            "PSI QFT II Solutions",
+            "Hugh Osborn AQFT Solutions",
+            "Mark Srednicki QFT Solutions",
+            "Independent φ³ Computation",
+        ],
         "tag": f"{14 + SCHWARTZ_CHAPTER_COUNT + PSI_QFT_II_SHEET_COUNT} notes",
         "body": """    <h3>Papers</h3>
     <ul class="catalogue">
@@ -432,6 +443,7 @@ CATEGORIES = [
         "slug": "advanced",
         "title": "General Relativity",
         "blurb": "Worked Wald exercises in Chapters 3–6, plus Tong problem sheets on geometry, curvature, geodesics, and gravitational waves.",
+        "contents": ["David Tong GR Solutions", "Wald GR Solutions"],
         "tag": f"{4 + WALD_GR_CHAPTER_COUNT} notes",
         "body": """    <h3 class="catalogue-source">
       <span>Solutions to David Tong’s General Relativity problem sheets</span>
@@ -478,6 +490,11 @@ CATEGORIES = [
         "slug": "qm",
         "title": "Quantum Mechanics",
         "blurb": "Bound-state existence, parity arguments, factorisation method.",
+        "contents": [
+            "Non-Degeneracy and Reality of Bound States",
+            "Odd-Parity States in a Shallow Square Well",
+            "Factorisation Method for the Sech-Squared Potential",
+        ],
         "tag": "3 notes",
         "body": """    <h3 class="catalogue-source">
       <span>Solutions to Cambridge Quantum Mechanics examples accompanying David Tong’s notes</span>
@@ -514,6 +531,11 @@ CATEGORIES = [
         "slug": "ed",
         "title": "Electrodynamics",
         "blurb": "Cambridge electromagnetism exercises accompanying David Tong’s notes — radiation, relativity, and dielectric boundaries.",
+        "contents": [
+            "David Tong Radiation Exercises",
+            "David Tong Waves and Relativity Solutions",
+            "David Tong Electromagnetism in Matter Exercises",
+        ],
         "tag": "8 notes",
         "body": """    <h3 class="catalogue-source">
       <span>Solutions to the radiation exercises accompanying David Tong’s <em>Electromagnetism</em></span>
@@ -604,6 +626,11 @@ CATEGORIES = [
         "slug": "mm",
         "title": "Mathematical Methods",
         "blurb": "Santos complex-methods example sheets, a reference note, and Cambridge variational principles.",
+        "contents": [
+            "Jordan’s Lemma Reference Note",
+            "J. E. Santos Complex Methods Solutions",
+            "Cambridge Variational Principles Solution",
+        ],
         "tag": "6 notes",
         "body": """    <h3>Standalone reference note</h3>
     <ul class="catalogue">
@@ -675,6 +702,7 @@ CATEGORIES = [
         "slug": "de",
         "title": "Differential Equations",
         "blurb": "Green's identity and the method of images for the half-space.",
+        "contents": ["Green’s Identity and the Method of Images"],
         "tag": "1 note",
         "body": """    <h3 class="catalogue-source">
       <span>Unofficial solution to a public Cambridge Mathematical Tripos past paper</span>
@@ -695,6 +723,10 @@ CATEGORIES = [
         "slug": "tdsp",
         "title": "Thermodynamics & Statistical Physics",
         "blurb": "Joule–Thomson and spin-system partition functions.",
+        "contents": [
+            "Joule–Thomson Process Solution",
+            "Spin-System Partition Function Solutions",
+        ],
         "tag": "3 notes",
         "body": """    <h3 class="catalogue-source">
       <span>Solutions to David Tong’s Statistical Physics problem sheets</span>
@@ -789,6 +821,9 @@ def category_page(cat: dict) -> str:
         f"{cat['title']} notes and worked solutions by {AUTHOR_NAME}: "
         f"{cat['blurb']} Every note is available in HTML and PDF."
     )
+    contents_html = "\n".join(
+        f"      <li>{html.escape(item)}</li>" for item in cat["contents"]
+    )
     return (
         page_chrome_head(
             page_title,
@@ -807,7 +842,9 @@ def category_page(cat: dict) -> str:
   <section class="hero">
     <div class="hero__eyebrow">Notes · subject</div>
     <h1>{cat['title']}</h1>
-    <p class="hero__lede">{typeset_catalogue_math(cat['blurb'])}</p>
+    <ul class="hero__contents" aria-label="Contents">
+{contents_html}
+    </ul>
   </section>
 
   <section class="section" id="{cat['slug']}">
