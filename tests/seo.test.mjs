@@ -104,6 +104,30 @@ test('homepage exposes the name and subject links before JavaScript runs', async
 });
 
 
+test('homepage subject counts match the public note catalogue', async () => {
+  const manifest = JSON.parse(
+    await readFile(path.join(root, 'assets', 'nav-manifest.json'), 'utf8'),
+  );
+  const expected = new Map(manifest.categories.map((category) => [
+    `notes-${category.slug}.html`,
+    category.groups.reduce((total, group) => total + group.notes.length, 0),
+  ]));
+  const total = [...expected.values()].reduce((sum, count) => sum + count, 0);
+
+  for (const relative of ['index.html', 'dist/client/index.html']) {
+    const html = await readFile(path.join(root, relative), 'utf8');
+    const rows = [...html.matchAll(/<a class="subject-row" href="([^"]+)">([\s\S]*?)<\/a>/g)];
+    assert.equal(rows.length, expected.size, `${relative}: wrong number of subjects`);
+    for (const [, href, body] of rows) {
+      const count = expected.get(href);
+      assert.notEqual(count, undefined, `${relative}: unexpected subject ${href}`);
+      assert.match(body, new RegExp(`<span class="subject-row__count">${count} ${count === 1 ? 'note' : 'notes'}<\\/span>`));
+    }
+    assert.match(html, new RegExp(`· ${total} notes<\\/p>`));
+  }
+});
+
+
 test('notes overview keeps only the useful archive statistics', async () => {
   const html = await readFile(path.join(root, 'notes.html'), 'utf8');
   const stats = html.match(/<ul class="stats"[\s\S]*?<\/ul>/)?.[0];

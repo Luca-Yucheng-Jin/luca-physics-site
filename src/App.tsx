@@ -1,3 +1,5 @@
+import navigation from '../assets/nav-manifest.json';
+
 type Subject = {
   number: string;
   title: string;
@@ -5,50 +7,13 @@ type Subject = {
   href: string;
 };
 
-const subjects: Subject[] = [
-  {
-    number: '01',
-    title: 'Quantum Field Theory',
-    count: 20,
-    href: 'notes-qft.html',
-  },
-  {
-    number: '02',
-    title: 'General Relativity',
-    count: 4,
-    href: 'notes-advanced.html',
-  },
-  {
-    number: '03',
-    title: 'Quantum Mechanics',
-    count: 3,
-    href: 'notes-qm.html',
-  },
-  {
-    number: '04',
-    title: 'Electrodynamics',
-    count: 8,
-    href: 'notes-ed.html',
-  },
-  {
-    number: '05',
-    title: 'Mathematical Methods',
-    count: 6,
-    href: 'notes-mm.html',
-  },
-  {
-    number: '06',
-    title: 'Differential Equations',
-    count: 3,
-    href: 'notes-de.html',
-  },
-  {
-    number: '07',
-    title: 'Thermodynamics & Statistical Physics',
-    count: 4,
-    href: 'notes-tdsp.html',
-  },
-];
+const subjects: Subject[] = navigation.categories.map((category, index) => ({
+  number: String(index + 1).padStart(2, '0'),
+  title: category.title,
+  count: category.groups.reduce((total, group) => total + group.notes.length, 0),
+  href: `notes-${category.slug}.html`,
+}));
+const totalNotes = subjects.reduce((total, subject) => total + subject.count, 0);
 
 function toggleTheme(event: React.MouseEvent<HTMLButtonElement>) {
   const root = document.documentElement;
@@ -114,7 +79,7 @@ export default function App() {
         <section className="home-section page-shell" aria-labelledby="subjects-title">
           <div className="section-heading">
             <div>
-              <p className="kicker">Seven subjects · 48 notes</p>
+              <p className="kicker">{subjects.length} subjects · {totalNotes} notes</p>
               <h2 id="subjects-title">Notes by subject.</h2>
             </div>
             <a className="section-heading__link" href="notes.html">All notes <span>→</span></a>
@@ -125,7 +90,7 @@ export default function App() {
               <a className="subject-row" href={subject.href} key={subject.number}>
                 <span className="subject-row__number">{subject.number}</span>
                 <h3>{subject.title}</h3>
-                <span className="subject-row__count">{subject.count} notes</span>
+                <span className="subject-row__count">{subject.count} {subject.count === 1 ? 'note' : 'notes'}</span>
                 <span className="subject-row__arrow" aria-hidden="true">→</span>
               </a>
             ))}
