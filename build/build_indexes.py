@@ -249,6 +249,37 @@ def psi_qft_ii_catalogue() -> tuple[str, int]:
 PSI_QFT_II_CATALOGUE, PSI_QFT_II_SHEET_COUNT = psi_qft_ii_catalogue()
 
 
+def wald_gr_catalogue() -> tuple[str, int]:
+    manifest_path = os.path.join(ROOT, "assets", "wald-gr-manifest.json")
+    if not os.path.exists(manifest_path):
+        return "", 0
+    with open(manifest_path, encoding="utf-8") as manifest_file:
+        manifest = json.load(manifest_file)
+    items = []
+    for chapter in manifest.get("chapters", []):
+        number = chapter["chapter"]
+        tong_note = " Includes links to related Tong GR solutions." if str(number) in ("3", "4") else ""
+        items.append(f"""      <li class="catalogue__item">
+        <span class="catalogue__num">{number}.</span>
+        <span class="catalogue__main">
+          <a href="notes/{chapter['slug']}.html">Chapter {number}: {html.escape(chapter['title'])}</a>
+          <span class="catalogue__desc">{html.escape(chapter['description'])} Selected worked problems.{tong_note}</span>
+        </span>
+        <span class="catalogue__tag">Wald GR Ch. {number}</span>
+      </li>""")
+    body = """    <h3 class="catalogue-source">
+      <span>Worked exercises from Robert M. Wald’s <em>General Relativity</em></span>
+      <a href="https://press.uchicago.edu/ucp/books/book/chicago/G/bo5952261.html" target="_blank" rel="noopener noreferrer">Book website ↗</a>
+    </h3>
+    <ul class="catalogue">
+{items}
+    </ul>""".format(items="\n".join(items))
+    return body, len(items)
+
+
+WALD_GR_CATALOGUE, WALD_GR_CHAPTER_COUNT = wald_gr_catalogue()
+
+
 CATEGORIES = [
     {
         "slug": "qft",
@@ -400,8 +431,8 @@ CATEGORIES = [
     {
         "slug": "advanced",
         "title": "General Relativity",
-        "blurb": "Manifolds and tensors, connections and curvature, geodesics and Killing vectors, Brans–Dicke scalar-tensor gravity, 11-dimensional supergravity, and linearised gravity / gravitational waves.",
-        "tag": "4 notes",
+        "blurb": "Worked Wald exercises in Chapters 3–6, plus Tong problem sheets on geometry, curvature, geodesics, and gravitational waves.",
+        "tag": f"{4 + WALD_GR_CHAPTER_COUNT} notes",
         "body": """    <h3 class="catalogue-source">
       <span>Solutions to David Tong’s General Relativity problem sheets</span>
       <a href="https://www.damtp.cam.ac.uk/user/tong/gr.html" target="_blank" rel="noopener noreferrer">Original course ↗</a>
@@ -439,7 +470,9 @@ CATEGORIES = [
         </span>
         <span class="catalogue__tag">Tong GR PS4</span>
       </li>
-    </ul>""",
+    </ul>
+
+""" + WALD_GR_CATALOGUE,
     },
     {
         "slug": "qm",

@@ -2023,6 +2023,25 @@ def _load_psi_qft_ii_pages():
     return pages
 
 
+def _load_wald_gr_pages():
+    manifest_path = os.path.join(ROOT, "assets", "wald-gr-manifest.json")
+    if not os.path.exists(manifest_path):
+        return []
+    with open(manifest_path, encoding="utf-8") as manifest_file:
+        manifest = json.load(manifest_file)
+    return [
+        (
+            chapter["texFile"],
+            chapter["slug"],
+            f"Wald Chapter {chapter['chapter']}: {chapter['title']}",
+            f"General Relativity · Wald Chapter {chapter['chapter']}",
+            "R. M. Wald, <em>General Relativity</em>, "
+            f"Chapter {chapter['chapter']}; selected worked problems and related solutions.",
+        )
+        for chapter in manifest.get("chapters", [])
+    ]
+
+
 def _load_schwartz_chapter_pages():
     manifest_path = os.path.join(ROOT, "assets", "schwartz-qft-manifest.json")
     if not os.path.exists(manifest_path):
@@ -2047,6 +2066,7 @@ def _load_schwartz_chapter_pages():
 
 
 WHOLE_FILE_PAGES.extend(_load_psi_qft_ii_pages())
+WHOLE_FILE_PAGES.extend(_load_wald_gr_pages())
 WHOLE_FILE_PAGES.extend(_load_schwartz_chapter_pages())
 
 

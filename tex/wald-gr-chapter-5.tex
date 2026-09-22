@@ -1,0 +1,305 @@
+% Generated from selected worked problems in committed QFT-soln sources.
+% Source repository: https://github.com/Luca-Yucheng-Jin/QFT-soln
+% Source commit: d74e71bc8fb585141e81696c5d2b810008d9dba6
+\section{Wald General Relativity, Chapter 5: Homogeneous, Isotropic Cosmology}
+\markboth{\thesection\quad WALD GENERAL RELATIVITY, CHAPTER 5}{}
+
+\noindent\textit{Problem prompts are paraphrased from Robert M. Wald,
+\emph{General Relativity} (University of Chicago Press, 1984); the equations,
+notation, numbering, and guidance follow the source. See the
+\href{https://press.uchicago.edu/ucp/books/book/chicago/G/bo5952261.html}{official publisher page}.}
+
+\subsection{Chapter 5, Problem 1: Robertson--Walker Coordinates}
+
+Show that the Robertson--Walker metric (5.1.11) can be rewritten as
+\begin{equation}
+    ds^2=-d\tau^2+a^2(\tau)\left[
+        \frac{dr^2}{1-kr^2}
+        +r^2\left(d\theta^2+\sin^2\theta\,d\phi^2\right)
+    \right].
+\end{equation}
+For $k=+1$, determine which part of the three-sphere is covered by these
+coordinates.
+\begin{solution}
+For $K=0$, the metric is simply
+\begin{equation}
+    ds^2 = - d\tau^2 + a^2(\tau)d\mathbf{x}^2 = - d\tau^2 + a^2(\tau)(dr^2 + d\Omega_2^2).
+\end{equation}
+For $K >0$, we define
+\begin{equation}
+    \sin^2\psi = r^2,
+\end{equation}
+which gives
+\begin{equation}
+    \frac{1}{1-r^2}dr^2 =d\psi^2.
+\end{equation}
+Therefore, we have
+\begin{equation}
+    ds^2 =-d\tau^2+a^2(\tau)\left(\frac{dr^2}{1-r^2} + r^2d\Omega_2^2\right).
+\end{equation}
+Similarly, we find
+\begin{equation}
+    ds^2 =-d\tau^2+a^2(\tau)\left(\frac{dr^2}{1+r^2} + r^2d\Omega_2^2\right)
+\end{equation}
+for $k<0$ by defining $r^2 = \sinh^2\psi$.
+
+Note that for $K>0$, $r \in [0,1]$, which only covers either $\psi \in [0,\pi/2]$ or $\psi \in [\pi/2,\pi]$. Therefore, it only covers the northern or the southern hemisphere of the three-sphere.
+\end{solution}
+
+\subsection{Chapter 5, Problem 2: The Friedmann Equations for Curved Spatial Sections}
+
+Derive Einstein's equations (5.2.14) and (5.2.15) for the three-sphere
+$(k=+1)$ and hyperboloid $(k=-1)$ geometries.
+\begin{solution}
+    The metric tensor is
+    \begin{equation}
+        g_{\mu\nu} = \operatorname{diag}(-1,a^2/(1-kr^2),a^2r^2,a^2r^2\sin^2\theta).
+    \end{equation}
+    The Levi-Civita connection is given by
+    \begin{equation}
+        \Gamma^\rho{}_{\mu\nu} = \frac{1}{2}g^{\rho\sigma}(\partial_\mu g_{\nu\sigma} + \partial_\nu g_{\mu\sigma} - \partial_\sigma g_{\mu\nu}).
+    \end{equation}
+    We start with
+    \begin{equation}
+        \Gamma^i{}_{i\tau} = \Gamma^i{}_{\tau i} = \frac{1}{2}g^{ii}(\partial_ig_{ii}) = \frac{\dot a}{a}.
+    \end{equation}
+    Meanwhile,
+    \begin{equation}
+        \Gamma^\tau{}_{rr} = -\frac{1}{2}g^{\tau\tau}\partial_\tau g_{rr} = \frac{a\dot a}{1-kr^2},\quad  \Gamma^\tau{}_{\theta\theta} = r^2a\dot a, \quad \Gamma^\tau{}_{\phi\phi} = r^2\sin^2\theta a\dot a.
+    \end{equation}
+    On top of that, we also have
+    \begin{equation}
+        \Gamma^r{}_{rr} = \frac{1}{2}g^{rr}\partial_rg_{rr} = \frac{kr}{1-kr^2}, \quad \Gamma^r{}_{\theta\theta} = - \frac{1}{2}g^{rr}\partial_\theta g_{rr} = -(1-kr^2)a^2r, \quad \Gamma^r{}_{\phi\phi} = -(1-kr^2)a^2r\sin^2\theta.
+    \end{equation}
+    Finally, we also have
+    \begin{equation}
+        \Gamma^\theta{}_{\phi\phi} = -\frac{1}{2}g^{\theta\theta}\partial_\theta g_{\phi\phi} = -\sin\theta\cos\theta, \quad \Gamma^\theta{}_{\theta r} = \Gamma^\theta{}_{r\theta } = \frac{1}{2}g^{\theta\theta}\partial_rg_{\theta\theta} = \frac{1}{r}, \quad \Gamma^\phi{}_{\phi r} = \Gamma^\phi{}_{r\phi } = \frac{1}{r},
+    \end{equation}
+    and
+    \begin{equation}
+        \Gamma^\phi_{\theta\phi}
+=
+\Gamma^\phi_{\phi\theta}
+=
+\cot\theta
+    \end{equation}
+    with all the rest of the components vanishes.
+
+    Now, we are ready to compute the Ricci tensor, which is given by
+    \begin{equation}
+        R_{\mu\rho} = \partial_\nu \Gamma^\nu{}_{\mu\rho} - \partial_\mu \Gamma^\nu {}_{\nu\rho} + \Gamma^\alpha{}_{\mu\rho}\Gamma^\nu{}_{\alpha\nu} - \Gamma^\alpha{}_{\nu\rho}\Gamma^\nu{}_{\alpha\mu}.
+    \end{equation}
+    \begin{equation}
+        R_{\tau\tau} = -3\partial_\tau\Gamma^{r}{}_{r\tau} - 3\Gamma^r{}_{r\tau}\Gamma^r{}_{r\tau} = -3\frac{\ddot a}{a}.
+    \end{equation}
+    Note that $R_{**} = \frac{1-kr^2}{a^2}R_{rr}$, and
+    \begin{equation}
+        \begin{aligned}
+            R_{rr} &= \partial_\tau\Gamma^\tau{}_{rr} +\partial_r\Gamma^r{}_{rr} -\partial_r\Gamma^r{}_{rr} - 2\partial_r\Gamma^\theta{}_{\theta r}\\
+            &\qquad+ (\Gamma^r{}_{rr})^2 + 2\Gamma^r{}_{rr}\Gamma^\theta{}_{r\theta}+3\Gamma^\tau{}_{rr}\Gamma^r{}_{r\tau}- (\Gamma^r{}_{rr})^2 - 2\Gamma^\tau{}_{rr}\Gamma^r{}_{\tau r} - 2(\Gamma^\theta{}_{\theta r})^2\\
+            &=\frac{\dot a^2 + a \ddot a}{1-kr^2} + \frac{2}{r^2} +\frac{\dot a^2}{1-kr^2} +2\frac{k}{1-kr^2}+ \frac{2}{r^2}\\&= \frac{2\dot a^2 + a \ddot a}{1-kr^2} + \frac{2k}{1-kr^2},
+        \end{aligned}
+    \end{equation}
+    which gives
+    \begin{equation}
+        R_{**} = \left(\frac{\ddot a}{a} + 2\frac{\dot a^2+k}{a^2}\right).
+    \end{equation}
+    The Ricci scalar is given by
+    \begin{equation}
+        R = -R_{\tau\tau} + 3R_{**} = 6\left(\frac{\ddot a}{a} + \frac{\dot a^2+k}{a^2}\right).
+    \end{equation}
+    Therefore, we find Einstein's equations to be
+    \begin{equation}
+        G_{\tau\tau} = 3\frac{\dot a^2+k}{a^2} = 8\pi \rho,
+    \end{equation}
+    \begin{equation}
+        G_{**} = -2\frac{\ddot a}{a} - \frac{\dot a^2+k}{a^2} = 8\pi P.
+    \end{equation}
+    Manipulating a bit, we find
+    \begin{equation}
+        \frac{3\dot a ^2}{a^2} = 8\pi \rho - \frac{3k}{a^2},
+    \end{equation}
+    \begin{equation}
+        \frac{3\ddot a}{a} = -4\pi(\rho+3P).
+    \end{equation}
+\end{solution}
+
+\subsection{Chapter 5, Problem 3: Cosmological Constant Solutions}
+
+\begin{enumerate}[label=\alph*)]
+    \item Use the modified Einstein equation (5.2.17) with cosmological constant
+    $\Lambda$ to write the counterparts of equations (5.2.14) and (5.2.15),
+    including their $\Lambda$ terms. Show that a static solution exists precisely
+    when $k=+1$ and $\Lambda>0$. For a dust-filled Einstein static universe
+    $(P=0)$, relate its radius $a$ to the density $\rho$. Perturb $a$ slightly
+    away from equilibrium and show that the static solution is unstable.
+    \begin{solution}
+        Einstein's equations become
+        \begin{equation}
+            G_{\tau\tau} -\Lambda = 8\pi \rho,
+        \end{equation}
+        \begin{equation}
+            G_{**} + \Lambda = 8\pi P,
+        \end{equation}
+        which gives
+        \begin{equation}
+            \frac{3\dot a ^2}{a^2} -\Lambda = 8\pi \rho - \frac{3k}{a^2},
+        \end{equation}
+        \begin{equation}
+            \frac{3\ddot a}{a} - \Lambda= -4\pi(\rho+3P).
+        \end{equation}
+        A static universe would have $\dot a = \ddot a = 0$, which gives
+        \begin{equation}
+            \frac{3k}{a^2} = 8\pi \rho + \Lambda,
+        \end{equation}
+        \begin{equation}
+            \Lambda = 4\pi(\rho+3P).
+        \end{equation}
+        It is easy to see that we must have $k = +1$ for the static universe solution to exist. In the case of a dust-filled static universe, we have $a_0 = \sqrt{1/4\pi\rho}$ and $\Lambda = 4\pi \rho$.
+
+        Consider perturbing the universe to $a = a_0 + \delta a$ with $\delta a / a_0 \ll 1$, and release it ($\dot{\delta a} = 0$). Through mass conservation, we have $\rho_0a_0^3 = \rho(a_0 + \delta a)^3$. We find
+        \begin{equation}
+            \ddot{\delta a} = \frac{\delta a}{a_0^2},
+        \end{equation}
+        which means that the static universe is not stable.
+    \end{solution}
+
+    \item Set $\Lambda>0$ and $T_{ab}=0$ in the modified Einstein equation.
+    Find the spatially homogeneous and isotropic solution for $k=0$. This gives
+    de Sitter spacetime; the $k=\pm1$ solutions correspond to other choices of
+    spacelike hypersurfaces in the same spacetime.
+    \begin{solution}
+        The equations become
+        \begin{equation}
+            \frac{3\dot a^2}{a^2} = \Lambda,\quad \frac{3\ddot a}{a} = \Lambda.
+        \end{equation}
+        This has a solution
+        \begin{equation}
+            a(\tau) = Ae^{\sqrt{\Lambda/3}\tau}.
+        \end{equation}
+    \end{solution}
+\end{enumerate}
+
+\subsection{Chapter 5, Problem 4: Cosmological Redshift}
+
+Derive the redshift relation (5.3.6) through the following steps.
+\begin{enumerate}[label=\alph*)]
+    \item Show that
+    \begin{equation}
+        \nabla_a u_b=\frac{\dot a}{a}h_{ab},
+        \qquad
+        \dot a=\frac{da}{d\tau},
+    \end{equation}
+    where $h_{ab}$ is defined in equation (5.1.10).
+    \begin{solution}
+        In a local chart, we have $u^\mu = (1,0,0,0)$. The FRW metric can be written as
+        \begin{equation}
+            ds^2 = -d\tau^2 +h_{ij}(\tau)dx^i dx^j.
+        \end{equation}
+        The covariant derivative is therefore
+        \begin{equation}
+            \nabla_\mu u_\nu = \partial_\mu u_\nu  - \Gamma^\rho{}_{\mu\nu}u_\rho = \Gamma^\tau{}_{\mu\nu}.
+        \end{equation}
+        In problem 5.2, we found
+        \begin{equation}
+            \Gamma^\tau{}_{ij} = \frac{\dot a}{a}h_{\mu\nu}(\tau),
+        \end{equation}
+        where
+        \begin{equation}
+        h_{\mu\nu}=
+            \begin{pmatrix}
+                0 &0\\0&h_{ij}
+            \end{pmatrix}.
+        \end{equation}
+        Therefore, we find
+        \begin{equation}
+            \nabla_\mu u_\nu = \frac{\dot a}{a}h_{\mu\nu}(\tau).
+        \end{equation}
+    \end{solution}
+
+    \item Along any null geodesic, prove
+    \begin{equation}
+        \frac{d\omega}{d\lambda}
+        =-k^ak^b\nabla_a u_b
+        =-\frac{\dot a}{a}\omega^2,
+    \end{equation}
+    where $\lambda$ is an affine parameter.
+    \begin{solution}
+        Let the photon have coordinate $x^\mu(\lambda)$, then $k^\mu = dx^\mu/d\lambda$. In our case,
+        \begin{equation}
+            \frac{d\omega}{d\lambda} = \frac{d x^\mu}{d\lambda}\partial_\mu \omega =k^\mu\nabla_\mu \omega = -k^\mu \nabla_\mu (k^\nu u_\nu).
+        \end{equation}
+        Since $k^\mu$ satisfies the geodesic equation, we have $k^\mu \nabla_\mu k^\nu =0$. Therefore, we have
+        \begin{equation}
+            \frac{d\omega}{d\lambda} = - \frac{\dot a}{a}k^\mu k^\nu h_{\mu\nu} = - \frac{\dot a}{a}k^\mu k^\nu (u_\mu u_\nu + g_{\mu\nu}) = -\frac{\dot a}{a}\omega^2.
+        \end{equation}
+    \end{solution}
+
+    \item Integrate the result of part (b) to obtain equation (5.3.6).
+    \begin{solution}
+        Rearranging, we find
+        \begin{equation}
+            \frac{d\omega}{\omega^2} = - \frac{d\lambda}{d\tau}\frac{da }{a}.
+        \end{equation}
+        Note that
+        \begin{equation}
+            \omega = - g_{\mu\nu}\frac{dx^\mu}{d\lambda}\frac{dx^\nu}{d\tau} =  - g_{\mu\nu}\frac{dx^\mu}{d\tau}\frac{dx^\nu}{d\tau}\frac{d\tau}{d\lambda} = \frac{d\tau}{d\lambda}.
+        \end{equation}
+        Therefore, we find
+        \begin{equation}
+            \frac{d\omega}{\omega} = -\frac{da}{a} \implies \frac{\omega_1}{\omega_2} = \frac{a(\tau_2)}{a(\tau_1)}.
+        \end{equation}
+    \end{solution}
+\end{enumerate}
+
+\subsection{Chapter 5, Problem 5: Radial Null Geodesics and Global Light Travel}
+
+Consider a radial null geodesic in a Robertson--Walker cosmology (5.1.11), so
+that
+\begin{equation}
+    \frac{d\theta}{d\lambda}
+    =\frac{d\phi}{d\lambda}=0.
+\end{equation}
+
+\begin{enumerate}[label=\alph*)]
+    \item For each of the three spatial geometries, show that the change in the
+    coordinate $\psi$ between times $\tau_1$ and $\tau_2$ is
+    \begin{equation}
+        \Delta\psi=\int_{\tau_1}^{\tau_2}\frac{d\tau}{a(\tau)}.
+    \end{equation}
+    In the flat case $(k=0)$, $\psi$ is the usual radial coordinate,
+    \begin{equation}
+        \psi=(x^2+y^2+z^2)^{1/2}.
+    \end{equation}
+    \begin{solution}
+        For the null geodesic, $ds = 0$. Therefore, we have
+        \begin{equation}
+            0 =-\frac{d\tau^2}{d\lambda^2} + a^2(\tau) \frac{d\psi^2}{d\lambda^2} \implies \Delta\psi = \int_{\tau_1}^{\tau_2}\frac{d\tau}{a(\tau)}.
+        \end{equation}
+    \end{solution}
+
+    \item In the dust-filled spherical model, prove that a ray emitted at the big
+    bang completes exactly one circuit of the universe by the big crunch.
+    \begin{solution}
+        For the dust-filled spherical model, we have
+        \begin{equation}
+            a =\frac{1}{2}C(1-\cos\eta), \quad \tau = \frac{1}{2}C(\eta - \sin \eta).
+        \end{equation}
+        The integral becomes
+        \begin{equation}
+            \Delta\psi = \int_0^{2\pi} d\eta = 2\pi.
+        \end{equation}
+    \end{solution}
+    \item In the radiation-filled spherical model, prove instead that such a ray
+    covers exactly half the universe before the big crunch.
+    \begin{solution}
+        In this case, we have
+        \begin{equation}
+            a = \sqrt{C'}[1-(1-\tau/\sqrt{C'})^2]^{1/2},
+        \end{equation}
+        which gives
+        \begin{equation}
+            \Delta \psi = \int ^{2\sqrt{C'}}_0 \frac{d\tau}{\sqrt{C'}[1-(1-\tau/\sqrt{C'})^2]^{1/2}} = \pi.
+        \end{equation}
+    \end{solution}
+\end{enumerate}

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wald Chapter 3: Curvature | Yucheng (Luca) Jin</title>
+<meta name="description" content="Wald Chapter 3: Curvature — General Relativity · Wald Chapter 3, based on R. M. Wald. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="author" content="Yucheng (Luca) Jin">
+<link rel="canonical" href="https://luca-yucheng-jin.github.io/luca-physics-site/notes/wald-gr-chapter-3.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://luca-yucheng-jin.github.io/luca-physics-site/notes/wald-gr-chapter-3.html">
+<meta property="og:site_name" content="Luca Jin Physics">
+<meta property="og:title" content="Wald Chapter 3: Curvature | Yucheng (Luca) Jin">
+<meta property="og:description" content="Wald Chapter 3: Curvature — General Relativity · Wald Chapter 3, based on R. M. Wald. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta property="og:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Wald Chapter 3: Curvature | Yucheng (Luca) Jin">
+<meta name="twitter:description" content="Wald Chapter 3: Curvature — General Relativity · Wald Chapter 3, based on R. M. Wald. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta name="twitter:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="stylesheet" href="../styles.css">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/wald-gr-chapter-3.html#article","url":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/wald-gr-chapter-3.html","mainEntityOfPage":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/wald-gr-chapter-3.html","headline":"Wald Chapter 3: Curvature","description":"Wald Chapter 3: Curvature — General Relativity · Wald Chapter 3, based on R. M. Wald. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.","inLanguage":"en","genre":"Theoretical physics notes and worked solutions","educationalLevel":"Undergraduate physics","about":{"@type":"Thing","name":"General Relativity · Wald Chapter 3"},"author":{"@type":"Person","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#person","name":"Yucheng (Luca) Jin","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"isPartOf":{"@type":"WebSite","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#website","name":"Luca Jin Physics","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"encoding":{"@type":"MediaObject","contentUrl":"https://luca-yucheng-jin.github.io/luca-physics-site/output/pdf/wald-gr-chapter-3.pdf","encodingFormat":"application/pdf"}},{"@type":"BreadcrumbList","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/wald-gr-chapter-3.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes.html"},{"@type":"ListItem","position":2,"name":"Wald Chapter 3: Curvature","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/wald-gr-chapter-3.html"}]}]}</script>
+
+<script src="../assets/theme.js"></script>
+<script src="../assets/font-size.js"></script>
+
+<!-- MathJax with custom macros mirroring the original .tex preamble -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros', 'mathtools']},
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      Q: '\\mathbb{Q}',
+      A: '\\mathcal{A}',
+      Lagrangian: '\\mathcal{L}',
+      Cdot: '\\boldsymbol{\\cdot}',
+      Tr: '\\operatorname{Tr}',
+      // \qed inside math (e.g. trailing a derivation in an align env) —
+      // amsthm's text-mode handler is already covered by the HTML-side
+      // replace at the bottom of strip_tex_only_constructs, this catches
+      // the math-mode case (Osborn AQFT PS3 Q3 ends an equation with .\qed).
+      qed: '\\blacksquare',
+      // Feynman slash: \not{x} would render the slash to the LEFT of x
+      // (it's designed for \not=). \cancel from the cancel package
+      // strikes diagonally through the centre, matching the slashed.sty
+      // package's appearance.
+      slashed: ['{\\cancel{#1}}', 1],
+      // Wick contraction: top brace connector over the contracted pair —
+      // closer to the standard physics notation than a plain overline.
+      wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // siunitx polyfill — \si{K}, \si{m\,s^{-1}} etc. should render
+      // the unit in upright math text, like \mathrm{X}. Doesn't try
+      // to mimic the full siunitx unit-formatting machinery; just
+      // unblocks the common bare-unit case in TDSP problems.
+      si: ['\\,\\mathrm{#1}', 1],
+      SI: ['#1\\,\\mathrm{#2}', 2]
+      // \tensor{base}{indices} is rewritten to base^a{}_b in
+      // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
+      // so no runtime macro is needed here. The empty-group trick is
+      // what makes MathJax kern the indices into separate columns.
+    }
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../" class="topbar__brand">Luca Jin <small>Physics · Imperial</small></a>
+  <nav class="topbar__nav" aria-label="Primary navigation">
+    <a href="../">Home</a>
+    <a href="../notes.html" class="is-active">Notes</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+    <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" title="Decrease font size">A<span class="font-toggle__small">−</span></button>
+    <button class="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size" title="Increase font size">A<span class="font-toggle__large">+</span></button>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Toggle theme">
+      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    </button>
+  </nav>
+</header>
+
+<main class="note">
+
+  <div class="note__breadcrumb">
+    <a href="../notes.html">Notes</a> &nbsp;·&nbsp; General Relativity · Wald Chapter 3
+  </div>
+
+  <h1 class="note__title">Wald Chapter 3: Curvature</h1>
+  <p class="note__subtitle">Source: R. M. Wald, <em>General Relativity</em>, Chapter 3; selected worked problems and related solutions.</p>
+
+  <div class="note__formats" aria-label="Available formats"><span>Available formats</span><a aria-current="page" href="wald-gr-chapter-3.html">HTML</a><a href="../output/pdf/wald-gr-chapter-3.pdf">PDF ↓</a></div>
+
+  <nav class="note__toc note__toc--long" aria-label="Contents">
+  <div class="note__toc-label">Contents</div>
+  <ol class="note__toc-list">
+    <li class="toc-h2"><a href="#chapter-3-problem-1-torsion"><span class="note__toc-number">1</span> <span class="note__toc-title">Chapter 3, Problem 1: Torsion</span></a></li>
+    <li class="toc-h2"><a href="#chapter-3-problem-2-harmonic-conjugates-in-two-dimensions"><span class="note__toc-number">2</span> <span class="note__toc-title">Chapter 3, Problem 2: Harmonic Conjugates in Two Dimensions</span></a></li>
+    <li class="toc-h2"><a href="#chapter-3-problem-3-symmetries-and-components-of-the-riemann-tensor"><span class="note__toc-number">3</span> <span class="note__toc-title">Chapter 3, Problem 3: Symmetries and Components of the Riemann Tensor</span></a></li>
+    <li class="toc-h2"><a href="#chapter-3-problem-4-curvature-in-two-and-three-dimensions"><span class="note__toc-number">4</span> <span class="note__toc-title">Chapter 3, Problem 4: Curvature in Two and Three Dimensions</span></a></li>
+    <li class="toc-h2"><a href="#chapter-3-problem-5-affine-parameters"><span class="note__toc-number">5</span> <span class="note__toc-title">Chapter 3, Problem 5: Affine Parameters</span></a></li>
+    <li class="toc-h2"><a href="#chapter-3-problem-6-euclidean-geodesics-in-spherical-coordinates"><span class="note__toc-number">6</span> <span class="note__toc-title">Chapter 3, Problem 6: Euclidean Geodesics in Spherical Coordinates</span></a></li>
+  </ol>
+</nav>
+
+  <article class="note__body">
+<p><em>Problem prompts are paraphrased from Robert M. Wald,
+<em>General Relativity</em> (University of Chicago Press, 1984); the equations,
+notation, numbering, and guidance follow the source. See the
+<a href="https://press.uchicago.edu/ucp/books/book/chicago/G/bo5952261.html">official publisher page</a>.</em></p>
+
+<h2 data-section-heading id="chapter-3-problem-1-torsion" data-section-number="1"><span class="note__heading-number">1</span> <span class="note__heading-title">Chapter 3, Problem 1: Torsion</span></h2>
+
+<p>Remove property (5), the torsion-free condition, from the definition of a derivative
+operator $\nabla_a$ in section 3.1.</p>
+
+<ol>
+  <li>Prove that there is a tensor $T^c{}_{ab}$, called the torsion tensor,
+    such that every smooth function $f$ satisfies
+    \[\nabla_a\nabla_bf-\nabla_b\nabla_af
+        =-T^c{}_{ab}\nabla_cf.\tag{1.1}\]
+    <em>Hint:</em> Repeat the derivation of equation (3.1.8), using a
+    torsion-free derivative operator $\widetilde\nabla_a$ for comparison.
+
+<aside class="solution">
+
+<p>We have
+        \[\nabla_a \nabla_b f = \nabla_a \partial_b f = \partial_a \partial_b f - \Gamma^c{}_{ba}\partial_a f.\tag{1.2}\]
+        Therefore, we find
+        \[[\nabla_a,\nabla_b]f = -(\Gamma^c{}_{ab} -\Gamma^c{}_{ba})\nabla_c f \implies T^c{}_{ab} = \Gamma^c{}_{ab} -\Gamma^c{}_{ba}.\tag{1.3}\]</p>
+
+</aside></li>
+  <li>For arbitrary smooth vector fields $X^a$ and $Y^a$, show that
+    \[T^c{}_{ab}X^aY^b
+        =X^a\nabla_aY^c-Y^a\nabla_aX^c-[X,Y]^c.\tag{1.4}\]
+
+<aside class="solution">
+
+<p>\[T^c{}_{ab}X^aY^b = (\Gamma^c{}_{ab} -\Gamma^c{}_{ba})X^aY^b.\tag{1.5}\]
+        Note that
+        \[(\nabla_b X^c)Y^b = (\partial_bX^c)Y^b + \Gamma^c{}_{ba}X^aY^b,\tag{1.6}\]
+        which leads to
+        \[T^c{}_{ab}X^aY^b = X^b\nabla_b Y^c - Y^b\nabla_b X^c + Y^b\partial_b X^c - X^b\partial_b Y^c = X^a\nabla_aY^c-Y^a\nabla_aX^c-[X,Y]^c.\tag{1.7}\]</p>
+
+</aside></li>
+  <li>Given a metric $g_{ab}$, prove that there is a unique derivative
+    operator $\nabla_a$ with torsion $T^c{}_{ab}$ for which
+    $\nabla_ag_{bc}=0$. Obtain the counterpart of equation (3.1.29), expressing
+    this operator in terms of an ordinary derivative $\partial_a$ and
+    $T^c{}_{ab}$.
+
+<aside class="solution">
+
+<p>\[\nabla_a g_{bc} = 0 \iff \partial_a g_{bc}  =\Gamma^d{}_{ab}g_{dc} + \Gamma^d{}_{ac}g_{bd}.\tag{1.8}\]
+        Then, we find
+        \[\partial_a g_{bc} + \partial_b g_{ac} - \partial_c g_{ab} = T^d{}_{bc}g_{da} + T^d{}_{ac}g_{db} + T^d{}_{ab}g_{dc} +2\Gamma^d{}_{ba}g_{dc},\tag{1.9}\]
+        which gives
+        \[\Gamma^c{}_{ba} = \frac{1}{2}\left[g^{cd}(\partial_ag_{bc} + \partial_b g_{ac} - \partial_c g_{ab}) - T_{abc} - T_{bac} - T_{cab} \right].\tag{1.10}\]</p>
+
+</aside></li>
+</ol>
+
+<h2 data-section-heading id="chapter-3-problem-2-harmonic-conjugates-in-two-dimensions" data-section-number="2"><span class="note__heading-number">2</span> <span class="note__heading-title">Chapter 3, Problem 2: Harmonic Conjugates in Two Dimensions</span></h2>
+
+<p>Let $M$ be a two-dimensional manifold with metric $g_{ab}$ and associated
+derivative operator $\nabla_a$. A function $\alpha$ is harmonic when
+\[\nabla_a\nabla^a\alpha=0.\tag{2.1}\]
+Let $\epsilon_{ab}$ be antisymmetric and satisfy
+\[\epsilon_{ab}\epsilon^{ab}=2(-1)^s,\tag{2.2}\]
+where $s$ is the number of minus signs in the metric signature. Consider
+\[\nabla_a\beta=\epsilon_{ab}\nabla^b\alpha.\tag{2.3}\]</p>
+
+<ol>
+  <li>Check the integrability conditions for this equation (see chapter 2,
+    problem 5, or appendix B), and hence show that a local solution $\beta$
+    exists. Prove also that
+    \[\nabla_a\nabla^a\beta=0.\tag{2.4}\]
+    Thus $\beta$ is the harmonic conjugate of $\alpha$.
+
+<aside class="solution">
+
+<p>If the equation is integrable, we must have $\nabla_a\nabla_b\beta  = \nabla_b \nabla_a \beta$. Therefore, the RHS must also satisfy the compatibility condition. Consider
+        \[\nabla_a\epsilon_{bc}\nabla^c \alpha  - \nabla_b\epsilon_{ac}\nabla^c \alpha= \epsilon_{bc}\nabla_a\nabla^c \alpha - \epsilon_{ac}\nabla_b\nabla^c \alpha.\tag{2.5}\]
+        If $a,b=c$, the term vanishes by the antisymmetric tensor. If  $a,b$ is equal to $c$, then the term still vanishes by $\nabla_a \nabla^a\alpha = 0$. Therefore, we conclude that
+        \[\nabla_a\epsilon_{bc}\nabla^c \alpha  - \nabla_b\epsilon_{ac}\nabla^c \alpha = 0,\tag{2.6}\]
+        and hence the equation is integrable. Locally, we have
+        \[\partial_\mu \beta = \epsilon_{\mu\nu}\partial^\nu \beta,\tag{2.7}\]
+        which gives
+        \[\partial_0\beta = \epsilon_{01}\partial_1 \alpha,\tag{2.8}\]
+        \[\partial_1 \beta = \epsilon_{01}\partial_0 \alpha.\tag{2.9}\]
+        These reduce to
+        \[(\partial_0^2 - \partial_1^2) \beta = 0.\tag{2.10}\]
+        Now, consider
+        \[\nabla_a\nabla^a \beta = \epsilon_{ab}\nabla^a\nabla^b \alpha = 0,\tag{2.11}\]
+        which vanishes by the antisymmetric property of $\epsilon$. Hence, $\beta$ is the harmonic conjugate of $\alpha$.</p>
+
+</aside></li>
+  <li>Use $\alpha$ and $\beta$ as coordinates and show that the metric can be
+    written
+    \[ds^2
+        =\pm\Omega^2(\alpha,\beta)
+        \left[d\alpha^2+(-1)^s d\beta^2\right].\tag{2.12}\]
+
+<aside class="solution">
+
+<p>Denote $y^0 = \alpha, y^1 = \beta$, the metric transformation is given by
+        \[g_{\mu\nu}' = g_{\rho\sigma}\frac{\partial x^\rho}{\partial y^\mu}\frac{\partial x^\sigma}{\partial y^\nu}.\tag{2.13}\]
+        The inverse transforms as
+        \[(g^{\mu\nu})' = g^{\rho\sigma}\frac{\partial y^\mu}{\partial x^\rho}\frac{\partial y^\nu}{\partial x^\sigma} = g^{\rho\sigma}\nabla_\rho y^\mu \nabla_\sigma y^\nu.\tag{2.14}\]
+        Clearly, $g^{01} = g^{10} = 0$, since $\nabla_\rho \alpha \nabla^\rho\beta = 0$. Meanwhile, $g^{00} = \nabla_\mu\alpha \nabla^\mu \alpha$ and $g^{11} = (-1)^s \nabla_\mu\alpha \nabla^\mu \alpha$. Therefore, we find
+        \[ds^2
+        =\pm\Omega^2(\alpha,\beta)
+        \left[d\alpha^2+(-1)^s d\beta^2\right],\tag{2.15}\]
+        where we have defined $\Omega^2(\alpha,\beta) = 1/|\nabla_\mu\alpha \nabla^\mu \alpha|$.</p>
+
+</aside></li>
+</ol>
+
+<h2 data-section-heading id="chapter-3-problem-3-symmetries-and-components-of-the-riemann-tensor" data-section-number="3"><span class="note__heading-number">3</span> <span class="note__heading-title">Chapter 3, Problem 3: Symmetries and Components of the Riemann Tensor</span></h2>
+
+<ol>
+  <li>Although the Riemann tensor initially has $n^4$ components in $n$
+    dimensions, its symmetries (3.2.13)--(3.2.15) reduce the number of independent
+    components. Show that this number is
+    \[\frac{n^2(n^2-1)}{12}.\tag{3.1}\]
+
+<aside class="solution">
+
+<p><a href="https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-gr-ps2.html#independent-components-of-the-riemann-tensor-q8">See my worked solution to David Tong GR Problem Sheet 2, Question 8</a>.</p>
+
+</aside></li>
+</ol>
+
+<h2 data-section-heading id="chapter-3-problem-4-curvature-in-two-and-three-dimensions" data-section-number="4"><span class="note__heading-number">4</span> <span class="note__heading-title">Chapter 3, Problem 4: Curvature in Two and Three Dimensions</span></h2>
+
+<ol>
+  <li>In two dimensions, prove that the Riemann tensor has the form
+    \[R_{abcd}=R g_{a[c}g_{d]b}.\tag{4.1}\]
+    <em>Hint:</em> Use problem 3(b) to show that $g_{a[c}g_{d]b}$ spans the
+    vector space of tensors with the algebraic symmetries of the Riemann tensor.
+
+<aside class="solution">
+
+<p>Note that in two dimensions, the Riemann tensor only has one degree of freedom. Therefore, it must be proportional to the Ricci scalar. Now the only tensor available at hand is the metric tensor. Therefore, for the tensor to have the symmetry property of Riemann tensor, we must have
+        \[R_{abcd}=R g_{a[c}g_{d]b}.\tag{4.2}\]</p>
+
+</aside></li>
+  <li>Give the analogous argument in three dimensions to show that the Weyl
+    tensor vanishes identically. Equivalently, when $n=3$, equation (3.2.28)
+    holds with
+    \[C_{abcd}=0.\tag{4.3}\]
+
+<aside class="solution">
+
+<p>In three dimension,s the Riemann tensor has 6 degrees of freedom, while the Ricci tensor also has 6 degrees of freedom. Therefore, there are no degrees of freedom left for the Weyl tensor, and hence it vanishes identically in three dimensions.</p>
+
+</aside></li>
+</ol>
+
+<h2 data-section-heading id="chapter-3-problem-5-affine-parameters" data-section-number="5"><span class="note__heading-number">5</span> <span class="note__heading-title">Chapter 3, Problem 5: Affine Parameters</span></h2>
+
+<ol>
+  <li>Prove that a curve whose tangent obeys equation (3.3.2) can be
+    reparameterised so that equation (3.3.1) holds.
+
+<aside class="solution">
+
+<p>The non-affinely parametrised geodesic equation is given by
+        \[\frac{d^2x^\mu}{d\lambda^2} +\Gamma^\mu{}_{\nu\sigma}\frac{dx^\nu}{d\lambda}\frac{dx^\sigma}{d\lambda} = \alpha\frac{dx^\mu}{d\lambda},\tag{5.1}\]
+        while the affinely parametrised geodesics equation is given by
+        \[\frac{d^2x^\mu}{d\tau^2} +\Gamma^\mu{}_{\nu\sigma}\frac{dx^\nu}{d\tau}\frac{dx^\sigma}{d\tau} =0.\tag{5.2}\]
+        Under reparametrisation, the non-affinely parametrised equation becomes
+        \[\frac{d^2x^\mu}{d\tau^2} +\Gamma^\mu{}_{\nu\sigma}\frac{dx^\nu}{d\tau}\frac{dx^\sigma}{d\tau} = \left(\alpha - \frac{d}{d\tau}\left(\frac{d\tau}{d\lambda}\right)\right)\frac{d\lambda}{d\tau}\frac{dx^\mu}{d\tau}.\tag{5.3}\]
+        To make the equation affiniely parametrised, we need to solve
+        \[\alpha - \frac{d}{d\tau}\left(\frac{d\tau}{d\lambda}\right) = 0,\tag{5.4}\]
+        which has solution
+        \[\frac{1}{\alpha}\log|\alpha\tau +c| = \lambda + \lambda_0.\tag{5.5}\]
+        Therefore, by making such a reparametrisation, we can make any geodesic equation affinely parametrised.</p>
+
+</aside></li>
+  <li>If $t$ is an affine parameter on a geodesic $\gamma$, show that every
+    other affine parameter is of the form
+    \[at+b,\tag{5.6}\]
+    where $a$ and $b$ are constants.
+
+<aside class="solution">
+
+<p>If the geodesic equation is already affinely parametrised, a reparametrisation will remain affine if and only if
+        \[\frac{d}{d\tau}\left(\frac{d\tau}{dt}\right) =0 \implies \tau = at +b.\tag{5.7}\]</p>
+
+</aside></li>
+</ol>
+
+<h2 data-section-heading id="chapter-3-problem-6-euclidean-geodesics-in-spherical-coordinates" data-section-number="6"><span class="note__heading-number">6</span> <span class="note__heading-title">Chapter 3, Problem 6: Euclidean Geodesics in Spherical Coordinates</span></h2>
+
+<p>For Euclidean $\mathbb R^3$, use the spherical-coordinate metric
+\[ds^2=dr^2+r^2\left(d\theta^2+\sin^2\theta\,d\phi^2\right)\tag{6.1}\]
+from chapter 2, problem 8.</p>
+
+<ol>
+  <li>Calculate the Christoffel components $\Gamma^\sigma{}_{\mu\nu}$ in
+    these coordinates.
+
+<aside class="solution">
+
+<p>Using
+        \[\Gamma^\rho{}_{\mu\nu} = \frac{1}{2}g^{\rho\sigma}(\partial_\mu g_{\nu\sigma} + \partial_\nu g_{\mu\sigma} - \partial_\sigma g_{\mu\nu}).\tag{6.2}\]
+        We start with
+        \[\Gamma^r{}_{\theta\theta} = -\frac{1}{2}g^{rr}\partial_r g_{\theta\theta} = -r, \quad\Gamma^r{}_{\phi\phi} = -r\sin^2\theta.\tag{6.3}\]
+        Then, we also have
+        \[\Gamma^\theta{}_{\phi\phi} = -\frac{1}{2}g^{\theta\theta}\partial_\theta g_{\phi\phi} = -\cos\theta \sin\theta, \quad \Gamma^\theta{}_{\theta r} = \Gamma^\theta{}_{r\theta} = \frac{1}{r}.\tag{6.4}\]
+        Finally, with $\phi$ being the upper index, we have
+        \[\Gamma^\phi{}_{\phi r} = \Gamma^\phi{}_{r\phi} = \frac{1}{r}, \quad \Gamma^\phi{}_{\phi \theta} = \Gamma^\phi{}_{\theta \phi} =  \cot \theta.\tag{6.5}\]</p>
+
+</aside></li>
+  <li>Write the component geodesic equations and verify that their solutions
+    are straight lines when expressed in Cartesian coordinates.
+
+<aside class="solution">
+
+<p>\[\ddot r -r\dot\theta^2 -r\sin^2\theta\dot\phi^2 = 0,\tag{6.6}\]
+        \[\ddot \theta -\cos\theta\sin\theta\dot\phi^2 + \frac{2}{r}\dot r\dot \theta = 0,\tag{6.7}\]
+        and
+        \[\ddot \phi + \frac{2}{r}\dot r \dot \phi + 2\cot\theta \dot \theta \dot \phi  = 0.\tag{6.8}\]
+        Although not entirely obvious, this is precisely $\ddot {\mathbf{r}} = 0$ in the spherical form, which obviously has straight lines as its solutions.</p>
+
+</aside></li>
+</ol>
+  </article>
+
+  <hr class="ornament-rule">
+
+  <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
+    <a href="../notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <p class="footer__disclaimer">
+    These notes are not guaranteed to be correct. If you find a mistake,
+    <a href="mailto:luca.jin@outlook.com?subject=Correction%20to%20Luca%20Jin%20Physics">please email me</a>.
+  </p>
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="../">Home</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>

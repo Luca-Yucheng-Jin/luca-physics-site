@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wald Chapter 6: The Schwarzschild Solution | Yucheng (Luca) Jin</title>
+<meta name="description" content="Wald Chapter 6: The Schwarzschild Solution — General Relativity · Wald Chapter 6, based on R. M. Wald. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="author" content="Yucheng (Luca) Jin">
+<link rel="canonical" href="https://luca-yucheng-jin.github.io/luca-physics-site/notes/wald-gr-chapter-6.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://luca-yucheng-jin.github.io/luca-physics-site/notes/wald-gr-chapter-6.html">
+<meta property="og:site_name" content="Luca Jin Physics">
+<meta property="og:title" content="Wald Chapter 6: The Schwarzschild Solution | Yucheng (Luca) Jin">
+<meta property="og:description" content="Wald Chapter 6: The Schwarzschild Solution — General Relativity · Wald Chapter 6, based on R. M. Wald. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta property="og:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Wald Chapter 6: The Schwarzschild Solution | Yucheng (Luca) Jin">
+<meta name="twitter:description" content="Wald Chapter 6: The Schwarzschild Solution — General Relativity · Wald Chapter 6, based on R. M. Wald. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta name="twitter:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="stylesheet" href="../styles.css">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/wald-gr-chapter-6.html#article","url":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/wald-gr-chapter-6.html","mainEntityOfPage":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/wald-gr-chapter-6.html","headline":"Wald Chapter 6: The Schwarzschild Solution","description":"Wald Chapter 6: The Schwarzschild Solution — General Relativity · Wald Chapter 6, based on R. M. Wald. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.","inLanguage":"en","genre":"Theoretical physics notes and worked solutions","educationalLevel":"Undergraduate physics","about":{"@type":"Thing","name":"General Relativity · Wald Chapter 6"},"author":{"@type":"Person","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#person","name":"Yucheng (Luca) Jin","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"isPartOf":{"@type":"WebSite","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#website","name":"Luca Jin Physics","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"encoding":{"@type":"MediaObject","contentUrl":"https://luca-yucheng-jin.github.io/luca-physics-site/output/pdf/wald-gr-chapter-6.pdf","encodingFormat":"application/pdf"}},{"@type":"BreadcrumbList","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/wald-gr-chapter-6.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes.html"},{"@type":"ListItem","position":2,"name":"Wald Chapter 6: The Schwarzschild Solution","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/wald-gr-chapter-6.html"}]}]}</script>
+
+<script src="../assets/theme.js"></script>
+<script src="../assets/font-size.js"></script>
+
+<!-- MathJax with custom macros mirroring the original .tex preamble -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros', 'mathtools']},
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      Q: '\\mathbb{Q}',
+      A: '\\mathcal{A}',
+      Lagrangian: '\\mathcal{L}',
+      Cdot: '\\boldsymbol{\\cdot}',
+      Tr: '\\operatorname{Tr}',
+      // \qed inside math (e.g. trailing a derivation in an align env) —
+      // amsthm's text-mode handler is already covered by the HTML-side
+      // replace at the bottom of strip_tex_only_constructs, this catches
+      // the math-mode case (Osborn AQFT PS3 Q3 ends an equation with .\qed).
+      qed: '\\blacksquare',
+      // Feynman slash: \not{x} would render the slash to the LEFT of x
+      // (it's designed for \not=). \cancel from the cancel package
+      // strikes diagonally through the centre, matching the slashed.sty
+      // package's appearance.
+      slashed: ['{\\cancel{#1}}', 1],
+      // Wick contraction: top brace connector over the contracted pair —
+      // closer to the standard physics notation than a plain overline.
+      wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // siunitx polyfill — \si{K}, \si{m\,s^{-1}} etc. should render
+      // the unit in upright math text, like \mathrm{X}. Doesn't try
+      // to mimic the full siunitx unit-formatting machinery; just
+      // unblocks the common bare-unit case in TDSP problems.
+      si: ['\\,\\mathrm{#1}', 1],
+      SI: ['#1\\,\\mathrm{#2}', 2]
+      // \tensor{base}{indices} is rewritten to base^a{}_b in
+      // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
+      // so no runtime macro is needed here. The empty-group trick is
+      // what makes MathJax kern the indices into separate columns.
+    }
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../" class="topbar__brand">Luca Jin <small>Physics · Imperial</small></a>
+  <nav class="topbar__nav" aria-label="Primary navigation">
+    <a href="../">Home</a>
+    <a href="../notes.html" class="is-active">Notes</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+    <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" title="Decrease font size">A<span class="font-toggle__small">−</span></button>
+    <button class="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size" title="Increase font size">A<span class="font-toggle__large">+</span></button>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Toggle theme">
+      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    </button>
+  </nav>
+</header>
+
+<main class="note">
+
+  <div class="note__breadcrumb">
+    <a href="../notes.html">Notes</a> &nbsp;·&nbsp; General Relativity · Wald Chapter 6
+  </div>
+
+  <h1 class="note__title">Wald Chapter 6: The Schwarzschild Solution</h1>
+  <p class="note__subtitle">Source: R. M. Wald, <em>General Relativity</em>, Chapter 6; selected worked problems and related solutions.</p>
+
+  <div class="note__formats" aria-label="Available formats"><span>Available formats</span><a aria-current="page" href="wald-gr-chapter-6.html">HTML</a><a href="../output/pdf/wald-gr-chapter-6.pdf">PDF ↓</a></div>
+
+  <nav class="note__toc" aria-label="Contents">
+  <div class="note__toc-label">Contents</div>
+  <ol class="note__toc-list">
+    <li class="toc-h2"><a href="#chapter-6-problem-1-isotropic-coordinates"><span class="note__toc-number">1</span> <span class="note__toc-title">Chapter 6, Problem 1: Isotropic Coordinates</span></a></li>
+    <li class="toc-h2"><a href="#chapter-6-problem-3-the-reissner--nordström-solution"><span class="note__toc-number">2</span> <span class="note__toc-title">Chapter 6, Problem 3: The Reissner--Nordström Solution</span></a></li>
+    <li class="toc-h2"><a href="#chapter-6-problem-4-local-force-and-redshift"><span class="note__toc-number">3</span> <span class="note__toc-title">Chapter 6, Problem 4: Local Force and Redshift</span></a></li>
+    <li class="toc-h2"><a href="#chapter-6-problem-6-lifetime-inside-the-schwarzschild-horizon"><span class="note__toc-number">4</span> <span class="note__toc-title">Chapter 6, Problem 6: Lifetime Inside the Schwarzschild Horizon</span></a></li>
+  </ol>
+</nav>
+
+  <article class="note__body">
+<p><em>Problem prompts are paraphrased from Robert M. Wald,
+<em>General Relativity</em> (University of Chicago Press, 1984); the equations,
+notation, numbering, and guidance follow the source. See the
+<a href="https://press.uchicago.edu/ucp/books/book/chicago/G/bo5952261.html">official publisher page</a>.</em></p>
+
+<h2 data-section-heading id="chapter-6-problem-1-isotropic-coordinates" data-section-number="1"><span class="note__heading-number">1</span> <span class="note__heading-title">Chapter 6, Problem 1: Isotropic Coordinates</span></h2>
+
+<p>Let $M$ be a three-dimensional manifold with a spherically symmetric Riemannian
+metric, and suppose $\nabla_a r\neq0$, where $r$ is defined in (6.1.3).</p>
+
+<ol>
+  <li>Show that one may introduce an isotropic radial coordinate $\widetilde r$
+    for which
+    \[ds^2=H(\widetilde r)
+        \left[d\widetilde r^2+\widetilde r^2d\Omega^2\right].\tag{1.1}\]
+    Thus every spherically symmetric three-dimensional space is conformally flat.
+
+<aside class="solution">
+
+<p>Assuming the metric can be written in a conformally flat form, then we must have
+        \[h(r)dr^2  = H(\tilde r)d\tilde r^2, \quad H(\tilde r)\tilde r^2 = r^2,\tag{1.2}\]
+        which gives the differential equation
+        \[\frac{\sqrt{h(r)}}{r}dr = \frac{d \tilde r}{\tilde r} \implies \tilde r = A \exp\left( \int^r dr' \frac{\sqrt{h(r')}}{r'}\right).\tag{1.3}\]</p>
+
+</aside></li>
+  <li>Express the Schwarzschild metric in these coordinates and obtain
+    \[ds^2
+        =-\frac{(1-M/2\widetilde r)^2}{(1+M/2\widetilde r)^2}\,dt^2
+        +\left(1+\frac{M}{2\widetilde r}\right)^4
+        \left[d\widetilde r^2+\widetilde r^2d\Omega^2\right].\tag{1.4}\]
+
+<aside class="solution">
+
+<p>For the Schwarzschild metric,
+        \[\tilde r = A \exp\left(\int ^r dr' \frac{1}{\sqrt{r'^2 - 2Gmr'}}\right) = 2A\left(r-GM + \sqrt{r(r-GM)}\right).\tag{1.5}\]
+        $A$ can be fixed by imposing the metric to be asymptotically flat, that is as $r \to \infty$, $H(\tilde r ) \to 1$. Therefore, we must have $A = 1/4$.
+        Hence, playing around with the algebra slightly, we find
+        \[\tilde r = \tilde r\left(1 + \frac{GM}{2\tilde r}\right)^2,\tag{1.6}\]
+        which gives
+            \[ds^2
+        =-\frac{(1-M/2\widetilde r)^2}{(1+M/2\widetilde r)^2}\,dt^2
+        +\left(1+\frac{M}{2\widetilde r}\right)^4
+        \left[d\widetilde r^2+\widetilde r^2d\Omega^2\right].\tag{1.7}\]</p>
+
+</aside></li>
+</ol>
+
+<h2 data-section-heading id="chapter-6-problem-3-the-reissner--nordström-solution" data-section-number="2"><span class="note__heading-number">2</span> <span class="note__heading-title">Chapter 6, Problem 3: The Reissner--Nordström Solution</span></h2>
+
+<p>Consider the source-free Maxwell equations (4.3.12) and (4.3.13), with $j^a=0$,
+on the static, spherically symmetric spacetime (6.1.5).</p>
+
+<ol>
+  <li>Argue that a Maxwell tensor with the same static and spherical
+    symmetries must have the form
+    \[F_{ab}
+        =2A(r)(e_0)_{[a}(e_1)_{b]}
+        +2B(r)(e_2)_{[a}(e_3)_{b]},\tag{2.1}\]
+    where the $(e_\mu)_a$ are defined in (6.1.6).
+
+<aside class="solution">
+
+<p>Since $F$ is a two form, it should in general take the form
+        \[F = F_{ab} \hat \theta^a \wedge \hat \theta^b,\tag{2.2}\]
+        where $\hat \theta^a$ is the dual basis of $\hat e_a$. Now, excluding the basis that are not invariant under $SO(3)$ transformation, we are left with
+        \[F = A(r) \hat \theta^0 \wedge \hat \theta^1 + B(r) \hat{\theta}^2 \wedge\hat \theta^3,\tag{2.3}\]
+        where $A, B$ are only functions of $r$ by the requirement of the universe being static.</p>
+
+</aside></li>
+  <li>Restrict to $B(r)=0$ and solve Maxwell's equations to find
+    \[A(r)=-\frac{q}{r^2},\tag{2.4}\]
+    interpreting $q$ as the total charge. The branch with $B(r)\neq0$ is a
+    duality rotation of this electric solution and represents a magnetic monopole.
+
+<aside class="solution">
+
+<p>Writing the field strength two form in terms of the coordinate basis, we have
+        \[F = A(r) f^{1/2}h^{1/2}dt\wedge dr.\tag{2.5}\]\
+        Since $A, f ,h$ are all functions of $r$, $dF = 0$ gives no extra informations. The wedge of $F$ is given by
+        \[\star F = A(r)r^2\sin\theta d\theta \wedge d\phi,\tag{2.6}\]
+        up to some constant that would not affect our calculation here.
+        Then, the source-free Maxwell equation gives
+        \[\partial_r(A(r)r^2) = 0 \implies A(r) = -\frac{q}{r^2}.\tag{2.7}\]</p>
+
+</aside></li>
+  <li>Insert the electromagnetic stress-energy tensor from part (b) into
+    \[G_{ab}=8\pi T_{ab},\tag{2.8}\]
+    solve the resulting equations, and show that the general metric is
+    \[ds^2
+        =-\left(1-\frac{2M}{r}+\frac{q^2}{r^2}\right)dt^2
+        +\left(1-\frac{2M}{r}+\frac{q^2}{r^2}\right)^{-1}dr^2
+        +r^2d\Omega^2.\tag{2.9}\]
+
+<aside class="solution">
+
+<p>The resulting energy momentum tensor in vierbein basis is
+        \[T_{00} = \frac{1}{8\pi}\frac{q^2}{r^4},\tag{2.10}\]
+        \[T_{11} = -\frac{1}{8\pi}\frac{q^2}{r^4},\tag{2.11}\]
+        \[T_{22} = \frac{1}{8\pi}\frac{q^2}{r^4},\tag{2.12}\]
+        and
+        \[T_{33} = \frac{1}{8\pi}\frac{q^2}{r^4}.\tag{2.13}\]
+        The Einstein equation is given by
+        \[R_{00} +\frac{1}{2}R = 8\pi T_{00},
+\tag{2.14}\]
+        \[R_{11} - \frac{1}{2}R = 8\pi T_{11},
+\tag{2.15}\]
+        \[R_{22} - \frac{1}{2}R = 8\pi  T_{22},
+\tag{2.16}\]
+        and
+        \[R_{33} - \frac{1}{2}R = 8\pi T_{33},
+\tag{2.17}\]
+        where the Ricci tensor is given in (6.1.35-6.1.37).
+        Combing (2.14) and (2.15) , we find
+        \[R_{00} + R_{11} = 0,\tag{2.18}\]
+        which is equivalent to (6.1.38), and hence
+        \[f = h^{-1}.\tag{2.19}\]
+        Note that (2.16) and (2.17) are completely identical, plugging $f=1/h$ in one of them, we find
+        \[f''  + \frac{2f'}{r}= \frac{2q^2}{r^4},\tag{2.20}\]
+        where we have used
+        \[R = -R_{00} + R_{11} + 2R_{22}.\tag{2.21}\]
+        This gives
+        \[f = h^{-1} = 1- \frac{C}{r} -\frac{q^2}{r^2}.\tag{2.22}\]</p>
+
+</aside></li>
+</ol>
+
+<h2 data-section-heading id="chapter-6-problem-4-local-force-and-redshift" data-section-number="3"><span class="note__heading-number">3</span> <span class="note__heading-title">Chapter 6, Problem 4: Local Force and Redshift</span></h2>
+
+<p>Let $(M,g_{ab})$ be stationary with timelike Killing field $\xi^a$, and define
+\[V^2=-\xi^a\xi_a.\tag{3.1}\]</p>
+
+<ol>
+  <li>For a stationary observer, show that the acceleration
+    $a^b=u^a\nabla_a u^b$ is
+    \[a^b=\nabla^b\ln V.\tag{3.2}\]
+
+<aside class="solution">
+
+<p>\[a^b = u^a \nabla_a u^b  = \frac{u^a \nabla_a \xi^b}{V} - \frac{u^a \xi^b \nabla_a V}{V^2}.\tag{3.3}\]
+        The second term vanishes by
+        \[\frac{u^a \xi^b \nabla_a V}{V^2} = -\frac{2\xi^a\xi^b\xi^c\nabla_a\xi^c}{V^3} = 0\tag{3.4}\]
+        by $\nabla_a \xi_b = - \nabla_b \xi_a$. Then, we have
+        \[a^b = \frac{\xi^a \nabla_a \xi^b}{V^2} = -\frac{\xi^a\nabla^b \xi_a}{V^2} = \frac{1}{2}\nabla^b \log V^2 = \nabla^b \log V.\tag{3.5}\]</p>
+
+</aside></li>
+  <li>Suppose additionally that the spacetime is asymptotically flat. Thus
+    there are coordinates $t,x,y,z$, with
+    $\xi^a=(\partial/\partial t)^a$, in which $g_{ab}$ tends to
+    $\operatorname{diag}(-1,1,1,1)$ as
+    $r=(x^2+y^2+z^2)^{1/2}\to\infty$.
+    See Chapter 11 for further discussion of asymptotic flatness.
+
+<p>A particle of mass $m$ has energy at infinity
+    \[E=-m\xi^a u_a.\tag{3.6}\]
+    Hold the particle stationary with a massless string whose far end is held by
+    a stationary observer at large $r$. If $F$ is the force applied locally to the
+    particle, part (a) gives
+    \[F=mV^{-1}\left(\nabla_aV\nabla^aV\right)^{1/2}.\tag{3.7}\]
+    Use conservation of energy to show that the force supplied at infinity is
+    \[F_\infty=VF.\tag{3.8}\]
+    Interpret the factor $V$ as the redshift relating the two force magnitudes.</p>
+
+<aside class="solution">
+
+<p>The local magnitude of force is given by
+        \[F = m \sqrt{a^a a_a} = mV^{-1}\left(\nabla_aV\nabla^aV\right)^{1/2},\tag{3.9}\]
+        while the energy of a stationary particle measured by a local stationary observer is given by
+        \[E = m.\tag{3.10}\]
+        Assuming the stationary particle is pushed through a proper distance $\delta s$ adiabatically with a constant force $F$. Then, the work done locally is equal to the local change of energy is given by
+        \[F\delta s = \delta E.\tag{3.11}\]
+        For an observer at spatial infinity, he agrees on the proper distance, while the force seen by this observer, $F_\infty$, is different. Therefore, the change of energy seen by this observer is
+        \[\delta E_\infty = F_\infty \delta s.\tag{3.12}\]
+        By the energy redshift, we have
+        \[V\delta E = \delta E_\infty.\tag{3.13}\]
+        Therefore, we have
+        \[F_\infty =VF.\tag{3.14}\]</p>
+
+</aside></li>
+</ol>
+
+<h2 data-section-heading id="chapter-6-problem-6-lifetime-inside-the-schwarzschild-horizon" data-section-number="4"><span class="note__heading-number">4</span> <span class="note__heading-title">Chapter 6, Problem 6: Lifetime Inside the Schwarzschild Horizon</span></h2>
+
+<p>Show that every particle in region II, $r&lt;2M$, of the extended Schwarzschild
+spacetime in Figure 6.9, whether geodesic or accelerated, must obey
+\[\left|\frac{dr}{d\tau}\right|
+    \geq\left(\frac{2M}{r}-1\right)^{1/2}.\tag{4.1}\]
+Deduce that no observer in region II can have a remaining proper lifetime greater
+than
+    \[\tau=\pi M
+        \sim 10^{-5}\left(\frac{M}{M_\odot}\right)\mathrm{s}\tag{4.2}\]
+before reaching $r=0$. Finally, show that this bound is approached by free fall
+from $r=2M$ in the limit $E\to0$.</p>
+
+<aside class="solution">
+
+<p>Directly from the Schwarzschild metric, we immediately
+    \[\left|\frac{dr}{d\tau}\right| \geq \left|1-\frac{2GM}{r}\right|^{1/2} = \left(\frac{2GM}{r}- 1\right)^{1/2}\tag{4.3}\]
+    for $r &lt; 2GM$. This gives
+    \[\tau \leq \int_0^{2GM}\frac{dr}{\sqrt{2GM/r-1}} = \pi GM.\tag{4.4}\]
+    The integral is precisely the proper time for a particle to fall to the singularity, released from the event horizon with $ E = 0$.</p>
+
+</aside>
+  </article>
+
+  <hr class="ornament-rule">
+
+  <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
+    <a href="../notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <p class="footer__disclaimer">
+    These notes are not guaranteed to be correct. If you find a mistake,
+    <a href="mailto:luca.jin@outlook.com?subject=Correction%20to%20Luca%20Jin%20Physics">please email me</a>.
+  </p>
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="../">Home</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>

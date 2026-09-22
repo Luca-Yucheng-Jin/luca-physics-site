@@ -1,0 +1,286 @@
+% Generated from selected worked problems in committed QFT-soln sources.
+% Source repository: https://github.com/Luca-Yucheng-Jin/QFT-soln
+% Source commit: d74e71bc8fb585141e81696c5d2b810008d9dba6
+\section{Wald General Relativity, Chapter 6: The Schwarzschild Solution}
+\markboth{\thesection\quad WALD GENERAL RELATIVITY, CHAPTER 6}{}
+
+\noindent\textit{Problem prompts are paraphrased from Robert M. Wald,
+\emph{General Relativity} (University of Chicago Press, 1984); the equations,
+notation, numbering, and guidance follow the source. See the
+\href{https://press.uchicago.edu/ucp/books/book/chicago/G/bo5952261.html}{official publisher page}.}
+
+\subsection{Chapter 6, Problem 1: Isotropic Coordinates}
+
+Let $M$ be a three-dimensional manifold with a spherically symmetric Riemannian
+metric, and suppose $\nabla_a r\neq0$, where $r$ is defined in (6.1.3).
+
+\begin{enumerate}[label=\alph*)]
+    \item Show that one may introduce an isotropic radial coordinate $\widetilde r$
+    for which
+    \begin{equation}
+        ds^2=H(\widetilde r)
+        \left[d\widetilde r^2+\widetilde r^2d\Omega^2\right].
+    \end{equation}
+    Thus every spherically symmetric three-dimensional space is conformally flat.
+    \begin{solution}
+        Assuming the metric can be written in a conformally flat form, then we must have
+        \begin{equation}
+            h(r)dr^2  = H(\tilde r)d\tilde r^2, \quad H(\tilde r)\tilde r^2 = r^2,
+        \end{equation}
+        which gives the differential equation
+        \begin{equation}
+            \frac{\sqrt{h(r)}}{r}dr = \frac{d \tilde r}{\tilde r} \implies \tilde r = A \exp\left( \int^r dr' \frac{\sqrt{h(r')}}{r'}\right).
+        \end{equation}
+
+    \end{solution}
+
+    \item Express the Schwarzschild metric in these coordinates and obtain
+    \begin{equation}
+        ds^2
+        =-\frac{(1-M/2\widetilde r)^2}{(1+M/2\widetilde r)^2}\,dt^2
+        +\left(1+\frac{M}{2\widetilde r}\right)^4
+        \left[d\widetilde r^2+\widetilde r^2d\Omega^2\right].
+    \end{equation}
+    \begin{solution}
+        For the Schwarzschild metric,
+        \begin{equation}
+            \tilde r = A \exp\left(\int ^r dr' \frac{1}{\sqrt{r'^2 - 2Gmr'}}\right) = 2A\left(r-GM + \sqrt{r(r-GM)}\right).
+        \end{equation}
+        $A$ can be fixed by imposing the metric to be asymptotically flat, that is as $r \to \infty$, $H(\tilde r ) \to 1$. Therefore, we must have $A = 1/4$.
+        Hence, playing around with the algebra slightly, we find
+        \begin{equation}
+            \tilde r = \tilde r\left(1 + \frac{GM}{2\tilde r}\right)^2,
+        \end{equation}
+        which gives
+            \begin{equation}
+        ds^2
+        =-\frac{(1-M/2\widetilde r)^2}{(1+M/2\widetilde r)^2}\,dt^2
+        +\left(1+\frac{M}{2\widetilde r}\right)^4
+        \left[d\widetilde r^2+\widetilde r^2d\Omega^2\right].
+    \end{equation}
+    \end{solution}
+\end{enumerate}
+
+\subsection{Chapter 6, Problem 3: The Reissner--Nordstr\"om Solution}
+
+Consider the source-free Maxwell equations (4.3.12) and (4.3.13), with $j^a=0$,
+on the static, spherically symmetric spacetime (6.1.5).
+
+\begin{enumerate}[label=\alph*)]
+    \item Argue that a Maxwell tensor with the same static and spherical
+    symmetries must have the form
+    \begin{equation}
+        F_{ab}
+        =2A(r)(e_0)_{[a}(e_1)_{b]}
+        +2B(r)(e_2)_{[a}(e_3)_{b]},
+    \end{equation}
+    where the $(e_\mu)_a$ are defined in (6.1.6).
+    \begin{solution}
+        Since $F$ is a two form, it should in general take the form
+        \begin{equation}
+            F = F_{ab} \hat \theta^a \wedge \hat \theta^b,
+        \end{equation}
+        where $\hat \theta^a$ is the dual basis of $\hat e_a$. Now, excluding the basis that are not invariant under $SO(3)$ transformation, we are left with
+        \begin{equation}
+            F = A(r) \hat \theta^0 \wedge \hat \theta^1 + B(r) \hat{\theta}^2 \wedge\hat \theta^3,
+        \end{equation}
+        where $A, B$ are only functions of $r$ by the requirement of the universe being static.
+    \end{solution}
+
+    \item Restrict to $B(r)=0$ and solve Maxwell's equations to find
+    \begin{equation}
+        A(r)=-\frac{q}{r^2},
+    \end{equation}
+    interpreting $q$ as the total charge. The branch with $B(r)\neq0$ is a
+    duality rotation of this electric solution and represents a magnetic monopole.
+    \begin{solution}
+        Writing the field strength two form in terms of the coordinate basis, we have
+        \begin{equation}
+            F = A(r) f^{1/2}h^{1/2}dt\wedge dr.
+        \end{equation}\
+        Since $A, f ,h$ are all functions of $r$, $dF = 0$ gives no extra informations. The wedge of $F$ is given by
+        \begin{equation}
+            \star F = A(r)r^2\sin\theta d\theta \wedge d\phi,
+        \end{equation}
+        up to some constant that would not affect our calculation here.
+        Then, the source-free Maxwell equation gives
+        \begin{equation}
+            \partial_r(A(r)r^2) = 0 \implies A(r) = -\frac{q}{r^2}.
+        \end{equation}
+
+    \end{solution}
+
+    \item Insert the electromagnetic stress-energy tensor from part (b) into
+    \begin{equation}
+        G_{ab}=8\pi T_{ab},
+    \end{equation}
+    solve the resulting equations, and show that the general metric is
+    \begin{equation}
+        ds^2
+        =-\left(1-\frac{2M}{r}+\frac{q^2}{r^2}\right)dt^2
+        +\left(1-\frac{2M}{r}+\frac{q^2}{r^2}\right)^{-1}dr^2
+        +r^2d\Omega^2.
+    \end{equation}
+    \begin{solution}
+        The resulting energy momentum tensor in vierbein basis is
+        \begin{equation}
+            T_{00} = \frac{1}{8\pi}\frac{q^2}{r^4},
+        \end{equation}
+        \begin{equation}
+            T_{11} = -\frac{1}{8\pi}\frac{q^2}{r^4},
+        \end{equation}
+        \begin{equation}
+            T_{22} = \frac{1}{8\pi}\frac{q^2}{r^4},
+        \end{equation}
+        and
+        \begin{equation}
+            T_{33} = \frac{1}{8\pi}\frac{q^2}{r^4}.
+        \end{equation}
+        The Einstein equation is given by
+        \begin{equation}
+            R_{00} +\frac{1}{2}R = 8\pi T_{00},
+            \label{eq:00}
+        \end{equation}
+        \begin{equation}
+            R_{11} - \frac{1}{2}R = 8\pi T_{11},
+            \label{eq:11}
+        \end{equation}
+        \begin{equation}
+            R_{22} - \frac{1}{2}R = 8\pi  T_{22},
+            \label{eq:22}
+        \end{equation}
+        and
+        \begin{equation}
+            R_{33} - \frac{1}{2}R = 8\pi T_{33},
+            \label{eq:33}
+        \end{equation}
+        where the Ricci tensor is given in (6.1.35-6.1.37).
+        Combing \eqref{eq:00} and \eqref{eq:11} , we find
+        \begin{equation}
+            R_{00} + R_{11} = 0,
+        \end{equation}
+        which is equivalent to (6.1.38), and hence
+        \begin{equation}
+            f = h^{-1}.
+        \end{equation}
+        Note that \eqref{eq:22} and \eqref{eq:33} are completely identical, plugging $f=1/h$ in one of them, we find
+        \begin{equation}
+            f''  + \frac{2f'}{r}= \frac{2q^2}{r^4},
+        \end{equation}
+        where we have used
+        \begin{equation}
+            R = -R_{00} + R_{11} + 2R_{22}.
+        \end{equation}
+        This gives
+        \begin{equation}
+            f = h^{-1} = 1- \frac{C}{r} -\frac{q^2}{r^2}.
+        \end{equation}
+
+
+    \end{solution}
+\end{enumerate}
+
+\subsection{Chapter 6, Problem 4: Local Force and Redshift}
+
+Let $(M,g_{ab})$ be stationary with timelike Killing field $\xi^a$, and define
+\begin{equation}
+    V^2=-\xi^a\xi_a.
+\end{equation}
+
+\begin{enumerate}[label=\alph*)]
+    \item For a stationary observer, show that the acceleration
+    $a^b=u^a\nabla_a u^b$ is
+    \begin{equation}
+        a^b=\nabla^b\ln V.
+    \end{equation}
+    \begin{solution}
+        \begin{equation}
+            a^b = u^a \nabla_a u^b  = \frac{u^a \nabla_a \xi^b}{V} - \frac{u^a \xi^b \nabla_a V}{V^2}.
+        \end{equation}
+        The second term vanishes by
+        \begin{equation}
+            \frac{u^a \xi^b \nabla_a V}{V^2} = -\frac{2\xi^a\xi^b\xi^c\nabla_a\xi^c}{V^3} = 0
+        \end{equation}
+        by $\nabla_a \xi_b = - \nabla_b \xi_a$. Then, we have
+        \begin{equation}
+            a^b = \frac{\xi^a \nabla_a \xi^b}{V^2} = -\frac{\xi^a\nabla^b \xi_a}{V^2} = \frac{1}{2}\nabla^b \log V^2 = \nabla^b \log V.
+        \end{equation}
+    \end{solution}
+
+    \item Suppose additionally that the spacetime is asymptotically flat. Thus
+    there are coordinates $t,x,y,z$, with
+    $\xi^a=(\partial/\partial t)^a$, in which $g_{ab}$ tends to
+    $\operatorname{diag}(-1,1,1,1)$ as
+    $r=(x^2+y^2+z^2)^{1/2}\to\infty$.
+    See Chapter 11 for further discussion of asymptotic flatness.
+
+    A particle of mass $m$ has energy at infinity
+    \begin{equation}
+        E=-m\xi^a u_a.
+    \end{equation}
+    Hold the particle stationary with a massless string whose far end is held by
+    a stationary observer at large $r$. If $F$ is the force applied locally to the
+    particle, part (a) gives
+    \begin{equation}
+        F=mV^{-1}\left(\nabla_aV\nabla^aV\right)^{1/2}.
+    \end{equation}
+    Use conservation of energy to show that the force supplied at infinity is
+    \begin{equation}
+        F_\infty=VF.
+    \end{equation}
+    Interpret the factor $V$ as the redshift relating the two force magnitudes.
+    \begin{solution}
+        The local magnitude of force is given by
+        \begin{equation}
+            F = m \sqrt{a^a a_a} = mV^{-1}\left(\nabla_aV\nabla^aV\right)^{1/2},
+        \end{equation}
+        while the energy of a stationary particle measured by a local stationary observer is given by
+        \begin{equation}
+            E = m.
+        \end{equation}
+        Assuming the stationary particle is pushed through a proper distance $\delta s$ adiabatically with a constant force $F$. Then, the work done locally is equal to the local change of energy is given by
+        \begin{equation}
+            F\delta s = \delta E.
+        \end{equation}
+        For an observer at spatial infinity, he agrees on the proper distance, while the force seen by this observer, $F_\infty$, is different. Therefore, the change of energy seen by this observer is
+        \begin{equation}
+            \delta E_\infty = F_\infty \delta s.
+        \end{equation}
+        By the energy redshift, we have
+        \begin{equation}
+            V\delta E = \delta E_\infty.
+        \end{equation}
+        Therefore, we have
+        \begin{equation}
+            F_\infty =VF.
+        \end{equation}
+    \end{solution}
+\end{enumerate}
+
+\subsection{Chapter 6, Problem 6: Lifetime Inside the Schwarzschild Horizon}
+
+Show that every particle in region II, $r<2M$, of the extended Schwarzschild
+spacetime in Figure 6.9, whether geodesic or accelerated, must obey
+\begin{equation}
+    \left|\frac{dr}{d\tau}\right|
+    \geq\left(\frac{2M}{r}-1\right)^{1/2}.
+\end{equation}
+Deduce that no observer in region II can have a remaining proper lifetime greater
+than
+    \begin{equation}
+        \tau=\pi M
+        \sim 10^{-5}\left(\frac{M}{M_\odot}\right)\mathrm{s}
+    \end{equation}
+before reaching $r=0$. Finally, show that this bound is approached by free fall
+from $r=2M$ in the limit $E\to0$.
+\begin{solution}
+    Directly from the Schwarzschild metric, we immediately
+    \begin{equation}
+        \left|\frac{dr}{d\tau}\right| \geq \left|1-\frac{2GM}{r}\right|^{1/2} = \left(\frac{2GM}{r}- 1\right)^{1/2}
+    \end{equation}
+    for $r < 2GM$. This gives
+    \begin{equation}
+        \tau \leq \int_0^{2GM}\frac{dr}{\sqrt{2GM/r-1}} = \pi GM.
+    \end{equation}
+    The integral is precisely the proper time for a particle to fall to the singularity, released from the event horizon with $ E = 0$.
+\end{solution}

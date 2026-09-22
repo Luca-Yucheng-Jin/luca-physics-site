@@ -219,8 +219,8 @@
     {
       "slug": "advanced",
       "title": "General Relativity",
-      "blurb": "Manifolds and tensors, connections and curvature, geodesics and Killing vectors, Brans–Dicke scalar-tensor gravity, 11-dimensional supergravity, and linearised gravity / gravitational waves.",
-      "tag": "4 notes",
+      "blurb": "Worked Wald exercises in Chapters 3–6, plus Tong problem sheets on geometry, curvature, geodesics, and gravitational waves.",
+      "tag": "8 notes",
       "groups": [
         {
           "title": "Solutions to David Tong’s General Relativity problem sheets",
@@ -252,6 +252,39 @@
               "label": "PS4.",
               "desc": "Linearised gravity from a point mass, cosmic strings, Lense–Thirring, Fierz–Pauli, transverse-traceless gauge, binary gravitational-wave emission.",
               "tag": "Tong GR PS4"
+            }
+          ]
+        },
+        {
+          "title": "Worked exercises from Robert M. Wald’s General Relativity",
+          "notes": [
+            {
+              "href": "notes/wald-gr-chapter-3.html",
+              "title": "Chapter 3: Curvature",
+              "label": "3.",
+              "desc": "Torsion, two-dimensional geometry, Riemann symmetries, curvature, affine parameters, and geodesics. Selected worked problems. Includes links to related Tong GR solutions.",
+              "tag": "Wald GR Ch. 3"
+            },
+            {
+              "href": "notes/wald-gr-chapter-4.html",
+              "title": "Chapter 4: Einstein&#x27;s Equation",
+              "label": "4.",
+              "desc": "Maxwell theory, frame dragging, linearised gravity, and gravitational radiation. Selected worked problems. Includes links to related Tong GR solutions.",
+              "tag": "Wald GR Ch. 4"
+            },
+            {
+              "href": "notes/wald-gr-chapter-5.html",
+              "title": "Chapter 5: Homogeneous, Isotropic Cosmology",
+              "label": "5.",
+              "desc": "Robertson-Walker coordinates, Friedmann equations, de Sitter spacetime, redshift, and null rays. Selected worked problems.",
+              "tag": "Wald GR Ch. 5"
+            },
+            {
+              "href": "notes/wald-gr-chapter-6.html",
+              "title": "Chapter 6: The Schwarzschild Solution",
+              "label": "6.",
+              "desc": "Isotropic coordinates, Reissner-Nordström, stationary observers, and horizon crossing. Selected worked problems.",
+              "tag": "Wald GR Ch. 6"
             }
           ]
         }

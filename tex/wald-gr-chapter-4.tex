@@ -1,0 +1,400 @@
+% Generated from selected worked problems in committed QFT-soln sources.
+% Source repository: https://github.com/Luca-Yucheng-Jin/QFT-soln
+% Source commit: d74e71bc8fb585141e81696c5d2b810008d9dba6
+\section{Wald General Relativity, Chapter 4: Einstein's Equation}
+\markboth{\thesection\quad WALD GENERAL RELATIVITY, CHAPTER 4}{}
+
+\noindent\textit{Problem prompts are paraphrased from Robert M. Wald,
+\emph{General Relativity} (University of Chicago Press, 1984); the equations,
+notation, numbering, and guidance follow the source. See the
+\href{https://press.uchicago.edu/ucp/books/book/chicago/G/bo5952261.html}{official publisher page}.}
+
+\subsection{Chapter 4, Problem 1: Charge Conservation}
+
+Show that Maxwell's equation (4.3.12) implies strict charge conservation,
+\begin{equation}
+    \nabla_a j^a=0.
+\end{equation}
+\begin{solution}
+    Although it is a lot easier to work in form language, but we shall stick with covariant derivatives here. First, note that $F_{\mu\nu} = \partial_\mu A_\nu - \partial_\nu A_\mu = \nabla_\mu A_\nu - \nabla_\nu A_\mu$. The equation of motion becomes
+    \begin{equation}
+        \nabla^\mu \nabla_\mu A_\nu -\nabla^\mu \nabla_\nu A_\mu = -4\pi j_\nu.
+    \end{equation}
+    Taking covariant derivative on both side, the LHS is
+    \begin{equation}
+        \nabla^\nu\nabla^\mu \nabla_\mu A_\nu -\nabla^\nu\nabla^\mu \nabla_\nu A_\mu = [\nabla^\nu, \nabla^\mu]\nabla_\mu A_\nu.
+    \end{equation}
+    Using (3.2.21), we have
+    \begin{equation}
+         \nabla^\nu\nabla^\mu \nabla_\mu A_\nu -\nabla^\nu\nabla^\mu \nabla_\nu A_\mu = R_{\nu\mu}{}^{\mu\delta}\nabla_\delta A^\nu +  R_{\nu\mu}{}^{\nu\delta}\nabla_\delta A^\mu.
+    \end{equation}
+    Relabelling the second term, and using the antisymmetric property of Riemann tensor we find that the LHS vanishes identically. Therefore, we find
+    \begin{equation}
+        \nabla_\mu j^\mu =0.
+    \end{equation}
+\end{solution}
+
+\subsection{Chapter 4, Problem 2: Hodge Duality and Maxwell Theory}
+
+\begin{enumerate}[label=\alph*)]
+    \item Let $\alpha$ be a $p$-form on an oriented $n$-dimensional manifold
+    with metric $g_{ab}$. Thus $\alpha_{a_1\cdots a_p}$ is totally
+    antisymmetric. Define its dual by
+    \begin{equation}
+        \star\alpha_{b_1\cdots b_{n-p}}
+        =\frac{1}{p!}\alpha^{a_1\cdots a_p}
+        \epsilon_{a_1\cdots a_p b_1\cdots b_{n-p}},
+    \end{equation}
+    where $\epsilon_{a_1\cdots a_n}$ is the natural volume element, fixed up to
+    sign by equation (B.2.9). Prove
+    \begin{equation}
+        {\star\star}\alpha=(-1)^{s+p(n-p)}\alpha,
+    \end{equation}
+    with $s$ the number of minus signs in the signature of $g_{ab}$.
+    \begin{solution}
+        \begin{equation}
+            \begin{aligned}
+                (\star\star \alpha)_{c_1\cdots c_p}  &=\frac{1}{(n-p)!}(\star \alpha)^{b_1\cdots b_{n-p}}\epsilon_{b_1\cdots b_{n-p}c_1\cdots c_p}\\
+                &=\frac{1}{p!}\frac{1}{(n-p)!} \alpha_{a_1 \cdots a_p}\epsilon^{a_1\cdots a_p b_1 \cdots b_{n-p}}\epsilon_{b_1\cdots b_{n-p}c_1\cdots c_p}\\
+                &=\frac{1}{p!}\frac{1}{(n-p)!}\alpha_{a_1 \cdots a_p}
+                (-1)^{\,s+p(n-p)}
+                p!(n-p)!\,
+                \delta^{[a_1}_{c_1}\cdots\delta^{a_p]}_{c_p}\\
+                &=(-1)^{s+p(n-p)}\alpha_{c_1\cdots c_p}.
+            \end{aligned}
+        \end{equation}
+    \end{solution}
+
+    \item Rewrite Maxwell's equations (4.3.12) and (4.3.13) in differential-form
+    notation as
+    \begin{equation}
+        d\,\star F=4\pi\,\star j,
+        \qquad
+        dF=0.
+    \end{equation}
+    Explain how Stokes's theorem applied to the first equation gives Gauss's law
+    on a three-dimensional hypersurface $\Sigma$ with boundary $S$:
+    \begin{equation}
+        \int_\Sigma\star j
+        =\frac{1}{4\pi}\int_S\star F,
+    \end{equation}
+    together with
+    \begin{equation}
+        -\int_\Sigma\star j
+        =-\int_\Sigma j^a t_a\,d\Sigma=e,
+        \qquad
+        -\int_S\star F
+        =\int_S E^a n_a\,dA,
+    \end{equation}
+    where $t^a$ is the unit normal to $\Sigma$ and $E_a=F_{ab}t^b$.
+    \begin{solution}
+        First, we start with the covariant derivative form,
+        \begin{equation}
+            \nabla_\mu F^{\mu\nu} = \partial_\mu F^{\mu\nu} + \Gamma^\mu{}_{\mu\sigma}F^{\sigma \nu} + \Gamma^\nu{}_{\mu\sigma}F^{\mu\sigma},
+        \end{equation}
+        where the last term vanishes. Then, note that
+        \begin{equation}
+        \Gamma^\mu{}_{\mu\sigma} = \frac{1}{2}g^{\mu\rho}\partial_\sigma g_{\mu\rho} = \frac{1}{2}\partial_\sigma\operatorname{tr} \log g_{\mu\rho} = \frac{1}{2}\partial_\sigma \log g = \partial_\sigma \log \sqrt{|g|} =\frac{1}{\sqrt{|g|}}\partial_\sigma\sqrt{|g|},
+        \end{equation}
+        which follows
+        \begin{equation}
+            \nabla_\mu F^{\mu\nu} = \frac{1}{\sqrt{|g|}}\partial_\mu\left(\sqrt{|g|}F^{\mu\nu}\right) = -4\pi j^\nu.
+        \end{equation}
+        To see that this is equivalent to the alternative formulation, we compute
+        \begin{equation}
+            d\star F = \frac14\partial_\lambda\left(F_{\mu\nu}\epsilon^{\mu\nu}{}_{\rho\sigma}\right)dx^\lambda\wedge dx^\rho\wedge dx^\sigma,
+        \end{equation}
+        while
+        \begin{equation}
+\star j
+=
+\frac{1}{3!}
+j_\mu\,
+\epsilon^{\mu}{}_{\nu\rho\sigma}
+dx^\nu\wedge dx^\rho\wedge dx^\sigma.
+        \end{equation}
+        Using $\epsilon_{\mu\nu\rho\sigma} = \sqrt{|g|}\varepsilon_{\mu\nu\rho\sigma}$, where $\varepsilon$ is the totally antisymmetric tensor, we find
+        \begin{equation}
+            d\star F = 4\pi \star j \iff \frac{1}{4}\partial_\lambda \left(\sqrt{|g|}F^{\mu\nu}\right)\varepsilon_{\mu\nu\rho\sigma} = 4\pi\frac{1}{3!} \sqrt{|g|}j^\mu\epsilon_{\mu\lambda\rho\sigma}.
+        \end{equation}
+        Contracting both side with $\varepsilon^{\delta\lambda\rho\sigma}$, we find
+        \begin{equation}
+            \frac{1}{4}\partial_\lambda \left(\sqrt{|g|}F^{\mu\nu}\right)
+2!\left(
+\delta_\mu^\delta\delta_\nu^\lambda
+-
+\delta_\mu^\lambda\delta_\nu^\delta
+\right) = 4\pi\frac{1}{3!} \sqrt{|g|}j^\mu
+3!\,\delta_\mu^\delta \iff \frac{1}{\sqrt{|g|}}\partial_\mu\left(\sqrt{|g|}F^{\mu\nu}\right) = -4\pi j^\nu.
+        \end{equation}
+        Therefore, we have shown
+        \begin{equation}
+            \nabla_\mu F^{\mu\nu} = - 4\pi j^\nu \iff d\star F = 4\pi \star j.
+        \end{equation}
+
+        Now, using stokes theorem, we have
+        \begin{equation}
+            \int _\Sigma \star j = \frac{1}{4\pi}\int_\Sigma d\star F =  \frac{1}{4\pi}\int _{\partial \Sigma}\star F.
+        \end{equation}
+        If we take the $\Sigma$ to be spacelike, then $n_a$ is a timelike unit vector, and hence the above reduces to Gauss's law.
+    \end{solution}
+
+\end{enumerate}
+
+\subsection{Chapter 4, Problem 3: Gravitomagnetism and Frame Dragging}
+
+\begin{enumerate}[label=\alph*)]
+    \item Derive equation (4.4.24).
+    \begin{solution}
+        We start with
+        \begin{equation}
+            \partial^a \partial_a \bar{\gamma}_{0\mu} = 16\pi J_\mu.
+        \end{equation}
+        Identifying $A_\mu \equiv -T_{ab}t^a$, where $t^a = (\partial/\partial x^0)^a$, we find that the equation reduces to Maxwell's equation. Now, we shall evaluate the geodesic equation while neglecting the time derivative of the metric. In this case, the perturbed metric is given by
+        \begin{equation}
+            \bar{\gamma}_{0\mu} = \bar{\gamma}_{\mu0} = -4A_\mu, \quad \bar \gamma = \bar \gamma^0{}_0 = 4A_0,
+        \end{equation}
+        and hence
+        \begin{equation}
+            \gamma_{00} = -2A_0, \quad \gamma_{0i} = 4A_i.
+        \end{equation}
+        To first order in $\gamma$, the Christoffel connection is given by
+        \begin{equation}
+            \Gamma^\mu{}_{\rho\sigma} = \frac{1}{2}(\partial_\rho \gamma^\mu{}_\sigma + \partial_\sigma \gamma^\mu{}_\rho - \partial^\mu \gamma_{\rho\sigma}).
+        \end{equation}
+        In our case, the relevant connections are
+        \begin{equation}
+            \Gamma^i{}_{00} = \partial^iA_0 = E^i, \quad \Gamma^i{}_{0j} = \Gamma^i{}_{j0} = 2(\partial_i A_j - \partial_j A_i),
+        \end{equation}
+        which gives
+        \begin{equation}
+            \ddot x_i = - E_i -4(\partial_i A_j - \partial_j A_i)\dot x^j.
+        \end{equation}
+        This is precisely
+        \begin{equation}
+            \ddot{\mathbf{x}} = - \mathbf{E} - 4\mathbf{v}\times \mathbf{B}.
+        \end{equation}
+    \end{solution}
+
+    \item Consider a spherical shell of mass $M$ and radius $R$, with $M\ll R$,
+    rotating slowly with angular velocity $\boldsymbol\omega$. Show that the
+    gravitational electric and magnetic fields inside it are
+    \begin{equation}
+        \mathbf E=0,
+        \qquad
+        \mathbf B=\frac{2M}{3R}\boldsymbol\omega.
+    \end{equation}
+    \begin{solution}
+        The current is given by
+        \begin{equation}
+            J^0 = \rho = \frac{M}{4\pi R^2}\delta(r-R), \quad \mathbf{J} = \frac{M}{4\pi R^2}\delta(r-R)\boldsymbol{\omega}\times\mathbf{r}.
+        \end{equation}
+        By Gauss's law, it is easy to see that $\mathbf{E} = 0$ inside the shell. For the gravitational magnetic field, we use the Green's function method, which gives
+        \begin{equation}
+            \mathbf{A}(\mathbf{x}) = \int \frac{J(\mathbf{x}')}{{|\mathbf{x}- \mathbf{x}'|}} d^3\mathbf{x}' = \frac{M}{4\pi R^2}\boldsymbol{\omega}\times\int \frac{\delta(r'-R) \mathbf{x}'}{|\mathbf{x}- \mathbf{x}'|}d^3\mathbf{x}' = \frac{M}{4\pi R^2}\boldsymbol{\omega}\times\int d\Omega'\frac{R^3\hat{\mathbf{r}}'}{|\mathbf{x} - R \hat{\mathbf{r}}'|}.
+        \end{equation}
+        Since $M \ll R$, we can carry out dipole expansion, which gives
+        \begin{equation}
+            \mathbf{A}(\mathbf{x})= \frac{MR}{4\pi}\boldsymbol{\omega}\times\int d\Omega'\left[\frac{\hat{\mathbf{r}}'}{R} + \frac{\hat{\mathbf{r}}'(\mathbf{x}\cdot \hat{\mathbf{r}}')}{R^2}\right] = \frac{M}{3R}\boldsymbol{\omega}\times\mathbf{x},
+        \end{equation}
+        where we have used the identities
+        \[
+\int \hat r_i\hat r_j\,d\Omega
+=
+\frac{4\pi}{3}\delta_{ij}.
+\] and \[
+\int \hat{\mathbf r}\,d\Omega=0.
+\]
+        Therefore, we find
+        \begin{equation}
+            \mathbf{B} = \frac{2M}{3R}\boldsymbol{\omega}.
+        \end{equation}
+    \end{solution}
+
+    \item An observer at rest at the shell's centre parallelly propagates a vector
+    $S^a$ along the observer's geodesic world line, with $S^a u_a=0$. Show that
+    its inertial components $\mathbf S$ precess according to
+    \begin{equation}
+        \frac{d\mathbf S}{dt}=\boldsymbol\Omega\times\mathbf S,
+        \qquad
+        \boldsymbol\Omega=2\mathbf B
+        =\frac{4}{3}\frac{M}{R}\boldsymbol\omega.
+    \end{equation}
+    Interpret this as the rotating shell dragging the local inertial frame, in the
+    sense discussed in connection with Mach's principle.
+    \begin{solution}
+        \begin{equation}
+            u^b\nabla_b S^a = 0 \implies \frac{dS^\mu}{dt} + u^\nu \Gamma^\mu{}_{\nu\rho}S^\rho =0.
+        \end{equation}
+        Note that we have already computed the Christoffel symbol, and hence we have
+        \begin{equation}
+            \frac{dS^i}{dt} = -\Gamma^i{}_{0j}S^j = -2(\partial_i A_j - \partial_j A_i) S^j \implies \frac{d\mathbf{S}}{dt} = \frac{4M}{3R}\boldsymbol{\omega}\times \mathbf{S}.
+        \end{equation}
+        Therefore, $\mathbf{S}$ precesses around the rotating axis of the spherical shell with an angular velocity $\Omega$.
+    \end{solution}
+\end{enumerate}
+
+\subsection{Chapter 4, Problem 4: Quadratic Ricci Tensor}
+
+Starting from equation (3.4.5) for $R_{ab}$, substitute
+\begin{equation}
+    g_{ab}=\eta_{ab}+\gamma_{ab}
+\end{equation}
+and retain exactly the terms quadratic in $\gamma_{ab}$. In this way, derive the
+formula (4.4.51) for $R^{(2)}_{ab}$.
+\begin{solution}
+\href{https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-gr-ps4.html#the-fierz-pauli-action-q4-health-warning-this-question-is-not-short}{See my worked solution to David Tong GR Problem Sheet 4, Question 4}.
+\end{solution}
+
+\subsection{Chapter 4, Problem 5: A Superpotential for a Conserved Tensor}
+
+Let $T_{ab}$ be symmetric and conserved in Minkowski spacetime:
+\begin{equation}
+    T_{ab}=T_{ba},
+    \qquad
+    \partial^aT_{ab}=0.
+\end{equation}
+Show that there is a tensor $U_{acbd}$ with symmetries
+\begin{equation}
+    U_{acbd}=U_{[ac]bd}=U_{ac[bd]}=U_{bdac}
+\end{equation}
+such that
+\begin{equation}
+    T_{ab}=\partial^c\partial^dU_{acbd}.
+\end{equation}
+
+\textit{Hint:} If a Minkowski-space vector field obeys $\partial_av^a=0$, the
+converse of the Poincar\'e lemma applied to the three-form
+$\epsilon_{abcd}v^d$ gives an antisymmetric field $s^{ab}=-s^{ba}$ such that
+\begin{equation}
+    v^a=\partial_bs^{ab}.
+\end{equation}
+First use this fact to obtain
+\begin{equation}
+    T_{ab}=\partial^cW_{cab},
+    \qquad
+    W_{cab}=W_{[ca]b},
+\end{equation}
+and then use $\partial^cW_{c[ab]}=0$ to reach the required result.
+\begin{solution}
+    Let
+    \begin{equation}
+        J = \frac{1}{3!}v^d\epsilon_{abcd}dx^a\wedge dx^b \wedge dx^c,
+    \end{equation}
+    then
+    \begin{equation}
+        dJ = 0 \iff \partial^a v_a = 0.
+    \end{equation}
+    By Poincaré lemma, we have
+    \begin{equation}
+        dJ \iff J = d\omega, \quad \omega \in \Omega^2(\mathbb{R}^{1,n-1}),
+    \end{equation}
+    which is equivalent to
+    \begin{equation}
+        v^d \epsilon_{abcd} = \partial_a \omega_{bc} \implies v^a = \partial_b\omega_{cd}\epsilon^{abcd} = \partial_b s^{ab},
+    \end{equation}
+    where we defined $s^{ab} \equiv\omega_{cd}\epsilon^{abcd} $. Now take $\partial^a T_{ab} = 0$, where we can treat $b$ as a dummy label. This gives
+    \begin{equation}
+        T_{ab} = \partial^c W_{cab}, \quad W_{cab} = W_{[ca]b}.
+    \end{equation}
+    Now using the symmetric property of $T^{ab}$, we have $\partial^c W_{c[ab]}$. Now, we can treat $[ab]$ as dummy labels and apply the result from Poincaré lemma once more, which gives
+    \begin{equation}
+        W_{c[ab]} = \partial^d V_{dc[ab]}, \quad V_{dc[ab]} = V_{[dc][ab]}.
+    \end{equation}
+    Defining $U_{acbd}\equiv-V_{acbd}-V_{bdac}$, we find the required tensor.
+\end{solution}
+
+\subsection{Chapter 4, Problem 7: Energy in Linearised Gravity}
+
+\begin{enumerate}[label=\alph*)]
+    \item Show that the total energy $E$ of equation (4.4.55) is independent of
+    time: the same value is obtained by integrating over a time translate
+    $\Sigma'$ of $\Sigma$.
+    \begin{solution}
+        Since, $\partial^a t_{ab} =0$, we have
+        \begin{equation}
+            \frac{dE}{dt} = \int_\Sigma \frac{dt_{00}}{dt}d^3x =  \int_\Sigma\partial^it_{i0}d^3x = 0.
+        \end{equation}
+    \end{solution}
+
+    \item Let $\xi_a$ generate a gauge transformation which is zero outside a
+    bounded spatial region. Prove
+    \begin{equation}
+        E[\gamma_{ab}]
+        =E[\gamma_{ab}+2\partial_{(a}\xi_{b)}].
+    \end{equation}
+    Compare both sides with
+    \begin{equation}
+        E[\gamma_{ab}+2\partial_{(a}\xi'_{b)}],
+    \end{equation}
+    where $\xi'_a$ agrees with $\xi_a$ near $\Sigma$ but vanishes near another
+    hyperplane $\Sigma'$.
+    \begin{solution}
+        Since $\xi_a'$ vanishes at $\Sigma'$, we have
+        \begin{equation}
+            E[\gamma_{ab}] = \int_{\Sigma'} t_{00}[\gamma_ab]d^3x = \int_{\Sigma'} t_{00}[\gamma_{ab}+2\partial_{(a}\xi'_{b)}]d^3x.
+        \end{equation}
+        By conservation of total energy, this is equivalent to
+        \begin{equation}
+            E[\gamma_{ab}] = \int_\Sigma t_{00}[\gamma_{ab}+2\partial_{(a}\xi'_{b)}]d^3x.
+        \end{equation}
+        Finally, since $\xi'_a$ agrees with $\xi_a$ near $\Sigma$, we have
+        \begin{equation}
+             E[\gamma_{ab}]
+        =E[\gamma_{ab}+2\partial_{(a}\xi_{b)}].
+        \end{equation}
+    \end{solution}
+\end{enumerate}
+
+\subsection{Chapter 4, Problem 8: Radiation from an Oscillating Spring}
+
+Two point particles, each of mass $M$, are fixed to opposite ends of a spring with
+spring constant $K$ and set oscillating. Using the quadrupole approximation
+(4.4.58), determine the fraction of their oscillation energy radiated in one cycle.
+\begin{solution}
+    The masses are oscillating with frequency $\omega$ and amplitude $A$, and separated by a distance $2L$ at equilibrium. Then, the mass density is given by
+    \begin{equation}
+        T_{00}(\mathbf{x},t) = \rho(\mathbf{x},t) = M\delta(y)\delta(z)[\delta(x-L-A\cos\omega t) + \delta(x+L +A\cos\omega t)].
+    \end{equation}
+    The only nonzero quadrupole moment of energy is given by
+    \begin{equation}
+        I_{11} = 2M (L+A\cos\omega t)^2 \equiv 2M x^2(t),
+    \end{equation}
+    and hence its traceless part:
+    \begin{equation}
+        \mathcal{Q}_{ij} = \begin{pmatrix}
+            \frac{4}{3}Mx^2 & 0 &0\\
+            0& -\frac{2}{3}Mx^2 &0\\
+            0 & 0 & -\frac23 Mx^2
+        \end{pmatrix}.
+    \end{equation}
+    Taking the third order time derivative
+    \begin{equation}
+        \dddot{x}^2(t) =2A\omega^3(2A\sin 2\omega t + L\sin \omega t)
+    \end{equation}
+    and we find the power of emission to be
+    \begin{equation}
+        \mathcal{P} = \frac{32}{15}GM^2A^2\omega^6(2A\sin 2\omega t + L\sin \omega t)^2.
+    \end{equation}
+    Averaging over one period, we find
+    \begin{equation}
+        \langle\mathcal{P}\rangle = \frac{16}{15}GM^2A^2\omega^6(4A^2 + L^2)
+    \end{equation}
+    The total energy we started with is
+    \begin{equation}
+        E = M\omega^2A^2,
+    \end{equation}
+    and hence
+    \begin{equation}
+        \frac{\Delta E}{E} = \frac{32\pi}{15}GM\omega^3(4A^2 + L^2).
+    \end{equation}
+\end{solution}
+
+\subsection{Chapter 4, Problem 9: Orbital Decay of a Binary System}
+
+Two negligibly small stars, each of mass $M$, move in a nearly Newtonian circular
+orbit of radius $R$ about one another. Assuming equation (4.4.58) applies, compute
+the rate at which gravitational radiation increases their orbital frequency.
+\begin{solution}
+\href{https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-gr-ps4.html#gravitational-wave-emission-from-a-binary-system-q6}{See my related worked solution to David Tong GR Problem Sheet 4, Question 6}.
+\end{solution}

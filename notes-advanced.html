@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>General Relativity Notes &amp; Solutions | Yucheng (Luca) Jin</title>
-<meta name="description" content="General Relativity notes and worked solutions by Yucheng (Luca) Jin: Manifolds and tensors, connections and curvature, geodesics and Killing vectors, Brans–Dicke scalar-tensor gravity, 11-dimensional supergravity, and linearised gravity / gravitational waves. Every note is available in HTML and PDF.">
+<meta name="description" content="General Relativity notes and worked solutions by Yucheng (Luca) Jin: Worked Wald exercises in Chapters 3–6, plus Tong problem sheets on geometry, curvature, geodesics, and gravitational waves. Every note is available in HTML and PDF.">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
 <meta name="author" content="Yucheng (Luca) Jin">
 <link rel="canonical" href="https://luca-yucheng-jin.github.io/luca-physics-site/notes-advanced.html">
@@ -12,18 +12,18 @@
 <meta property="og:url" content="https://luca-yucheng-jin.github.io/luca-physics-site/notes-advanced.html">
 <meta property="og:site_name" content="Luca Jin Physics">
 <meta property="og:title" content="General Relativity Notes &amp; Solutions | Yucheng (Luca) Jin">
-<meta property="og:description" content="General Relativity notes and worked solutions by Yucheng (Luca) Jin: Manifolds and tensors, connections and curvature, geodesics and Killing vectors, Brans–Dicke scalar-tensor gravity, 11-dimensional supergravity, and linearised gravity / gravitational waves. Every note is available in HTML and PDF.">
+<meta property="og:description" content="General Relativity notes and worked solutions by Yucheng (Luca) Jin: Worked Wald exercises in Chapters 3–6, plus Tong problem sheets on geometry, curvature, geodesics, and gravitational waves. Every note is available in HTML and PDF.">
 <meta property="og:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="General Relativity Notes &amp; Solutions | Yucheng (Luca) Jin">
-<meta name="twitter:description" content="General Relativity notes and worked solutions by Yucheng (Luca) Jin: Manifolds and tensors, connections and curvature, geodesics and Killing vectors, Brans–Dicke scalar-tensor gravity, 11-dimensional supergravity, and linearised gravity / gravitational waves. Every note is available in HTML and PDF.">
+<meta name="twitter:description" content="General Relativity notes and worked solutions by Yucheng (Luca) Jin: Worked Wald exercises in Chapters 3–6, plus Tong problem sheets on geometry, curvature, geodesics, and gravitational waves. Every note is available in HTML and PDF.">
 <meta name="twitter:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
 
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 
 <link rel="stylesheet" href="styles.css">
 
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"CollectionPage","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes-advanced.html#page","url":"https://luca-yucheng-jin.github.io/luca-physics-site/notes-advanced.html","name":"General Relativity Notes & Solutions","description":"General Relativity notes and worked solutions by Yucheng (Luca) Jin: Manifolds and tensors, connections and curvature, geodesics and Killing vectors, Brans–Dicke scalar-tensor gravity, 11-dimensional supergravity, and linearised gravity / gravitational waves. Every note is available in HTML and PDF.","inLanguage":"en","isPartOf":{"@type":"WebSite","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#website","name":"Luca Jin Physics","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"author":{"@type":"Person","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#person","name":"Yucheng (Luca) Jin","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"about":{"@type":"Thing","name":"General Relativity"}},{"@type":"BreadcrumbList","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes-advanced.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes.html"},{"@type":"ListItem","position":2,"name":"General Relativity","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes-advanced.html"}]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"CollectionPage","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes-advanced.html#page","url":"https://luca-yucheng-jin.github.io/luca-physics-site/notes-advanced.html","name":"General Relativity Notes & Solutions","description":"General Relativity notes and worked solutions by Yucheng (Luca) Jin: Worked Wald exercises in Chapters 3–6, plus Tong problem sheets on geometry, curvature, geodesics, and gravitational waves. Every note is available in HTML and PDF.","inLanguage":"en","isPartOf":{"@type":"WebSite","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#website","name":"Luca Jin Physics","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"author":{"@type":"Person","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#person","name":"Yucheng (Luca) Jin","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"about":{"@type":"Thing","name":"General Relativity"}},{"@type":"BreadcrumbList","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes-advanced.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes.html"},{"@type":"ListItem","position":2,"name":"General Relativity","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes-advanced.html"}]}]}</script>
 
 <script src="assets/theme.js"></script>
 <script src="assets/font-size.js"></script>
@@ -54,7 +54,7 @@
   <section class="hero">
     <div class="hero__eyebrow">Notes · subject</div>
     <h1>General Relativity</h1>
-    <p class="hero__lede">Manifolds and tensors, connections and curvature, geodesics and Killing vectors, Brans–Dicke scalar-tensor gravity, 11-dimensional supergravity, and linearised gravity / gravitational waves.</p>
+    <p class="hero__lede">Worked Wald exercises in Chapters 3–6, plus Tong problem sheets on geometry, curvature, geodesics, and gravitational waves.</p>
   </section>
 
   <section class="section" id="advanced">
@@ -98,6 +98,49 @@
         </span>
         <span class="catalogue__formats" aria-label="Available formats"><a href="notes/tong-gr-ps4.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/tong-gr-ps4.pdf">PDF <span aria-hidden="true">↓</span></a></span>
       <span class="catalogue__tag">Tong GR PS4</span>
+      </li>
+    </ul>
+
+    <h3 class="catalogue-source">
+      <span>Worked exercises from Robert M. Wald’s <em>General Relativity</em></span>
+      <a href="https://press.uchicago.edu/ucp/books/book/chicago/G/bo5952261.html" target="_blank" rel="noopener noreferrer">Book website ↗</a>
+    </h3>
+    <ul class="catalogue">
+      <li class="catalogue__item">
+        <span class="catalogue__num">3.</span>
+        <span class="catalogue__main">
+          <a href="notes/wald-gr-chapter-3.html">Chapter 3: Curvature</a>
+          <span class="catalogue__desc">Torsion, two-dimensional geometry, Riemann symmetries, curvature, affine parameters, and geodesics. Selected worked problems. Includes links to related Tong GR solutions.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/wald-gr-chapter-3.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/wald-gr-chapter-3.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Wald GR Ch. 3</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">4.</span>
+        <span class="catalogue__main">
+          <a href="notes/wald-gr-chapter-4.html">Chapter 4: Einstein&#x27;s Equation</a>
+          <span class="catalogue__desc">Maxwell theory, frame dragging, linearised gravity, and gravitational radiation. Selected worked problems. Includes links to related Tong GR solutions.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/wald-gr-chapter-4.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/wald-gr-chapter-4.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Wald GR Ch. 4</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">5.</span>
+        <span class="catalogue__main">
+          <a href="notes/wald-gr-chapter-5.html">Chapter 5: Homogeneous, Isotropic Cosmology</a>
+          <span class="catalogue__desc">Robertson-Walker coordinates, Friedmann equations, de Sitter spacetime, redshift, and null rays. Selected worked problems.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/wald-gr-chapter-5.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/wald-gr-chapter-5.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Wald GR Ch. 5</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">6.</span>
+        <span class="catalogue__main">
+          <a href="notes/wald-gr-chapter-6.html">Chapter 6: The Schwarzschild Solution</a>
+          <span class="catalogue__desc">Isotropic coordinates, Reissner-Nordström, stationary observers, and horizon crossing. Selected worked problems.</span>
+        </span>
+        <span class="catalogue__formats" aria-label="Available formats"><a href="notes/wald-gr-chapter-6.html">HTML <span aria-hidden="true">↗</span></a><a href="output/pdf/wald-gr-chapter-6.pdf">PDF <span aria-hidden="true">↓</span></a></span>
+      <span class="catalogue__tag">Wald GR Ch. 6</span>
       </li>
     </ul>
   </section>

@@ -149,6 +149,57 @@ test('completed Schwartz solutions are collected into one public file per chapte
 });
 
 
+test('Wald GR publishes only the selected worked parts of Chapters 3–6', async () => {
+  const imported = JSON.parse(
+    await readFile(path.join(root, 'assets', 'wald-gr-manifest.json'), 'utf8'),
+  );
+  const navigation = JSON.parse(
+    await readFile(path.join(root, 'assets', 'nav-manifest.json'), 'utf8'),
+  );
+  const publicHrefs = navigation.categories.flatMap((category) =>
+    category.groups.flatMap((group) => group.notes.map((note) => note.href)),
+  );
+  assert.equal(imported.sourceRepository, 'https://github.com/Luca-Yucheng-Jin/QFT-soln');
+  assert.match(imported.sourceCommit, /^[0-9a-f]{40}$/);
+  assert.deepEqual(imported.chapters.map((chapter) => chapter.chapter), ['3', '4', '5', '6']);
+  assert.equal(imported.chapters.reduce((total, chapter) => total + chapter.solutionCount, 0), 42);
+
+  for (const chapter of imported.chapters) {
+    const slug = chapter.slug;
+    assert.ok(publicHrefs.includes(`notes/${slug}.html`));
+    for (const relative of [
+      `tex/${slug}.tex`, `notes/${slug}.html`, `output/pdf/${slug}.pdf`,
+      `dist/client/notes/${slug}.html`, `dist/client/output/pdf/${slug}.pdf`,
+    ]) {
+      await assert.doesNotReject(stat(path.join(root, relative)), `missing ${relative}`);
+    }
+    const html = await readFile(path.join(root, 'notes', `${slug}.html`), 'utf8');
+    assert.equal((html.match(/<aside class="solution">/g) || []).length, chapter.solutionCount);
+    for (const problem of chapter.publishedProblems) {
+      assert.match(html, new RegExp(`Chapter ${chapter.chapter}, Problem ${problem}:`));
+    }
+    assert.doesNotMatch(html, /\\markboth\b|\\section\[|\(Link\)|\(link to my web\)/);
+  }
+
+  const ch3 = await readFile(path.join(root, 'notes', 'wald-gr-chapter-3.html'), 'utf8');
+  const ch4 = await readFile(path.join(root, 'notes', 'wald-gr-chapter-4.html'), 'utf8');
+  const ch6 = await readFile(path.join(root, 'notes', 'wald-gr-chapter-6.html'), 'utf8');
+  assert.doesNotMatch(ch3, /Chapter 3, Problem (?:7|8):|Establish the pair-exchange symmetry/);
+  assert.doesNotMatch(ch4, /Chapter 4, Problem 6:|duality-rotated field/);
+  assert.doesNotMatch(ch6, /Chapter 6, Problem (?:2|5):/);
+  for (const target of [
+    'tong-gr-ps2.html#independent-components-of-the-riemann-tensor-q8',
+    'tong-gr-ps4.html#the-fierz-pauli-action-q4-health-warning-this-question-is-not-short',
+    'tong-gr-ps4.html#gravitational-wave-emission-from-a-binary-system-q6',
+  ]) {
+    assert.match(ch3 + ch4, new RegExp(target));
+  }
+  for (const chapter of ['1', '2', '7']) {
+    assert.ok(!publicHrefs.includes(`notes/wald-gr-chapter-${chapter}.html`));
+  }
+});
+
+
 test('only completed PSI QFT II sheets from QFT-soln are public', async () => {
   const expectedSlugs = [
     'psi-qft-ii-homework-1',

@@ -1,0 +1,286 @@
+% Generated from selected worked problems in committed QFT-soln sources.
+% Source repository: https://github.com/Luca-Yucheng-Jin/QFT-soln
+% Source commit: d74e71bc8fb585141e81696c5d2b810008d9dba6
+\section{Wald General Relativity, Chapter 3: Curvature}
+\markboth{\thesection\quad WALD GENERAL RELATIVITY, CHAPTER 3}{}
+
+\noindent\textit{Problem prompts are paraphrased from Robert M. Wald,
+\emph{General Relativity} (University of Chicago Press, 1984); the equations,
+notation, numbering, and guidance follow the source. See the
+\href{https://press.uchicago.edu/ucp/books/book/chicago/G/bo5952261.html}{official publisher page}.}
+
+\subsection{Chapter 3, Problem 1: Torsion}
+
+Remove property (5), the torsion-free condition, from the definition of a derivative
+operator $\nabla_a$ in section 3.1.
+\begin{enumerate}[label=\alph*)]
+    \item Prove that there is a tensor $T^c{}_{ab}$, called the torsion tensor,
+    such that every smooth function $f$ satisfies
+    \begin{equation}
+        \nabla_a\nabla_bf-\nabla_b\nabla_af
+        =-T^c{}_{ab}\nabla_cf.
+    \end{equation}
+    \textit{Hint:} Repeat the derivation of equation (3.1.8), using a
+    torsion-free derivative operator $\widetilde\nabla_a$ for comparison.
+    \begin{solution}
+        We have
+        \begin{equation}
+            \nabla_a \nabla_b f = \nabla_a \partial_b f = \partial_a \partial_b f - \Gamma^c{}_{ba}\partial_a f.
+        \end{equation}
+        Therefore, we find
+        \begin{equation}
+            [\nabla_a,\nabla_b]f = -(\Gamma^c{}_{ab} -\Gamma^c{}_{ba})\nabla_c f \implies T^c{}_{ab} = \Gamma^c{}_{ab} -\Gamma^c{}_{ba}.
+        \end{equation}
+    \end{solution}
+
+    \item For arbitrary smooth vector fields $X^a$ and $Y^a$, show that
+    \begin{equation}
+        T^c{}_{ab}X^aY^b
+        =X^a\nabla_aY^c-Y^a\nabla_aX^c-[X,Y]^c.
+    \end{equation}
+    \begin{solution}
+        \begin{equation}
+            T^c{}_{ab}X^aY^b = (\Gamma^c{}_{ab} -\Gamma^c{}_{ba})X^aY^b.
+        \end{equation}
+        Note that
+        \begin{equation}
+            (\nabla_b X^c)Y^b = (\partial_bX^c)Y^b + \Gamma^c{}_{ba}X^aY^b,
+        \end{equation}
+        which leads to
+        \begin{equation}
+            T^c{}_{ab}X^aY^b = X^b\nabla_b Y^c - Y^b\nabla_b X^c + Y^b\partial_b X^c - X^b\partial_b Y^c = X^a\nabla_aY^c-Y^a\nabla_aX^c-[X,Y]^c.
+        \end{equation}
+    \end{solution}
+
+    \item Given a metric $g_{ab}$, prove that there is a unique derivative
+    operator $\nabla_a$ with torsion $T^c{}_{ab}$ for which
+    $\nabla_ag_{bc}=0$. Obtain the counterpart of equation (3.1.29), expressing
+    this operator in terms of an ordinary derivative $\partial_a$ and
+    $T^c{}_{ab}$.
+    \begin{solution}
+        \begin{equation}
+            \nabla_a g_{bc} = 0 \iff \partial_a g_{bc}  =\Gamma^d{}_{ab}g_{dc} + \Gamma^d{}_{ac}g_{bd}.
+        \end{equation}
+        Then, we find
+        \begin{equation}
+            \partial_a g_{bc} + \partial_b g_{ac} - \partial_c g_{ab} = T^d{}_{bc}g_{da} + T^d{}_{ac}g_{db} + T^d{}_{ab}g_{dc} +2\Gamma^d{}_{ba}g_{dc},
+        \end{equation}
+        which gives
+        \begin{equation}
+            \Gamma^c{}_{ba} = \frac{1}{2}\left[g^{cd}(\partial_ag_{bc} + \partial_b g_{ac} - \partial_c g_{ab}) - T_{abc} - T_{bac} - T_{cab} \right].
+        \end{equation}
+    \end{solution}
+\end{enumerate}
+
+\subsection{Chapter 3, Problem 2: Harmonic Conjugates in Two Dimensions}
+
+Let $M$ be a two-dimensional manifold with metric $g_{ab}$ and associated
+derivative operator $\nabla_a$. A function $\alpha$ is harmonic when
+\begin{equation}
+    \nabla_a\nabla^a\alpha=0.
+\end{equation}
+Let $\epsilon_{ab}$ be antisymmetric and satisfy
+\begin{equation}
+    \epsilon_{ab}\epsilon^{ab}=2(-1)^s,
+\end{equation}
+where $s$ is the number of minus signs in the metric signature. Consider
+\begin{equation}
+    \nabla_a\beta=\epsilon_{ab}\nabla^b\alpha.
+\end{equation}
+
+\begin{enumerate}[label=\alph*)]
+    \item Check the integrability conditions for this equation (see chapter 2,
+    problem 5, or appendix B), and hence show that a local solution $\beta$
+    exists. Prove also that
+    \begin{equation}
+        \nabla_a\nabla^a\beta=0.
+    \end{equation}
+    Thus $\beta$ is the harmonic conjugate of $\alpha$.
+    \begin{solution}
+        If the equation is integrable, we must have $\nabla_a\nabla_b\beta  = \nabla_b \nabla_a \beta$. Therefore, the RHS must also satisfy the compatibility condition. Consider
+        \begin{equation}
+            \nabla_a\epsilon_{bc}\nabla^c \alpha  - \nabla_b\epsilon_{ac}\nabla^c \alpha= \epsilon_{bc}\nabla_a\nabla^c \alpha - \epsilon_{ac}\nabla_b\nabla^c \alpha.
+        \end{equation}
+        If $a,b=c$, the term vanishes by the antisymmetric tensor. If  $a,b$ is equal to $c$, then the term still vanishes by $\nabla_a \nabla^a\alpha = 0$. Therefore, we conclude that
+        \begin{equation}
+             \nabla_a\epsilon_{bc}\nabla^c \alpha  - \nabla_b\epsilon_{ac}\nabla^c \alpha = 0,
+        \end{equation}
+        and hence the equation is integrable. Locally, we have
+        \begin{equation}
+            \partial_\mu \beta = \epsilon_{\mu\nu}\partial^\nu \beta,
+        \end{equation}
+        which gives
+        \begin{equation}
+            \partial_0\beta = \epsilon_{01}\partial_1 \alpha,
+        \end{equation}
+        \begin{equation}
+            \partial_1 \beta = \epsilon_{01}\partial_0 \alpha.
+        \end{equation}
+        These reduce to
+        \begin{equation}
+            (\partial_0^2 - \partial_1^2) \beta = 0.
+        \end{equation}
+        Now, consider
+        \begin{equation}
+            \nabla_a\nabla^a \beta = \epsilon_{ab}\nabla^a\nabla^b \alpha = 0,
+        \end{equation}
+        which vanishes by the antisymmetric property of $\epsilon$. Hence, $\beta$ is the harmonic conjugate of $\alpha$.
+
+    \end{solution}
+
+    \item Use $\alpha$ and $\beta$ as coordinates and show that the metric can be
+    written
+    \begin{equation}
+        ds^2
+        =\pm\Omega^2(\alpha,\beta)
+        \left[d\alpha^2+(-1)^s d\beta^2\right].
+    \end{equation}
+    \begin{solution}
+        Denote $y^0 = \alpha, y^1 = \beta$, the metric transformation is given by
+        \begin{equation}
+            g_{\mu\nu}' = g_{\rho\sigma}\frac{\partial x^\rho}{\partial y^\mu}\frac{\partial x^\sigma}{\partial y^\nu}.
+        \end{equation}
+        The inverse transforms as
+        \begin{equation}
+            (g^{\mu\nu})' = g^{\rho\sigma}\frac{\partial y^\mu}{\partial x^\rho}\frac{\partial y^\nu}{\partial x^\sigma} = g^{\rho\sigma}\nabla_\rho y^\mu \nabla_\sigma y^\nu.
+        \end{equation}
+        Clearly, $g^{01} = g^{10} = 0$, since $\nabla_\rho \alpha \nabla^\rho\beta = 0$. Meanwhile, $g^{00} = \nabla_\mu\alpha \nabla^\mu \alpha$ and $g^{11} = (-1)^s \nabla_\mu\alpha \nabla^\mu \alpha$. Therefore, we find
+        \begin{equation}
+            ds^2
+        =\pm\Omega^2(\alpha,\beta)
+        \left[d\alpha^2+(-1)^s d\beta^2\right],
+        \end{equation}
+        where we have defined $\Omega^2(\alpha,\beta) = 1/|\nabla_\mu\alpha \nabla^\mu \alpha|$.
+    \end{solution}
+\end{enumerate}
+
+\subsection{Chapter 3, Problem 3: Symmetries and Components of the Riemann Tensor}
+
+\begin{enumerate}[label=\alph*)]
+    \item Although the Riemann tensor initially has $n^4$ components in $n$
+    dimensions, its symmetries (3.2.13)--(3.2.15) reduce the number of independent
+    components. Show that this number is
+    \begin{equation}
+        \frac{n^2(n^2-1)}{12}.
+    \end{equation}
+    \begin{solution}
+\href{https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-gr-ps2.html#independent-components-of-the-riemann-tensor-q8}{See my worked solution to David Tong GR Problem Sheet 2, Question 8}.
+\end{solution}
+\end{enumerate}
+
+\subsection{Chapter 3, Problem 4: Curvature in Two and Three Dimensions}
+
+\begin{enumerate}[label=\alph*)]
+    \item In two dimensions, prove that the Riemann tensor has the form
+    \begin{equation}
+        R_{abcd}=R g_{a[c}g_{d]b}.
+    \end{equation}
+    \textit{Hint:} Use problem 3(b) to show that $g_{a[c}g_{d]b}$ spans the
+    vector space of tensors with the algebraic symmetries of the Riemann tensor.
+    \begin{solution}
+        Note that in two dimensions, the Riemann tensor only has one degree of freedom. Therefore, it must be proportional to the Ricci scalar. Now the only tensor available at hand is the metric tensor. Therefore, for the tensor to have the symmetry property of Riemann tensor, we must have
+        \begin{equation}
+            R_{abcd}=R g_{a[c}g_{d]b}.
+        \end{equation}
+    \end{solution}
+
+    \item Give the analogous argument in three dimensions to show that the Weyl
+    tensor vanishes identically. Equivalently, when $n=3$, equation (3.2.28)
+    holds with
+    \begin{equation}
+        C_{abcd}=0.
+    \end{equation}
+    \begin{solution}
+        In three dimension,s the Riemann tensor has 6 degrees of freedom, while the Ricci tensor also has 6 degrees of freedom. Therefore, there are no degrees of freedom left for the Weyl tensor, and hence it vanishes identically in three dimensions.
+    \end{solution}
+\end{enumerate}
+
+\subsection{Chapter 3, Problem 5: Affine Parameters}
+
+\begin{enumerate}[label=\alph*)]
+    \item Prove that a curve whose tangent obeys equation (3.3.2) can be
+    reparameterised so that equation (3.3.1) holds.
+    \begin{solution}
+        The non-affinely parametrised geodesic equation is given by
+        \begin{equation}
+            \frac{d^2x^\mu}{d\lambda^2} +\Gamma^\mu{}_{\nu\sigma}\frac{dx^\nu}{d\lambda}\frac{dx^\sigma}{d\lambda} = \alpha\frac{dx^\mu}{d\lambda},
+        \end{equation}
+        while the affinely parametrised geodesics equation is given by
+        \begin{equation}
+             \frac{d^2x^\mu}{d\tau^2} +\Gamma^\mu{}_{\nu\sigma}\frac{dx^\nu}{d\tau}\frac{dx^\sigma}{d\tau} =0.
+        \end{equation}
+        Under reparametrisation, the non-affinely parametrised equation becomes
+        \begin{equation}
+            \frac{d^2x^\mu}{d\tau^2} +\Gamma^\mu{}_{\nu\sigma}\frac{dx^\nu}{d\tau}\frac{dx^\sigma}{d\tau} = \left(\alpha - \frac{d}{d\tau}\left(\frac{d\tau}{d\lambda}\right)\right)\frac{d\lambda}{d\tau}\frac{dx^\mu}{d\tau}.
+        \end{equation}
+        To make the equation affiniely parametrised, we need to solve
+        \begin{equation}
+            \alpha - \frac{d}{d\tau}\left(\frac{d\tau}{d\lambda}\right) = 0,
+        \end{equation}
+        which has solution
+        \begin{equation}
+            \frac{1}{\alpha}\log|\alpha\tau +c| = \lambda + \lambda_0.
+        \end{equation}
+        Therefore, by making such a reparametrisation, we can make any geodesic equation affinely parametrised.
+    \end{solution}
+
+    \item If $t$ is an affine parameter on a geodesic $\gamma$, show that every
+    other affine parameter is of the form
+    \begin{equation}
+        at+b,
+    \end{equation}
+    where $a$ and $b$ are constants.
+    \begin{solution}
+        If the geodesic equation is already affinely parametrised, a reparametrisation will remain affine if and only if
+        \begin{equation}
+            \frac{d}{d\tau}\left(\frac{d\tau}{dt}\right) =0 \implies \tau = at +b.
+        \end{equation}
+    \end{solution}
+\end{enumerate}
+
+\subsection{Chapter 3, Problem 6: Euclidean Geodesics in Spherical Coordinates}
+
+For Euclidean $\mathbb R^3$, use the spherical-coordinate metric
+\begin{equation}
+    ds^2=dr^2+r^2\left(d\theta^2+\sin^2\theta\,d\phi^2\right)
+\end{equation}
+from chapter 2, problem 8.
+\begin{enumerate}[label=\alph*)]
+    \item Calculate the Christoffel components $\Gamma^\sigma{}_{\mu\nu}$ in
+    these coordinates.
+    \begin{solution}
+        Using
+        \begin{equation}
+                \Gamma^\rho{}_{\mu\nu} = \frac{1}{2}g^{\rho\sigma}(\partial_\mu g_{\nu\sigma} + \partial_\nu g_{\mu\sigma} - \partial_\sigma g_{\mu\nu}).
+        \end{equation}
+        We start with
+        \begin{equation}
+            \Gamma^r{}_{\theta\theta} = -\frac{1}{2}g^{rr}\partial_r g_{\theta\theta} = -r, \quad\Gamma^r{}_{\phi\phi} = -r\sin^2\theta.
+        \end{equation}
+        Then, we also have
+        \begin{equation}
+            \Gamma^\theta{}_{\phi\phi} = -\frac{1}{2}g^{\theta\theta}\partial_\theta g_{\phi\phi} = -\cos\theta \sin\theta, \quad \Gamma^\theta{}_{\theta r} = \Gamma^\theta{}_{r\theta} = \frac{1}{r}.
+        \end{equation}
+        Finally, with $\phi$ being the upper index, we have
+        \begin{equation}
+            \Gamma^\phi{}_{\phi r} = \Gamma^\phi{}_{r\phi} = \frac{1}{r}, \quad \Gamma^\phi{}_{\phi \theta} = \Gamma^\phi{}_{\theta \phi} =  \cot \theta.
+        \end{equation}
+
+    \end{solution}
+
+    \item Write the component geodesic equations and verify that their solutions
+    are straight lines when expressed in Cartesian coordinates.
+    \begin{solution}
+        \begin{equation}
+            \ddot r -r\dot\theta^2 -r\sin^2\theta\dot\phi^2 = 0,
+        \end{equation}
+        \begin{equation}
+            \ddot \theta -\cos\theta\sin\theta\dot\phi^2 + \frac{2}{r}\dot r\dot \theta = 0,
+        \end{equation}
+        and
+        \begin{equation}
+            \ddot \phi + \frac{2}{r}\dot r \dot \phi + 2\cot\theta \dot \theta \dot \phi  = 0.
+        \end{equation}
+        Although not entirely obvious, this is precisely $\ddot {\mathbf{r}} = 0$ in the spherical form, which obviously has straight lines as its solutions.
+    \end{solution}
+\end{enumerate}
