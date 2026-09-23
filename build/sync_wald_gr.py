@@ -46,9 +46,9 @@ CHAPTERS = [
     },
     {
         "chapter": "6", "title": "The Schwarzschild Solution", "slug": "wald-gr-chapter-6",
-        "problemSolutions": {"1": 2, "3": 3, "4": 2, "6": 1},
-        "publishedParts": {}, "excludedIncomplete": ["2", "5"],
-        "description": "Isotropic coordinates, Reissner-Nordström, stationary observers, and horizon crossing.",
+        "problemSolutions": {"1": 2, "3": 3, "4": 2, "5": 1, "6": 1},
+        "publishedParts": {}, "publishedDrafts": ["5"], "excludedIncomplete": ["2"],
+        "description": "Isotropic coordinates, Reissner-Nordström, stationary observers, a draft time-delay calculation, and horizon crossing.",
     },
 ]
 
@@ -112,6 +112,13 @@ def selected_chapter(text: str, chapter: dict) -> tuple[str, int]:
             block = keep_items(block, (2,))
         elif (chapter["chapter"], number) == ("4", "2"):
             block = keep_items(block, (1, 2))
+        elif (chapter["chapter"], number) == ("6", "5"):
+            block = block.replace(
+                r"\begin{solution}",
+                r"\emph{Draft solution: the derivation below does not yet display the final time-delay formula (6.3.45).}"
+                "\n" + r"\begin{solution}",
+                1,
+            )
         bodies = SOLUTION.findall(block)
         expected_count = chapter["problemSolutions"][number]
         if len(bodies) != expected_count:

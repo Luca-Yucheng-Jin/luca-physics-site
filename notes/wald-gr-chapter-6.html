@@ -106,13 +106,14 @@ window.MathJax = {
 
   <div class="note__formats" aria-label="Available formats"><span>Available formats</span><a aria-current="page" href="wald-gr-chapter-6.html">HTML</a><a href="../output/pdf/wald-gr-chapter-6.pdf">PDF ↓</a></div>
 
-  <nav class="note__toc" aria-label="Contents">
+  <nav class="note__toc note__toc--long" aria-label="Contents">
   <div class="note__toc-label">Contents</div>
   <ol class="note__toc-list">
     <li class="toc-h2"><a href="#chapter-6-problem-1-isotropic-coordinates"><span class="note__toc-number">1</span> <span class="note__toc-title">Chapter 6, Problem 1: Isotropic Coordinates</span></a></li>
     <li class="toc-h2"><a href="#chapter-6-problem-3-the-reissner--nordström-solution"><span class="note__toc-number">2</span> <span class="note__toc-title">Chapter 6, Problem 3: The Reissner--Nordström Solution</span></a></li>
     <li class="toc-h2"><a href="#chapter-6-problem-4-local-force-and-redshift"><span class="note__toc-number">3</span> <span class="note__toc-title">Chapter 6, Problem 4: Local Force and Redshift</span></a></li>
-    <li class="toc-h2"><a href="#chapter-6-problem-6-lifetime-inside-the-schwarzschild-horizon"><span class="note__toc-number">4</span> <span class="note__toc-title">Chapter 6, Problem 6: Lifetime Inside the Schwarzschild Horizon</span></a></li>
+    <li class="toc-h2"><a href="#chapter-6-problem-5-relativistic-time-delay"><span class="note__toc-number">4</span> <span class="note__toc-title">Chapter 6, Problem 5: Relativistic Time Delay</span></a></li>
+    <li class="toc-h2"><a href="#chapter-6-problem-6-lifetime-inside-the-schwarzschild-horizon"><span class="note__toc-number">5</span> <span class="note__toc-title">Chapter 6, Problem 6: Lifetime Inside the Schwarzschild Horizon</span></a></li>
   </ol>
 </nav>
 
@@ -297,25 +298,49 @@ on the static, spherically symmetric spacetime (6.1.5).</p>
 </aside></li>
 </ol>
 
-<h2 data-section-heading id="chapter-6-problem-6-lifetime-inside-the-schwarzschild-horizon" data-section-number="4"><span class="note__heading-number">4</span> <span class="note__heading-title">Chapter 6, Problem 6: Lifetime Inside the Schwarzschild Horizon</span></h2>
+<h2 data-section-heading id="chapter-6-problem-5-relativistic-time-delay" data-section-number="4"><span class="note__heading-number">4</span> <span class="note__heading-title">Chapter 6, Problem 5: Relativistic Time Delay</span></h2>
+
+<p>Derive the general-relativistic time-delay formula (6.3.45).
+<em>Draft solution: the derivation below does not yet display the final time-delay formula (6.3.45).</em></p>
+
+<aside class="solution">
+
+<p>By time translational symmetry, the time delay from the Earth to the planet in coordinate time must be equivalent to
+    \[\Delta t = \int^{R_E}_{R_0} dr\, \frac{1}{(1-2GM/r)\sqrt{1-(1-2GM/r)b^2/r^2}} + \int^{R_p}_{R_0} dr\, \frac{1}{(1-2GM/r)\sqrt{1-(1-2GM/r)b^2/r^2}}.\tag{4.1}\]
+    To first order in $G$, this is
+    \[\Delta t = \Delta t \bigg|_{G=0} + \frac{\partial (\Delta t)}{\partial G}\bigg|_{G=0}G + \mathcal{O}(G^2).\tag{4.2}\]
+    The first term is simply the time elapsed when the star is absent. Therefore, it must be
+    \[\Delta t \bigg|_{G=0} = (R_E^2-R_0^2)^{1/2} + (R_p^2 - R_0^2)^{1/2}\tag{4.3}\]
+    by simple geometry. Recall that
+    \[R_0^3 - b^2(R_0-2GM) = 0 \implies b = R_0 + GM + \mathcal{O}(G^2).\tag{4.4}\]
+    Then, for the second term, we find
+    \[\begin{aligned}
+        \frac{\partial (\Delta t)}{\partial G}\bigg|_{G=0}G &amp;= \frac{2GM}{R_0}\log\left(\frac{r}{R_0} + \frac{\sqrt{r^2-R_0^2}}{R_0}\right)\bigg|^{R_E}_{R_0}+\frac{2GM}{R_0}\log\left(\frac{r}{R_0} + \frac{\sqrt{r^2-R_0^2}}{R_0}\right)\bigg|^{R_p}_{R_0}\\
+        \qquad &amp;-\frac{2GMr}{\sqrt{r^2 -b^2}}\bigg|^{R_E}_{R_0}-\frac{2GMr}{\sqrt{r^2 -b^2}}\bigg|^{R_p}_{R_0}.
+    \end{aligned}\tag{4.5}\]
+    Note that special attention is required when substituting $R_0$ into the last two terms. Carefully keeping terms of first order in $G$, one would eventually find the residue terms of (6.3.45).</p>
+
+</aside>
+
+<h2 data-section-heading id="chapter-6-problem-6-lifetime-inside-the-schwarzschild-horizon" data-section-number="5"><span class="note__heading-number">5</span> <span class="note__heading-title">Chapter 6, Problem 6: Lifetime Inside the Schwarzschild Horizon</span></h2>
 
 <p>Show that every particle in region II, $r&lt;2M$, of the extended Schwarzschild
 spacetime in Figure 6.9, whether geodesic or accelerated, must obey
 \[\left|\frac{dr}{d\tau}\right|
-    \geq\left(\frac{2M}{r}-1\right)^{1/2}.\tag{4.1}\]
+    \geq\left(\frac{2M}{r}-1\right)^{1/2}.\tag{5.1}\]
 Deduce that no observer in region II can have a remaining proper lifetime greater
 than
     \[\tau=\pi M
-        \sim 10^{-5}\left(\frac{M}{M_\odot}\right)\mathrm{s}\tag{4.2}\]
+        \sim 10^{-5}\left(\frac{M}{M_\odot}\right)\mathrm{s}\tag{5.2}\]
 before reaching $r=0$. Finally, show that this bound is approached by free fall
 from $r=2M$ in the limit $E\to0$.</p>
 
 <aside class="solution">
 
 <p>Directly from the Schwarzschild metric, we immediately
-    \[\left|\frac{dr}{d\tau}\right| \geq \left|1-\frac{2GM}{r}\right|^{1/2} = \left(\frac{2GM}{r}- 1\right)^{1/2}\tag{4.3}\]
+    \[\left|\frac{dr}{d\tau}\right| \geq \left|1-\frac{2GM}{r}\right|^{1/2} = \left(\frac{2GM}{r}- 1\right)^{1/2}\tag{5.3}\]
     for $r &lt; 2GM$. This gives
-    \[\tau \leq \int_0^{2GM}\frac{dr}{\sqrt{2GM/r-1}} = \pi GM.\tag{4.4}\]
+    \[\tau \leq \int_0^{2GM}\frac{dr}{\sqrt{2GM/r-1}} = \pi GM.\tag{5.4}\]
     The integral is precisely the proper time for a particle to fall to the singularity, released from the event horizon with $ E = 0$.</p>
 
 </aside>

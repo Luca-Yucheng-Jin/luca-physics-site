@@ -162,7 +162,7 @@ test('Wald GR publishes only the selected worked parts of Chapters 3–6', async
   assert.equal(imported.sourceRepository, 'https://github.com/Luca-Yucheng-Jin/QFT-soln');
   assert.match(imported.sourceCommit, /^[0-9a-f]{40}$/);
   assert.deepEqual(imported.chapters.map((chapter) => chapter.chapter), ['3', '4', '5', '6']);
-  assert.equal(imported.chapters.reduce((total, chapter) => total + chapter.solutionCount, 0), 42);
+  assert.equal(imported.chapters.reduce((total, chapter) => total + chapter.solutionCount, 0), 43);
 
   for (const chapter of imported.chapters) {
     const slug = chapter.slug;
@@ -186,7 +186,10 @@ test('Wald GR publishes only the selected worked parts of Chapters 3–6', async
   const ch6 = await readFile(path.join(root, 'notes', 'wald-gr-chapter-6.html'), 'utf8');
   assert.doesNotMatch(ch3, /Chapter 3, Problem (?:7|8):|Establish the pair-exchange symmetry/);
   assert.doesNotMatch(ch4, /Chapter 4, Problem 6:|duality-rotated field/);
-  assert.doesNotMatch(ch6, /Chapter 6, Problem (?:2|5):/);
+  assert.doesNotMatch(ch6, /Chapter 6, Problem 2:/);
+  assert.match(ch6, /Chapter 6, Problem 5: Relativistic Time Delay/);
+  assert.match(ch6, /Draft solution: the derivation below does not yet display the final time-delay formula/);
+  assert.deepEqual(imported.chapters.find((chapter) => chapter.chapter === '6').publishedDrafts, ['5']);
   for (const target of [
     'tong-gr-ps2.html#independent-components-of-the-riemann-tensor-q8',
     'tong-gr-ps4.html#the-fierz-pauli-action-q4-health-warning-this-question-is-not-short',

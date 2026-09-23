@@ -257,6 +257,37 @@ Let $(M,g_{ab})$ be stationary with timelike Killing field $\xi^a$, and define
     \end{solution}
 \end{enumerate}
 
+\subsection{Chapter 6, Problem 5: Relativistic Time Delay}
+
+Derive the general-relativistic time-delay formula (6.3.45).
+\emph{Draft solution: the derivation below does not yet display the final time-delay formula (6.3.45).}
+\begin{solution}
+    By time translational symmetry, the time delay from the Earth to the planet in coordinate time must be equivalent to
+    \begin{equation}
+        \Delta t = \int^{R_E}_{R_0} dr\, \frac{1}{(1-2GM/r)\sqrt{1-(1-2GM/r)b^2/r^2}} + \int^{R_p}_{R_0} dr\, \frac{1}{(1-2GM/r)\sqrt{1-(1-2GM/r)b^2/r^2}}.
+    \end{equation}
+    To first order in $G$, this is
+    \begin{equation}
+        \Delta t = \Delta t \bigg|_{G=0} + \frac{\partial (\Delta t)}{\partial G}\bigg|_{G=0}G + \mathcal{O}(G^2).
+    \end{equation}
+    The first term is simply the time elapsed when the star is absent. Therefore, it must be
+    \begin{equation}
+        \Delta t \bigg|_{G=0} = (R_E^2-R_0^2)^{1/2} + (R_p^2 - R_0^2)^{1/2}
+    \end{equation}
+    by simple geometry. Recall that
+    \begin{equation}
+        R_0^3 - b^2(R_0-2GM) = 0 \implies b = R_0 + GM + \mathcal{O}(G^2).
+    \end{equation}
+    Then, for the second term, we find
+    \begin{equation}
+    \begin{aligned}
+        \frac{\partial (\Delta t)}{\partial G}\bigg|_{G=0}G &= \frac{2GM}{R_0}\log\left(\frac{r}{R_0} + \frac{\sqrt{r^2-R_0^2}}{R_0}\right)\bigg|^{R_E}_{R_0}+\frac{2GM}{R_0}\log\left(\frac{r}{R_0} + \frac{\sqrt{r^2-R_0^2}}{R_0}\right)\bigg|^{R_p}_{R_0}\\
+        \qquad &-\frac{2GMr}{\sqrt{r^2 -b^2}}\bigg|^{R_E}_{R_0}-\frac{2GMr}{\sqrt{r^2 -b^2}}\bigg|^{R_p}_{R_0}.
+    \end{aligned}
+    \end{equation}
+    Note that special attention is required when substituting $R_0$ into the last two terms. Carefully keeping terms of first order in $G$, one would eventually find the residue terms of (6.3.45).
+\end{solution}
+
 \subsection{Chapter 6, Problem 6: Lifetime Inside the Schwarzschild Horizon}
 
 Show that every particle in region II, $r<2M$, of the extended Schwarzschild
