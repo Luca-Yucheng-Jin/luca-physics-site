@@ -46,8 +46,7 @@ test('every public HTML page has unique indexable search metadata', async () => 
     const canonical = html.match(/<link rel="canonical" href="([^"]+)">?\/?/s)?.[1];
     const schemaText = html.match(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/)?.[1];
 
-    const authorName = relative === 'index.html' ? 'Yucheng Jin' : 'Yucheng (Luca) Jin';
-    assert.ok(title?.includes(authorName), `${relative}: missing descriptive author title`);
+    assert.match(title || '', /Yucheng(?: \(Luca\))? Jin/, `${relative}: missing descriptive author title`);
     assert.ok(description && description.length >= 70, `${relative}: missing useful description`);
     assert.doesNotMatch(title, /\$|\\(?:frac|text|mathrm)\b/, `${relative}: raw LaTeX in title`);
     assert.doesNotMatch(description, /\$|\\(?:frac|text|mathrm)\b/, `${relative}: raw LaTeX in description`);

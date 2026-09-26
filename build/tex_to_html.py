@@ -1589,6 +1589,46 @@ def _metadata_text(value):
     return re.sub(r"\s+", " ", value).strip()
 
 
+def _solution_search_metadata(slug, title):
+    """Give named-course solution pages accurate, searchable headings and summaries."""
+    topic = title.split(": ", 1)[-1]
+    author = "Yucheng Jin"
+    match = re.fullmatch(r"tong-sft-sheet-(\d+)", slug)
+    if match:
+        number = match.group(1)
+        return (
+            f"David Tong SFT Sheet {number} Solutions: {topic}",
+            f"Selected worked solutions to David Tong's Statistical Field Theory "
+            f"Example Sheet {number} ({topic}) by {author}. Read in HTML or PDF.",
+        )
+    match = re.fullmatch(r"wald-gr-chapter-(\d+)", slug)
+    if match:
+        number = match.group(1)
+        draft_note = " One time-delay solution is marked as a draft." if number == "6" else ""
+        return (
+            f"Wald GR Chapter {number} Solutions: {topic}",
+            f"Selected worked solutions to Robert M. Wald's General Relativity, "
+            f"Chapter {number} ({topic}), by {author}. Read in HTML or PDF.{draft_note}",
+        )
+    match = re.fullmatch(r"tong-qft-ps(\d+)", slug)
+    if match:
+        number = match.group(1)
+        return (
+            f"David Tong QFT Problem Sheet {number} Solutions",
+            f"Selected worked solutions to David Tong's Quantum Field Theory "
+            f"Problem Sheet {number} by {author}. Read in HTML or PDF.",
+        )
+    match = re.fullmatch(r"tong-gr-ps(\d+)", slug)
+    if match:
+        number = match.group(1)
+        return (
+            f"David Tong GR Problem Sheet {number} Solutions: {title}",
+            f"Selected worked solutions to David Tong's General Relativity "
+            f"Problem Sheet {number} ({title}) by {author}. Read in HTML or PDF.",
+        )
+    return None
+
+
 def render_page(**fields):
     """Substitute @@KEY@@ sentinels in PAGE_TEMPLATE. Avoids str.format which
     chokes on { } that legitimately appear in MathJax macro definitions."""
@@ -1603,15 +1643,23 @@ def render_page(**fields):
         '</div>' if slug else "",
     )
     plain_title = _metadata_text(fields.get("title", "Physics notes"))
+    search_metadata = _solution_search_metadata(slug, plain_title)
+    if search_metadata:
+        plain_title, description = search_metadata
+        fields["title"] = htmllib.escape(plain_title, quote=True)
+        fields["source_long"] = (fields.get("source_long", "")
+                                 .replace("D. Tong", "David Tong")
+                                 .replace("R. M. Wald", "Robert M. Wald"))
     plain_breadcrumb = _metadata_text(fields.get("breadcrumb", "Theoretical physics"))
     plain_source = _metadata_text(fields.get("source_short", ""))
     canonical = f"{SITE_URL}/notes/{slug}.html"
     source_clause = f", based on {plain_source}" if plain_source else ""
-    description = (
-        f"{plain_title} — {plain_breadcrumb}{source_clause}. Worked physics notes "
-        f"by {AUTHOR_NAME}, available in HTML and PDF."
-    )
-    full_title = f"{plain_title} | {AUTHOR_NAME}"
+    if not search_metadata:
+        description = (
+            f"{plain_title} — {plain_breadcrumb}{source_clause}. Worked physics notes "
+            f"by {AUTHOR_NAME}, available in HTML and PDF."
+        )
+    full_title = f"{plain_title} | {'Yucheng Jin' if search_metadata else AUTHOR_NAME}"
     article = {
         "@type": "Article",
         "@id": f"{canonical}#article",
