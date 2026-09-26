@@ -63,11 +63,12 @@ export default function App() {
         <section className="home-hero page-shell">
           <div className="home-hero__copy">
             <p className="kicker">Physics with Theoretical Physics · Imperial College London</p>
-            <h1>I’m Yucheng <em>(Luca) Jin.</em></h1>
+            <h1>I’m <em>Yucheng Jin.</em></h1>
             <p className="home-hero__lede">
-              I’m a third-year theoretical physics student at Imperial College London.
+              I also go by Luca. I’m a third-year theoretical physics student at Imperial College London.
               This site collects my notes, worked problems, and longer write-ups,
-              each available in HTML and PDF.
+              including selected solutions to David Tong’s problem sheets and
+              Robert Wald’s General Relativity, in HTML and PDF.
             </p>
             <div className="home-hero__actions">
               <a className="primary-link" href="notes.html">Browse notes <span>→</span></a>

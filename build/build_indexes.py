@@ -285,12 +285,14 @@ CATEGORIES = [
     {
         "slug": "qft",
         "title": "Quantum Field Theory",
+        "search_title": "David Tong QFT Solutions and Other QFT Notes",
+        "search_description": "Quantum field theory notes and selected worked solutions by Yucheng Jin, including David Tong problem sheets, Schwartz, Peskin and Schroeder, PSI, Osborn, and Srednicki. Read in HTML or PDF.",
         "blurb": "Path-integral essay; completed Schwartz, Peskin, Tong, PSI, Osborn, and Srednicki solutions; plus an independent φ³ computation.",
         "contents": [
             "Path-Integral Essay",
             "Schwartz QFT Solutions",
             "Peskin & Schroeder QFT Solutions",
-            "David Tong QFT Solutions",
+            "David Tong Quantum Field Theory Solutions",
             "PSI QFT II Solutions",
             "Hugh Osborn AQFT Solutions",
             "Mark Srednicki QFT Solutions",
@@ -442,8 +444,10 @@ CATEGORIES = [
     {
         "slug": "advanced",
         "title": "General Relativity",
+        "search_title": "Robert Wald and David Tong GR Solutions",
+        "search_description": "Selected Robert Wald General Relativity exercises from Chapters 3–6 and David Tong problem sheet solutions by Yucheng Jin. Read the worked solutions in HTML or PDF.",
         "blurb": "Worked Wald exercises in Chapters 3–6, plus Tong problem sheets on geometry, curvature, geodesics, and gravitational waves.",
-        "contents": ["David Tong GR Solutions", "Wald GR Solutions"],
+        "contents": ["David Tong General Relativity Solutions", "Robert Wald General Relativity Solutions"],
         "tag": f"{4 + WALD_GR_CHAPTER_COUNT} notes",
         "body": """    <h3 class="catalogue-source">
       <span>Solutions to David Tong’s General Relativity problem sheets</span>
@@ -847,10 +851,11 @@ def category_page(cat: dict) -> str:
     """One per-category index — heading, breadcrumb back to top-level
     notes.html, and the catalogue body."""
     canonical_path = f"notes-{cat['slug']}.html"
-    page_title = f"{cat['title']} Notes & Solutions"
-    description = (
+    page_title = cat.get("search_title", f"{cat['title']} Notes & Solutions")
+    description = cat.get(
+        "search_description",
         f"{cat['title']} notes and worked solutions by {AUTHOR_NAME}: "
-        f"{cat['blurb']} Every note is available in HTML and PDF."
+        f"{cat['blurb']} Every note is available in HTML and PDF.",
     )
     contents_html = "\n".join(
         f"      <li>{html.escape(item)}</li>" for item in cat["contents"]
