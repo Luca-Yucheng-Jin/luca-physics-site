@@ -1,6 +1,6 @@
 % Generated from selected worked problems in committed QFT-soln sources.
 % Source repository: https://github.com/Luca-Yucheng-Jin/QFT-soln
-% Source commit: e6cc8da6c7d80431b9a78aa7d9bc7b97f8c261a8
+% Source commit: 80bd0650c1942eb3e25abaeacf7e934f20d9b8ef
 \section{David Tong Statistical Field Theory, Sheet 1: Mean Field Theory}
 \markboth{\thesection\quad TONG STATISTICAL FIELD THEORY, SHEET 1}{}
 
@@ -45,6 +45,65 @@ transition in this one-dimensional system.
         M = \frac{1}{\beta}\frac{\partial \log Z}{\partial B} = \frac{1}{\beta Z}\left[N\lambda_+^{N-1}\frac{\partial \lambda_+}{\partial B} + N\lambda_-^{N-1}\frac{\partial \lambda_-}{\partial B}\right].
     \end{equation}
     Clearly, $\dfrac{\partial \lambda_\pm}{\partial B}\bigg|_{B=0} = 0$, which gives $M \bigg|_{B=0} = 0$. Therefore, there is no second-order phase transition for a one-dimensional system.
+
+\end{solution}
+
+\subsection{Sheet 1, Problem 2: Weiss Mean Field Theory}
+
+Expand an Ising nearest-neighbour product about the equilibrium magnetisation
+$m$ as
+\begin{equation}
+    s_i s_j=(s_i-m)(s_j-m)+m(s_i-m)+m(s_j-m)+m^2.
+\end{equation}
+Neglect the product of fluctuations. For the source's nearest-neighbour
+parameter $q$, derive
+\begin{equation}
+    Z=e^{-\beta JNqm^2/2}
+    2^N\cosh^N(\beta Jqm+\beta B),
+\end{equation}
+and obtain the self-consistency equation
+\begin{equation}
+    m=\tanh(\beta B+\beta Jqm).
+\end{equation}
+At $B=0$, compare the graphical solutions above and below $T_c=Jq$.
+For nonzero $B$, find the high-temperature asymptotic solution.
+\begin{solution}
+    Here, we shall treat $m$ merely as the equilibrium distribution. Keeping terms linear in fluctuation, we have
+    \begin{equation}
+        s_i s_j \approx m(s_i-m)+m(s_j-m)+m^2 =m(s_i +s_j)  - m^2.
+    \end{equation}
+    Then,
+    \begin{equation}
+        \sum_{\langle ij\rangle}s_i s_j \approx -\frac{Nqm^2}{2}+qm\sum_i s_i,
+    \end{equation}
+    which gives
+    \begin{equation}
+        E[s_i] \approx  -(B+Jmq)\sum_i s_i + \frac{NJqm^2}{2} = -(B+Jmq)\bar s  +  \frac{NJqm^2}{2},
+    \end{equation}
+    where $\bar s = \sum_i s_i$. Summing over all spin configurations (including the binomial multiplicity of each value of $\bar s$), the partition function factorises:
+    \begin{equation}
+        Z \approx e^{-\beta JNqm^2/2}\prod_{i=1}^{N}\sum_{s_i=\pm1}e^{\beta(B+Jqm)s_i}
+        =e^{-\beta JNqm^2/2}2^N\cosh^N(\beta Jqm+\beta B).
+    \end{equation}
+    The factorisation is exact within the mean-field approximation for either parity of $N$.
+
+    The self-consistency equation immediately follows from
+    \begin{equation}
+        m = \frac{1}{N\beta}\frac{\partial \log Z}{\partial B}.
+    \end{equation}
+
+    Solving this equation would give us the allowed value for $m$. If we differentiate the RHS, we find
+    \begin{equation}
+        \frac{\beta Jq}{\cosh^2(\beta J qm)} \leq   \beta J q.
+    \end{equation}
+    For $T > T_c$, $\beta Jq <1$, and hence
+    \begin{equation}
+        \frac{\beta Jq}{\cosh^2(\beta J qm)} \leq 1,
+    \end{equation}
+    which means that $m = 0$ is the only solution to the self-consistency equation. However, for $T < T_c$, there can be two extra solutions to the equation. This is a continuous (second-order) phase transition: the stable nonzero solutions approach zero as $T\to T_c^-$.
+
+    For fixed nonzero $B$ and $T\to\infty$, linearising the self-consistency equation gives $m\simeq B/(T-Jq)\sim B/T$ (with $k_B=1$).
+
 
 \end{solution}
 
@@ -98,6 +157,72 @@ Derive its stationarity equation and show that $m=x_\star$.
     which satisfies the same equation as $m$ as we have seen. Therefore, we have $m = x_\star$, which means that the long-range Ising model realises the mean field theory exactly.
 \end{solution}
 
+\subsection{Sheet 1, Problem 4*: First-Order and Tricritical Transitions}
+
+Study
+\begin{equation}
+    f(m)=\alpha_2(T)m^2+\alpha_4m^4+\alpha_6m^6,
+    \qquad \alpha_4<0,\quad\alpha_6>0,
+\end{equation}
+as $\alpha_2(T)$ decreases through zero. Sketch the changing free-energy
+landscape, prove that the first-order transition occurs at
+$\alpha_2=\alpha_4^2/(4\alpha_6)$, and find the magnetisation jump.
+Draw the phase diagram in the $(\alpha_2,\alpha_4)$ plane.
+At $\alpha_4=0$ the transition at $\alpha_2(T_c)=0$ is tricritical.
+Calculate its mean field exponents $\alpha,\beta,\gamma,\delta$; include a
+term proportional to $Bm$ when finding the last two.
+\begin{solution}
+    $f(m)$ crosses the $m$-axis at
+    \begin{equation}
+        m = 0, \quad m^2 = \frac{-\alpha_4 \pm \sqrt{ \alpha_4^2 - 4\alpha_2 \alpha_6}}{2\alpha_6},
+    \end{equation}
+    where the latter exist when $\alpha_2 < \alpha^2_4 /(4\alpha_6)$. While the turning points of $f(m)$ is at
+    \begin{equation}
+        m= 0, \quad m^2 = \frac{-\alpha_4 \pm \sqrt{\alpha_4^2   - 3\alpha_6 \alpha_2}}{3\alpha_6},
+    \end{equation}
+    where the latter exists when $\alpha_2 < \alpha^2_4 /(3\alpha_6)$ before $f(m)$ crosses the axis. The two minima are degenerate at $\alpha_2=\alpha_4^2/(4\alpha_6)$; below this value the nonzero minima are favoured. At coexistence, the magnetisation jumps from $m=0$ to $m=\pm\sqrt{-\alpha_4/(2\alpha_6)}$.
+
+    At the tricritical point, we have
+    \begin{equation}
+        f(m) \approx -Bm + a(T-T_c)m^2 + \alpha_6m^6.
+    \end{equation}
+    The minima are at
+    \begin{equation}
+        m^4 = - \frac{2a}{6\alpha_6}(T-T_c),
+    \end{equation}
+    and hence $\beta = 1/4$. The heat capacity is given by
+    \begin{equation}
+        c = \beta ^2 \frac{\partial^2 \log Z}{\partial \beta^2}.
+    \end{equation}
+    Plugging the temperature dependent minima into the partition function, we find
+    \begin{equation}
+        f(m_\mathrm{min}) \sim (T_c-T)^{3/2} \implies c \sim f'' \sim |T-T_c|^{-1/2}.
+    \end{equation}
+    Hence, the critical exponent $\alpha = 1/2$. With the presence of an external source, the minima satisfies
+    \begin{equation}
+        B = 2a(T-T_c)m + 6\alpha_6 m^5 \implies m \sim B^{1/5}
+    \end{equation}
+    which gives $\delta = 5$. Then,
+    \begin{equation}
+        \frac{1}{\chi} = \frac{\partial B}{\partial m}\bigg|_{B=0} =2a(T-T_c) + 30\alpha_6 m^4 .
+    \end{equation}
+    For $T > T_c$, $m =0$, and hence $\gamma = 1$. For $T< T_c$, $m^4\propto T_c-T$, so the two terms in $1/\chi$ are both linear in $|T-T_c|$ and $\gamma=1$ below $T_c$ as well.
+\end{solution}
+
+\subsection{Sheet 1, Problem 5: The XY Order Parameter}
+
+For a complex superfluid order parameter with
+\begin{equation}
+    f(\psi)=\alpha_2|\psi|^2+\alpha_4|\psi|^4,
+\end{equation}
+sketch $f$ when $\alpha_2<0<\alpha_4$. Identify the possible ground
+states, explain spontaneous symmetry breaking here, and compare the mean
+field exponents $\alpha$ and $\beta$ at $\alpha_2=0$ with those of the
+Ising model.
+\begin{solution}
+    The free energy has a central maximum and a circle of degenerate minima. The ground states are $\psi=ve^{i\theta}$, where $v=\sqrt{-\alpha_2/(2\alpha_4)}$ and $0\leq\theta<2\pi$. Choosing one phase breaks the $U(1)$ symmetry of the free energy. As in the mean-field Ising model, $f_{\min}=-\alpha_2^2/(4\alpha_4)$ and $v\propto(T_c-T)^{1/2}$, giving $\alpha=0$ and $\beta=1/2$.
+\end{solution}
+
 \subsection{Sheet 1, Problem 6: Ising and XY Orders in an Anisotropic Spin Model}
 
 At each lattice site put a unit three-vector
@@ -144,6 +269,32 @@ calculations are unnecessary.
     When $T$ is small and $g > 0 $, to minimise the total energy, the system tend to align while the second term forces them into the $x-y$ plane. Therefore, it is a XY-type order. For $g<0$, energy is minimised when all of the spins is in the $z$-direction and aligned. Hence, it is a Ising-type ordering. Therefore, going from $g<0$ to $g>0$ is a first-order phase transition.
 
     As the temperature goes up, the system becomes disordered for both $g<0$ and $g>0$. Therefore, a second-order phase transition must have occured.
+\end{solution}
+
+\subsection{Sheet 1, Problem 7: A Spatially Modulated Condensate}
+
+For a complex scalar field, consider
+\begin{equation}
+    F=\int dx\left[
+    \alpha_2(T)|\psi|^2+\alpha_4|\psi|^4
+    -\gamma\left|\frac{d\psi}{dx}\right|^2
+    +\kappa\left|\frac{d^2\psi}{dx^2}\right|^2\right],
+    \qquad \alpha_4,\gamma,\kappa>0.
+\end{equation}
+Using a single nonzero Fourier mode
+$\psi_k=A_ke^{ikx}$ with $k=\pm k_0$, determine $k_0$ and show
+that the modulated phase appears at $\alpha_2=\gamma^2/(4\kappa)$.
+Identify the symmetries broken in the ordered phase.
+\begin{solution}
+    The free energy becomes
+    \begin{equation}
+        F = \int dx\left[\alpha_4|A_k|^4 + (\alpha_2(T) - \gamma k^2 + \kappa k^4)|A_k|^2\right].
+    \end{equation}
+    Then, we find $k_0 = \sqrt{\gamma/{2\kappa}}$. In this case, the free energy is
+    \begin{equation}
+        F = \int dx\left[\alpha_4|A_k|^4 + \left(\alpha_2(T) - \frac{\gamma^2}{4\kappa}\right)|A_k|^2\right],
+    \end{equation}
+    and hence the phase transition happens at $\alpha_2 = \gamma^2/(4\kappa)$. A chosen nonzero mode breaks the global $U(1)$ symmetry and continuous spatial translations separately: a translation shifts its phase. A combined translation and compensating $U(1)$ rotation remains unbroken.
 \end{solution}
 
 \subsection{Sheet 1, Problem 8: Multicritical Scaling and Upper Critical Dimension}

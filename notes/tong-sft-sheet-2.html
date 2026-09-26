@@ -102,16 +102,19 @@ window.MathJax = {
   </div>
 
   <h1 class="note__title">Tong Statistical Field Theory — Sheet 2: Correlations and Scaling</h1>
-  <p class="note__subtitle">Source: D. Tong, <em>Statistical Field Theory</em>, Example Sheet 2; 3 worked problems.</p>
+  <p class="note__subtitle">Source: D. Tong, <em>Statistical Field Theory</em>, Example Sheet 2; 6 worked problems.</p>
 
   <div class="note__formats" aria-label="Available formats"><span>Available formats</span><a aria-current="page" href="tong-sft-sheet-2.html">HTML</a><a href="../output/pdf/tong-sft-sheet-2.pdf">PDF ↓</a></div>
 
-  <nav class="note__toc" aria-label="Contents">
+  <nav class="note__toc note__toc--long" aria-label="Contents">
   <div class="note__toc-label">Contents</div>
   <ol class="note__toc-list">
     <li class="toc-h2"><a href="#sheet-2-problem-1-ornstein--zernicke-correlations"><span class="note__toc-number">1</span> <span class="note__toc-title">Sheet 2, Problem 1: Ornstein--Zernicke Correlations</span></a></li>
-    <li class="toc-h2"><a href="#sheet-2-problem-5-scaling-in-a-lifshitz-theory"><span class="note__toc-number">2</span> <span class="note__toc-title">Sheet 2, Problem 5*: Scaling in a Lifshitz Theory</span></a></li>
-    <li class="toc-h2"><a href="#sheet-2-problem-7-emergent-rotational-symmetry"><span class="note__toc-number">3</span> <span class="note__toc-title">Sheet 2, Problem 7: Emergent Rotational Symmetry</span></a></li>
+    <li class="toc-h2"><a href="#sheet-2-problem-2-the-two-point-function-as-a-green-function"><span class="note__toc-number">2</span> <span class="note__toc-title">Sheet 2, Problem 2: The Two-Point Function as a Green Function</span></a></li>
+    <li class="toc-h2"><a href="#sheet-2-problem-5-scaling-in-a-lifshitz-theory"><span class="note__toc-number">3</span> <span class="note__toc-title">Sheet 2, Problem 5*: Scaling in a Lifshitz Theory</span></a></li>
+    <li class="toc-h2"><a href="#sheet-2-problem-6-scalar--gauge-coupling"><span class="note__toc-number">4</span> <span class="note__toc-title">Sheet 2, Problem 6: Scalar--Gauge Coupling</span></a></li>
+    <li class="toc-h2"><a href="#sheet-2-problem-7-emergent-rotational-symmetry"><span class="note__toc-number">5</span> <span class="note__toc-title">Sheet 2, Problem 7: Emergent Rotational Symmetry</span></a></li>
+    <li class="toc-h2"><a href="#sheet-2-problem-8-wicks-identity-for-a-gaussian-ensemble"><span class="note__toc-number">6</span> <span class="note__toc-title">Sheet 2, Problem 8: Wick's Identity for a Gaussian Ensemble</span></a></li>
   </ol>
 </nav>
 
@@ -162,14 +165,27 @@ Recover the Ornstein--Zernicke behaviours
 
 </aside>
 
-<h2 data-section-heading id="sheet-2-problem-5-scaling-in-a-lifshitz-theory" data-section-number="2"><span class="note__heading-number">2</span> <span class="note__heading-title">Sheet 2, Problem 5*: Scaling in a Lifshitz Theory</span></h2>
+<h2 data-section-heading id="sheet-2-problem-2-the-two-point-function-as-a-green-function" data-section-number="2"><span class="note__heading-number">2</span> <span class="note__heading-title">Sheet 2, Problem 2: The Two-Point Function as a Green Function</span></h2>
+
+<p>Verify that the correlation function satisfies
+\[(-\gamma\nabla^2+\mu^2)\langle\phi(x)\phi(0)\rangle
+    \sim\delta(x),\tag{2.1}\]
+and explain its physical interpretation.</p>
+
+<aside class="solution">
+
+<p>This trivial to show. Physically, the correlation function tells us how does the system respond to a spiky source of perturbation.</p>
+
+</aside>
+
+<h2 data-section-heading id="sheet-2-problem-5-scaling-in-a-lifshitz-theory" data-section-number="3"><span class="note__heading-number">3</span> <span class="note__heading-title">Sheet 2, Problem 5*: Scaling in a Lifshitz Theory</span></h2>
 
 <p>Separate $x=(x,\mathbf y)$ with $\mathbf y\in\mathbb R^{d-1}$, and
 consider the free energy
 \[F[\phi]=\int d^dx\left[
     \frac12(\partial_x\phi)^2
     +\frac12(\nabla_{\!y}^{2}\phi)^2
-    +\frac12\mu_0^2\phi^2\right].\tag{2.1}\]
+    +\frac12\mu_0^2\phi^2\right].\tag{3.1}\]
 Write it in Fourier space using momenta $(k,\mathbf q)$. Under
 $k'=\zeta k$, $\mathbf q'=\zeta^a\mathbf q$, and
 $\phi'_{\mathbf{k}'}=\zeta^{-b}\phi_\mathbf{k}$, determine $a,b$ by normalising both
@@ -181,24 +197,42 @@ for $d&gt;7$.</p>
 
 <aside class="solution">
 
-<p>\[F[\phi_\mathbf{k}] = \int \frac{d^dk}{(2\pi)^d}\frac{1}{2}(k^2 + \mathbf{q}^4 + \mu_0^2) \phi_\mathbf{k}\phi_{-\mathbf{k}} = \int \frac{d^dk'}{(2\pi)^d}\zeta^{-1-a(d-1)}\frac{1}{2}(\zeta^{-2}k'^2 + \zeta^{-4a}\mathbf{q}^4 + \mu^2_0)\zeta^{2b}\phi'_{-\mathbf{k}'}\phi_{\mathbf{k}'}'.\tag{2.2}\]
+<p>\[F[\phi_\mathbf{k}] = \int \frac{d^dk}{(2\pi)^d}\frac{1}{2}(k^2 + \mathbf{q}^4 + \mu_0^2) \phi_\mathbf{k}\phi_{-\mathbf{k}} = \int \frac{d^dk'}{(2\pi)^d}\zeta^{-1-a(d-1)}\frac{1}{2}(\zeta^{-2}k'^2 + \zeta^{-4a}\mathbf{q}^4 + \mu^2_0)\zeta^{2b}\phi'_{-\mathbf{k}'}\phi_{\mathbf{k}'}'.\tag{3.2}\]
     In order to normalise both gradient terms, we must have
-    \[a = \frac{1}{2}, \quad b = \frac{d+5}{4}.\tag{2.3}\]
+    \[a = \frac{1}{2}, \quad b = \frac{d+5}{4}.\tag{3.3}\]
     Hence, we find
-    \[\mu^2(\zeta) = \zeta^2\mu_0^2.\tag{2.4}\]
+    \[\mu^2(\zeta) = \zeta^2\mu_0^2.\tag{3.4}\]
     In position space, we have
-    \[\phi'(\mathbf{x}') = \int\frac{d^dk'}{(2\pi)^d}\phi_{\mathbf{k}'}'e^{ik'\cdot x'} = \zeta^{1+a(d-1)-b}\int \frac{d^dk}{(2\pi)^d}\phi_\mathbf{k}e^{    ik\cdot x} = \zeta^{\Delta_\phi}\phi(\mathbf{x})  \implies \Delta_\phi = \frac{d-3}{4}.\tag{2.5}\]
+    \[\phi'(\mathbf{x}') = \int\frac{d^dk'}{(2\pi)^d}\phi_{\mathbf{k}'}'e^{ik'\cdot x'} = \zeta^{1+a(d-1)-b}\int \frac{d^dk}{(2\pi)^d}\phi_\mathbf{k}e^{    ik\cdot x} = \zeta^{\Delta_\phi}\phi(\mathbf{x})  \implies \Delta_\phi = \frac{d-3}{4}.\tag{3.5}\]
     For an interaction, we have
-    \[\int d^dx g_n \phi^{2n}(\mathbf{x}) = \int d^dx'\zeta^{1+a(d-1)}g_n\zeta^{-2n\Delta_\phi}\phi'^{2n}(\mathbf{x}') = \int d^dx'g_n(\zeta)\phi'^{2n}(\mathbf{x}'),\tag{2.6}\]
+    \[\int d^dx g_n \phi^{2n}(\mathbf{x}) = \int d^dx'\zeta^{1+a(d-1)}g_n\zeta^{-2n\Delta_\phi}\phi'^{2n}(\mathbf{x}') = \int d^dx'g_n(\zeta)\phi'^{2n}(\mathbf{x}'),\tag{3.6}\]
     which implies
-    \[g_n(\zeta) = \zeta^{-n(d-3)/2 +d/2+1/2}g_n.\tag{2.7}\]
+    \[g_n(\zeta) = \zeta^{-n(d-3)/2 +d/2+1/2}g_n.\tag{3.7}\]
     For $n=2$, we have
-    \[g_2(\zeta) = \zeta^{-(d-7)/2}g_2,\tag{2.8}\]
+    \[g_2(\zeta) = \zeta^{-(d-7)/2}g_2,\tag{3.8}\]
     and hence it is relevant for $d&lt;7$.</p>
 
 </aside>
 
-<h2 data-section-heading id="sheet-2-problem-7-emergent-rotational-symmetry" data-section-number="3"><span class="note__heading-number">3</span> <span class="note__heading-title">Sheet 2, Problem 7: Emergent Rotational Symmetry</span></h2>
+<h2 data-section-heading id="sheet-2-problem-6-scalar--gauge-coupling" data-section-number="4"><span class="note__heading-number">4</span> <span class="note__heading-title">Sheet 2, Problem 6: Scalar--Gauge Coupling</span></h2>
+
+<p>For a complex scalar and gauge field, use
+\[F[\psi,A_i]=\int d^dx\left[
+    \frac14F_{ij}F^{ij}
+    +|\partial_i\psi-ieA_i\psi|^2+\mu^2|\psi|^2\right],
+    \qquad F_{ij}=\partial_iA_j-\partial_jA_i.\tag{4.1}\]
+Find the critical dimension $d_c$ below which the coupling $e$ is
+relevant and above which it is irrelevant. Discuss what may happen
+at $d=d_c$. With a term $g|\psi|^4$, the $d=3$ case is the
+Ginzburg--Landau theory of a superconductor.</p>
+
+<aside class="solution">
+
+<p>We have $[A_i] = [\psi] = -(d-2)/2$, and hence $[e] = (d-4)/2$ in length units. Clearly, the critical dimension is $d_c = 4$. Therefore, the coupling is relevant when $d&lt;4$ and irrelevant when $d&gt;4$. At $d=4$ it is marginal at this order; higher-order (loop) corrections determine whether it is marginally relevant or irrelevant.</p>
+
+</aside>
+
+<h2 data-section-heading id="sheet-2-problem-7-emergent-rotational-symmetry" data-section-number="5"><span class="note__heading-number">5</span> <span class="note__heading-title">Sheet 2, Problem 7: Emergent Rotational Symmetry</span></h2>
 
 <p>A microscopic cubic lattice in $d$ dimensions has a local order
 parameter $\phi(x)$ with $\phi\mapsto-\phi$ symmetry. Identify the
@@ -209,8 +243,35 @@ invariance can emerge at long distances.</p>
 <aside class="solution">
 
 <p>The leading order contributing interaction is
-    \[\int d^dx \,\lambda\sum_{i=1}^d\phi \partial _i^4 \phi.\tag{3.1}\]
+    \[\int d^dx \,\lambda\sum_{i=1}^d\phi \partial _i^4 \phi.\tag{5.1}\]
     The coupling constant now has a length dimension $[\lambda] = 2$, which is irrelevant for all $d$.</p>
+
+</aside>
+
+<h2 data-section-heading id="sheet-2-problem-8-wicks-identity-for-a-gaussian-ensemble" data-section-number="6"><span class="note__heading-number">6</span> <span class="note__heading-title">Sheet 2, Problem 8: Wick's Identity for a Gaussian Ensemble</span></h2>
+
+<p>Let $G$ be a symmetric, positive-definite, invertible $n\times n$
+matrix, and set
+\[\langle f(\phi)\rangle
+    =\frac1{\mathcal N}\int_{\mathbb R^n}d^n\phi\,
+    f(\phi)e^{-\phi\cdot G^{-1}\phi/2},
+    \qquad \mathcal N=\det(2\pi G)^{1/2}.\tag{6.1}\]
+Prove $\langle\phi_a\phi_b\rangle=G_{ab}$ and, for constant $B_a$,
+\[\left\langle e^{B_a\phi_a}\right\rangle
+    =\exp\!\left[\frac12B_a\langle\phi_a\phi_b\rangle B_b\right].\tag{6.2}\]
+Expand both sides to obtain all three pairings in
+$\langle\phi_a\phi_b\phi_c\phi_d\rangle$. Show that odd moments
+vanish and give the general even-moment pairing formula.</p>
+
+<aside class="solution">
+
+<p>Completing the square gives the generating function
+    \[Z(B)=\left\langle e^{B_a\phi_a}\right\rangle
+        =e^{B_aG_{ab}B_b/2}.\tag{6.3}\]
+    Differentiating twice at $B=0$ gives $\langle\phi_a\phi_b\rangle=G_{ab}$. Four derivatives give
+    \[\langle\phi_a\phi_b\phi_c\phi_d\rangle
+        =G_{ab}G_{cd}+G_{ac}G_{bd}+G_{ad}G_{bc}.\tag{6.4}\]
+    Since $Z(B)$ is even in $B$, all odd moments vanish. Repeated differentiation gives the sum over all pairings for every even moment. This is the finite-dimensional Gaussian version of the contractions in my <a href="https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-qft-ps2.html#wicks-theorem-for-three-fields-q9">Tong QFT Problem Sheet 2, Question 9 solution</a>.</p>
 
 </aside>
   </article>

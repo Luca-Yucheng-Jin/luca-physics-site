@@ -1,6 +1,6 @@
 % Generated from selected worked problems in committed QFT-soln sources.
 % Source repository: https://github.com/Luca-Yucheng-Jin/QFT-soln
-% Source commit: e6cc8da6c7d80431b9a78aa7d9bc7b97f8c261a8
+% Source commit: 80bd0650c1942eb3e25abaeacf7e934f20d9b8ef
 \section{David Tong Statistical Field Theory, Sheet 2: Mostly Scaling}
 \markboth{\thesection\quad TONG STATISTICAL FIELD THEORY, SHEET 2}{}
 
@@ -65,6 +65,18 @@ Recover the Ornstein--Zernicke behaviours
     \end{equation}
 \end{solution}
 
+\subsection{Sheet 2, Problem 2: The Two-Point Function as a Green Function}
+
+Verify that the correlation function satisfies
+\begin{equation}
+    (-\gamma\nabla^2+\mu^2)\langle\phi(x)\phi(0)\rangle
+    \sim\delta(x),
+\end{equation}
+and explain its physical interpretation.
+\begin{solution}
+    This trivial to show. Physically, the correlation function tells us how does the system respond to a spiky source of perturbation.
+\end{solution}
+
 \subsection{Sheet 2, Problem 5*: Scaling in a Lifshitz Theory}
 
 Separate $x=(x,\mathbf y)$ with $\mathbf y\in\mathbb R^{d-1}$, and
@@ -115,6 +127,24 @@ for $d>7$.
 
 \end{solution}
 
+\subsection{Sheet 2, Problem 6: Scalar--Gauge Coupling}
+
+For a complex scalar and gauge field, use
+\begin{equation}
+    F[\psi,A_i]=\int d^dx\left[
+    \frac14F_{ij}F^{ij}
+    +|\partial_i\psi-ieA_i\psi|^2+\mu^2|\psi|^2\right],
+    \qquad F_{ij}=\partial_iA_j-\partial_jA_i.
+\end{equation}
+Find the critical dimension $d_c$ below which the coupling $e$ is
+relevant and above which it is irrelevant. Discuss what may happen
+at $d=d_c$. With a term $g|\psi|^4$, the $d=3$ case is the
+Ginzburg--Landau theory of a superconductor.
+
+\begin{solution}
+    We have $[A_i] = [\psi] = -(d-2)/2$, and hence $[e] = (d-4)/2$ in length units. Clearly, the critical dimension is $d_c = 4$. Therefore, the coupling is relevant when $d<4$ and irrelevant when $d>4$. At $d=4$ it is marginal at this order; higher-order (loop) corrections determine whether it is marginally relevant or irrelevant.
+\end{solution}
+
 \subsection{Sheet 2, Problem 7: Emergent Rotational Symmetry}
 
 A microscopic cubic lattice in $d$ dimensions has a local order
@@ -128,4 +158,36 @@ invariance can emerge at long distances.
         \int d^dx \,\lambda\sum_{i=1}^d\phi \partial _i^4 \phi.
     \end{equation}
     The coupling constant now has a length dimension $[\lambda] = 2$, which is irrelevant for all $d$.
+\end{solution}
+
+\subsection{Sheet 2, Problem 8: Wick's Identity for a Gaussian Ensemble}
+
+Let $G$ be a symmetric, positive-definite, invertible $n\times n$
+matrix, and set
+\begin{equation}
+    \langle f(\phi)\rangle
+    =\frac1{\mathcal N}\int_{\mathbb R^n}d^n\phi\,
+    f(\phi)e^{-\phi\cdot G^{-1}\phi/2},
+    \qquad \mathcal N=\det(2\pi G)^{1/2}.
+\end{equation}
+Prove $\langle\phi_a\phi_b\rangle=G_{ab}$ and, for constant $B_a$,
+\begin{equation}
+    \left\langle e^{B_a\phi_a}\right\rangle
+    =\exp\!\left[\frac12B_a\langle\phi_a\phi_b\rangle B_b\right].
+\end{equation}
+Expand both sides to obtain all three pairings in
+$\langle\phi_a\phi_b\phi_c\phi_d\rangle$. Show that odd moments
+vanish and give the general even-moment pairing formula.
+\begin{solution}
+    Completing the square gives the generating function
+    \begin{equation}
+        Z(B)=\left\langle e^{B_a\phi_a}\right\rangle
+        =e^{B_aG_{ab}B_b/2}.
+    \end{equation}
+    Differentiating twice at $B=0$ gives $\langle\phi_a\phi_b\rangle=G_{ab}$. Four derivatives give
+    \begin{equation}
+        \langle\phi_a\phi_b\phi_c\phi_d\rangle
+        =G_{ab}G_{cd}+G_{ac}G_{bd}+G_{ad}G_{bc}.
+    \end{equation}
+    Since $Z(B)$ is even in $B$, all odd moments vanish. Repeated differentiation gives the sum over all pairings for every even moment. This is the finite-dimensional Gaussian version of the contractions in my \href{https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-qft-ps2.html#wicks-theorem-for-three-fields-q9}{Tong QFT Problem Sheet 2, Question 9 solution}.
 \end{solution}

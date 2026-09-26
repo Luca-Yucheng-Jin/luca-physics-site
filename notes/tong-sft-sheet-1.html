@@ -102,17 +102,21 @@ window.MathJax = {
   </div>
 
   <h1 class="note__title">Tong Statistical Field Theory — Sheet 1: Landau Theory</h1>
-  <p class="note__subtitle">Source: D. Tong, <em>Statistical Field Theory</em>, Example Sheet 1; 4 worked problems.</p>
+  <p class="note__subtitle">Source: D. Tong, <em>Statistical Field Theory</em>, Example Sheet 1; 8 worked problems.</p>
 
   <div class="note__formats" aria-label="Available formats"><span>Available formats</span><a aria-current="page" href="tong-sft-sheet-1.html">HTML</a><a href="../output/pdf/tong-sft-sheet-1.pdf">PDF ↓</a></div>
 
-  <nav class="note__toc" aria-label="Contents">
+  <nav class="note__toc note__toc--long" aria-label="Contents">
   <div class="note__toc-label">Contents</div>
   <ol class="note__toc-list">
     <li class="toc-h2"><a href="#sheet-1-problem-1-transfer-matrix-for-the-one-dimensional-ising-model"><span class="note__toc-number">1</span> <span class="note__toc-title">Sheet 1, Problem 1: Transfer Matrix for the One-Dimensional Ising Model</span></a></li>
-    <li class="toc-h2"><a href="#sheet-1-problem-3-exact-mean-field-limit-of-a-long-range-ising-model"><span class="note__toc-number">2</span> <span class="note__toc-title">Sheet 1, Problem 3: Exact Mean Field Limit of a Long-Range Ising Model</span></a></li>
-    <li class="toc-h2"><a href="#sheet-1-problem-6-ising-and-xy-orders-in-an-anisotropic-spin-model"><span class="note__toc-number">3</span> <span class="note__toc-title">Sheet 1, Problem 6: Ising and XY Orders in an Anisotropic Spin Model</span></a></li>
-    <li class="toc-h2"><a href="#sheet-1-problem-8-multicritical-scaling-and-upper-critical-dimension"><span class="note__toc-number">4</span> <span class="note__toc-title">Sheet 1, Problem 8: Multicritical Scaling and Upper Critical Dimension</span></a></li>
+    <li class="toc-h2"><a href="#sheet-1-problem-2-weiss-mean-field-theory"><span class="note__toc-number">2</span> <span class="note__toc-title">Sheet 1, Problem 2: Weiss Mean Field Theory</span></a></li>
+    <li class="toc-h2"><a href="#sheet-1-problem-3-exact-mean-field-limit-of-a-long-range-ising-model"><span class="note__toc-number">3</span> <span class="note__toc-title">Sheet 1, Problem 3: Exact Mean Field Limit of a Long-Range Ising Model</span></a></li>
+    <li class="toc-h2"><a href="#sheet-1-problem-4-first-order-and-tricritical-transitions"><span class="note__toc-number">4</span> <span class="note__toc-title">Sheet 1, Problem 4*: First-Order and Tricritical Transitions</span></a></li>
+    <li class="toc-h2"><a href="#sheet-1-problem-5-the-xy-order-parameter"><span class="note__toc-number">5</span> <span class="note__toc-title">Sheet 1, Problem 5: The XY Order Parameter</span></a></li>
+    <li class="toc-h2"><a href="#sheet-1-problem-6-ising-and-xy-orders-in-an-anisotropic-spin-model"><span class="note__toc-number">6</span> <span class="note__toc-title">Sheet 1, Problem 6: Ising and XY Orders in an Anisotropic Spin Model</span></a></li>
+    <li class="toc-h2"><a href="#sheet-1-problem-7-a-spatially-modulated-condensate"><span class="note__toc-number">7</span> <span class="note__toc-title">Sheet 1, Problem 7: A Spatially Modulated Condensate</span></a></li>
+    <li class="toc-h2"><a href="#sheet-1-problem-8-multicritical-scaling-and-upper-critical-dimension"><span class="note__toc-number">8</span> <span class="note__toc-title">Sheet 1, Problem 8: Multicritical Scaling and Upper Critical Dimension</span></a></li>
   </ol>
 </nav>
 
@@ -153,22 +157,62 @@ transition in this one-dimensional system.</p>
 
 </aside>
 
-<h2 data-section-heading id="sheet-1-problem-3-exact-mean-field-limit-of-a-long-range-ising-model" data-section-number="2"><span class="note__heading-number">2</span> <span class="note__heading-title">Sheet 1, Problem 3: Exact Mean Field Limit of a Long-Range Ising Model</span></h2>
+<h2 data-section-heading id="sheet-1-problem-2-weiss-mean-field-theory" data-section-number="2"><span class="note__heading-number">2</span> <span class="note__heading-title">Sheet 1, Problem 2: Weiss Mean Field Theory</span></h2>
+
+<p>Expand an Ising nearest-neighbour product about the equilibrium magnetisation
+$m$ as
+\[s_i s_j=(s_i-m)(s_j-m)+m(s_i-m)+m(s_j-m)+m^2.\tag{2.1}\]
+Neglect the product of fluctuations. For the source's nearest-neighbour
+parameter $q$, derive
+\[Z=e^{-\beta JNqm^2/2}
+    2^N\cosh^N(\beta Jqm+\beta B),\tag{2.2}\]
+and obtain the self-consistency equation
+\[m=\tanh(\beta B+\beta Jqm).\tag{2.3}\]
+At $B=0$, compare the graphical solutions above and below $T_c=Jq$.
+For nonzero $B$, find the high-temperature asymptotic solution.</p>
+
+<aside class="solution">
+
+<p>Here, we shall treat $m$ merely as the equilibrium distribution. Keeping terms linear in fluctuation, we have
+    \[s_i s_j \approx m(s_i-m)+m(s_j-m)+m^2 =m(s_i +s_j)  - m^2.\tag{2.4}\]
+    Then,
+    \[\sum_{\langle ij\rangle}s_i s_j \approx -\frac{Nqm^2}{2}+qm\sum_i s_i,\tag{2.5}\]
+    which gives
+    \[E[s_i] \approx  -(B+Jmq)\sum_i s_i + \frac{NJqm^2}{2} = -(B+Jmq)\bar s  +  \frac{NJqm^2}{2},\tag{2.6}\]
+    where $\bar s = \sum_i s_i$. Summing over all spin configurations (including the binomial multiplicity of each value of $\bar s$), the partition function factorises:
+    \[Z \approx e^{-\beta JNqm^2/2}\prod_{i=1}^{N}\sum_{s_i=\pm1}e^{\beta(B+Jqm)s_i}
+        =e^{-\beta JNqm^2/2}2^N\cosh^N(\beta Jqm+\beta B).\tag{2.7}\]
+    The factorisation is exact within the mean-field approximation for either parity of $N$.</p>
+
+<p>The self-consistency equation immediately follows from
+    \[m = \frac{1}{N\beta}\frac{\partial \log Z}{\partial B}.\tag{2.8}\]</p>
+
+<p>Solving this equation would give us the allowed value for $m$. If we differentiate the RHS, we find
+    \[\frac{\beta Jq}{\cosh^2(\beta J qm)} \leq   \beta J q.\tag{2.9}\]
+    For $T &gt; T_c$, $\beta Jq &lt;1$, and hence
+    \[\frac{\beta Jq}{\cosh^2(\beta J qm)} \leq 1,\tag{2.10}\]
+    which means that $m = 0$ is the only solution to the self-consistency equation. However, for $T &lt; T_c$, there can be two extra solutions to the equation. This is a continuous (second-order) phase transition: the stable nonzero solutions approach zero as $T\to T_c^-$.</p>
+
+<p>For fixed nonzero $B$ and $T\to\infty$, linearising the self-consistency equation gives $m\simeq B/(T-Jq)\sim B/T$ (with $k_B=1$).</p>
+
+</aside>
+
+<h2 data-section-heading id="sheet-1-problem-3-exact-mean-field-limit-of-a-long-range-ising-model" data-section-number="3"><span class="note__heading-number">3</span> <span class="note__heading-title">Sheet 1, Problem 3: Exact Mean Field Limit of a Long-Range Ising Model</span></h2>
 
 <p>Let every spin interact with every other spin, including itself, through
 \[E=-B\sum_i s_i-\frac{J}{2N}
-    \left(\sum_i s_i\right)\left(\sum_j s_j\right).\tag{2.1}\]
+    \left(\sum_i s_i\right)\left(\sum_j s_j\right).\tag{3.1}\]
 Explain the factor $1/N$. Establish the Gaussian identity
 \[e^{\beta J\alpha^2/(2N)}
     =\sqrt{\frac{N\beta J}{2\pi}}
     \int_{-\infty}^{\infty}dx\,
-    e^{-N\beta Jx^2/2+\alpha\beta Jx},\tag{2.2}\]
+    e^{-N\beta Jx^2/2+\alpha\beta Jx},\tag{3.2}\]
 and use it to express the partition function as
 \[Z=\sqrt{\frac{N\beta J}{2\pi}}
     \int_{-\infty}^{\infty}dx\,e^{-NS(x)},
     \qquad
     S(x)=\frac{\beta Jx^2}{2}
-    -\log\!\left[2\cosh\bigl(\beta(B+Jx)\bigr)\right].\tag{2.3}\]
+    -\log\!\left[2\cosh\bigl(\beta(B+Jx)\bigr)\right].\tag{3.3}\]
 Find the saddle $x_\star$ that dominates at large $N$, up to its prefactor.
 Derive its stationarity equation and show that $m=x_\star$.</p>
 
@@ -177,7 +221,7 @@ Derive its stationarity equation and show that $m=x_\star$.</p>
 <p>Since we expect the energy to scale as $N$, while $\sum_i s_i$ also scales as $N$. Therefore, we must have a factor of $1/N$.</p>
 
 <p>The Gaussian identity is straightforward. Let us define
-    \[\sum_i s_i \equiv \alpha.\tag{2.4}\]
+    \[\sum_i s_i \equiv \alpha.\tag{3.4}\]
     Then,
     \[\begin{aligned}
             Z &amp;= \sum_{\alpha} e^{\beta J \alpha^2/(2N)+\beta B \alpha}\\
@@ -186,21 +230,73 @@ Derive its stationarity equation and show that $m=x_\star$.</p>
             &amp;=\sqrt{\frac{N\beta J}{2\pi}}\int_{-\infty}^{\infty}dx\,e^{-N\beta Jx^2/2} \cdot 2^N\cosh^N\beta(B+ Jx) \\
             &amp;=\sqrt{\frac{N\beta J}{2\pi}}
     \int_{-\infty}^{\infty}dx\,e^{-NS(x)}.
-        \end{aligned}\tag{2.5}\]
+        \end{aligned}\tag{3.5}\]
     The saddle is given by
-    \[S'(x_\star) = 0 \implies x_\star = \tanh (\beta B + \beta J x_\star),\tag{2.6}\]
+    \[S'(x_\star) = 0 \implies x_\star = \tanh (\beta B + \beta J x_\star),\tag{3.6}\]
     which satisfies the same equation as $m$ as we have seen. Therefore, we have $m = x_\star$, which means that the long-range Ising model realises the mean field theory exactly.</p>
 
 </aside>
 
-<h2 data-section-heading id="sheet-1-problem-6-ising-and-xy-orders-in-an-anisotropic-spin-model" data-section-number="3"><span class="note__heading-number">3</span> <span class="note__heading-title">Sheet 1, Problem 6: Ising and XY Orders in an Anisotropic Spin Model</span></h2>
+<h2 data-section-heading id="sheet-1-problem-4-first-order-and-tricritical-transitions" data-section-number="4"><span class="note__heading-number">4</span> <span class="note__heading-title">Sheet 1, Problem 4*: First-Order and Tricritical Transitions</span></h2>
+
+<p>Study
+\[f(m)=\alpha_2(T)m^2+\alpha_4m^4+\alpha_6m^6,
+    \qquad \alpha_4&lt;0,\quad\alpha_6&gt;0,\tag{4.1}\]
+as $\alpha_2(T)$ decreases through zero. Sketch the changing free-energy
+landscape, prove that the first-order transition occurs at
+$\alpha_2=\alpha_4^2/(4\alpha_6)$, and find the magnetisation jump.
+Draw the phase diagram in the $(\alpha_2,\alpha_4)$ plane.
+At $\alpha_4=0$ the transition at $\alpha_2(T_c)=0$ is tricritical.
+Calculate its mean field exponents $\alpha,\beta,\gamma,\delta$; include a
+term proportional to $Bm$ when finding the last two.</p>
+
+<aside class="solution">
+
+<p>$f(m)$ crosses the $m$-axis at
+    \[m = 0, \quad m^2 = \frac{-\alpha_4 \pm \sqrt{ \alpha_4^2 - 4\alpha_2 \alpha_6}}{2\alpha_6},\tag{4.2}\]
+    where the latter exist when $\alpha_2 &lt; \alpha^2_4 /(4\alpha_6)$. While the turning points of $f(m)$ is at
+    \[m= 0, \quad m^2 = \frac{-\alpha_4 \pm \sqrt{\alpha_4^2   - 3\alpha_6 \alpha_2}}{3\alpha_6},\tag{4.3}\]
+    where the latter exists when $\alpha_2 &lt; \alpha^2_4 /(3\alpha_6)$ before $f(m)$ crosses the axis. The two minima are degenerate at $\alpha_2=\alpha_4^2/(4\alpha_6)$; below this value the nonzero minima are favoured. At coexistence, the magnetisation jumps from $m=0$ to $m=\pm\sqrt{-\alpha_4/(2\alpha_6)}$.</p>
+
+<p>At the tricritical point, we have
+    \[f(m) \approx -Bm + a(T-T_c)m^2 + \alpha_6m^6.\tag{4.4}\]
+    The minima are at
+    \[m^4 = - \frac{2a}{6\alpha_6}(T-T_c),\tag{4.5}\]
+    and hence $\beta = 1/4$. The heat capacity is given by
+    \[c = \beta ^2 \frac{\partial^2 \log Z}{\partial \beta^2}.\tag{4.6}\]
+    Plugging the temperature dependent minima into the partition function, we find
+    \[f(m_\mathrm{min}) \sim (T_c-T)^{3/2} \implies c \sim f'' \sim |T-T_c|^{-1/2}.\tag{4.7}\]
+    Hence, the critical exponent $\alpha = 1/2$. With the presence of an external source, the minima satisfies
+    \[B = 2a(T-T_c)m + 6\alpha_6 m^5 \implies m \sim B^{1/5}\tag{4.8}\]
+    which gives $\delta = 5$. Then,
+    \[\frac{1}{\chi} = \frac{\partial B}{\partial m}\bigg|_{B=0} =2a(T-T_c) + 30\alpha_6 m^4 .\tag{4.9}\]
+    For $T &gt; T_c$, $m =0$, and hence $\gamma = 1$. For $T&lt; T_c$, $m^4\propto T_c-T$, so the two terms in $1/\chi$ are both linear in $|T-T_c|$ and $\gamma=1$ below $T_c$ as well.</p>
+
+</aside>
+
+<h2 data-section-heading id="sheet-1-problem-5-the-xy-order-parameter" data-section-number="5"><span class="note__heading-number">5</span> <span class="note__heading-title">Sheet 1, Problem 5: The XY Order Parameter</span></h2>
+
+<p>For a complex superfluid order parameter with
+\[f(\psi)=\alpha_2|\psi|^2+\alpha_4|\psi|^4,\tag{5.1}\]
+sketch $f$ when $\alpha_2&lt;0&lt;\alpha_4$. Identify the possible ground
+states, explain spontaneous symmetry breaking here, and compare the mean
+field exponents $\alpha$ and $\beta$ at $\alpha_2=0$ with those of the
+Ising model.</p>
+
+<aside class="solution">
+
+<p>The free energy has a central maximum and a circle of degenerate minima. The ground states are $\psi=ve^{i\theta}$, where $v=\sqrt{-\alpha_2/(2\alpha_4)}$ and $0\leq\theta&lt;2\pi$. Choosing one phase breaks the $U(1)$ symmetry of the free energy. As in the mean-field Ising model, $f_{\min}=-\alpha_2^2/(4\alpha_4)$ and $v\propto(T_c-T)^{1/2}$, giving $\alpha=0$ and $\beta=1/2$.</p>
+
+</aside>
+
+<h2 data-section-heading id="sheet-1-problem-6-ising-and-xy-orders-in-an-anisotropic-spin-model" data-section-number="6"><span class="note__heading-number">6</span> <span class="note__heading-title">Sheet 1, Problem 6: Ising and XY Orders in an Anisotropic Spin Model</span></h2>
 
 <p>At each lattice site put a unit three-vector
 $\mathbf s_i=(s_i^x,s_i^y,s_i^z)$ and use
 \[E=-J\sum_{\langle ij\rangle}\mathbf s_i\cdot\mathbf s_j
     +g\sum_i\left[(s_i^z)^2
     -\frac{(s_i^x)^2+(s_i^y)^2}{2}\right],
-    \qquad J&gt;0.\tag{3.1}\]
+    \qquad J&gt;0.\tag{6.1}\]
 Use mean field reasoning to account for the phase diagram below,</p>
 
 <figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='19.660em' height='12.611em' viewBox='-.000026 -114.641504 178.725934 114.641554'>
@@ -236,7 +332,7 @@ calculations are unnecessary.</p>
 <p>The energy can be rewritten as
     \[E = -J\sum_{\langle ij\rangle}\mathbf s_i\cdot\mathbf s_j
     +g\sum_i\left[\frac{3}{2}(s_i^z)^2
-    -\frac{1}{2}\right].\tag{3.2}\]</p>
+    -\frac{1}{2}\right].\tag{6.2}\]</p>
 
 <p>When $T$ is small and $g &gt; 0 $, to minimise the total energy, the system tend to align while the second term forces them into the $x-y$ plane. Therefore, it is a XY-type order. For $g&lt;0$, energy is minimised when all of the spins is in the $z$-direction and aligned. Hence, it is a Ising-type ordering. Therefore, going from $g&lt;0$ to $g&gt;0$ is a first-order phase transition.</p>
 
@@ -244,11 +340,34 @@ calculations are unnecessary.</p>
 
 </aside>
 
-<h2 data-section-heading id="sheet-1-problem-8-multicritical-scaling-and-upper-critical-dimension" data-section-number="4"><span class="note__heading-number">4</span> <span class="note__heading-title">Sheet 1, Problem 8: Multicritical Scaling and Upper Critical Dimension</span></h2>
+<h2 data-section-heading id="sheet-1-problem-7-a-spatially-modulated-condensate" data-section-number="7"><span class="note__heading-number">7</span> <span class="note__heading-title">Sheet 1, Problem 7: A Spatially Modulated Condensate</span></h2>
+
+<p>For a complex scalar field, consider
+\[F=\int dx\left[
+    \alpha_2(T)|\psi|^2+\alpha_4|\psi|^4
+    -\gamma\left|\frac{d\psi}{dx}\right|^2
+    +\kappa\left|\frac{d^2\psi}{dx^2}\right|^2\right],
+    \qquad \alpha_4,\gamma,\kappa&gt;0.\tag{7.1}\]
+Using a single nonzero Fourier mode
+$\psi_k=A_ke^{ikx}$ with $k=\pm k_0$, determine $k_0$ and show
+that the modulated phase appears at $\alpha_2=\gamma^2/(4\kappa)$.
+Identify the symmetries broken in the ordered phase.</p>
+
+<aside class="solution">
+
+<p>The free energy becomes
+    \[F = \int dx\left[\alpha_4|A_k|^4 + (\alpha_2(T) - \gamma k^2 + \kappa k^4)|A_k|^2\right].\tag{7.2}\]
+    Then, we find $k_0 = \sqrt{\gamma/{2\kappa}}$. In this case, the free energy is
+    \[F = \int dx\left[\alpha_4|A_k|^4 + \left(\alpha_2(T) - \frac{\gamma^2}{4\kappa}\right)|A_k|^2\right],\tag{7.3}\]
+    and hence the phase transition happens at $\alpha_2 = \gamma^2/(4\kappa)$. A chosen nonzero mode breaks the global $U(1)$ symmetry and continuous spatial translations separately: a translation shifts its phase. A combined translation and compensating $U(1)$ rotation remains unbroken.</p>
+
+</aside>
+
+<h2 data-section-heading id="sheet-1-problem-8-multicritical-scaling-and-upper-critical-dimension" data-section-number="8"><span class="note__heading-number">8</span> <span class="note__heading-title">Sheet 1, Problem 8: Multicritical Scaling and Upper Critical Dimension</span></h2>
 
 <p>Take
 \[f(m)=\alpha_2m^2+\alpha_{2n}m^{2n},
-    \qquad n\in\mathbb Z_+.\tag{4.1}\]
+    \qquad n\in\mathbb Z_+.\tag{8.1}\]
 Find $\beta$ from $m\sim(T_c-T)^\beta$ in the ordered phase.
 Insert the result into the free energy to show that the heat-capacity
 exponent obeys $\alpha=1-2\beta$. Compare this with the
@@ -258,11 +377,11 @@ $d_c=2n/(n-1)$ above which the mean field term dominates near criticality.</p>
 <aside class="solution">
 
 <p>It can be easily obtained that $\beta = 1/(2n-2) &lt;1$. Plugging back into the free energy and noting that $1+2\beta = 2n\beta$, we have
-    \[f \sim \alpha_2^{1+2\beta} \implies c \sim \alpha_2^{2\beta - 1},\tag{4.2}\]
+    \[f \sim \alpha_2^{1+2\beta} \implies c \sim \alpha_2^{2\beta - 1},\tag{8.2}\]
     and hence $\alpha = 1 - 2\beta$. In the Gaussian path integral, we have
-    \[c \sim |T-T_c|^{-2+d/2}.\tag{4.3}\]
+    \[c \sim |T-T_c|^{-2+d/2}.\tag{8.3}\]
     Therefore, the critical dimension is
-    \[d_c =\frac{2n}{n-1}.\tag{4.4}\]</p>
+    \[d_c =\frac{2n}{n-1}.\tag{8.4}\]</p>
 
 </aside>
   </article>

@@ -19,14 +19,14 @@ PLACEHOLDER = re.compile(r"\b(?:TODO|TBD|FIXME|not repeat)\b", re.I)
 SHEETS = [
     {
         "sheet": 1, "title": "Landau Theory", "slug": "tong-sft-sheet-1",
-        "publishedProblems": [1, 3, 6, 8],
-        "excludedIncomplete": [2, 4, 5, 7],
+        "publishedProblems": [1, 2, 3, 4, 5, 6, 7, 8],
+        "excludedIncomplete": [],
         "description": "Transfer matrices, exact mean-field theory, spin order, and scaling.",
     },
     {
         "sheet": 2, "title": "Correlations and Scaling", "slug": "tong-sft-sheet-2",
-        "publishedProblems": [1, 5, 7],
-        "excludedIncomplete": [2, 3, 4, 6, 8],
+        "publishedProblems": [1, 2, 5, 6, 7, 8],
+        "excludedIncomplete": [3, 4],
         "description": "Ornstein-Zernike correlations, Lifshitz scaling, and anisotropy.",
     },
     {

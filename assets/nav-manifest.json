@@ -527,14 +527,14 @@
               "href": "notes/tong-sft-sheet-1.html",
               "title": "Sheet 1: Landau Theory",
               "label": "I.",
-              "desc": "Transfer matrices, exact mean-field limit, anisotropic spin order, and multicritical scaling. Selected worked problems: 1, 3, 6, 8.",
+              "desc": "Transfer matrices, mean-field and tricritical transitions, XY order, and scaling. Worked problems: 1–8.",
               "tag": "Tong SFT · Sheet 1"
             },
             {
               "href": "notes/tong-sft-sheet-2.html",
               "title": "Sheet 2: Correlations and Scaling",
               "label": "II.",
-              "desc": "Ornstein-Zernike correlations, Lifshitz scaling, and anisotropy. Selected worked problems: 1, 5, 7.",
+              "desc": "Correlations, Lifshitz scaling, gauge coupling, anisotropy, and Wick's identity. Worked problems: 1, 2, 5, 6, 7, 8; Problems 3 and 4 remain pending.",
               "tag": "Tong SFT · Sheet 2"
             },
             {

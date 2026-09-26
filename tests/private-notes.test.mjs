@@ -88,8 +88,8 @@ test('Tong SFT sheets appear only in Statistical Physics with selected worked pr
   const nav = JSON.parse(await readFile(path.join(root, 'assets', 'nav-manifest.json'), 'utf8'));
   const imported = JSON.parse(await readFile(path.join(root, 'assets', 'tong-sft-manifest.json'), 'utf8'));
   const expected = [
-    { sheet: 1, problems: [1, 3, 6, 8] },
-    { sheet: 2, problems: [1, 5, 7] },
+    { sheet: 1, problems: [1, 2, 3, 4, 5, 6, 7, 8] },
+    { sheet: 2, problems: [1, 2, 5, 6, 7, 8] },
     { sheet: 3, problems: [1, 2, 3, 4, 5, 6] },
   ];
   assert.equal(imported.sheets.length, expected.length);

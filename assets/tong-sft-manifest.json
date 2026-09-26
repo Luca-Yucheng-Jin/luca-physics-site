@@ -1,6 +1,6 @@
 {
   "sourceRepository": "https://github.com/Luca-Yucheng-Jin/QFT-soln",
-  "sourceCommit": "e6cc8da6c7d80431b9a78aa7d9bc7b97f8c261a8",
+  "sourceCommit": "80bd0650c1942eb3e25abaeacf7e934f20d9b8ef",
   "sheets": [
     {
       "sheet": 1,
@@ -8,20 +8,19 @@
       "slug": "tong-sft-sheet-1",
       "publishedProblems": [
         1,
-        3,
-        6,
-        8
-      ],
-      "excludedIncomplete": [
         2,
+        3,
         4,
         5,
-        7
+        6,
+        7,
+        8
       ],
+      "excludedIncomplete": [],
       "description": "Transfer matrices, exact mean-field theory, spin order, and scaling.",
       "sourcePath": "sections/DTSFTSheet1.tex",
       "texFile": "tong-sft-sheet-1.tex",
-      "solutionCount": 4
+      "solutionCount": 8
     },
     {
       "sheet": 2,
@@ -29,20 +28,20 @@
       "slug": "tong-sft-sheet-2",
       "publishedProblems": [
         1,
+        2,
         5,
-        7
+        6,
+        7,
+        8
       ],
       "excludedIncomplete": [
-        2,
         3,
-        4,
-        6,
-        8
+        4
       ],
       "description": "Ornstein-Zernike correlations, Lifshitz scaling, and anisotropy.",
       "sourcePath": "sections/DTSFTSheet2.tex",
       "texFile": "tong-sft-sheet-2.tex",
-      "solutionCount": 3
+      "solutionCount": 6
     },
     {
       "sheet": 3,
