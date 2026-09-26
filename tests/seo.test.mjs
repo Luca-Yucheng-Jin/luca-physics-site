@@ -90,7 +90,7 @@ test('robots.txt allows crawling and advertises the canonical sitemap', async ()
 
 test('homepage exposes the name and subject links before JavaScript runs', async () => {
   const html = await readFile(path.join(root, 'index.html'), 'utf8');
-  assert.match(html, /<h1>I’m <em>Yucheng Jin\.<\/em><\/h1>/);
+  assert.match(html, /<h1><em>Yucheng Jin<\/em><\/h1>/);
   for (const route of [
     'notes-qft.html',
     'notes-advanced.html',

@@ -45,7 +45,7 @@ export default function App() {
   return (
     <>
       <header className="topbar" id="top">
-        <a className="topbar__brand" href="#top">Luca Jin <small>Physics · Imperial</small></a>
+        <a className="topbar__brand" href="#top">Yucheng Jin <small>Physics · Imperial</small></a>
         <nav className="topbar__nav" aria-label="Primary navigation">
           <a className="is-active" href="#top">Home</a>
           <a href="notes.html">Notes</a>
@@ -62,13 +62,12 @@ export default function App() {
       <main>
         <section className="home-hero page-shell">
           <div className="home-hero__copy">
-            <p className="kicker">Physics with Theoretical Physics · Imperial College London</p>
-            <h1>I’m <em>Yucheng Jin.</em></h1>
+            <p className="kicker">Welcome</p>
+            <h1><em>Yucheng Jin</em></h1>
             <p className="home-hero__lede">
-              I also go by Luca. I’m a third-year theoretical physics student at Imperial College London.
-              This site collects my notes, worked problems, and longer write-ups,
-              including selected solutions to David Tong’s problem sheets and
-              Robert Wald’s General Relativity, in HTML and PDF.
+              I study theoretical physics at Imperial College London.
+              Here I share my notes and worked solutions in quantum field theory,
+              general relativity, and other areas of physics.
             </p>
             <div className="home-hero__actions">
               <a className="primary-link" href="notes.html">Browse notes <span>→</span></a>
@@ -81,7 +80,7 @@ export default function App() {
           <div className="section-heading">
             <div>
               <p className="kicker">{subjects.length} subjects · {totalNotes} notes</p>
-              <h2 id="subjects-title">Notes by subject.</h2>
+              <h2 id="subjects-title">Notes and solutions</h2>
             </div>
             <a className="section-heading__link" href="notes.html">All notes <span>→</span></a>
           </div>
@@ -102,9 +101,9 @@ export default function App() {
       <footer className="footer">
         <p className="footer__disclaimer">
           These notes are not guaranteed to be correct. If you find a mistake,{' '}
-          <a href="mailto:luca.jin@outlook.com?subject=Correction%20to%20Luca%20Jin%20Physics">please email me</a>.
+          <a href="mailto:luca.jin@outlook.com?subject=Correction%20to%20Yucheng%20Jin%20Physics">please email me</a>.
         </p>
-        <span>© 2026 Yucheng (Luca) Jin</span>
+        <span>© 2026 Yucheng Jin</span>
         <span><a href="#top">Home</a> · <a href="notes.html">Notes</a> · <a href="mailto:luca.jin@outlook.com">Email</a></span>
       </footer>
     </>
