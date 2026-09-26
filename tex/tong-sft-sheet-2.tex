@@ -1,0 +1,131 @@
+% Generated from selected worked problems in committed QFT-soln sources.
+% Source repository: https://github.com/Luca-Yucheng-Jin/QFT-soln
+% Source commit: e6cc8da6c7d80431b9a78aa7d9bc7b97f8c261a8
+\section{David Tong Statistical Field Theory, Sheet 2: Mostly Scaling}
+\markboth{\thesection\quad TONG STATISTICAL FIELD THEORY, SHEET 2}{}
+
+\noindent\textit{These prompts paraphrase David Tong's \emph{Statistical Field Theory},
+Example Sheet 2 (November 2018). Problem numbers, starred status, equations,
+and guidance follow the
+\href{https://davidtong.org/pdfs/teaching/statistical-field-theory/99b.pdf}{official sheet}.}
+
+\subsection{Sheet 2, Problem 1: Ornstein--Zernicke Correlations}
+
+The Gaussian two-point function is
+\begin{equation}
+    G(x)=\int\frac{d^dk}{(2\pi)^d}
+    \frac{e^{-ik\cdot x}}{\gamma k^2+\mu^2}
+    =\frac{1}{\gamma}\int\frac{d^dk}{(2\pi)^d}
+    \frac{e^{-ik\cdot x}}{k^2+\xi^{-2}},
+    \qquad \xi^2=\frac{\gamma}{\mu^2}.
+\end{equation}
+Explain why it depends only on $r=|x|$. Establish the parameter integral
+\begin{equation}
+    \frac{1}{k^2+\xi^{-2}}
+    =\int_0^\infty dt\,e^{-t(k^2+\xi^{-2})},
+\end{equation}
+perform the Gaussian momentum integral, and express the result, up to
+an overall factor, as
+\begin{equation}
+    G(r)\sim\int_0^\infty dt\,e^{-S(t)},
+    \qquad S(t)=\frac{r^2}{4t}+\frac{t}{\xi^2}+\frac d2\log t.
+\end{equation}
+Use a saddle-point approximation, stating the saddle equation and
+quadratic prefactor, in the regimes $r\ll\xi$ and $r\gg\xi$.
+Recover the Ornstein--Zernicke behaviours
+\begin{equation}
+    G(r)\sim r^{-(d-2)}\quad(r\ll\xi),
+    \qquad
+    G(r)\sim\frac{e^{-r/\xi}}{r^{(d-1)/2}}\quad(r\gg\xi).
+\end{equation}
+\begin{solution}
+    Since the free energy respects global $SO(d)$ symmetry, the correlation function must also be invariant under rotation, and hence can only depend on $r$. The parameter integral is easy to see, and plugging into the correlation function, we find
+    \begin{equation}
+        \begin{aligned}
+            G(r) &\sim\int d^dk \int_0^\infty dt \, e^{-i\mathbf{k}\cdot \mathbf{x} - t(k^2 +\xi^{-2})}\\
+            &=\int d^dk \int_0^\infty dt \, e^{-(\sqrt{t}\mathbf{k} + i\mathbf{x}/2\sqrt{t})^2 - t\xi^{-2} - r^2/4t}\\
+            &\sim\int^\infty_0dt \, \frac{e^{- t\xi^{-2} - r^2/4t}}{t^{d/2}}.
+        \end{aligned}
+    \end{equation}
+    The saddle point is at
+    \begin{equation}
+        S'(t_*) = 0 \implies t_* = \frac{r^2}{d\pm \sqrt{d^2 + 4r^2/\xi^2}}.
+    \end{equation}
+    Since $t>0$, we take the plus sign. The correlation function becomes
+    \begin{equation}
+        G(r) \sim \int^\infty_0 dt \, e^{-S(t_*) - (t-t_*)^2S''(t_*)/2}\sim \frac{e^{-S(t_*)}}{\sqrt{S''(t_*)}}.
+    \end{equation}
+    For $r\ll \xi$, we have $t_* \sim r^2$, and hence
+    \begin{equation}
+        G(r) \sim r^{-(d-2)}.
+    \end{equation}
+    For $r \gg \xi$, we have $t_* \sim r\xi$, and hence
+    \begin{equation}
+        G(r) \sim \frac{e^{-r/\xi}}{r^{(d-1)/2}}.
+    \end{equation}
+\end{solution}
+
+\subsection{Sheet 2, Problem 5*: Scaling in a Lifshitz Theory}
+
+Separate $x=(x,\mathbf y)$ with $\mathbf y\in\mathbb R^{d-1}$, and
+consider the free energy
+\begin{equation}
+    F[\phi]=\int d^dx\left[
+    \frac12(\partial_x\phi)^2
+    +\frac12(\nabla_{\!y}^{2}\phi)^2
+    +\frac12\mu_0^2\phi^2\right].
+\end{equation}
+Write it in Fourier space using momenta $(k,\mathbf q)$. Under
+$k'=\zeta k$, $\mathbf q'=\zeta^a\mathbf q$, and
+$\phi'_{\mathbf{k}'}=\zeta^{-b}\phi_\mathbf{k}$, determine $a,b$ by normalising both
+gradient terms, and find the running $\mu^2(\zeta)$.
+In position space, obtain the Gaussian scaling dimension $\Delta_\phi$.
+For an interaction $\int d^dx\,g_n\phi^{2n}$, find the dimension of
+$g_n$ and show that $\phi^4$ is relevant for $d<7$ and irrelevant
+for $d>7$.
+\begin{solution}
+    \begin{equation}
+        F[\phi_\mathbf{k}] = \int \frac{d^dk}{(2\pi)^d}\frac{1}{2}(k^2 + \mathbf{q}^4 + \mu_0^2) \phi_\mathbf{k}\phi_{-\mathbf{k}} = \int \frac{d^dk'}{(2\pi)^d}\zeta^{-1-a(d-1)}\frac{1}{2}(\zeta^{-2}k'^2 + \zeta^{-4a}\mathbf{q}^4 + \mu^2_0)\zeta^{2b}\phi'_{-\mathbf{k}'}\phi_{\mathbf{k}'}'.
+    \end{equation}
+    In order to normalise both gradient terms, we must have
+    \begin{equation}
+        a = \frac{1}{2}, \quad b = \frac{d+5}{4}.
+    \end{equation}
+    Hence, we find
+    \begin{equation}
+        \mu^2(\zeta) = \zeta^2\mu_0^2.
+    \end{equation}
+    In position space, we have
+    \begin{equation}
+        \phi'(\mathbf{x}') = \int\frac{d^dk'}{(2\pi)^d}\phi_{\mathbf{k}'}'e^{ik'\cdot x'} = \zeta^{1+a(d-1)-b}\int \frac{d^dk}{(2\pi)^d}\phi_\mathbf{k}e^{    ik\cdot x} = \zeta^{\Delta_\phi}\phi(\mathbf{x})  \implies \Delta_\phi = \frac{d-3}{4}.
+    \end{equation}
+    For an interaction, we have
+    \begin{equation}
+        \int d^dx g_n \phi^{2n}(\mathbf{x}) = \int d^dx'\zeta^{1+a(d-1)}g_n\zeta^{-2n\Delta_\phi}\phi'^{2n}(\mathbf{x}') = \int d^dx'g_n(\zeta)\phi'^{2n}(\mathbf{x}'),
+    \end{equation}
+    which implies
+    \begin{equation}
+        g_n(\zeta) = \zeta^{-n(d-3)/2 +d/2+1/2}g_n.
+    \end{equation}
+    For $n=2$, we have
+    \begin{equation}
+        g_2(\zeta) = \zeta^{-(d-7)/2}g_2,
+    \end{equation}
+    and hence it is relevant for $d<7$.
+
+\end{solution}
+
+\subsection{Sheet 2, Problem 7: Emergent Rotational Symmetry}
+
+A microscopic cubic lattice in $d$ dimensions has a local order
+parameter $\phi(x)$ with $\phi\mapsto-\phi$ symmetry. Identify the
+lowest-order interaction allowed by the lattice rotations but forbidden
+by full $SO(d)$ rotations. Use scaling to explain why full rotational
+invariance can emerge at long distances.
+\begin{solution}
+    The leading order contributing interaction is
+    \begin{equation}
+        \int d^dx \,\lambda\sum_{i=1}^d\phi \partial _i^4 \phi.
+    \end{equation}
+    The coupling constant now has a length dimension $[\lambda] = 2$, which is irrelevant for all $d$.
+\end{solution}

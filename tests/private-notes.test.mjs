@@ -84,6 +84,31 @@ test('private notes have no direct HTML or PDF route in source or deployment', a
 });
 
 
+test('Tong SFT sheets appear only in Statistical Physics with selected worked problems', async () => {
+  const nav = JSON.parse(await readFile(path.join(root, 'assets', 'nav-manifest.json'), 'utf8'));
+  const imported = JSON.parse(await readFile(path.join(root, 'assets', 'tong-sft-manifest.json'), 'utf8'));
+  const expected = [
+    { sheet: 1, problems: [1, 3, 6, 8] },
+    { sheet: 2, problems: [1, 5, 7] },
+    { sheet: 3, problems: [1, 2, 3, 4, 5, 6] },
+  ];
+  assert.equal(imported.sheets.length, expected.length);
+  for (const { sheet, problems } of expected) {
+    const entry = imported.sheets.find((item) => item.sheet === sheet);
+    assert.deepEqual(entry?.publishedProblems, problems);
+    assert.equal(entry.solutionCount, problems.length);
+    const slug = `tong-sft-sheet-${sheet}`;
+    const html = await readFile(path.join(root, 'notes', `${slug}.html`), 'utf8');
+    assert.equal((html.match(/<aside class="solution">/g) || []).length, problems.length);
+    assert.ok(!html.includes('\0'), `${slug}: unrendered math placeholder`);
+    assert.ok((await stat(path.join(root, 'output', 'pdf', `${slug}.pdf`))).size > 100_000);
+    const categories = nav.categories.filter((category) =>
+      category.groups.some((group) => group.notes.some((note) => note.href === `notes/${slug}.html`)));
+    assert.deepEqual(categories.map((category) => category.slug), ['tdsp']);
+  }
+});
+
+
 test('completed Schwartz solutions are collected into one public file per chapter', async () => {
   const completed = ['29.1', '29.2', '29.3', '29.6', '29.7', '29.8', '29.9'];
   const chapterSlug = 'schwartz-qft-chapter-29';

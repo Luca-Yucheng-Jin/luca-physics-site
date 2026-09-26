@@ -491,8 +491,8 @@
     {
       "slug": "tdsp",
       "title": "Thermodynamics & Statistical Physics",
-      "blurb": "Joule–Thomson and spin-system partition functions.",
-      "tag": "3 notes",
+      "blurb": "Statistical physics, spin systems, and statistical field theory.",
+      "tag": "6 notes",
       "groups": [
         {
           "title": "Solutions to David Tong’s Statistical Physics problem sheets",
@@ -517,6 +517,32 @@
               "label": "III.",
               "desc": "D. Tong, <em>Statistical Physics</em>, PS1 Q4.",
               "tag": "Tong SP"
+            }
+          ]
+        },
+        {
+          "title": "Solutions to David Tong’s Statistical Field Theory example sheets",
+          "notes": [
+            {
+              "href": "notes/tong-sft-sheet-1.html",
+              "title": "Sheet 1: Landau Theory",
+              "label": "I.",
+              "desc": "Transfer matrices, exact mean-field limit, anisotropic spin order, and multicritical scaling. Selected worked problems: 1, 3, 6, 8.",
+              "tag": "Tong SFT · Sheet 1"
+            },
+            {
+              "href": "notes/tong-sft-sheet-2.html",
+              "title": "Sheet 2: Correlations and Scaling",
+              "label": "II.",
+              "desc": "Ornstein-Zernike correlations, Lifshitz scaling, and anisotropy. Selected worked problems: 1, 5, 7.",
+              "tag": "Tong SFT · Sheet 2"
+            },
+            {
+              "href": "notes/tong-sft-sheet-3.html",
+              "title": "Sheet 3: Renormalisation Group",
+              "label": "III.",
+              "desc": "Critical exponents, fixed-point flows, sine-Gordon theory, and membranes. Worked problems: 1–6.",
+              "tag": "Tong SFT · Sheet 3"
             }
           ]
         }

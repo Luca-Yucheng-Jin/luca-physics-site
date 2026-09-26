@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tong Statistical Field Theory — Sheet 1: Landau Theory | Yucheng (Luca) Jin</title>
+<meta name="description" content="Tong Statistical Field Theory — Sheet 1: Landau Theory — Thermodynamics &amp; Statistical Physics · Tong SFT Sheet 1, based on D. Tong. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="author" content="Yucheng (Luca) Jin">
+<link rel="canonical" href="https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sft-sheet-1.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sft-sheet-1.html">
+<meta property="og:site_name" content="Luca Jin Physics">
+<meta property="og:title" content="Tong Statistical Field Theory — Sheet 1: Landau Theory | Yucheng (Luca) Jin">
+<meta property="og:description" content="Tong Statistical Field Theory — Sheet 1: Landau Theory — Thermodynamics &amp; Statistical Physics · Tong SFT Sheet 1, based on D. Tong. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta property="og:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tong Statistical Field Theory — Sheet 1: Landau Theory | Yucheng (Luca) Jin">
+<meta name="twitter:description" content="Tong Statistical Field Theory — Sheet 1: Landau Theory — Thermodynamics &amp; Statistical Physics · Tong SFT Sheet 1, based on D. Tong. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta name="twitter:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="stylesheet" href="../styles.css">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sft-sheet-1.html#article","url":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sft-sheet-1.html","mainEntityOfPage":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sft-sheet-1.html","headline":"Tong Statistical Field Theory — Sheet 1: Landau Theory","description":"Tong Statistical Field Theory — Sheet 1: Landau Theory — Thermodynamics & Statistical Physics · Tong SFT Sheet 1, based on D. Tong. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.","inLanguage":"en","genre":"Theoretical physics notes and worked solutions","educationalLevel":"Undergraduate physics","about":{"@type":"Thing","name":"Thermodynamics & Statistical Physics · Tong SFT Sheet 1"},"author":{"@type":"Person","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#person","name":"Yucheng (Luca) Jin","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"isPartOf":{"@type":"WebSite","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#website","name":"Luca Jin Physics","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"encoding":{"@type":"MediaObject","contentUrl":"https://luca-yucheng-jin.github.io/luca-physics-site/output/pdf/tong-sft-sheet-1.pdf","encodingFormat":"application/pdf"}},{"@type":"BreadcrumbList","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sft-sheet-1.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes.html"},{"@type":"ListItem","position":2,"name":"Tong Statistical Field Theory — Sheet 1: Landau Theory","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sft-sheet-1.html"}]}]}</script>
+
+<script src="../assets/theme.js"></script>
+<script src="../assets/font-size.js"></script>
+
+<!-- MathJax with custom macros mirroring the original .tex preamble -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros', 'mathtools']},
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      Q: '\\mathbb{Q}',
+      A: '\\mathcal{A}',
+      Lagrangian: '\\mathcal{L}',
+      Cdot: '\\boldsymbol{\\cdot}',
+      Tr: '\\operatorname{Tr}',
+      // \qed inside math (e.g. trailing a derivation in an align env) —
+      // amsthm's text-mode handler is already covered by the HTML-side
+      // replace at the bottom of strip_tex_only_constructs, this catches
+      // the math-mode case (Osborn AQFT PS3 Q3 ends an equation with .\qed).
+      qed: '\\blacksquare',
+      // Feynman slash: \not{x} would render the slash to the LEFT of x
+      // (it's designed for \not=). \cancel from the cancel package
+      // strikes diagonally through the centre, matching the slashed.sty
+      // package's appearance.
+      slashed: ['{\\cancel{#1}}', 1],
+      // Wick contraction: top brace connector over the contracted pair —
+      // closer to the standard physics notation than a plain overline.
+      wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // siunitx polyfill — \si{K}, \si{m\,s^{-1}} etc. should render
+      // the unit in upright math text, like \mathrm{X}. Doesn't try
+      // to mimic the full siunitx unit-formatting machinery; just
+      // unblocks the common bare-unit case in TDSP problems.
+      si: ['\\,\\mathrm{#1}', 1],
+      SI: ['#1\\,\\mathrm{#2}', 2]
+      // \tensor{base}{indices} is rewritten to base^a{}_b in
+      // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
+      // so no runtime macro is needed here. The empty-group trick is
+      // what makes MathJax kern the indices into separate columns.
+    }
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../" class="topbar__brand">Luca Jin <small>Physics · Imperial</small></a>
+  <nav class="topbar__nav" aria-label="Primary navigation">
+    <a href="../">Home</a>
+    <a href="../notes.html" class="is-active">Notes</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+    <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" title="Decrease font size">A<span class="font-toggle__small">−</span></button>
+    <button class="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size" title="Increase font size">A<span class="font-toggle__large">+</span></button>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Toggle theme">
+      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    </button>
+  </nav>
+</header>
+
+<main class="note">
+
+  <div class="note__breadcrumb">
+    <a href="../notes.html">Notes</a> &nbsp;·&nbsp; Thermodynamics &amp; Statistical Physics · Tong SFT Sheet 1
+  </div>
+
+  <h1 class="note__title">Tong Statistical Field Theory — Sheet 1: Landau Theory</h1>
+  <p class="note__subtitle">Source: D. Tong, <em>Statistical Field Theory</em>, Example Sheet 1; 4 worked problems.</p>
+
+  <div class="note__formats" aria-label="Available formats"><span>Available formats</span><a aria-current="page" href="tong-sft-sheet-1.html">HTML</a><a href="../output/pdf/tong-sft-sheet-1.pdf">PDF ↓</a></div>
+
+  <nav class="note__toc" aria-label="Contents">
+  <div class="note__toc-label">Contents</div>
+  <ol class="note__toc-list">
+    <li class="toc-h2"><a href="#sheet-1-problem-1-transfer-matrix-for-the-one-dimensional-ising-model"><span class="note__toc-number">1</span> <span class="note__toc-title">Sheet 1, Problem 1: Transfer Matrix for the One-Dimensional Ising Model</span></a></li>
+    <li class="toc-h2"><a href="#sheet-1-problem-3-exact-mean-field-limit-of-a-long-range-ising-model"><span class="note__toc-number">2</span> <span class="note__toc-title">Sheet 1, Problem 3: Exact Mean Field Limit of a Long-Range Ising Model</span></a></li>
+    <li class="toc-h2"><a href="#sheet-1-problem-6-ising-and-xy-orders-in-an-anisotropic-spin-model"><span class="note__toc-number">3</span> <span class="note__toc-title">Sheet 1, Problem 6: Ising and XY Orders in an Anisotropic Spin Model</span></a></li>
+    <li class="toc-h2"><a href="#sheet-1-problem-8-multicritical-scaling-and-upper-critical-dimension"><span class="note__toc-number">4</span> <span class="note__toc-title">Sheet 1, Problem 8: Multicritical Scaling and Upper Critical Dimension</span></a></li>
+  </ol>
+</nav>
+
+  <article class="note__body">
+<p><em>These prompts paraphrase David Tong's <em>Statistical Field Theory</em>,
+Example Sheet 1 (October 2018). Problem numbers, starred status, equations, and
+guidance follow the <a href="https://davidtong.org/pdfs/teaching/statistical-field-theory/99a.pdf">official sheet</a>.</em></p>
+
+<h2 data-section-heading id="sheet-1-problem-1-transfer-matrix-for-the-one-dimensional-ising-model" data-section-number="1"><span class="note__heading-number">1</span> <span class="note__heading-title">Sheet 1, Problem 1: Transfer Matrix for the One-Dimensional Ising Model</span></h2>
+
+<p>Take $N$ Ising spins with $s_{N+1}=s_1$ and partition function
+\[Z=\sum_{s_1=\pm1}\cdots\sum_{s_N=\pm1}
+    \prod_{i=1}^{N}
+    \exp\!\left[\beta J s_i s_{i+1}
+    +\frac{\beta B}{2}(s_i+s_{i+1})\right].\tag{1.1}\]
+Show that $Z=\operatorname{tr}T^N$ for the transfer matrix
+\[T=\begin{pmatrix}
+        e^{\beta J-\beta B}&amp;e^{-\beta J}\\
+        e^{-\beta J}&amp;e^{\beta J+\beta B}
+    \end{pmatrix}.\tag{1.2}\]
+<em>Hint:</em> Express the $i$th factor as
+$T_{s_i,s_{i+1}}=\exp[\beta J s_i s_{i+1}
++\beta B(s_i+s_{i+1})/2]$, with $s_i$ labelling a column and
+$s_{i+1}$ a row. Find the two eigenvalues,
+\[\lambda_\pm=e^{\beta J}\cosh(\beta B)
+    \pm\sqrt{e^{2\beta J}\cosh^2(\beta B)-2\sinh(2\beta J)},\tag{1.3}\]
+and explain why $Z\simeq\lambda_+^N$ as $N\to\infty$. At $B=0$, deduce
+that the magnetisation is always zero and that temperature causes no phase
+transition in this one-dimensional system.</p>
+
+<aside class="solution">
+
+<p>The partition function can be written as
+    \[Z = \sum_{s_1 = \pm1} \cdots\sum_{s_N = \pm1} T_{s_1,s_2} T_{s_2,s_3}\cdots T_{s_N , s_1} = \operatorname{tr} T^N = \lambda_+^N + \lambda_-^N.\tag{1.4}\]
+    Clearly, $\lambda_+ &gt; \lambda_-$. Therefore, for Large $N$, we can write $Z  \simeq \lambda_+^N$. The magnetisation is given by
+    \[M = \frac{1}{\beta}\frac{\partial \log Z}{\partial B} = \frac{1}{\beta Z}\left[N\lambda_+^{N-1}\frac{\partial \lambda_+}{\partial B} + N\lambda_-^{N-1}\frac{\partial \lambda_-}{\partial B}\right].\tag{1.5}\]
+    Clearly, $\dfrac{\partial \lambda_\pm}{\partial B}\bigg|_{B=0} = 0$, which gives $M \bigg|_{B=0} = 0$. Therefore, there is no second-order phase transition for a one-dimensional system.</p>
+
+</aside>
+
+<h2 data-section-heading id="sheet-1-problem-3-exact-mean-field-limit-of-a-long-range-ising-model" data-section-number="2"><span class="note__heading-number">2</span> <span class="note__heading-title">Sheet 1, Problem 3: Exact Mean Field Limit of a Long-Range Ising Model</span></h2>
+
+<p>Let every spin interact with every other spin, including itself, through
+\[E=-B\sum_i s_i-\frac{J}{2N}
+    \left(\sum_i s_i\right)\left(\sum_j s_j\right).\tag{2.1}\]
+Explain the factor $1/N$. Establish the Gaussian identity
+\[e^{\beta J\alpha^2/(2N)}
+    =\sqrt{\frac{N\beta J}{2\pi}}
+    \int_{-\infty}^{\infty}dx\,
+    e^{-N\beta Jx^2/2+\alpha\beta Jx},\tag{2.2}\]
+and use it to express the partition function as
+\[Z=\sqrt{\frac{N\beta J}{2\pi}}
+    \int_{-\infty}^{\infty}dx\,e^{-NS(x)},
+    \qquad
+    S(x)=\frac{\beta Jx^2}{2}
+    -\log\!\left[2\cosh\bigl(\beta(B+Jx)\bigr)\right].\tag{2.3}\]
+Find the saddle $x_\star$ that dominates at large $N$, up to its prefactor.
+Derive its stationarity equation and show that $m=x_\star$.</p>
+
+<aside class="solution">
+
+<p>Since we expect the energy to scale as $N$, while $\sum_i s_i$ also scales as $N$. Therefore, we must have a factor of $1/N$.</p>
+
+<p>The Gaussian identity is straightforward. Let us define
+    \[\sum_i s_i \equiv \alpha.\tag{2.4}\]
+    Then,
+    \[\begin{aligned}
+            Z &amp;= \sum_{\alpha} e^{\beta J \alpha^2/(2N)+\beta B \alpha}\\
+            &amp;=\sqrt{\frac{N\beta J}{2\pi}}\sum_\alpha e^{\beta B \alpha}\int_{-\infty}^{\infty}dx\,e^{-N\beta Jx^2/2+\alpha\beta Jx}\\
+            &amp;=\sqrt{\frac{N\beta J}{2\pi}}\int_{-\infty}^{\infty}dx\,e^{-N\beta Jx^2/2}\sum_\alpha  \,e^{\beta(B +  Jx)\alpha}\\
+            &amp;=\sqrt{\frac{N\beta J}{2\pi}}\int_{-\infty}^{\infty}dx\,e^{-N\beta Jx^2/2} \cdot 2^N\cosh^N\beta(B+ Jx) \\
+            &amp;=\sqrt{\frac{N\beta J}{2\pi}}
+    \int_{-\infty}^{\infty}dx\,e^{-NS(x)}.
+        \end{aligned}\tag{2.5}\]
+    The saddle is given by
+    \[S'(x_\star) = 0 \implies x_\star = \tanh (\beta B + \beta J x_\star),\tag{2.6}\]
+    which satisfies the same equation as $m$ as we have seen. Therefore, we have $m = x_\star$, which means that the long-range Ising model realises the mean field theory exactly.</p>
+
+</aside>
+
+<h2 data-section-heading id="sheet-1-problem-6-ising-and-xy-orders-in-an-anisotropic-spin-model" data-section-number="3"><span class="note__heading-number">3</span> <span class="note__heading-title">Sheet 1, Problem 6: Ising and XY Orders in an Anisotropic Spin Model</span></h2>
+
+<p>At each lattice site put a unit three-vector
+$\mathbf s_i=(s_i^x,s_i^y,s_i^z)$ and use
+\[E=-J\sum_{\langle ij\rangle}\mathbf s_i\cdot\mathbf s_j
+    +g\sum_i\left[(s_i^z)^2
+    -\frac{(s_i^x)^2+(s_i^y)^2}{2}\right],
+    \qquad J&gt;0.\tag{3.1}\]
+Use mean field reasoning to account for the phase diagram below,</p>
+
+<figure class="tikz-figure"><svg fill='currentColor' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='19.660em' height='12.611em' viewBox='-.000026 -114.641504 178.725934 114.641554'>
+<defs>
+<path id='g0-84' d='M3.936239-5.460523C3.990037-5.657783 4.00797-5.747447 4.160399-5.774346C4.23213-5.792279 4.519054-5.792279 4.707347-5.792279C5.738481-5.792279 6.043337-5.729514 6.043337-5.030137C6.043337-4.913574 6.043337-4.779078 5.96264-4.250062L5.953674-4.178331C5.953674-4.115567 5.989539-4.052802 6.079203-4.052802C6.1868-4.052802 6.204732-4.133499 6.222665-4.267995L6.455791-5.819178C6.464757-5.86401 6.473724-5.917808 6.473724-5.944707C6.473724-6.070237 6.38406-6.070237 6.213699-6.070237H1.111831C.896638-6.070237 .887671-6.06127 .824907-5.890909L.268991-4.312827C.233126-4.196264 .233126-4.178331 .233126-4.169365C.233126-4.124533 .260025-4.052802 .349689-4.052802C.448319-4.052802 .466252-4.1066 .52005-4.267995C1.0132-5.66675 1.291158-5.792279 2.591283-5.792279H2.940971C3.19203-5.792279 3.19203-5.76538 3.19203-5.693649C3.19203-5.639851 3.174097-5.577086 3.156164-5.505355L1.95467-.708344C1.873973-.385554 1.847073-.277958 .896638-.277958C.609714-.277958 .529016-.277958 .529016-.116563C.529016 0 .645579 0 .681445 0C.91457 0 1.174595-.017933 1.416687-.017933C1.667746-.017933 1.927771-.026899 2.178829-.026899C2.57335-.026899 2.591283-.026899 2.923039-.017933C3.039601-.017933 3.631382 0 3.703113 0C3.783811 0 3.891407 0 3.891407-.161395C3.891407-.277958 3.81071-.277958 3.58655-.277958S3.254795-.277958 3.012702-.29589C2.806476-.32279 2.698879-.331756 2.698879-.484184C2.698879-.529016 2.716812-.600747 2.734745-.663512L3.936239-5.460523Z'/>
+<path id='g0-103' d='M4.366625-3.523786C4.366625-3.667248 4.250062-3.783811 4.088667-3.783811C3.936239-3.783811 3.747945-3.676214 3.703113-3.425156C3.505853-3.765878 3.218929-3.963138 2.851308-3.963138C1.766376-3.963138 .663512-2.689913 .663512-1.43462C.663512-.591781 1.192528 0 1.909838 0C2.313325 0 2.67198-.224159 2.96787-.493151C2.851308 0 2.707846 .600747 2.636115 .762142C2.591283 .860772 2.268493 1.613948 1.362889 1.613948C1.183562 1.613948 .896638 1.604981 .672478 1.542217C.842839 1.470486 .995268 1.273225 .995268 1.084932C.995268 .887671 .842839 .762142 .654545 .762142C.448319 .762142 .161395 .923537 .161395 1.291158C.161395 1.730511 .663512 1.838107 1.380822 1.838107C2.537484 1.838107 3.200996 1.174595 3.344458 .600747L4.366625-3.523786ZM3.138232-1.165629C3.102366-1.004234 3.0934-.986301 2.949938-.81594C2.492653-.29589 2.116065-.224159 1.936737-.224159C1.497385-.224159 1.33599-.654545 1.33599-1.058032C1.33599-1.407721 1.551183-2.411955 1.820174-2.932005C2.0533-3.353425 2.447821-3.738979 2.860274-3.738979C3.434122-3.738979 3.58655-3.057534 3.58655-2.976837C3.58655-2.958904 3.568618-2.887173 3.559651-2.842341L3.138232-1.165629Z'/>
+</defs>
+<g id='page1'>
+<path d='M2.359375-.1992V-106.8477' stroke='currentColor' fill='none' stroke-width='.3985'/>
+<path d='M2.359375-108.84005L.76563-105.64864L2.359375-106.847862L3.95313-105.64864'/>
+<g transform='matrix(1 0 0 1 -2.35799 -57.0067)'>
+<use x='2.357964' y='-53.774283' xlink:href='#g0-103'/>
+</g>
+<path d='M2.359375-53.773438H169.87896' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M171.87071-53.773438L168.68321-55.36719L169.878519-53.773438L168.68321-52.17969'/>
+<g transform='matrix(1 0 0 1 169.71204 3.0635)'>
+<use x='2.357964' y='-53.774283' xlink:href='#g0-84'/>
+</g>
+<path d='M2.359375-53.773438H88.74606' stroke='#bf0000' fill='none' stroke-width='1.19553' stroke-miterlimit='10'/>
+<path d='M88.74606-53.773438C98.52346-67.168 105.04296-88.0039 114.17196-105.8633' stroke='#bf0000' fill='none' stroke-width='.79701' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<path d='M88.74606-53.773438C98.52346-40.3789 105.04296-19.5469 114.17196-1.6875' stroke='#bf0000' fill='none' stroke-width='.79701' stroke-miterlimit='10' stroke-dasharray='2.98883 2.98883'/>
+<path d='M126.23396-86.5156L106.26196-79.168' stroke='currentColor' fill='none' stroke-width='.3985' stroke-miterlimit='10'/>
+<path d='M104.390812-78.480518L107.933784-78.08208L106.261913-79.168013L106.832221-81.074265'/>
+</g>
+</svg></figure>
+
+<p><em>Hint:</em> Compare the ground states as $g$ crosses zero at low $T$,
+then raise $T$ separately on either side of $g=0$. Detailed path-integral
+calculations are unnecessary.</p>
+
+<aside class="solution">
+
+<p>The energy can be rewritten as
+    \[E = -J\sum_{\langle ij\rangle}\mathbf s_i\cdot\mathbf s_j
+    +g\sum_i\left[\frac{3}{2}(s_i^z)^2
+    -\frac{1}{2}\right].\tag{3.2}\]</p>
+
+<p>When $T$ is small and $g &gt; 0 $, to minimise the total energy, the system tend to align while the second term forces them into the $x-y$ plane. Therefore, it is a XY-type order. For $g&lt;0$, energy is minimised when all of the spins is in the $z$-direction and aligned. Hence, it is a Ising-type ordering. Therefore, going from $g&lt;0$ to $g&gt;0$ is a first-order phase transition.</p>
+
+<p>As the temperature goes up, the system becomes disordered for both $g&lt;0$ and $g&gt;0$. Therefore, a second-order phase transition must have occured.</p>
+
+</aside>
+
+<h2 data-section-heading id="sheet-1-problem-8-multicritical-scaling-and-upper-critical-dimension" data-section-number="4"><span class="note__heading-number">4</span> <span class="note__heading-title">Sheet 1, Problem 8: Multicritical Scaling and Upper Critical Dimension</span></h2>
+
+<p>Take
+\[f(m)=\alpha_2m^2+\alpha_{2n}m^{2n},
+    \qquad n\in\mathbb Z_+.\tag{4.1}\]
+Find $\beta$ from $m\sim(T_c-T)^\beta$ in the ordered phase.
+Insert the result into the free energy to show that the heat-capacity
+exponent obeys $\alpha=1-2\beta$. Compare this with the
+contribution to the free energy from fluctuations in the Gaussian path integral and establish the threshold
+$d_c=2n/(n-1)$ above which the mean field term dominates near criticality.</p>
+
+<aside class="solution">
+
+<p>It can be easily obtained that $\beta = 1/(2n-2) &lt;1$. Plugging back into the free energy and noting that $1+2\beta = 2n\beta$, we have
+    \[f \sim \alpha_2^{1+2\beta} \implies c \sim \alpha_2^{2\beta - 1},\tag{4.2}\]
+    and hence $\alpha = 1 - 2\beta$. In the Gaussian path integral, we have
+    \[c \sim |T-T_c|^{-2+d/2}.\tag{4.3}\]
+    Therefore, the critical dimension is
+    \[d_c =\frac{2n}{n-1}.\tag{4.4}\]</p>
+
+</aside>
+  </article>
+
+  <hr class="ornament-rule">
+
+  <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
+    <a href="../notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <p class="footer__disclaimer">
+    These notes are not guaranteed to be correct. If you find a mistake,
+    <a href="mailto:luca.jin@outlook.com?subject=Correction%20to%20Luca%20Jin%20Physics">please email me</a>.
+  </p>
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="../">Home</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>

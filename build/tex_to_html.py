@@ -2042,6 +2042,24 @@ def _load_wald_gr_pages():
     ]
 
 
+def _load_tong_sft_pages():
+    manifest_path = os.path.join(ROOT, "assets", "tong-sft-manifest.json")
+    if not os.path.exists(manifest_path):
+        return []
+    with open(manifest_path, encoding="utf-8") as manifest_file:
+        manifest = json.load(manifest_file)
+    return [
+        (
+            sheet["texFile"], sheet["slug"],
+            f"Tong Statistical Field Theory — Sheet {sheet['sheet']}: {sheet['title']}",
+            f"Thermodynamics &amp; Statistical Physics · Tong SFT Sheet {sheet['sheet']}",
+            "D. Tong, <em>Statistical Field Theory</em>, "
+            f"Example Sheet {sheet['sheet']}; {sheet['solutionCount']} worked problems.",
+        )
+        for sheet in manifest.get("sheets", [])
+    ]
+
+
 def _load_schwartz_chapter_pages():
     manifest_path = os.path.join(ROOT, "assets", "schwartz-qft-manifest.json")
     if not os.path.exists(manifest_path):
@@ -2067,6 +2085,7 @@ def _load_schwartz_chapter_pages():
 
 WHOLE_FILE_PAGES.extend(_load_psi_qft_ii_pages())
 WHOLE_FILE_PAGES.extend(_load_wald_gr_pages())
+WHOLE_FILE_PAGES.extend(_load_tong_sft_pages())
 WHOLE_FILE_PAGES.extend(_load_schwartz_chapter_pages())
 
 
@@ -2204,6 +2223,23 @@ def write_whole_file_page(tex_path, slug, title, breadcrumb, source_long):
     page while retaining its LaTeX section hierarchy."""
     with open(tex_path) as f:
         text = f.read()
+    if slug == "tong-sft-sheet-3":
+        # The source's inline TikZ bubble macro sits inside a minipage and
+        # cannot be translated by the HTML math parser. The PDF retains the
+        # original diagrams; the HTML edition gives their exact coefficients.
+        text, diagrams = re.subn(
+            r"The contributing diagrams are\s*\\begingroup\s*\\newcommand\{\\Bubble\}.*?\\endgroup\s*where the black line denotes.*?The factor of",
+            lambda _match: (
+                r"The bubble diagrams give coefficients "
+                r"\(36g_1^2+\lambda^2\) for \(\delta g_1\), "
+                r"\(36g_2^2+\lambda^2\) for \(\delta g_2\), and "
+                r"\(12\lambda g_1+12\lambda g_2+8\lambda^2\) for \(\delta\lambda\). "
+                r"The original bubble drawings are in the downloadable PDF. The factor of"
+            ),
+            text, count=1, flags=re.DOTALL,
+        )
+        if diagrams != 1:
+            raise ValueError("Expected Sheet 3 bubble-diagram block was not found")
     # Skip preamble: start at first \section if present, otherwise at \begin{document}
     first_sec = re.search(r"\\section\*?\{", text)
     begin_doc = re.search(r"\\begin\{document\}", text)

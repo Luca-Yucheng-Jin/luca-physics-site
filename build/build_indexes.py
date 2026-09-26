@@ -722,12 +722,13 @@ CATEGORIES = [
     {
         "slug": "tdsp",
         "title": "Thermodynamics & Statistical Physics",
-        "blurb": "Joule–Thomson and spin-system partition functions.",
+        "blurb": "Statistical physics, spin systems, and statistical field theory.",
         "contents": [
             "Joule–Thomson Process Solution",
             "Spin-System Partition Function Solutions",
+            "David Tong Statistical Field Theory Solutions",
         ],
-        "tag": "3 notes",
+        "tag": "6 notes",
         "body": """    <h3 class="catalogue-source">
       <span>Solutions to David Tong’s Statistical Physics problem sheets</span>
       <a href="https://www.damtp.cam.ac.uk/user/tong/statphys.html" target="_blank" rel="noopener noreferrer">Original course ↗</a>
@@ -756,6 +757,36 @@ CATEGORIES = [
           <span class="catalogue__desc">D. Tong, <em>Statistical Physics</em>, PS1 Q4.</span>
         </span>
         <span class="catalogue__tag">Tong SP</span>
+      </li>
+    </ul>""" + """
+    <h3 class="catalogue-source">
+      <span>Solutions to David Tong’s Statistical Field Theory example sheets</span>
+      <a href="https://davidtong.org/teaching/statistical-field-theory/" target="_blank" rel="noopener noreferrer">Original course ↗</a>
+    </h3>
+    <ul class="catalogue">
+      <li class="catalogue__item">
+        <span class="catalogue__num">I.</span>
+        <span class="catalogue__main">
+          <a href="notes/tong-sft-sheet-1.html">Sheet 1: Landau Theory</a>
+          <span class="catalogue__desc">Transfer matrices, exact mean-field limit, anisotropic spin order, and multicritical scaling. Selected worked problems: 1, 3, 6, 8.</span>
+        </span>
+        <span class="catalogue__tag">Tong SFT · Sheet 1</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">II.</span>
+        <span class="catalogue__main">
+          <a href="notes/tong-sft-sheet-2.html">Sheet 2: Correlations and Scaling</a>
+          <span class="catalogue__desc">Ornstein-Zernike correlations, Lifshitz scaling, and anisotropy. Selected worked problems: 1, 5, 7.</span>
+        </span>
+        <span class="catalogue__tag">Tong SFT · Sheet 2</span>
+      </li>
+      <li class="catalogue__item">
+        <span class="catalogue__num">III.</span>
+        <span class="catalogue__main">
+          <a href="notes/tong-sft-sheet-3.html">Sheet 3: Renormalisation Group</a>
+          <span class="catalogue__desc">Critical exponents, fixed-point flows, sine-Gordon theory, and membranes. Worked problems: 1–6.</span>
+        </span>
+        <span class="catalogue__tag">Tong SFT · Sheet 3</span>
       </li>
     </ul>""",
     },
