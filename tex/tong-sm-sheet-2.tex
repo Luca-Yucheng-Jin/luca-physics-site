@@ -1,0 +1,334 @@
+% Imported from https://github.com/Luca-Yucheng-Jin/QFT-soln
+% Source commit: 0bb3e7066154a8fdb256399a8ecceae720c5e192
+\section{David Tong The Standard Model, Sheet 2: Symmetry Breaking and QCD}
+\markboth{\thesection\quad TONG THE STANDARD MODEL, SHEET 2}{}
+
+\noindent\textit{These prompts paraphrase David Tong's \emph{The Standard Model},
+Example Sheet 2 (February 2026). Problem numbers, starred status, equations,
+and guidance follow the
+\href{https://davidtong.org/pdfs/teaching/standard-model/rw2.pdf}{official sheet}.}
+
+\subsection{Sheet 2, Problem 1: Broken Discrete Symmetry}
+
+Construct a polynomial potential for a complex scalar $\phi$ whose
+$\mathbb Z_N$ symmetry breaks spontaneously. Identify every ground
+state.
+\begin{solution}
+    The potential
+    \begin{equation}
+        V(\phi) = \lambda|\phi|^{2N} - \frac{1}{2}\mu^2 (\phi^N + \phi^{*N})
+    \end{equation}
+    is invariant under $\mathbb{Z}_N: \phi \to e^{2\pi ik/N}\phi$. Therefore, the vacuum is given by
+    \begin{equation}
+        v_k = \left(\frac{\mu^2}{2\lambda}\right)^{1/N}e^{2\pi i k /N}.
+    \end{equation}
+\end{solution}
+
+\subsection{Sheet 2, Problem 2: Matrix Order Parameters and Goldstone Modes}
+
+Let $M(x)$ be a complex $N\times N$ matrix with $\lambda>0$ and
+\begin{equation}
+    S=\int d^4x\,\operatorname{Tr}\left[
+    \partial^\mu M^\dagger\partial_\mu M
+    -kM^\dagger M-\frac\lambda2M^\dagger M M^\dagger M\right].
+\end{equation}
+\begin{enumerate}[label=\roman*)]
+    \item Show invariance under $M\mapsto AMB^\dagger$ for
+    $A,B\in U(N)$ and identify the $U(1)$ subgroup of
+    $U(N)\times U(N)$ that acts trivially.
+    \item When $k<0$, show that a vacuum satisfies
+    $M_0^\dagger M_0=v^2\mathbf1$. Find the unbroken group,
+    describe the vacuum manifold as a coset, and count Goldstone bosons.
+    \item Add
+    $\int d^4x\,h(\det M+\det M^\dagger)$.
+    Determine the new symmetry group and the Goldstone count if the
+    vacuum still has $M_0^\dagger M_0=v^2\mathbf1$ with $v\ne0$.
+\end{enumerate}
+\begin{solution}
+    \begin{enumerate}[label=\roman*)]
+    \item  The invariance is trivial to see. For $A = B \in U(1)$, the transformation is trivial.
+    \item The differentiation of the potential with respect to $M^\dagger$, we find
+    \begin{equation}
+        \frac{\partial}{\partial M^\dagger}\left(\frac{\lambda}{2}M_0^\dagger M_0 M_0^\dagger M_0 + k M_0^\dagger M_0\right) = M_0 (\lambda M_0^\dagger M_0 + k ) = 0 \implies M_0^\dagger M_0 = -\frac{k}{\lambda}\mathbf{1}.
+    \end{equation}
+    Therefore, the vacuum must take the form $M_0 = v U$ with $U \in U(N)$. We can choose $U = \mathbf{1}$.
+    Under $U(N) \times U(N)$, the vacuum transforms as
+    \begin{equation}
+        v\mathbf{1} \to  A v\mathbf{1} B^\dagger.
+    \end{equation}
+    Therefore, the vacuum is invariant for $A = B \in U(N)$ . Therefore, the stability group is given by $H = U(N)$, while the coset space is $G = (U(N)\times U(N))/U(N) $. Therefore, the number of Goldstone bosons is $\dim G = N^2$.
+    \item With this additional term, the symmetry reduces to $A, B \in SU(N)$, namely $SU(N) \times SU(N)$. If the vacuum still takes the same form, then the stability group becomes $H = SU(N)$. Hence, the number of Goldstone bosons becomes $\dim SU(N) = N^2 -1$.
+    \end{enumerate}
+\end{solution}
+
+\subsection{Sheet 2, Problem 3*: Fundamental Higgs Fields in $SU(2)$ and $SU(N)$}
+
+For a fundamental $SU(2)$ scalar $\phi_a$ ($a=1,2$), use
+\begin{equation}
+    S=\int d^4x\left[-\frac12\operatorname{Tr}(F_{\mu\nu}F^{\mu\nu})
+    +D_\mu\phi^\dagger D^\mu\phi
+    -\frac\lambda2(\phi^\dagger\phi-v^2)^2\right],
+\end{equation}
+where $F_{\mu\nu}=\partial_\mu A_\nu-\partial_\nu A_\mu
+-ig[A_\mu,A_\nu]$, $D_\mu\phi=\partial_\mu\phi-igA_\mu\phi$,
+and $T^a=\sigma^a/2$ in the fundamental representation.
+Find the particle masses. Generalise to a fundamental scalar in
+$SU(N)$: after condensation, what symmetry survives, how many gauge
+bosons become massive, and how many real scalar components are eaten?
+\begin{solution}
+    For $SU(2)$, we can choose the vacuum to be
+    \begin{equation}
+        \phi_0 = \begin{pmatrix}
+            0 \\ v
+        \end{pmatrix}.
+    \end{equation}
+    Therefore, all of the symmetries are broken, and we can reparameterise the scalar field as
+    \begin{equation}
+        \phi(x) = \begin{pmatrix}
+            0 \\ v + \sigma(x)
+        \end{pmatrix}e^{i\pi^a(x)T^a/ F_\pi},
+    \end{equation}
+    where $F_\pi $ is chosen to by $v$ so that the kinetic term of $\pi$ is canonically normalised. The gauge boson acquires a mass through the term
+    \begin{equation}
+        g^2A_\mu A^\mu |\phi|^2 = v^2g^2A_\mu A^\mu + \cdots,
+    \end{equation}
+    where $m_A = \sqrt{2}vg$. The $\pi(x)$ field is eaten by the gauge bosons. The mass of $\sigma(x)$ is given by
+    \begin{equation}
+        \lambda v^2 |\phi|^2 = \lambda v^2 \sigma^2 + \cdots,
+    \end{equation}
+    which gives $m_\sigma = \sqrt{2\lambda}v$.
+
+    For $SU(N)$, a choice of vacuum could be
+    \begin{equation}
+        \phi_0 = \begin{pmatrix}
+            0 \\ \vdots \\ v
+        \end{pmatrix}.
+    \end{equation}
+    Therefore, the stability group is $H = SU(N-1)$, and hence the coset space is $G = SU(N) / SU(N-1)$. Therefore, we can reparameterise the scalar field as
+        \begin{equation}
+        \phi(x) = mm\begin{pmatrix}
+            0 \\\vdots \\ v + \sigma(x)
+        \end{pmatrix}e^{i\pi^a(x)T^a/ F_\pi},
+    \end{equation}
+    where $T^a$ are the generators of $G$ and $a = 1, \cdots , \dim G$. For consistency, $\phi(x)$ has $2N$ degrees of freedom, while $\pi(x)$ has $\dim G = 2N-1$ degrees of freedom and $\sigma(x)$ has $1$ degree of freedom. All of the $\pi$ are eaten by the gauge fields. Therefore, there will be $2N-1$ massive bosons.
+\end{solution}
+
+\subsection{Sheet 2, Problem 4: Adjoint Higgs Breaking Patterns}
+
+An $SU(N)$ adjoint scalar is a traceless matrix
+$\phi=\phi^AT^A$ with
+$D_\mu\phi=\partial_\mu\phi-ig[A_\mu,\phi]$.
+Explain why a potential minimum can be represented by
+\begin{equation}
+    \phi_0=\operatorname{diag}(v_1,\ldots,v_N),
+    \qquad \sum_{a=1}^Nv_a=0,\quad v_a\leq v_{a+1}.
+\end{equation}
+Classify the residual gauge groups according to coincidences among
+the $v_a$.
+\begin{solution}
+    Given a vacuum $\phi_0$, we can always diagonalise it by $U\phi_0 U^\dagger$, where $U \in SU(N)$. Therefore, we can choose the vacuum to be
+    \begin{equation}
+        \phi_0  = \operatorname{diag}(v_1,\ldots,v_N),\quad v_a\leq v_{a+1}.
+    \end{equation}
+    Since $T^A$ are traceless, we must have $\Tr \phi_0 = 0$, which implies $\sum_a v_a = 0$. For a gauge transformation generated by $T^A$ to be unbroken, we must have
+    \begin{equation}
+        [T^A, \phi_0] = 0.
+    \end{equation}
+    In general, we have
+    \begin{equation}
+        [T^A,\phi_0]_{ik} = \sum_j T^A_{ij}\delta_{jk}v_k - \sum_j \delta_{ij}v_j T^A_{jk} = (v_k -v_i) T^A_{ik}.
+    \end{equation}
+    Therefore, there are no restrictions on $T_{ii}$, which gives $N-1$ unbroken generators. Meanwhile, we must either have $T_{ik} = 0$ for all $i\neq k$, or $v_i - v_k = 0$ for some $i,k$. Therefore, the number of unbroken generator is equal to the number of identical eigenvalue pairs. Suppose each distinct eigenvalues have multiplicity $n_i$, they give
+    \begin{equation}
+        2\sum_{j}\begin{pmatrix}
+            n_j \\ 2
+        \end{pmatrix} = \sum_j(n_j^2 -n_j) = \sum_jn_j^2 - N.
+    \end{equation}
+    Therefore, the total number of unbroken generators is
+    \begin{equation}
+        \sum_jn_j^2 - 1.
+    \end{equation}
+\end{solution}
+
+\subsection{Sheet 2, Problem 5*: One-Loop QCD Scale}
+
+For $SU(N_c)$ with $N_f$ massless fundamental Dirac fermions, use
+\begin{equation}
+    \frac1{g^2(\mu)}=\frac1{g_0^2}
+    -\frac{11N_c-2N_f}{3(4\pi)^2}
+    \log\frac{\Lambda_{\rm UV}^2}{\mu^2}.
+\end{equation}
+Taking $\alpha_s=g_s^2/(4\pi)\simeq0.12$ at
+$\mu=M_Z\simeq90\,\mathrm{GeV}$, estimate $\Lambda_{\rm QCD}$
+if every quark lighter than $M_Z$ is treated as massless.
+How can the estimate be made more realistic?
+\begin{solution}
+    Taking the physical scale, we have
+    \begin{equation}
+        \frac{1}{g^2(M_Z)} =  \frac{1}{g_0^2} -\frac{11N_c-2N_f}{3(4\pi)^2}
+    \log\frac{\Lambda_{\rm UV}^2}{M_Z^2},
+    \end{equation}
+    while the Landau pole is at
+    \begin{equation}
+         0 = \frac{1}{g^2(\Lambda_\mathrm{QCD})} =  \frac{1}{g_0^2} -\frac{11N_c-2N_f}{3(4\pi)^2}
+    \log\frac{\Lambda_{\rm UV}^2}{\Lambda_\mathrm{QCD}^2}.
+    \end{equation}
+    Combining the two, we find
+    \begin{equation}
+        \frac{11N_c-2N_f}{3(4\pi)^2}
+    \log\frac{M_Z^2}{\Lambda_\mathrm{QCD}^2} = \frac{1}{g^2(M_Z)} \implies \Lambda_{\mathrm{QCD}}=  M_Z\exp\left(-\frac{6\pi}{(11N_c - 2N_f)\alpha_s}\right).
+    \label{eq:LandauPole}
+    \end{equation}
+    Five quark flavours are lighter than \(M_Z\): \(u,d,s,c,b\). The top quark is heavier, so take \(N_c=3\) and \(N_f=5\). This gives $\Lambda_\mathrm{QCD} \approx 0.097\,\mathrm{GeV}$.
+
+    For a more realistic estimation, we can run the coupling towards the IR. When we go across the boundary of the bottom quark mass, we take $N_f$ to be $4$. Then, we match the value at $\alpha(m_b)$ in both regime. We repeat this procedure until ran into the landau pole.
+\end{solution}
+
+\subsection{Sheet 2, Problem 6: Casimirs and Dynkin Indices}
+
+For a representation $R$, define
+\begin{equation}
+    T^AT^A=C(R)\mathbf1,
+    \qquad
+    \operatorname{Tr}(T^AT^B)=\frac12I(R)\delta^{AB}.
+\end{equation}
+Prove $2C(R)\dim(R)=I(R)\dim(G)$.
+Find $C(R)$ for the fundamental and anti-fundamental of $SU(N)$,
+and calculate the adjoint Casimir of $SU(2)$.
+\begin{solution}
+    \begin{equation}
+        \Tr(T^A T^A) = C(R) \dim \mathbf{1} = C(R)\dim R,
+    \end{equation}
+    while
+    \begin{equation}
+        \Tr(T^AT^A) = \frac{1}{2}I(R) \delta^{AA} = \frac{1}{2}I(R) \dim G.
+    \end{equation}
+    Therefore,
+    \begin{equation}
+        2C(R)\dim(R)=I(R)\dim(G).
+    \end{equation}
+    For fundamental representation of $SU(N)$, we have $\dim G = \dim \mathbf{N}$ and $I(\mathbf{N}) =1$, and hence $C(\mathbf{N})  = \frac{1}{2}$. Since $\bar T^A = - (T^A)^*$, we must have $I(\mathbf{N}) = I(\bar{\mathbf{N}})$, and hence $C(\mathbf{N}) = C(\bar{\mathbf{N}}) = 1/2$.
+
+    For adjoint representation of $SU(2)$, the generators are$-i\epsilon^i{}_{jk}$, and hence
+    \begin{equation}
+        i\epsilon^i{}_{jk}i\epsilon^i{}_{kl} =2\delta_{jl} \implies C(\mathrm{adj}) = 2.
+    \end{equation}
+\end{solution}
+
+\subsection{Sheet 2, Problem 7: Expanding the Chiral Lagrangian}
+
+For $U=e^{2i\pi/f_\pi}$ with $\pi\in su(N_f)$, expand
+\begin{equation}
+    \mathcal L_{\rm pion}
+    =\frac{f_\pi^2}{4}
+    \operatorname{tr}(\partial^\mu U^\dagger\partial_\mu U)
+\end{equation}
+through fourth order in $\pi$. Show that the quadratic term is
+$\operatorname{tr}(\partial_\mu\pi)^2$ and that the quartic term
+can be written
+\begin{equation}
+    -\frac{2}{3f_\pi^2}\operatorname{tr}\left[
+    \pi^2(\partial_\mu\pi)^2
+    -(\pi\partial_\mu\pi)^2\right].
+\end{equation}
+For $N_f=2$ and $T^a=\sigma^a/2$, reduce the interaction to
+\begin{equation}
+    \mathcal L_{\rm int}=-\frac1{6f_\pi^2}
+    \left[\pi^a\pi^a\partial_\mu\pi^b\partial^\mu\pi^b
+    -\pi^a\partial_\mu\pi^a\,
+    \pi^b\partial^\mu\pi^b\right].
+\end{equation}
+\begin{solution}
+    Expanding $U$, we find
+    \begin{equation}
+        U = 1+ \frac{2i}{f_\pi}\pi - \frac{2}{f_\pi^2}\pi^2 - \frac{4i}{3f_\pi^3}\pi^3 + \cdots,
+    \end{equation}
+    and hence
+    \begin{equation}
+\partial_\mu U
+=\frac{2i}{f_\pi}\partial_\mu\pi
+-\frac{2}{f_\pi^2}\bigl((\partial_\mu\pi)\pi+\pi(\partial_\mu\pi)\bigr)
+-\frac{4i}{3f_\pi^3}\bigl((\partial_\mu\pi)\pi^2+\pi(\partial_\mu\pi)\pi+\pi^2(\partial_\mu\pi)\bigr)
++\cdots.
+    \end{equation}
+    Expanding the Lagrangian, we have
+    \begin{equation}
+        \begin{aligned}
+            \mathcal L_{\rm pion}
+            &=\operatorname{tr}(\partial_\mu \pi\partial^\mu \pi)-\frac{2}{3f_\pi^2}\operatorname{tr}\left[
+    \pi^2(\partial_\mu\pi)^2
+    -(\pi\partial_\mu\pi)^2\right] +\cdots.
+        \end{aligned}
+    \end{equation}
+
+    For $N_f = 2$, we need to evaluate
+    \begin{equation}
+        \operatorname{tr}(\sigma^a \sigma^b \sigma^c \sigma^d ) = \operatorname{tr}(\sigma^a \sigma^b \{\sigma^c, \sigma^d \}) - \operatorname{tr}(\sigma^a \{\sigma^b, \sigma^d\} \sigma^c )  + \operatorname{tr}(\{\sigma^a ,\sigma^d\} \sigma^b \sigma^c ) + \operatorname{tr}( \sigma^d \sigma^a \sigma^b \sigma^c).
+    \end{equation}
+    Using $\{\sigma^a,\sigma^b\} = 2\delta^{ab}$ and $\Tr{\sigma^a \sigma^b} = 2\delta^{ab}$, we find
+    \begin{equation}
+        \operatorname{tr}(\sigma^a \sigma^b \sigma^c \sigma^d ) = 2(\delta^{ab}\delta^{cd}-\delta^{bd}\delta^{ac} + \delta^{ad}\delta^{bc}).
+    \end{equation}
+    Substituting into the Lagrangian, the interaction reduces to
+    \begin{equation}
+    \mathcal L_{\rm int}=-\frac1{6f_\pi^2}
+    \left[\pi^a\pi^a\partial_\mu\pi^b\partial^\mu\pi^b
+    -\pi^a\partial_\mu\pi^a\,
+    \pi^b\partial^\mu\pi^b\right].
+\end{equation}
+\end{solution}
+
+\subsection{Sheet 2, Problem 8: Meson Mass Relations}
+
+For $N_f=3$, use the pion, kaon, and eta matrix
+\begin{equation}
+    \pi=\frac1{\sqrt2}
+    \begin{pmatrix}
+    \pi^0/\sqrt2+\eta/\sqrt6&\pi^+&K^+\\
+    \pi^-&-\pi^0/\sqrt2+\eta/\sqrt6&K^0\\
+    K^-&\bar K^0&-2\eta/\sqrt6
+    \end{pmatrix}.
+\end{equation}
+With $M=\operatorname{diag}(m_u,m_d,m_s)$ and a mass term
+proportional to $f_\pi\operatorname{tr}[(M+M^\dagger)\pi^2]$,
+show
+\begin{equation}
+    \frac{m_{K^+}^2-m_{K^0}^2}{m_\pi^2}
+    =\frac{m_u-m_d}{m_u+m_d}.
+\end{equation}
+Then take $m_u\simeq m_d$ to derive the Gell-Mann--Okubo relation
+$4m_K^2\simeq3m_\eta^2+m_\pi^2$ and compare it with measured
+meson masses.
+\begin{solution}
+\[
+(\pi^2)_{11}=\frac12\left[\left(\frac{\pi^0}{\sqrt2}+\frac{\eta}{\sqrt6}\right)^2+\pi^+\pi^-+K^+K^-\right],
+\]\[
+(\pi^2)_{22}=\frac12\left[\left(-\frac{\pi^0}{\sqrt2}+\frac{\eta}{\sqrt6}\right)^2+\pi^-\pi^++K^0\bar K^0\right],
+\]\[
+(\pi^2)_{33}=\frac12\left[K^-K^++\bar K^0K^0+\frac{2\eta^2}{3}\right].
+\]
+Hence, the mass term is proportional to
+\begin{equation}
+     m_u (\pi^2)_{11} +  m_d (\pi^2)_{22} + m_s (\pi^2)_{33}.
+\end{equation}
+Then, we can read off the masses of the Mesons, which are
+\begin{equation}
+    m_{\pi}^2 =  m_u + m_d, \quad m_{K^0}^2 = m_d + m_s, \quad m_{K^+}^2 = m_u + m_s,\quad m_\eta^2 = \frac{m_u + m_d + 4m_s}{3},
+\end{equation}
+up to an overall constant. Therefore, we obtain the relation
+\begin{equation}
+    \frac{m_{K^+}^2-m_{K^0}^2}{m_\pi^2}
+    =\frac{m_u-m_d}{m_u+m_d}.
+\end{equation}
+Take $m_u \simeq m_d$, we immediately find $m_{K}^2 \simeq m_{K^0}^2 \simeq m_{K^+}^2\simeq m_u + m_s$. Then, it follows
+\begin{equation}
+    4m_K^2\simeq3m_\eta^2+m_\pi^2.
+\end{equation}
+Using the PDG measured masses and averaging the charged and neutral squared masses within each pion and kaon multiplet gives
+\[
+4m_K^2 \simeq 0.983\,\mathrm{GeV}^2.
+\]\[
+3m_\eta^2+m_\pi^2 \simeq 0.920\,\mathrm{GeV}^2.
+\]
+\end{solution}
+

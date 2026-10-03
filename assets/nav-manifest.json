@@ -4,7 +4,7 @@
       "slug": "qft",
       "title": "Quantum Field Theory",
       "blurb": "Path-integral essay; completed Schwartz, Peskin, Tong, PSI, Osborn, and Srednicki solutions; plus an independent φ³ computation.",
-      "tag": "24 notes",
+      "tag": "28 notes",
       "groups": [
         {
           "title": "Papers",
@@ -27,6 +27,39 @@
               "label": "29.",
               "desc": "Completed Problems 29.1, 29.2, 29.3, 29.6, 29.7, 29.8, 29.9, collected in one chapter edition.",
               "tag": "7 completed problems"
+            }
+          ]
+        },
+        {
+          "title": "Solutions to David Tong’s The Standard Model example sheets",
+          "notes": [
+            {
+              "href": "notes/tong-sm-sheet-1.html",
+              "title": "Sheet 1: The Basics",
+              "label": "I.",
+              "desc": "Weyl spinors, fermion masses, and discrete symmetries. Worked problems: 1, 2, 3, 4, 6, 7, 8.",
+              "tag": "Tong Standard Model · Sheet 1"
+            },
+            {
+              "href": "notes/tong-sm-sheet-2.html",
+              "title": "Sheet 2: Symmetry Breaking and QCD",
+              "label": "II.",
+              "desc": "Goldstone modes, Higgs mechanisms, QCD running, and meson masses. Worked problems: 1, 2, 3, 4, 5, 6, 7, 8.",
+              "tag": "Tong Standard Model · Sheet 2"
+            },
+            {
+              "href": "notes/tong-sm-sheet-3.html",
+              "title": "Sheet 3: Anomalies",
+              "label": "III.",
+              "desc": "Gauge anomalies, hypercharges, anomaly matching, and global symmetries. Worked problems: 1, 2, 3, 4, 5, 6.",
+              "tag": "Tong Standard Model · Sheet 3"
+            },
+            {
+              "href": "notes/tong-sm-sheet-4.html",
+              "title": "Sheet 4: The Standard Model",
+              "label": "IV.",
+              "desc": "Running couplings, electric charges, flavour parameters, and two Higgs doublets. Worked problems: 1, 2, 4, 5, 6.",
+              "tag": "Tong Standard Model · Sheet 4"
             }
           ]
         },

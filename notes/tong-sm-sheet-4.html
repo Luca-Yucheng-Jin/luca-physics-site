@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>David Tong Standard Model Solutions — Sheet 4: The Standard Model | Yucheng (Luca) Jin</title>
+<meta name="description" content="David Tong Standard Model Solutions — Sheet 4: The Standard Model — Quantum Field Theory · Tong Standard Model Sheet 4, based on D. Tong. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="author" content="Yucheng (Luca) Jin">
+<link rel="canonical" href="https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sm-sheet-4.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sm-sheet-4.html">
+<meta property="og:site_name" content="Luca Jin Physics">
+<meta property="og:title" content="David Tong Standard Model Solutions — Sheet 4: The Standard Model | Yucheng (Luca) Jin">
+<meta property="og:description" content="David Tong Standard Model Solutions — Sheet 4: The Standard Model — Quantum Field Theory · Tong Standard Model Sheet 4, based on D. Tong. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta property="og:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="David Tong Standard Model Solutions — Sheet 4: The Standard Model | Yucheng (Luca) Jin">
+<meta name="twitter:description" content="David Tong Standard Model Solutions — Sheet 4: The Standard Model — Quantum Field Theory · Tong Standard Model Sheet 4, based on D. Tong. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta name="twitter:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="stylesheet" href="../styles.css">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sm-sheet-4.html#article","url":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sm-sheet-4.html","mainEntityOfPage":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sm-sheet-4.html","headline":"David Tong Standard Model Solutions — Sheet 4: The Standard Model","description":"David Tong Standard Model Solutions — Sheet 4: The Standard Model — Quantum Field Theory · Tong Standard Model Sheet 4, based on D. Tong. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.","inLanguage":"en","genre":"Theoretical physics notes and worked solutions","educationalLevel":"Undergraduate physics","about":{"@type":"Thing","name":"Quantum Field Theory · Tong Standard Model Sheet 4"},"author":{"@type":"Person","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#person","name":"Yucheng (Luca) Jin","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"isPartOf":{"@type":"WebSite","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#website","name":"Luca Jin Physics","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"encoding":{"@type":"MediaObject","contentUrl":"https://luca-yucheng-jin.github.io/luca-physics-site/output/pdf/tong-sm-sheet-4.pdf","encodingFormat":"application/pdf"}},{"@type":"BreadcrumbList","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sm-sheet-4.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes.html"},{"@type":"ListItem","position":2,"name":"David Tong Standard Model Solutions — Sheet 4: The Standard Model","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sm-sheet-4.html"}]}]}</script>
+
+<script src="../assets/theme.js"></script>
+<script src="../assets/font-size.js"></script>
+
+<!-- MathJax with custom macros mirroring the original .tex preamble -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros', 'mathtools']},
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      Q: '\\mathbb{Q}',
+      A: '\\mathcal{A}',
+      Lagrangian: '\\mathcal{L}',
+      Cdot: '\\boldsymbol{\\cdot}',
+      Tr: '\\operatorname{Tr}',
+      // \qed inside math (e.g. trailing a derivation in an align env) —
+      // amsthm's text-mode handler is already covered by the HTML-side
+      // replace at the bottom of strip_tex_only_constructs, this catches
+      // the math-mode case (Osborn AQFT PS3 Q3 ends an equation with .\qed).
+      qed: '\\blacksquare',
+      // Feynman slash: \not{x} would render the slash to the LEFT of x
+      // (it's designed for \not=). \cancel from the cancel package
+      // strikes diagonally through the centre, matching the slashed.sty
+      // package's appearance.
+      slashed: ['{\\cancel{#1}}', 1],
+      // Wick contraction: top brace connector over the contracted pair —
+      // closer to the standard physics notation than a plain overline.
+      wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // siunitx polyfill — \si{K}, \si{m\,s^{-1}} etc. should render
+      // the unit in upright math text, like \mathrm{X}. Doesn't try
+      // to mimic the full siunitx unit-formatting machinery; just
+      // unblocks the common bare-unit case in TDSP problems.
+      si: ['\\,\\mathrm{#1}', 1],
+      SI: ['#1\\,\\mathrm{#2}', 2]
+      // \tensor{base}{indices} is rewritten to base^a{}_b in
+      // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
+      // so no runtime macro is needed here. The empty-group trick is
+      // what makes MathJax kern the indices into separate columns.
+    }
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../" class="topbar__brand">Luca Jin <small>Physics · Imperial</small></a>
+  <nav class="topbar__nav" aria-label="Primary navigation">
+    <a href="../">Home</a>
+    <a href="../notes.html" class="is-active">Notes</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+    <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" title="Decrease font size">A<span class="font-toggle__small">−</span></button>
+    <button class="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size" title="Increase font size">A<span class="font-toggle__large">+</span></button>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Toggle theme">
+      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    </button>
+  </nav>
+</header>
+
+<main class="note">
+
+  <div class="note__breadcrumb">
+    <a href="../notes.html">Notes</a> &nbsp;·&nbsp; Quantum Field Theory · Tong Standard Model Sheet 4
+  </div>
+
+  <h1 class="note__title">David Tong Standard Model Solutions — Sheet 4: The Standard Model</h1>
+  <p class="note__subtitle">Source: D. Tong, <em>The Standard Model</em>, Example Sheet 4; 5 worked problems.</p>
+
+  <div class="note__formats" aria-label="Available formats"><span>Available formats</span><a aria-current="page" href="tong-sm-sheet-4.html">HTML</a><a href="../output/pdf/tong-sm-sheet-4.pdf">PDF ↓</a></div>
+
+  <nav class="note__toc note__toc--long" aria-label="Contents">
+  <div class="note__toc-label">Contents</div>
+  <ol class="note__toc-list">
+    <li class="toc-h2"><a href="#sheet-4-problem-1-running-gauge-couplings"><span class="note__toc-number">1</span> <span class="note__toc-title">Sheet 4, Problem 1: Running Gauge Couplings</span></a></li>
+    <li class="toc-h2"><a href="#sheet-4-problem-2-charge-of-a-new-multiplet"><span class="note__toc-number">2</span> <span class="note__toc-title">Sheet 4, Problem 2: Charge of a New Multiplet</span></a></li>
+    <li class="toc-h2"><a href="#sheet-4-problem-4-counting-flavour-parameters"><span class="note__toc-number">3</span> <span class="note__toc-title">Sheet 4, Problem 4: Counting Flavour Parameters</span></a></li>
+    <li class="toc-h2"><a href="#sheet-4-problem-5-a-two-generation-cabibbo-angle"><span class="note__toc-number">4</span> <span class="note__toc-title">Sheet 4, Problem 5*: A Two-Generation Cabibbo Angle</span></a></li>
+    <li class="toc-h2"><a href="#sheet-4-problem-6-a-second-higgs-doublet"><span class="note__toc-number">5</span> <span class="note__toc-title">Sheet 4, Problem 6*: A Second Higgs Doublet</span></a></li>
+  </ol>
+</nav>
+
+  <article class="note__body">
+<p><em>These prompts paraphrase David Tong's <em>The Standard Model</em>,
+Example Sheet 4 (March 2026). Problem numbers, starred status, equations,
+and guidance follow the
+<a href="https://davidtong.org/pdfs/teaching/standard-model/rw4.pdf">official sheet</a>.</em></p>
+
+<h2 data-section-heading id="sheet-4-problem-1-running-gauge-couplings" data-section-number="1"><span class="note__heading-number">1</span> <span class="note__heading-title">Sheet 4, Problem 1: Running Gauge Couplings</span></h2>
+
+<ol>
+  <li>For $SU(N_c)$ with $N_f$ massless fundamental Dirac
+    fermions and $N_s$ massless fundamental scalars, use
+    \[\frac1{g^2(\mu)}=\frac1{g_0^2}
+        -\frac{11N_c-2N_f-N_s/2}{3(4\pi)^2}
+        \log\frac{\Lambda_{\rm UV}^2}{\mu^2}.\tag{1.1}\]
+    \begin{enumerate}[label=\roman*)]</li>
+  <li>Prove that the Standard Model $SU(2)$ sector is
+        asymptotically free.</li>
+  <li>Without a Higgs boson, estimate the strong-coupling
+        scale $\Lambda_{\rm weak}$ from
+        $\alpha_W(100\,\mathrm{GeV})\simeq1/30$.</li>
+  <li>If the Higgs did not condense, explain the effect on
+        the weak force of a QCD condensate
+        $\langle\bar q_{Li}q_{Rj}\rangle
+        \simeq-\Lambda_{QCD}^3\delta_{ij}$.</li>
+  <li>Given $\alpha_s(100\,\mathrm{GeV})\simeq0.1$,
+        estimate the scale $\mu\gg90\,\mathrm{GeV}$ where
+        $\alpha_s=\alpha_W$.</li>
+</ol>
+
+<aside class="solution">
+
+<ol>
+  <li>For Standard Model $SU(2)$, we have $N_c = 2, N_s = 1$ and $N_f = 3\cdot (3+1)/2$, where the $3$ comes from three generations and the $4$ comes from $3$ colour of quarks and leptons. Therefore, we have
+        \[\frac{1}{g^2(\mu_1)} - \frac{1}{g^2(\mu_2)} = -\frac{19}{6(4\pi)^2}\log\frac{\mu_2^2}{\mu_1^2}.\tag{1.2}\]
+        For $\mu_1 &gt; \mu_2$, we have $g^2(\mu_1) &lt; g^2(\mu_2)$, and hence the theory is asymptotically free.</li>
+  <li>From the one-loop relation in <a href="https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sm-sheet-2.html#sheet-2-problem-5-one-loop-qcd-scale">Sheet 2, Problem 5</a>, we have
+        \[\Lambda_\text{weak} = (100\, {\rm GeV})\exp\left(-\frac{6\pi}{10} \cdot 30\right) = 2.76 \times 10^{-14} \, {\rm eV}.\tag{1.3}\]</li>
+  <li>Even if the $SU(2)$ symmetry is not broken by the Higgs, the condensate still breaks the $SU(2)$.</li>
+  <li>For $SU(3)$, $N_c = 3, N_f = 6, N_s = 0$. Then, using the one-loop relation in <a href="https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sm-sheet-2.html#sheet-2-problem-5-one-loop-qcd-scale">Sheet 2, Problem 5</a>, we find
+        \[\Lambda_\text{QCD} =  (100\,\mathrm{GeV})\exp\left(-\frac{6\pi}{21}\cdot 10\right) = 1.26\times 10^{-2} \, {\rm GeV}.\tag{1.4}\]
+        When $\alpha_W = \alpha_s$, we find
+        \[\mu = \left(\frac{\Lambda_\text{weak}^{10}}{\Lambda_\text{QCD}^{21}}\right)^{-1/11} = 7.7 \times 10^{16}\, {\rm GeV}.\tag{1.5}\]</li>
+</ol>
+
+</aside>
+
+<p>\item For $U(1)$ coupled to massless Weyl fermions of charges
+    $Y_i$ and scalars of charges $\tilde Y_i$, use
+    \[\frac1{g^2(\mu)}=\frac1{g_0^2}
+        +\frac{2\sum_iY_i^2+\sum_i\tilde Y_i^2}
+        {3(4\pi)^2}
+        \log\frac{\Lambda_{\rm UV}^2}{\mu^2}.\tag{1.6}\]
+    Decide whether hypercharge is asymptotically free. With
+    $\alpha_Y(100\,\mathrm{GeV})\simeq1/98$, find the scales
+    where $\alpha_s=\alpha_Y$ and $\alpha_W=\alpha_Y$.</p>
+
+<aside class="solution">
+
+<p>Since this is always positive, the hypercharge is not asymptotically free. In particular, for one generation
+        \[\sum_{\rm Weyl}Y_i^2
+=
+6\left(\frac16\right)^2
++3\left(\frac23\right)^2
++3\left(-\frac13\right)^2
++2\left(-\frac12\right)^2
++(-1)^2
+=
+\frac{10}{3}.\tag{1.7}\]
+         For the scalars, we only have the Higgs
+         \[\sum_{\rm scalars}\tilde Y_i^2=2\left(\frac12\right)^2=\frac12.\tag{1.8}\]
+        Therefore, we have
+        \[2\sum_iY_i^2+\sum_i\tilde Y_i^2=20+\frac12=\frac{41}{2}\tag{1.9}\]
+        Hence, through the one-loop relation in <a href="https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sm-sheet-2.html#sheet-2-problem-5-one-loop-qcd-scale">Sheet 2, Problem 5</a>, we find
+        \[\Lambda_Y=100\,\mathrm{GeV}\,\exp\left(\frac{1176\pi}{41}\right) = 1.36\times10^{41}\,\mathrm{GeV}.\tag{1.10}\]
+        Following the same procedure as in the previous sections, we find
+        \[\mu_{sY}
+=
+\left(
+\Lambda_{\rm QCD}^{42}
+\Lambda_Y^{41}
+\right)^{1/83} = 2.28 \times 10^{19} {\rm GeV},\tag{1.11}\]
+        and
+        \[\mu_{WY}
+=
+\left(
+\Lambda_{\rm weak}^{19}
+\Lambda_Y^{41}
+\right)^{1/60}=3.59\times10^{20}\,\mathrm{GeV}.\tag{1.12}\]</p>
+
+</aside>
+
+<p>\end{enumerate}</p>
+
+<h2 data-section-heading id="sheet-4-problem-2-charge-of-a-new-multiplet" data-section-number="2"><span class="note__heading-number">2</span> <span class="note__heading-title">Sheet 4, Problem 2: Charge of a New Multiplet</span></h2>
+
+<p>A hypothetical particle transforms as a $\mathbf3$ of $SU(2)$
+and a $\mathbf6$ of $SU(3)$, with hypercharge $Y$.
+Find its electric charges after electroweak symmetry breaking.</p>
+
+<aside class="solution">
+
+<p>The charge is defined as $Q = T^3 + Y$. $\mathbf{3}$ corresponds to $j=1$, and hence $T^3$ has three eigenvalues, namely $-1,0,+1$. Therefore, this particular particle contains three components with charges $Y-1, Y, Y+1$.</p>
+
+</aside>
+
+<h2 data-section-heading id="sheet-4-problem-4-counting-flavour-parameters" data-section-number="3"><span class="note__heading-number">3</span> <span class="note__heading-title">Sheet 4, Problem 4: Counting Flavour Parameters</span></h2>
+
+<p>With $N$ generations, count the physical parameters in the quark
+Yukawa matrices and classify them as masses, mixing angles, and
+complex phases. Then assume neutrino masses arise from a
+dimension-five operator and perform the corresponding count for
+the charged-lepton Yukawa matrix together with that operator.</p>
+
+<aside class="solution">
+
+<p>The two Yukawa matrices, $y^u, y^d$, have $2N^2$ complex parameters, and hence $2N^2$ real parameters and $2N^2$ phase angles. Since the kinetic term is invariant under $U(N)$ transformation, the physics remains under such transformations as long as the Yukawa matrices transform as
+    \[y^u \to V^\dagger y^u U^u, \quad Y^d \to V^\dagger y^d U^d,\tag{3.1}\]
+    where $Y,U^u,U^d \in U(N)$. $U(N)$ can be thought of as a decomposition of $O(N)$ and $U(1)^n$. $\dim U(n) - \dim O(n) = N^2 - \frac{1}{2}N(N-1) = \frac{1}{2}N(N+1) = n$. Therefore, there are
+    \[2N^2 - \frac{3}{2}N(N-1) = \frac{1}{2}N^2 + \frac{3}{2}N\tag{3.2}\]
+    real physical parameters, whereas $2N$ of them are physical mass parameters, and the rest are the mixing angles. Meanwhile, if all of $Y,U^u,U^d$ shifts by the same phase, the Yukawa potential remains unchanged, we must take away an $U(1)$ phase. Hence, there are
+    \[2N^2 - \frac{3}{2}N(N+1) +1 = \frac{1}{2}N^2 - \frac{3}{2}N +1\tag{3.3}\]
+    physical complex phases.</p>
+
+<p>A similar analysis works in the electron-neutrino sector. The mass Lagrangian is given by
+    \[-\bar L\,y^e e_R H
++
+\frac{1}{2\Lambda}\kappa_{ij}
+(L_iH)(L_jH)
++h.c.\tag{3.4}\]
+    Here $y^e$ is an arbitrary complex $N\times N$ matrix, while $\kappa$ is a complex $N\times N$ symmetric matrix. Therefore, there are $N^2$ real parameters and $N^2$ complex phases in the electron Yukawa coupling and $\frac{1}{2}N(N+1)$ real parameters and $\frac{1}{2}N(N+1)$ complex phases in the dimension 5 operator. The Kinetic Lagrangian has a $U(N)_L \times U(N)_e$ symmetry, which the couplings transforms as
+    \[y^e \to W^\dagger y^e U^e, \quad \kappa \to W^T \kappa W.\tag{3.5}\]
+    Note that there is no overall $U(1)$ phase that preserves the dimension 5 coupling. Therefore, we have $N(N+3)/2$ real physical parameters and $N(N-1)/2$ physical phases. These are $N$ lepton masses, $N$ neutrino masses, $N(N-1)/2$ mixing angles and $N(N-1)/2$ complex phases.</p>
+
+</aside>
+
+<h2 data-section-heading id="sheet-4-problem-5-a-two-generation-cabibbo-angle" data-section-number="4"><span class="note__heading-number">4</span> <span class="note__heading-title">Sheet 4, Problem 5*: A Two-Generation Cabibbo Angle</span></h2>
+
+<p>For two quark families, let
+\[\mathcal L_{\rm mass}
+    =-m_{ij}\bar q^{i}q^j
+    -\tilde m_{ij}\bar{\tilde q}^{i}\tilde q^{j},
+    \qquad
+    m=\begin{pmatrix}0&amp;a\\a^*&amp;b\end{pmatrix},
+    \quad
+    \tilde m=\begin{pmatrix}0&amp;c\\c^*&amp;d\end{pmatrix},\tag{4.1}\]
+with $a,c\in\mathbb C$ and $b,d\in\mathbb R$.</p>
+
+<ol>
+  <li>Rephase quarks to make $a,c$ real and positive.</li>
+  <li>Let rotations $R(\theta),R(\tilde\theta)$ diagonalise the
+    two matrices into $(m_1,-m_2)$ and
+    $(\tilde m_1,-\tilde m_2)$. Show
+    \[\tan\theta=\sqrt{\frac{m_1}{m_2}},
+        \qquad
+        \tan\tilde\theta=\sqrt{\frac{\tilde m_1}{\tilde m_2}}.\tag{4.2}\]</li>
+  <li>Derive $\theta_C=\theta-\tilde\theta$ from the weak
+    charged-current mixing matrix.</li>
+</ol>
+
+<aside class="solution">
+
+<ol>
+  <li>$m$ can be written as
+        \[m = \begin{pmatrix}
+                0 &amp; |a|e^{i\alpha}\\ |a| e^{-i\alpha} &amp; b
+            \end{pmatrix}.\tag{4.3}\]
+        The kinetic term  is invariant under
+        \[q^1 \to e^{-i\alpha}q^1,\tag{4.4}\]
+        whereas $m$ transforms as
+        \[m_{12} \to e^{i\alpha} m_{12}, \quad m_{21} \to e^{-i\alpha}m_{21}.\tag{4.5}\]
+        Therefore, we can always make $a,c \in \mathbb{R}^+$.</li>
+  <li>We have
+        \[m = R(\theta)^{-1}\operatorname{diag}(m_1, -m_2) R(\theta).\tag{4.6}\]
+        Note that the top right entry is zero, we must have
+        \[m_1 \cos^2\theta - m_2 \sin^2 \theta = 0 \implies \tan\theta = \sqrt{\frac{m_1}{m_2}},\tag{4.7}\]
+        and similarly for $\tilde \theta$.</li>
+  <li>\[R(\theta_c) = R^{-1}(\tilde \theta)R(\theta) \implies \theta_c = \theta - \tilde \theta.\tag{4.8}\]</li>
+</ol>
+
+</aside>
+
+<h2 data-section-heading id="sheet-4-problem-6-a-second-higgs-doublet" data-section-number="5"><span class="note__heading-number">5</span> <span class="note__heading-title">Sheet 4, Problem 6*: A Second Higgs Doublet</span></h2>
+
+<p>Alongside the Standard Model Higgs
+$H:(\mathbf2,\mathbf1)_{+1/2}$, introduce
+$\phi:(\mathbf2,\mathbf1)_{-1/2}$, with the entries indicating
+$SU(2)\times SU(3)$ representations and $U(1)_Y$ charge.</p>
+
+<ol>
+  <li>Find the electric charges of the two components of $\phi$.</li>
+  <li>Construct the most general renormalisable gauge-invariant
+    potential of $H$ and $\phi$ and count its independent real
+    parameters.</li>
+  <li>Suppose the vacuum is
+    \[\langle H\rangle=\frac1{\sqrt2}
+        \begin{pmatrix}0\\v\end{pmatrix},
+        \qquad
+        \langle\phi\rangle=\frac1{\sqrt2}
+        \begin{pmatrix}u+iw\\0\end{pmatrix},
+        \quad u,v,w\in\mathbb R.\tag{5.1}\]
+    Does $\langle\phi\rangle$ break electromagnetism?
+    Find the masses of $W_\mu^\pm=(W_\mu^1\mp iW_\mu^2)/\sqrt2$
+    and of the appropriate mixtures of $W_\mu^3,B_\mu$.
+    Identify the charges of the scalar modes remaining after
+    symmetry breaking.</li>
+  <li>List all permitted Yukawa couplings of $H$ and $\phi$
+    to the Standard Model fermions.</li>
+</ol>
+
+<aside class="solution">
+
+<ol>
+  <li>For $\mathbf{2}$ of $SU(2)$, $T^3$ has eigenvalues $\pm \frac{1}{2}$. Hence, the EM charges are $-1, 0$.</li>
+  <li>Since $[H] = [\phi] = 1$, we can at most have an order $4$ coupling. Meanwhile, we must have two scalar fields coming in pair as well. Finally, to respect $U(1)$ gauge symmetry, the only possible interactions we are left with are
+        \[\begin{aligned}
+V={}&amp;m_1^2H^\dagger H
++m_2^2\phi^\dagger\phi
+-\left[m_{12}^2 H^T i\sigma^2\phi+\text{h.c.}\right]\\
+&amp;+\lambda_1(H^\dagger H)^2
++\lambda_2(\phi^\dagger\phi)^2
++\lambda_3(H^\dagger H)(\phi^\dagger\phi)
++\lambda_4|H^T i\sigma^2\phi|^2\\
+&amp;+\left[
+\lambda_5(H^T i\sigma^2\phi)^2
++\lambda_6(H^\dagger H)(H^T i\sigma^2\phi)
++\lambda_7(\phi^\dagger\phi)(H^T i\sigma^2\phi)
++\text{h.c.}
+\right],
+\end{aligned}\tag{5.2}\]
+        Therefore, there are $6$ independent real parameters.</li>
+  <li>In the vacuum, we have
+        \[Q\langle \phi\rangle = (T^3 +Y)\langle \phi\rangle =  \begin{pmatrix}
+                0 &amp; 0\\
+                0 &amp; -1
+            \end{pmatrix}\langle \phi\rangle = 0.\tag{5.3}\]
+        Therefore, the $U(1)_\text{EM}$ symmetry survives.
+
+<p>Now, expanding the terms quadratic in the gauge fields around the vacuum, we find
+        \[\mathcal L_{\rm mass}
+            =
+            \frac{v^2+u^2+w^2}{8}
+            \left[
+                g^2\left((W_\mu^1)^2+(W_\mu^2)^2\right)
+                +(gW_\mu^3-g'B_\mu)^2
+            \right].\tag{5.4}\]
+        Therefore,
+        \[m_W^2=\frac{g^2}{4}(v^2+u^2+w^2).\tag{5.5}\]
+        Defining
+        \[Z_\mu=\cos\theta_W W_\mu^3-\sin\theta_W B_\mu,
+            \qquad
+            A_\mu=\sin\theta_W W_\mu^3+\cos\theta_W B_\mu,\tag{5.6}\]
+        where
+        \[\cos\theta_W=\frac{g}{\sqrt{g^2+g'^2}},\tag{5.7}\]
+        we obtain
+        \[m_Z^2=\frac{g^2+g'^2}{4}(v^2+u^2+w^2),
+            \qquad
+            m_\gamma^2=0.\tag{5.8}\]</li>
+  <li>Since $\phi$ has hypercharge
+$Y_\phi=-1/2$, the allowed interactions are
+\[\mathcal L_{\phi f}
+    =
+    -\bar Q_L\, y_\phi^u\,\phi\,u_R
+    -\bar Q_L\, y_\phi^d\,\widetilde\phi\,d_R
+    -\bar L\, y_\phi^e\,\widetilde\phi\,e_R
+    +\text{h.c.},\tag{5.9}\]
+where
+\[\widetilde\phi=i\sigma^2\phi^*.\tag{5.10}\]</li>
+</ol></p>
+
+</aside>
+  </article>
+
+  <hr class="ornament-rule">
+
+  <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
+    <a href="../notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <p class="footer__disclaimer">
+    These notes are not guaranteed to be correct. If you find a mistake,
+    <a href="mailto:luca.jin@outlook.com?subject=Correction%20to%20Luca%20Jin%20Physics">please email me</a>.
+  </p>
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="../">Home</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>

@@ -109,6 +109,28 @@ test('Tong SFT sheets appear only in Statistical Physics with selected worked pr
 });
 
 
+test('Tong Standard Model imports preserve supplied problem numbers and omit unanswered problems', async () => {
+  const imported = JSON.parse(await readFile(path.join(root, 'assets', 'tong-sm-manifest.json'), 'utf8'));
+  const navigation = JSON.parse(await readFile(path.join(root, 'assets', 'nav-manifest.json'), 'utf8'));
+  const expected = [[1, 2, 3, 4, 6, 7, 8], [1, 2, 3, 4, 5, 6, 7, 8], [1, 2, 3, 4, 5, 6], [1, 2, 4, 5, 6]];
+  assert.equal(imported.sheets.length, 4);
+  for (const [index, sheet] of imported.sheets.entries()) {
+    assert.deepEqual(sheet.publishedProblems, expected[index]);
+    const html = await readFile(path.join(root, 'notes', `${sheet.slug}.html`), 'utf8');
+    assert.equal((html.match(/<aside class="solution">/g) || []).length, sheet.solutionCount);
+    for (const problem of sheet.excludedUnanswered) {
+      assert.ok(!html.includes(`Sheet ${sheet.sheet}, Problem ${problem}:`));
+      assert.ok(!html.includes(`Sheet ${sheet.sheet}, Problem ${problem}*:`));
+    }
+    assert.ok(!html.includes('\0'));
+    assert.ok(!html.includes('eq:LandauPole'));
+    const categories = navigation.categories.filter((category) => category.groups.some((group) =>
+      group.notes.some((note) => note.href === `notes/${sheet.slug}.html`)));
+    assert.deepEqual(categories.map((category) => category.slug), ['qft']);
+    assert.ok((await stat(path.join(root, 'output', 'pdf', `${sheet.slug}.pdf`))).size > 100_000);
+  }
+});
+
 test('completed Schwartz solutions are collected into one public file per chapter', async () => {
   const completed = ['29.1', '29.2', '29.3', '29.6', '29.7', '29.8', '29.9'];
   const chapterSlug = 'schwartz-qft-chapter-29';

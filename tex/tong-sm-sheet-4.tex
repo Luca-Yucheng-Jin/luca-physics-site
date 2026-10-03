@@ -1,0 +1,327 @@
+% Imported from https://github.com/Luca-Yucheng-Jin/QFT-soln
+% Source commit: 0bb3e7066154a8fdb256399a8ecceae720c5e192
+\section{David Tong The Standard Model, Sheet 4: The Standard Model}
+\markboth{\thesection\quad TONG THE STANDARD MODEL, SHEET 4}{}
+
+\noindent\textit{These prompts paraphrase David Tong's \emph{The Standard Model},
+Example Sheet 4 (March 2026). Problem numbers, starred status, equations,
+and guidance follow the
+\href{https://davidtong.org/pdfs/teaching/standard-model/rw4.pdf}{official sheet}.}
+
+\subsection{Sheet 4, Problem 1: Running Gauge Couplings}
+
+\begin{enumerate}[label=\alph*)]
+    \item For $SU(N_c)$ with $N_f$ massless fundamental Dirac
+    fermions and $N_s$ massless fundamental scalars, use
+    \begin{equation}
+        \frac1{g^2(\mu)}=\frac1{g_0^2}
+        -\frac{11N_c-2N_f-N_s/2}{3(4\pi)^2}
+        \log\frac{\Lambda_{\rm UV}^2}{\mu^2}.
+    \end{equation}
+    \begin{enumerate}[label=\roman*)]
+        \item Prove that the Standard Model $SU(2)$ sector is
+        asymptotically free.
+        \item Without a Higgs boson, estimate the strong-coupling
+        scale $\Lambda_{\rm weak}$ from
+        $\alpha_W(100\,\mathrm{GeV})\simeq1/30$.
+        \item If the Higgs did not condense, explain the effect on
+        the weak force of a QCD condensate
+        $\langle\bar q_{Li}q_{Rj}\rangle
+        \simeq-\Lambda_{\rm QCD}^3\delta_{ij}$.
+        \item Given $\alpha_s(100\,\mathrm{GeV})\simeq0.1$,
+        estimate the scale $\mu\gg90\,\mathrm{GeV}$ where
+        $\alpha_s=\alpha_W$.
+    \end{enumerate}
+    \begin{solution}
+    \begin{enumerate}[label=\roman*)]
+        \item For Standard Model $SU(2)$, we have $N_c = 2, N_s = 1$ and $N_f = 3\cdot (3+1)/2$, where the $3$ comes from three generations and the $4$ comes from $3$ colour of quarks and leptons. Therefore, we have
+        \begin{equation}
+            \frac{1}{g^2(\mu_1)} - \frac{1}{g^2(\mu_2)} = -\frac{19}{6(4\pi)^2}\log\frac{\mu_2^2}{\mu_1^2}.
+        \end{equation}
+        For $\mu_1 > \mu_2$, we have $g^2(\mu_1) < g^2(\mu_2)$, and hence the theory is asymptotically free.
+        \item From the one-loop relation in \href{https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sm-sheet-2.html#sheet-2-problem-5-one-loop-qcd-scale}{Sheet 2, Problem 5}, we have
+        \begin{equation}
+            \Lambda_\text{weak} = (100\, {\rm GeV})\exp\left(-\frac{6\pi}{10} \cdot 30\right) = 2.76 \times 10^{-14} \, {\rm eV}.
+        \end{equation}
+        \item Even if the $SU(2)$ symmetry is not broken by the Higgs, the condensate still breaks the $SU(2)$.
+        \item For $SU(3)$, $N_c = 3, N_f = 6, N_s = 0$. Then, using the one-loop relation in \href{https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sm-sheet-2.html#sheet-2-problem-5-one-loop-qcd-scale}{Sheet 2, Problem 5}, we find
+        \begin{equation}
+            \Lambda_\text{QCD} =  (100\,\mathrm{GeV})\exp\left(-\frac{6\pi}{21}\cdot 10\right) = 1.26\times 10^{-2} \, {\rm GeV}.
+        \end{equation}
+        When $\alpha_W = \alpha_s$, we find
+        \begin{equation}
+            \mu = \left(\frac{\Lambda_\text{weak}^{10}}{\Lambda_\text{QCD}^{21}}\right)^{-1/11} = 7.7 \times 10^{16}\, {\rm GeV}.
+        \end{equation}
+
+    \end{enumerate}
+    \end{solution}
+
+    \item For $U(1)$ coupled to massless Weyl fermions of charges
+    $Y_i$ and scalars of charges $\tilde Y_i$, use
+    \begin{equation}
+        \frac1{g^2(\mu)}=\frac1{g_0^2}
+        +\frac{2\sum_iY_i^2+\sum_i\tilde Y_i^2}
+        {3(4\pi)^2}
+        \log\frac{\Lambda_{\rm UV}^2}{\mu^2}.
+    \end{equation}
+    Decide whether hypercharge is asymptotically free. With
+    $\alpha_Y(100\,\mathrm{GeV})\simeq1/98$, find the scales
+    where $\alpha_s=\alpha_Y$ and $\alpha_W=\alpha_Y$.
+    \begin{solution}
+        Since this is always positive, the hypercharge is not asymptotically free. In particular, for one generation
+        \begin{equation}
+\sum_{\rm Weyl}Y_i^2
+=
+6\left(\frac16\right)^2
++3\left(\frac23\right)^2
++3\left(-\frac13\right)^2
++2\left(-\frac12\right)^2
++(-1)^2
+=
+\frac{10}{3}.
+        \end{equation}
+         For the scalars, we only have the Higgs
+         \begin{equation}
+             \sum_{\rm scalars}\tilde Y_i^2=2\left(\frac12\right)^2=\frac12.
+         \end{equation}
+        Therefore, we have
+        \begin{equation}
+            2\sum_iY_i^2+\sum_i\tilde Y_i^2=20+\frac12=\frac{41}{2}
+        \end{equation}
+        Hence, through the one-loop relation in \href{https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sm-sheet-2.html#sheet-2-problem-5-one-loop-qcd-scale}{Sheet 2, Problem 5}, we find
+        \begin{equation}
+            \Lambda_Y=100\,\mathrm{GeV}\,\exp\left(\frac{1176\pi}{41}\right) = 1.36\times10^{41}\,\mathrm{GeV}.
+        \end{equation}
+        Following the same procedure as in the previous sections, we find
+        \begin{equation}
+\mu_{sY}
+=
+\left(
+\Lambda_{\rm QCD}^{42}
+\Lambda_Y^{41}
+\right)^{1/83} = 2.28 \times 10^{19} {\rm GeV},
+        \end{equation}
+        and
+        \begin{equation}
+\mu_{WY}
+=
+\left(
+\Lambda_{\rm weak}^{19}
+\Lambda_Y^{41}
+\right)^{1/60}=3.59\times10^{20}\,\mathrm{GeV}.
+        \end{equation}
+    \end{solution}
+
+\end{enumerate}
+
+\subsection{Sheet 4, Problem 2: Charge of a New Multiplet}
+
+A hypothetical particle transforms as a $\mathbf3$ of $SU(2)$
+and a $\mathbf6$ of $SU(3)$, with hypercharge $Y$.
+Find its electric charges after electroweak symmetry breaking.
+
+\begin{solution}
+    The charge is defined as $Q = T^3 + Y$. $\mathbf{3}$ corresponds to $j=1$, and hence $T^3$ has three eigenvalues, namely $-1,0,+1$. Therefore, this particular particle contains three components with charges $Y-1, Y, Y+1$.
+\end{solution}
+
+\subsection{Sheet 4, Problem 4: Counting Flavour Parameters}
+
+With $N$ generations, count the physical parameters in the quark
+Yukawa matrices and classify them as masses, mixing angles, and
+complex phases. Then assume neutrino masses arise from a
+dimension-five operator and perform the corresponding count for
+the charged-lepton Yukawa matrix together with that operator.
+\begin{solution}
+    The two Yukawa matrices, $y^u, y^d$, have $2N^2$ complex parameters, and hence $2N^2$ real parameters and $2N^2$ phase angles. Since the kinetic term is invariant under $U(N)$ transformation, the physics remains under such transformations as long as the Yukawa matrices transform as
+    \begin{equation}
+        y^u \to V^\dagger y^u U^u, \quad Y^d \to V^\dagger y^d U^d,
+    \end{equation}
+    where $Y,U^u,U^d \in U(N)$. $U(N)$ can be thought of as a decomposition of $O(N)$ and $U(1)^n$. $\dim U(n) - \dim O(n) = N^2 - \frac{1}{2}N(N-1) = \frac{1}{2}N(N+1) = n$. Therefore, there are
+    \begin{equation}
+        2N^2 - \frac{3}{2}N(N-1) = \frac{1}{2}N^2 + \frac{3}{2}N
+    \end{equation}
+    real physical parameters, whereas $2N$ of them are physical mass parameters, and the rest are the mixing angles. Meanwhile, if all of $Y,U^u,U^d$ shifts by the same phase, the Yukawa potential remains unchanged, we must take away an $U(1)$ phase. Hence, there are
+    \begin{equation}
+        2N^2 - \frac{3}{2}N(N+1) +1 = \frac{1}{2}N^2 - \frac{3}{2}N +1
+    \end{equation}
+    physical complex phases.
+
+    A similar analysis works in the electron-neutrino sector. The mass Lagrangian is given by
+    \begin{equation}
+-\bar L\,y^e e_R H
++
+\frac{1}{2\Lambda}\kappa_{ij}
+(L_iH)(L_jH)
++h.c.
+    \end{equation}
+    Here $y^e$ is an arbitrary complex $N\times N$ matrix, while $\kappa$ is a complex $N\times N$ symmetric matrix. Therefore, there are $N^2$ real parameters and $N^2$ complex phases in the electron Yukawa coupling and $\frac{1}{2}N(N+1)$ real parameters and $\frac{1}{2}N(N+1)$ complex phases in the dimension 5 operator. The Kinetic Lagrangian has a $U(N)_L \times U(N)_e$ symmetry, which the couplings transforms as
+    \begin{equation}
+        y^e \to W^\dagger y^e U^e, \quad \kappa \to W^T \kappa W.
+    \end{equation}
+    Note that there is no overall $U(1)$ phase that preserves the dimension 5 coupling. Therefore, we have $N(N+3)/2$ real physical parameters and $N(N-1)/2$ physical phases. These are $N$ lepton masses, $N$ neutrino masses, $N(N-1)/2$ mixing angles and $N(N-1)/2$ complex phases.
+\end{solution}
+
+\subsection{Sheet 4, Problem 5*: A Two-Generation Cabibbo Angle}
+
+For two quark families, let
+\begin{equation}
+    \mathcal L_{\rm mass}
+    =-m_{ij}\bar q^{i}q^j
+    -\tilde m_{ij}\bar{\tilde q}^{i}\tilde q^{j},
+    \qquad
+    m=\begin{pmatrix}0&a\\a^*&b\end{pmatrix},
+    \quad
+    \tilde m=\begin{pmatrix}0&c\\c^*&d\end{pmatrix},
+\end{equation}
+with $a,c\in\mathbb C$ and $b,d\in\mathbb R$.
+\begin{enumerate}[label=\roman*)]
+    \item Rephase quarks to make $a,c$ real and positive.
+    \item Let rotations $R(\theta),R(\tilde\theta)$ diagonalise the
+    two matrices into $(m_1,-m_2)$ and
+    $(\tilde m_1,-\tilde m_2)$. Show
+    \begin{equation}
+        \tan\theta=\sqrt{\frac{m_1}{m_2}},
+        \qquad
+        \tan\tilde\theta=\sqrt{\frac{\tilde m_1}{\tilde m_2}}.
+    \end{equation}
+    \item Derive $\theta_C=\theta-\tilde\theta$ from the weak
+    charged-current mixing matrix.
+\end{enumerate}
+\begin{solution}
+    \begin{enumerate}[label=\roman*)]
+        \item $m$ can be written as
+        \begin{equation}
+            m = \begin{pmatrix}
+                0 & |a|e^{i\alpha}\\ |a| e^{-i\alpha} & b
+            \end{pmatrix}.
+        \end{equation}
+        The kinetic term  is invariant under
+        \begin{equation}
+            q^1 \to e^{-i\alpha}q^1,
+        \end{equation}
+        whereas $m$ transforms as
+        \begin{equation}
+            m_{12} \to e^{i\alpha} m_{12}, \quad m_{21} \to e^{-i\alpha}m_{21}.
+        \end{equation}
+        Therefore, we can always make $a,c \in \mathbb{R}^+$.
+        \item We have
+        \begin{equation}
+            m = R(\theta)^{-1}\operatorname{diag}(m_1, -m_2) R(\theta).
+        \end{equation}
+        Note that the top right entry is zero, we must have
+        \begin{equation}
+            m_1 \cos^2\theta - m_2 \sin^2 \theta = 0 \implies \tan\theta = \sqrt{\frac{m_1}{m_2}},
+        \end{equation}
+        and similarly for $\tilde \theta$.
+        \item \begin{equation}
+            R(\theta_c) = R^{-1}(\tilde \theta)R(\theta) \implies \theta_c = \theta - \tilde \theta.
+        \end{equation}
+    \end{enumerate}
+\end{solution}
+
+\subsection{Sheet 4, Problem 6*: A Second Higgs Doublet}
+
+Alongside the Standard Model Higgs
+$H:(\mathbf2,\mathbf1)_{+1/2}$, introduce
+$\phi:(\mathbf2,\mathbf1)_{-1/2}$, with the entries indicating
+$SU(2)\times SU(3)$ representations and $U(1)_Y$ charge.
+\begin{enumerate}[label=\roman*)]
+    \item Find the electric charges of the two components of $\phi$.
+    \item Construct the most general renormalisable gauge-invariant
+    potential of $H$ and $\phi$ and count its independent real
+    parameters.
+    \item Suppose the vacuum is
+    \begin{equation}
+        \langle H\rangle=\frac1{\sqrt2}
+        \begin{pmatrix}0\\v\end{pmatrix},
+        \qquad
+        \langle\phi\rangle=\frac1{\sqrt2}
+        \begin{pmatrix}u+iw\\0\end{pmatrix},
+        \quad u,v,w\in\mathbb R.
+    \end{equation}
+    Does $\langle\phi\rangle$ break electromagnetism?
+    Find the masses of $W_\mu^\pm=(W_\mu^1\mp iW_\mu^2)/\sqrt2$
+    and of the appropriate mixtures of $W_\mu^3,B_\mu$.
+    Identify the charges of the scalar modes remaining after
+    symmetry breaking.
+    \item List all permitted Yukawa couplings of $H$ and $\phi$
+    to the Standard Model fermions.
+\end{enumerate}
+\begin{solution}
+    \begin{enumerate}[label=\roman*)]
+        \item For $\mathbf{2}$ of $SU(2)$, $T^3$ has eigenvalues $\pm \frac{1}{2}$. Hence, the EM charges are $-1, 0$.
+        \item Since $[H] = [\phi] = 1$, we can at most have an order $4$ coupling. Meanwhile, we must have two scalar fields coming in pair as well. Finally, to respect $U(1)$ gauge symmetry, the only possible interactions we are left with are
+        \begin{equation}
+\begin{aligned}
+V={}&m_1^2H^\dagger H
++m_2^2\phi^\dagger\phi
+-\left[m_{12}^2 H^T i\sigma^2\phi+\text{h.c.}\right]\\
+&+\lambda_1(H^\dagger H)^2
++\lambda_2(\phi^\dagger\phi)^2
++\lambda_3(H^\dagger H)(\phi^\dagger\phi)
++\lambda_4|H^T i\sigma^2\phi|^2\\
+&+\left[
+\lambda_5(H^T i\sigma^2\phi)^2
++\lambda_6(H^\dagger H)(H^T i\sigma^2\phi)
++\lambda_7(\phi^\dagger\phi)(H^T i\sigma^2\phi)
++\text{h.c.}
+\right],
+\end{aligned}
+        \end{equation}
+        Therefore, there are $6$ independent real parameters.
+        \item In the vacuum, we have
+        \begin{equation}
+            Q\langle \phi\rangle = (T^3 +Y)\langle \phi\rangle =  \begin{pmatrix}
+                0 & 0\\
+                0 & -1
+            \end{pmatrix}\langle \phi\rangle = 0.
+        \end{equation}
+        Therefore, the $U(1)_\text{EM}$ symmetry survives.
+
+        Now, expanding the terms quadratic in the gauge fields around the vacuum, we find
+        \begin{equation}
+            \mathcal L_{\rm mass}
+            =
+            \frac{v^2+u^2+w^2}{8}
+            \left[
+                g^2\left((W_\mu^1)^2+(W_\mu^2)^2\right)
+                +(gW_\mu^3-g'B_\mu)^2
+            \right].
+        \end{equation}
+        Therefore,
+        \begin{equation}
+            m_W^2=\frac{g^2}{4}(v^2+u^2+w^2).
+        \end{equation}
+        Defining
+        \begin{equation}
+            Z_\mu=\cos\theta_W W_\mu^3-\sin\theta_W B_\mu,
+            \qquad
+            A_\mu=\sin\theta_W W_\mu^3+\cos\theta_W B_\mu,
+        \end{equation}
+        where
+        \begin{equation}
+            \cos\theta_W=\frac{g}{\sqrt{g^2+g'^2}},
+        \end{equation}
+        we obtain
+        \begin{equation}
+            m_Z^2=\frac{g^2+g'^2}{4}(v^2+u^2+w^2),
+            \qquad
+            m_\gamma^2=0.
+        \end{equation}
+        \item Since $\phi$ has hypercharge
+$Y_\phi=-1/2$, the allowed interactions are
+\begin{equation}
+    \mathcal L_{\phi f}
+    =
+    -\bar Q_L\, y_\phi^u\,\phi\,u_R
+    -\bar Q_L\, y_\phi^d\,\widetilde\phi\,d_R
+    -\bar L\, y_\phi^e\,\widetilde\phi\,e_R
+    +\text{h.c.},
+\end{equation}
+where
+\begin{equation}
+    \widetilde\phi=i\sigma^2\phi^*.
+\end{equation}
+    \end{enumerate}
+\end{solution}
+

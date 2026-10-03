@@ -281,6 +281,34 @@ def wald_gr_catalogue() -> tuple[str, int]:
 WALD_GR_CATALOGUE, WALD_GR_CHAPTER_COUNT = wald_gr_catalogue()
 
 
+def tong_sm_catalogue():
+    manifest_path = os.path.join(ROOT, "assets", "tong-sm-manifest.json")
+    if not os.path.exists(manifest_path):
+        return "", 0
+    with open(manifest_path, encoding="utf-8") as manifest_file:
+        sheets = json.load(manifest_file)["sheets"]
+    items = []
+    for sheet in sheets:
+        problems = ", ".join(str(number) for number in sheet["publishedProblems"])
+        items.append(f'''      <li class="catalogue__item">
+        <span class="catalogue__num">{roman(sheet['sheet'])}.</span>
+        <span class="catalogue__main">
+          <a href="notes/{sheet['slug']}.html">Sheet {sheet['sheet']}: {html.escape(sheet['title'])}</a>
+          <span class="catalogue__desc">{html.escape(sheet['description'])} Worked problems: {problems}.</span>
+        </span>
+        <span class="catalogue__tag">Tong Standard Model · Sheet {sheet['sheet']}</span>
+      </li>''')
+    return '''    <h3 class="catalogue-source">
+      <span>Solutions to David Tong’s <em>The Standard Model</em> example sheets</span>
+      <a href="https://davidtong.org/teaching/standard-model/" target="_blank" rel="noopener noreferrer">Original course ↗</a>
+    </h3>
+    <ul class="catalogue">
+''' + "\n".join(items) + "\n    </ul>\n\n", len(sheets)
+
+
+TONG_SM_CATALOGUE, TONG_SM_SHEET_COUNT = tong_sm_catalogue()
+
+
 CATEGORIES = [
     {
         "slug": "qft",
@@ -293,12 +321,13 @@ CATEGORIES = [
             "Schwartz QFT Solutions",
             "Peskin & Schroeder QFT Solutions",
             "David Tong Quantum Field Theory Solutions",
+            "David Tong Standard Model Solutions",
             "PSI QFT II Solutions",
             "Hugh Osborn AQFT Solutions",
             "Mark Srednicki QFT Solutions",
             "Independent φ³ Computation",
         ],
-        "tag": f"{14 + SCHWARTZ_CHAPTER_COUNT + PSI_QFT_II_SHEET_COUNT} notes",
+        "tag": f"{14 + SCHWARTZ_CHAPTER_COUNT + PSI_QFT_II_SHEET_COUNT + TONG_SM_SHEET_COUNT} notes",
         "body": """    <h3>Papers</h3>
     <ul class="catalogue">
       <li class="catalogue__item">
@@ -311,7 +340,7 @@ CATEGORIES = [
       </li>
     </ul>
 
-""" + SCHWARTZ_CATALOGUE + """
+""" + SCHWARTZ_CATALOGUE + TONG_SM_CATALOGUE + """
     <h3 class="catalogue-source">
       <span>Solutions to Peskin &amp; Schroeder’s <em>An Introduction to Quantum Field Theory</em></span>
       <a href="https://www.routledge.com/An-Introduction-To-Quantum-Field-Theory/Peskin-Schroeder/p/book/9780429503559" target="_blank" rel="noopener noreferrer">Publisher page ↗</a>

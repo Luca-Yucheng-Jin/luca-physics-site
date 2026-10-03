@@ -1955,6 +1955,10 @@ body.nav-on .site-nav-toggle__chevron {
 }
 
 /* tabular tables */
+.note .note__table-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+}
 .note table.note__table {
   border-collapse: collapse;
   margin: 1.2rem auto;

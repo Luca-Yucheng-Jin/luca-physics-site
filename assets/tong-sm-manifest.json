@@ -1,0 +1,91 @@
+{
+  "sourceRepository": "https://github.com/Luca-Yucheng-Jin/QFT-soln",
+  "sourceCommit": "0bb3e7066154a8fdb256399a8ecceae720c5e192",
+  "sheets": [
+    {
+      "sheet": 1,
+      "title": "The Basics",
+      "publishedProblems": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8
+      ],
+      "excludedUnanswered": [
+        5
+      ],
+      "description": "Weyl spinors, fermion masses, and discrete symmetries.",
+      "slug": "tong-sm-sheet-1",
+      "texFile": "tong-sm-sheet-1.tex",
+      "sourcePath": "sections/DTSMSheet1.tex",
+      "problemCount": 7,
+      "solutionCount": 7
+    },
+    {
+      "sheet": 2,
+      "title": "Symmetry Breaking and QCD",
+      "publishedProblems": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "excludedUnanswered": [
+        9
+      ],
+      "description": "Goldstone modes, Higgs mechanisms, QCD running, and meson masses.",
+      "slug": "tong-sm-sheet-2",
+      "texFile": "tong-sm-sheet-2.tex",
+      "sourcePath": "sections/DTSMSheet2.tex",
+      "problemCount": 8,
+      "solutionCount": 8
+    },
+    {
+      "sheet": 3,
+      "title": "Anomalies",
+      "publishedProblems": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "excludedUnanswered": [],
+      "description": "Gauge anomalies, hypercharges, anomaly matching, and global symmetries.",
+      "slug": "tong-sm-sheet-3",
+      "texFile": "tong-sm-sheet-3.tex",
+      "sourcePath": "sections/DTSMSheet3.tex",
+      "problemCount": 6,
+      "solutionCount": 6
+    },
+    {
+      "sheet": 4,
+      "title": "The Standard Model",
+      "publishedProblems": [
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "excludedUnanswered": [
+        3,
+        7
+      ],
+      "description": "Running couplings, electric charges, flavour parameters, and two Higgs doublets.",
+      "slug": "tong-sm-sheet-4",
+      "texFile": "tong-sm-sheet-4.tex",
+      "sourcePath": "sections/DTSMSheet4.tex",
+      "problemCount": 5,
+      "solutionCount": 6
+    }
+  ]
+}

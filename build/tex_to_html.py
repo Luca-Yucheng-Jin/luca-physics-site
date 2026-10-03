@@ -706,16 +706,16 @@ def strip_tex_only_constructs(text):
     # tabular — minimal HTML table conversion (rows on \\, cells on &).
     def _tabular_repl(m):
         spec = m.group(1) or ""    # the column-spec we ignore
-        body = m.group(2).strip()
+        body = re.sub(r"\\hline\b", "", m.group(2)).strip()
         rows = re.split(r"\\\\\s*", body)
-        out = ['<table class="note__table">']
+        out = ['<div class="note__table-scroll"><table class="note__table">']
         for r in rows:
             r = r.strip().rstrip("\\")
             if not r:
                 continue
             cells = [c.strip() for c in r.split("&")]
             out.append("  <tr>" + "".join(f"<td>{c}</td>" for c in cells) + "</tr>")
-        out.append("</table>")
+        out.append("</table></div>")
         return "\n\n" + "\n".join(out) + "\n\n"
     text = re.sub(r"\\begin\{tabular\}\{([^}]*)\}(.*?)\\end\{tabular\}",
                   _tabular_repl, text, flags=re.DOTALL)
@@ -2134,6 +2134,25 @@ def _load_schwartz_chapter_pages():
 WHOLE_FILE_PAGES.extend(_load_psi_qft_ii_pages())
 WHOLE_FILE_PAGES.extend(_load_wald_gr_pages())
 WHOLE_FILE_PAGES.extend(_load_tong_sft_pages())
+
+
+def _load_tong_sm_pages():
+    manifest_path = os.path.join(ROOT, "assets", "tong-sm-manifest.json")
+    if not os.path.exists(manifest_path):
+        return []
+    with open(manifest_path, encoding="utf-8") as manifest_file:
+        manifest = json.load(manifest_file)
+    return [
+        (sheet["texFile"], sheet["slug"],
+         f"David Tong Standard Model Solutions — Sheet {sheet['sheet']}: {sheet['title']}",
+         f"Quantum Field Theory · Tong Standard Model Sheet {sheet['sheet']}",
+         "D. Tong, <em>The Standard Model</em>, "
+         f"Example Sheet {sheet['sheet']}; {sheet['problemCount']} worked problems.")
+        for sheet in manifest.get("sheets", [])
+    ]
+
+
+WHOLE_FILE_PAGES.extend(_load_tong_sm_pages())
 WHOLE_FILE_PAGES.extend(_load_schwartz_chapter_pages())
 
 

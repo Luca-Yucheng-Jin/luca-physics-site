@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>David Tong Standard Model Solutions — Sheet 1: The Basics | Yucheng (Luca) Jin</title>
+<meta name="description" content="David Tong Standard Model Solutions — Sheet 1: The Basics — Quantum Field Theory · Tong Standard Model Sheet 1, based on D. Tong. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="author" content="Yucheng (Luca) Jin">
+<link rel="canonical" href="https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sm-sheet-1.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sm-sheet-1.html">
+<meta property="og:site_name" content="Luca Jin Physics">
+<meta property="og:title" content="David Tong Standard Model Solutions — Sheet 1: The Basics | Yucheng (Luca) Jin">
+<meta property="og:description" content="David Tong Standard Model Solutions — Sheet 1: The Basics — Quantum Field Theory · Tong Standard Model Sheet 1, based on D. Tong. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta property="og:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="David Tong Standard Model Solutions — Sheet 1: The Basics | Yucheng (Luca) Jin">
+<meta name="twitter:description" content="David Tong Standard Model Solutions — Sheet 1: The Basics — Quantum Field Theory · Tong Standard Model Sheet 1, based on D. Tong. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta name="twitter:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="stylesheet" href="../styles.css">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sm-sheet-1.html#article","url":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sm-sheet-1.html","mainEntityOfPage":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sm-sheet-1.html","headline":"David Tong Standard Model Solutions — Sheet 1: The Basics","description":"David Tong Standard Model Solutions — Sheet 1: The Basics — Quantum Field Theory · Tong Standard Model Sheet 1, based on D. Tong. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.","inLanguage":"en","genre":"Theoretical physics notes and worked solutions","educationalLevel":"Undergraduate physics","about":{"@type":"Thing","name":"Quantum Field Theory · Tong Standard Model Sheet 1"},"author":{"@type":"Person","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#person","name":"Yucheng (Luca) Jin","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"isPartOf":{"@type":"WebSite","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#website","name":"Luca Jin Physics","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"encoding":{"@type":"MediaObject","contentUrl":"https://luca-yucheng-jin.github.io/luca-physics-site/output/pdf/tong-sm-sheet-1.pdf","encodingFormat":"application/pdf"}},{"@type":"BreadcrumbList","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sm-sheet-1.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes.html"},{"@type":"ListItem","position":2,"name":"David Tong Standard Model Solutions — Sheet 1: The Basics","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sm-sheet-1.html"}]}]}</script>
+
+<script src="../assets/theme.js"></script>
+<script src="../assets/font-size.js"></script>
+
+<!-- MathJax with custom macros mirroring the original .tex preamble -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros', 'mathtools']},
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      Q: '\\mathbb{Q}',
+      A: '\\mathcal{A}',
+      Lagrangian: '\\mathcal{L}',
+      Cdot: '\\boldsymbol{\\cdot}',
+      Tr: '\\operatorname{Tr}',
+      // \qed inside math (e.g. trailing a derivation in an align env) —
+      // amsthm's text-mode handler is already covered by the HTML-side
+      // replace at the bottom of strip_tex_only_constructs, this catches
+      // the math-mode case (Osborn AQFT PS3 Q3 ends an equation with .\qed).
+      qed: '\\blacksquare',
+      // Feynman slash: \not{x} would render the slash to the LEFT of x
+      // (it's designed for \not=). \cancel from the cancel package
+      // strikes diagonally through the centre, matching the slashed.sty
+      // package's appearance.
+      slashed: ['{\\cancel{#1}}', 1],
+      // Wick contraction: top brace connector over the contracted pair —
+      // closer to the standard physics notation than a plain overline.
+      wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // siunitx polyfill — \si{K}, \si{m\,s^{-1}} etc. should render
+      // the unit in upright math text, like \mathrm{X}. Doesn't try
+      // to mimic the full siunitx unit-formatting machinery; just
+      // unblocks the common bare-unit case in TDSP problems.
+      si: ['\\,\\mathrm{#1}', 1],
+      SI: ['#1\\,\\mathrm{#2}', 2]
+      // \tensor{base}{indices} is rewritten to base^a{}_b in
+      // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
+      // so no runtime macro is needed here. The empty-group trick is
+      // what makes MathJax kern the indices into separate columns.
+    }
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../" class="topbar__brand">Luca Jin <small>Physics · Imperial</small></a>
+  <nav class="topbar__nav" aria-label="Primary navigation">
+    <a href="../">Home</a>
+    <a href="../notes.html" class="is-active">Notes</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+    <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" title="Decrease font size">A<span class="font-toggle__small">−</span></button>
+    <button class="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size" title="Increase font size">A<span class="font-toggle__large">+</span></button>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Toggle theme">
+      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    </button>
+  </nav>
+</header>
+
+<main class="note">
+
+  <div class="note__breadcrumb">
+    <a href="../notes.html">Notes</a> &nbsp;·&nbsp; Quantum Field Theory · Tong Standard Model Sheet 1
+  </div>
+
+  <h1 class="note__title">David Tong Standard Model Solutions — Sheet 1: The Basics</h1>
+  <p class="note__subtitle">Source: D. Tong, <em>The Standard Model</em>, Example Sheet 1; 7 worked problems.</p>
+
+  <div class="note__formats" aria-label="Available formats"><span>Available formats</span><a aria-current="page" href="tong-sm-sheet-1.html">HTML</a><a href="../output/pdf/tong-sm-sheet-1.pdf">PDF ↓</a></div>
+
+  <nav class="note__toc note__toc--long" aria-label="Contents">
+  <div class="note__toc-label">Contents</div>
+  <ol class="note__toc-list">
+    <li class="toc-h2"><a href="#sheet-1-problem-1-lorentz-generators-for-weyl-spinors"><span class="note__toc-number">1</span> <span class="note__toc-title">Sheet 1, Problem 1: Lorentz Generators for Weyl Spinors</span></a></li>
+    <li class="toc-h2"><a href="#sheet-1-problem-2-raised-weyl-indices-and-lorentz-scalars"><span class="note__toc-number">2</span> <span class="note__toc-title">Sheet 1, Problem 2: Raised Weyl Indices and Lorentz Scalars</span></a></li>
+    <li class="toc-h2"><a href="#sheet-1-problem-3-the-right-handed-lorentz-representation"><span class="note__toc-number">3</span> <span class="note__toc-title">Sheet 1, Problem 3: The Right-Handed Lorentz Representation</span></a></li>
+    <li class="toc-h2"><a href="#sheet-1-problem-4-dirac-and-majorana-mass-mixing"><span class="note__toc-number">4</span> <span class="note__toc-title">Sheet 1, Problem 4: Dirac and Majorana Mass Mixing</span></a></li>
+    <li class="toc-h2"><a href="#sheet-1-problem-6-discrete-symmetries-of-gauge-fields"><span class="note__toc-number">5</span> <span class="note__toc-title">Sheet 1, Problem 6*: Discrete Symmetries of Gauge Fields</span></a></li>
+    <li class="toc-h2"><a href="#sheet-1-problem-7-parity-with-scalar-and-pseudoscalar-masses"><span class="note__toc-number">6</span> <span class="note__toc-title">Sheet 1, Problem 7: Parity with Scalar and Pseudoscalar Masses</span></a></li>
+    <li class="toc-h2"><a href="#sheet-1-problem-8-parity-and-mass-in-21-dimensions"><span class="note__toc-number">7</span> <span class="note__toc-title">Sheet 1, Problem 8: Parity and Mass in $2+1$ Dimensions</span></a></li>
+  </ol>
+</nav>
+
+  <article class="note__body">
+<p><em>These prompts paraphrase David Tong's <em>The Standard Model</em>,
+Example Sheet 1 (January 2026). Problem numbers, starred status, equations,
+and guidance follow the
+<a href="https://davidtong.org/pdfs/teaching/standard-model/rw1.pdf">official sheet</a>.</em></p>
+
+<h2 data-section-heading id="sheet-1-problem-1-lorentz-generators-for-weyl-spinors" data-section-number="1"><span class="note__heading-number">1</span> <span class="note__heading-title">Sheet 1, Problem 1: Lorentz Generators for Weyl Spinors</span></h2>
+
+<p>Define
+\[\sigma^{\mu\nu}
+    =\frac{i}{4}(\sigma^\mu\bar\sigma^\nu
+    -\sigma^\nu\bar\sigma^\mu).\tag{1.1}\]
+Verify that these matrices obey
+\[[\sigma^{\mu\nu},\sigma^{\rho\sigma}]
+    =i\left(\eta^{\nu\rho}\sigma^{\mu\sigma}
+    -\eta^{\nu\sigma}\sigma^{\mu\rho}
+    +\eta^{\mu\sigma}\sigma^{\nu\rho}
+    -\eta^{\mu\rho}\sigma^{\nu\sigma}\right).\tag{1.2}\]
+<em>Hint:</em> Rewrite $\sigma^{\mu\nu}
+=\tfrac i2(\eta^{\mu\nu}-\sigma^\nu\bar\sigma^\mu)$ and
+establish
+$\sigma^\mu\bar\sigma^\nu
++\sigma^\nu\bar\sigma^\mu=2\eta^{\mu\nu}\mathbf1_2$.</p>
+
+<aside class="solution">
+
+<p>Recall $\{\sigma_i,\sigma_j\} = 2\delta_{ij}$, which follows
+    \[\sigma^\mu\bar\sigma^\nu
++\sigma^\nu\bar\sigma^\mu=2\eta^{\mu\nu}\mathbf1_2.
+\tag{1.3}\]
+    Hence,
+    \[\sigma^{\mu\nu}
+=\tfrac i2(\eta^{\mu\nu}-\sigma^\nu\bar\sigma^\mu),
+\tag{1.4}\]
+    which gives
+    \[[\sigma^{\mu\nu},\sigma^{\rho\sigma}] = -\frac{1}{4}(\sigma^\nu\bar\sigma^\mu\sigma^\sigma\bar\sigma^\rho - \sigma^\sigma\bar\sigma^\rho\sigma^\nu\bar\sigma^\mu).\tag{1.5}\]
+    Now the strategy is to permute the indices using (1.3) so that the 4 $\sigma$ term eventually cancels. Carrying out the calculation, we find
+    \[[\sigma^{\mu\nu},\sigma^{\rho\sigma}] = -\frac{1}{4}\left(-2\eta^{\rho\nu}\sigma^\sigma \bar \sigma^\mu + 2\eta^{\mu\rho}\sigma^\sigma \bar \sigma^\nu - 2\eta^{\nu\sigma}\sigma^\mu \bar \sigma^\rho + 2\eta^{\mu\sigma}\sigma^\nu \bar \sigma^\rho\right).\tag{1.6}\]
+    Then, plugging (1.4) in, we find
+    \[[\sigma^{\mu\nu},\sigma^{\rho\sigma}]
+    =i\left(\eta^{\nu\rho}\sigma^{\mu\sigma}
+    -\eta^{\nu\sigma}\sigma^{\mu\rho}
+    +\eta^{\mu\sigma}\sigma^{\nu\rho}
+    -\eta^{\mu\rho}\sigma^{\nu\sigma}\right).\tag{1.7}\]</p>
+
+</aside>
+
+<h2 data-section-heading id="sheet-1-problem-2-raised-weyl-indices-and-lorentz-scalars" data-section-number="2"><span class="note__heading-number">2</span> <span class="note__heading-title">Sheet 1, Problem 2: Raised Weyl Indices and Lorentz Scalars</span></h2>
+
+<p>Let $S\in SL(2,\mathbb C)$ act on left- and right-handed spinors by
+\[(\psi_L)_\alpha\longmapsto S_\alpha{}^\beta(\psi_L)_\beta,
+    \qquad
+    (\psi_R)_{\dot\alpha}
+    \longmapsto (S^*)_{\dot\alpha}{}^{\dot\beta}
+    (\psi_R)_{\dot\beta}.\tag{2.1}\]
+The dotted index distinguishes the two representations. Prove the
+following statements in the sheet's epsilon convention:</p>
+
+<ol>
+  <li>$(S^{-1})_\beta{}^\alpha
+    =\epsilon^{\alpha\gamma}S_\gamma{}^\lambda
+    \epsilon_{\lambda\beta}$.</li>
+  <li>$(\psi_L)^\alpha=\epsilon^{\alpha\beta}(\psi_L)_\beta$
+    transforms with $(S^{-1})_\beta{}^\alpha$ on its right.</li>
+  <li>$\psi_L\chi_L=(\psi_L)^\alpha(\chi_L)_\alpha$
+    is Lorentz invariant.</li>
+  <li>$(\psi_R)^{\dot\alpha}
+    =\epsilon^{\dot\alpha\dot\beta}(\psi_R)_{\dot\beta}$
+    transforms with $S^{-1\dagger}$.</li>
+  <li>$\bar\psi_R\psi_L
+    =(\psi_R^*)^\alpha(\psi_L)_\alpha$
+    is also a Lorentz scalar.</li>
+</ol>
+
+<aside class="solution">
+
+<ol>
+  <li>\[S_\alpha{}^\gamma S_\beta{}^\delta \epsilon_{\gamma \delta} = \begin{pmatrix}
+            a &amp;  b\\ c &amp;d
+        \end{pmatrix}\begin{pmatrix}
+            0 &amp; 1 \\ -1 &amp;0
+        \end{pmatrix}
+        \begin{pmatrix}
+            a &amp; c\\ b &amp;d
+        \end{pmatrix} = \begin{pmatrix}
+                        0 &amp; ad-bc \\ -ad +bc &amp;0
+        \end{pmatrix} = \det S \epsilon_{\alpha \beta}.\tag{2.2}\]
+    Since $S \in SL(2,\mathbb{C})$, $\det S = 1$, we find
+    \[S_\alpha{}^\gamma S_\beta{}^\delta \epsilon_{\gamma \delta} = \epsilon_{\alpha \beta} \implies  \epsilon^{\beta \lambda}S_\alpha{}^\gamma S_\lambda{}^\delta \epsilon_{\gamma \delta} = \delta_\alpha{}^\beta \implies (S^{-1})_\beta{}^\alpha
+    =\epsilon^{\alpha\gamma}S_\gamma{}^\lambda
+    \epsilon_{\lambda\beta}.\tag{2.3}\]</li>
+  <li>\[(\psi_L)^\alpha = \epsilon^{\alpha \beta } (\psi_L)_\beta \to \epsilon^{\alpha\beta}S_\beta{}^\gamma(\psi_L)_\gamma = \epsilon^{\alpha\beta}S_\beta{}^\gamma\epsilon_{\lambda\gamma}(\psi_L)^\gamma = (S^{-1})_\gamma{}^\alpha (\psi_L)^\gamma.\tag{2.4}\]</li>
+  <li>\[\psi_L \chi_L \to (\psi_L)^\gamma(S^{-1})_\gamma{}^\alpha S_\alpha{}^\gamma(\chi_L)_\beta = \psi_L \chi_L .\tag{2.5}\]</li>
+  <li>Completely analogous to the left-handed case, we find
+    \[(\psi_R)^{\dot \alpha} \to (S^{-1\dagger})^{\dot \alpha}{}_{\dot \beta} (\psi_R)^{\dot \beta}.\tag{2.6}\]</li>
+  <li>\[\bar \psi_R \psi_L \to (\psi_R^*)^{\dot \alpha}(S^{-1})_{\dot \alpha}{}^\alpha S_\alpha{}^\beta(\psi_L)_\beta =  \bar \psi_R \psi_L.\tag{2.7}\]</li>
+</ol>
+
+</aside>
+
+<h2 data-section-heading id="sheet-1-problem-3-the-right-handed-lorentz-representation" data-section-number="3"><span class="note__heading-number">3</span> <span class="note__heading-title">Sheet 1, Problem 3: The Right-Handed Lorentz Representation</span></h2>
+
+<p>In addition to $\sigma^{\mu\nu}$ above, define
+\[\bar\sigma^{\mu\nu}
+    =\frac i4(\bar\sigma^\mu\sigma^\nu
+    -\bar\sigma^\nu\sigma^\mu).\tag{3.1}\]
+Show $\bar\sigma^{\mu\nu}=(\sigma^{\mu\nu})^\dagger$.
+If
+\[S=\exp\!\left(-\frac i2\omega_{\mu\nu}
+    \sigma^{\mu\nu}\right),\tag{3.2}\]
+show that
+\[S^{-1\dagger}
+    =\exp\!\left(-\frac i2\omega_{\mu\nu}
+    \bar\sigma^{\mu\nu}\right).\tag{3.3}\]
+It is enough to verify the infinitesimal transformation and then use
+the group law. Relate this to the dotted and undotted components
+of a Dirac spinor.</p>
+
+<aside class="solution">
+
+<p>\[(\sigma^{\mu\nu})^\dagger = -\frac{i}{4}(\bar\sigma^\nu \sigma^\mu - \bar \sigma^\mu \sigma^\nu) = \bar \sigma^{\mu\nu}.\tag{3.4}\]
+    For an infinitesimal transformation, we have
+    \[S^{-1\dagger} = 1 +\left(\frac{i}{2}\omega_{\mu\nu}\sigma^{\mu\nu}\right)^\dagger = 1 - \frac{i}{2}\omega_{\mu\nu}\bar \sigma^{\mu\nu}.\tag{3.5}\]
+    Thereby, the exponential map is given by
+    \[S^{-1\dagger}
+    =\exp\!\left(-\frac i2\omega_{\mu\nu}
+    \bar\sigma^{\mu\nu}\right).\tag{3.6}\]</p>
+
+</aside>
+
+<h2 data-section-heading id="sheet-1-problem-4-dirac-and-majorana-mass-mixing" data-section-number="4"><span class="note__heading-number">4</span> <span class="note__heading-title">Sheet 1, Problem 4: Dirac and Majorana Mass Mixing</span></h2>
+
+<p>Two Weyl spinors have a real Dirac mass $M$ and complex Majorana
+masses $m_1,m_2$:
+\[\mathcal L_{\rm mass}
+    =-M(\bar\psi_L\psi_R+\bar\psi_R\psi_L)
+    +\frac{m_1}{2}\psi_L\psi_L
+    +\frac{m_1^*}{2}\bar\psi_L\bar\psi_L
+    +\frac{m_2}{2}\psi_R\psi_R
+    +\frac{m_2^*}{2}\bar\psi_R\bar\psi_R.\tag{4.1}\]
+Determine the physical fermion masses.</p>
+
+<aside class="solution">
+
+<p>The mass Lagrangian can be written as
+    \[\mathcal L_{\rm mass} = -\frac{1}{2}\begin{pmatrix}
+            \bar \psi _L &amp; \psi_R
+        \end{pmatrix}\begin{pmatrix}
+            -m_1^* &amp; M\\ M &amp; -m_2^*
+        \end{pmatrix}\begin{pmatrix}
+            \bar \psi _L \\ \psi_R
+        \end{pmatrix} + h.c. \equiv -\frac{1}{2} \chi_i \mathcal{M}_{ij}\chi_j + h.c.,\tag{4.2}\]
+    where $\chi^T \equiv (\bar \psi_L, \psi_R)$.
+    The kinetic part of the Lagrangian can be written as
+    \[\bar \psi_L i\bar \sigma^\mu \partial_\mu + \bar\psi_R i\sigma^\mu \partial_\mu \psi_R = \frac{1}{2}(
+\bar\chi_i i\bar\sigma^\mu\partial_\mu\chi_i
++
+\chi_i i\sigma^\mu\partial_\mu\bar\chi_i).\tag{4.3}\]
+    The equation of motion is given by
+    \[i \sigma^\mu \partial_\mu \chi_i -\mathcal{M}_{ij}^*\bar \chi_j = 0\tag{4.4}\]
+    and its conjugate
+    \[i\bar \sigma^\mu \partial_\mu \bar\chi_i - \mathcal{M}_{ij}\chi_j  = 0.\tag{4.5}\]
+    Applying $i\bar\sigma^\nu  \partial_\nu$ to the first equation, we find
+    \[-\bar\sigma^\nu \sigma^\mu \partial_\mu \partial_\nu \chi_i - \mathcal{M}_{ij}^*i\bar\sigma^\nu \partial_\nu \chi_j =-\bar\sigma^{(\nu} \sigma^{\mu)} \partial_\mu \partial_\nu \chi_i - \mathcal{M}_{ij}^*\mathcal{M}_{jk}\chi_k = 0 \implies (\partial^2 + \mathcal{M}^\dagger\mathcal{M}) \chi = 0.\tag{4.6}\]
+    To progress, let us diagonalise
+\[\mathcal{M}^\dagger \mathcal{M} = U D U^\dagger.\tag{4.7}\]
+Then, the equation of motion becomes
+\[(\partial^2 + UDU^\dagger) \chi = 0
+    \implies
+    (\partial^2 + D)(U^\dagger\chi) = 0.\tag{4.8}\]
+Therefore, the physical masses squared are the eigenvalues of
+$\mathcal{M}^\dagger\mathcal{M}$. The mass eigenvalues are found to be
+\[m_\pm^2
+    =
+    \frac{1}{2}\left[
+    |m_1|^2+|m_2|^2+2M^2
+    \pm
+    \sqrt{
+    \left(|m_1|^2+|m_2|^2+2M^2\right)^2
+    -4|m_1m_2-M^2|^2
+    }
+    \right].\tag{4.9}\]</p>
+
+</aside>
+
+<h2 data-section-heading id="sheet-1-problem-6-discrete-symmetries-of-gauge-fields" data-section-number="5"><span class="note__heading-number">5</span> <span class="note__heading-title">Sheet 1, Problem 6*: Discrete Symmetries of Gauge Fields</span></h2>
+
+<p>Use the chiral-basis matrices
+\[\gamma^\mu=\begin{pmatrix}0&amp;\sigma^\mu\\
+    \bar\sigma^\mu&amp;0\end{pmatrix},
+    \qquad
+    \gamma^5=\begin{pmatrix}\mathbf1&amp;0\\0&amp;-\mathbf1\end{pmatrix},
+    \qquad
+    \sigma^\mu=(\mathbf1,\sigma^i),\quad
+    \bar\sigma^\mu=(\mathbf1,-\sigma^i).\tag{5.1}\]
+For a Dirac fermion coupled to $U(1)$, the gauge-field equation is
+$\partial_\nu F^{\mu\nu}=e\bar\psi\gamma^\mu\psi$.
+Starting from the spinor actions of $C,P,T$, work out how $A_\mu$
+must transform so that this equation remains invariant. Then determine
+how the Maxwell theta term
+\[S_\theta=\int d^4x\,F_{\mu\nu}{}^\star F^{\mu\nu}\tag{5.2}\]
+transforms under each of $C,P,T$.</p>
+
+<aside class="solution">
+
+<p>Under parity, we have
+    \[P: \quad \psi(t,\mathbf{x}) \to \gamma^0\psi(t,-\mathbf{x}), \quad \bar \psi \gamma^\mu \psi(t,\mathbf{x}) \to   \bar \psi\gamma^\mu \psi(t,-\mathbf{x}),\tag{5.3}\]
+    which implies
+    \[P: \quad \partial_\mu F^{\mu 0}(t,\mathbf{x}) \to \partial_\mu F^{\mu 0}(t,-\mathbf{x}), \quad \partial_\mu F^{\mu i}(t,\mathbf{x}) \to - \partial_\mu F^{\mu i}(t,-\mathbf{x}).\tag{5.4}\]
+    This follows
+    \[P: \quad \partial_i\partial^i A^0 - \partial_i \partial^0 A^i \to  \partial_i\partial^i A'^0 + \partial_i \partial^0 A'^i \implies P:\quad A^0(t,\mathbf{x}) \to A^0(t,-\mathbf{x}), \quad A^i(t,\mathbf{x}) \to -A^i(t,-\mathbf{x}).\tag{5.5}\]
+    One can check that the spatial components also transform as desired.</p>
+
+<p>Under charge conjugation, we have
+    \[C: \quad \psi(t,\mathbf{x}) \to \pm i \gamma^2 \psi^* (t,\mathbf{x}), \quad \bar \psi \gamma^\mu \psi(t,\mathbf{x}) \to -\psi^T\gamma^2 \gamma^0 \gamma^\mu \gamma^2 \psi^* (t,\mathbf{x}) = -\bar \psi \gamma^\mu \psi (t,\mathbf{x}),\tag{5.6}\]
+    where we have used $\gamma^2 \gamma^\mu \gamma^2 = - \gamma^2$.
+    Therefore, we must have
+    \[C: \quad A^\mu (t,\mathbf{x}) \to -A^\mu (t,\mathbf{x}) .\tag{5.7}\]</p>
+
+<p>Under time reversal, we have
+    \[\begin{aligned}
+        T: \quad \psi(t,\mathbf{x})  \to \gamma^1\gamma^3 \psi^*(-t,\mathbf{x}), \quad \bar \psi\gamma^0 \psi (t,\mathbf{x}) &amp;\to   \psi^T (\gamma^0)^*\psi^*(-t,\mathbf{x}) =  \bar \psi \gamma^0\psi(-t,\mathbf{x}),\\  \bar \psi\gamma^i \psi (t,\mathbf{x}) &amp;\to   -\psi^T (\gamma^i)^*\psi^*(-t,\mathbf{x}) =  -\bar \psi \gamma^i\psi(-t,\mathbf{x}).
+    \end{aligned}\tag{5.8}\]
+    The LHS of the gauge-field equation transforms as
+    \[T: \quad \partial_\mu F^{\mu0}(t,\mathbf{x}) \to (\partial_j \partial^j A'^0  + \partial_j \partial^0 A'^j)(-t,\mathbf{x}), \quad \partial_\mu F^{\mu i}(t,\mathbf{x}) \to (\partial^2A'^i + \partial_0 \partial^j A'^0 - \partial_i \partial^jA'^j)(-t,\mathbf{x}).\tag{5.9}\]
+    For the theory to be invariant under time reversal, we must have
+    \[T: \quad A^0(t,\mathbf{x}) \to A^0(-t,\mathbf{x}), \quad A^i(t,\mathbf{x}) \to - A^i(-t,\mathbf{x}).\tag{5.10}\]</p>
+
+<p>The theta term is proportional to
+    \[\int d^4x \mathbf{E}\cdot \mathbf{B},\tag{5.11}\]
+    whereas the fields transform as
+    \[P:\quad \mathbf{E}(t,\mathbf{x}) \to -\mathbf{E}(t,-\mathbf{x}), \quad \mathbf{B}(t,\mathbf{x}) \to \mathbf{B}(t,-\mathbf{x})\tag{5.12}\]
+    \[C:\quad \mathbf{E}(t,\mathbf{x}) \to -\mathbf{E}(t,\mathbf{x}), \quad \mathbf{B}(t,\mathbf{x}) \to - \mathbf{B}(t,\mathbf{x})\tag{5.13}\]
+    \[P:\quad \mathbf{E}(t,\mathbf{x}) \to \mathbf{E}(-t,\mathbf{x}), \quad \mathbf{B}(t,\mathbf{x}) \to - \mathbf{B}(-t,\mathbf{x}).\tag{5.14}\]
+    Therefore, the theta term is invariant under C, and odd under P and T.</p>
+
+</aside>
+
+<h2 data-section-heading id="sheet-1-problem-7-parity-with-scalar-and-pseudoscalar-masses" data-section-number="6"><span class="note__heading-number">6</span> <span class="note__heading-title">Sheet 1, Problem 7: Parity with Scalar and Pseudoscalar Masses</span></h2>
+
+<p>Prove that $\bar\psi\psi$ and $i\bar\psi\gamma^5\psi$ are real.
+For
+\[\mathcal L_{\rm mass}
+    =m_1\bar\psi\psi+im_2\bar\psi\gamma^5\psi,\tag{6.1}\]
+rewrite the mass term in left- and right-handed Weyl fields using the
+chiral gamma matrices. Find an action of parity on $\psi_L,\psi_R$
+that preserves the theory, and express it on the Dirac spinor.</p>
+
+<aside class="solution">
+
+<p>\[(\bar\psi \psi)^* = \psi^T\gamma^0 \psi^* = \bar \psi \psi,\tag{6.2}\]
+    \[(i\bar \psi \gamma^5 \psi)^* = -i\psi^T \gamma^0 \gamma^5 \psi^* =  - i\psi^\dagger \gamma^5\gamma^0 \psi = i \bar \psi \gamma^5 \psi.\tag{6.3}\]
+    In Weyl spinors, the mass terms are
+    \[m_1(\psi_L^\dagger\psi_R + \psi_R^\dagger \psi_L) + im_2(\psi_L^\dagger\psi_R - \psi_R^\dagger \psi_L).\tag{6.4}\]
+    For the whole Lagrangian to be invariant under parity, we must have
+    \[P :\quad \psi_L(t,\mathbf{x}) \to e^{i\theta}\psi _R (t,-\mathbf{x}), \quad\psi_R(t,\mathbf{x}) \to e^{i\theta}\psi _L (t,-\mathbf{x}),\tag{6.5}\]
+    and hence
+    \[P :\quad \psi(t,\mathbf{x}) \to e^{i\theta}\gamma^0\psi (t,-\mathbf{x}).\tag{6.6}\]</p>
+
+</aside>
+
+<h2 data-section-heading id="sheet-1-problem-8-parity-and-mass-in-21-dimensions" data-section-number="7"><span class="note__heading-number">7</span> <span class="note__heading-title">Sheet 1, Problem 8: Parity and Mass in $2+1$ Dimensions</span></h2>
+
+<p>In signature $(+,-,-)$ use imaginary matrices
+$\gamma^\mu=(\sigma^2,i\sigma^1,i\sigma^3)$ and the action
+\[S=-\int d^dx\left(i\bar\psi\gamma^\mu\partial_\mu\psi
+    -M\bar\psi\psi\right).\tag{7.1}\]
+Explain why parity reverses only $x^1$ and leaves $x^0,x^2$
+unchanged, instead of sending the whole spatial vector to its
+negative. For $M=0$, find parity, charge-conjugation, and
+time-reversal actions that preserve $S$. Which are broken by $M\ne0$?</p>
+
+<aside class="solution">
+
+<p>We wish to use the parity action to enlarge $SO(1,2)$ to $O(1,2)$. To do that, we need the determinant of parity to be negative. Therefore, this can only be achieved with one coordinate flipped in two spatial dimensions.</p>
+
+<p>For parity, the massless Lagrangian transform as
+    \[P:\quad i\bar \psi \sigma^\mu \partial_\mu \psi \to i\psi^\dagger P^\dagger\gamma^0(\gamma^0\partial_0 -  \gamma^1 \partial_1 + \gamma^2 \partial_2)P\psi.\tag{7.2}\]
+    Therefore, by choosing $P: \psi \to \gamma^0 \psi$, the massless theory remains invariant.</p>
+
+<p>For charge conjugation, the Dirac field transforms as
+    \[C: \quad \psi \to C\psi^*,\tag{7.3}\]
+    while the kinetic term transforms as
+    \[C: \quad i\bar\psi\gamma^\mu \partial_\mu \psi \to i \psi^TC^\dagger \gamma^0 \gamma^\mu C\partial_\mu\psi^* = -i(\partial_\mu \psi^\dagger)C^T (\gamma^\mu)^T (\gamma^0)^TC^*\psi = i\psi^\dagger C^T\gamma^\mu \gamma^0 C^* \psi,\tag{7.4}\]
+    where we have used $(\gamma^\mu)^T = -\gamma^\mu$.
+    Therefore, we must have $C:  \psi \to e^{i\alpha}\psi^*$.</p>
+
+<p>For time reversal, we have
+    \[T: \quad i \to -i, \quad \psi \to T \psi^*,\tag{7.5}\]
+    and hence
+    \[\begin{aligned}
+        T: \quad i\bar \psi \gamma^\mu \partial_\mu \psi &amp;\to -i \psi^T T^\dagger \gamma^0 (-\gamma^0 T \partial_0 -\gamma^1 T \partial_1-\gamma^2 T \partial_2)\psi^*\\ &amp;= -i\psi^\dagger T^T (-\gamma^0 \gamma^0 T^* \partial_0 - \gamma^1 \gamma^0 T^* \partial_1 - \gamma^2 \gamma^0 T^* \partial_2) \psi.
+    \end{aligned}\tag{7.6}\]
+    For the kinetic term to be invariant, we must have $T:\psi \to \gamma^1\gamma^2\psi^* = \gamma^0 \psi^*$.</p>
+
+<p>Now it is clear that the mass term is even under C, and odd under T and P .</p>
+
+</aside>
+  </article>
+
+  <hr class="ornament-rule">
+
+  <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
+    <a href="../notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <p class="footer__disclaimer">
+    These notes are not guaranteed to be correct. If you find a mistake,
+    <a href="mailto:luca.jin@outlook.com?subject=Correction%20to%20Luca%20Jin%20Physics">please email me</a>.
+  </p>
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="../">Home</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>

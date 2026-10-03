@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>David Tong Standard Model Solutions — Sheet 2: Symmetry Breaking and QCD | Yucheng (Luca) Jin</title>
+<meta name="description" content="David Tong Standard Model Solutions — Sheet 2: Symmetry Breaking and QCD — Quantum Field Theory · Tong Standard Model Sheet 2, based on D. Tong. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="author" content="Yucheng (Luca) Jin">
+<link rel="canonical" href="https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sm-sheet-2.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sm-sheet-2.html">
+<meta property="og:site_name" content="Luca Jin Physics">
+<meta property="og:title" content="David Tong Standard Model Solutions — Sheet 2: Symmetry Breaking and QCD | Yucheng (Luca) Jin">
+<meta property="og:description" content="David Tong Standard Model Solutions — Sheet 2: Symmetry Breaking and QCD — Quantum Field Theory · Tong Standard Model Sheet 2, based on D. Tong. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta property="og:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="David Tong Standard Model Solutions — Sheet 2: Symmetry Breaking and QCD | Yucheng (Luca) Jin">
+<meta name="twitter:description" content="David Tong Standard Model Solutions — Sheet 2: Symmetry Breaking and QCD — Quantum Field Theory · Tong Standard Model Sheet 2, based on D. Tong. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta name="twitter:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="stylesheet" href="../styles.css">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sm-sheet-2.html#article","url":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sm-sheet-2.html","mainEntityOfPage":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sm-sheet-2.html","headline":"David Tong Standard Model Solutions — Sheet 2: Symmetry Breaking and QCD","description":"David Tong Standard Model Solutions — Sheet 2: Symmetry Breaking and QCD — Quantum Field Theory · Tong Standard Model Sheet 2, based on D. Tong. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.","inLanguage":"en","genre":"Theoretical physics notes and worked solutions","educationalLevel":"Undergraduate physics","about":{"@type":"Thing","name":"Quantum Field Theory · Tong Standard Model Sheet 2"},"author":{"@type":"Person","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#person","name":"Yucheng (Luca) Jin","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"isPartOf":{"@type":"WebSite","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#website","name":"Luca Jin Physics","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"encoding":{"@type":"MediaObject","contentUrl":"https://luca-yucheng-jin.github.io/luca-physics-site/output/pdf/tong-sm-sheet-2.pdf","encodingFormat":"application/pdf"}},{"@type":"BreadcrumbList","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sm-sheet-2.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes.html"},{"@type":"ListItem","position":2,"name":"David Tong Standard Model Solutions — Sheet 2: Symmetry Breaking and QCD","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sm-sheet-2.html"}]}]}</script>
+
+<script src="../assets/theme.js"></script>
+<script src="../assets/font-size.js"></script>
+
+<!-- MathJax with custom macros mirroring the original .tex preamble -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros', 'mathtools']},
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      Q: '\\mathbb{Q}',
+      A: '\\mathcal{A}',
+      Lagrangian: '\\mathcal{L}',
+      Cdot: '\\boldsymbol{\\cdot}',
+      Tr: '\\operatorname{Tr}',
+      // \qed inside math (e.g. trailing a derivation in an align env) —
+      // amsthm's text-mode handler is already covered by the HTML-side
+      // replace at the bottom of strip_tex_only_constructs, this catches
+      // the math-mode case (Osborn AQFT PS3 Q3 ends an equation with .\qed).
+      qed: '\\blacksquare',
+      // Feynman slash: \not{x} would render the slash to the LEFT of x
+      // (it's designed for \not=). \cancel from the cancel package
+      // strikes diagonally through the centre, matching the slashed.sty
+      // package's appearance.
+      slashed: ['{\\cancel{#1}}', 1],
+      // Wick contraction: top brace connector over the contracted pair —
+      // closer to the standard physics notation than a plain overline.
+      wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // siunitx polyfill — \si{K}, \si{m\,s^{-1}} etc. should render
+      // the unit in upright math text, like \mathrm{X}. Doesn't try
+      // to mimic the full siunitx unit-formatting machinery; just
+      // unblocks the common bare-unit case in TDSP problems.
+      si: ['\\,\\mathrm{#1}', 1],
+      SI: ['#1\\,\\mathrm{#2}', 2]
+      // \tensor{base}{indices} is rewritten to base^a{}_b in
+      // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
+      // so no runtime macro is needed here. The empty-group trick is
+      // what makes MathJax kern the indices into separate columns.
+    }
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../" class="topbar__brand">Luca Jin <small>Physics · Imperial</small></a>
+  <nav class="topbar__nav" aria-label="Primary navigation">
+    <a href="../">Home</a>
+    <a href="../notes.html" class="is-active">Notes</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+    <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" title="Decrease font size">A<span class="font-toggle__small">−</span></button>
+    <button class="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size" title="Increase font size">A<span class="font-toggle__large">+</span></button>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Toggle theme">
+      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    </button>
+  </nav>
+</header>
+
+<main class="note">
+
+  <div class="note__breadcrumb">
+    <a href="../notes.html">Notes</a> &nbsp;·&nbsp; Quantum Field Theory · Tong Standard Model Sheet 2
+  </div>
+
+  <h1 class="note__title">David Tong Standard Model Solutions — Sheet 2: Symmetry Breaking and QCD</h1>
+  <p class="note__subtitle">Source: D. Tong, <em>The Standard Model</em>, Example Sheet 2; 8 worked problems.</p>
+
+  <div class="note__formats" aria-label="Available formats"><span>Available formats</span><a aria-current="page" href="tong-sm-sheet-2.html">HTML</a><a href="../output/pdf/tong-sm-sheet-2.pdf">PDF ↓</a></div>
+
+  <nav class="note__toc note__toc--long" aria-label="Contents">
+  <div class="note__toc-label">Contents</div>
+  <ol class="note__toc-list">
+    <li class="toc-h2"><a href="#sheet-2-problem-1-broken-discrete-symmetry"><span class="note__toc-number">1</span> <span class="note__toc-title">Sheet 2, Problem 1: Broken Discrete Symmetry</span></a></li>
+    <li class="toc-h2"><a href="#sheet-2-problem-2-matrix-order-parameters-and-goldstone-modes"><span class="note__toc-number">2</span> <span class="note__toc-title">Sheet 2, Problem 2: Matrix Order Parameters and Goldstone Modes</span></a></li>
+    <li class="toc-h2"><a href="#sheet-2-problem-3-fundamental-higgs-fields-in-su2-and-sun"><span class="note__toc-number">3</span> <span class="note__toc-title">Sheet 2, Problem 3*: Fundamental Higgs Fields in $SU(2)$ and $SU(N)$</span></a></li>
+    <li class="toc-h2"><a href="#sheet-2-problem-4-adjoint-higgs-breaking-patterns"><span class="note__toc-number">4</span> <span class="note__toc-title">Sheet 2, Problem 4: Adjoint Higgs Breaking Patterns</span></a></li>
+    <li class="toc-h2"><a href="#sheet-2-problem-5-one-loop-qcd-scale"><span class="note__toc-number">5</span> <span class="note__toc-title">Sheet 2, Problem 5*: One-Loop QCD Scale</span></a></li>
+    <li class="toc-h2"><a href="#sheet-2-problem-6-casimirs-and-dynkin-indices"><span class="note__toc-number">6</span> <span class="note__toc-title">Sheet 2, Problem 6: Casimirs and Dynkin Indices</span></a></li>
+    <li class="toc-h2"><a href="#sheet-2-problem-7-expanding-the-chiral-lagrangian"><span class="note__toc-number">7</span> <span class="note__toc-title">Sheet 2, Problem 7: Expanding the Chiral Lagrangian</span></a></li>
+    <li class="toc-h2"><a href="#sheet-2-problem-8-meson-mass-relations"><span class="note__toc-number">8</span> <span class="note__toc-title">Sheet 2, Problem 8: Meson Mass Relations</span></a></li>
+  </ol>
+</nav>
+
+  <article class="note__body">
+<p><em>These prompts paraphrase David Tong's <em>The Standard Model</em>,
+Example Sheet 2 (February 2026). Problem numbers, starred status, equations,
+and guidance follow the
+<a href="https://davidtong.org/pdfs/teaching/standard-model/rw2.pdf">official sheet</a>.</em></p>
+
+<h2 data-section-heading id="sheet-2-problem-1-broken-discrete-symmetry" data-section-number="1"><span class="note__heading-number">1</span> <span class="note__heading-title">Sheet 2, Problem 1: Broken Discrete Symmetry</span></h2>
+
+<p>Construct a polynomial potential for a complex scalar $\phi$ whose
+$\mathbb Z_N$ symmetry breaks spontaneously. Identify every ground
+state.</p>
+
+<aside class="solution">
+
+<p>The potential
+    \[V(\phi) = \lambda|\phi|^{2N} - \frac{1}{2}\mu^2 (\phi^N + \phi^{*N})\tag{1.1}\]
+    is invariant under $\mathbb{Z}_N: \phi \to e^{2\pi ik/N}\phi$. Therefore, the vacuum is given by
+    \[v_k = \left(\frac{\mu^2}{2\lambda}\right)^{1/N}e^{2\pi i k /N}.\tag{1.2}\]</p>
+
+</aside>
+
+<h2 data-section-heading id="sheet-2-problem-2-matrix-order-parameters-and-goldstone-modes" data-section-number="2"><span class="note__heading-number">2</span> <span class="note__heading-title">Sheet 2, Problem 2: Matrix Order Parameters and Goldstone Modes</span></h2>
+
+<p>Let $M(x)$ be a complex $N\times N$ matrix with $\lambda&gt;0$ and
+\[S=\int d^4x\,\operatorname{Tr}\left[
+    \partial^\mu M^\dagger\partial_\mu M
+    -kM^\dagger M-\frac\lambda2M^\dagger M M^\dagger M\right].\tag{2.1}\]</p>
+
+<ol>
+  <li>Show invariance under $M\mapsto AMB^\dagger$ for
+    $A,B\in U(N)$ and identify the $U(1)$ subgroup of
+    $U(N)\times U(N)$ that acts trivially.</li>
+  <li>When $k&lt;0$, show that a vacuum satisfies
+    $M_0^\dagger M_0=v^2\mathbf1$. Find the unbroken group,
+    describe the vacuum manifold as a coset, and count Goldstone bosons.</li>
+  <li>Add
+    $\int d^4x\,h(\det M+\det M^\dagger)$.
+    Determine the new symmetry group and the Goldstone count if the
+    vacuum still has $M_0^\dagger M_0=v^2\mathbf1$ with $v\ne0$.</li>
+</ol>
+
+<aside class="solution">
+
+<ol>
+  <li>The invariance is trivial to see. For $A = B \in U(1)$, the transformation is trivial.</li>
+  <li>The differentiation of the potential with respect to $M^\dagger$, we find
+    \[\frac{\partial}{\partial M^\dagger}\left(\frac{\lambda}{2}M_0^\dagger M_0 M_0^\dagger M_0 + k M_0^\dagger M_0\right) = M_0 (\lambda M_0^\dagger M_0 + k ) = 0 \implies M_0^\dagger M_0 = -\frac{k}{\lambda}\mathbf{1}.\tag{2.2}\]
+    Therefore, the vacuum must take the form $M_0 = v U$ with $U \in U(N)$. We can choose $U = \mathbf{1}$.
+    Under $U(N) \times U(N)$, the vacuum transforms as
+    \[v\mathbf{1} \to  A v\mathbf{1} B^\dagger.\tag{2.3}\]
+    Therefore, the vacuum is invariant for $A = B \in U(N)$ . Therefore, the stability group is given by $H = U(N)$, while the coset space is $G = (U(N)\times U(N))/U(N) $. Therefore, the number of Goldstone bosons is $\dim G = N^2$.</li>
+  <li>With this additional term, the symmetry reduces to $A, B \in SU(N)$, namely $SU(N) \times SU(N)$. If the vacuum still takes the same form, then the stability group becomes $H = SU(N)$. Hence, the number of Goldstone bosons becomes $\dim SU(N) = N^2 -1$.</li>
+</ol>
+
+</aside>
+
+<h2 data-section-heading id="sheet-2-problem-3-fundamental-higgs-fields-in-su2-and-sun" data-section-number="3"><span class="note__heading-number">3</span> <span class="note__heading-title">Sheet 2, Problem 3*: Fundamental Higgs Fields in $SU(2)$ and $SU(N)$</span></h2>
+
+<p>For a fundamental $SU(2)$ scalar $\phi_a$ ($a=1,2$), use
+\[S=\int d^4x\left[-\frac12\operatorname{Tr}(F_{\mu\nu}F^{\mu\nu})
+    +D_\mu\phi^\dagger D^\mu\phi
+    -\frac\lambda2(\phi^\dagger\phi-v^2)^2\right],\tag{3.1}\]
+where $F_{\mu\nu}=\partial_\mu A_\nu-\partial_\nu A_\mu
+-ig[A_\mu,A_\nu]$, $D_\mu\phi=\partial_\mu\phi-igA_\mu\phi$,
+and $T^a=\sigma^a/2$ in the fundamental representation.
+Find the particle masses. Generalise to a fundamental scalar in
+$SU(N)$: after condensation, what symmetry survives, how many gauge
+bosons become massive, and how many real scalar components are eaten?</p>
+
+<aside class="solution">
+
+<p>For $SU(2)$, we can choose the vacuum to be
+    \[\phi_0 = \begin{pmatrix}
+            0 \\ v
+        \end{pmatrix}.\tag{3.2}\]
+    Therefore, all of the symmetries are broken, and we can reparameterise the scalar field as
+    \[\phi(x) = \begin{pmatrix}
+            0 \\ v + \sigma(x)
+        \end{pmatrix}e^{i\pi^a(x)T^a/ F_\pi},\tag{3.3}\]
+    where $F_\pi $ is chosen to by $v$ so that the kinetic term of $\pi$ is canonically normalised. The gauge boson acquires a mass through the term
+    \[g^2A_\mu A^\mu |\phi|^2 = v^2g^2A_\mu A^\mu + \cdots,\tag{3.4}\]
+    where $m_A = \sqrt{2}vg$. The $\pi(x)$ field is eaten by the gauge bosons. The mass of $\sigma(x)$ is given by
+    \[\lambda v^2 |\phi|^2 = \lambda v^2 \sigma^2 + \cdots,\tag{3.5}\]
+    which gives $m_\sigma = \sqrt{2\lambda}v$.</p>
+
+<p>For $SU(N)$, a choice of vacuum could be
+    \[\phi_0 = \begin{pmatrix}
+            0 \\ \vdots \\ v
+        \end{pmatrix}.\tag{3.6}\]
+    Therefore, the stability group is $H = SU(N-1)$, and hence the coset space is $G = SU(N) / SU(N-1)$. Therefore, we can reparameterise the scalar field as
+        \[\phi(x) = mm\begin{pmatrix}
+            0 \\\vdots \\ v + \sigma(x)
+        \end{pmatrix}e^{i\pi^a(x)T^a/ F_\pi},\tag{3.7}\]
+    where $T^a$ are the generators of $G$ and $a = 1, \cdots , \dim G$. For consistency, $\phi(x)$ has $2N$ degrees of freedom, while $\pi(x)$ has $\dim G = 2N-1$ degrees of freedom and $\sigma(x)$ has $1$ degree of freedom. All of the $\pi$ are eaten by the gauge fields. Therefore, there will be $2N-1$ massive bosons.</p>
+
+</aside>
+
+<h2 data-section-heading id="sheet-2-problem-4-adjoint-higgs-breaking-patterns" data-section-number="4"><span class="note__heading-number">4</span> <span class="note__heading-title">Sheet 2, Problem 4: Adjoint Higgs Breaking Patterns</span></h2>
+
+<p>An $SU(N)$ adjoint scalar is a traceless matrix
+$\phi=\phi^AT^A$ with
+$D_\mu\phi=\partial_\mu\phi-ig[A_\mu,\phi]$.
+Explain why a potential minimum can be represented by
+\[\phi_0=\operatorname{diag}(v_1,\ldots,v_N),
+    \qquad \sum_{a=1}^Nv_a=0,\quad v_a\leq v_{a+1}.\tag{4.1}\]
+Classify the residual gauge groups according to coincidences among
+the $v_a$.</p>
+
+<aside class="solution">
+
+<p>Given a vacuum $\phi_0$, we can always diagonalise it by $U\phi_0 U^\dagger$, where $U \in SU(N)$. Therefore, we can choose the vacuum to be
+    \[\phi_0  = \operatorname{diag}(v_1,\ldots,v_N),\quad v_a\leq v_{a+1}.\tag{4.2}\]
+    Since $T^A$ are traceless, we must have $\Tr \phi_0 = 0$, which implies $\sum_a v_a = 0$. For a gauge transformation generated by $T^A$ to be unbroken, we must have
+    \[[T^A, \phi_0] = 0.\tag{4.3}\]
+    In general, we have
+    \[[T^A,\phi_0]_{ik} = \sum_j T^A_{ij}\delta_{jk}v_k - \sum_j \delta_{ij}v_j T^A_{jk} = (v_k -v_i) T^A_{ik}.\tag{4.4}\]
+    Therefore, there are no restrictions on $T_{ii}$, which gives $N-1$ unbroken generators. Meanwhile, we must either have $T_{ik} = 0$ for all $i\neq k$, or $v_i - v_k = 0$ for some $i,k$. Therefore, the number of unbroken generator is equal to the number of identical eigenvalue pairs. Suppose each distinct eigenvalues have multiplicity $n_i$, they give
+    \[2\sum_{j}\begin{pmatrix}
+            n_j \\ 2
+        \end{pmatrix} = \sum_j(n_j^2 -n_j) = \sum_jn_j^2 - N.\tag{4.5}\]
+    Therefore, the total number of unbroken generators is
+    \[\sum_jn_j^2 - 1.\tag{4.6}\]</p>
+
+</aside>
+
+<h2 data-section-heading id="sheet-2-problem-5-one-loop-qcd-scale" data-section-number="5"><span class="note__heading-number">5</span> <span class="note__heading-title">Sheet 2, Problem 5*: One-Loop QCD Scale</span></h2>
+
+<p>For $SU(N_c)$ with $N_f$ massless fundamental Dirac fermions, use
+\[\frac1{g^2(\mu)}=\frac1{g_0^2}
+    -\frac{11N_c-2N_f}{3(4\pi)^2}
+    \log\frac{\Lambda_{\rm UV}^2}{\mu^2}.\tag{5.1}\]
+Taking $\alpha_s=g_s^2/(4\pi)\simeq0.12$ at
+$\mu=M_Z\simeq90\,\mathrm{GeV}$, estimate $\Lambda_{\rm QCD}$
+if every quark lighter than $M_Z$ is treated as massless.
+How can the estimate be made more realistic?</p>
+
+<aside class="solution">
+
+<p>Taking the physical scale, we have
+    \[\frac{1}{g^2(M_Z)} =  \frac{1}{g_0^2} -\frac{11N_c-2N_f}{3(4\pi)^2}
+    \log\frac{\Lambda_{\rm UV}^2}{M_Z^2},\tag{5.2}\]
+    while the Landau pole is at
+    \[0 = \frac{1}{g^2(\Lambda_\mathrm{QCD})} =  \frac{1}{g_0^2} -\frac{11N_c-2N_f}{3(4\pi)^2}
+    \log\frac{\Lambda_{\rm UV}^2}{\Lambda_\mathrm{QCD}^2}.\tag{5.3}\]
+    Combining the two, we find
+    \[\frac{11N_c-2N_f}{3(4\pi)^2}
+    \log\frac{M_Z^2}{\Lambda_\mathrm{QCD}^2} = \frac{1}{g^2(M_Z)} \implies \Lambda_{\mathrm{QCD}}=  M_Z\exp\left(-\frac{6\pi}{(11N_c - 2N_f)\alpha_s}\right).
+\tag{5.4}\]
+    Five quark flavours are lighter than $M_Z$: $u,d,s,c,b$. The top quark is heavier, so take $N_c=3$ and $N_f=5$. This gives $\Lambda_\mathrm{QCD} \approx 0.097\,\mathrm{GeV}$.</p>
+
+<p>For a more realistic estimation, we can run the coupling towards the IR. When we go across the boundary of the bottom quark mass, we take $N_f$ to be $4$. Then, we match the value at $\alpha(m_b)$ in both regime. We repeat this procedure until ran into the landau pole.</p>
+
+</aside>
+
+<h2 data-section-heading id="sheet-2-problem-6-casimirs-and-dynkin-indices" data-section-number="6"><span class="note__heading-number">6</span> <span class="note__heading-title">Sheet 2, Problem 6: Casimirs and Dynkin Indices</span></h2>
+
+<p>For a representation $R$, define
+\[T^AT^A=C(R)\mathbf1,
+    \qquad
+    \operatorname{Tr}(T^AT^B)=\frac12I(R)\delta^{AB}.\tag{6.1}\]
+Prove $2C(R)\dim(R)=I(R)\dim(G)$.
+Find $C(R)$ for the fundamental and anti-fundamental of $SU(N)$,
+and calculate the adjoint Casimir of $SU(2)$.</p>
+
+<aside class="solution">
+
+<p>\[\Tr(T^A T^A) = C(R) \dim \mathbf{1} = C(R)\dim R,\tag{6.2}\]
+    while
+    \[\Tr(T^AT^A) = \frac{1}{2}I(R) \delta^{AA} = \frac{1}{2}I(R) \dim G.\tag{6.3}\]
+    Therefore,
+    \[2C(R)\dim(R)=I(R)\dim(G).\tag{6.4}\]
+    For fundamental representation of $SU(N)$, we have $\dim G = \dim \mathbf{N}$ and $I(\mathbf{N}) =1$, and hence $C(\mathbf{N})  = \frac{1}{2}$. Since $\bar T^A = - (T^A)^*$, we must have $I(\mathbf{N}) = I(\bar{\mathbf{N}})$, and hence $C(\mathbf{N}) = C(\bar{\mathbf{N}}) = 1/2$.</p>
+
+<p>For adjoint representation of $SU(2)$, the generators are$-i\epsilon^i{}_{jk}$, and hence
+    \[i\epsilon^i{}_{jk}i\epsilon^i{}_{kl} =2\delta_{jl} \implies C(\mathrm{adj}) = 2.\tag{6.5}\]</p>
+
+</aside>
+
+<h2 data-section-heading id="sheet-2-problem-7-expanding-the-chiral-lagrangian" data-section-number="7"><span class="note__heading-number">7</span> <span class="note__heading-title">Sheet 2, Problem 7: Expanding the Chiral Lagrangian</span></h2>
+
+<p>For $U=e^{2i\pi/f_\pi}$ with $\pi\in su(N_f)$, expand
+\[\mathcal L_{\rm pion}
+    =\frac{f_\pi^2}{4}
+    \operatorname{tr}(\partial^\mu U^\dagger\partial_\mu U)\tag{7.1}\]
+through fourth order in $\pi$. Show that the quadratic term is
+$\operatorname{tr}(\partial_\mu\pi)^2$ and that the quartic term
+can be written
+\[-\frac{2}{3f_\pi^2}\operatorname{tr}\left[
+    \pi^2(\partial_\mu\pi)^2
+    -(\pi\partial_\mu\pi)^2\right].\tag{7.2}\]
+For $N_f=2$ and $T^a=\sigma^a/2$, reduce the interaction to
+\[\mathcal L_{\rm int}=-\frac1{6f_\pi^2}
+    \left[\pi^a\pi^a\partial_\mu\pi^b\partial^\mu\pi^b
+    -\pi^a\partial_\mu\pi^a\,
+    \pi^b\partial^\mu\pi^b\right].\tag{7.3}\]</p>
+
+<aside class="solution">
+
+<p>Expanding $U$, we find
+    \[U = 1+ \frac{2i}{f_\pi}\pi - \frac{2}{f_\pi^2}\pi^2 - \frac{4i}{3f_\pi^3}\pi^3 + \cdots,\tag{7.4}\]
+    and hence
+    \[\partial_\mu U
+=\frac{2i}{f_\pi}\partial_\mu\pi
+-\frac{2}{f_\pi^2}\bigl((\partial_\mu\pi)\pi+\pi(\partial_\mu\pi)\bigr)
+-\frac{4i}{3f_\pi^3}\bigl((\partial_\mu\pi)\pi^2+\pi(\partial_\mu\pi)\pi+\pi^2(\partial_\mu\pi)\bigr)
++\cdots.\tag{7.5}\]
+    Expanding the Lagrangian, we have
+    \[\begin{aligned}
+            \mathcal L_{\rm pion}
+            &amp;=\operatorname{tr}(\partial_\mu \pi\partial^\mu \pi)-\frac{2}{3f_\pi^2}\operatorname{tr}\left[
+    \pi^2(\partial_\mu\pi)^2
+    -(\pi\partial_\mu\pi)^2\right] +\cdots.
+        \end{aligned}\tag{7.6}\]</p>
+
+<p>For $N_f = 2$, we need to evaluate
+    \[\operatorname{tr}(\sigma^a \sigma^b \sigma^c \sigma^d ) = \operatorname{tr}(\sigma^a \sigma^b \{\sigma^c, \sigma^d \}) - \operatorname{tr}(\sigma^a \{\sigma^b, \sigma^d\} \sigma^c )  + \operatorname{tr}(\{\sigma^a ,\sigma^d\} \sigma^b \sigma^c ) + \operatorname{tr}( \sigma^d \sigma^a \sigma^b \sigma^c).\tag{7.7}\]
+    Using $\{\sigma^a,\sigma^b\} = 2\delta^{ab}$ and $\operatorname{Tr}\!\left(\sigma^a \sigma^b\right) = 2\delta^{ab}$, we find
+    \[\operatorname{tr}(\sigma^a \sigma^b \sigma^c \sigma^d ) = 2(\delta^{ab}\delta^{cd}-\delta^{bd}\delta^{ac} + \delta^{ad}\delta^{bc}).\tag{7.8}\]
+    Substituting into the Lagrangian, the interaction reduces to
+    \[\mathcal L_{\rm int}=-\frac1{6f_\pi^2}
+    \left[\pi^a\pi^a\partial_\mu\pi^b\partial^\mu\pi^b
+    -\pi^a\partial_\mu\pi^a\,
+    \pi^b\partial^\mu\pi^b\right].\tag{7.9}\]</p>
+
+</aside>
+
+<h2 data-section-heading id="sheet-2-problem-8-meson-mass-relations" data-section-number="8"><span class="note__heading-number">8</span> <span class="note__heading-title">Sheet 2, Problem 8: Meson Mass Relations</span></h2>
+
+<p>For $N_f=3$, use the pion, kaon, and eta matrix
+\[\pi=\frac1{\sqrt2}
+    \begin{pmatrix}
+    \pi^0/\sqrt2+\eta/\sqrt6&amp;\pi^+&amp;K^+\\
+    \pi^-&amp;-\pi^0/\sqrt2+\eta/\sqrt6&amp;K^0\\
+    K^-&amp;\bar K^0&amp;-2\eta/\sqrt6
+    \end{pmatrix}.\tag{8.1}\]
+With $M=\operatorname{diag}(m_u,m_d,m_s)$ and a mass term
+proportional to $f_\pi\operatorname{tr}[(M+M^\dagger)\pi^2]$,
+show
+\[\frac{m_{K^+}^2-m_{K^0}^2}{m_\pi^2}
+    =\frac{m_u-m_d}{m_u+m_d}.\tag{8.2}\]
+Then take $m_u\simeq m_d$ to derive the Gell-Mann--Okubo relation
+$4m_K^2\simeq3m_\eta^2+m_\pi^2$ and compare it with measured
+meson masses.</p>
+
+<aside class="solution">
+
+<p>\[(\pi^2)_{11}=\frac12\left[\left(\frac{\pi^0}{\sqrt2}+\frac{\eta}{\sqrt6}\right)^2+\pi^+\pi^-+K^+K^-\right],\]\[(\pi^2)_{22}=\frac12\left[\left(-\frac{\pi^0}{\sqrt2}+\frac{\eta}{\sqrt6}\right)^2+\pi^-\pi^++K^0\bar K^0\right],\]\[(\pi^2)_{33}=\frac12\left[K^-K^++\bar K^0K^0+\frac{2\eta^2}{3}\right].\]
+Hence, the mass term is proportional to
+\[m_u (\pi^2)_{11} +  m_d (\pi^2)_{22} + m_s (\pi^2)_{33}.\tag{8.3}\]
+Then, we can read off the masses of the Mesons, which are
+\[m_{\pi}^2 =  m_u + m_d, \quad m_{K^0}^2 = m_d + m_s, \quad m_{K^+}^2 = m_u + m_s,\quad m_\eta^2 = \frac{m_u + m_d + 4m_s}{3},\tag{8.4}\]
+up to an overall constant. Therefore, we obtain the relation
+\[\frac{m_{K^+}^2-m_{K^0}^2}{m_\pi^2}
+    =\frac{m_u-m_d}{m_u+m_d}.\tag{8.5}\]
+Take $m_u \simeq m_d$, we immediately find $m_{K}^2 \simeq m_{K^0}^2 \simeq m_{K^+}^2\simeq m_u + m_s$. Then, it follows
+\[4m_K^2\simeq3m_\eta^2+m_\pi^2.\tag{8.6}\]
+Using the PDG measured masses and averaging the charged and neutral squared masses within each pion and kaon multiplet gives
+\[4m_K^2 \simeq 0.983\,\mathrm{GeV}^2.\]\[3m_\eta^2+m_\pi^2 \simeq 0.920\,\mathrm{GeV}^2.\]</p>
+
+</aside>
+  </article>
+
+  <hr class="ornament-rule">
+
+  <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
+    <a href="../notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <p class="footer__disclaimer">
+    These notes are not guaranteed to be correct. If you find a mistake,
+    <a href="mailto:luca.jin@outlook.com?subject=Correction%20to%20Luca%20Jin%20Physics">please email me</a>.
+  </p>
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="../">Home</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>

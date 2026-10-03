@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>David Tong Standard Model Solutions — Sheet 3: Anomalies | Yucheng (Luca) Jin</title>
+<meta name="description" content="David Tong Standard Model Solutions — Sheet 3: Anomalies — Quantum Field Theory · Tong Standard Model Sheet 3, based on D. Tong. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="author" content="Yucheng (Luca) Jin">
+<link rel="canonical" href="https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sm-sheet-3.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sm-sheet-3.html">
+<meta property="og:site_name" content="Luca Jin Physics">
+<meta property="og:title" content="David Tong Standard Model Solutions — Sheet 3: Anomalies | Yucheng (Luca) Jin">
+<meta property="og:description" content="David Tong Standard Model Solutions — Sheet 3: Anomalies — Quantum Field Theory · Tong Standard Model Sheet 3, based on D. Tong. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta property="og:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="David Tong Standard Model Solutions — Sheet 3: Anomalies | Yucheng (Luca) Jin">
+<meta name="twitter:description" content="David Tong Standard Model Solutions — Sheet 3: Anomalies — Quantum Field Theory · Tong Standard Model Sheet 3, based on D. Tong. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.">
+<meta name="twitter:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="stylesheet" href="../styles.css">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sm-sheet-3.html#article","url":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sm-sheet-3.html","mainEntityOfPage":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sm-sheet-3.html","headline":"David Tong Standard Model Solutions — Sheet 3: Anomalies","description":"David Tong Standard Model Solutions — Sheet 3: Anomalies — Quantum Field Theory · Tong Standard Model Sheet 3, based on D. Tong. Worked physics notes by Yucheng (Luca) Jin, available in HTML and PDF.","inLanguage":"en","genre":"Theoretical physics notes and worked solutions","educationalLevel":"Undergraduate physics","about":{"@type":"Thing","name":"Quantum Field Theory · Tong Standard Model Sheet 3"},"author":{"@type":"Person","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#person","name":"Yucheng (Luca) Jin","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"isPartOf":{"@type":"WebSite","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#website","name":"Luca Jin Physics","url":"https://luca-yucheng-jin.github.io/luca-physics-site/"},"encoding":{"@type":"MediaObject","contentUrl":"https://luca-yucheng-jin.github.io/luca-physics-site/output/pdf/tong-sm-sheet-3.pdf","encodingFormat":"application/pdf"}},{"@type":"BreadcrumbList","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sm-sheet-3.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes.html"},{"@type":"ListItem","position":2,"name":"David Tong Standard Model Solutions — Sheet 3: Anomalies","item":"https://luca-yucheng-jin.github.io/luca-physics-site/notes/tong-sm-sheet-3.html"}]}]}</script>
+
+<script src="../assets/theme.js"></script>
+<script src="../assets/font-size.js"></script>
+
+<!-- MathJax with custom macros mirroring the original .tex preamble -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['physics', 'boldsymbol', 'cancel', 'ams', 'configmacros', 'mathtools']},
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      Q: '\\mathbb{Q}',
+      A: '\\mathcal{A}',
+      Lagrangian: '\\mathcal{L}',
+      Cdot: '\\boldsymbol{\\cdot}',
+      Tr: '\\operatorname{Tr}',
+      // \qed inside math (e.g. trailing a derivation in an align env) —
+      // amsthm's text-mode handler is already covered by the HTML-side
+      // replace at the bottom of strip_tex_only_constructs, this catches
+      // the math-mode case (Osborn AQFT PS3 Q3 ends an equation with .\qed).
+      qed: '\\blacksquare',
+      // Feynman slash: \not{x} would render the slash to the LEFT of x
+      // (it's designed for \not=). \cancel from the cancel package
+      // strikes diagonally through the centre, matching the slashed.sty
+      // package's appearance.
+      slashed: ['{\\cancel{#1}}', 1],
+      // Wick contraction: top brace connector over the contracted pair —
+      // closer to the standard physics notation than a plain overline.
+      wick:    ['{\\overbrace{#1}^{\\!\\!}}', 1],
+      c:       ['{#1}', 1],
+      mathds:  ['\\mathbb{#1}', 1],
+      Tilde:   ['\\tilde{#1}', 1],
+      // siunitx polyfill — \si{K}, \si{m\,s^{-1}} etc. should render
+      // the unit in upright math text, like \mathrm{X}. Doesn't try
+      // to mimic the full siunitx unit-formatting machinery; just
+      // unblocks the common bare-unit case in TDSP problems.
+      si: ['\\,\\mathrm{#1}', 1],
+      SI: ['#1\\,\\mathrm{#2}', 2]
+      // \tensor{base}{indices} is rewritten to base^a{}_b in
+      // build/tex_to_html.py:_rewrite_tensor before MathJax sees it,
+      // so no runtime macro is needed here. The empty-group trick is
+      // what makes MathJax kern the indices into separate columns.
+    }
+  },
+  loader: { load: ['[tex]/physics', '[tex]/boldsymbol', '[tex]/cancel', '[tex]/ams', '[tex]/configmacros', '[tex]/mathtools'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../" class="topbar__brand">Luca Jin <small>Physics · Imperial</small></a>
+  <nav class="topbar__nav" aria-label="Primary navigation">
+    <a href="../">Home</a>
+    <a href="../notes.html" class="is-active">Notes</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+    <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" title="Decrease font size">A<span class="font-toggle__small">−</span></button>
+    <button class="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size" title="Increase font size">A<span class="font-toggle__large">+</span></button>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Toggle theme">
+      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    </button>
+  </nav>
+</header>
+
+<main class="note">
+
+  <div class="note__breadcrumb">
+    <a href="../notes.html">Notes</a> &nbsp;·&nbsp; Quantum Field Theory · Tong Standard Model Sheet 3
+  </div>
+
+  <h1 class="note__title">David Tong Standard Model Solutions — Sheet 3: Anomalies</h1>
+  <p class="note__subtitle">Source: D. Tong, <em>The Standard Model</em>, Example Sheet 3; 6 worked problems.</p>
+
+  <div class="note__formats" aria-label="Available formats"><span>Available formats</span><a aria-current="page" href="tong-sm-sheet-3.html">HTML</a><a href="../output/pdf/tong-sm-sheet-3.pdf">PDF ↓</a></div>
+
+  <nav class="note__toc note__toc--long" aria-label="Contents">
+  <div class="note__toc-label">Contents</div>
+  <ol class="note__toc-list">
+    <li class="toc-h2"><a href="#sheet-3-problem-1-chiral-u1-charge-assignments"><span class="note__toc-number">1</span> <span class="note__toc-title">Sheet 3, Problem 1: Chiral $U(1)$ Charge Assignments</span></a></li>
+    <li class="toc-h2"><a href="#sheet-3-problem-2-gauge-and-t-hooft-anomalies-in-a-chiral-theory"><span class="note__toc-number">2</span> <span class="note__toc-title">Sheet 3, Problem 2*: Gauge and 't Hooft Anomalies in a Chiral Theory</span></a></li>
+    <li class="toc-h2"><a href="#sheet-3-problem-3-real-hypercharges-and-anomaly-cancellation"><span class="note__toc-number">3</span> <span class="note__toc-title">Sheet 3, Problem 3*: Real Hypercharges and Anomaly Cancellation</span></a></li>
+    <li class="toc-h2"><a href="#sheet-3-problem-4-integer-hypercharges"><span class="note__toc-number">4</span> <span class="note__toc-title">Sheet 3, Problem 4: Integer Hypercharges</span></a></li>
+    <li class="toc-h2"><a href="#sheet-3-problem-5-global-symmetries-of-the-standard-model"><span class="note__toc-number">5</span> <span class="note__toc-title">Sheet 3, Problem 5: Global Symmetries of the Standard Model</span></a></li>
+    <li class="toc-h2"><a href="#sheet-3-problem-6-surviving-discrete-symmetries"><span class="note__toc-number">6</span> <span class="note__toc-title">Sheet 3, Problem 6: Surviving Discrete Symmetries</span></a></li>
+  </ol>
+</nav>
+
+  <article class="note__body">
+<p><em>These prompts paraphrase David Tong's <em>The Standard Model</em>,
+Example Sheet 3 (February 2026). Problem numbers, starred status, equations,
+and guidance follow the
+<a href="https://davidtong.org/pdfs/teaching/standard-model/rw3.pdf">official sheet</a>.</em></p>
+
+<h2 data-section-heading id="sheet-3-problem-1-chiral-u1-charge-assignments" data-section-number="1"><span class="note__heading-number">1</span> <span class="note__heading-title">Sheet 3, Problem 1: Chiral $U(1)$ Charge Assignments</span></h2>
+
+<p>Prove that four left-handed Weyl fermions with integer charges cannot
+form a consistent chiral $U(1)$ gauge theory that can also couple to
+gravity. Exhibit a consistent example with five such fermions.</p>
+
+<aside class="solution">
+
+<p>There are two constraints in this case,
+    \[\sum_{\rm left}q_i^3 = \sum_{\rm right}q_i^3, \quad \sum q_i = 0.\tag{1.1}\]
+    In the case of four Weyl spinors, we must either have one or two negative charges, namely $\{x,y,z,-w\}$ or $\{x,y,-z,-w\}$ where $x,y,z,w \in \mathbb{Z}^+$. In the first case, we have two equations
+    \[x^3 + y^3+z^3 = w^3, \quad x+y+z=w,\tag{1.2}\]
+    which becomes
+    \[x^2y + xy^2 + y^2z + yz^2 + z^2x + zx^2 = 0,\tag{1.3}\]
+    which only has the trivial solution $x = y =z = w=0$. The same argument works for the second case. Therefore, there cannot be any consistent chiral gauge theory with four left-handed spinors.</p>
+
+<p>For five left-handed Weyl fermions, $\{1,5,-7,-8,9\}$ does the job.</p>
+
+</aside>
+
+<h2 data-section-heading id="sheet-3-problem-2-gauge-and-t-hooft-anomalies-in-a-chiral-theory" data-section-number="2"><span class="note__heading-number">2</span> <span class="note__heading-title">Sheet 3, Problem 2*: Gauge and 't Hooft Anomalies in a Chiral Theory</span></h2>
+
+<p>Couple $SU(N)$ to one left-handed Weyl fermion $\chi$ in the
+two-index symmetric representation and to $p$ left-handed Weyl
+fermions $\psi_i$ in the anti-fundamental. Determine $p$ for gauge
+anomaly cancellation.</p>
+
+<p>Classically, $SU(p)$ rotates the $\psi_i$, while $U(1)_\chi$
+rotates only $\chi$ and $U(1)_\psi$ rotates only the $\psi_i$.
+Show that each Abelian symmetry is anomalous and find a surviving
+linear combination. Calculate its $SU(p)^3$, $SU(p)^2U(1)$,
+$U(1)^3$, and mixed $U(1)$--gravity 't Hooft anomalies.</p>
+
+<p>The proposed confined spectrum consists of gauge-singlet fermions
+\[\lambda_{ij}=\psi_{[i}(\chi\psi_{j]}),\tag{2.1}\]
+in the antisymmetric representation of the global $SU(p)$.
+Find their surviving $U(1)$ charge and match all the anomalies
+computed above.</p>
+
+<p><em>Useful source data:</em> With $I(\bar R)=I(R)$ and
+$A(\bar R)=-A(R)$, the $SU(N)$ representation data are</p>
+
+<div class="note__table-scroll"><table class="note__table">
+  <tr><td>$R$</td><td>fundamental</td><td>adjoint</td><td>symmetric</td><td>antisymmetric</td></tr>
+  <tr><td>$\dim R$</td><td>$N$</td><td>$N^2-1$</td><td>$N(N+1)/2$</td><td>$N(N-1)/2$</td></tr>
+  <tr><td>$I(R)$</td><td>$1$</td><td>$2N$</td><td>$N+2$</td><td>$N-2$</td></tr>
+  <tr><td>$A(R)$</td><td>$1$</td><td>$0$</td><td>$N+4$</td><td>$N-4$</td></tr>
+</table></div>
+
+<aside class="solution">
+
+<p>For the theory to be consistent, we must have
+    \[\sum_i A(R_i) = A(\mathrm{sym}) + pA(\bar{\mathbf{N}}) = N+4 -p = 0 \implies p = N+4.\tag{2.2}\]</p>
+
+<p>Then, for the $U(1)_\chi SU(N)^2$ mixed anomaly, we have
+    \[\mathcal{A}_{U(1)_\chi SU(N)^2} = \sum q_i I(R_i) = I(\mathrm{sym}) = N+2,\tag{2.3}\]
+    while for the $U(1)_\psi SU(N)^2$
+    \[\mathcal{A}_{U(1)_\psi SU(N)^2} = \sum q_i I(R_i) = pI(\bar{\mathrm{fund}}) = N+4,\tag{2.4}\]
+    which are both anomalous. For a general $U(1)$ transformation, let us take the charge of $\chi$ to be $Q$ and the charges of $\psi_i$ to be $q$. For the symmetry to be anomaly-free, we must have
+    \[\mathcal{A}_{U(1) SU(N)^2} = pq + Q(N+4) = 0.\tag{2.5}\]
+    A convenient choice of charge is $ q= -(N+2)$ and $Q = N+4$.</p>
+
+<p>Now, we turn to the computation of the 't Hooft anomalies:
+    \[\mathcal{A}_{SU(p)^3} = \sum_{\text{gauge index}} A(\mathbf{p}) = N,\tag{2.6}\]
+    \[\mathcal{A}_{SU(p)^2U(1)} = \sum_{\text{gauge index}}q I(\mathbf{p}) = -N(N+2),\tag{2.7}\]
+    \[\mathcal{A}_{U(1)^3} = \sum_{\text{gauge index}} \sum_i q^3_i = Npq^3 + \dim(\mathrm{sym}) Q^3 = -\frac{N^3(N+3)(N+4)}{2},\tag{2.8}\]
+    \[\mathcal{A}_{U(1)} = \sum_{\text{gauge index}} \sum_i q_i = Npq + \dim(\mathrm{sym}) Q = -\frac{N(N+4)(N+3)}{2}.\tag{2.9}\]</p>
+
+<p>Under $U(1)$ the $\lambda$ fermion transform as
+    \[U(1):\quad \lambda^{ij} \to e^{i(Q+2q)\alpha}\lambda^{ij},\tag{2.10}\]
+    which has a charge $q_\lambda = -N$.</p>
+
+<p>Since the $\lambda$ fermion is a gauge singlet, the 't Hooft anomalies of this theory are given by
+    \[\mathcal{A}_{SU(p)^3}' =  A(\mathrm{antisym}) = p-4 = N,\tag{2.11}\]
+    \[\mathcal{A}_{SU(p)^2U(1)}' = q_\lambda I(\mathrm{antisym}) = -N(p-2) = -N(N+2),\tag{2.12}\]
+    \[\mathcal{A}_{U(1)^3}' =  \sum_{\text{fermion index}} q_\lambda^3 = -\frac{1}{2}p(p-1)N^3 = -\frac{N^3(N+3)(N+4)}{2},\tag{2.13}\]
+    \[\mathcal{A}_{U(1)}' = \sum_{\text{fermion index}} q_\lambda = -\frac{1}{2}p(p-1)N =  -\frac{N(N+3)(N+4)}{2}.\tag{2.14}\]
+    Therefore, we see that the anomalies indeed match.</p>
+
+</aside>
+
+<h2 data-section-heading id="sheet-3-problem-3-real-hypercharges-and-anomaly-cancellation" data-section-number="3"><span class="note__heading-number">3</span> <span class="note__heading-title">Sheet 3, Problem 3*: Real Hypercharges and Anomaly Cancellation</span></h2>
+
+<p>Use one Standard Model generation, omitting a right-handed neutrino,
+with arbitrary real hypercharges:
+\[Q_L:(\mathbf2,\mathbf3)_q,\quad
+    L_L:(\mathbf2,\mathbf1)_l,\quad
+    u_R:(\mathbf1,\mathbf3)_u,\quad
+    d_R:(\mathbf1,\mathbf3)_d,\quad
+    e_R:(\mathbf1,\mathbf1)_x.\tag{3.1}\]
+The entries specify $SU(2)\times SU(3)$ representations and the
+subscript is the $U(1)$ charge.</p>
+
+<ol>
+  <li>Write every gauge anomaly-cancellation condition, including
+    the mixed $U(1)$--gravity condition.</li>
+  <li>Show that the real solutions consist of two branches: one
+    with $u=-d$ and another with the usual Standard Model
+    hypercharges up to overall rescaling.</li>
+</ol>
+
+<aside class="solution">
+
+<ol>
+  <li>We start with the $SU(3)^3$ gauge anomaly, which only involves the quarks:
+    \[\sum_\text{left} A(\mathbf{3}) = \sum_\text{right} A(\mathbf{3}),\tag{3.2}\]
+    which is indeed true. For $SU(2)^3$, we simply have $A(\mathbf{2}) = 0$, and hence is always anomaly-free. For $U(1)^3$, we have
+    \[\sum_\text{left}Y_i^3 = \sum_\text{right}Y_i^3 \implies 6q^3 + 2l^3 = 3u^3+ 3d^3+x^3.\tag{3.3}\]
+    Now, we turn to the mixed gauge anomalies. For $SU(2)^2U(1)$, which only involves left-handed particles, we have
+    \[\sum_\text{left}Y_iI(\mathbf{2}) = \sum_\text{right}Y_iI(\mathbf{2}) \implies 3q + l = 0.\tag{3.4}\]
+    For $SU(3)^2U(1)$, we find
+    \[\sum_\text{left}Y_iI(\mathbf{3}) = \sum_\text{right}Y_iI(\mathbf{3}) \implies 2q = u+d.\tag{3.5}\]
+    Finally, $\text{grav}^2U(1)$ gives
+    \[\sum_\text{left} Y_i = \sum_\text{right} Y_i \implies 6q + 2l = 3u + 3d + x.\tag{3.6}\]</li>
+  <li>The 4 equations boil down to
+    \[6u^3 +6d^3 + 21u^2d+21ud^2 = 0.\tag{3.7}\]
+    Clearly, this has the solution $u/d = -1 \equiv y$. The polynomial factorises to
+    \[(y+1)(6y^2+15y+6) = 0,\tag{3.8}\]
+    which has solutions, $y= -1, -2, -1/2$. Since $u_R$ and $d_R$ have the same representation, we can always relabel them. Therefore, we actually only have two possible classes of solutions:
+    \[u=-d, \quad q=0,\quad l=0,\quad x=0,\tag{3.9}\]
+    \[u=-2d,\quad q=\frac{d}{2},\quad l=\frac{3d}{2},\quad x =3d.\tag{3.10}\]</li>
+</ol>
+
+</aside>
+
+<h2 data-section-heading id="sheet-3-problem-4-integer-hypercharges" data-section-number="4"><span class="note__heading-number">4</span> <span class="note__heading-title">Sheet 3, Problem 4: Integer Hypercharges</span></h2>
+
+<p>Repeat Problem 3 with $q,l,u,d,x\in\mathbb Z$.</p>
+
+<ol>
+  <li>Impose all gauge anomaly conditions, without imposing the
+    mixed gravitational condition.</li>
+  <li>Show that the solution is unique up to overall scaling and
+    automatically cancels the mixed gravitational anomaly. You may
+    quote a familiar pure-mathematics result without proving it.</li>
+</ol>
+
+<p><em>Hint:</em> First write $u-d=2y$ for integer $y$. Then use
+the variables $v,w$ related by
+\[x=-\frac6{v+w},
+    \qquad y=\frac{3(v-w)}{v+w}.\tag{4.1}\]</p>
+
+<aside class="solution">
+
+<p>Since $u+d = 2q \in 2\mathbb{Z}$, we must have $u-d = 2y \in 2\mathbb{Z}$. Substituting this and $3q = -l$ into the $U(1)^3$ anomaly-free condition, we find
+    \[48q^3 +3(q+y)^3+3(q-y)^3 +x^3 = 0,\tag{4.2}\]
+    which simplifies to
+    \[54q^3 +18qy^2 +x^3 = 0.\tag{4.3}\]
+    Absorbing $q$ into $x,y$, so that $x,y \in \mathbb{Q}$ and
+    \[54 +18y^2 +x^3 = 0.\tag{4.4}\]
+    Making the redefinition of variables and working through a bit of algebra, we find
+    \[v^3 +w^3 =1,\tag{4.5}\]
+    which is the famous Fermat's last theorem with $N=3$. This, famously enough, has only trivial solutions, namely $v = 1, w=0$ or $v=0, w=1$. Again, these are equivalent solutions since we can always relabel $u$ and $d$. It is not hard to see that this is indeed the hypercharge of our world up to a scaling, and hence free of gravitational anomaly.</p>
+
+</aside>
+
+<h2 data-section-heading id="sheet-3-problem-5-global-symmetries-of-the-standard-model" data-section-number="5"><span class="note__heading-number">5</span> <span class="note__heading-title">Sheet 3, Problem 5: Global Symmetries of the Standard Model</span></h2>
+
+<p>Determine the global symmetries of the classical Standard Model
+Lagrangian in each case:</p>
+
+<ol>
+  <li>there are no right-handed neutrinos;</li>
+  <li>right-handed neutrinos exist and every allowed relevant and
+    marginal interaction is included.</li>
+</ol>
+
+<p>For each case, reassess the result after accounting for anomalies.</p>
+
+<aside class="solution">
+
+<ol>
+  <li>Naively, there seems to be a $U(1)^5$ global symmetry, which is
+    \[\begin{aligned}U(1):\quad Q_L &amp;\to e^{i\alpha}Q_L,\\
+         d_R &amp;\to e^{i\beta}d_R,\\
+         u_R &amp;\to e^{i\gamma}u_R,\\
+         L_L &amp;\to e^{i\delta}L_L,\\
+         e_R &amp;\to e^{i\lambda}e_R.\end{aligned}\tag{5.1}\]
+        However, the Yukawa couplings impose additional restrictions on the charges, which are
+    \[\alpha = \beta, \quad \alpha = \gamma, \quad \delta = \lambda.\tag{5.2}\]
+    This reduces the global symmetry to $U(1)^2$. In particular, we choose this to be $U(1)_B \times U(1)_L$.
+
+<p>After accounting for the anomalies, the mixed anomaly with $SU(2)$ and $SU(3)$ vanishes for both lepton and baryon number symmetry. However, the mixed anomaly with hypercharge survives:
+    \[\mathcal{A}_{U(1)_BU(1)^2} = -\frac{1}{2} = -\mathcal{A}_{U(1)_LU(1)^2}.\tag{5.3}\]
+    Therefore, the only surviving global symmetry in the quantum theory is $U(1)_B - U(1)_L$.</li>
+  <li>The situation is almost identical after including right-handed neutrinos, since they have no hypercharge.</li>
+</ol></p>
+
+</aside>
+
+<h2 data-section-heading id="sheet-3-problem-6-surviving-discrete-symmetries" data-section-number="6"><span class="note__heading-number">6</span> <span class="note__heading-title">Sheet 3, Problem 6: Surviving Discrete Symmetries</span></h2>
+
+<p><em>Part (a) is optional on the source sheet.</em></p>
+
+<ol>
+  <li>Couple $SU(N)$ Yang--Mills theory to a single massless
+    adjoint left-handed Weyl fermion $\lambda$. Explain quantum
+    consistency. Although the theory has $\mathcal N=1$
+    supersymmetry, that fact is not needed here. Classically
+    $\lambda\mapsto e^{i\alpha}\lambda$ is a $U(1)$ symmetry.
+    Follow the shift of the theta angle to show that only
+    $\mathbb Z_{2N}$ survives quantum mechanically. If confinement
+    produces $\langle\operatorname{Tr}\lambda\lambda\rangle
+    \sim\Lambda_{QCD}^3$, determine the action of
+    $\mathbb Z_{2N}$ on this condensate and count the vacua.</li>
+  <li>Now couple $SU(N)$, with $N&gt;2$, to one Dirac fermion in
+    the two-index symmetric representation. Determine its classical
+    and quantum global symmetries. Assuming confinement and a
+    condensate $\langle\bar\psi\psi\rangle
+    \sim\Lambda_{QCD}^3$, count the vacua. Repeat for the
+    two-index antisymmetric representation. The representation
+    data in Problem 2 may help.</li>
+</ol>
+
+<aside class="solution">
+
+<ol>
+  <li>Since $A(\mathrm{adj}) =0$, the theory is free of gauge anomaly, and hence consistent. For the $U(1)$ global symmetry, the ABJ anomaly is
+    \[\mathcal{A}_{U(1)SU(N)^2} = I(\mathrm{adj}) = 2N.\tag{6.1}\]
+    Hence, the theta term transform as
+    \[\theta \to \theta + 2\alpha N.\tag{6.2}\]
+    Therefore, only a discrete $\mathbb{Z}_{2N}$ survives. Under the discrete symmetry, the condensate transforms as
+    \[\langle\operatorname{Tr}\lambda\lambda\rangle \to e^{2in\pi/N}\langle\operatorname{Tr}\lambda\lambda\rangle.\tag{6.3}\]
+    Therefore, the symmetry is further broken to $\mathbb{Z}_{2}$, which means that there are $N$ vacuum states for this theory.</li>
+  <li>In this case the classical global symmetry is $U(1)_V \times U(1)_A$, while the quantum global symmetry reduces to $U(1)_V$ and a surviving discrete group of $U(1)_A$. In particular, the theta angle transform as
+    \[\theta \to \theta +2\beta(N\pm 2)\tag{6.4}\]
+    ($+$ for symmetric representation and $-$ for antisymmetric representation). Therefore, the surviving discrete symmetry is $\mathbb{Z}_{N\pm 2}$. Under the discrete symmetry, the condensate transforms as
+    \[\langle\bar\psi\psi\rangle \to e^{2\pi ni/(N\pm 2)}\langle\bar\psi\psi\rangle.\tag{6.5}\]
+    Therefore, there are $N\pm 2$ vacuum for the theory.</li>
+</ol>
+
+</aside>
+  </article>
+
+  <hr class="ornament-rule">
+
+  <p style="font-style:italic; color:var(--muted); font-family:var(--display); text-align:center;">
+    <a href="../notes.html">← Back to all notes</a>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <p class="footer__disclaimer">
+    These notes are not guaranteed to be correct. If you find a mistake,
+    <a href="mailto:luca.jin@outlook.com?subject=Correction%20to%20Luca%20Jin%20Physics">please email me</a>.
+  </p>
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href="../">Home</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>
