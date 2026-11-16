@@ -12,7 +12,8 @@ SITE_URL = "https://luca-yucheng-jin.github.io/luca-physics-site"
 
 def public_pages() -> list[Path]:
     """Return only catalogue-backed, indexable pages in stable order."""
-    pages = [ROOT / "index.html", ROOT / "notes.html"]
+    pages = [ROOT / "index.html", ROOT / "notes.html", ROOT / "blog.html"]
+    pages.extend(sorted((ROOT / "blog").glob("*.html")))
     pages.extend(sorted(ROOT.glob("notes-*.html")))
     manifest = json.loads((ROOT / "assets" / "nav-manifest.json").read_text())
     note_paths = [

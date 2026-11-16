@@ -4,7 +4,7 @@
   "version": "2.0.0",
   "type": "module",
   "scripts": {
-    "refresh": "python3 build/build_indexes.py && python3 build/build_seo.py",
+    "refresh": "python3 build/build_indexes.py && python3 build/build_blog.py && python3 build/build_seo.py",
     "predev": "npm run refresh",
     "dev": "vite",
     "prebuild": "npm run refresh",

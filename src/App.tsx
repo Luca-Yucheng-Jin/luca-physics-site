@@ -49,6 +49,7 @@ export default function App() {
         <nav className="topbar__nav" aria-label="Primary navigation">
           <a className="is-active" href="#top">Home</a>
           <a href="notes.html">Notes</a>
+          <a href="blog.html">Blog</a>
           <a href="mailto:luca.jin@outlook.com">Contact</a>
           <button className="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" onClick={() => adjustFontScale(-0.1)}>A<span className="font-toggle__small">−</span></button>
           <button className="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size" onClick={() => adjustFontScale(0.1)}>A<span className="font-toggle__large">+</span></button>
@@ -96,6 +97,16 @@ export default function App() {
             ))}
           </nav>
         </section>
+        <section className="home-section home-blog page-shell" aria-labelledby="blog-title">
+          <div className="section-heading">
+            <div>
+              <p className="kicker">Thinking aloud</p>
+              <h2 id="blog-title">Blog</h2>
+            </div>
+            <a className="section-heading__link" href="blog.html">Visit the blog <span>→</span></a>
+          </div>
+          <p className="home-blog__intro">Short thoughts, open questions, and things I’m still working out. A place to write without having to make everything into a full set of notes.</p>
+        </section>
       </main>
 
       <footer className="footer">
@@ -104,7 +115,7 @@ export default function App() {
           <a href="mailto:luca.jin@outlook.com?subject=Correction%20to%20Yucheng%20Jin%20Physics">please email me</a>.
         </p>
         <span>© 2026 Yucheng Jin</span>
-        <span><a href="#top">Home</a> · <a href="notes.html">Notes</a> · <a href="mailto:luca.jin@outlook.com">Email</a></span>
+        <span><a href="#top">Home</a> · <a href="notes.html">Notes</a> · <a href="blog.html">Blog</a> · <a href="mailto:luca.jin@outlook.com">Email</a></span>
       </footer>
     </>
   );

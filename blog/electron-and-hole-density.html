@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notes on the electron and hole density in solid state physics | Yucheng (Luca) Jin</title>
+<meta name="description" content="A field-theory perspective on electron and hole occupations: quantising the Schrödinger field in a Bloch basis and recovering the Fermi–Dirac distribution.">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="author" content="Yucheng (Luca) Jin">
+<link rel="canonical" href="https://luca-yucheng-jin.github.io/luca-physics-site/blog/electron-and-hole-density.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://luca-yucheng-jin.github.io/luca-physics-site/blog/electron-and-hole-density.html">
+<meta property="og:site_name" content="Luca Jin Physics">
+<meta property="og:title" content="Notes on the electron and hole density in solid state physics | Yucheng (Luca) Jin">
+<meta property="og:description" content="A field-theory perspective on electron and hole occupations: quantising the Schrödinger field in a Bloch basis and recovering the Fermi–Dirac distribution.">
+<meta property="og:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Notes on the electron and hole density in solid state physics | Yucheng (Luca) Jin">
+<meta name="twitter:description" content="A field-theory perspective on electron and hole occupations: quantising the Schrödinger field in a Bloch basis and recovering the Fermi–Dirac distribution.">
+<meta name="twitter:image" content="https://luca-yucheng-jin.github.io/luca-physics-site/og.png">
+
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<link rel="stylesheet" href="../styles.css">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","headline":"Notes on the electron and hole density in solid state physics","description":"A field-theory perspective on electron and hole occupations: quantising the Schrödinger field in a Bloch basis and recovering the Fermi–Dirac distribution.","datePublished":"2026-11-16","url":"https://luca-yucheng-jin.github.io/luca-physics-site/blog/electron-and-hole-density.html","author":{"@type":"Person","@id":"https://luca-yucheng-jin.github.io/luca-physics-site/#person","name":"Yucheng (Luca) Jin"},"isPartOf":{"@type":"Blog","url":"https://luca-yucheng-jin.github.io/luca-physics-site/blog.html"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Blog","item":"https://luca-yucheng-jin.github.io/luca-physics-site/blog.html"},{"@type":"ListItem","position":2,"name":"Notes on the electron and hole density in solid state physics","item":"https://luca-yucheng-jin.github.io/luca-physics-site/blog/electron-and-hole-density.html"}]}]}</script>
+
+<script src="../assets/theme.js"></script>
+<script src="../assets/font-size.js"></script>
+<script src="../assets/mathjax-config.js"></script>
+<script src="../assets/blog-math.js"></script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<link rel="stylesheet" href="../assets/blog.css">
+</head>
+<body class="blog-page">
+<header class="topbar">
+  <a href=".././" class="topbar__brand">Luca Jin <small>Physics · Imperial</small></a>
+  <nav class="topbar__nav" aria-label="Primary navigation">
+    <a href=".././">Home</a>
+    <a href="../notes.html">Notes</a>
+    <a href="../blog.html" class="is-active" aria-current="page">Blog</a>
+    <a href="mailto:luca.jin@outlook.com">Contact</a>
+    <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" title="Decrease font size">A<span class="font-toggle__small">−</span></button>
+    <button class="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size" title="Increase font size">A<span class="font-toggle__large">+</span></button>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Toggle theme">
+      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    </button>
+  </nav>
+</header><main class="blog-shell">
+  <a class="blog-back" href="../blog.html">← All entries</a>
+  <article>
+    <header class="blog-heading"><p class="blog-eyebrow"><time datetime="2026-11-16">16 November 2026</time></p><h1>Notes on the electron and hole density in solid state physics</h1></header>
+    <div class="blog-prose"><p>In solid state physics, we often introduce a harmonic oscillator (a fermionic oscillator in the case of fermions) for each mode of a dispersion relation. In other words, we write</p>
+<p>\[H = \sum_{\mathbf{k}} E_{\mathbf{k}} a_{\mathbf{k}}^\dagger a_{\mathbf{k}}.\]</p>
+<p>This allows us to compute the expected energy and the expected number of electrons or holes in a certain band. For the energy, we have</p>
+<p>\[\langle E \rangle = \int dE\, E g(E) f(E),\]</p>
+<p>where $g(E)$ is the density of states and $f(E)$ is the Fermi–Dirac distribution. This can be formalised by treating the Schrödinger equation as a field theory and canonically quantising it in the usual sense.</p>
+<p>The Schrödinger Lagrangian is, with $\hbar = c = 1$,</p>
+<p>\[\mathcal{L} = i\psi^\dagger \partial_t\psi - \frac{1}{2m}\nabla\psi^\dagger\cdot\nabla\psi - V(\mathbf{x})\psi^\dagger\psi.\]</p>
+<p>The canonical momentum follows:</p>
+<p>\[\pi = i\psi^\dagger.\]</p>
+<p>For a system on the lattice, we have $V(\mathbf{x}) = V(\mathbf{x}+\mathbf{R})$, where $\mathbf{R}\in\Lambda$, and $\Lambda$ is the set of all lattice vectors.</p>
+<p>Let’s quantise the Schrödinger field theory in the Schrödinger picture. Since we are interested in electrons, we construct the Fock space through antisymmetric tensor products of the one-particle Hilbert space. That is, we quantise the system through the anticommutation relation</p>
+<p>\[\{\psi_\alpha(\mathbf{x}),\psi_\beta^\dagger(\mathbf{y})\} = \delta_{\alpha\beta}\delta^3(\mathbf{x}-\mathbf{y}),\]</p>
+<p>where $\alpha,\beta$ are spinor components. By Bloch’s theorem, we can choose a complete basis of Bloch energy eigenfunctions and expand the field operator as</p>
+<p>\[\psi(\mathbf{x}) = \sum_{n\mathbf{k}s} u_{n\mathbf{k}s}(\mathbf{x})c_{n\mathbf{k}s},\]</p>
+<p>where $n$ labels the potentially different energy bands<sup id="fnref-1"><a href="#fn-1" role="doc-noteref" aria-label="Footnote 1">1</a></sup>, and $s$ labels the spin of the particle<sup id="fnref-2"><a href="#fn-2" role="doc-noteref" aria-label="Footnote 2">2</a></sup>. Here $u_{n\mathbf{k}s}$ denotes the full Bloch wavefunction, including its plane-wave factor and spin state.</p>
+<p>For a finite crystal with periodic boundary conditions, we take the Bloch wavefunctions to be normalised over the whole crystal:</p>
+<p>\[\int d^3x\, u_{n\mathbf{k}s}^\dagger(\mathbf{x})u_{m\mathbf{q}r}(\mathbf{x}) = \delta_{nm}\delta_{\mathbf{k}\mathbf{q}}\delta_{sr}.\]</p>
+<p>We then find</p>
+<p>\[c_{n\mathbf{k}s} = \int d^3x\, u_{n\mathbf{k}s}^\dagger(\mathbf{x})\psi(\mathbf{x}).\]</p>
+<p>The equal-time anticommutation relation implies</p>
+<p>\[\begin{aligned}\{c_{n\mathbf{k}s},c_{m\mathbf{q}r}^\dagger\} &amp;= \int d^3x\,d^3y\,u_{n\mathbf{k}s}^\dagger(\mathbf{x})\{\psi(\mathbf{x}),\psi^\dagger(\mathbf{y})\}u_{m\mathbf{q}r}(\mathbf{y})\\ &amp;= \delta_{nm}\delta_{\mathbf{k}\mathbf{q}}\delta_{sr}.\end{aligned}\]</p>
+<p>The Hamiltonian of the system is given by</p>
+<p>\[\begin{aligned}H &amp;= \int d^3x\,\psi^\dagger\left(-\frac{1}{2m}\nabla^2+V(\mathbf{x})\right)\psi\\ &amp;= \sum_{n\mathbf{k}s}E_{n\mathbf{k}s}c_{n\mathbf{k}s}^\dagger c_{n\mathbf{k}s},\end{aligned}\]</p>
+<p>as promised. The grand partition function is then</p>
+<p>\[\begin{aligned}Z &amp;= \operatorname{Tr}\,e^{-\beta(H-\mu N)}\\ &amp;= \prod_{n\mathbf{k}s}\left[1+e^{-\beta(E_{n\mathbf{k}s}-\mu)}\right],\end{aligned}\]</p>
+<p>which produces the Fermi–Dirac distribution for the occupation of each mode.</p></div>
+    <aside class="blog-footnotes" role="doc-endnotes" aria-label="Footnotes"><ol><li id="fn-1">In solid state physics, the energy spectrum of the Hamiltonian generally has several bands, which may be separated by gaps. <a href="#fnref-1" role="doc-backlink" aria-label="Back to footnote 1 reference">↩</a></li><li id="fn-2">From the point of view of the scalar Schrödinger equation alone, the introduction of the $s$ label is additional input. However, the electron’s Schrödinger equation is a low-energy approximation of the Dirac equation, which is a theory for spinors. In the noninteracting approximation used here, spin-dependent terms vanish when magnetic fields and relativistic corrections are neglected. The one-particle Hamiltonian is then $h = (\mathbf{p}^2/(2m)+V(\mathbf{x}))\otimes I_2$. <a href="#fnref-2" role="doc-backlink" aria-label="Back to footnote 2 reference">↩</a></li></ol></aside>
+  </article>
+</main>
+<footer class="footer">
+  <span>© 2026 Yucheng (Luca) Jin</span>
+  <span>
+    <a href=".././">Home</a> ·
+    <a href="../notes.html">Notes</a> ·
+    <a href="../blog.html">Blog</a> ·
+    <a href="mailto:luca.jin@outlook.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>

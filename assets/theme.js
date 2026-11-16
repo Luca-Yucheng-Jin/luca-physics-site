@@ -793,6 +793,16 @@
        the React root. */
     if (document.getElementById("root")) return;
 
+    // Older generated notes also get the current primary navigation.
+    var primaryNav = document.querySelector('.topbar__nav');
+    if (primaryNav && !primaryNav.querySelector('a[href$="blog.html"]')) {
+      var blogLink = document.createElement('a');
+      blogLink.href = ASSET_PREFIX + 'blog.html';
+      blogLink.textContent = 'Blog';
+      var notesLink = primaryNav.querySelector('a[href$="notes.html"]');
+      if (notesLink) notesLink.after(blogLink);
+    }
+
     ensureDisclaimer();
     bindThemeToggles();
     buildPageControls();

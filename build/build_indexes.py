@@ -38,7 +38,7 @@ def page_chrome_head(title: str, description: str, canonical_path: str,
     escaped_title = html.escape(full_title, quote=True)
     escaped_description = html.escape(description, quote=True)
     escaped_canonical = html.escape(canonical, quote=True)
-    schema_json = json.dumps(schema, ensure_ascii=False, separators=(",", ":"))
+    schema_json = json.dumps(schema, ensure_ascii=False, separators=(",", ":")).replace("<", "\\u003c")
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -123,15 +123,18 @@ def collection_schema(name: str, description: str, canonical_path: str,
 
 def topbar(active: str, index_path: str = "./",
            notes_path: str = "notes.html") -> str:
-    """`active` ∈ {'about', 'notes'} marks the current nav item."""
+    """Mark the active section in the shared navigation."""
     a_about = ' class="is-active"' if active == "about" else ""
     a_notes = ' class="is-active"' if active == "notes" else ""
+    a_blog = ' class="is-active" aria-current="page"' if active == "blog" else ""
+    blog_path = notes_path.replace("notes.html", "blog.html")
     return f"""
 <header class="topbar">
   <a href="{index_path}" class="topbar__brand">Luca Jin <small>Physics · Imperial</small></a>
   <nav class="topbar__nav" aria-label="Primary navigation">
     <a href="{index_path}"{a_about}>Home</a>
     <a href="{notes_path}"{a_notes}>Notes</a>
+    <a href="{blog_path}"{a_blog}>Blog</a>
     <a href="mailto:luca.jin@outlook.com">Contact</a>
     <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" title="Decrease font size">A<span class="font-toggle__small">−</span></button>
     <button class="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size" title="Increase font size">A<span class="font-toggle__large">+</span></button>
@@ -155,6 +158,7 @@ def footer_html(index_path: str = "./",
   <span>
     <a href="{index_path}">Home</a> ·
     <a href="{notes_path}">Notes</a> ·
+    <a href="{notes_path.replace('notes.html', 'blog.html')}">Blog</a> ·
     <a href="mailto:luca.jin@outlook.com">Email</a>
   </span>
 </footer>

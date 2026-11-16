@@ -42,6 +42,7 @@ function preserveLegacySite(): Plugin {
         .filter((name) => name.endsWith('.html') && name !== 'index.html')
         .forEach(copy);
       ['styles.css', 'assets', 'robots.txt', 'sitemap.xml'].forEach(copy);
+      if (existsSync(resolve(root, 'blog'))) copy('blog');
       publicNotes.forEach((note) => {
         copy(note);
         copy(`output/pdf/${basename(note, '.html')}.pdf`);

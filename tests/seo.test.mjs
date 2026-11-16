@@ -11,10 +11,12 @@ const siteUrl = 'https://luca-yucheng-jin.github.io/luca-physics-site';
 async function publicHtmlFiles() {
   const rootEntries = await readdir(root);
   const rootPages = rootEntries
-    .filter((name) => name === 'index.html' || name === 'notes.html' || /^notes-[^.]+\.html$/.test(name))
+    .filter((name) => name === 'index.html' || name === 'notes.html' || name === 'blog.html' || /^notes-[^.]+\.html$/.test(name))
     .sort();
   const notePages = await publicNotePages();
-  return [...rootPages, ...notePages];
+  const blogPages = (await readdir(path.join(root, 'blog')))
+    .filter((name) => name.endsWith('.html')).map((name) => `blog/${name}`);
+  return [...rootPages, ...notePages, ...blogPages];
 }
 
 
@@ -47,7 +49,7 @@ test('every public HTML page has unique indexable search metadata', async () => 
     const schemaText = html.match(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/)?.[1];
 
     assert.match(title || '', /Yucheng(?: \(Luca\))? Jin/, `${relative}: missing descriptive author title`);
-    assert.ok(description && description.length >= 70, `${relative}: missing useful description`);
+    assert.ok(description && description.length >= (relative.startsWith('blog/') ? 1 : 70), `${relative}: missing useful description`);
     assert.doesNotMatch(title, /\$|\\(?:frac|text|mathrm)\b/, `${relative}: raw LaTeX in title`);
     assert.doesNotMatch(description, /\$|\\(?:frac|text|mathrm)\b/, `${relative}: raw LaTeX in description`);
     assert.equal(canonical, expectedCanonical(relative), `${relative}: wrong canonical`);
@@ -58,6 +60,8 @@ test('every public HTML page has unique indexable search metadata', async () => 
     const types = (schema['@graph'] || [schema]).map((entry) => entry['@type']);
     if (relative === 'index.html') {
       for (const type of ['WebSite', 'ProfilePage', 'Person']) assert.ok(types.includes(type));
+    } else if (relative.startsWith('blog/')) {
+      for (const type of ['BlogPosting', 'BreadcrumbList']) assert.ok(types.includes(type));
     } else if (relative.startsWith('notes/')) {
       for (const type of ['Article', 'BreadcrumbList']) assert.ok(types.includes(type));
     } else {

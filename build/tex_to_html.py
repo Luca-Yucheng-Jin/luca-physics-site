@@ -1929,6 +1929,7 @@ window.MathJax = {
   <nav class="topbar__nav" aria-label="Primary navigation">
     <a href="../">Home</a>
     <a href="../notes.html" class="is-active">Notes</a>
+    <a href="../blog.html">Blog</a>
     <a href="mailto:luca.jin@outlook.com">Contact</a>
     <button class="font-toggle" type="button" data-font-size="dec" aria-label="Decrease font size" title="Decrease font size">A<span class="font-toggle__small">−</span></button>
     <button class="font-toggle" type="button" data-font-size="inc" aria-label="Increase font size" title="Increase font size">A<span class="font-toggle__large">+</span></button>
