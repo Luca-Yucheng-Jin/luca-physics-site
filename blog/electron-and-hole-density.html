@@ -47,11 +47,12 @@
       <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
     </button>
   </nav>
-</header><main class="blog-shell">
-  <a class="blog-back" href="../blog.html">← All entries</a>
-  <article>
-    <header class="blog-heading"><p class="blog-eyebrow"><time datetime="2026-11-16">16 November 2026</time></p><h1>Notes on the electron and hole density in solid state physics</h1></header>
-    <div class="blog-prose"><p>In solid state physics, we often introduce a harmonic oscillator (a fermionic oscillator in the case of fermions) for each mode of a dispersion relation. In other words, we write</p>
+</header><main class="note">
+  <div class="note__breadcrumb"><a href="../blog.html">Blog</a></div>
+  <h1 class="note__title">Notes on the electron and hole density in solid state physics</h1>
+  <p class="note__subtitle"><time datetime="2026-11-16">16 November 2026</time></p>
+  <article class="note__body">
+    <p>In solid state physics, we often introduce a harmonic oscillator (a fermionic oscillator in the case of fermions) for each mode of a dispersion relation. In other words, we write</p>
 <p>\[H = \sum_{\mathbf{k}} E_{\mathbf{k}} a_{\mathbf{k}}^\dagger a_{\mathbf{k}}.\]</p>
 <p>This allows us to compute the expected energy and the expected number of electrons or holes in a certain band. For the energy, we have</p>
 <p>\[\langle E \rangle = \int dE\, E g(E) f(E),\]</p>
@@ -76,9 +77,11 @@
 <p>\[\begin{aligned}H &amp;= \int d^3x\,\psi^\dagger\left(-\frac{1}{2m}\nabla^2+V(\mathbf{x})\right)\psi\\ &amp;= \sum_{n\mathbf{k}s}E_{n\mathbf{k}s}c_{n\mathbf{k}s}^\dagger c_{n\mathbf{k}s},\end{aligned}\]</p>
 <p>as promised. The grand partition function is then</p>
 <p>\[\begin{aligned}Z &amp;= \operatorname{Tr}\,e^{-\beta(H-\mu N)}\\ &amp;= \prod_{n\mathbf{k}s}\left[1+e^{-\beta(E_{n\mathbf{k}s}-\mu)}\right],\end{aligned}\]</p>
-<p>which produces the Fermi–Dirac distribution for the occupation of each mode.</p></div>
+<p>which produces the Fermi–Dirac distribution for the occupation of each mode.</p>
     <aside class="blog-footnotes" role="doc-endnotes" aria-label="Footnotes"><ol><li id="fn-1">In solid state physics, the energy spectrum of the Hamiltonian generally has several bands, which may be separated by gaps. <a href="#fnref-1" role="doc-backlink" aria-label="Back to footnote 1 reference">↩</a></li><li id="fn-2">From the point of view of the scalar Schrödinger equation alone, the introduction of the $s$ label is additional input. However, the electron’s Schrödinger equation is a low-energy approximation of the Dirac equation, which is a theory for spinors. In the noninteracting approximation used here, spin-dependent terms vanish when magnetic fields and relativistic corrections are neglected. The one-particle Hamiltonian is then $h = (\mathbf{p}^2/(2m)+V(\mathbf{x}))\otimes I_2$. <a href="#fnref-2" role="doc-backlink" aria-label="Back to footnote 2 reference">↩</a></li></ol></aside>
   </article>
+  <hr class="ornament-rule">
+  <p class="blog-back"><a href="../blog.html">← Back to all entries</a></p>
 </main>
 <footer class="footer">
   <span>© 2026 Yucheng (Luca) Jin</span>

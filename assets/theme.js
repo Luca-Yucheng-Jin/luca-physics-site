@@ -92,6 +92,7 @@
 
     if (file === "index.html" && !inNotes) return { kind: "home" };
     if (file === "notes.html") return { kind: "notes-index" };
+    if (path.indexOf("/blog/") >= 0) return { kind: "blog-post" };
 
     var catMatch = file.match(/^notes-(.+)\.html$/);
     if (catMatch) {
@@ -819,7 +820,7 @@
       // Topics navigator only on pages where you're actually reading a
       // note or solution. On the home/about, notes index, and
       // category landing pages the topbar alone is enough.
-      var showSiteNav = info.kind === "note" || info.kind === "note-orphan";
+      var showSiteNav = info.kind === "note" || info.kind === "note-orphan" || info.kind === "blog-post";
       if (showSiteNav) {
         buildSiteNav(info, manifest);
         buildNavDrawerToggle();

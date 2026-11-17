@@ -13,7 +13,7 @@ from pathlib import Path
 
 from build_indexes import (
     AUTHOR_NAME, PERSON_ID, SITE_URL, collection_schema,
-    footer_html, page_chrome_head, topbar,
+    footer_html, page_chrome_head, roman, topbar,
 )
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -87,13 +87,15 @@ def build(source: Path = ROOT / "content" / "blog", root: Path = ROOT) -> None:
             old.unlink()
 
     entries = []
-    for post in posts:
+    for index, post in enumerate(posts, 1):
         title, summary = html.escape(post["title"]), html.escape(post["summary"])
         canonical = f'blog/{post["slug"]}.html'
-        entries.append(f'''<li class="blog-entry">
-  {date_html(post)}
-  <div><h2><a href="{canonical}">{title}<span aria-hidden="true"> ↗</span></a></h2>
-  <p>{summary}</p></div>
+        entries.append(f'''<li class="catalogue__item">
+  <span class="catalogue__num">{roman(index)}.</span>
+  <span class="catalogue__main"><a href="{canonical}">{title}</a>
+    <span class="catalogue__desc">{summary}</span>
+  </span>
+  <span class="catalogue__tag">{date_html(post)}</span>
 </li>''')
         def paragraph(text: str) -> str:
             escaped = html.escape(text)
@@ -125,30 +127,32 @@ def build(source: Path = ROOT / "content" / "blog", root: Path = ROOT) -> None:
                 ],
             }],
         }
-        body = f'''<main class="blog-shell">
-  <a class="blog-back" href="../blog.html">← All entries</a>
-  <article>
-    <header class="blog-heading"><p class="blog-eyebrow">{date_html(post)}</p><h1>{title}</h1></header>
-    <div class="blog-prose">{paragraphs}</div>
+        body = f'''<main class="note">
+  <div class="note__breadcrumb"><a href="../blog.html">Blog</a></div>
+  <h1 class="note__title">{title}</h1>
+  <p class="note__subtitle">{date_html(post)}</p>
+  <article class="note__body">
+    {paragraphs}
     {footnotes}
   </article>
+  <hr class="ornament-rule">
+  <p class="blog-back"><a href="../blog.html">← Back to all entries</a></p>
 </main>'''
         article = page(post["title"], post["summary"], canonical, schema, body, "../")
         article = article.replace('property="og:type" content="website"', 'property="og:type" content="article"')
         (output / f'{post["slug"]}.html').write_text(article, encoding="utf-8")
 
-    listing = '<ol class="blog-entries">' + "\n".join(entries) + "</ol>" if entries else '''<div class="blog-empty">
-  <p class="blog-eyebrow">An open page</p>
-  <h2>Nothing here yet.</h2>
+    listing = '<ul class="catalogue">' + "\n".join(entries) + "</ul>" if entries else '''<div class="entry">
+  <p class="entry__title">Nothing here yet.</p>
   <p>New entries will appear here, one thought at a time.</p>
 </div>'''
-    body = f'''<main class="blog-shell">
-  <header class="blog-heading">
-    <p class="blog-eyebrow">Thinking aloud</p>
+    body = f'''<main class="page page--index">
+  <section class="hero">
+    <div class="hero__eyebrow">Thinking aloud</div>
     <h1>Blog</h1>
-    <p class="blog-intro">{DESCRIPTION}</p>
-  </header>
-  {listing}
+    <p class="hero__lede">{DESCRIPTION}</p>
+  </section>
+  <section class="section" aria-label="Blog entries">{listing}</section>
 </main>'''
     (root / "blog.html").write_text(page(
         "Blog", DESCRIPTION, "blog.html",
