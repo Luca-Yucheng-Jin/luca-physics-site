@@ -765,6 +765,7 @@
   /* Keep hand-authored and older generated note pages aligned with the
      shared footer without requiring every archived HTML file to be rebuilt. */
   function ensureDisclaimer() {
+    if (document.body.classList.contains("blog-page")) return;
     var footer = document.querySelector(".footer");
     if (!footer || footer.querySelector(".footer__disclaimer")) return;
     var disclaimer = document.createElement("p");

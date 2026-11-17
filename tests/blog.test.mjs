@@ -52,9 +52,18 @@ with tempfile.TemporaryDirectory() as temporary:
 
 test('production blog includes its styles and keeps authoring drafts out', async () => {
   const archive = await readFile('dist/client/blog.html', 'utf8');
+  const article = await readFile('dist/client/blog/electron-and-hole-density.html', 'utf8');
+  const blogStyles = await readFile('assets/blog.css', 'utf8');
+  const theme = await readFile('assets/theme.js', 'utf8');
   assert.match(archive, /<h1>Blog<\/h1>/);
   assert.match(archive, /href="blog.html" class="is-active" aria-current="page"/);
+  assert.match(archive, /<body class="blog-page">/);
+  assert.match(article, /<body class="blog-page">/);
   assert.doesNotMatch(archive, /A thought to come back to/);
+  assert.match(blogStyles, /width: min\(78ch, calc\(100vw - 2 \* var\(--gutter\)\)\)/);
+  assert.match(blogStyles, /font-size: clamp\(2\.4rem, 4\.5vw, 4rem\)/);
+  assert.match(blogStyles, /@media \(max-width: 720px\)[\s\S]*grid-template-columns: minmax\(0, 1fr\)/);
+  assert.match(theme, /body\.classList\.contains\("blog-page"\)/);
   await stat('dist/client/assets/blog.css');
   await assert.rejects(stat('dist/client/content'), { code: 'ENOENT' });
   assert.ok(!(await readdir('dist/client/blog')).includes('_template.json'));
